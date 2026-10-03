@@ -54,6 +54,7 @@
   --control-48: 48px; /* cards, panels, bars */
   --control-52: 52px; /* default */
   --control-56: 56px; /* closing CTAs */
+  --tag-h: 28px; /* every tag (DESIGN.md §8) */
   --hairline-width: 1px; /* every hairline and control border (DESIGN.md §5) */
   --focus-width: 2px;
   --focus-offset: 3px;
@@ -216,4 +217,23 @@
   --error: var(--gold-deep);
   --control-border-soft: color-mix(in srgb, var(--ink-text) 50%, transparent);
   color-scheme: light;
+}
+
+/*
+ * Forces the dark surface inside a light one: header, footer, and tags that sit on photos
+ * (ADR-0011). Repeats the :root surface values.
+ */
+[data-surface='dark'] {
+  --bg: var(--ink-900);
+  --bg-raised: var(--ink-800);
+  --fg: var(--text);
+  --fg-2: var(--text-2);
+  --fg-3: var(--text-3);
+  --hairline: var(--line);
+  --control-border: var(--line-strong);
+  --control-border-soft: color-mix(in srgb, var(--text) 50%, transparent);
+  --link: var(--text);
+  --link-hover: var(--gold);
+  --error: var(--gold);
+  color-scheme: dark;
 }

@@ -1,0 +1,12 @@
+.stars {
+  display: inline-flex;
+  gap: var(--space-4);
+}
+
+.filled {
+  color: var(--gold);
+}
+
+.empty {
+  color: var(--hairline);
+}

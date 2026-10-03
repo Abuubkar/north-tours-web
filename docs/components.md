@@ -690,7 +690,7 @@ Each one is asked (grilled) at the start of its PRD. A recommendation is noted w
 - "We accept" copy read from `content/settings.json`: "Cash · Bank transfer".
 
 **Layout shell PRD**
-- `data-surface="dark"` on the header and footer (DESIGN.md §2) needs a `[data-surface='dark']` block that repeats the dark surface values; today only light redefines them, so a dark block nested in a light one would keep light values.
+- `data-surface="dark"` now works anywhere (added for status tags in #11), so the header and footer can use it directly.
 - Mobile menu: close button, Escape, focus trap and return (required by CLAUDE.md), and add the missing "Plan on WhatsApp" button on the Planner (§5 item 39).
 
 **Homepage PRD**
