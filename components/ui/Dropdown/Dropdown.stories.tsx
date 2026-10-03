@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
+import { realUser } from '../../../.storybook/realUser';
 import { Dropdown } from './Dropdown';
 import styles from './Dropdown.stories.module.css';
 
@@ -25,9 +26,6 @@ function Options() {
     </ul>
   );
 }
-
-/** Real key presses and clicks under `pnpm test`; null in the Storybook UI. */
-const realUser = () => import('vitest/browser').then((m) => m.userEvent).catch(() => null);
 
 const meta = {
   title: 'Base/Dropdown',

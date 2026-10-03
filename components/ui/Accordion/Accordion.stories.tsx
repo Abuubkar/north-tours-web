@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
+import { realUser } from '../../../.storybook/realUser';
 import { Accordion } from './Accordion';
 import type { AccordionItem } from './Accordion.types';
 
@@ -84,7 +85,7 @@ export const Keyboard: Story = {
       await expect(canvas.getByText(summary).closest('summary')).toHaveFocus();
     }
 
-    const realKeys = await import('vitest/browser').then((m) => m.userEvent).catch(() => null);
+    const realKeys = await realUser();
     if (!realKeys) return;
 
     const details = canvas.getByText('Can we travel with children?').closest('details');
