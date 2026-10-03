@@ -2,18 +2,21 @@
   "name": "north-tours-web",
   "private": true,
   "packageManager": "pnpm@11.15.0",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
     "storybook": "storybook dev -p 6006",
-    "test": "vitest run"
+    "test": "vitest run",
+    "content:check": "node scripts/check-content.ts"
   },
   "dependencies": {
     "next": "16.3.8",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "10.6.1",
