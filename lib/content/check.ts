@@ -4,6 +4,7 @@ import { loadGuides } from './guides.ts';
 import { checkPhotoFiles, PUBLIC_DIR } from './imageFiles.ts';
 import { loadHomeCopy } from './pages.ts';
 import { loadReviews } from './reviews.ts';
+import { loadRouteMap } from './routeMap.ts';
 import { loadSettings } from './settings.ts';
 
 /** Validates all content and returns every problem found (empty when everything is valid). */
@@ -15,6 +16,7 @@ export function checkContent(dir = CONTENT_DIR, publicDir = PUBLIC_DIR): Content
     ...loadGuides(dir).problems,
     ...loadReviews(dir, catalog.tourFiles).problems,
     ...loadHomeCopy(dir).problems,
+    ...loadRouteMap(dir).problems,
     ...checkPhotoFiles(dir, publicDir),
   ];
 }

@@ -31,5 +31,6 @@ export const sampleHome: HomeCopy = {
       { title: 'Depart from Lahore', text: 'Meet us at {pickupPoint} before dawn. Your driver and guide take it from there.' },
     ],
   },
+  route: { headline: 'The road north, from Lahore to Hunza and Skardu' },
   reviews: { headline: 'Families come back, and next time they bring the cousins' },
 };

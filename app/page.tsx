@@ -5,6 +5,7 @@ import { UpcomingDepartures } from '@/components/tour-card/UpcomingDepartures/Up
 import { getTour, getTours } from '@/lib/content/catalog';
 import { getHomeCopy } from '@/lib/content/pages';
 import { getReviews } from '@/lib/content/reviews';
+import { getRouteMap } from '@/lib/content/routeMap';
 import { getSettings } from '@/lib/content/settings';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { pageMetadata } from '@/lib/utils/metadata';
@@ -14,6 +15,7 @@ import { BrandStatement } from '@/sections/BrandStatement/BrandStatement';
 import { HomeHero } from '@/sections/HomeHero/HomeHero';
 import { HowBookingWorks } from '@/sections/HowBookingWorks/HowBookingWorks';
 import { ReviewsSection } from '@/sections/ReviewsSection/ReviewsSection';
+import { RouteMapSection } from '@/sections/RouteMapSection/RouteMapSection';
 import { TourCardsSection } from '@/sections/TourCardsSection/TourCardsSection';
 import { TrustStrip } from '@/sections/TrustStrip/TrustStrip';
 
@@ -51,6 +53,7 @@ export default function HomePage() {
         />
       </TourCardsSection>
       <HowBookingWorks copy={{ ...copy.how, steps }} />
+      <RouteMapSection copy={copy.route} map={getRouteMap()} />
       <ReviewsSection copy={copy.reviews} reviews={reviews} summary={ratingSummary(tours.map((tour) => tour.rating))} />
       <TrustStrip settings={settings} year={new Date().getFullYear()} />
     </PageMain>

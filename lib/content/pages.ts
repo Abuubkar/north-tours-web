@@ -41,6 +41,9 @@ const homeSchema = z.strictObject({
       .array(z.strictObject({ title: copy, text: copyWith(...SETTINGS_TOKENS) }))
       .length(4, 'List exactly four steps'),
   }),
+  route: z.strictObject({
+    headline: copy,
+  }),
   reviews: z.strictObject({
     headline: copy,
   }),

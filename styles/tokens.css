@@ -53,6 +53,8 @@
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
+  --map-grid: #1b252c; /* route map graticule */
+  --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
   --hero-scrim: linear-gradient(
     180deg,
     color-mix(in srgb, var(--ink-900) 60%, transparent) 0%,
@@ -109,6 +111,20 @@
   --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
   --measure-note: 320px; /* a short note beside a section headline */
   --measure-step: 300px; /* a booking step's description */
+  --map-max-w: 620px; /* the route map beside its stop list */
+  --map-list-min: 320px; /* the stop list before it wraps under the map */
+  --stop-number-col: 36px; /* the route stop list's number column */
+
+  /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
+  --map-route-width: 2px; /* main route */
+  --map-road-width: 1.5px; /* valley roads */
+  --map-road-dash: 4 5;
+  --map-dot-size: 9px; /* destination */
+  --map-halo-spread: 5.5px; /* halo 20px across */
+  --map-ring-size: 8px; /* waypoint */
+  --map-ring-width: 1.5px;
+  --map-start-size: 10px; /* Lahore */
+  --map-label-offset: 14px; /* label from the marker's centre */
 
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
@@ -230,6 +246,7 @@
   --fs-label: 13px;
   --ls-label: 0.01em;
   --fs-waypoint: 12px;
+  --fs-map-grid: 11px; /* graticule degree labels, decorative */
   --ls-brand: -0.01em; /* brand name next to the logo mark, 16/600 */
 
   /* Image placeholders only (DESIGN.md §9): the shot named in an 11px monospace caption. */

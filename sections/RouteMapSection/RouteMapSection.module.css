@@ -1,0 +1,28 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+/* The long size: the headline runs past ~44 characters (DESIGN.md §6). */
+.headline {
+  composes: sectionLong from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+/* Media and text split (docs/components.md §4): side by side, wrapping on phones. */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gutter);
+  margin-top: var(--space-48);
+}
+
+.map {
+  flex: 1 1 var(--content-col-min);
+  max-width: var(--map-max-w);
+  min-width: 0;
+}
+
+.list {
+  flex: 1 1 var(--map-list-min);
+}
