@@ -54,6 +54,8 @@ This is the most important rule in the project.
 - **Before opening a PR,** run `/code-review` against the issue and these standards.
 - **Commits:** small, descriptive, and reference the issue number (e.g. `feat(tour-card): …
   (#12)`).
+- **The pre-commit hook** runs `pnpm content:check` and `pnpm test` (ADR-0014). Fix what it reports;
+  never skip it with `--no-verify` unless the owner says so.
 - **Pushing:** Claude may push its own feature branches by name (`git push -u origin <branch>`)
   and open PRs. Never push to `main`, force-push, push without naming the branch, delete
   branches, or `reset --hard`. **The human reviews and merges every PR.** The git-guardrails
