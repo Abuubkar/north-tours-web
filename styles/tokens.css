@@ -93,6 +93,10 @@
   --nav-gap: clamp(var(--space-24), 2.9cqi, var(--space-32)); /* header nav: 32px, 24px near 820px so it fits */
   --brand-mark-w: 16px; /* logo triangle in the header */
   --brand-mark-h: 14px;
+  --label-mark-w: 11px; /* section label triangle */
+  --label-mark-h: 10px;
+  --list-row-y: 14px; /* label and value rows, DESIGN.md §5 */
+  --footer-contact-w: 380px; /* footer contact column */
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

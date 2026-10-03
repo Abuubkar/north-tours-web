@@ -4,6 +4,7 @@ import { Geist } from 'next/font/google';
 import '@/styles/reset.css';
 import '@/styles/tokens.css';
 import '@/styles/globals.css';
+import { SiteFooter } from '@/components/layout/SiteFooter/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader/SiteHeader';
 import { SkipLink } from '@/components/layout/SkipLink/SkipLink';
 import { getSettings } from '@/lib/content/settings';
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <SkipLink />
         <SiteHeader settings={settings} />
         {children}
+        <SiteFooter settings={settings} />
       </body>
     </html>
   );
