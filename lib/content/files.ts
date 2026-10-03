@@ -25,6 +25,12 @@ export function formatProblems(problems: ContentProblem[]): string {
     .join('\n');
 }
 
+/** Returns a collection's items, or throws a ContentError listing every problem. */
+export function requireItems<T>(result: { items: T[]; problems: ContentProblem[] }): T[] {
+  if (result.problems.length > 0) throw new ContentError(result.problems);
+  return result.items;
+}
+
 /** Returns the data, or throws a ContentError listing every problem. */
 export function requireValid<T>(result: { data: T | null; problems: ContentProblem[] }): T {
   if (result.data === null || result.problems.length > 0) throw new ContentError(result.problems);

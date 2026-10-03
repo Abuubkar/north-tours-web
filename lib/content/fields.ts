@@ -21,3 +21,9 @@ export const phoneOrPlaceholder = orPlaceholder(
 export const emailOrPlaceholder = orPlaceholder(z.email(), 'an email address');
 
 export const linkOrPlaceholder = orPlaceholder(z.url(), 'a link');
+
+/** A real calendar date, YYYY-MM-DD. */
+export const isoDate = z.iso.date('Use a real date as YYYY-MM-DD');
+
+/** A month, YYYY-MM. */
+export const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM, e.g. 2026-05');

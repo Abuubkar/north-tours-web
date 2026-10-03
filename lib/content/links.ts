@@ -1,4 +1,5 @@
 import type { ContentProblem } from './files.ts';
+import type { Review } from './reviews.ts';
 import type { Tour } from './tours.ts';
 
 /**
@@ -22,5 +23,24 @@ export function checkTourLinks(
             },
           ],
     ),
+  );
+}
+
+/** Every review's tour must have a file. */
+export function checkReviewLinks(
+  reviews: Review[],
+  reviewFiles: Record<string, string>,
+  tourFiles: Record<string, string>,
+): ContentProblem[] {
+  return reviews.flatMap((review) =>
+    review.tour in tourFiles
+      ? []
+      : [
+          {
+            file: reviewFiles[review.slug],
+            field: 'tour',
+            message: `No tour "${review.tour}" (expected a file in content/tours)`,
+          },
+        ],
   );
 }

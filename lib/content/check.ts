@@ -6,10 +6,11 @@ import { loadSettings } from './settings.ts';
 
 /** Validates all content and returns every problem found (empty when everything is valid). */
 export function checkContent(dir = CONTENT_DIR): ContentProblem[] {
+  const catalog = loadCatalog(dir);
   return [
     ...loadSettings(dir).problems,
-    ...loadCatalog(dir).problems,
+    ...catalog.problems,
     ...loadGuides(dir).problems,
-    ...loadReviews(dir).problems,
+    ...loadReviews(dir, catalog.tourFiles).problems,
   ];
 }

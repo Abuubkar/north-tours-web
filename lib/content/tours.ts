@@ -2,10 +2,9 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
-import { nonEmpty } from './fields.ts';
+import { isoDate, nonEmpty } from './fields.ts';
 import { imageSchema } from './images.ts';
 
-const isoDate = z.iso.date('Use a real date as YYYY-MM-DD');
 const pkr = z.int('Use whole rupees').positive();
 
 export const departureSchema = z

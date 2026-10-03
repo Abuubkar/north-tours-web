@@ -14,6 +14,7 @@ export function loadCatalog(dir = CONTENT_DIR) {
   return {
     tours: tours.items,
     destinations: destinations.items,
+    tourFiles: tours.files,
     problems: [
       ...destinations.problems,
       ...tours.problems,

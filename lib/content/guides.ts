@@ -2,9 +2,9 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { consent } from './consent.ts';
-import { CONTENT_DIR, requireValid } from './files.ts';
+import { CONTENT_DIR, requireItems } from './files.ts';
 import { nonEmpty } from './fields.ts';
-import { imageSchema } from './images.ts';
+import { portraitSchema } from './images.ts';
 
 const guideSchema = z.strictObject({
   slug: slugSchema,
@@ -17,7 +17,7 @@ const guideSchema = z.strictObject({
   years: z.int().positive().optional(),
   bio: nonEmpty,
   /** Owner-supplied only (ADR-0009); a placeholder until the photo arrives. */
-  portrait: imageSchema,
+  portrait: portraitSchema,
   consent,
 });
 
@@ -30,10 +30,7 @@ export function loadGuides(dir = CONTENT_DIR) {
 let cached: Guide[] | undefined;
 
 export function getGuides(): Guide[] {
-  if (!cached) {
-    const { items, problems } = loadGuides();
-    cached = requireValid({ data: items, problems });
-  }
+  cached ??= requireItems(loadGuides());
   return cached;
 }
 
