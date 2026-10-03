@@ -1,0 +1,9 @@
+#!/bin/sh
+# Runs before every commit (ADR-0014): invalid content or a failing test stops the commit.
+set -e
+
+echo "pre-commit: checking content"
+pnpm --silent content:check
+
+echo "pre-commit: running tests"
+pnpm --silent test

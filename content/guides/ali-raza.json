@@ -1,0 +1,17 @@
+{
+  "slug": "ali-raza",
+  "name": "Ali Raza",
+  "role": "Guide",
+  "base": "Skardu & Deosai",
+  "languages": [
+    "Balti",
+    "Urdu",
+    "English"
+  ],
+  "bio": "Knows every lake around Skardu by name and times Deosai for the quiet hours.",
+  "portrait": {
+    "placeholder": "guide on the Deosai plateau",
+    "alt": "Ali Raza, guide"
+  },
+  "consent": true
+}

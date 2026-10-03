@@ -1,0 +1,55 @@
+{
+  "slug": "hunza-skardu-grand",
+  "title": "Hunza & Skardu Grand",
+  "route": [
+    "Lahore",
+    "Hunza",
+    "Skardu"
+  ],
+  "destinations": [
+    "hunza",
+    "skardu"
+  ],
+  "tripTypes": [
+    "family",
+    "couples",
+    "friends"
+  ],
+  "days": 9,
+  "nights": 8,
+  "priceFrom": 145000,
+  "rating": {
+    "score": 4.9,
+    "count": 128
+  },
+  "image": {
+    "placeholder": "Attabad Lake, turquoise water, boats at the jetty",
+    "alt": "Boats at the jetty on the turquoise water of Attabad Lake"
+  },
+  "departures": [
+    {
+      "start": "2027-05-12",
+      "end": "2027-05-20",
+      "seatsTotal": 16,
+      "seatsLeft": 3
+    },
+    {
+      "start": "2027-05-26",
+      "end": "2027-06-03",
+      "seatsTotal": 16,
+      "seatsLeft": 9
+    },
+    {
+      "start": "2027-06-09",
+      "end": "2027-06-17",
+      "seatsTotal": 16,
+      "seatsLeft": 0
+    },
+    {
+      "start": "2027-06-23",
+      "end": "2027-07-01",
+      "seatsTotal": 16,
+      "seatsLeft": 14
+    }
+  ]
+}

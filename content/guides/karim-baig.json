@@ -1,0 +1,17 @@
+{
+  "slug": "karim-baig",
+  "name": "Karim Baig",
+  "role": "Lead guide",
+  "base": "Hunza",
+  "languages": [
+    "Burushaski",
+    "Urdu",
+    "English"
+  ],
+  "bio": "Grew up in Karimabad and has walked every orchard path between Baltit and Altit. Plans each day around the weather and your family’s pace.",
+  "portrait": {
+    "placeholder": "lead guide, outdoors in Karimabad",
+    "alt": "Karim Baig, lead guide"
+  },
+  "consent": true
+}

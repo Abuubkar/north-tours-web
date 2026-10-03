@@ -1,0 +1,41 @@
+{
+  "slug": "skardu-deosai",
+  "title": "Skardu & Deosai",
+  "route": [
+    "Lahore",
+    "Skardu",
+    "Deosai"
+  ],
+  "destinations": [
+    "skardu"
+  ],
+  "tripTypes": [
+    "friends",
+    "couples"
+  ],
+  "days": 6,
+  "nights": 5,
+  "priceFrom": 110000,
+  "rating": {
+    "score": 4.8,
+    "count": 37
+  },
+  "image": {
+    "placeholder": "Deosai plains by jeep, wildflowers",
+    "alt": "A jeep crossing the Deosai plains through summer wildflowers"
+  },
+  "departures": [
+    {
+      "start": "2027-07-16",
+      "end": "2027-07-21",
+      "seatsTotal": 14,
+      "seatsLeft": 3
+    },
+    {
+      "start": "2027-08-13",
+      "end": "2027-08-18",
+      "seatsTotal": 14,
+      "seatsLeft": 10
+    }
+  ]
+}

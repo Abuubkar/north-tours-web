@@ -1,0 +1,16 @@
+{
+  "slug": "sana-qureshi",
+  "name": "Sana Qureshi",
+  "role": "Tour host",
+  "base": "Lahore",
+  "languages": [
+    "Urdu",
+    "English"
+  ],
+  "bio": "Plans every trip from the Lahore office and stays in touch on WhatsApp from departure day until you’re home.",
+  "portrait": {
+    "placeholder": "tour host at the Lahore office",
+    "alt": "Sana Qureshi, tour host"
+  },
+  "consent": true
+}

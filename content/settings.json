@@ -1,0 +1,30 @@
+{
+  "brand": {
+    "name": "[BRAND NAME]"
+  },
+  "contact": {
+    "whatsapp": "[+92 3XX XXX XXXX]",
+    "phone": "[+92 42 XXXX XXXX]",
+    "email": "[hello@brand.pk]",
+    "officeAddress": "[Office address], Lahore, Punjab",
+    "officeHours": "[Mon–Sat, X am – X pm]",
+    "travelSupport": "[24/7 number]"
+  },
+  "booking": {
+    "advancePercent": 30,
+    "replyTime": "within 2 hours",
+    "pickupPoint": "[Pickup point], Lahore"
+  },
+  "payments": {
+    "methods": ["Cash", "Bank transfer"]
+  },
+  "legal": {
+    "dtsLicence": "[DTS licence number]",
+    "companyRegistration": "[SECP or NTN number]"
+  },
+  "social": {
+    "instagram": "[Instagram URL]",
+    "facebook": "[Facebook URL]",
+    "youtube": "[YouTube URL]"
+  }
+}

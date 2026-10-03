@@ -1,0 +1,17 @@
+{
+  "slug": "ghulam-nabi",
+  "name": "Ghulam Nabi",
+  "role": "Driver",
+  "base": "Lahore",
+  "languages": [
+    "Urdu",
+    "Punjabi"
+  ],
+  "years": 14,
+  "bio": "Has driven the Karakoram Highway for fourteen years and knows which bends worry first-timers. Never drives the mountain roads at night.",
+  "portrait": {
+    "placeholder": "driver beside the coaster",
+    "alt": "Ghulam Nabi, driver"
+  },
+  "consent": true
+}

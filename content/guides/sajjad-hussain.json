@@ -1,0 +1,18 @@
+{
+  "slug": "sajjad-hussain",
+  "name": "Sajjad Hussain",
+  "role": "Trek lead",
+  "base": "Fairy Meadows",
+  "languages": [
+    "Shina",
+    "Urdu",
+    "English"
+  ],
+  "years": 9,
+  "bio": "Leads the jeep track and the walk to Fairy Meadows, and carries the first-aid kit up and down every time.",
+  "portrait": {
+    "placeholder": "trek lead at Raikot Bridge",
+    "alt": "Sajjad Hussain, trek lead"
+  },
+  "consent": true
+}

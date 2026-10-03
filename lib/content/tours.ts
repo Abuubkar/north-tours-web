@@ -1,0 +1,73 @@
+import path from 'node:path';
+import { z } from 'zod';
+import { loadCollection, slugSchema } from './collection.ts';
+import { CONTENT_DIR } from './files.ts';
+import { isoDate, nonEmpty } from './fields.ts';
+import { imageSchema } from './images.ts';
+
+const pkr = z.int('Use whole rupees').positive();
+
+export const departureSchema = z
+  .strictObject({
+    start: isoDate,
+    end: isoDate,
+    seatsTotal: z.int().positive(),
+    seatsLeft: z.int().min(0, 'Seats left can’t be negative'),
+    /** Only when this departure costs something other than the tour's price. */
+    price: pkr.optional(),
+  })
+  .refine((d) => d.end >= d.start, { message: 'Must end on or after its start', path: ['end'] })
+  .refine((d) => d.seatsLeft <= d.seatsTotal, {
+    message: 'Seats left can’t be more than seats in total',
+    path: ['seatsLeft'],
+  });
+
+export const tourSchema = z
+  .strictObject({
+    slug: slugSchema,
+    title: nonEmpty,
+    /** Stops in order, e.g. ["Lahore", "Hunza", "Skardu"]. */
+    route: z.array(nonEmpty).min(2, 'A route needs at least two stops'),
+    destinations: z.array(slugSchema).min(1),
+    tripTypes: z.array(z.enum(['family', 'couples', 'friends', 'corporate'])).min(1),
+    days: z.int().positive(),
+    nights: z.int().min(0),
+    priceFrom: pkr,
+    rating: z.strictObject({
+      score: z.number().min(1).max(5).multipleOf(0.1),
+      count: z.int().min(0),
+    }),
+    image: imageSchema,
+    departures: z.array(departureSchema),
+  })
+  .refine((t) => t.nights <= t.days, { message: 'Can’t have more nights than days', path: ['nights'] })
+  .superRefine((tour, ctx) => {
+    const starts = new Set<string>();
+    tour.departures.forEach((d, i) => {
+      if (starts.has(d.start)) {
+        ctx.addIssue({ code: 'custom', message: 'Two departures start on this date', path: ['departures', i, 'start'] });
+      }
+      starts.add(d.start);
+      const length = daysBetween(d.start, d.end) + 1;
+      if (length !== tour.days) {
+        ctx.addIssue({
+          code: 'custom',
+          message: `Lasts ${length} days; the tour is ${tour.days}`,
+          path: ['departures', i, 'end'],
+        });
+      }
+    });
+  });
+
+export type Tour = z.infer<typeof tourSchema>;
+export type Departure = z.infer<typeof departureSchema>;
+
+function daysBetween(start: string, end: string): number {
+  return Math.round((Date.parse(end) - Date.parse(start)) / 86_400_000);
+}
+
+export function loadTours(dir = CONTENT_DIR) {
+  const result = loadCollection(tourSchema, path.join(dir, 'tours'));
+  for (const tour of result.items) tour.departures.sort((a, b) => a.start.localeCompare(b.start));
+  return result;
+}

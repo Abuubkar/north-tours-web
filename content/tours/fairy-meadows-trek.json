@@ -1,0 +1,41 @@
+{
+  "slug": "fairy-meadows-trek",
+  "title": "Fairy Meadows Trek",
+  "route": [
+    "Lahore",
+    "Raikot",
+    "Fairy Meadows"
+  ],
+  "destinations": [
+    "fairy-meadows"
+  ],
+  "tripTypes": [
+    "friends",
+    "couples"
+  ],
+  "days": 5,
+  "nights": 4,
+  "priceFrom": 68000,
+  "rating": {
+    "score": 4.9,
+    "count": 73
+  },
+  "image": {
+    "placeholder": "Nanga Parbat from Fairy Meadows at sunrise",
+    "alt": "Nanga Parbat at sunrise seen from Fairy Meadows"
+  },
+  "departures": [
+    {
+      "start": "2027-06-14",
+      "end": "2027-06-18",
+      "seatsTotal": 12,
+      "seatsLeft": 0
+    },
+    {
+      "start": "2027-07-12",
+      "end": "2027-07-16",
+      "seatsTotal": 12,
+      "seatsLeft": 7
+    }
+  ]
+}
