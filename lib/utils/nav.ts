@@ -2,7 +2,7 @@ import { routes } from '../routes.ts';
 
 export type NavItemId = 'tours' | 'how' | 'destinations' | 'guides' | 'reviews';
 
-export type NavItem = { id: NavItemId; label: string; href: string };
+type NavItem = { id: NavItemId; label: string; href: string };
 
 /** The main nav, shared by the header and the mobile menu. */
 export const mainNav: readonly NavItem[] = [
@@ -20,8 +20,11 @@ export const mainNav: readonly NavItem[] = [
  */
 export function activeNavItem(pathname: string): NavItemId | null {
   const path = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
-  if (path === routes.tours || path.startsWith(routes.tour(''))) return 'tours';
-  if (path.startsWith(routes.destination(''))) return 'destinations';
+  // A route built with an empty slug is the prefix every page of that kind shares: "/tours/".
+  const tourPrefix = routes.tour('');
+  const destinationPrefix = routes.destination('');
+  if (path === routes.tours || path.startsWith(tourPrefix)) return 'tours';
+  if (path.startsWith(destinationPrefix)) return 'destinations';
   if (path === routes.about) return 'guides';
   return null;
 }

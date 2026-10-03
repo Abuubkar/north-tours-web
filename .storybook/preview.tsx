@@ -32,8 +32,12 @@ const preview: Preview = {
   },
   initialGlobals: { surface: 'dark' },
   decorators: [
-    (Story, { globals }) => (
-      <div className={styles.surface} data-surface={globals.surface === 'light' ? 'light' : 'dark'}>
+    // `fullBleed` drops the page margin for full-width layout parts such as the header and footer.
+    (Story, { globals, parameters }) => (
+      <div
+        className={parameters.fullBleed ? styles.fullBleed : styles.surface}
+        data-surface={globals.surface === 'light' ? 'light' : 'dark'}
+      >
         <Story />
       </div>
     ),
@@ -44,6 +48,7 @@ const preview: Preview = {
     viewport: {
       options: {
         phone: viewport('Phone 390', 390, 844),
+        navBreakpoint: viewport('Nav breakpoint 820', 820, 800),
         laptop: viewport('Laptop 1366', 1366, 768),
         desktop: viewport('Desktop 1440', 1440, 900),
       },

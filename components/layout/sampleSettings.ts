@@ -26,21 +26,8 @@ export const placeholderSettings: Settings = {
   },
 };
 
-/** Real-looking contact values, to show how links behave once placeholders are replaced. */
+/** A real WhatsApp number, to show how links behave once placeholders are replaced. */
 export const realSettings: Settings = {
   ...placeholderSettings,
-  contact: {
-    ...placeholderSettings.contact,
-    whatsapp: '+92 300 1234567',
-    phone: '+92 42 3578 1234',
-    email: 'hello@example.pk',
-    officeAddress: '12 Main Boulevard, Gulberg, Lahore',
-    officeHours: 'Mon–Sat, 10 am – 7 pm',
-  },
-  legal: { dtsLicence: '1234', companyRegistration: '0123456' },
-  social: {
-    instagram: 'https://instagram.com/example',
-    facebook: 'https://facebook.com/example',
-    youtube: 'https://youtube.com/@example',
-  },
+  contact: { ...placeholderSettings.contact, whatsapp: '+92 300 1234567' },
 };

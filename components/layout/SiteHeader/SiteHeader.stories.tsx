@@ -7,13 +7,15 @@ import { SiteHeader } from './SiteHeader';
 const NAV = ['Tours', 'How it works', 'Destinations', 'Guides', 'Reviews'];
 const MESSAGE = 'text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
 
+type Canvas = ReturnType<typeof within>;
+
 const onPath = (pathname: string) => ({ nextjs: { appDirectory: true, navigation: { pathname } } });
 
 const meta = {
   title: 'Layout/SiteHeader',
   component: SiteHeader,
   args: { settings: placeholderSettings },
-  parameters: onPath('/help'),
+  parameters: { ...onPath('/help'), fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof SiteHeader>;
 
@@ -73,13 +75,15 @@ export const NoCurrentItem: Story = {
   },
 };
 
-/** While the number is a placeholder, WhatsApp opens with the message and no number. */
+const whatsappLinks = (canvas: Canvas) => [
+  canvas.getByRole('link', { name: 'WhatsApp us', hidden: true }),
+  canvas.getByRole('link', { name: 'Chat on WhatsApp', hidden: true }),
+];
+
+/** While the number is a placeholder, both WhatsApp links open with the message and no number. */
 export const PlaceholderWhatsApp: Story = {
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('link', { name: 'WhatsApp us' })).toHaveAttribute(
-      'href',
-      `https://wa.me/?${MESSAGE}`,
-    );
+    for (const link of whatsappLinks(canvas)) await expect(link).toHaveAttribute('href', `https://wa.me/?${MESSAGE}`);
   },
 };
 
@@ -87,43 +91,52 @@ export const PlaceholderWhatsApp: Story = {
 export const RealWhatsApp: Story = {
   args: { settings: realSettings },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('link', { name: 'WhatsApp us' })).toHaveAttribute(
-      'href',
-      `https://wa.me/923001234567?${MESSAGE}`,
-    );
+    for (const link of whatsappLinks(canvas)) {
+      await expect(link).toHaveAttribute('href', `https://wa.me/923001234567?${MESSAGE}`);
+    }
   },
 };
 
-export const RealWhatsAppPhone: Story = {
-  args: { settings: realSettings },
-  globals: { viewport: { value: 'phone' } },
+/** Just above the breakpoint, brand, nav and "WhatsApp us" still fit on one row. */
+export const NavBreakpoint: Story = {
+  globals: { viewport: { value: 'navBreakpoint' } },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('link', { name: 'Chat on WhatsApp' })).toHaveAttribute(
-      'href',
-      `https://wa.me/923001234567?${MESSAGE}`,
-    );
+    const header = canvas.getByRole('banner');
+    await expect(canvas.getByRole('navigation', { name: 'Main' })).toBeVisible();
+    await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
+    const button = canvas.getByRole('link', { name: 'WhatsApp us' }).getBoundingClientRect();
+    await expect(button.right).toBeLessThanOrEqual(header.getBoundingClientRect().right);
   },
 };
 
-export const PlaceholderWhatsAppPhone: Story = {
-  globals: { viewport: { value: 'phone' } },
-  play: async ({ canvas }) => {
-    await expect(canvas.getByRole('link', { name: 'Chat on WhatsApp' })).toHaveAttribute(
-      'href',
-      `https://wa.me/?${MESSAGE}`,
-    );
-  },
-};
-
-/** Keyboard focus shows the 2px ring on the nav links (real key presses). */
+/** Keyboard focus shows the 2px ring on the nav links and "WhatsApp us" (real key presses). */
 export const FocusRing: Story = {
   play: async ({ canvas }) => {
     const keys = await realUser();
     if (!keys) return;
+    const expectRing = async (element: HTMLElement) => {
+      await expect(element).toHaveFocus();
+      const { outlineStyle, outlineWidth } = getComputedStyle(element);
+      await expect([outlineStyle, outlineWidth]).toEqual(['solid', '2px']);
+    };
     await keys.keyboard('{Tab}{Tab}');
-    const tours = canvas.getByRole('link', { name: 'Tours' });
-    await expect(tours).toHaveFocus();
-    const { outlineStyle, outlineWidth } = getComputedStyle(tours);
-    await expect([outlineStyle, outlineWidth]).toEqual(['solid', '2px']);
+    await expectRing(canvas.getByRole('link', { name: 'Tours' }));
+    await keys.keyboard('{Tab}{Tab}{Tab}{Tab}{Tab}');
+    const whatsapp = canvas.getByRole('link', { name: 'WhatsApp us' });
+    await expectRing(whatsapp);
+    await expect(whatsapp.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
+  },
+};
+
+/** At 390 the WhatsApp icon button shows the ring too. */
+export const FocusRingPhone: Story = {
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas }) => {
+    const keys = await realUser();
+    if (!keys) return;
+    await keys.keyboard('{Tab}{Tab}');
+    const whatsapp = canvas.getByRole('link', { name: 'Chat on WhatsApp' });
+    await expect(whatsapp).toHaveFocus();
+    await expect(getComputedStyle(whatsapp).outlineStyle).toBe('solid');
   },
 };
