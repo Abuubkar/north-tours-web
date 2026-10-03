@@ -83,6 +83,7 @@
   --label-col: 240px;
   --header-h: 72px;
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
+  --dropdown-min-w: 260px; /* dropdown panel */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are

@@ -1,0 +1,21 @@
+.anchor {
+  display: inline-block;
+  anchor-name: var(--anchor);
+}
+
+/* Overrides the browser's centred popover defaults; placed under the chip. */
+.panel {
+  position: fixed;
+  inset: auto;
+  min-width: var(--dropdown-min-w);
+  margin: var(--space-8) 0 0;
+  padding: var(--space-8);
+  border: var(--hairline-width) solid var(--hairline);
+  border-radius: var(--radius-card);
+  background: var(--bg);
+  color: var(--fg);
+  position-anchor: var(--anchor);
+  top: anchor(bottom);
+  left: anchor(left);
+  position-try-fallbacks: flip-block, flip-inline;
+}

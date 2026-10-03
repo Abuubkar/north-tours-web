@@ -1,0 +1,33 @@
+/* Story-only sample rows; real option rows come with the Tours PRD. */
+.options {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.option {
+  composes: small from '../../../styles/typography.module.css';
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 var(--space-12);
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--bg-raised);
+}
+
+.count {
+  color: var(--fg-3);
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-96);
+}
