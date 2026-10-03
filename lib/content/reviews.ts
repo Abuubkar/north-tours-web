@@ -8,7 +8,7 @@ import { checkReviewLinks } from './links.ts';
 import { loadTours } from './tours.ts';
 
 const reviewSchema = z.strictObject({
-  /** The review's id, matching its file name, e.g. "grand-2026-05-ayesha". */
+  /** The review's id, matching its file name, e.g. "hunza-2026-05-ayesha". */
   slug: slugSchema,
   tour: slugSchema,
   /** As shown, e.g. "Ayesha Malik & family". */

@@ -7,7 +7,7 @@ import { contentFixture } from './testing.ts';
 import type { Tour } from './tours.ts';
 
 const read = <T>(file: string): T => JSON.parse(readFileSync(path.join(CONTENT_DIR, file), 'utf8'));
-const review = read<Review>('reviews/grand-2026-05-ayesha.json');
+const review = read<Review>('reviews/hunza-2026-05-ayesha.json');
 const grand = read<Tour>('tours/hunza-skardu-grand.json');
 
 function loadReview(change: (r: Review) => void) {
@@ -15,7 +15,7 @@ function loadReview(change: (r: Review) => void) {
   change(copy);
   return loadReviews(
     contentFixture({
-      'reviews/grand-2026-05-ayesha.json': copy,
+      'reviews/hunza-2026-05-ayesha.json': copy,
       'tours/hunza-skardu-grand.json': grand,
     }),
   );

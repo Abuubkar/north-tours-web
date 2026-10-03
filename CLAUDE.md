@@ -128,7 +128,7 @@ Folders are created only when the first file for them is needed (section 3).
   - 8px for cards and panels;
   - 999px only for filter chips and tags.
 
-## 7. Content system (when built)
+## 7. Content system
 
 - All user-visible content lives in `/content`: settings, tours, departures, destinations,
   guides, reviews, FAQs, policies, images.
@@ -142,6 +142,12 @@ Folders are created only when the first file for them is needed (section 3).
   - wrong date formats.
 - **Content-only tasks may only modify `/content`.** If a content task appears to need a code
   change, stop and ask.
+- **Content commands** for routine edits: `/update-seats`, `/add-departure`, `/add-review`,
+  `/add-guide` (`.claude/commands/`). Each edits only `/content`, runs `pnpm content:check` and
+  shows the change. Run `pnpm content:check` after any other content edit too.
+- Pages read content only through the loaders in `lib/content` (`getSettings`, `getTours`,
+  `getDestinations`, `getGuides`, `getReviews`…), never the files directly. Derived values
+  (urgent, sold out, seats wording, upcoming departures) come from `lib/utils`, never stored.
 - **Sample content is allowed (ADR-0010):** invented tours, prices, reviews, ratings, guides,
   statistics and facts are fine, as long as they pass the schemas. Exception: WhatsApp
   number, phone, email, office address, DTS licence and company registration stay as
