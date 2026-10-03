@@ -58,11 +58,13 @@ Primary buttons stay gold `#D9B44A` with `#10161A` text on both surfaces. Outlin
 | Surface token | Dark | Light |
 |---|---|---|
 | `--bg` | `--ink-900` | `--mist-50` |
+| `--bg-raised` | `--ink-800` | `--mist-100` |
 | `--fg` | `--text` | `--ink-text` |
 | `--fg-2` | `--text-2` | `--ink-text-2` |
 | `--fg-3` | `--text-3` | `--ink-text-3` |
 | `--hairline` | `--line` | `--line-light` |
 | `--control-border` | `--line-strong` | `--line-strong-light` |
+| `--control-border-soft` | `--text` at 50% | `--ink-text` at 50% |
 | `--link` | `--text` | `--ink-text` |
 | `--link-hover` | `--gold` | `--gold-deep` |
 | `--error` | `--gold` | `--gold-deep` |
@@ -205,14 +207,25 @@ Cells inside a hairline grid stay square so the 1px lines run unbroken; the phot
 
 ### Buttons
 
-| Variant | Height | Style | Use |
-|---|---|---|---|
-| Primary | 52px (48 in cards and panels, 56 in closing CTAs) | `#D9B44A` fill, `#10161A` text, 16/500, 0 28px | Explore Tours, View Trip, Reserve, Send on WhatsApp, Plan a private trip, Chat now, Get directions |
-| Secondary | same | 1px `--text` border (dark) or `--ink-text` (light), transparent | Plan on WhatsApp, Ask on WhatsApp, Call us |
-| Quiet | 48px | 1px `--line-strong` border | Join waitlist, Back |
-| Icon | 44–48px square | 1px `--line-strong` border, 6px radius | WhatsApp, menu, close |
+In code: `Button` and `IconButton` in the base components folder; see them in Storybook (`pnpm storybook`).
 
-Focus: 2px outline in the text colour, 3px offset. Hover (primary): `#E3C366`, arrow +4px. Disabled: `#253038` fill, `--text-3` text.
+| Variant | Style | Use |
+|---|---|---|
+| Primary | `--gold` fill, `--on-gold` text. Hover `--gold-hover`, pressed `--gold-pressed` | Explore Tours, View Trip, Reserve, Send on WhatsApp, Plan a private trip, Chat now, Get directions |
+| Secondary | 1px `--fg` border, `--fg` text, transparent. At 44px the border is `--control-border-soft` (`--fg` at 50%) | Plan on WhatsApp, Ask on WhatsApp, Call us, the header's “WhatsApp us” |
+| Quiet | 1px `--control-border` border, `--fg` text | Join waitlist (always quiet), Back, social links |
+| Icon | 44 or 48px square, 1px `--control-border` border. Hover: border `--fg` (the tour card WhatsApp hover) | WhatsApp, menu, close, prev/next, stepper − and + |
+
+| Size | Where | Label |
+|---|---|---|
+| 44 | Header, social links, icon buttons | 15/500 |
+| 48 | Cards, panels, sticky bars | 15/500 |
+| 52 | Default | 16/500 |
+| 56 | Closing CTAs | 16/500 |
+
+Padding is 0 24px for every variant (the design's 28px is off the spacing scale). An optional leading icon (18px, e.g. WhatsApp) and an optional trailing arrow sit 8px from the label; the arrow moves 4px right on hover.
+
+Hover (secondary, quiet): background `--bg-raised` (Ink 800 on dark, Mist 100 on light, the “hover” colours in §2); quiet also brightens its border to `--fg`. Hover isn't designed for these, so it uses the design's hover surface. Focus: 2px outline in the text colour, 3px offset. Disabled (buttons and icon buttons): `--hairline` fill, `--fg-3` text, no hover. A link can't be disabled; render a disabled action as a button. Buttons are never animated in or out.
 
 In every row of tour cards the buttons align at the bottom of the card regardless of title length: the card fills its grid cell, and the price block takes `margin-top:auto` so price, seats and buttons sit together at the bottom.
 
@@ -318,13 +331,13 @@ The tokens in code live in `styles/tokens.css`, the only stylesheet allowed to h
 | Group | Tokens |
 |---|---|
 | Raw palette | `--ink-900` `--ink-800` `--line` `--line-strong` `--text` `--text-2` `--text-3` `--gold` `--gold-hover` `--gold-pressed` `--on-gold` `--mist-50` `--mist-100` `--line-light` `--line-strong-light` `--ink-text` `--ink-text-2` `--ink-text-3` `--gold-deep` (values in §2). Used only inside the tokens file. |
-| Surface | `--bg` `--fg` `--fg-2` `--fg-3` `--hairline` `--control-border` `--link` `--link-hover` `--error`, plus `color-scheme`. Dark on `:root`, light inside `[data-surface="light"]` (table in §2, ADR-0011). |
+| Surface | `--bg` `--bg-raised` `--fg` `--fg-2` `--fg-3` `--hairline` `--control-border` `--control-border-soft` `--link` `--link-hover` `--error`, plus `color-scheme`. Dark on `:root`, light inside `[data-surface="light"]` (table in §2, ADR-0011). |
 | Radius | `--radius-input` 2px, `--radius-button` 6px, `--radius-card` 8px, `--radius-chip` 999px |
-| Interaction | `--tap` 44px, `--focus-width` 2px, `--focus-offset` 3px |
+| Interaction | `--tap` 44px, `--control-44` (= `--tap`) `--control-48` `--control-52` `--control-56` (button and icon-button heights), `--hairline-width` 1px, `--focus-width` 2px, `--focus-offset` 3px |
 | Other surfaces | `--map-surface` `#0E151A`, `--placeholder-stripe-a` `#151E24`, `--placeholder-stripe-b` `#10181C`, `--header-bg` (Ink 900 at 86%), `--header-backdrop` `blur(18px) saturate(140%)`, `--hero-scrim` (§9 gradient). The translucent values are derived from `--ink-900` with `color-mix()` |
 | Spacing | `--space-4` `--space-8` `--space-12` `--space-16` `--space-20` `--space-24` `--space-32` `--space-48` `--space-64` `--space-96` `--space-144`, named by pixel value |
 | Layout | `--margin` `clamp(20px, 3.4cqi, 48px)`, `--section-y` `clamp(72px, 9cqi, 144px)`, `--section-y-statement` `clamp(88px, 10cqi, 160px)`, `--cell-pad` `clamp(16px, 1.7cqi, 24px)`, `--gutter` (`--space-48`), `--row-gap` (`--space-24`), `--label-col` 240px, `--header-h` 72px, `--measure-lead` 460px |
-| Motion | `--dur-300` .3s, `--dur-400` .4s, `--dur-900` .9s, `--dur-1000` 1s, `--ease-out` `cubic-bezier(.2, .7, .2, 1)` |
+| Motion | `--nudge` 4px (arrow on hover), `--dur-300` .3s, `--dur-400` .4s, `--dur-900` .9s, `--dur-1000` 1s, `--ease-out` `cubic-bezier(.2, .7, .2, 1)` |
 | Type | `--font` (`var(--font-geist)`, set by `next/font`, then `system-ui`); weights `--fw-light` 300, `--fw-regular` 400, `--fw-medium` 500, `--fw-semibold` 600; per role `--fs-*`, `--lh-*`, `--ls-*` matching the §3 table (e.g. `--fs-statement`, `--lh-statement`, `--ls-statement`); `--indent-display` −.035em (display and destination hero left margin); `--fs-destination-hero-max` 20cqi, `--destination-hero-fit` 150 and `--name-length-min` 5 for the destination hero (size in cqi = round(150 / max(length, 5))) |
 
 Breakpoints can't be custom properties in media queries, so they are literals there and documented in the tokens file: 820px (nav collapses, sheets replace dropdowns), 1100px (Tour Detail and Trip Planner side columns), 1280px (Tour Detail side map), viewport height 920px (compact booking panel).

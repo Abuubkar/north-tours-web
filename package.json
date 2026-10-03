@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint .",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "test": "vitest run"
   },
   "dependencies": {
     "next": "16.3.8",
@@ -14,11 +16,20 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "10.6.1",
+    "@storybook/addon-vitest": "10.6.1",
+    "@storybook/nextjs-vite": "10.6.1",
     "@types/node": "24.19.1",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "@vitest/browser": "5.0.3",
+    "@vitest/browser-playwright": "5.0.3",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.8",
-    "typescript": "6.0.3"
+    "playwright": "1.63.0",
+    "storybook": "10.6.1",
+    "typescript": "6.0.3",
+    "vite": "8.3.2",
+    "vitest": "5.0.3"
   }
 }

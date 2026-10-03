@@ -1,3 +1,5 @@
 allowBuilds:
   # Postinstall only downloads a fallback binary; the platform binding is installed as an optional dependency.
   unrs-resolver: false
+  # Postinstall only checks the binary; the platform binary is installed as an optional dependency.
+  esbuild: false

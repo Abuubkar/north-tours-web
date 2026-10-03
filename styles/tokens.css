@@ -30,6 +30,7 @@
 
   /* Surface tokens: dark by default, redefined for [data-surface='light'] */
   --bg: var(--ink-900);
+  --bg-raised: var(--ink-800); /* hover and selected (DESIGN.md §2) */
   --fg: var(--text);
   --fg-2: var(--text-2);
   --fg-3: var(--text-3);
@@ -38,6 +39,7 @@
   --link: var(--text);
   --link-hover: var(--gold);
   --error: var(--gold); /* paired with the "!" badge and a message, never colour alone */
+  --control-border-soft: color-mix(in srgb, var(--text) 50%, transparent);
   color-scheme: dark;
 
   /* Radius (DESIGN.md §7) */
@@ -48,6 +50,11 @@
 
   /* Interaction */
   --tap: 44px;
+  --control-44: var(--tap); /* header, social links, icon buttons */
+  --control-48: 48px; /* cards, panels, bars */
+  --control-52: 52px; /* default */
+  --control-56: 56px; /* closing CTAs */
+  --hairline-width: 1px; /* every hairline and control border (DESIGN.md §5) */
   --focus-width: 2px;
   --focus-offset: 3px;
 
@@ -100,6 +107,7 @@
    */
 
   /* Motion (DESIGN.md §10) */
+  --nudge: 4px; /* button arrow moves this far on hover */
   --dur-300: 0.3s;
   --dur-400: 0.4s;
   --dur-900: 0.9s;
@@ -197,6 +205,7 @@
 
 [data-surface='light'] {
   --bg: var(--mist-50);
+  --bg-raised: var(--mist-100);
   --fg: var(--ink-text);
   --fg-2: var(--ink-text-2);
   --fg-3: var(--ink-text-3);
@@ -205,5 +214,6 @@
   --link: var(--ink-text);
   --link-hover: var(--gold-deep);
   --error: var(--gold-deep);
+  --control-border-soft: color-mix(in srgb, var(--ink-text) 50%, transparent);
   color-scheme: light;
 }

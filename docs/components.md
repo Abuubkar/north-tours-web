@@ -12,6 +12,21 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **One `<h1>` per page** (CLAUDE.md §10). Type roles are visual only.
 - **Precedence fixes** (DESIGN.md / CLAUDE.md win): input, select and textarea borders on light use `--line-strong-light #7D8992` (item 19). No Geist Mono in UI (item 37). No section label on the Contact header (item 32). No 01–04 numbers on About principles (item 36). Every overlay (sheets, drawer, dropdowns, mobile menu) closes on Escape and returns focus (item 41). Payments and Reserve / call back follow ADR-0008 (items 43, 45).
 
+**Decided in the base components PRD (#8, 2026-10-04):**
+
+- **Scope:** Button, IconButton, Icon, Tag, Chip, StarRating (with the inline rating), Stepper, Accordion, Dropdown, Sheet. Input, Select, Textarea, Checkbox/Radio, FormField, MediaFrame, TextLink, SectionLabel, BrandMark, KeyValueRow and the inclusion icons wait for the PRDs that first use them.
+- **Selected state:** Ink 800 fill with a `--fg` border on dark, Mist 100 fill with a `--fg` border on light. Gold is never a selection colour (replaces §5 items 6 and 16).
+- **Radius:** dropdown panels 8px with square rows inside; selectable option tiles 8px; bottom sheets 8px top corners; side drawer 8px leading corners (§5 items 9–11).
+- **Buttons:** primary, secondary, quiet; sizes 44 / 48 / 52 / 56 (DESIGN.md §7). The header "WhatsApp us" is secondary at 44 with the soft border. Join waitlist is always quiet. Disabled: hairline fill, `--fg-3` text (§5 items 1–5, 7, 8).
+- **Tags:** all 28px (§5 item 15).
+- **Accordion and disclosure:** one Accordion on `<details>`, with a `plus` or `caret` marker.
+- **Dropdown:** in the base components folder, on the native `popover` attribute.
+- **Stepper:** the value uses the `stepTitle` role; buttons at a limit are disabled.
+- **Native first:** Accordion on `<details name>`, Sheet on `<dialog>` with `showModal()`, Dropdown on `popover`.
+- **Hover:** secondary and quiet buttons use `--bg-raised` (Ink 800 / Mist 100); icon buttons brighten their border to `--fg`.
+- **Tooling:** Storybook as the component workshop and test runner (ADR-0012).
+- Full measurements for every component (tags, chips, sheet, dropdown, stepper, icons, motion) are in PRD #8.
+
 Open questions are in §6, grouped by the PRD that settles them.
 
 Token names used below: `ink-900 #0C1216`, `ink-800 #121A1F`, `line #253038`, `line-strong #5C6871`, `text #F1EEE8`, `text-2 #B7BFC5`, `text-3 #8F9AA2`, `gold #D9B44A`, `gold-hover #E3C366`, `gold-pressed #C9A43C`, `on-gold #10161A`, `mist-50 #EEF1F3`, `mist-100 #E2E7EB`, `line-light #CBD2D8`, `line-strong-light #7D8992`, `ink-text #10161A`, `ink-text-2 #46525C`, `ink-text-3 #5B6770`, `gold-deep #7A5A12`.
@@ -665,14 +680,10 @@ Hairline grid MIN/N values found:
 Each one is asked (grilled) at the start of its PRD. A recommendation is noted where one is obvious.
 
 **Base components PRD**
-- Radius for selectable option tiles (booking date and room options, planner destination cards, dropdown rows): 2px like inputs or 8px like cards? Sheets and drawers take 8px on their top or leading corners (DESIGN.md §7).
-- One dark and one light selected style for `Chip` and option tiles, replacing the three chip-selected styles and the gold "Selected ✓" (§5 items 6, 16). Recommended: Ink 800 / Mist 100 fills per DESIGN.md §2 ("selected rows"); gold stays for action.
-- `Disclosure` vs `Accordion`: two primitives, or one with a caret variant?
-- `Dropdown`: in `components/ui` (primitive) or `components/filters` until it's used on a second page?
-- Header "WhatsApp us" button (44px, .5-alpha border): make it a documented Button size, or normalise it to secondary?
-- Button heights and Join waitlist look (§5 items 1–5): one rule per context.
-- Stepper disabled styling at min and max (not designed).
-- Hover and focus states for chips, dropdown rows and inputs (not designed; §5 items 17, 23).
+- All settled (see the decisions at the top of this file).
+
+**Trip Planner and Help PRDs (inputs)**
+- Hover and focus states for inputs, selects and textareas are not designed (§5 item 23). Decide when the first input is built.
 
 **Content system PRD**
 - One seats-copy formatter for all the variants in §5 item 31.
