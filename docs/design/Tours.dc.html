@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0C1216;color:#F1EEE8;-webkit-font-smoothing:antialiased}
+a{color:#F1EEE8}
+a:hover{color:#D9B44A}
+[data-surface="light"] a{color:#10161A}
+[data-surface="light"] a:hover{color:#7A5A12}
+[data-surface="dark"] a{color:#F1EEE8}
+[data-surface="dark"] a:hover{color:#D9B44A}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="container-type:inline-size;background:#0C1216;color:#F1EEE8;font-family:'Geist',system-ui,sans-serif;">
+
+  <header data-surface="dark" style="color:#F1EEE8;position:sticky;top:0;z-index:50;height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 clamp(20px,3.4cqi,48px);background:rgba(12,18,22,.86);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid rgba(241,238,232,.12);">
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:#F1EEE8;">
+      <span style="width:16px;height:14px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>
+      <span style="font-size:16px;font-weight:600;letter-spacing:-.01em;">[BRAND NAME]</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500;">
+        <a href="Tours.dc.html" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#D9B44A;">Tours</a>
+        <a href="Homepage.dc.html#how" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Destinations</a>
+        <a href="About.dc.html#guides" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Reviews</a>
+      </nav>
+      <a href="#whatsapp" style="flex:none;white-space:nowrap;display:flex;align-items:center;gap:10px;height:44px;padding:0 18px;border-radius:6px;border:1px solid rgba(241,238,232,.5);text-decoration:none;color:#F1EEE8;font-size:14px;font-weight:500;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">WhatsApp us</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <a href="#whatsapp" aria-label="Chat on WhatsApp" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(241,238,232,.5);"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;"></a>
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:6px;border:1px solid rgba(241,238,232,.5);background:transparent;cursor:pointer;padding:0;"><span style="width:16px;height:1.5px;background:#F1EEE8;"></span><span style="width:16px;height:1.5px;background:#F1EEE8;"></span></button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:72px;left:0;right:0;height:calc(100vh - 72px);min-height:560px;background:#0C1216;padding:32px 20px;display:flex;flex-direction:column;gap:4px;border-top:1px solid #253038;">
+        <a href="Tours.dc.html" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;color:#D9B44A;border-bottom:1px solid #253038;">Tours</a>
+        <a href="Homepage.dc.html#how" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Destinations</a>
+        <a href="About.dc.html#guides" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Reviews</a>
+        <a href="#whatsapp" style="margin-top:32px;height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Plan on WhatsApp</a>
+      </div>
+    </sc-if>
+  </header>
+
+  <section data-screen-label="01 Page header" style="padding:clamp(64px,8cqi,128px) clamp(20px,3.4cqi,48px) clamp(48px,5cqi,80px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:999 1 600px;min-width:0;">
+        <h1 style="margin:0;font-size:clamp(40px,6.4cqi,92px);line-height:.98;font-weight:500;letter-spacing:-.045em;">All our trips from Lahore</h1>
+        <div style="margin-top:28px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 24px;">
+          <p style="margin:0;font-size:17px;line-height:1.6;color:#B7BFC5;">Prices per person, twin sharing. Every departure leaves from Lahore.</p>
+        </div>
+        <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">URL · Filters and sort live in the URL, e.g. ?dest=hunza&amp;type=family&amp;sort=soonest, so a view can be shared on WhatsApp</span>
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">M4 · Cards rise in sequence on first load only, never on filter change</span>
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">RULE · Prices, dates, seats and all buttons are never hidden by animation</span>
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">REDUCED MOTION · Everything simply appears</span>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{ anyOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeGroups }}" style="position:fixed;inset:0;z-index:44;"></div>
+  </sc-if>
+
+  <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+    <div data-autohide="1" data-screen-label="02 Filter bar" style="position:sticky;top:72px;z-index:45;padding:12px clamp(20px,3.4cqi,48px);background:rgba(12,18,22,.92);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-top:1px solid #253038;border-bottom:1px solid #253038;">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+          <div style="position:relative;">
+            <button data-trigger="{{ g.id }}" onClick="{{ g.toggle }}" aria-expanded="{{ g.open }}" style="height:44px;display:flex;align-items:center;gap:8px;padding:0 16px 0 18px;border-radius:999px;border:1px solid {{ g.border }};background:{{ g.bg }};color:#F1EEE8;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ g.label }}<span style="color:#B7BFC5;">{{ g.countText }}</span><span style="font-size:12px;color:#B7BFC5;display:inline-block;transform:{{ g.rot }};transition:transform .2s ease;">▾</span></button>
+            <sc-if value="{{ g.open }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:52px;left:0;z-index:46;min-width:260px;padding:8px;background:#0C1216;border:1px solid #253038;display:flex;flex-direction:column;">
+                <sc-for list="{{ g.options }}" as="o" hint-placeholder-count="4">
+                  <button onClick="{{ o.onClick }}" aria-pressed="{{ o.selected }}" style="min-height:44px;display:flex;align-items:center;gap:12px;padding:0 10px;background:{{ o.rowBg }};border:0;color:#F1EEE8;font-family:inherit;font-size:15px;text-align:left;cursor:pointer;">
+                    <span style="width:18px;height:18px;flex:none;border:1.5px solid {{ o.boxBorder }};border-radius:{{ o.boxRadius }};background:{{ o.boxBg }};display:flex;align-items:center;justify-content:center;color:#0C1216;font-size:12px;font-weight:700;line-height:1;">{{ o.mark }}</span>
+                    <span style="flex:1;white-space:nowrap;">{{ o.label }}</span>
+                    <span style="font-size:13px;color:#8F9AA2;font-variant-numeric:tabular-nums;">{{ o.count }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <sc-if value="{{ hasChips }}" hint-placeholder-val="{{ false }}">
+          <span style="width:1px;height:28px;background:#253038;margin:0 4px;"></span>
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="2">
+            <button onClick="{{ c.remove }}" aria-label="Remove filter {{ c.label }}" style="height:44px;display:flex;align-items:center;gap:10px;padding:0 8px 0 16px;border-radius:999px;border:1px solid #F1EEE8;background:#121A1F;color:#F1EEE8;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ c.label }}<span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:300;line-height:1;color:#B7BFC5;">×</span></button>
+          </sc-for>
+          <button onClick="{{ clearAll }}" style="min-height:44px;padding:0 8px;background:transparent;border:0;color:#F1EEE8;font-family:inherit;font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;cursor:pointer;white-space:nowrap;">Clear all</button>
+        </sc-if>
+        <div style="margin-left:auto;position:relative;">
+          <button data-trigger="sort" onClick="{{ sortGroup.toggle }}" aria-expanded="{{ sortGroup.open }}" style="height:44px;display:flex;align-items:center;gap:8px;padding:0 16px 0 18px;border-radius:999px;border:1px solid #5C6871;background:transparent;color:#F1EEE8;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;"><span style="color:#B7BFC5;">Sort:</span>{{ sortGroup.current }}<span style="font-size:12px;color:#B7BFC5;display:inline-block;transform:{{ sortGroup.rot }};transition:transform .2s ease;">▾</span></button>
+          <sc-if value="{{ sortGroup.open }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:52px;right:0;z-index:46;min-width:260px;padding:8px;background:#0C1216;border:1px solid #253038;display:flex;flex-direction:column;">
+              <sc-for list="{{ sortGroup.options }}" as="o" hint-placeholder-count="4">
+                <button onClick="{{ o.onClick }}" aria-pressed="{{ o.selected }}" style="min-height:44px;display:flex;align-items:center;gap:12px;padding:0 10px;background:{{ o.rowBg }};border:0;color:#F1EEE8;font-family:inherit;font-size:15px;text-align:left;cursor:pointer;">
+                  <span style="width:18px;height:18px;flex:none;border:1.5px solid {{ o.boxBorder }};border-radius:50%;background:{{ o.boxBg }};"></span>
+                  <span style="white-space:nowrap;">{{ o.label }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+    <div data-autohide="1" style="position:sticky;top:72px;z-index:45;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(20px,3.4cqi,48px);background:rgba(12,18,22,.92);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-top:1px solid #253038;border-bottom:1px solid #253038;">
+      <span style="font-size:16px;font-weight:500;white-space:nowrap;">{{ countText }}</span>
+      <div style="display:flex;gap:8px;">
+        <button onClick="{{ openFilters }}" style="height:44px;padding:0 18px;border-radius:999px;border:1px solid {{ filtersBorder }};background:{{ filtersBg }};color:#F1EEE8;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ filtersLabel }}</button>
+        <button onClick="{{ openSort }}" style="height:44px;padding:0 16px;border-radius:999px;border:1px solid #5C6871;background:transparent;color:#F1EEE8;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">Sort ▾</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <section id="results" data-screen-label="03 Results" style="padding:clamp(28px,3cqi,40px) clamp(20px,3.4cqi,48px) clamp(72px,9cqi,144px);">
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:24px;">
+        <span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">{{ countText }}</span>
+        <span style="font-size:14px;color:#B7BFC5;">Sorted by {{ sortLower }} · sold-out trips last</span>
+      </div>
+    </sc-if>
+    <sc-if value="{{ mobileChips }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-bottom:20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+        <sc-for list="{{ chips }}" as="c" hint-placeholder-count="2">
+          <button onClick="{{ c.remove }}" aria-label="Remove filter {{ c.label }}" style="height:44px;display:flex;align-items:center;gap:10px;padding:0 8px 0 16px;border-radius:999px;border:1px solid #F1EEE8;background:#121A1F;color:#F1EEE8;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ c.label }}<span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:300;line-height:1;color:#B7BFC5;">×</span></button>
+        </sc-for>
+        <button onClick="{{ clearAll }}" style="min-height:44px;padding:0 8px;background:transparent;border:0;color:#F1EEE8;font-family:inherit;font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;cursor:pointer;">Clear all</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasA }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:{{ gridCols }};border-top:1px solid #253038;">
+        <sc-for list="{{ cardsA }}" as="t" hint-placeholder-count="3">
+          <div data-rise="1" style="display:flex;flex-direction:column;border-bottom:1px solid #253038;border-right:{{ t.br }};">
+            <dc-import name="TourCard" title="{{ t.title }}" price="{{ t.price }}" route="{{ t.route }}" dates="{{ t.dates }}" seats-left="{{ t.seats }}" total-seats="{{ t.total }}" rating="{{ t.rating }}" reviews="{{ t.reviews }}" status="{{ t.status }}" photo="{{ t.photo }}" href="{{ t.href }}" style="flex:1;" hint-size="100%,620px"></dc-import>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="border-top:1px solid #253038;border-bottom:1px solid #253038;padding:clamp(48px,6cqi,96px) 0;display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:999 1 600px;min-width:0;display:flex;flex-direction:column;gap:20px;align-items:flex-start;">
+          <h2 style="margin:0;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">No trips match these filters yet.</h2>
+          <p style="margin:0;max-width:520px;font-size:17px;line-height:1.6;color:#B7BFC5;">Tell us what you’re looking for and we’ll plan it. Most private trips start with a WhatsApp message.</p>
+          <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:12px;">
+            <button onClick="{{ clearAll }}" style="height:52px;padding:0 28px;border-radius:6px;border:0;background:#D9B44A;color:#10161A;font-family:inherit;font-size:16px;font-weight:500;cursor:pointer;">Clear filters</button>
+            <a href="#whatsapp" style="height:52px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 24px;border-radius:6px;border:1px solid #F1EEE8;color:#F1EEE8;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">Ask on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showBanner }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="04 Private trip banner" style="display:flex;flex-wrap:wrap;align-items:stretch;gap:32px 48px;padding:clamp(40px,5cqi,72px) 0;border-bottom:1px solid #253038;">
+        <div style="flex:1 1 320px;max-width:560px;position:relative;aspect-ratio:16 / 10;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:16px;right:16px;bottom:14px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.5;color:#B7BFC5;">PHOTO · A family with their guide at the Attabad jetty, candid</div></div>
+        <div style="flex:1 1 360px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:20px;">
+          <h2 style="margin:0;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">Plan a private trip for your family or team</h2>
+          <p style="margin:0;max-width:460px;font-size:17px;line-height:1.6;color:#B7BFC5;">We plan private tours for families and teams, from 2 days to 2 weeks.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="Trip Planner.dc.html" style="flex:1 1 auto;height:52px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 28px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;white-space:nowrap;">Plan a private trip <span>→</span></a>
+            <a href="#whatsapp" style="flex:1 1 auto;height:52px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 24px;border-radius:6px;border:1px solid #F1EEE8;color:#F1EEE8;text-decoration:none;font-size:16px;font-weight:500;white-space:nowrap;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">Ask on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasB }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:{{ gridCols }};">
+        <sc-for list="{{ cardsB }}" as="t" hint-placeholder-count="3">
+          <div data-rise="1" style="display:flex;flex-direction:column;border-bottom:1px solid #253038;border-right:{{ t.br }};">
+            <dc-import name="TourCard" title="{{ t.title }}" price="{{ t.price }}" route="{{ t.route }}" dates="{{ t.dates }}" seats-left="{{ t.seats }}" total-seats="{{ t.total }}" rating="{{ t.rating }}" reviews="{{ t.reviews }}" status="{{ t.status }}" photo="{{ t.photo }}" href="{{ t.href }}" style="flex:1;" hint-size="100%,620px"></dc-import>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </section>
+
+  <section id="reviews" data-screen-label="05 Reviews" style="border-top:1px solid #253038;padding:clamp(64px,7cqi,112px) clamp(20px,3.4cqi,48px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;align-items:baseline;">
+      <div style="flex:999 1 600px;min-width:0;display:flex;align-items:center;gap:8px;font-size:15px;color:#B7BFC5;"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><span style="color:#F1EEE8;font-weight:600;">4.9</span> average · [X] reviews</div>
+    </div>
+    <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));margin-top:40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(290px,calc((100% - 2px) / 3)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+      <figure style="margin:0;background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:16px;">
+        <div aria-label="5 out of 5 stars" style="display:flex;gap:3px;"><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg></div>
+        <blockquote style="margin:0;font-size:17px;line-height:1.5;color:#F1EEE8;text-wrap:pretty;">“Our driver knew which bends worried my mother and slowed down before she had to ask. Nine days, and nothing for us to sort out.”</blockquote>
+        <figcaption style="margin-top:auto;padding-top:14px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:2px;"><span style="font-size:14px;font-weight:500;">[Traveller name] &amp; family, Lahore</span><span style="font-size:13px;color:#8F9AA2;">Hunza &amp; Skardu Grand · May 2026</span></figcaption>
+      </figure>
+      <figure style="margin:0;background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:16px;">
+        <div aria-label="5 out of 5 stars" style="display:flex;gap:3px;"><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg></div>
+        <blockquote style="margin:0;font-size:17px;line-height:1.5;color:#F1EEE8;text-wrap:pretty;">“We booked the whole trip on WhatsApp in one evening. The jeep to Fairy Meadows was waiting exactly when they said it would be.”</blockquote>
+        <figcaption style="margin-top:auto;padding-top:14px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:2px;"><span style="font-size:14px;font-weight:500;">[Traveller name], Lahore</span><span style="font-size:13px;color:#8F9AA2;">Fairy Meadows Trek · June 2026</span></figcaption>
+      </figure>
+      <figure style="margin:0;background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:16px;">
+        <div aria-label="5 out of 5 stars" style="display:flex;gap:3px;"><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="13" height="13" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg></div>
+        <blockquote style="margin:0;font-size:17px;line-height:1.5;color:#F1EEE8;text-wrap:pretty;">“Fourteen of us from the office. Rooms, meals, the stop at Babusar, all handled. The photos are still going round the team chat.”</blockquote>
+        <figcaption style="margin-top:auto;padding-top:14px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:2px;"><span style="font-size:14px;font-weight:500;">[Traveller name], corporate team</span><span style="font-size:13px;color:#8F9AA2;">Naran-Kaghan Getaway · August 2026</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section data-screen-label="06 Trust strip" style="border-top:1px solid #253038;padding:0 clamp(20px,3.4cqi,48px);">
+    <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));display:grid;grid-template-columns:repeat(auto-fill,minmax(max(165px,calc((100% - 3px) / 4)),1fr));gap:1px;background:#253038;">
+      <div style="background:#0C1216;padding:36px clamp(16px,1.7cqi,24px) 40px;display:flex;flex-direction:column;gap:8px;"><span style="font-size:13px;color:#8F9AA2;">DTS licence</span><span style="font-size:clamp(26px,2.6cqi,38px);font-weight:500;letter-spacing:-.03em;line-height:1.05;">No. [NUMBER]</span><span style="font-size:14px;line-height:1.45;color:#B7BFC5;">Department of Tourist Services, Punjab</span></div>
+      <div style="background:#0C1216;padding:36px clamp(16px,1.7cqi,24px) 40px;display:flex;flex-direction:column;gap:8px;"><span style="font-size:13px;color:#8F9AA2;">Operating</span><span style="font-size:clamp(26px,2.6cqi,38px);font-weight:500;letter-spacing:-.03em;line-height:1.05;">[X] years</span><span style="font-size:14px;line-height:1.45;color:#B7BFC5;">From our office in Lahore</span></div>
+      <div style="background:#0C1216;padding:36px clamp(16px,1.7cqi,24px) 40px;display:flex;flex-direction:column;gap:8px;"><span style="font-size:13px;color:#8F9AA2;">Trips completed</span><span style="font-size:clamp(26px,2.6cqi,38px);font-weight:500;letter-spacing:-.03em;line-height:1.05;">[X]</span><span style="font-size:14px;line-height:1.45;color:#B7BFC5;">Group and private</span></div>
+      <div style="background:#0C1216;padding:36px clamp(16px,1.7cqi,24px) 40px;display:flex;flex-direction:column;gap:8px;"><span style="font-size:13px;color:#8F9AA2;">We accept</span><span style="font-size:17px;font-weight:500;line-height:1.5;">Bank transfer · JazzCash · Easypaisa · Card</span></div>
+    </div>
+  </section>
+
+  <footer id="whatsapp" data-surface="dark" data-screen-label="07 Footer" style="background:#0C1216;color:#F1EEE8;border-top:1px solid #253038;padding:clamp(72px,9cqi,128px) clamp(20px,3.4cqi,48px) 32px;">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:0 0 240px;display:flex;align-items:center;gap:10px;height:28px;font-size:13px;font-weight:500;letter-spacing:.01em;color:#B7BFC5;"><span style="width:11px;height:10px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>Contact</div>
+      <div style="flex:999 1 600px;min-width:0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:64px 48px;">
+        <nav style="display:flex;flex-direction:column;">
+          <a href="Tours.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Tours</a>
+          <a href="Homepage.dc.html#destinations" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Destinations</a>
+          <a href="Trip Planner.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Private trips</a>
+          <a href="About.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">About us</a>
+          <a href="Homepage.dc.html#reviews" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Reviews</a>
+        </nav>
+        <div style="flex:0 1 380px;display:flex;flex-direction:column;gap:28px;">
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#B7BFC5;">Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.</p>
+          <a href="#whatsapp" style="height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Chat on WhatsApp</a>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #253038;">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">WhatsApp</span><a href="#whatsapp" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 3XX XXX XXXX</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Phone</span><a href="#phone" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 42 XXXX XXXX</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Email</span><a href="#email" style="text-decoration:none;">hello@[brand].pk</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Office</span><span style="text-align:right;">[Office address],<br>Lahore, Punjab</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:96px;padding-top:24px;border-top:1px solid #253038;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;font-size:13px;color:#B7BFC5;">
+      <span>© 2026 [BRAND NAME] · DTS Licence No. [NUMBER]</span>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 24px;"><a href="#instagram" style="color:#B7BFC5;">Instagram</a><a href="#facebook" style="color:#B7BFC5;">Facebook</a><a href="#youtube" style="color:#B7BFC5;">YouTube</a><a href="Help.dc.html" style="color:#B7BFC5;">Help</a><a href="Contact.dc.html" style="color:#B7BFC5;">Contact</a><a href="Legal.dc.html?doc=privacy" style="color:#B7BFC5;">Privacy</a><a href="Legal.dc.html?doc=terms" style="color:#B7BFC5;">Terms</a></div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ showFilterSheet }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:flex-end;">
+      <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(12,18,22,.72);"></div>
+      <div role="dialog" aria-modal="true" aria-label="Filters" style="position:relative;max-height:92%;display:flex;flex-direction:column;background:#0C1216;border-top:1px solid #5C6871;">
+        <div style="flex:none;padding:10px 20px 0;">
+          <div style="width:36px;height:4px;border-radius:999px;background:#5C6871;margin:0 auto 12px;"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:16px;border-bottom:1px solid #253038;">
+            <span style="font-size:18px;font-weight:500;letter-spacing:-.015em;">Filters</span>
+            <button onClick="{{ closeSheet }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:6px;border:1px solid #5C6871;background:transparent;color:#F1EEE8;font-size:22px;font-weight:300;line-height:1;cursor:pointer;font-family:inherit;">×</button>
+          </div>
+        </div>
+        <div style="flex:1 1 auto;min-height:0;overflow-y:auto;padding:4px 20px 24px;">
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+            <div style="padding:20px 0;border-bottom:1px solid #253038;display:flex;flex-direction:column;gap:12px;">
+              <span style="font-size:13px;font-weight:500;color:#B7BFC5;">{{ g.label }}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <sc-for list="{{ g.options }}" as="o" hint-placeholder-count="4">
+                  <button onClick="{{ o.onClick }}" aria-pressed="{{ o.selected }}" style="height:44px;display:flex;align-items:center;gap:8px;padding:0 16px;border-radius:999px;border:1px solid {{ o.pillBorder }};background:{{ o.pillBg }};color:{{ o.pillColor }};font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ o.label }}<span style="font-size:13px;opacity:.75;">{{ o.count }}</span></button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex:none;display:flex;align-items:center;gap:12px;padding:12px 20px calc(16px + env(safe-area-inset-bottom));border-top:1px solid #253038;background:#0C1216;">
+          <button onClick="{{ clearAll }}" style="min-height:44px;padding:0 4px;background:transparent;border:0;color:#F1EEE8;font-family:inherit;font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;cursor:pointer;white-space:nowrap;">Clear all</button>
+          <button onClick="{{ closeSheet }}" style="flex:1;height:52px;border-radius:6px;border:0;background:{{ showBg }};color:{{ showColor }};font-family:inherit;font-size:16px;font-weight:500;cursor:pointer;">{{ showLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showSortSheet }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:flex-end;">
+      <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(12,18,22,.72);"></div>
+      <div role="dialog" aria-modal="true" aria-label="Sort" style="position:relative;background:#0C1216;border-top:1px solid #5C6871;padding:10px 20px calc(20px + env(safe-area-inset-bottom));">
+        <div style="width:36px;height:4px;border-radius:999px;background:#5C6871;margin:0 auto 12px;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid #253038;">
+          <span style="font-size:18px;font-weight:500;letter-spacing:-.015em;">Sort by</span>
+          <button onClick="{{ closeSheet }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:6px;border:1px solid #5C6871;background:transparent;color:#F1EEE8;font-size:22px;font-weight:300;line-height:1;cursor:pointer;font-family:inherit;">×</button>
+        </div>
+        <sc-for list="{{ sortGroup.options }}" as="o" hint-placeholder-count="4">
+          <button onClick="{{ o.onPick }}" aria-pressed="{{ o.selected }}" style="width:100%;min-height:56px;display:flex;align-items:center;gap:14px;padding:0;background:transparent;border:0;border-bottom:1px solid #253038;color:#F1EEE8;font-family:inherit;font-size:16px;text-align:left;cursor:pointer;">
+            <span style="width:18px;height:18px;flex:none;border:1.5px solid {{ o.boxBorder }};border-radius:50%;background:{{ o.boxBg }};"></span>{{ o.label }}
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;preset&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;default&quot;,&quot;filtered&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;default&quot;,&quot;tsType&quot;:&quot;'default'|'filtered'|'empty'&quot;,&quot;label&quot;:&quot;Filter state&quot;},&quot;sheet&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;filters&quot;,&quot;sort&quot;],&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;label&quot;:&quot;Mobile sheet&quot;},&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Show build notes&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Enable motion&quot;},&quot;frameWidth&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  state = { filters: null, sort: null, openGroup: null, sheet: null, menuOpen: false };
+  static TOURS = [
+    { title: 'Hunza & Skardu Grand', price: '145,000', p: 145000, route: 'Lahore → Hunza → Skardu', dates: '12–20 May · 9 days, 8 nights', days: 9, seats: 3, total: 16, rating: '4.9', reviews: '128', status: 'urgent', photo: 'Attabad Lake, turquoise water, boats at the jetty', dest: ['hunza', 'skardu'], type: ['family', 'couples', 'friends'], month: '2027-05', start: 512, href: 'Tour Detail.dc.html' },
+    { title: 'Naran-Kaghan Getaway', price: '38,000', p: 38000, route: 'Lahore → Naran → Babusar Top', dates: '22–25 May · 4 days, 3 nights', days: 4, seats: 11, total: 20, rating: '4.8', reviews: '214', status: 'open', photo: 'Lake Saiful Muluk, Malika Parbat behind, early morning mist', dest: ['naran-kaghan'], type: ['family', 'friends', 'corporate'], month: '2027-05', start: 522 },
+    { title: 'Swat Family Escape', price: '52,000', p: 52000, route: 'Lahore → Malam Jabba → Kalam', dates: '5–9 Jun · 5 days, 4 nights', days: 5, seats: 9, total: 18, rating: '4.8', reviews: '96', status: 'open', photo: 'Kalam valley, pine forest road beside the Swat River', dest: ['swat'], type: ['family'], month: '2027-06', start: 605 },
+    { title: 'Fairy Meadows Trek', price: '68,000', p: 68000, route: 'Lahore → Raikot → Fairy Meadows', dates: '14–18 Jun · 5 days, 4 nights', days: 5, seats: 0, total: 12, rating: '4.9', reviews: '73', status: 'soldout', photo: 'Nanga Parbat from Fairy Meadows at sunrise', dest: ['fairy-meadows'], type: ['friends', 'couples'], month: '2027-06', start: 614 },
+    { title: 'Hunza Express', price: '[X]', p: 98000, route: 'Lahore → Hunza', dates: '2–7 Jun · 6 days, 5 nights', days: 6, seats: 12, total: 16, rating: '[X.X]', reviews: '[X]', status: 'open', photo: 'SAMPLE DATA · Karimabad from Eagle’s Nest at sunset', dest: ['hunza'], type: ['family', 'couples'], month: '2027-06', start: 602 },
+    { title: 'Skardu & Deosai', price: '[X]', p: 110000, route: 'Lahore → Skardu → Deosai', dates: '16–21 Jul · 6 days, 5 nights', days: 6, seats: 3, total: 14, rating: '[X.X]', reviews: '[X]', status: 'urgent', photo: 'SAMPLE DATA · Deosai plains by jeep, wildflowers', dest: ['skardu'], type: ['friends', 'couples'], month: '2027-07', start: 716 },
+    { title: 'Murree & Galiyat Weekend', price: '[X]', p: 28000, route: 'Lahore → Murree', dates: '29–31 May · 3 days, 2 nights', days: 3, seats: 14, total: 20, rating: '[X.X]', reviews: '[X]', status: 'open', photo: 'SAMPLE DATA · Pine ridges of the Galiyat in mist', dest: ['murree'], type: ['family', 'corporate'], month: '2027-05', start: 529 },
+    { title: 'Swat & Kalam Summer', price: '[X]', p: 45000, route: 'Lahore → Swat → Kalam', dates: '10–13 Jul · 4 days, 3 nights', days: 4, seats: 10, total: 18, rating: '[X.X]', reviews: '[X]', status: 'open', photo: 'SAMPLE DATA · Ushu forest and the river at Kalam', dest: ['swat'], type: ['family', 'friends'], month: '2027-07', start: 710 }
+  ];
+  static GROUPS = [
+    { id: 'dest', label: 'Destination', multi: true, opts: [['hunza', 'Hunza'], ['skardu', 'Skardu'], ['naran-kaghan', 'Naran-Kaghan'], ['swat', 'Swat'], ['fairy-meadows', 'Fairy Meadows'], ['murree', 'Murree']] },
+    { id: 'dur', label: 'Duration', multi: true, opts: [['2-4', '2–4 days'], ['5-7', '5–7 days'], ['8plus', '8+ days']] },
+    { id: 'budget', label: 'Budget', multi: true, opts: [['under-50k', 'Under PKR 50k'], ['50-100k', 'PKR 50–100k'], ['100k-plus', 'PKR 100k+']] },
+    { id: 'type', label: 'Trip type', multi: true, opts: [['family', 'Family'], ['couples', 'Couples'], ['friends', 'Friends'], ['corporate', 'Corporate']] },
+    { id: 'month', label: 'Month', multi: false, opts: [['2027-05', 'May 2027'], ['2027-06', 'June 2027'], ['2027-07', 'July 2027'], ['2027-08', 'August 2027']] }
+  ];
+  static SORTS = [['soonest', 'Soonest departure'], ['price-asc', 'Price: low to high'], ['price-desc', 'Price: high to low'], ['shortest', 'Shortest first']];
+  static PRESETS = {
+    default: { dest: [], dur: [], budget: [], type: [], month: [] },
+    filtered: { dest: ['hunza'], dur: [], budget: [], type: ['family'], month: [] },
+    empty: { dest: ['murree'], dur: ['8plus'], budget: [], type: [], month: [] }
+  };
+  rootRef = React.createRef();
+
+  componentDidMount() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    this.isStatic = this.props.motion === false;
+    this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.measure = () => { if (this.bucketKey() !== this.renderedKey) this.forceUpdate(); };
+    this.ro = new ResizeObserver(() => this.measure());
+    this.ro.observe(this.observedEl = root);
+    window.addEventListener('resize', this.measure);
+    requestAnimationFrame(this.measure);
+    [300, 1000, 2500].forEach(t => setTimeout(() => { const el = this.rootRef.current; if (el && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); } this.measure(); }, t));
+    if (!this.isStatic && !this.reduce) setTimeout(() => this.setupRise(), 300);
+    this.onKey = e => {
+      if (e.key !== 'Escape' || !this.state.openGroup) return;
+      const id = this.state.openGroup;
+      this.setState({ openGroup: null }, () => { const r = this.rootRef.current; const t = r && r.querySelector('[data-trigger="' + id + '"]'); t && t.focus(); });
+    };
+    document.addEventListener('keydown', this.onKey);
+    if (!this.isStatic) {
+      this.lastY = window.scrollY; this.barHidden = false;
+      this.onHide = () => {
+        const y = window.scrollY, dy = y - this.lastY;
+        if (Math.abs(dy) < 4) return;
+        const hide = dy > 0 && y > 320;
+        this.lastY = y;
+        if (hide === this.barHidden) return;
+        this.barHidden = hide;
+        const r = this.rootRef.current; if (!r) return;
+        r.querySelectorAll('[data-autohide]').forEach(el => {
+          el.style.transition = this.reduce ? 'none' : 'transform .3s cubic-bezier(.2,.7,.2,1)';
+          el.style.transform = hide ? 'translateY(calc(-100% - 73px))' : 'none';
+        });
+        if (hide && this.state.openGroup) this.setState({ openGroup: null });
+      };
+      window.addEventListener('scroll', this.onHide, { passive: true });
+    }
+  }
+  componentDidUpdate() {
+    const el = this.rootRef.current;
+    if (el && this.ro && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); }
+    this.measure && this.measure();
+  }
+  componentWillUnmount() {
+    this.ro && this.ro.disconnect();
+    this.io && this.io.disconnect();
+    this.measure && window.removeEventListener('resize', this.measure);
+    this.onScroll && window.removeEventListener('scroll', this.onScroll);
+    this.onHide && window.removeEventListener('scroll', this.onHide);
+    this.onKey && document.removeEventListener('keydown', this.onKey);
+  }
+  width() { const el = this.rootRef.current; const w = el ? el.getBoundingClientRect().width : 0; return w || this.props.frameWidth || 1440; }
+  bp() { const w = this.width(); return { isMobile: w < 820, cols: w < 820 ? 1 : w < 1100 ? 2 : 3 }; }
+  bucketKey() { const b = this.bp(); return b.isMobile + ',' + b.cols; }
+
+  setupRise() {
+    if (this.rose) return;
+    this.rose = true;
+    const root = this.rootRef.current;
+    if (!root) return;
+    const vh = window.innerHeight;
+    this.heads = [...root.querySelectorAll('[data-reveal]')].map(el => ({ el, words: [...el.querySelectorAll('span')].filter(s => !s.querySelector('span')) }));
+    this.heads.forEach(h => h.words.forEach(w => { w.style.transition = 'opacity .25s linear'; }));
+    const rises = [...root.querySelectorAll('[data-rise]')];
+    this.io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target, i = [...el.parentElement.children].indexOf(el) % 3, d = i * 90;
+      el.style.transition = `transform .9s cubic-bezier(.2,.7,.2,1) ${d}ms`;
+      el.style.transform = 'none';
+      el.querySelectorAll('[data-rise-fade]').forEach(f => { f.style.transition = `opacity .9s ease ${d}ms`; f.style.opacity = '1'; });
+      this.io.unobserve(el);
+    }), { threshold: 0.12 });
+    rises.forEach(el => {
+      el.style.transform = 'translateY(40px)';
+      el.querySelectorAll('[data-rise-fade]').forEach(f => { f.style.opacity = '0'; });
+      this.io.observe(el);
+    });
+    this.onScroll = () => {
+      const c = v => Math.min(1, Math.max(0, v)), h = window.innerHeight;
+      (this.heads || []).forEach(({ el, words }) => {
+        const r = el.getBoundingClientRect(), p = (h * 0.92 - r.top) / (h * 0.45), n = words.length;
+        words.forEach((w, i) => { w.style.opacity = (0.16 + 0.84 * c(p * n - i)).toFixed(3); });
+      });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+  }
+
+  fromUrl() {
+    if (this.isStatic || this.props.motion === false || typeof location === 'undefined') return null;
+    const q = new URLSearchParams(location.search);
+    if (![...q.keys()].length) return null;
+    const f = {};
+    Component.GROUPS.forEach(g => { f[g.id] = (q.get(g.id) || '').split(',').filter(Boolean); });
+    return { f, sort: q.get('sort') };
+  }
+  current() {
+    const u = this.fromUrl();
+    const preset = Component.PRESETS[this.props.preset] || Component.PRESETS.default;
+    return {
+      f: this.state.filters || (u && u.f) || preset,
+      sort: this.state.sort || (u && u.sort) || 'soonest'
+    };
+  }
+  commit(f, sort) {
+    this.setState({ filters: f, sort });
+    if (this.props.motion === false) return;
+    const q = new URLSearchParams();
+    Object.entries(f).forEach(([k, v]) => { if (v.length) q.set(k, v.join(',')); });
+    if (sort !== 'soonest') q.set('sort', sort);
+    const s = q.toString();
+    try { history.replaceState(null, '', s ? '?' + s : location.pathname); } catch (e) {}
+  }
+  static match(t, f, skip) {
+    const ok = (id, test) => id === skip || !f[id].length || f[id].some(test);
+    return ok('dest', v => t.dest.includes(v))
+      && ok('dur', v => v === '2-4' ? t.days <= 4 : v === '5-7' ? t.days >= 5 && t.days <= 7 : t.days >= 8)
+      && ok('budget', v => v === 'under-50k' ? t.p < 50000 : v === '50-100k' ? t.p >= 50000 && t.p <= 100000 : t.p > 100000)
+      && ok('type', v => t.type.includes(v))
+      && ok('month', v => t.month === v);
+  }
+
+  renderVals() {
+    const b = this.bp(); this.renderedKey = this.bucketKey();
+    const { f, sort } = this.current();
+    const T = Component.TOURS, G = Component.GROUPS;
+    const sorters = {
+      soonest: (a, c) => a.start - c.start,
+      'price-asc': (a, c) => a.p - c.p,
+      'price-desc': (a, c) => c.p - a.p,
+      shortest: (a, c) => a.days - c.days || a.start - c.start
+    };
+    const res = T.filter(t => Component.match(t, f)).sort((a, c) => ((a.seats === 0) - (c.seats === 0)) || (sorters[sort] || sorters.soonest)(a, c));
+    const split = b.isMobile ? 2 : b.cols;
+    const toCards = list => list.map((t, i) => ({ ...t, br: b.cols > 1 && (i % b.cols) !== b.cols - 1 ? '1px solid #253038' : '0' }));
+    const cardsA = toCards(res.slice(0, split)), cardsB = toCards(res.slice(split));
+    const toggle = (gid, v, multi) => {
+      const cur = f[gid];
+      const next = multi ? (cur.includes(v) ? cur.filter(x => x !== v) : [...cur, v]) : (cur[0] === v ? [] : [v]);
+      this.commit({ ...f, [gid]: next }, sort);
+    };
+    const chips = [];
+    G.forEach(g => f[g.id].forEach(v => { const o = g.opts.find(x => x[0] === v); if (o) chips.push({ label: o[1], remove: () => toggle(g.id, v, true) }); }));
+    const activeCount = chips.length;
+    const groups = G.map(g => {
+      const n = f[g.id].length, open = this.state.openGroup === g.id;
+      return {
+        id: g.id, label: g.label, open, countText: n ? `(${n})` : '', rot: open ? 'rotate(180deg)' : 'rotate(0deg)',
+        border: n ? '#F1EEE8' : '#5C6871', bg: n ? '#121A1F' : 'transparent',
+        toggle: () => this.setState(s => ({ openGroup: s.openGroup === g.id ? null : g.id })),
+        options: g.opts.map(([v, label]) => {
+          const sel = f[g.id].includes(v);
+          const count = T.filter(t => Component.match(t, f, g.id) && Component.match(t, { dest: [], dur: [], budget: [], type: [], month: [], [g.id]: [v] })).length;
+          return {
+            label, selected: sel, count: String(count),
+            mark: sel && g.multi ? '✓' : '', boxRadius: g.multi ? '0' : '50%',
+            boxBorder: sel ? '#F1EEE8' : '#5C6871', boxBg: sel ? '#F1EEE8' : 'transparent', rowBg: sel ? '#121A1F' : 'transparent',
+            pillBorder: sel ? '#F1EEE8' : '#5C6871', pillBg: sel ? '#F1EEE8' : 'transparent', pillColor: sel ? '#0C1216' : '#F1EEE8',
+            onClick: () => toggle(g.id, v, g.multi)
+          };
+        })
+      };
+    });
+    const sortOpen = this.state.openGroup === 'sort';
+    const curSort = Component.SORTS.find(s => s[0] === sort) || Component.SORTS[0];
+    const sheet = this.state.sheet || (this.props.sheet && this.props.sheet !== 'none' ? this.props.sheet : null);
+    const n = res.length;
+    return {
+      rootRef: this.rootRef,
+      showNotes: this.props.showNotes ?? true,
+      isMobile: b.isMobile, isDesktop: !b.isMobile, menuOpen: b.isMobile && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      gridCols: `repeat(${b.cols}, minmax(0, 1fr))`,
+      cardsA, cardsB, hasA: cardsA.length > 0, hasB: cardsB.length > 0,
+      isEmpty: n === 0, showBanner: n > 0,
+      countText: `${n} trip${n === 1 ? '' : 's'}`,
+      chips, hasChips: activeCount > 0, mobileChips: b.isMobile && activeCount > 0,
+      clearAll: () => this.commit({ dest: [], dur: [], budget: [], type: [], month: [] }, sort),
+      groups, anyOpen: !!this.state.openGroup && !b.isMobile,
+      closeGroups: () => this.setState({ openGroup: null }),
+      sortLower: curSort[1].toLowerCase(),
+      sortGroup: {
+        open: sortOpen, current: curSort[1], rot: sortOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+        toggle: () => this.setState(s => ({ openGroup: s.openGroup === 'sort' ? null : 'sort' })),
+        options: Component.SORTS.map(([v, label]) => ({
+          label, selected: v === sort,
+          boxBorder: v === sort ? '#F1EEE8' : '#5C6871', boxBg: v === sort ? '#F1EEE8' : 'transparent', rowBg: v === sort ? '#121A1F' : 'transparent',
+          onClick: () => { this.commit(f, v); this.setState({ openGroup: null }); },
+          onPick: () => { this.commit(f, v); this.setState({ sheet: 'closed' }); }
+        }))
+      },
+      filtersLabel: activeCount ? `Filters (${activeCount})` : 'Filters',
+      filtersBorder: activeCount ? '#F1EEE8' : '#5C6871', filtersBg: activeCount ? '#121A1F' : 'transparent',
+      openFilters: () => this.setState({ sheet: 'filters' }),
+      openSort: () => this.setState({ sheet: 'sort' }),
+      closeSheet: () => this.setState({ sheet: 'closed' }),
+      showFilterSheet: b.isMobile && sheet === 'filters',
+      showSortSheet: b.isMobile && sheet === 'sort',
+      showLabel: n ? `Show ${n} trip${n === 1 ? '' : 's'}` : 'No trips match',
+      showBg: n ? '#D9B44A' : '#253038', showColor: n ? '#10161A' : '#8F9AA2'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0C1216;color:#F1EEE8;-webkit-font-smoothing:antialiased}
+a{color:#F1EEE8}
+a:hover{color:#D9B44A}
+[data-surface="light"] a{color:#10161A}
+[data-surface="light"] a:hover{color:#7A5A12}
+[data-surface="dark"] a{color:#F1EEE8}
+[data-surface="dark"] a:hover{color:#D9B44A}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="container-type:inline-size;background:#0C1216;color:#F1EEE8;font-family:'Geist',system-ui,sans-serif;">
+
+  <header data-surface="dark" style="color:#F1EEE8;position:sticky;top:0;z-index:50;height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 clamp(20px,3.4cqi,48px);background:rgba(12,18,22,.86);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid rgba(241,238,232,.12);">
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:#F1EEE8;">
+      <span style="width:16px;height:14px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>
+      <span style="font-size:16px;font-weight:600;letter-spacing:-.01em;">[BRAND NAME]</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500;">
+        <a href="Tours.dc.html" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#D9B44A;">Tours</a>
+        <a href="Homepage.dc.html#how" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Destinations</a>
+        <a href="About.dc.html#guides" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Reviews</a>
+      </nav>
+      <a href="#whatsapp" style="flex:none;white-space:nowrap;display:flex;align-items:center;gap:10px;height:44px;padding:0 18px;border-radius:6px;border:1px solid rgba(241,238,232,.5);text-decoration:none;color:#F1EEE8;font-size:14px;font-weight:500;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">WhatsApp us</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <a href="#whatsapp" aria-label="Chat on WhatsApp" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(241,238,232,.5);"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;"></a>
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:6px;border:1px solid rgba(241,238,232,.5);background:transparent;cursor:pointer;padding:0;"><span style="width:16px;height:1.5px;background:#F1EEE8;"></span><span style="width:16px;height:1.5px;background:#F1EEE8;"></span></button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:72px;left:0;right:0;height:calc(100vh - 72px);min-height:560px;background:#0C1216;padding:32px 20px;display:flex;flex-direction:column;gap:4px;border-top:1px solid #253038;">
+        <a href="Tours.dc.html" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;color:#D9B44A;border-bottom:1px solid #253038;">Tours</a>
+        <a href="Homepage.dc.html#how" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Destinations</a>
+        <a href="About.dc.html#guides" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Reviews</a>
+        <a href="#whatsapp" style="margin-top:32px;height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Plan on WhatsApp</a>
+      </div>
+    </sc-if>
+  </header>
+
+  <section data-screen-label="01 Hero" style="position:relative;margin-top:-72px;min-height:clamp(600px,50cqi,740px);overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:48px;padding-top:96px;">
+    <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#151E24 0 12px,#10181C 12px 24px);"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,18,22,.6) 0%,rgba(12,18,22,0) 20%,rgba(12,18,22,0) 34%,rgba(12,18,22,.82) 68%,#0C1216 100%);"></div>
+    <div style="position:relative;padding:0 clamp(20px,3.4cqi,48px);display:flex;flex-direction:column;gap:20px;align-items:flex-start;">
+      <a href="Tours.dc.html" style="display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:500;text-decoration:none;color:#F1EEE8;">← All tours</a>
+      <div style="max-width:380px;padding:12px 14px;border:1px solid rgba(241,238,232,.18);font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.55;letter-spacing:.02em;color:#B7BFC5;">PHOTO · Drone shot: Attabad Lake at golden hour, turquoise water, boats at the jetty, Passu Cones behind</div>
+      <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;background:rgba(12,18,22,.6);">RULE · Title, price, rating, dates, seats and all buttons are never hidden by animation</span>
+          <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;background:rgba(12,18,22,.6);">REDUCED MOTION · Everything simply appears</span>
+        </div>
+      </sc-if>
+    </div>
+    <div style="position:relative;padding:0 clamp(20px,3.4cqi,48px) clamp(28px,3cqi,44px);display:flex;flex-direction:column;gap:16px;">
+      <div style="font-size:15px;font-weight:500;line-height:1.45;color:#B7BFC5;">Lahore → Islamabad → Chilas → Gilgit → Hunza → Skardu → Chilas/Naran → Lahore</div>
+      <h1 style="margin:0;font-size:clamp(48px,7.2cqi,108px);line-height:.95;font-weight:500;letter-spacing:-.05em;text-wrap:balance;">Hunza &amp; Skardu Grand</h1>
+      <div style="margin-top:12px;padding-top:20px;border-top:1px solid rgba(241,238,232,.18);display:grid;grid-template-columns:repeat(auto-fill,minmax(max(150px,calc((100% - 72px) / 4)),1fr));gap:16px 24px;">
+        <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Duration</span><span style="font-size:18px;font-weight:500;">9 days, 8 nights</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Rating</span><span style="display:flex;align-items:center;gap:6px;font-size:18px;font-weight:500;"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg>4.9 <span style="font-size:14px;font-weight:400;color:#B7BFC5;">(128 reviews)</span></span></div>
+        <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">from</span><span style="white-space:nowrap;font-size:18px;font-weight:500;font-variant-numeric:tabular-nums;">PKR 145,000</span><span style="font-size:13px;color:#8F9AA2;">per person, twin sharing</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Next departure</span><span style="font-size:18px;font-weight:500;">12–20 May</span><span style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#D9B44A;"><span style="width:7px;height:7px;border-radius:50%;background:#D9B44A;"></span>Only 3 seats left</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="02 Quick facts" style="padding:0 clamp(20px,3.4cqi,48px);">
+    <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));display:grid;grid-template-columns:repeat(auto-fill,minmax(max(160px,calc((100% - 4px) / 5)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+      <div style="background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:6px;"><span style="font-size:13px;color:#8F9AA2;">Difficulty</span><span style="font-size:17px;font-weight:500;line-height:1.3;">Easy walking, long road days</span></div>
+      <div style="background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:6px;"><span style="font-size:13px;color:#8F9AA2;">Group size</span><span style="font-size:17px;font-weight:500;line-height:1.3;">Up to 16 travellers</span></div>
+      <div style="background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:6px;"><span style="font-size:13px;color:#8F9AA2;">Departs from</span><span style="font-size:17px;font-weight:500;line-height:1.3;">[Pickup point], Lahore</span></div>
+      <div style="background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:6px;"><span style="font-size:13px;color:#8F9AA2;">Best season</span><span style="font-size:17px;font-weight:500;line-height:1.3;">April – October</span></div>
+      <div style="grid-column:{{ factsLastSpan }};background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:6px;"><span style="font-size:13px;color:#8F9AA2;">Transport</span><span style="font-size:17px;font-weight:500;line-height:1.3;">[Coaster] + jeeps</span></div>
+    </div>
+  </section>
+
+  <div style="display:flex;gap:64px;align-items:flex-start;padding:0 clamp(20px,3.4cqi,48px);">
+    <main style="flex:1 1 0;min-width:0;">
+
+      <section id="overview" data-screen-label="03 Overview" style="padding:clamp(64px,8cqi,120px) 0;">
+        <h2 style="margin:20px 0 0;max-width:820px;font-size:clamp(32px,3.9cqi,56px);line-height:1.08;font-weight:500;letter-spacing:-.03em;">Nine days up the Karakoram Highway to Hunza and Skardu</h2>
+        <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px;"><span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">Headlines simply appear (the word-by-word reveal is used only on the homepage brand statement)</span></div>
+        </sc-if>
+        <div style="margin-top:40px;max-width:620px;display:flex;flex-direction:column;gap:20px;">
+          <p style="margin:0;font-size:17px;line-height:1.6;color:#B7BFC5;text-wrap:pretty;">We drive up from Lahore on the motorway and the Karakoram Highway. Then we spend three nights in Hunza under Rakaposhi, and cross to Skardu for its lakes and the high Deosai plains.</p>
+          <p style="margin:0;font-size:17px;line-height:1.6;color:#B7BFC5;text-wrap:pretty;">This is a road trip at heart. The drive between stops is part of the trip: the Indus gorge, the place where three mountain ranges meet, the turquoise of Attabad. Your driver and guide set the pace, plan around the weather and know where to stop for chai.</p>
+        </div>
+        <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(260px,calc((100% - 1px) / 2)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+          <div style="background:#0C1216;padding:28px clamp(16px,1.7cqi,24px) 32px;">
+            <div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Who this trip is for</div>
+            <ul style="list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;">
+              <li style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #253038;font-size:15px;line-height:1.5;color:#B7BFC5;"><span style="color:#F1EEE8;flex:none;">+</span>First-time visitors who want Hunza and Skardu in one trip</li>
+              <li style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #253038;font-size:15px;line-height:1.5;color:#B7BFC5;"><span style="color:#F1EEE8;flex:none;">+</span>Families with children [X]+ and parents who like a planned pace</li>
+              <li style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #253038;font-size:15px;line-height:1.5;color:#B7BFC5;"><span style="color:#F1EEE8;flex:none;">+</span>Couples and friends who would rather not drive the KKH themselves</li>
+              <li style="display:flex;gap:12px;padding:12px 0;font-size:15px;line-height:1.5;color:#B7BFC5;"><span style="color:#F1EEE8;flex:none;">+</span>Corporate teams (private departures on request)</li>
+            </ul>
+          </div>
+          <div style="background:#0C1216;padding:28px clamp(16px,1.7cqi,24px) 32px;">
+            <div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Who it may not suit</div>
+            <ul style="list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;">
+              <li style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #253038;font-size:15px;line-height:1.5;color:#B7BFC5;"><span style="color:#F1EEE8;flex:none;">–</span>Travellers who dislike long road journeys. Days 2 and 9 are [10+] hours</li>
+              <li style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #253038;font-size:15px;line-height:1.5;color:#B7BFC5;"><span style="color:#F1EEE8;flex:none;">–</span>Anyone after a real trek (see the Fairy Meadows Trek)</li>
+              <li style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #253038;font-size:15px;line-height:1.5;color:#B7BFC5;"><span style="color:#F1EEE8;flex:none;">–</span>Serious heart or breathing conditions at altitude. Check with your doctor first</li>
+              <li style="display:flex;gap:12px;padding:12px 0;font-size:15px;line-height:1.5;color:#B7BFC5;"><span style="color:#F1EEE8;flex:none;">–</span>Travellers who need luxury hotels every night; Chilas is simple</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="highlights" data-screen-label="04 Highlights" style="border-top:1px solid #253038;padding:clamp(64px,8cqi,120px) 0;">
+        <h2 style="margin:20px 0 0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">What you’ll see along the way</h2>
+        <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px;"><span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">M4 · Highlight cards rise in sequence (90 ms stagger); photo fades in, text never fades</span></div>
+        </sc-if>
+        <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(160px,calc((100% - 2px) / 3)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+          <div data-rise="1" style="background:#0C1216;"><div data-rise-fade="1" style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:14px;right:14px;bottom:12px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · Baltit Fort above Karimabad, late afternoon</div></div><div style="padding:18px clamp(16px,1.7cqi,24px) 24px;"><div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Baltit Fort</div><div style="margin-top:6px;font-size:14px;line-height:1.5;color:#B7BFC5;">The centuries-old fort above Karimabad</div></div></div>
+          <div data-rise="1" style="background:#0C1216;"><div data-rise-fade="1" style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:14px;right:14px;bottom:12px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · Attabad Lake from the boat jetty</div></div><div style="padding:18px clamp(16px,1.7cqi,24px) 24px;"><div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Attabad Lake</div><div style="margin-top:6px;font-size:14px;line-height:1.5;color:#B7BFC5;">A turquoise lake formed by the 2010 landslide</div></div></div>
+          <div data-rise="1" style="background:#0C1216;"><div data-rise-fade="1" style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:14px;right:14px;bottom:12px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · Passu Cones over the Karakoram Highway</div></div><div style="padding:18px clamp(16px,1.7cqi,24px) 24px;"><div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Passu Cones</div><div style="margin-top:6px;font-size:14px;line-height:1.5;color:#B7BFC5;">Jagged peaks along the upper Hunza road</div></div></div>
+          <div data-rise="1" style="background:#0C1216;"><div data-rise-fade="1" style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:14px;right:14px;bottom:12px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · Rakaposhi from the roadside viewpoint</div></div><div style="padding:18px clamp(16px,1.7cqi,24px) 24px;"><div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Rakaposhi viewpoint</div><div style="margin-top:6px;font-size:14px;line-height:1.5;color:#B7BFC5;">A huge mountain face, seen from your tea stop</div></div></div>
+          <div data-rise="1" style="background:#0C1216;"><div data-rise-fade="1" style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:14px;right:14px;bottom:12px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · Shangrila, Lower Kachura Lake, red roofs</div></div><div style="padding:18px clamp(16px,1.7cqi,24px) 24px;"><div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Shangrila</div><div style="margin-top:6px;font-size:14px;line-height:1.5;color:#B7BFC5;">Lower Kachura Lake and its famous resort</div></div></div>
+          <div data-rise="1" style="background:#0C1216;"><div data-rise-fade="1" style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:14px;right:14px;bottom:12px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · Deosai plains, Sheosar Lake, wildflowers</div></div><div style="padding:18px clamp(16px,1.7cqi,24px) 24px;"><div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Deosai Plains</div><div style="margin-top:6px;font-size:14px;line-height:1.5;color:#B7BFC5;">One of the world’s highest plateaus, by jeep</div></div></div>
+        </div>
+      </section>
+
+      <section id="itinerary" data-screen-label="05 Itinerary" style="border-top:1px solid #253038;padding:clamp(64px,8cqi,120px) 0;">
+        <h2 style="margin:20px 0 0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">The route, day by day</h2>
+        <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;"><span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">M5 · Route draws forward as you scroll; each day’s stop lights up in gold</span><span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">Map is sticky only; it never captures scroll</span></div>
+        </sc-if>
+        <div style="margin-top:56px;display:flex;gap:48px;align-items:flex-start;">
+          <ol style="flex:1 1 0;min-width:0;list-style:none;margin:0 0 0 5px;padding:0;border-left:1px solid #253038;">
+
+            <li data-day="0" style="position:relative;padding:0 0 56px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d0 }};border:1.5px solid {{ rings.d0 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="0.306" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><rect x="291" y="628" width="28" height="28" fill="#F1EEE8"></rect><circle cx="150" cy="385" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="150" cy="385" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;right:calc(42.4% + 7px);top:calc(95.6% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#F1EEE8;">Lahore</span><span style="position:absolute;left:calc(23.9% + 7px);top:calc(55.5% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Islamabad</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 01</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Lahore → Islamabad</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">Leave [pickup point] at [time] and head north on the M-2 through the Salt Range. The evening in Islamabad is free.</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Islamabad</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Dinner</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[4–5 hrs]</dd></div></dl>
+            </li>
+
+            <li data-day="1" style="position:relative;padding:0 0 56px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d1 }};border:1.5px solid {{ rings.d1 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="0.571" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><rect x="291" y="628" width="28" height="28" fill="#F1EEE8"></rect><circle cx="276" cy="178" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="276" cy="178" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;left:calc(23.9% + 7px);top:calc(55.5% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#F1EEE8;">Islamabad</span><span style="position:absolute;left:calc(51.3% + 7px);top:calc(23.1% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Chilas</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 02</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Islamabad → Chilas</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">Onto the Karakoram Highway past Abbottabad and Besham, then along the Indus into the mountains. A long day, with plenty of stops for tea.</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Chilas</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Breakfast, dinner</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[11–12 hrs]</dd></div></dl>
+            </li>
+
+            <li data-day="2" style="position:relative;padding:0 0 56px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d2 }};border:1.5px solid {{ rings.d2 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="0.732" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><rect x="291" y="628" width="28" height="28" fill="#F1EEE8"></rect><circle cx="343" cy="70" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="343" cy="70" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;right:calc(48.7% + 7px);top:calc(23.1% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#F1EEE8;">Chilas</span><span style="position:absolute;right:calc(34.1% + 7px);top:calc(6.3% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Hunza</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 03</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Chilas → Hunza</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">Stop at the Nanga Parbat viewpoint and the place where the Himalaya, Karakoram and Hindu Kush meet. Then on through Gilgit to Rakaposhi viewpoint and Karimabad.</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Karimabad, Hunza</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Breakfast, dinner</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[6–7 hrs]</dd></div></dl>
+            </li>
+
+            <li data-day="3" style="position:relative;padding:0 0 56px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d3 }};border:1.5px solid {{ rings.d3 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="0.732" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><rect x="291" y="628" width="28" height="28" fill="#F1EEE8"></rect><circle cx="343" cy="70" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="343" cy="70" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;right:calc(34.1% + 7px);top:calc(6.3% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Hunza</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 04</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Hunza</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">Baltit and Altit forts in the morning and Karimabad bazaar after lunch, then sunset from Eagle’s Nest above the valley.</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Karimabad, Hunza</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Breakfast, dinner</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[1–2 hrs]</dd></div></dl>
+            </li>
+
+            <li data-day="4" style="position:relative;padding:0 0 56px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d4 }};border:1.5px solid {{ rings.d4 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="0.752" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><rect x="291" y="628" width="28" height="28" fill="#F1EEE8"></rect><circle cx="367" cy="66" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="367" cy="66" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;right:calc(34.1% + 7px);top:calc(6.3% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#F1EEE8;">Hunza</span><span style="position:absolute;right:calc(28.9% - 4px);top:calc(5.6% + 9px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Attabad</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 05</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Upper Hunza</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">A boat on Attabad Lake, then the Passu Cones and the Hussaini suspension bridge for those who want to try it.</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Karimabad, Hunza</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Breakfast, dinner</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[4–5 hrs]</dd></div></dl>
+            </li>
+
+            <li data-day="5" style="position:relative;padding:0 0 56px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d5 }};border:1.5px solid {{ rings.d5 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="0.966" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><rect x="291" y="628" width="28" height="28" fill="#F1EEE8"></rect><circle cx="460" cy="192" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="460" cy="192" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;right:calc(34.1% + 7px);top:calc(6.3% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#F1EEE8;">Hunza</span><span style="position:absolute;right:calc(8.7% - 4px);top:calc(25.3% + 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Skardu</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 06</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Hunza → Skardu</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">Back through Gilgit, then east on the Skardu Road, high above the Indus gorge.</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Skardu</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Breakfast, dinner</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[7–8 hrs]</dd></div></dl>
+            </li>
+
+            <li data-day="6" style="position:relative;padding:0 0 56px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d6 }};border:1.5px solid {{ rings.d6 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="1" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><rect x="291" y="628" width="28" height="28" fill="#F1EEE8"></rect><circle cx="438" cy="228" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="438" cy="228" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;right:calc(8.7% + 7px);top:calc(25.3% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#F1EEE8;">Skardu</span><span style="position:absolute;right:calc(13.5% - 4px);top:calc(30.9% + 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Deosai</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 07</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Deosai &amp; Shangrila</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">Jeeps up to the Deosai plains and Sheosar Lake, then Shangrila and Upper Kachura on the way back down.</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Skardu</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Breakfast, dinner</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[6–7 hrs incl. jeep]</dd></div></dl>
+            </li>
+
+            <li data-day="7" style="position:relative;padding:0 0 56px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d7 }};border:1.5px solid {{ rings.d7 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="1" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><rect x="291" y="628" width="28" height="28" fill="#F1EEE8"></rect><circle cx="276" cy="178" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="276" cy="178" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;right:calc(8.7% + 7px);top:calc(25.3% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#F1EEE8;">Skardu</span><span style="position:absolute;right:calc(48.7% - 4px);top:calc(23.1% + 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Chilas</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 08</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Skardu → Chilas or Naran</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">Back down the Skardu Road and the Karakoram Highway to Chilas, or over Babusar Top to Naran when the pass is open (usually [June–September]).</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Chilas or Naran</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Breakfast, dinner</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[9–10 hrs]</dd></div></dl>
+            </li>
+
+            <li data-day="8" style="position:relative;padding:0 0 8px 32px;">
+              <span style="position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:{{ nodes.d8 }};border:1.5px solid {{ rings.d8 }};transition:background .3s,border-color .3s;"></span>
+              <div style="display:flex;align-items:center;gap:20px;">
+                <sc-if value="{{ showMini }}" hint-placeholder-val="{{ false }}"><div style="position:relative;flex:none;width:112px;height:156px;"><svg viewBox="40 30 460 640" width="112" height="156" aria-hidden="true" style="display:block;"><path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;"></path><path data-f="1" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path><circle cx="305" cy="642" r="48" fill="#D9B44A" fill-opacity="0.25"></circle><circle cx="305" cy="642" r="22" fill="#D9B44A"></circle></svg><span style="position:absolute;left:calc(51.3% + 7px);top:calc(23.1% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#F1EEE8;">Chilas</span><span style="position:absolute;right:calc(42.4% + 7px);top:calc(95.6% - 7px);white-space:nowrap;font-size:12px;line-height:14px;font-weight:500;padding:0 3px;background:#0C1216;color:#D9B44A;">Lahore</span></div></sc-if>
+                <div><div style="font-size:13px;font-weight:500;color:#B7BFC5;">Day 09</div><h3 style="margin:6px 0 0;font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">Chilas or Naran → Lahore</h3></div>
+              </div>
+              <p style="margin:14px 0 0;max-width:520px;font-size:16px;line-height:1.55;color:#B7BFC5;">The final stretch to the motorway, arriving in Lahore in the late evening.</p>
+              <dl style="margin:20px 0 0;padding-top:16px;border-top:1px solid #253038;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px 24px;"><div><dt style="font-size:13px;color:#8F9AA2;">Overnight</dt><dd style="margin:4px 0 0;font-size:15px;">Home</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Meals</dt><dd style="margin:4px 0 0;font-size:15px;">Breakfast</dd></div><div><dt style="font-size:13px;color:#8F9AA2;">Drive</dt><dd style="margin:4px 0 0;font-size:15px;">[12–14 hrs]</dd></div></dl>
+            </li>
+          </ol>
+
+          <sc-if value="{{ isMapSide }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:0 0 340px;position:sticky;top:104px;display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:13px;font-weight:500;color:#D9B44A;">{{ mapDay }}</span><span style="font-size:15px;font-weight:500;">{{ mapTitle }}</span></div>
+              <div style="position:relative;aspect-ratio:560 / 700;">
+                <svg viewBox="0 0 560 700" style="position:absolute;inset:0;width:100%;height:100%;display:block;" aria-hidden="true">
+                  <line x1="24" y1="0" x2="24" y2="700" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="144" y1="0" x2="144" y2="700" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="264" y1="0" x2="264" y2="700" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="384" y1="0" x2="384" y2="700" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="504" y1="0" x2="504" y2="700" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="0" y1="108" x2="560" y2="108" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="0" y1="228" x2="560" y2="228" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="0" y1="348" x2="560" y2="348" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="0" y1="468" x2="560" y2="468" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <line x1="0" y1="588" x2="560" y2="588" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+                  <path d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#5C6871;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path>
+                  <path ref="{{ progRef }}" d="M305 642 L262 623 L176 600 L133 530 L109 494 L126 432 L150 385 L169 330 L168 308 L128 238 L179 193 L276 178 L335 169 L340 136 L301 118 L343 70 L367 66 L343 70 L301 118 L340 136 L390 150 L430 175 L460 192 L438 228" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path>
+                </svg>
+                <span style="position:absolute;left:4px;top:calc(15.43% - 16px);font-size:11px;color:#8F9AA2;">36°N</span>
+                <span style="position:absolute;left:4px;top:calc(49.71% - 16px);font-size:11px;color:#8F9AA2;">34°N</span>
+                <span style="position:absolute;left:4px;top:calc(84% - 16px);font-size:11px;color:#8F9AA2;">32°N</span>
+                <sc-for list="{{ stops }}" as="s" hint-placeholder-count="8">
+                  <div style="position:absolute;left:{{ s.left }};top:{{ s.top }};">
+                    <span style="position:absolute;left:-12px;top:-12px;width:24px;height:24px;border-radius:50%;background:rgba(217,180,74,.22);opacity:{{ s.halo }};transition:opacity .4s ease;"></span>
+                    <span style="position:absolute;left:{{ s.off }};top:{{ s.off }};width:{{ s.size }};height:{{ s.size }};border-radius:{{ s.radius }};background:{{ s.bg }};border:{{ s.border }};transition:background .4s ease;"></span>
+                    <span style="position:absolute;left:{{ s.lLeft }};right:{{ s.lRight }};top:{{ s.lTop }};white-space:nowrap;font-size:13px;font-weight:{{ s.weight }};color:{{ s.color }};transition:color .4s ease;">{{ s.name }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <span style="font-size:12px;color:#8F9AA2;">Schematic · roads simplified</span>
+            </div>
+          </sc-if>
+        </div>
+      </section>
+
+      <section data-surface="light" id="included" data-screen-label="06 Included" style="background:#EEF1F3;color:#10161A;border-top:1px solid #CBD2D8;padding:clamp(64px,8cqi,120px) 0;margin-left:calc(-1 * clamp(20px,3.4cqi,48px));padding-left:clamp(20px,3.4cqi,48px);margin-right:calc(-1 * {{ lightBleedR }});padding-right:{{ lightBleedR }};">
+        <h2 style="margin:20px 0 0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">What the price includes</h2>
+        <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(260px,calc((100% - 1px) / 2)),1fr));gap:1px;background:#CBD2D8;border-top:1px solid #CBD2D8;border-bottom:1px solid #CBD2D8;">
+          <div style="background:#EEF1F3;padding:28px clamp(16px,1.7cqi,24px) 28px;">
+            <div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Included</div>
+            <ul style="list-style:none;margin:12px 0 0;padding:0;">
+              <li style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><img src="icons/bed-double.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Hotels</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">8 nights in [category] hotels, twin sharing</div></div></li>
+              <li style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><img src="icons/utensils.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Breakfast and dinner</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">Day 1 dinner to Day 9 breakfast</div></div></li>
+              <li style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><img src="icons/bus.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Transport</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">Air-conditioned [Coaster] from Lahore and back</div></div></li>
+              <li style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><img src="icons/compass.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Guide</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">Tour guide throughout the trip</div></div></li>
+              <li style="display:flex;gap:16px;padding:16px 0;"><img src="icons/car-front.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Jeeps</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">Jeeps to Deosai and [other places]</div></div></li>
+            </ul>
+          </div>
+          <div style="background:#EEF1F3;padding:28px clamp(16px,1.7cqi,24px) 28px;">
+            <div style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Not included</div>
+            <ul style="list-style:none;margin:12px 0 0;padding:0;">
+              <li style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><img src="icons/sandwich.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Lunch</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">We stop at good places; you pay as you go</div></div></li>
+              <li style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><img src="icons/wallet.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Personal expenses</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">Snacks, shopping, laundry, tips</div></div></li>
+              <li style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><img src="icons/ticket.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Entry tickets</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">Baltit and Altit forts, Attabad boating [adjust]</div></div></li>
+              <li style="display:flex;gap:16px;padding:16px 0;"><img src="icons/plane.svg" alt="" width="22" height="22" style="flex:none;display:block;margin-top:1px;"><div><div style="font-size:15px;font-weight:500;">Flights</div><div style="margin-top:2px;font-size:14px;line-height:1.5;color:#46525C;">Optional Skardu–Islamabad upgrade</div></div></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="hotels" data-screen-label="07 Hotels" style="border-top:1px solid #253038;padding:clamp(64px,8cqi,120px) 0;">
+        <h2 style="margin:20px 0 0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">Where you’ll stay each night</h2>
+        <div style="margin-top:48px;display:grid;grid-template-columns:{{ hotelCols }};gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+          <div style="background:#0C1216;"><div style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:12px;right:12px;bottom:10px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · hotel exterior, Islamabad</div></div><div style="padding:16px clamp(16px,1.7cqi,24px) 24px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Night 1 · Islamabad</span><span style="font-size:17px;font-weight:500;">[Hotel name]</span><span style="font-size:14px;line-height:1.5;color:#B7BFC5;">[Category] · twin sharing</span></div></div>
+          <div style="background:#0C1216;"><div style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:12px;right:12px;bottom:10px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · hotel by the Indus, Chilas</div></div><div style="padding:16px clamp(16px,1.7cqi,24px) 24px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Night 2 · Chilas</span><span style="font-size:17px;font-weight:500;">[Hotel name]</span><span style="font-size:14px;line-height:1.5;color:#B7BFC5;">[Category] · simple, clean rooms · twin sharing</span></div></div>
+          <div style="background:#0C1216;"><div style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:12px;right:12px;bottom:10px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · valley-view room, Karimabad</div></div><div style="padding:16px clamp(16px,1.7cqi,24px) 24px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Nights 3–5 · Hunza</span><span style="font-size:17px;font-weight:500;">[Hotel name]</span><span style="font-size:14px;line-height:1.5;color:#B7BFC5;">[Category] · valley-view rooms · twin sharing</span></div></div>
+          <div style="background:#0C1216;"><div style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:12px;right:12px;bottom:10px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · hotel garden, Skardu</div></div><div style="padding:16px clamp(16px,1.7cqi,24px) 24px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Nights 6–7 · Skardu</span><span style="font-size:17px;font-weight:500;">[Hotel name]</span><span style="font-size:14px;line-height:1.5;color:#B7BFC5;">[Category] · twin sharing</span></div></div>
+          <div style="background:#0C1216;"><div style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:12px;right:12px;bottom:10px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · hotel on the return, Chilas or Naran</div></div><div style="padding:16px clamp(16px,1.7cqi,24px) 24px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Night 8 · Chilas or Naran</span><span style="font-size:17px;font-weight:500;">[Hotel name]</span><span style="font-size:14px;line-height:1.5;color:#B7BFC5;">[Category] · twin sharing</span></div></div>
+        </div>
+        <p style="margin:20px 0 0;font-size:14px;line-height:1.5;color:#B7BFC5;">All rooms are twin sharing as standard. Triple and quad rooms are available at a lower price per person (see below).</p>
+      </section>
+
+      <section data-surface="light" id="dates" data-screen-label="08 Dates and prices" style="background:#EEF1F3;color:#10161A;border-top:1px solid #CBD2D8;padding:clamp(64px,8cqi,120px) 0;margin-left:calc(-1 * clamp(20px,3.4cqi,48px));padding-left:clamp(20px,3.4cqi,48px);margin-right:calc(-1 * {{ lightBleedR }});padding-right:{{ lightBleedR }};">
+        <h2 style="margin:20px 0 0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">Upcoming departures and prices</h2>
+        <div style="margin-top:48px;border-top:1px solid #CBD2D8;">
+          <sc-for list="{{ depRows }}" as="d" hint-placeholder-count="4">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding:20px 0;border-bottom:1px solid #CBD2D8;">
+              <div style="flex:1 1 200px;display:flex;flex-direction:column;gap:4px;min-width:0;">
+                <span style="font-size:20px;font-weight:500;letter-spacing:-.015em;color:{{ d.dateColor }};">{{ d.label }}</span>
+                <span style="font-size:14px;color:#5B6770;">9 days, 8 nights · departs Lahore</span>
+              </div>
+              <div style="flex:1 1 160px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:{{ d.seatsColor }};"><span style="width:7px;height:7px;border-radius:50%;background:{{ d.dot }};flex:none;"></span>{{ d.seatsText }}</div>
+              <div style="flex:0 0 140px;display:flex;flex-direction:column;gap:2px;"><span style="white-space:nowrap;font-size:18px;font-weight:500;font-variant-numeric:tabular-nums;color:{{ d.dateColor }};">PKR 145,000</span><span style="font-size:13px;color:#5B6770;">per person, twin</span></div>
+              <div style="flex:none;display:flex;">
+                <sc-if value="{{ d.isAvail }}" hint-placeholder-val="{{ true }}"><button onClick="{{ d.onSelect }}" style="height:48px;padding:0 22px;border-radius:6px;border:1px solid #10161A;background:transparent;color:#10161A;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;white-space:nowrap;">Select date</button></sc-if>
+                <sc-if value="{{ d.isSelected }}" hint-placeholder-val="{{ false }}"><button onClick="{{ d.onSelect }}" style="height:48px;padding:0 22px;border-radius:6px;border:1px solid #7A5A12;background:#D9B44A;color:#10161A;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;white-space:nowrap;">Selected ✓</button></sc-if>
+                <sc-if value="{{ d.isSold }}" hint-placeholder-val="{{ false }}"><button onClick="{{ d.onSelect }}" style="height:48px;padding:0 22px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;white-space:nowrap;">Join waitlist</button></sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:48px;display:flex;flex-direction:column;">
+          <div style="font-size:20px;font-weight:500;letter-spacing:-.015em;padding-bottom:16px;border-bottom:1px solid #CBD2D8;">Room sharing</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:16px;font-weight:500;">Twin sharing</span><span style="font-size:13px;color:#5B6770;">Base price · 2 per room</span></div><span style="white-space:nowrap;font-size:16px;font-weight:500;font-variant-numeric:tabular-nums;">PKR 145,000</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:16px;font-weight:500;">Triple sharing</span><span style="font-size:13px;color:#5B6770;">3 per room</span></div><span style="white-space:nowrap;font-size:16px;font-weight:500;font-variant-numeric:tabular-nums;">PKR 135,000</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #CBD2D8;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:16px;font-weight:500;">Quad sharing</span><span style="font-size:13px;color:#5B6770;">4 per room · good for families</span></div><span style="white-space:nowrap;font-size:16px;font-weight:500;font-variant-numeric:tabular-nums;">PKR 127,000</span></div>
+          <p style="margin:16px 0 0;font-size:14px;line-height:1.5;color:#46525C;">Prices are per person. Children under [X] sharing a room with parents: [policy].</p>
+        </div>
+      </section>
+    </main>
+
+    <sc-if value="{{ showAside }}" hint-placeholder-val="{{ true }}">
+      <aside id="booking" aria-label="Book this tour" style="flex:0 0 380px;position:sticky;top:88px;margin:56px 0;padding:24px;border:1px solid #253038;border-radius:8px;background:#0C1216;">
+        <dc-import name="BookingPanel" date="{{ date }}" on-date="{{ setDate }}" compact="{{ panelCompact }}" max-height="calc(100vh - 156px)" hint-size="100%,600px"></dc-import>
+      </aside>
+    </sc-if>
+  </div>
+
+  <section id="reviews" data-screen-label="09 Reviews" style="border-top:1px solid #253038;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:999 1 600px;min-width:0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px;">
+        <h2 style="margin:0;max-width:760px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">What travellers said after this trip</h2>
+        <div style="display:flex;align-items:center;gap:8px;font-size:15px;color:#B7BFC5;"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><span style="color:#F1EEE8;font-weight:600;">4.9</span> average · 128 reviews</div>
+      </div>
+    </div>
+    <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));margin-top:64px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(290px,calc((100% - 2px) / 3)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+      <figure style="margin:0;background:#0C1216;padding:32px clamp(16px,1.7cqi,24px) 36px;display:flex;flex-direction:column;gap:24px;">
+        <div aria-label="5 out of 5 stars" style="display:flex;gap:4px;"><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg></div>
+        <blockquote style="margin:0;font-size:clamp(19px,1.6cqi,23px);line-height:1.42;letter-spacing:-.01em;color:#F1EEE8;text-wrap:pretty;">“Three nights in Hunza was the right call. Nothing felt rushed, and the kids still talk about the boat on Attabad.”</blockquote>
+        <figcaption style="margin-top:auto;padding-top:20px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:4px;"><span style="font-size:15px;font-weight:500;">[Traveller name] &amp; family, Lahore</span><span style="font-size:14px;color:#8F9AA2;">Hunza &amp; Skardu Grand · May 2026</span></figcaption>
+      </figure>
+      <figure style="margin:0;background:#0C1216;padding:32px clamp(16px,1.7cqi,24px) 36px;display:flex;flex-direction:column;gap:24px;">
+        <div aria-label="5 out of 5 stars" style="display:flex;gap:4px;"><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg></div>
+        <blockquote style="margin:0;font-size:clamp(19px,1.6cqi,23px);line-height:1.42;letter-spacing:-.01em;color:#F1EEE8;text-wrap:pretty;">“They told us upfront that day two is long. The coaster was comfortable, and the driver stopped whenever my father needed a break.”</blockquote>
+        <figcaption style="margin-top:auto;padding-top:20px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:4px;"><span style="font-size:15px;font-weight:500;">[Traveller name], Lahore</span><span style="font-size:14px;color:#8F9AA2;">Hunza &amp; Skardu Grand · June 2026</span></figcaption>
+      </figure>
+      <figure style="margin:0;background:#0C1216;padding:32px clamp(16px,1.7cqi,24px) 36px;display:flex;flex-direction:column;gap:24px;">
+        <div aria-label="5 out of 5 stars" style="display:flex;gap:4px;"><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg></div>
+        <blockquote style="margin:0;font-size:clamp(19px,1.6cqi,23px);line-height:1.42;letter-spacing:-.01em;color:#F1EEE8;text-wrap:pretty;">“Deosai was the highlight. The jeep drivers knew exactly where to stop for the lake, and the guide had chai ready.”</blockquote>
+        <figcaption style="margin-top:auto;padding-top:20px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:4px;"><span style="font-size:15px;font-weight:500;">[Traveller name], Islamabad</span><span style="font-size:14px;color:#8F9AA2;">Hunza &amp; Skardu Grand · August 2026</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="book" data-screen-label="10 Final CTA" style="border-top:1px solid #253038;padding:clamp(88px,10cqi,160px) clamp(20px,3.4cqi,48px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:999 1 600px;min-width:0;">
+        <h2 style="margin:0;font-size:clamp(40px,6.4cqi,92px);line-height:.98;font-weight:500;letter-spacing:-.045em;">Hold your seats with a [X]% advance</h2>
+        <p style="margin:32px 0 0;max-width:520px;font-size:17px;line-height:1.6;color:#B7BFC5;">Or message us first. Most families plan this trip with us on WhatsApp.</p>
+        <div style="margin-top:32px;display:flex;flex-wrap:wrap;gap:12px;max-width:520px;">
+          <a href="#dates" onClick="{{ onReserve }}" style="flex:1 1 auto;height:56px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 28px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;white-space:nowrap;">Reserve with [X]% advance <span>→</span></a>
+          <a href="#whatsapp" style="flex:1 1 auto;height:56px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 24px;border-radius:6px;border:1px solid #F1EEE8;color:#F1EEE8;text-decoration:none;font-size:16px;font-weight:500;white-space:nowrap;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">Ask on WhatsApp</a>
+        </div>
+        <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));margin-top:56px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(200px,calc((100% - 2px) / 3)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+          <div style="background:#0C1216;padding:20px clamp(16px,1.7cqi,24px) 24px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">DTS licence</span><span style="font-size:16px;font-weight:500;">No. [NUMBER]</span></div>
+          <div style="background:#0C1216;padding:20px clamp(16px,1.7cqi,24px) 24px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">Departs from</span><span style="font-size:16px;font-weight:500;">[Pickup point], Lahore</span></div>
+          <div style="background:#0C1216;padding:20px clamp(16px,1.7cqi,24px) 24px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">We accept</span><span style="font-size:16px;font-weight:500;line-height:1.4;">Bank transfer · JazzCash · Easypaisa · Card</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-surface="light" id="faqs" data-screen-label="11 FAQs" style="background:#EEF1F3;color:#10161A;border-top:1px solid #CBD2D8;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:999 1 600px;min-width:0;">
+        <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">Questions people ask before booking</h2>
+        <div style="margin-top:48px;border-top:1px solid #CBD2D8;">
+          <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+            <div style="border-bottom:1px solid #CBD2D8;">
+              <button onClick="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;background:transparent;border:0;color:#10161A;font-family:inherit;text-align:left;cursor:pointer;">
+                <span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">{{ f.q }}</span>
+                <span style="flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid #7D8992;font-size:22px;font-weight:300;transform:{{ f.rot }};transition:transform .3s ease;">+</span>
+              </button>
+              <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;padding:0 68px 28px 0;max-width:740px;font-size:16px;line-height:1.6;color:#46525C;">{{ f.a }}</p>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="related" data-screen-label="12 Related tours" style="border-top:1px solid #253038;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:999 1 600px;min-width:0;">
+        <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">Other trips from Lahore</h2>
+      </div>
+    </div>
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(280px,calc((100% - 2px) / 3)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+      <div data-rise="1" style="background:#0C1216;display:flex;flex-direction:column;"><dc-import name="TourCard" title="Naran-Kaghan Getaway" price="38,000" route="Lahore → Naran → Babusar Top" dates="22–25 May · 4 days, 3 nights" seats-left="{{ 11 }}" total-seats="{{ 20 }}" rating="4.8" reviews="214" status="open" photo="Lake Saiful Muluk, Malika Parbat behind, early morning mist" style="flex:1;" hint-size="100%,620px"></dc-import></div>
+      <div data-rise="1" style="background:#0C1216;display:flex;flex-direction:column;"><dc-import name="TourCard" title="Swat Family Escape" price="52,000" route="Lahore → Malam Jabba → Kalam" dates="5–9 Jun · 5 days, 4 nights" seats-left="{{ 9 }}" total-seats="{{ 18 }}" rating="4.8" reviews="96" status="open" photo="Kalam valley, pine forest road beside the Swat River" style="flex:1;" hint-size="100%,620px"></dc-import></div>
+      <div data-rise="1" style="background:#0C1216;display:flex;flex-direction:column;"><dc-import name="TourCard" title="Fairy Meadows Trek" price="68,000" route="Lahore → Raikot → Fairy Meadows" dates="14–18 Jun · 5 days, 4 nights" seats-left="{{ 0 }}" total-seats="{{ 12 }}" rating="4.9" reviews="73" status="soldout" photo="Nanga Parbat from Fairy Meadows at sunrise" style="flex:1;" hint-size="100%,620px"></dc-import></div>
+    </div>
+  </section>
+
+  <footer id="whatsapp" data-surface="dark" data-screen-label="13 Footer" style="background:#0C1216;color:#F1EEE8;border-top:1px solid #253038;padding:clamp(72px,9cqi,128px) clamp(20px,3.4cqi,48px) 32px;">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:0 0 240px;display:flex;align-items:center;gap:10px;height:28px;font-size:13px;font-weight:500;letter-spacing:.01em;color:#B7BFC5;"><span style="width:11px;height:10px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>Contact</div>
+      <div style="flex:999 1 600px;min-width:0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:64px 48px;">
+        <nav style="display:flex;flex-direction:column;">
+          <a href="Tours.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Tours</a>
+          <a href="Homepage.dc.html#destinations" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Destinations</a>
+          <a href="Trip Planner.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Private trips</a>
+          <a href="About.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">About us</a>
+          <a href="Homepage.dc.html#reviews" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Reviews</a>
+        </nav>
+        <div style="flex:0 1 380px;display:flex;flex-direction:column;gap:28px;">
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#B7BFC5;">Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.</p>
+          <a href="#whatsapp" style="height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Chat on WhatsApp</a>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #253038;">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">WhatsApp</span><a href="#whatsapp" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 3XX XXX XXXX</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Phone</span><a href="#phone" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 42 XXXX XXXX</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Email</span><a href="#email" style="text-decoration:none;">hello@[brand].pk</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Office</span><span style="text-align:right;">[Office address],<br>Lahore, Punjab</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:96px;padding-top:24px;border-top:1px solid #253038;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;font-size:13px;color:#B7BFC5;">
+      <span>© 2026 [BRAND NAME] · DTS Licence No. [NUMBER]</span>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 24px;"><a href="#instagram" style="color:#B7BFC5;">Instagram</a><a href="#facebook" style="color:#B7BFC5;">Facebook</a><a href="#youtube" style="color:#B7BFC5;">YouTube</a><a href="Help.dc.html" style="color:#B7BFC5;">Help</a><a href="Contact.dc.html" style="color:#B7BFC5;">Contact</a><a href="Legal.dc.html?doc=privacy" style="color:#B7BFC5;">Privacy</a><a href="Legal.dc.html?doc=terms" style="color:#B7BFC5;">Terms</a></div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ isCompact }}" hint-placeholder-val="{{ false }}">
+    <div style="position:sticky;bottom:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px clamp(20px,3.4cqi,48px) calc(12px + env(safe-area-inset-bottom));background:rgba(12,18,22,.82);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-top:1px solid rgba(241,238,232,.12);">
+      <div style="display:flex;flex-direction:column;gap:1px;min-width:0;">
+        <span style="white-space:nowrap;font-size:18px;font-weight:500;letter-spacing:-.015em;font-variant-numeric:tabular-nums;">PKR 145,000</span>
+        <span style="font-size:13px;color:#B7BFC5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ barSub }}</span>
+      </div>
+      <div style="display:flex;gap:8px;flex:none;">
+        <button onClick="{{ openSheet }}" style="height:48px;padding:0 24px;border-radius:6px;border:0;background:#D9B44A;color:#10161A;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;">Reserve</button>
+        <a href="#whatsapp" aria-label="Ask about Hunza &amp; Skardu Grand on WhatsApp" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid #F1EEE8;"><img src="icons/whatsapp-light.svg" alt="" width="20" height="20" style="display:block;"></a>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showSheet }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:flex-end;">
+      <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(12,18,22,.72);"></div>
+      <div role="dialog" aria-modal="true" aria-label="Book Hunza &amp; Skardu Grand" style="position:relative;max-height:92%;overflow-y:auto;overscroll-behavior:contain;background:#0C1216;border-top:1px solid #5C6871;padding:10px 20px 28px;">
+        <div style="width:36px;height:4px;border-radius:999px;background:#5C6871;margin:0 auto 12px;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid #253038;">
+          <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:18px;font-weight:500;letter-spacing:-.015em;">Hunza &amp; Skardu Grand</span><span style="font-size:13px;color:#B7BFC5;">9 days, 8 nights · from Lahore</span></div>
+          <button onClick="{{ closeSheet }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:6px;border:1px solid #5C6871;background:transparent;color:#F1EEE8;font-size:22px;font-weight:300;line-height:1;cursor:pointer;font-family:inherit;">×</button>
+        </div>
+        <dc-import name="BookingPanel" date="{{ date }}" on-date="{{ setDate }}" hint-size="100%,760px"></dc-import>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Show motion notes&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Enable motion&quot;},&quot;previewDay&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;min&quot;:-1,&quot;max&quot;:7,&quot;tsType&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Static map day (motion off)&quot;},&quot;initialDate&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[-1,0,1,2,3],&quot;default&quot;:-1,&quot;tsType&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Preselected date&quot;},&quot;sheetOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Mobile sheet open&quot;},&quot;frameWidth&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  state = { menuOpen: false, sheetOpen: null, date: null, activeDay: null, openFaq: 0 };
+  static F = [0.306, 0.571, 0.732, 0.732, 0.752, 0.966, 1, 1, 1];
+  static DAYS = ['Lahore → Islamabad', 'Islamabad → Chilas', 'Chilas → Hunza', 'Hunza', 'Upper Hunza', 'Hunza → Skardu', 'Deosai & Shangrila', 'Skardu → Chilas or Naran', 'Chilas or Naran → Lahore'];
+  static DEPS = [{ label: '12–20 May', seats: 3 }, { label: '26 May – 3 Jun', seats: 9 }, { label: '9–17 Jun', seats: 0 }, { label: '23 Jun – 1 Jul', seats: 14 }];
+  static STOPS = [
+    { id: 'lahore', name: 'Lahore', x: 54.46, y: 91.71, side: 'right', days: [8] },
+    { id: 'isb', name: 'Islamabad', x: 26.79, y: 55, side: 'left', days: [0] },
+    { id: 'chilas', name: 'Chilas', x: 49.29, y: 25.43, side: 'below', days: [1, 7] },
+    { id: 'gilgit', name: 'Gilgit', x: 53.75, y: 16.86, side: 'left', days: [], reach: 2 },
+    { id: 'hunza', name: 'Hunza', x: 61.25, y: 10, side: 'left', days: [2, 3] },
+    { id: 'attabad', name: 'Attabad', x: 65.54, y: 9.43, side: 'right', days: [4] },
+    { id: 'skardu', name: 'Skardu', x: 82.14, y: 27.43, side: 'right', days: [5] },
+    { id: 'deosai', name: 'Deosai', x: 78.21, y: 32.57, side: 'right', days: [6] }
+  ];
+  static FAQS = [
+    { q: 'What should I pack?', a: 'Layers. Mornings and nights are cold even in summer, and Deosai can be near freezing. Bring a warm jacket, comfortable walking shoes, sunglasses, sunscreen, any personal medicines and a power bank. We send a full packing list on WhatsApp after you book.' },
+    { q: 'Will the altitude affect me?', a: 'All overnight stops are below about 2,500 m. The highest point is the Deosai plateau, around 4,000 m, which we visit for a few hours only. Most travellers feel fine; drink water and take it slowly. Tell us about any heart or breathing conditions before you book. Your guide carries a first-aid kit [and oxygen — confirm].' },
+    { q: 'What are the roads like? What if the weather delays us?', a: 'The Karakoram Highway is paved but mountainous, and landslides can close sections, especially in spring. Your driver will adjust the plan and we keep you updated on WhatsApp. If a road closure adds a night, [policy on who covers the cost — confirm].' },
+    { q: 'How do payment and the advance work?', a: 'Pay a [X]% advance to confirm your seats by bank transfer, JazzCash, Easypaisa or card. The balance is due [X] days before departure. You get a receipt on WhatsApp for every payment.' },
+    { q: 'What is the cancellation and refund policy?', a: 'Cancel [X] or more days before departure for a full refund of your advance. Between [X] and [X] days, [X]% is refunded. Within [X] days the advance is non-refundable. If we cancel a departure, you get a full refund or a free move to another date.' },
+    { q: 'Can we travel with children?', a: 'Yes. Children aged [X]+ are welcome. Remember that days 2 and 9 are long road days. Children under [X] sharing their parents’ room pay [X]% of the adult price. Tell us their ages when you book and we’ll plan stops around them.' }
+  ];
+  rootRef = React.createRef();
+  progRef = React.createRef();
+
+  componentDidMount() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    const p = this.props;
+    this.isStatic = p.motion === false;
+    this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.measure = () => {
+      const k = this.bucketKey();
+      if (k !== this.renderedKey) this.forceUpdate();
+    };
+    this.ro = new ResizeObserver(() => this.measure());
+    this.ro.observe(this.observedEl = root);
+    window.addEventListener('resize', this.measure);
+    requestAnimationFrame(this.measure);
+    [300, 1000, 2500].forEach(t => setTimeout(() => { const el = this.rootRef.current; if (el && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); } this.measure(); }, t));
+    if (!this.isStatic) {
+      this.onScroll = () => { if (!this.raf) this.raf = requestAnimationFrame(() => { this.raf = null; this.tick(); }); };
+      window.addEventListener('scroll', this.onScroll, { passive: true });
+      if (!this.reduce) setTimeout(() => this.setupMotion(root), 300);
+    }
+    this.applyMaps();
+  }
+  width() { const el = this.rootRef.current; const w = el ? el.getBoundingClientRect().width : 0; return w || this.props.frameWidth || 1440; }
+  bp() { const w = this.width(); return { isMobile: w < 820, isCompact: w < 1100, isMapSide: w >= 1280 }; }
+  bucketKey() { const b = this.bp(); return [b.isMobile, b.isCompact, b.isMapSide, window.innerHeight < 920].join(); }
+  active() { const a = this.state.activeDay; return a !== null ? a : (this.isStatic || this.props.motion === false ? (this.props.previewDay ?? 2) : -1); }
+  componentDidUpdate() {
+    const el = this.rootRef.current;
+    if (el && this.ro && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); }
+    this.measure && this.measure();
+    this.applyMaps();
+  }
+  componentWillUnmount() {
+    this.ro && this.ro.disconnect();
+    this.io && this.io.disconnect();
+    this.measure && window.removeEventListener('resize', this.measure);
+    this.onScroll && window.removeEventListener('scroll', this.onScroll);
+  }
+
+  applyMaps() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    root.querySelectorAll('[data-f]').forEach(el => {
+      if (el.dataset.ready) return;
+      el.dataset.ready = '1';
+      el.setAttribute('pathLength', '1');
+      el.style.strokeDasharray = '1';
+      el.style.strokeDashoffset = String(1 - parseFloat(el.dataset.f));
+    });
+    const pr = this.progRef.current;
+    if (!pr) return;
+    let fresh = false;
+    if (!pr.dataset.ready) { pr.dataset.ready = '1'; pr.setAttribute('pathLength', '1'); pr.style.strokeDasharray = '1'; fresh = true; }
+    if (this.isStatic) {
+      const a = this.active();
+      pr.style.strokeDashoffset = String(1 - (a < 0 ? 0 : Component.F[a]));
+    } else if (fresh) this.tick();
+  }
+
+  setupMotion(root) {
+    const vh = window.innerHeight;
+    this.heads = [...root.querySelectorAll('[data-reveal]')].map(el => ({ el, words: [...el.querySelectorAll('span')].filter(s => !s.querySelector('span')) }));
+    this.heads.forEach(h => h.words.forEach(w => { w.style.transition = 'opacity .25s linear'; }));
+    const rises = [...root.querySelectorAll('[data-rise]')];
+    this.io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target, group = [...el.parentElement.children], i = group.indexOf(el) % 3, d = i * 90;
+      el.style.transition = `transform .9s cubic-bezier(.2,.7,.2,1) ${d}ms`;
+      el.style.transform = 'none';
+      el.querySelectorAll('[data-rise-fade]').forEach(f => { f.style.transition = `opacity .9s ease ${d}ms`; f.style.opacity = '1'; });
+      this.io.unobserve(el);
+    }), { threshold: 0.12 });
+    rises.forEach(el => {
+      if (el.getBoundingClientRect().top > vh) {
+        el.style.transform = 'translateY(40px)';
+        el.querySelectorAll('[data-rise-fade]').forEach(f => { f.style.opacity = '0'; });
+        this.io.observe(el);
+      }
+    });
+    this.tick();
+  }
+
+  tick() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    const vh = window.innerHeight, c = v => Math.min(1, Math.max(0, v)), F = Component.F;
+    let idx = -1, t = 0;
+    root.querySelectorAll('[data-day]').forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < vh * 0.5) { idx = i; t = c((vh * 0.5 - r.top) / Math.max(1, r.height * 0.6)); }
+    });
+    const prev = idx <= 0 ? 0 : F[idx - 1];
+    const f = idx < 0 ? 0 : (this.reduce ? F[idx] : prev + (F[idx] - prev) * t);
+    const pr = this.progRef.current;
+    if (pr) pr.style.strokeDashoffset = String(1 - f);
+    if (idx !== this.active()) this.setState({ activeDay: idx });
+    (this.heads || []).forEach(({ el, words }) => {
+      const r = el.getBoundingClientRect();
+      const p = (vh * 0.92 - r.top) / (vh * 0.45), n = words.length;
+      words.forEach((w, i) => { w.style.opacity = (0.16 + 0.84 * c(p * n - i)).toFixed(3); });
+    });
+  }
+
+  pickDate(i) { const c = this.bp().isCompact; this.setState(s => ({ date: i, sheetOpen: c ? true : s.sheetOpen })); }
+
+  renderVals() {
+    const b = this.bp(); this.renderedKey = this.bucketKey();
+    const st0 = this.state;
+    const s = { ...st0, ...b,
+      sheetOpen: st0.sheetOpen !== null ? st0.sheetOpen : !!this.props.sheetOpen,
+      date: st0.date !== null ? st0.date : (typeof this.props.initialDate === 'number' ? this.props.initialDate : -1) };
+    const a = this.active(), D = Component.DEPS;
+    const nodes = {}, rings = {};
+    for (let i = 0; i < 9; i++) {
+      nodes['d' + i] = i === a ? '#D9B44A' : i < a ? '#F1EEE8' : '#0C1216';
+      rings['d' + i] = i === a ? '#D9B44A' : i < a ? '#F1EEE8' : '#5C6871';
+    }
+    const stops = Component.STOPS.map(st => {
+      const cur = st.id === 'lahore' ? (a === -1 || a === 8) : st.days.includes(a);
+      const first = st.days.length ? Math.min(...st.days) : st.reach;
+      const visited = !cur && (st.id === 'lahore' || (st.id === 'gilgit' ? a >= 2 : a > first));
+      const size = cur ? 10 : 8;
+      return {
+        name: st.name, left: st.x + '%', top: st.y + '%',
+        size: size + 'px', off: (-size / 2) + 'px',
+        radius: st.id === 'lahore' && !cur ? '0' : '50%',
+        bg: cur ? '#D9B44A' : visited ? '#F1EEE8' : '#0C1216',
+        border: cur || visited ? '0' : '1.5px solid #5C6871',
+        halo: cur ? 1 : 0,
+        color: cur ? '#D9B44A' : visited ? '#F1EEE8' : '#8F9AA2',
+        weight: cur ? 600 : 500,
+        lLeft: st.side === 'right' ? '14px' : st.side === 'below' ? '-10px' : 'auto',
+        lRight: st.side === 'left' ? '14px' : 'auto',
+        lTop: st.side === 'below' ? '10px' : '-10px'
+      };
+    });
+    const sel = D[s.date];
+    return {
+      rootRef: this.rootRef, progRef: this.progRef,
+      showNotes: this.props.showNotes ?? true,
+      isMobile: s.isMobile, isDesktop: !s.isMobile, menuOpen: s.isMobile && s.menuOpen,
+      isCompact: s.isCompact, showAside: !s.isCompact,
+      lightBleedR: s.isCompact ? 'clamp(20px,3.4cqi,48px)' : 'calc(444px + clamp(20px,3.4cqi,48px))',
+      panelCompact: window.innerHeight < 920,
+      hotelCols: s.isCompact ? '1fr' : 'repeat(5, minmax(0, 1fr))',
+      factsLastSpan: s.isMobile ? '1 / -1' : 'auto',
+      isMapSide: s.isMapSide, showMini: !s.isMapSide,
+      showSheet: s.isCompact && s.sheetOpen,
+      toggleMenu: () => this.setState(x => ({ menuOpen: !x.menuOpen })),
+      openSheet: () => this.setState({ sheetOpen: true }),
+      closeSheet: () => this.setState({ sheetOpen: false }),
+      onReserve: e => { if (this.bp().isCompact) { e.preventDefault(); this.setState({ sheetOpen: true }); } },
+      date: s.date, setDate: i => this.setState({ date: i }),
+      nodes, rings, stops,
+      mapDay: a < 0 ? 'Start' : `Day ${String(a + 1).padStart(2, '0')} of 09`,
+      mapTitle: a < 0 ? 'Lahore' : Component.DAYS[a],
+      barSub: sel ? `per person · ${sel.label}${sel.seats === 0 ? ' · sold out' : ''}` : 'per person · twin sharing',
+      depRows: D.map((d, i) => {
+        const so = d.seats === 0, u = d.seats > 0 && d.seats <= 3, chosen = i === s.date;
+        return {
+          label: d.label,
+          seatsText: so ? 'Sold out · waitlist open' : u ? `Only ${d.seats} seats left` : `${d.seats} of 16 seats left`,
+          seatsColor: so ? '#5B6770' : u ? '#7A5A12' : '#46525C',
+          dot: so ? '#7D8992' : u ? '#7A5A12' : '#46525C',
+          dateColor: so ? '#46525C' : '#10161A',
+          isAvail: !so && !chosen, isSelected: !so && chosen, isSold: so,
+          onSelect: () => this.pickDate(i)
+        };
+      }),
+      faqs: Component.FAQS.map((f, i) => ({
+        q: f.q, a: f.a, open: i === s.openFaq, rot: i === s.openFaq ? 'rotate(45deg)' : 'rotate(0deg)',
+        toggle: () => this.setState(x => ({ openFaq: x.openFaq === i ? -1 : i }))
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

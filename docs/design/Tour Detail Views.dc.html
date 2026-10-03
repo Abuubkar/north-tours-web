@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>*{box-sizing:border-box} body{margin:0;background:#1C2328;color:#F1EEE8;font-family:'Geist',system-ui,sans-serif} a{color:#F1EEE8} a:hover{color:#F4A66A}</style>
+</helmet>
+<section style="padding:80px;display:flex;flex-direction:column;gap:56px;">
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:48px;font-weight:500;letter-spacing:-.04em;">Tour Detail · Hunza &amp; Skardu Grand</div>
+    <div style="font-size:16px;color:#B7BFC5;">Motion is static here, and the desktop map is shown at Day 03. Open <a href="Tour Detail.dc.html">Tour Detail</a> on its own to scroll the route. Related: <a href="Homepage Views.dc.html">Homepage views</a> · <a href="Design System.dc.html">Design System</a>.</div>
+  </div>
+
+  <div style="display:flex;gap:80px;align-items:flex-start;flex-wrap:wrap;">
+    <div id="1c" style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1c</span>Booking panel states · desktop 380px</div>
+      <div style="display:flex;gap:32px;align-items:flex-start;">
+        <div style="display:flex;flex-direction:column;gap:10px;"><span style="font-size:13px;color:#B7BFC5;">Default · no date</span><div style="width:380px;padding:24px;border:1px solid #253038;background:#0C1216;"><dc-import name="BookingPanel" initial-date="{{ -1 }}" hint-size="100%,780px"></dc-import></div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;"><span style="font-size:13px;color:#B7BFC5;">Date selected</span><div style="width:380px;padding:24px;border:1px solid #253038;background:#0C1216;"><dc-import name="BookingPanel" initial-date="{{ 0 }}" hint-size="100%,780px"></dc-import></div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;"><span style="font-size:13px;color:#B7BFC5;">Short screen · 1366×768 (dropdown, footer pinned)</span><div style="width:380px;padding:24px;border:1px solid #253038;background:#0C1216;"><dc-import name="BookingPanel" initial-date="{{ 0 }}" compact="{{ true }}" max-height="612px" hint-size="100%,612px"></dc-import></div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;"><span style="font-size:13px;color:#B7BFC5;">Sold-out date selected</span><div style="width:380px;padding:24px;border:1px solid #253038;background:#0C1216;"><dc-import name="BookingPanel" initial-date="{{ 2 }}" hint-size="100%,780px"></dc-import></div></div>
+      </div>
+    </div>
+    <div id="1d" style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1d</span>Mobile · first screen + sticky bar</div>
+      <div style="width:390px;height:844px;overflow:hidden;transform:translateZ(0);outline:1px solid #3A4751;"><dc-import name="Tour Detail" frame-width="{{ 390 }}" show-notes="{{ false }}" motion="{{ false }}" hint-size="390px,844px"></dc-import></div>
+    </div>
+    <div id="1e" style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1e</span>Mobile · bottom sheet, date selected</div>
+      <div style="width:390px;height:844px;overflow:hidden;transform:translateZ(0);outline:1px solid #3A4751;"><dc-import name="Tour Detail" frame-width="{{ 390 }}" show-notes="{{ false }}" motion="{{ false }}" sheet-open="{{ true }}" initial-date="{{ 0 }}" hint-size="390px,844px"></dc-import></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:96px;align-items:flex-start;">
+    <div id="1a" style="display:flex;flex-direction:column;gap:16px;flex:none;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1a</span>Mobile · 390px</div>
+      <div style="width:390px;outline:1px solid #3A4751;"><dc-import name="Tour Detail" frame-width="{{ 390 }}" show-notes="{{ true }}" motion="{{ false }}" preview-day="{{ 2 }}" hint-size="390px,12000px"></dc-import></div>
+    </div>
+    <div id="1b" style="display:flex;flex-direction:column;gap:16px;flex:none;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1b</span>Desktop · 1440px</div>
+      <div style="width:1440px;outline:1px solid #3A4751;"><dc-import name="Tour Detail" frame-width="{{ 1440 }}" show-notes="{{ true }}" motion="{{ false }}" preview-day="{{ 2 }}" hint-size="1440px,9000px"></dc-import></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

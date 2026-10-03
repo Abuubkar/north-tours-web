@@ -11,8 +11,8 @@ Website for a Lahore-based tour operator running group and private tours to nort
   mid-range Android phones on mobile data.
 - **Primary conversion:** WhatsApp enquiry. Online payments are out of scope for now; the
   advance is paid in cash or by bank transfer only (ADR-0008).
-- **Design source of truth:** the Claude Design project, pulled in with `/design-sync`, and
-  `DESIGN.md`. Never invent new styles, colours, fonts or components that are not in the
+- **Design source of truth:** `DESIGN.md`, plus the Claude Design export in `docs/design/`
+  (read-only reference; see its README for precedence and known stale details). Never invent new styles, colours, fonts or components that are not in the
   design system.
 
 ## 2. Stack (see `docs/adr/`)
@@ -87,6 +87,7 @@ Folders are created only when the first file for them is needed (section 3).
 /styles                 tokens.css, globals.css, typography, reset
 /types                  shared types that are not derived from content schemas
 /docs/adr               architecture decision records
+/docs/design            Claude Design export, read-only reference
 ```
 
 ### Component rules

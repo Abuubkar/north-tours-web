@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-anchor:none}
+body{margin:0;background:#0C1216;color:#F1EEE8;-webkit-font-smoothing:antialiased}
+a{color:#F1EEE8}
+a:hover{color:#D9B44A}
+[data-surface="light"] a{color:#10161A}
+[data-surface="light"] a:hover{color:#7A5A12}
+[data-surface="dark"] a{color:#F1EEE8}
+[data-surface="dark"] a:hover{color:#D9B44A}
+input::placeholder,textarea::placeholder{color:#5B6770}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" data-surface="light" style="container-type:inline-size;background:#EEF1F3;color:#10161A;font-family:'Geist',system-ui,sans-serif;">
+
+  <header data-surface="dark" style="color:#F1EEE8;position:sticky;top:0;z-index:50;height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 clamp(20px,3.4cqi,48px);background:rgba(12,18,22,.86);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid rgba(241,238,232,.12);">
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:#F1EEE8;">
+      <span style="width:16px;height:14px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>
+      <span style="font-size:16px;font-weight:600;letter-spacing:-.01em;">[BRAND NAME]</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500;">
+        <a href="Tours.dc.html" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Tours</a>
+        <a href="Homepage.dc.html#how" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Destinations</a>
+        <a href="About.dc.html#guides" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Reviews</a>
+      </nav>
+      <a href="#whatsapp" style="flex:none;white-space:nowrap;display:flex;align-items:center;gap:10px;height:44px;padding:0 18px;border-radius:6px;border:1px solid rgba(241,238,232,.5);text-decoration:none;color:#F1EEE8;font-size:14px;font-weight:500;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">WhatsApp us</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <a href="#whatsapp" aria-label="Chat on WhatsApp" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(241,238,232,.5);"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;"></a>
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:6px;border:1px solid rgba(241,238,232,.5);background:transparent;cursor:pointer;padding:0;"><span style="width:16px;height:1.5px;background:#F1EEE8;"></span><span style="width:16px;height:1.5px;background:#F1EEE8;"></span></button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:72px;left:0;right:0;height:calc(100vh - 72px);min-height:560px;background:#0C1216;padding:32px 20px;display:flex;flex-direction:column;gap:4px;border-top:1px solid #253038;z-index:70;">
+        <a href="Tours.dc.html" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Tours</a>
+        <a href="Homepage.dc.html#how" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Destinations</a>
+        <a href="About.dc.html#guides" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Reviews</a>
+      </div>
+    </sc-if>
+  </header>
+
+  <sc-if value="{{ showSummaryBar }}" hint-placeholder-val="{{ false }}">
+    <div ref="{{ barRef }}" style="position:sticky;top:72px;z-index:45;background:rgba(238,241,243,.92);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid #CBD2D8;">
+      <button onClick="{{ toggleSummary }}" aria-expanded="{{ summaryOpen }}" style="width:100%;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 clamp(20px,3.4cqi,48px);background:transparent;border:0;color:#10161A;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;text-align:left;">
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ barLabel }}</span>
+        <span style="flex:none;font-size:13px;color:#46525C;display:inline-block;transform:{{ summaryRot }};transition:transform .2s ease;">▾</span>
+      </button>
+      <sc-if value="{{ summaryOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:0 clamp(20px,3.4cqi,48px) 16px;">
+          <sc-for list="{{ summary }}" as="r" hint-placeholder-count="9">
+            <div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:8px 0;border-top:1px solid #CBD2D8;"><span style="font-size:13px;color:#5B6770;">{{ r.label }}</span><span style="font-size:14px;line-height:1.4;color:{{ r.color }};">{{ r.value }}</span></div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ progressInBar }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:10px clamp(20px,3.4cqi,48px) 12px;border-top:1px solid #CBD2D8;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <h2 data-step-heading="1" aria-live="polite" style="margin:0;font-size:15px;font-weight:500;line-height:1.4;outline:none;">{{ progressText }}</h2>
+          <div style="display:flex;gap:6px;"><sc-for list="{{ segments }}" as="s" hint-placeholder-count="3"><span style="flex:1;height:2px;background:{{ s.bg }};transition:background .3s ease;"></span></sc-for></div>
+        </div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <section data-screen-label="01 Page header" style="padding:{{ headPad }} clamp(20px,3.4cqi,48px) clamp(32px,4cqi,56px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:999 1 600px;min-width:0;">
+        <sc-if value="{{ showIntro }}" hint-placeholder-val="{{ true }}">
+          <h1 style="margin:0;font-size:clamp(40px,6.4cqi,92px);line-height:.98;font-weight:500;letter-spacing:-.045em;">Your dates, your group</h1>
+          <p style="margin:24px 0 0;max-width:600px;font-size:17px;line-height:1.6;color:#46525C;">Tell us what you have in mind. We’ll plan it and reply on WhatsApp, usually within [X hours].</p>
+        </sc-if>
+        <sc-if value="{{ showSlim }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0;min-height:28px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#46525C;">Planning your private trip</p>
+        </sc-if>
+        <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #5B6770;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#10161A;">SAVE · Answers are kept when going back a step or reloading the page</span>
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #5B6770;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#10161A;">URL · ?dest= from Destination and Tour pages pre-selects that destination</span>
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #5B6770;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#10161A;">WHATSAPP · Standard wa.me link with the message pre-filled; nothing is stored on our side yet</span>
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #5B6770;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#10161A;">MOTION · Steps slide gently; reduced motion: steps simply swap</span>
+            <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #5B6770;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#10161A;">RULE · Buttons and error messages are never hidden by animation</span>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <div style="display:flex;gap:64px;align-items:flex-start;padding:0 clamp(20px,3.4cqi,48px) clamp(72px,9cqi,144px);">
+    <main ref="{{ stepRef }}" style="flex:1 1 0;min-width:0;border-top:1px solid #CBD2D8;">
+      <sc-if value="{{ progressInMain }}" hint-placeholder-val="{{ true }}">
+        <div style="position:sticky;top:72px;z-index:30;background:rgba(238,241,243,.92);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid #CBD2D8;">
+        <div style="padding:18px 0 16px;display:flex;flex-direction:column;gap:10px;">
+          <h2 data-step-heading="1" aria-live="polite" style="margin:0;font-size:15px;font-weight:500;line-height:1.4;outline:none;">{{ progressText }}</h2>
+          <div style="display:flex;gap:6px;"><sc-for list="{{ segments }}" as="s" hint-placeholder-count="3"><span style="flex:1;height:2px;background:{{ s.bg }};transition:background .3s ease;"></span></sc-for></div>
+        </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+        <div data-step-body="1" data-screen-label="Step 1 Where and when">
+          <div style="padding:28px 0;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Destinations</span><span style="font-size:13px;color:#5B6770;">Required · choose one or more</span></div>
+            <sc-if value="{{ err.dest }}" hint-placeholder-val="{{ false }}">
+              <div role="alert" style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;"><span style="width:20px;height:20px;border-radius:50%;background:#7A5A12;color:#EEF1F3;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;">!</span>{{ err.dest }}</div>
+            </sc-if>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;">
+              <sc-for list="{{ destCards }}" as="c" hint-placeholder-count="7">
+                <button data-dest-card="1" onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="display:flex;flex-direction:column;padding:0;border:1px solid {{ c.border }};background:{{ c.bg }};color:#10161A;font-family:inherit;text-align:left;cursor:pointer;transition:background .2s ease,border-color .2s ease;">
+                  <span style="position:relative;display:block;width:100%;aspect-ratio:16 / 10;background:repeating-linear-gradient(135deg,#DCE2E7 0 8px,#E6EAEE 8px 16px);border-radius:8px;overflow:hidden;"><span style="position:absolute;left:10px;right:10px;bottom:8px;font-family:'Geist Mono',ui-monospace,monospace;font-size:10px;line-height:1.35;letter-spacing:.02em;color:#46525C;">{{ c.photo }}</span></span>
+                  <span style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px 14px;min-height:56px;">
+                    <span style="width:18px;height:18px;flex:none;margin-top:1px;border:1.5px solid {{ c.boxBorder }};background:{{ c.boxBg }};display:flex;align-items:center;justify-content:center;color:#EEF1F3;font-size:12px;font-weight:700;line-height:1;border-radius:2px;">{{ c.mark }}</span>
+                    <span style="font-size:15px;font-weight:500;line-height:1.3;">{{ c.label }}</span>
+                  </span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="padding:28px 0;border-top:1px solid #CBD2D8;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Dates</span><span style="font-size:13px;color:#5B6770;">Required</span></div>
+            <div role="group" aria-label="Date type" style="display:flex;flex-wrap:wrap;gap:8px;">
+              <sc-for list="{{ dateModes }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="height:44px;padding:0 18px;border-radius:999px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.color }};font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ o.label }}</button></sc-for>
+            </div>
+            <sc-if value="{{ isExact }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:12px;">
+                <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;"><span style="font-size:13px;color:#46525C;">From</span><input type="date" value="{{ a.from }}" onChange="{{ onFrom }}" style="height:52px;width:100%;padding:0 14px;border:1px solid {{ dateBorder }};border-radius:2px;background:#EEF1F3;color:#10161A;font-family:inherit;font-size:16px;color-scheme:dark;"></label>
+                <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;"><span style="font-size:13px;color:#46525C;">To</span><input type="date" value="{{ a.to }}" onChange="{{ onTo }}" style="height:52px;width:100%;padding:0 14px;border:1px solid {{ dateBorder }};border-radius:2px;background:#EEF1F3;color:#10161A;font-family:inherit;font-size:16px;color-scheme:dark;"></label>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isFlex }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <span style="font-size:13px;color:#46525C;">Month</span>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                  <sc-for list="{{ months }}" as="o" hint-placeholder-count="7"><button data-month-chip="1" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="height:44px;padding:0 16px;border-radius:999px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.color }};font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ o.label }}</button></sc-for>
+                </div>
+                <div style="margin-top:6px;display:flex;align-items:center;gap:12px;">
+                  <span style="font-size:15px;">Roughly</span>
+                  <button onClick="{{ daysDec }}" aria-label="Fewer days" style="width:44px;height:44px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-size:20px;line-height:1;cursor:pointer;font-family:inherit;">−</button>
+                  <span style="min-width:28px;text-align:center;font-size:18px;font-weight:500;font-variant-numeric:tabular-nums;">{{ a.days }}</span>
+                  <button onClick="{{ daysInc }}" aria-label="More days" style="width:44px;height:44px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-size:20px;line-height:1;cursor:pointer;font-family:inherit;">+</button>
+                  <span style="font-size:15px;">days</span>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ err.dates }}" hint-placeholder-val="{{ false }}">
+              <div role="alert" style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;"><span style="width:20px;height:20px;border-radius:50%;background:#7A5A12;color:#EEF1F3;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;">!</span>{{ err.dates }}</div>
+            </sc-if>
+          </div>
+
+          <div style="padding:28px 0;border-top:1px solid #CBD2D8;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Trip length</span><span style="font-size:13px;color:#5B6770;">{{ lengthHint }}</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <sc-for list="{{ lengths }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="height:44px;padding:0 18px;border-radius:999px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.color }};font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ o.label }}</button></sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+        <div data-step-body="1" data-screen-label="Step 2 Who's coming">
+          <div style="padding:28px 0;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Group size</span><span style="font-size:13px;color:#5B6770;">Required</span></div>
+            <div style="display:flex;flex-direction:column;max-width:440px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:16px;font-weight:500;">Adults</span><span style="font-size:13px;color:#5B6770;">18 and over</span></div><div style="display:flex;align-items:center;gap:6px;"><button onClick="{{ adultsDec }}" aria-label="Fewer adults" style="width:44px;height:44px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-size:20px;line-height:1;cursor:pointer;font-family:inherit;">−</button><span style="min-width:32px;text-align:center;font-size:18px;font-weight:500;font-variant-numeric:tabular-nums;">{{ a.adults }}</span><button onClick="{{ adultsInc }}" aria-label="More adults" style="width:44px;height:44px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-size:20px;line-height:1;cursor:pointer;font-family:inherit;">+</button></div></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0;border-top:1px solid #CBD2D8;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:16px;font-weight:500;">Children</span><span style="font-size:13px;color:#5B6770;">Under 18</span></div><div style="display:flex;align-items:center;gap:6px;"><button onClick="{{ childrenDec }}" aria-label="Fewer children" style="width:44px;height:44px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-size:20px;line-height:1;cursor:pointer;font-family:inherit;">−</button><span style="min-width:32px;text-align:center;font-size:18px;font-weight:500;font-variant-numeric:tabular-nums;">{{ a.children }}</span><button onClick="{{ childrenInc }}" aria-label="More children" style="width:44px;height:44px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-size:20px;line-height:1;cursor:pointer;font-family:inherit;">+</button></div></div>
+              <sc-if value="{{ hasChildren }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:12px 0 4px;border-top:1px solid #CBD2D8;display:flex;flex-direction:column;gap:10px;">
+                  <span style="font-size:13px;color:#46525C;">Children’s ages (helps us plan rooms and stops)</span>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                    <sc-for list="{{ ageSelects }}" as="s" hint-placeholder-count="2">
+                      <label style="position:relative;display:flex;flex-direction:column;gap:4px;">
+                        <span style="font-size:13px;color:#5B6770;">{{ s.label }}</span>
+                        <select value="{{ s.value }}" onChange="{{ s.change }}" style="height:44px;min-width:110px;appearance:none;-webkit-appearance:none;padding:0 36px 0 12px;border:1px solid {{ s.border }};border-radius:2px;background:#EEF1F3;color:#10161A;font-family:inherit;font-size:15px;cursor:pointer;">
+                          <option value="">Age</option>
+                          <sc-for list="{{ ageOptions }}" as="o" hint-placeholder-count="18"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+                        </select>
+                        <span style="position:absolute;right:12px;bottom:12px;pointer-events:none;font-size:13px;color:#46525C;">▾</span>
+                      </label>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ err.ages }}" hint-placeholder-val="{{ false }}">
+              <div role="alert" style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;"><span style="width:20px;height:20px;border-radius:50%;background:#7A5A12;color:#EEF1F3;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;">!</span>{{ err.ages }}</div>
+            </sc-if>
+          </div>
+          <sc-for list="{{ step2Groups }}" as="g" hint-placeholder-count="5">
+            <div style="padding:28px 0;border-top:1px solid #CBD2D8;display:flex;flex-direction:column;gap:16px;">
+              <div style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">{{ g.label }}</span><span style="font-size:13px;color:#5B6770;">{{ g.hint }}</span></div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <sc-for list="{{ g.options }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="height:44px;padding:0 18px;border-radius:999px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.color }};font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ o.label }}</button></sc-for>
+              </div>
+              <sc-if value="{{ g.isDepart }}" hint-placeholder-val="{{ false }}">
+                <sc-if value="{{ showOtherCity }}" hint-placeholder-val="{{ false }}">
+                  <input type="text" value="{{ a.otherCity }}" onChange="{{ onOtherCity }}" placeholder="Which city?" aria-label="Other city" style="height:52px;max-width:360px;width:100%;padding:0 16px;border:1px solid #CBD2D8;border-radius:2px;background:#EEF1F3;color:#10161A;font-family:inherit;font-size:16px;">
+                </sc-if>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+        <div data-step-body="1" data-screen-label="Step 3 Your details">
+          <div style="padding:28px 0;display:flex;flex-direction:column;gap:12px;max-width:520px;">
+            <label for="pl-name" style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Name</span><span style="font-size:13px;color:#5B6770;">Required</span></label>
+            <input id="pl-name" type="text" autocomplete="name" value="{{ a.name }}" onChange="{{ onName }}" placeholder="Your name" aria-invalid="{{ nameInvalid }}" style="height:52px;width:100%;padding:0 16px;border:1px solid {{ nameBorder }};border-radius:2px;background:#EEF1F3;color:#10161A;font-family:inherit;font-size:16px;">
+            <sc-if value="{{ err.name }}" hint-placeholder-val="{{ false }}">
+              <div role="alert" style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;"><span style="width:20px;height:20px;border-radius:50%;background:#7A5A12;color:#EEF1F3;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;">!</span>{{ err.name }}</div>
+            </sc-if>
+          </div>
+          <div style="padding:28px 0;border-top:1px solid #CBD2D8;display:flex;flex-direction:column;gap:12px;max-width:520px;">
+            <label for="pl-phone" style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">WhatsApp number</span><span style="font-size:13px;color:#5B6770;">Required</span></label>
+            <div style="display:flex;">
+              <span style="flex:none;height:52px;display:flex;align-items:center;padding:0 16px;border:1px solid {{ phoneBorder }};border-right:0;background:#E2E7EB;font-size:16px;font-weight:500;font-variant-numeric:tabular-nums;">+92</span>
+              <input id="pl-phone" type="tel" inputmode="numeric" autocomplete="tel-national" value="{{ a.phone }}" onChange="{{ onPhone }}" placeholder="3XX XXX XXXX" aria-invalid="{{ phoneInvalid }}" style="flex:1;min-width:0;height:52px;padding:0 16px;border:1px solid {{ phoneBorder }};border-radius:2px;background:#EEF1F3;color:#10161A;font-family:inherit;font-size:16px;font-variant-numeric:tabular-nums;">
+            </div>
+            <sc-if value="{{ err.phone }}" hint-placeholder-val="{{ false }}">
+              <div role="alert" style="display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.45;font-weight:500;"><span style="width:20px;height:20px;border-radius:50%;background:#7A5A12;color:#EEF1F3;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;">!</span>{{ err.phone }}</div>
+            </sc-if>
+          </div>
+          <div style="padding:28px 0;border-top:1px solid #CBD2D8;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Best time to reach you</span><span style="font-size:13px;color:#5B6770;">Optional</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <sc-for list="{{ times }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="height:44px;padding:0 18px;border-radius:999px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.color }};font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;">{{ o.label }}</button></sc-for>
+            </div>
+          </div>
+          <div style="padding:28px 0;border-top:1px solid #CBD2D8;display:flex;flex-direction:column;gap:12px;max-width:640px;">
+            <label for="pl-notes" style="display:flex;align-items:baseline;gap:12px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.015em;">Anything else?</span><span style="font-size:13px;color:#5B6770;">Optional</span></label>
+            <textarea id="pl-notes" value="{{ a.notes }}" onChange="{{ onNotes }}" placeholder="Celebrating something? Travelling with elderly parents? Tell us." style="min-height:128px;width:100%;padding:14px 16px;border:1px solid #CBD2D8;border-radius:2px;background:#EEF1F3;color:#10161A;font-family:inherit;font-size:16px;line-height:1.5;resize:vertical;"></textarea>
+          </div>
+          <p style="margin:0;padding:20px 0 0;border-top:1px solid #CBD2D8;font-size:14px;color:#46525C;">We only use your details to plan this trip. <a href="Legal.dc.html?doc=privacy" style="text-decoration:underline;text-underline-offset:4px;">Privacy policy</a>.</p>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+        <div data-step-body="1" data-screen-label="Review and send" style="padding-top:28px;display:flex;flex-direction:column;gap:32px;">
+          <div style="border:1px solid #CBD2D8;">
+            <sc-for list="{{ reviewSections }}" as="sec" hint-placeholder-count="3">
+              <div style="padding:20px clamp(16px,1.7cqi,24px) 24px;border-top:{{ sec.top }};">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;"><span style="font-size:17px;font-weight:500;">{{ sec.title }}</span><button onClick="{{ sec.edit }}" style="min-height:44px;padding:0 4px;background:transparent;border:0;color:#10161A;font-family:inherit;font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;cursor:pointer;">Edit</button></div>
+                <sc-for list="{{ sec.rows }}" as="r" hint-placeholder-count="3">
+                  <div style="display:grid;grid-template-columns:{{ reviewCols }};gap:12px;padding:10px 0;border-top:1px solid #CBD2D8;"><span style="font-size:14px;color:#5B6770;">{{ r.label }}</span><span style="font-size:15px;line-height:1.45;color:{{ r.color }};">{{ r.value }}</span></div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Message preview</div>
+            <div style="max-width:560px;padding:16px clamp(16px,1.7cqi,24px);border:1px solid #CBD2D8;background:#E2E7EB;font-size:14px;line-height:1.6;white-space:pre-wrap;color:#10161A;">{{ waMessage }}</div>
+            <span style="font-size:13px;color:#5B6770;">Opens WhatsApp with this message ready to send. Nothing is sent until you press send there.</span>
+          </div>
+          <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;padding-top:24px;border-top:1px solid #CBD2D8;">
+              <button onClick="{{ back }}" style="height:52px;padding:0 24px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-family:inherit;font-size:16px;font-weight:500;cursor:pointer;">Back</button>
+              <a href="{{ waHref }}" target="_blank" rel="noopener" onClick="{{ onSend }}" style="height:52px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 28px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Send on WhatsApp</a>
+              <button onClick="{{ onCallback }}" style="height:52px;padding:0 24px;border-radius:6px;border:1px solid #10161A;background:transparent;color:#10161A;font-family:inherit;font-size:16px;font-weight:500;cursor:pointer;">Request a call back</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ onCallback }}" style="height:52px;padding:0 24px;border-radius:6px;border:1px solid #10161A;background:transparent;color:#10161A;font-family:inherit;font-size:16px;font-weight:500;cursor:pointer;">Request a call back</button>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSuccess }}" hint-placeholder-val="{{ false }}">
+        <div data-step-body="1" data-screen-label="Success" style="padding:clamp(40px,5cqi,72px) 0;display:flex;flex-direction:column;gap:24px;align-items:flex-start;">
+          <span style="width:44px;height:44px;border-radius:50%;background:#10161A;color:#EEF1F3;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;">✓</span>
+          <h2 data-success-heading="1" style="margin:0;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;outline:none;">{{ thanksHead }}</h2>
+          <p style="margin:0;max-width:520px;font-size:17px;line-height:1.6;color:#46525C;">{{ thanksLine }}</p>
+          <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="Tours.dc.html" style="height:52px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 28px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;">Browse tours <span>→</span></a>
+            <a href="Homepage.dc.html#destinations" style="height:52px;display:flex;align-items:center;justify-content:center;padding:0 24px;border-radius:6px;border:1px solid #10161A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;">Explore destinations</a>
+          </div>
+          <button onClick="{{ startOver }}" style="min-height:44px;padding:0;background:transparent;border:0;color:#46525C;font-family:inherit;font-size:14px;text-decoration:underline;text-underline-offset:6px;cursor:pointer;">Plan another trip</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ showInlineNav }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:24px;border-top:1px solid #CBD2D8;">
+          <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ back }}" style="height:52px;padding:0 24px;border-radius:6px;border:1px solid #7D8992;background:transparent;color:#10161A;font-family:inherit;font-size:16px;font-weight:500;cursor:pointer;">Back</button>
+          </sc-if>
+          <span style="flex:1;"></span>
+          <button onClick="{{ next }}" style="height:52px;display:flex;align-items:center;gap:10px;padding:0 28px;border-radius:6px;border:0;background:#D9B44A;color:#10161A;font-family:inherit;font-size:16px;font-weight:500;cursor:pointer;">{{ nextLabel }} <span>→</span></button>
+        </div>
+      </sc-if>
+    </main>
+
+    <sc-if value="{{ showAside }}" hint-placeholder-val="{{ true }}">
+      <aside aria-label="Your trip so far" style="flex:0 0 380px;position:sticky;top:96px;max-height:calc(100vh - 112px);overflow-y:auto;display:flex;flex-direction:column;gap:16px;">
+        <div style="border:1px solid #CBD2D8;padding:20px clamp(16px,1.7cqi,24px);">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:10px;"><span style="font-size:17px;font-weight:500;">Your trip so far</span><span style="font-size:13px;color:#5B6770;">{{ filledText }}</span></div>
+          <sc-for list="{{ summary }}" as="r" hint-placeholder-count="9">
+            <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;padding:8px 0;border-top:1px solid #CBD2D8;"><span style="font-size:13px;color:#5B6770;">{{ r.label }}</span><span style="font-size:14px;line-height:1.35;color:{{ r.color }};">{{ r.value }}</span></div>
+          </sc-for>
+        </div>
+        <div style="border:1px solid #CBD2D8;padding:20px clamp(16px,1.7cqi,24px);display:flex;flex-direction:column;gap:10px;">
+          <span style="font-size:17px;font-weight:500;">What happens next</span>
+          <div style="display:flex;gap:10px;font-size:14px;line-height:1.4;"><span style="color:#5B6770;font-variant-numeric:tabular-nums;">1.</span>We reply on WhatsApp within [X hours].</div>
+          <div style="display:flex;gap:10px;font-size:14px;line-height:1.4;"><span style="color:#5B6770;font-variant-numeric:tabular-nums;">2.</span>We send a day-by-day plan and price.</div>
+          <div style="display:flex;gap:10px;font-size:14px;line-height:1.4;"><span style="color:#5B6770;font-variant-numeric:tabular-nums;">3.</span>You confirm with a [X]% advance.</div>
+        </div>
+        <div style="font-size:13px;line-height:1.5;color:#46525C;"><span style="color:#10161A;font-weight:500;">DTS licence No. [NUMBER]</span> · Office in Lahore</div>
+      </aside>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ showMobileNext }}" hint-placeholder-val="{{ false }}">
+    <section style="padding:0 clamp(20px,3.4cqi,48px) 48px;display:flex;flex-direction:column;gap:12px;">
+      <div style="border:1px solid #CBD2D8;padding:20px 16px;display:flex;flex-direction:column;gap:10px;">
+        <span style="font-size:17px;font-weight:500;">What happens next</span>
+        <div style="display:flex;gap:10px;font-size:14px;line-height:1.4;"><span style="color:#5B6770;">1.</span>We reply on WhatsApp within [X hours].</div>
+        <div style="display:flex;gap:10px;font-size:14px;line-height:1.4;"><span style="color:#5B6770;">2.</span>We send a day-by-day plan and price.</div>
+        <div style="display:flex;gap:10px;font-size:14px;line-height:1.4;"><span style="color:#5B6770;">3.</span>You confirm with a [X]% advance.</div>
+      </div>
+      <div style="font-size:13px;line-height:1.5;color:#46525C;"><span style="color:#10161A;font-weight:500;">DTS licence No. [NUMBER]</span> · Office in Lahore</div>
+    </section>
+  </sc-if>
+
+  <footer id="whatsapp" data-surface="dark" data-screen-label="Footer" style="background:#0C1216;color:#F1EEE8;border-top:1px solid #253038;padding:clamp(72px,9cqi,128px) clamp(20px,3.4cqi,48px) 32px;">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:0 0 240px;display:flex;align-items:center;gap:10px;height:28px;font-size:13px;font-weight:500;letter-spacing:.01em;color:#B7BFC5;"><span style="width:11px;height:10px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>Contact</div>
+      <div style="flex:999 1 600px;min-width:0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:64px 48px;">
+        <nav style="display:flex;flex-direction:column;">
+          <a href="Tours.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Tours</a>
+          <a href="Homepage.dc.html#destinations" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Destinations</a>
+          <a href="Trip Planner.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Private trips</a>
+          <a href="About.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">About us</a>
+          <a href="Homepage.dc.html#reviews" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Reviews</a>
+        </nav>
+        <div style="flex:0 1 380px;display:flex;flex-direction:column;gap:28px;">
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#B7BFC5;">Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.</p>
+          <a href="#whatsapp" style="height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Chat on WhatsApp</a>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #253038;">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">WhatsApp</span><a href="#whatsapp" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 3XX XXX XXXX</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Phone</span><a href="#phone" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 42 XXXX XXXX</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Email</span><a href="#email" style="text-decoration:none;">hello@[brand].pk</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Office</span><span style="text-align:right;">[Office address],<br>Lahore, Punjab</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:96px;padding-top:24px;border-top:1px solid #253038;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;font-size:13px;color:#B7BFC5;">
+      <span>© 2026 [BRAND NAME] · DTS Licence No. [NUMBER]</span>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 24px;"><a href="#instagram" style="color:#B7BFC5;">Instagram</a><a href="#facebook" style="color:#B7BFC5;">Facebook</a><a href="#youtube" style="color:#B7BFC5;">YouTube</a><a href="Help.dc.html" style="color:#B7BFC5;">Help</a><a href="Contact.dc.html" style="color:#B7BFC5;">Contact</a><a href="Legal.dc.html?doc=privacy" style="color:#B7BFC5;">Privacy</a><a href="Legal.dc.html?doc=terms" style="color:#B7BFC5;">Terms</a></div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ showBottomBar }}" hint-placeholder-val="{{ false }}">
+    <div style="position:sticky;bottom:0;z-index:40;display:flex;align-items:center;gap:10px;padding:12px clamp(20px,3.4cqi,48px) calc(12px + env(safe-area-inset-bottom));background:rgba(12,18,22,.92);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-top:1px solid rgba(241,238,232,.12);">
+      <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ back }}" style="flex:none;height:48px;padding:0 20px;border-radius:6px;border:1px solid #5C6871;background:transparent;color:#F1EEE8;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;">Back</button>
+      </sc-if>
+      <sc-if value="{{ notReview }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ next }}" style="flex:1;height:48px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:6px;border:0;background:#D9B44A;color:#10161A;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;">{{ nextLabel }} <span>→</span></button>
+      </sc-if>
+      <sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ waHref }}" target="_blank" rel="noopener" onClick="{{ onSend }}" style="flex:1;height:48px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:15px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Send on WhatsApp</a>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;step&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[1,2,3,4,5],&quot;default&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Step (4 = review, 5 = success)&quot;},&quot;preset&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;empty&quot;,&quot;prefilled&quot;,&quot;filled&quot;,&quot;phoneError&quot;],&quot;default&quot;:&quot;empty&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;label&quot;:&quot;Answers&quot;},&quot;showErrors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Show validation&quot;},&quot;summaryOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Mobile summary open&quot;},&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Show build notes&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Live (motion + saving)&quot;},&quot;frameWidth&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  state = { answers: null, step: null, tried: {}, summaryOpen: null, menuOpen: false };
+  static DESTS = [['hunza', 'Hunza', 'PHOTO · Karimabad terraces'], ['skardu', 'Skardu', 'PHOTO · Upper Kachura Lake'], ['naran-kaghan', 'Naran-Kaghan', 'PHOTO · Lake Saiful Muluk'], ['swat', 'Swat', 'PHOTO · Kalam forest'], ['fairy-meadows', 'Fairy Meadows', 'PHOTO · Nanga Parbat'], ['murree', 'Murree', 'PHOTO · Galiyat pines'], ['unsure', 'Not sure, suggest something', 'WE’LL SUGGEST']];
+  static MONTHS = ['Apr 2027', 'May 2027', 'Jun 2027', 'Jul 2027', 'Aug 2027', 'Sep 2027', 'Oct 2027'];
+  static LENGTHS = ['3–4 days', '5–7 days', '8–10 days', '10+ days'];
+  static G2 = [
+    ['type', 'Group type', 'Optional', ['Family', 'Couple', 'Friends', 'Corporate team']],
+    ['hotels', 'Hotels', 'Optional', ['Comfortable', 'Upgraded', 'Best available']],
+    ['transport', 'Transport', 'Optional', ['Car', 'Coaster', 'Let us suggest']],
+    ['depart', 'Departing from', 'Lahore by default', ['Lahore', 'Islamabad', 'Other city']],
+    ['budget', 'Budget per person', 'Optional', ['Under PKR 50k', 'PKR 50–100k', 'PKR 100k+', 'Not sure yet']]
+  ];
+  static TIMES = ['Morning', 'Afternoon', 'Evening'];
+  static BLANK = { dest: [], dateMode: 'flex', from: '', to: '', month: '', days: 6, length: '', lengthAuto: true, adults: 2, children: 0, ages: [], type: '', hotels: '', transport: '', depart: 'Lahore', otherCity: '', budget: '', name: '', phone: '', time: '', notes: '' };
+  static FILLED = { dest: ['hunza'], dateMode: 'flex', from: '', to: '', month: 'Jun 2027', days: 6, length: '5–7 days', lengthAuto: true, adults: 2, children: 2, ages: ['6', '9'], type: 'Family', hotels: 'Upgraded', transport: 'Car', depart: 'Lahore', otherCity: '', budget: 'PKR 50–100k', name: 'Ayesha Khan', phone: '300 123 4567', time: 'Evening', notes: 'Travelling with my mother, who prefers short walks.' };
+  static KEY = 'planner-answers-v1';
+  rootRef = React.createRef();
+  stepRef = React.createRef();
+  barRef = React.createRef();
+
+  componentDidMount() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    this.live = this.props.motion !== false;
+    this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.measure = () => { if (this.bucketKey() !== this.renderedKey) this.forceUpdate(); };
+    this.ro = new ResizeObserver(() => this.measure());
+    this.ro.observe(this.observedEl = root);
+    window.addEventListener('resize', this.measure);
+    requestAnimationFrame(this.measure);
+    [300, 1000, 2500].forEach(t => setTimeout(() => { const el = this.rootRef.current; if (el && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); } this.measure(); }, t));
+    this.lastStep = this.step();
+  }
+  componentDidUpdate() {
+    const el = this.rootRef.current;
+    if (el && this.ro && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); }
+    this.measure && this.measure();
+    const s = this.step();
+    if (s !== this.lastStep) {
+      const dir = s > this.lastStep ? 1 : -1;
+      this.lastStep = s;
+      const m = this.stepRef.current;
+      if (m && this.live && !this.reduce) {
+        m.style.transition = 'none';
+        m.style.transform = `translateX(${dir * 28}px)`;
+        requestAnimationFrame(() => requestAnimationFrame(() => { m.style.transition = 'transform .35s cubic-bezier(.2,.7,.2,1)'; m.style.transform = 'none'; }));
+      }
+      if (this.live) requestAnimationFrame(() => requestAnimationFrame(() => this.afterStep(s)));
+    }
+  }
+  stickyOffset() {
+    const bar = this.barRef.current;
+    return 72 + (this.bp().isCompact && bar ? bar.getBoundingClientRect().height : 0);
+  }
+  scrollToEl(el, extra, then) {
+    const off = this.stickyOffset() + (extra || 0);
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    (this.fixT || []).forEach(clearTimeout);
+    if (this.onEnd) { window.removeEventListener('scrollend', this.onEnd); this.onEnd = null; }
+    if (r.top >= off - 2 && r.top <= Math.max(off, vh * 0.35)) { then && then(); return; }
+    const target = () => Math.max(0, Math.round(el.getBoundingClientRect().top + window.scrollY - (this.stickyOffset() + (extra || 0))));
+    if (this.reduce) { window.scrollTo({ top: target(), behavior: 'instant' }); then && then(); return; }
+    let done = false;
+    const finish = () => {
+      if (done) return; done = true;
+      (this.fixT || []).forEach(clearTimeout);
+      if (this.onEnd) { window.removeEventListener('scrollend', this.onEnd); this.onEnd = null; }
+      let lastY = -1, still = 0, n = 0;
+      const wait = () => {
+        const y = window.scrollY;
+        still = Math.abs(y - lastY) < 1 ? still + 1 : 0; lastY = y; n++;
+        if (still < 3 && n < 90) { requestAnimationFrame(wait); return; }
+        const r2 = el.getBoundingClientRect(), off2 = this.stickyOffset() + (extra || 0);
+        if (Math.abs(r2.top - off2) > 4) window.scrollTo({ top: target(), behavior: 'instant' });
+        then && then();
+      };
+      requestAnimationFrame(wait);
+    };
+    this.onEnd = finish;
+    window.addEventListener('scrollend', finish, { once: true });
+    window.scrollTo({ top: target(), behavior: 'smooth' });
+    this.fixT = [setTimeout(finish, 1500)];
+  }
+  focusEl(el) { if (!el) return; if (!el.hasAttribute('tabindex') && !/^(BUTTON|INPUT|SELECT|TEXTAREA|A)$/.test(el.tagName)) el.setAttribute('tabindex', '-1'); el.focus({ preventScroll: true }); }
+  settle(el, cb) {
+    let last = null, same = 0, n = 0;
+    const tick = () => {
+      const y = Math.round(el.getBoundingClientRect().top + window.scrollY) + '|' + document.documentElement.scrollHeight;
+      same = y === last ? same + 1 : 0; last = y; n++;
+      if (same >= 2 || n > 40) cb(); else requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+  afterStep(s) {
+    const root0 = this.rootRef.current, main0 = this.stepRef.current;
+    if (!root0 || !main0) return;
+    this.settle(main0, () => this.afterSettle(s));
+  }
+  afterSettle(s) {
+    const root = this.rootRef.current, main = this.stepRef.current;
+    if (!root || !main) return;
+    const body = main.querySelector('[data-step-body]');
+    const field = this.pendingField;
+    this.pendingField = false;
+    this.scrollToEl(main, 0, () => {
+      if (field && body) { this.focusEl(body.querySelector('button, input, select, textarea')); return; }
+      if (s === 5) { this.focusEl(root.querySelector('[data-success-heading]')); return; }
+      this.focusEl(root.querySelector('[data-step-heading]'));
+    });
+  }
+  focusError(e) {
+    const main = this.stepRef.current;
+    if (!main || !this.live) return;
+    const a = this.answers();
+    const order = ['dest', 'dates', 'ages', 'name', 'phone'];
+    const k = order.find(x => e[x]);
+    let el = null;
+    if (k === 'dest') el = main.querySelector('[data-dest-card]');
+    if (k === 'dates') el = a.dateMode === 'exact' ? main.querySelector('input[type="date"]') : main.querySelector('[data-month-chip]');
+    if (k === 'ages') el = [...main.querySelectorAll('select')].find(s => !s.value) || main.querySelector('select');
+    if (k === 'name') el = main.querySelector('#pl-name');
+    if (k === 'phone') el = main.querySelector('#pl-phone');
+    if (!el) return;
+    const sec = el.closest('[data-step-body] > div') || el;
+    const progressH = this.bp().isCompact ? 0 : 64;
+    this.scrollToEl(sec, progressH, () => this.focusEl(el));
+  }
+  componentWillUnmount() {
+    this.ro && this.ro.disconnect();
+    this.measure && window.removeEventListener('resize', this.measure);
+  }
+  width() { const el = this.rootRef.current; const w = el ? el.getBoundingClientRect().width : 0; return w || this.props.frameWidth || 1440; }
+  bp() { const w = this.width(); return { isMobile: w < 820, isCompact: w < 1100 }; }
+  bucketKey() { const b = this.bp(); return b.isMobile + ',' + b.isCompact; }
+
+  stored() {
+    if (this.props.motion === false) return null;
+    try { const s = JSON.parse(localStorage.getItem(Component.KEY) || 'null'); return s && s.answers ? s : null; } catch (e) { return null; }
+  }
+  answers() {
+    if (this.state.answers) return this.state.answers;
+    const st = this.stored();
+    if (st) return st.answers;
+    const p = this.props.preset;
+    let a = { ...(p === 'filled' || p === 'phoneError' ? Component.FILLED : Component.BLANK) };
+    if (p === 'prefilled') a.dest = ['hunza'];
+    if (p === 'phoneError') { a.name = ''; a.phone = '300 12'; }
+    if (this.props.motion !== false) {
+      try { const q = new URLSearchParams(location.search).get('dest'); if (q && Component.DESTS.some(d => d[0] === q)) a.dest = [q]; } catch (e) {}
+    }
+    return a;
+  }
+  step() {
+    if (this.state.step) return this.state.step;
+    const st = this.stored();
+    if (st && st.step) return st.step;
+    return this.props.step || 1;
+  }
+  save(answers, step) {
+    if (this.props.motion === false) return;
+    try { localStorage.setItem(Component.KEY, JSON.stringify({ answers, step })); } catch (e) {}
+  }
+  set(patch) { const a = { ...this.answers(), ...patch }; this.setState({ answers: a }); this.save(a, this.step()); }
+  go(step) { this.setState({ step, answers: this.answers() }); this.save(this.answers(), step); }
+
+  static lengthFor(days) { return days <= 4 ? '3–4 days' : days <= 7 ? '5–7 days' : days <= 10 ? '8–10 days' : '10+ days'; }
+  errors(a, step) {
+    const e = {};
+    if (step === 1) {
+      if (!a.dest.length) e.dest = 'Choose at least one destination, or “Not sure, suggest something”.';
+      if (a.dateMode === 'flex' && !a.month) e.dates = 'Pick a month, or switch to exact dates.';
+      if (a.dateMode === 'exact') {
+        if (!a.from || !a.to) e.dates = 'Add a start and an end date.';
+        else if (a.to < a.from) e.dates = 'The end date is before the start date.';
+      }
+    }
+    if (step === 2 && a.children > 0 && a.ages.slice(0, a.children).some(x => !x)) e.ages = 'Add an age for each child.';
+    if (step === 3) {
+      if (!a.name.trim()) e.name = 'Add your name so we know who to reply to.';
+      const d = a.phone.replace(/\D/g, '');
+      if (!d) e.phone = 'Add your WhatsApp number so we can reply.';
+      else if (d.length !== 10 || d[0] !== '3') e.phone = `This number looks incomplete (${d.length} of 10 digits). Pakistani mobile numbers have 10 digits after +92, for example 3XX XXX XXXX.`;
+    }
+    return e;
+  }
+  fmtDate(s) { if (!s) return ''; const [y, m, d] = s.split('-').map(Number); return `${d} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][m - 1]} ${y}`; }
+
+  renderVals() {
+    const b = this.bp(); this.renderedKey = this.bucketKey();
+    const a = this.answers(), step = this.step();
+    const showErr = !!this.state.tried[step] || (!!this.props.showErrors && !this.state.step);
+    const allErr = this.errors(a, step);
+    const err = showErr ? allErr : {};
+    const pill = (on) => ({ border: on ? '#10161A' : '#7D8992', bg: on ? '#10161A' : 'transparent', color: on ? '#EEF1F3' : '#10161A' });
+    const single = (key, val) => ({ label: val, on: a[key] === val, ...pill(a[key] === val), pick: () => this.set({ [key]: a[key] === val && key !== 'depart' ? '' : val }) });
+    const destName = id => (Component.DESTS.find(d => d[0] === id) || [id, id])[1];
+    const destText = a.dest.map(id => id === 'unsure' ? 'Suggest something' : destName(id)).join(', ');
+    const when = a.dateMode === 'flex' ? (a.month ? `${a.month}, about ${a.days} days` : '') : (a.from && a.to ? `${this.fmtDate(a.from)} – ${this.fmtDate(a.to)}` : '');
+    const kids = a.children ? `, ${a.children} child${a.children > 1 ? 'ren' : ''}${a.ages.filter(Boolean).length ? ` (ages ${a.ages.slice(0, a.children).filter(Boolean).join(', ')})` : ''}` : '';
+    const group = `${a.adults} adult${a.adults > 1 ? 's' : ''}${kids}`;
+    const departText = a.depart === 'Other city' ? (a.otherCity || 'Other city') : a.depart;
+    const rows = [
+      ['Destinations', destText], ['Dates', when], ['Trip length', a.length], ['Group', group], ['Group type', a.type],
+      ['Hotels', a.hotels], ['Transport', a.transport], ['From', departText], ['Budget', a.budget]
+    ];
+    const summary = rows.map(([label, v]) => ({ label, value: v || '—', color: v ? '#10161A' : '#5B6770' }));
+    const filled = rows.filter(r => r[1]).length;
+    const people = a.adults + a.children;
+    const barLabel = [a.dest.length ? (a.dest.length > 1 ? `${destName(a.dest[0]) === 'Not sure, suggest something' ? 'Suggestions' : destName(a.dest[0])} +${a.dest.length - 1}` : (a.dest[0] === 'unsure' ? 'Suggestions' : destName(a.dest[0]))) : 'Your trip',
+      a.dateMode === 'flex' ? (a.month ? a.month.split(' ')[0] === 'Jun' ? 'June' : a.month.split(' ')[0] : 'Dates?') : (a.from ? this.fmtDate(a.from).split(' ').slice(0, 2).join(' ') : 'Dates?'),
+      `${people} ${people === 1 ? 'person' : 'people'}`].join(' · ');
+    const phoneDigits = a.phone.replace(/\D/g, '');
+    const msg = [
+      'Assalam o Alaikum! I’d like to plan a private trip.',
+      `• Destinations: ${destText || '—'}`,
+      `• Dates: ${when || '—'}${a.length ? ` (${a.length})` : ''}`,
+      `• Group: ${group}${a.type ? ` · ${a.type}` : ''}`,
+      `• Hotels: ${a.hotels || 'Any'} · Transport: ${a.transport || 'Any'}`,
+      `• Departing from: ${departText}`,
+      a.budget ? `• Budget per person: ${a.budget}` : null,
+      a.time ? `• Best time to reach me: ${a.time}` : null,
+      a.notes ? `• Notes: ${a.notes}` : null,
+      `Name: ${a.name || '—'}`
+    ].filter(Boolean).join('\n');
+    const titles = ['Where and when', 'Who’s coming', 'Your details', 'Check and send'];
+    const isSuccess = step === 5;
+    const next = () => {
+      const e = this.errors(a, step);
+      if (Object.keys(e).length) { this.setState(s => ({ tried: { ...s.tried, [step]: true }, answers: a }), () => requestAnimationFrame(() => this.focusError(e))); return; }
+      this.go(step + 1);
+    };
+    const firstName = (a.name || '').trim().split(' ')[0] || '[Name]';
+    return {
+      rootRef: this.rootRef, stepRef: this.stepRef, barRef: this.barRef,
+      showNotes: this.props.showNotes ?? true,
+      isMobile: b.isMobile, isDesktop: !b.isMobile, menuOpen: b.isMobile && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      a, err,
+      isStep1: step === 1, isStep2: step === 2, isStep3: step === 3, isReview: step === 4, notReview: step !== 4, isSuccess,
+      showIntro: step === 1,
+      showSlim: step > 1 && !isSuccess,
+      progressInMain: !b.isCompact && !isSuccess, progressInBar: b.isCompact && !isSuccess,
+      reviewCols: b.isCompact ? '110px minmax(0, 1fr)' : 'minmax(110px, 180px) minmax(0, 1fr)',
+      headPad: step > 1 ? '28px' : 'clamp(64px,8cqi,128px)',
+      showProgress: !isSuccess, progressGap: b.isCompact && step > 1 ? '0' : '32px',
+      progressText: step <= 3 ? `Step ${step} of 3 · ${titles[step - 1]}` : `Review · ${titles[3]}`,
+      segments: [1, 2, 3].map(i => ({ bg: i <= Math.min(step, 3) ? '#10161A' : '#CBD2D8' })),
+      showAside: !b.isCompact && !isSuccess, showSummaryBar: b.isCompact && !isSuccess,
+      showMobileNext: b.isCompact && !isSuccess,
+      summary, filledText: `${filled} of 9 answered`,
+      summaryOpen: this.state.summaryOpen ?? !!this.props.summaryOpen,
+      summaryRot: (this.state.summaryOpen ?? !!this.props.summaryOpen) ? 'rotate(180deg)' : 'rotate(0deg)',
+      toggleSummary: () => this.setState({ summaryOpen: !(this.state.summaryOpen ?? !!this.props.summaryOpen) }),
+      barLabel,
+      destCards: Component.DESTS.map(([id, label, photo]) => {
+        const on = a.dest.includes(id);
+        return { label, photo, on, mark: on ? '✓' : '', boxBorder: on ? '#10161A' : '#7D8992', boxBg: on ? '#10161A' : 'transparent', border: on ? '#10161A' : (err.dest ? '#7A5A12' : '#CBD2D8'), bg: on ? '#E2E7EB' : '#EEF1F3',
+          pick: () => this.set({ dest: on ? a.dest.filter(x => x !== id) : [...a.dest, id] }) };
+      }),
+      dateModes: [['exact', 'Exact dates'], ['flex', 'Flexible']].map(([v, label]) => ({ label, on: a.dateMode === v, ...pill(a.dateMode === v), pick: () => this.set({ dateMode: v }) })),
+      isExact: a.dateMode === 'exact', isFlex: a.dateMode === 'flex',
+      dateBorder: err.dates ? '#7A5A12' : '#CBD2D8',
+      onFrom: e => this.set({ from: e.target.value }), onTo: e => this.set({ to: e.target.value }),
+      months: Component.MONTHS.map(m => ({ label: m, on: a.month === m, ...pill(a.month === m), pick: () => this.set({ month: a.month === m ? '' : m, ...(a.lengthAuto ? { length: Component.lengthFor(a.days) } : {}) }) })),
+      daysDec: () => { const d = Math.max(2, a.days - 1); this.set({ days: d, ...(a.lengthAuto ? { length: Component.lengthFor(d) } : {}) }); },
+      daysInc: () => { const d = Math.min(21, a.days + 1); this.set({ days: d, ...(a.lengthAuto ? { length: Component.lengthFor(d) } : {}) }); },
+      lengthHint: a.dateMode === 'flex' && a.month && a.lengthAuto ? 'Optional · filled from your flexible dates' : 'Optional',
+      lengths: Component.LENGTHS.map(l => ({ label: l, on: a.length === l, ...pill(a.length === l), pick: () => this.set({ length: a.length === l ? '' : l, lengthAuto: false }) })),
+      adultsDec: () => this.set({ adults: Math.max(1, a.adults - 1) }), adultsInc: () => this.set({ adults: Math.min(40, a.adults + 1) }),
+      childrenDec: () => this.set({ children: Math.max(0, a.children - 1) }), childrenInc: () => this.set({ children: Math.min(20, a.children + 1) }),
+      hasChildren: a.children > 0,
+      ageOptions: [{ v: '0', l: 'Under 2' }].concat(Array.from({ length: 16 }, (_, i) => ({ v: String(i + 2), l: String(i + 2) }))),
+      ageSelects: Array.from({ length: a.children }, (_, i) => ({ label: `Child ${i + 1}`, value: a.ages[i] || '', border: err.ages && !a.ages[i] ? '#7A5A12' : '#CBD2D8',
+        change: e => { const ages = [...a.ages]; ages[i] = e.target.value; this.set({ ages }); } })),
+      step2Groups: Component.G2.map(([key, label, hint, opts]) => ({ label, hint, isDepart: key === 'depart', options: opts.map(o => single(key, o)) })),
+      showOtherCity: a.depart === 'Other city', onOtherCity: e => this.set({ otherCity: e.target.value }),
+      onName: e => this.set({ name: e.target.value }), onPhone: e => this.set({ phone: e.target.value.replace(/[^\d ]/g, '').slice(0, 13) }),
+      onNotes: e => this.set({ notes: e.target.value }),
+      nameBorder: err.name ? '#7A5A12' : '#CBD2D8', phoneBorder: err.phone ? '#7A5A12' : '#CBD2D8',
+      nameInvalid: !!err.name, phoneInvalid: !!err.phone,
+      times: Component.TIMES.map(t => single('time', t)),
+      reviewSections: [
+        { title: 'Where and when', step: 1, rows: [['Destinations', destText], ['Dates', when], ['Trip length', a.length]] },
+        { title: 'Who’s coming', step: 2, rows: [['Group', group], ['Group type', a.type], ['Hotels', a.hotels], ['Transport', a.transport], ['Departing from', departText], ['Budget', a.budget]] },
+        { title: 'Your details', step: 3, rows: [['Name', a.name], ['WhatsApp', phoneDigits ? `+92 ${a.phone}` : ''], ['Best time', a.time], ['Anything else', a.notes]] }
+      ].map((s, i) => ({ title: s.title, top: i ? '1px solid #CBD2D8' : '0', edit: () => { this.pendingField = true; this.go(s.step); }, rows: s.rows.map(([label, v]) => ({ label, value: v || 'Not given', color: v ? '#10161A' : '#5B6770' })) })),
+      waMessage: msg,
+      waHref: 'https://wa.me/92XXXXXXXXXX?text=' + encodeURIComponent(msg),
+      onSend: e => { if (this.props.motion === false) e.preventDefault(); this.go(5); },
+      onCallback: () => this.go(5),
+      thanksHead: `Thanks, ${firstName}.`,
+      thanksLine: 'Check WhatsApp, we’ll reply within [X hours]. If you asked for a call back, we’ll ring you at your best time.',
+      startOver: () => { this.setState({ answers: { ...Component.BLANK }, tried: {} }); this.save({ ...Component.BLANK }, 1); this.go(1); },
+      canBack: step > 1 && step < 5,
+      back: () => this.go(Math.max(1, step - 1)),
+      next,
+      nextLabel: step === 3 ? 'Review' : b.isMobile ? 'Next' : `Next: ${titles[step]}`,
+      showInlineNav: !b.isCompact && step <= 3,
+      showBottomBar: b.isCompact && step <= 4
+    };
+  }
+}
+</script>
+</body>
+</html>

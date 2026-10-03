@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+</helmet>
+<div style="display:flex;flex-direction:column;max-height:{{ maxH }};font-family:'Geist',system-ui,sans-serif;color:#F1EEE8;-webkit-font-smoothing:antialiased;">
+  <div style="flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:20px;padding-bottom:20px;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:0;">
+        <span style="font-size:13px;color:#8F9AA2;">from</span>
+        <span style="white-space:nowrap;font-size:30px;line-height:1.05;font-weight:500;letter-spacing:-.025em;font-variant-numeric:tabular-nums;">PKR 145,000</span>
+        <span style="font-size:13px;color:#8F9AA2;">per person · twin sharing</span>
+      </div>
+      <div style="flex:none;display:flex;align-items:center;gap:6px;font-size:14px;padding-bottom:2px;"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><span style="font-weight:600;">4.9</span><span style="color:#8F9AA2;">(128)</span></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;padding-top:20px;border-top:1px solid #253038;">
+      <span style="font-size:13px;font-weight:500;color:#B7BFC5;">Departure date</span>
+      <sc-if value="{{ compact }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative;">
+          <select aria-label="Departure date" value="{{ selectValue }}" onChange="{{ onSelect }}" style="width:100%;height:52px;appearance:none;-webkit-appearance:none;padding:0 44px 0 14px;border:1px solid {{ selectBorder }};border-radius:2px;background:#0C1216;color:#F1EEE8;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;">
+            <option value="-1" disabled="{{ true }}">Choose a departure</option>
+            <sc-for list="{{ deps }}" as="d" hint-placeholder-count="4"><option value="{{ d.value }}">{{ d.optionText }}</option></sc-for>
+          </select>
+          <span style="position:absolute;right:16px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:14px;color:#B7BFC5;">▾</span>
+        </div>
+        <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:{{ selSeatsColor }};"><span style="width:7px;height:7px;border-radius:50%;background:{{ selSeatsColor }};flex:none;"></span>{{ selSeatsText }}</div>
+        </sc-if>
+      </sc-if>
+      <sc-if value="{{ notCompact }}" hint-placeholder-val="{{ true }}">
+        <sc-for list="{{ deps }}" as="d" hint-placeholder-count="4">
+          <button onClick="{{ d.onClick }}" aria-pressed="{{ d.selected }}" style="min-height:48px;display:flex;align-items:center;gap:12px;padding:0 14px;border:1px solid {{ d.border }};background:{{ d.bg }};color:#F1EEE8;font-family:inherit;cursor:pointer;text-align:left;">
+            <span style="width:16px;height:16px;border-radius:50%;border:1.5px solid {{ d.ring }};display:flex;align-items:center;justify-content:center;flex:none;"><span style="width:8px;height:8px;border-radius:50%;background:{{ d.dot }};"></span></span>
+            <span style="flex:1;font-size:15px;font-weight:500;color:{{ d.dateColor }};">{{ d.label }}</span>
+            <span style="font-size:13px;font-weight:500;color:{{ d.seatsColor }};white-space:nowrap;">{{ d.seatsText }}</span>
+          </button>
+        </sc-for>
+      </sc-if>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:13px;font-weight:500;color:#B7BFC5;">Travellers</span><span style="font-size:13px;color:#8F9AA2;">Adults and children [X]+</span></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <button onClick="{{ dec }}" aria-label="Fewer travellers" style="width:44px;height:44px;border-radius:6px;border:1px solid #5C6871;background:transparent;color:#F1EEE8;font-size:20px;line-height:1;cursor:pointer;font-family:inherit;">−</button>
+        <span style="min-width:32px;text-align:center;font-size:18px;font-weight:500;font-variant-numeric:tabular-nums;">{{ travellers }}</span>
+        <button onClick="{{ inc }}" aria-label="More travellers" style="width:44px;height:44px;border-radius:6px;border:1px solid #5C6871;background:transparent;color:#F1EEE8;font-size:20px;line-height:1;cursor:pointer;font-family:inherit;">+</button>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <span style="font-size:13px;font-weight:500;color:#B7BFC5;">Room sharing</span>
+      <div style="display:flex;gap:8px;">
+        <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="3">
+          <button onClick="{{ r.onClick }}" aria-pressed="{{ r.selected }}" style="flex:1 1 0;min-width:0;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid {{ r.border }};background:{{ r.bg }};color:#F1EEE8;font-family:inherit;cursor:pointer;padding:6px 4px;">
+            <span style="font-size:14px;font-weight:500;">{{ r.label }}</span>
+            <span style="font-size:13px;color:#B7BFC5;font-variant-numeric:tabular-nums;">{{ r.priceText }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="padding-top:16px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.45;color:#B7BFC5;">
+      <span><span style="color:#F1EEE8;font-weight:500;">DTS licence No. [NUMBER]</span> · Departs from [pickup point], Lahore</span>
+      <span>Bank transfer · JazzCash · Easypaisa · Card</span>
+    </div>
+  </div>
+
+  <div style="flex:none;padding-top:16px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:8px;background:#0C1216;">
+    <sc-if value="{{ noDate }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;min-height:30px;"><span style="font-size:14px;color:#B7BFC5;">Total</span><span style="font-size:15px;color:#8F9AA2;">Choose a date</span></div>
+    </sc-if>
+    <sc-if value="{{ isAvail }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;min-height:30px;"><span style="font-size:14px;color:#B7BFC5;">{{ breakdown }}</span><span style="white-space:nowrap;font-size:24px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums;">{{ totalText }}</span></div>
+      <div style="font-size:13px;color:#8F9AA2;">Advance to reserve: [X]% of total</div>
+    </sc-if>
+    <sc-if value="{{ isSold }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:14px;line-height:1.5;color:#B7BFC5;">{{ soldLabel }} is full. Join the waitlist and we’ll message you on WhatsApp if a seat opens.</div>
+    </sc-if>
+    <sc-if value="{{ noDate }}" hint-placeholder-val="{{ true }}">
+      <button disabled="{{ true }}" style="height:52px;border-radius:6px;border:1px solid #253038;background:#253038;color:#8F9AA2;font-family:inherit;font-size:16px;font-weight:500;cursor:not-allowed;">Reserve with [X]% advance</button>
+    </sc-if>
+    <sc-if value="{{ isAvail }}" hint-placeholder-val="{{ false }}">
+      <a href="#reserve" style="height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;">Reserve with [X]% advance <span>→</span></a>
+    </sc-if>
+    <sc-if value="{{ isSold }}" hint-placeholder-val="{{ false }}">
+      <a href="#waitlist" style="height:52px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;">Join waitlist</a>
+    </sc-if>
+    <a href="#whatsapp" style="height:48px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;border:1px solid #F1EEE8;color:#F1EEE8;text-decoration:none;font-size:16px;font-weight:500;"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="display:block;flex:none;"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>Ask on WhatsApp</a>
+    <p style="margin:2px 0 0;font-size:13px;line-height:1.45;color:#8F9AA2;">Cancel up to [X] days before departure for a full refund of your advance.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:380,&quot;height&quot;:860},&quot;initialDate&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[-1,0,1,2,3],&quot;default&quot;:-1,&quot;tsType&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Selected date (-1 none, 2 = sold out)&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Compact (dropdown dates)&quot;},&quot;maxHeight&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;label&quot;:&quot;Max height (CSS)&quot;},&quot;date&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;onDate&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(i:number)=&gt;void&quot;}}">
+class Component extends DCLogic {
+  state = { date: null, travellers: 2, room: 'twin' };
+  static DEPS = [
+    { label: '12–20 May', seats: 3 },
+    { label: '26 May – 3 Jun', seats: 9 },
+    { label: '9–17 Jun', seats: 0 },
+    { label: '23 Jun – 1 Jul', seats: 14 }
+  ];
+  static ROOMS = [
+    { id: 'twin', label: 'Twin', price: 145000 },
+    { id: 'triple', label: 'Triple', price: 135000 },
+    { id: 'quad', label: 'Quad', price: 127000 }
+  ];
+  renderVals() {
+    const fmt = n => n.toLocaleString('en-US');
+    const controlled = typeof this.props.onDate === 'function';
+    const date = controlled ? (this.props.date ?? -1) : (this.state.date ?? this.props.initialDate ?? -1);
+    const setDate = i => controlled ? this.props.onDate(i) : this.setState({ date: i });
+    const D = Component.DEPS, R = Component.ROOMS;
+    const sel = D[date];
+    const sold = !!sel && sel.seats === 0;
+    const room = R.find(r => r.id === this.state.room) || R[0];
+    const t = this.state.travellers;
+    const maxT = sel && sel.seats > 0 ? sel.seats : 16;
+    const seatsText = d => d.seats === 0 ? 'Sold out' : d.seats <= 3 ? `Only ${d.seats} seats left` : `${d.seats} seats left`;
+    const seatsColor = d => d.seats === 0 ? '#8F9AA2' : d.seats <= 3 ? '#D9B44A' : '#B7BFC5';
+    const compact = !!this.props.compact;
+    return {
+      maxH: this.props.maxHeight || 'none',
+      compact, notCompact: !compact,
+      selectValue: String(date),
+      selectBorder: sel ? '#F1EEE8' : '#253038',
+      onSelect: e => setDate(parseInt(e.target.value, 10)),
+      hasSel: !!sel,
+      selSeatsText: sel ? seatsText(sel) : '',
+      selSeatsColor: sel ? seatsColor(sel) : '#B7BFC5',
+      deps: D.map((d, i) => {
+        const s = i === date, so = d.seats === 0;
+        return {
+          value: String(i), optionText: `${d.label} · ${seatsText(d)}`,
+          label: d.label, selected: s,
+          seatsText: seatsText(d), seatsColor: seatsColor(d),
+          dateColor: so ? '#B7BFC5' : '#F1EEE8',
+          border: s ? '#F1EEE8' : '#253038', bg: s ? '#121A1F' : 'transparent',
+          ring: s ? '#F1EEE8' : '#5C6871', dot: s ? '#F1EEE8' : 'transparent',
+          onClick: () => setDate(i)
+        };
+      }),
+      rooms: R.map(r => {
+        const s = r.id === room.id;
+        return { label: r.label, priceText: fmt(r.price), selected: s, border: s ? '#F1EEE8' : '#253038', bg: s ? '#121A1F' : 'transparent', onClick: () => this.setState({ room: r.id }) };
+      }),
+      travellers: t,
+      dec: () => this.setState(s => ({ travellers: Math.max(1, s.travellers - 1) })),
+      inc: () => this.setState(s => ({ travellers: Math.min(maxT, s.travellers + 1) })),
+      noDate: !sel, isAvail: !!sel && !sold, isSold: sold,
+      soldLabel: sel ? sel.label : '',
+      breakdown: `${t} × PKR ${fmt(room.price)}`,
+      totalText: `PKR ${fmt(room.price * t)}`
+    };
+  }
+}
+</script>
+</body>
+</html>

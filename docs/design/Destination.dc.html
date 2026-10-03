@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0C1216;color:#F1EEE8;-webkit-font-smoothing:antialiased}
+a{color:#F1EEE8}
+a:hover{color:#D9B44A}
+[data-surface="light"] a{color:#10161A}
+[data-surface="light"] a:hover{color:#7A5A12}
+[data-surface="dark"] a{color:#F1EEE8}
+[data-surface="dark"] a:hover{color:#D9B44A}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="container-type:inline-size;background:#0C1216;color:#F1EEE8;font-family:'Geist',system-ui,sans-serif;">
+
+  <header data-surface="dark" style="color:#F1EEE8;position:sticky;top:0;z-index:50;height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 clamp(20px,3.4cqi,48px);background:rgba(12,18,22,.86);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid rgba(241,238,232,.12);">
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:#F1EEE8;">
+      <span style="width:16px;height:14px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>
+      <span style="font-size:16px;font-weight:600;letter-spacing:-.01em;">[BRAND NAME]</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500;">
+        <a href="Tours.dc.html" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Tours</a>
+        <a href="Homepage.dc.html#how" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#D9B44A;">Destinations</a>
+        <a href="About.dc.html#guides" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Reviews</a>
+      </nav>
+      <a href="#whatsapp" style="flex:none;white-space:nowrap;display:flex;align-items:center;gap:10px;height:44px;padding:0 18px;border-radius:6px;border:1px solid rgba(241,238,232,.5);text-decoration:none;color:#F1EEE8;font-size:14px;font-weight:500;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">WhatsApp us</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <a href="#whatsapp" aria-label="Chat on WhatsApp" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(241,238,232,.5);"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;"></a>
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:6px;border:1px solid rgba(241,238,232,.5);background:transparent;cursor:pointer;padding:0;"><span style="width:16px;height:1.5px;background:#F1EEE8;"></span><span style="width:16px;height:1.5px;background:#F1EEE8;"></span></button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:72px;left:0;right:0;height:calc(100vh - 72px);min-height:560px;background:#0C1216;padding:32px 20px;display:flex;flex-direction:column;gap:4px;border-top:1px solid #253038;">
+        <a href="Tours.dc.html" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Tours</a>
+        <a href="Homepage.dc.html#how" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;color:#D9B44A;border-bottom:1px solid #253038;">Destinations</a>
+        <a href="About.dc.html#guides" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Reviews</a>
+        <a href="#whatsapp" style="margin-top:32px;height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Plan on WhatsApp</a>
+      </div>
+    </sc-if>
+  </header>
+
+  <section data-screen-label="01 Hero" style="position:relative;margin-top:-72px;min-height:clamp(620px,52cqi,780px);overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:48px;padding-top:96px;">
+    <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#151E24 0 12px,#10181C 12px 24px);"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,18,22,.6) 0%,rgba(12,18,22,0) 20%,rgba(12,18,22,0) 34%,rgba(12,18,22,.82) 68%,#0C1216 100%);"></div>
+    <div style="position:relative;padding:0 clamp(20px,3.4cqi,48px);display:flex;flex-direction:column;gap:20px;align-items:flex-start;">
+      <a href="Homepage.dc.html#destinations" style="display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:500;text-decoration:none;color:#F1EEE8;">← All destinations</a>
+      <div style="max-width:380px;padding:12px 14px;border:1px solid rgba(241,238,232,.18);font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.55;letter-spacing:.02em;color:#B7BFC5;">PHOTO · {{ photo }}</div>
+      <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;max-width:760px;">
+          <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;background:rgba(12,18,22,.6);">TEMPLATE · One template filled from data: hero, facts, season months, attractions with coordinates, route legs, notes, linked tours</span>
+          <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;background:rgba(12,18,22,.6);">{{ seoChip }}</span>
+          <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;background:rgba(12,18,22,.6);">RULE · Prices, dates, seats and all buttons are never hidden by animation</span>
+          <span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;background:rgba(12,18,22,.6);">REDUCED MOTION · Everything simply appears</span>
+        </div>
+      </sc-if>
+    </div>
+    <div style="position:relative;padding:0 clamp(20px,3.4cqi,48px) clamp(28px,3cqi,44px);display:flex;flex-direction:column;gap:16px;">
+      <div style="font-size:15px;font-weight:500;color:#B7BFC5;">{{ region }}</div>
+      <h1 style="margin:0 0 0 -.035em;font-size:{{ nameSize }};line-height:.8;font-weight:600;letter-spacing:-.065em;white-space:nowrap;">{{ name }}</h1>
+      <p style="margin:8px 0 0;max-width:560px;font-size:clamp(18px,1.6cqi,22px);line-height:1.4;text-wrap:pretty;">{{ line }}</p>
+      <div style="margin-top:12px;padding-top:20px;border-top:1px solid rgba(241,238,232,.18);display:grid;grid-template-columns:repeat(auto-fill,minmax(max(150px,calc((100% - 72px) / 4)),1fr));gap:16px 24px;">
+        <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-size:13px;color:#8F9AA2;">{{ f.label }}</span><span style="font-size:18px;font-weight:500;">{{ f.value }}</span></div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{ full }}" hint-placeholder-val="{{ true }}">
+    <section data-screen-label="02 Overview" style="padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+      <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:999 1 600px;min-width:0;">
+          <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;text-wrap:balance;">{{ overviewHead }}</h2>
+          <div style="margin:40px 0 0 auto;max-width:560px;display:flex;flex-direction:column;gap:20px;">
+            <sc-for list="{{ overview }}" as="p" hint-placeholder-count="2">
+              <p style="margin:0;font-size:17px;line-height:1.6;color:#B7BFC5;text-wrap:pretty;">{{ p.text }}</p>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <section data-screen-label="03 Season calendar" style="border-top:1px solid #253038;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:999 1 600px;min-width:0;">
+        <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">The best months to visit</h2>
+        <div style="margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 24px;font-size:13px;color:#B7BFC5;">
+          <span style="display:flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:#F1EEE8;"></span>Best</span>
+          <span style="display:flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:#121A1F;border:1px solid #5C6871;"></span>Good</span>
+          <span style="display:flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:#0C1216;border:1px solid #253038;"></span>Avoid · closed or not recommended</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:40px;display:grid;grid-template-columns:{{ monthCols }};gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+      <sc-for list="{{ months }}" as="m" hint-placeholder-count="12">
+        <div style="background:{{ m.bg }};color:{{ m.color }};padding:14px 10px 16px;min-height:76px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;">
+          <span style="font-size:15px;font-weight:500;">{{ m.name }}</span>
+          <span style="font-size:13px;font-weight:500;color:{{ m.sub }};">{{ m.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));margin-top:40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(240px,calc((100% - 3px) / 4)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+      <sc-for list="{{ seasons }}" as="s" hint-placeholder-count="4">
+        <div style="background:#0C1216;padding:24px clamp(16px,1.7cqi,24px) 28px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;"><span style="font-size:18px;font-weight:500;">{{ s.name }}</span><span style="font-size:13px;color:#8F9AA2;">{{ s.months }}</span></div>
+          <p style="margin:4px 0 0;font-size:15px;line-height:1.55;color:#B7BFC5;">{{ s.text }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <sc-if value="{{ full }}" hint-placeholder-val="{{ true }}">
+    <section id="places" data-screen-label="04 Places to see" style="border-top:1px solid #253038;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+      <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:999 1 600px;min-width:0;">
+          <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">{{ placesHead }}</h2>
+          <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;"><span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">Pins are shown straight away; the page keeps scrolling normally over the map</span><span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #8F9AA2;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#F1EEE8;">Hover or tap a place to light its pin, and the reverse</span></div>
+          </sc-if>
+        </div>
+      </div>
+      <div style="margin-top:56px;display:flex;flex-wrap:wrap;gap:40px 56px;align-items:flex-start;">
+        <div ref="{{ mapRef }}" style="flex:1 1 480px;max-width:640px;min-width:0;position:{{ mapPos }};top:96px;display:flex;flex-direction:column;gap:12px;">
+          <div style="position:relative;aspect-ratio:484 / 420;">
+            <svg viewBox="0 0 484 420" style="position:absolute;inset:0;width:100%;height:100%;display:block;" aria-hidden="true">
+              <line x1="80.6" y1="0" x2="80.6" y2="420" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <line x1="161.2" y1="0" x2="161.2" y2="420" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <line x1="241.8" y1="0" x2="241.8" y2="420" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <line x1="322.4" y1="0" x2="322.4" y2="420" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <line x1="403" y1="0" x2="403" y2="420" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <line x1="0" y1="40" x2="484" y2="40" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <line x1="0" y1="140" x2="484" y2="140" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <line x1="0" y1="240" x2="484" y2="240" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <line x1="0" y1="340" x2="484" y2="340" style="stroke:#1B252C;stroke-width:1;vector-effect:non-scaling-stroke;"></line>
+              <path d="M20 410 L80 330 L140 280 L180 236 L225 222 L300 212 L352 204 L395 186 L384 150 L390 108 L380 70 L392 0" style="fill:none;stroke:#F1EEE8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;"></path>
+            </svg>
+            <span data-maplabel="1" style="position:absolute;left:4px;top:calc(9.5% - 16px);font-size:11px;color:#8F9AA2;">36.5°N</span>
+            <span data-maplabel="1" style="position:absolute;left:4px;top:calc(57.1% - 16px);font-size:11px;color:#8F9AA2;">36.3°N</span>
+            <span data-maplabel="1" style="position:absolute;left:calc(49.96% + 4px);bottom:4px;font-size:11px;color:#8F9AA2;">74.7°E</span>
+            <span data-maplabel="1" style="position:absolute;left:8%;bottom:4px;font-size:12px;color:#B7BFC5;">↓ Gilgit</span>
+            <span data-maplabel="1" style="position:absolute;left:calc(81% + 8px);top:6px;font-size:12px;color:#B7BFC5;">↑ Khunjerab</span>
+            <span data-maplabel="1" style="position:absolute;left:31%;top:58%;font-size:12px;color:#B7BFC5;">Karimabad</span>
+            <sc-for list="{{ attractions }}" as="a" hint-placeholder-count="7">
+              <button data-pin="1" onMouseEnter="{{ a.enter }}" onMouseLeave="{{ a.leave }}" onFocus="{{ a.enter }}" onBlur="{{ a.leave }}" onClick="{{ a.pick }}" aria-label="{{ a.name }}" style="z-index:{{ a.z }};position:absolute;left:{{ a.left }};top:{{ a.top }};width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:0;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:opacity .4s ease;">
+                <span style="position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(217,180,74,.22);opacity:{{ a.halo }};transition:opacity .2s ease;"></span>
+                <span style="position:relative;width:26px;height:26px;border-radius:50%;border:1.5px solid {{ a.pinBorder }};background:{{ a.pinBg }};color:{{ a.pinColor }};font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;transition:background .2s ease,color .2s ease;">{{ a.num }}</span>
+                <sc-if value="{{ a.hl }}" hint-placeholder-val="{{ false }}"><span data-pinlabel="1" style="position:absolute;left:50%;bottom:38px;transform:translateX(-50%);white-space:nowrap;font-size:13px;font-weight:600;padding:0 4px;background:#0C1216;color:#D9B44A;">{{ a.name }}</span></sc-if>
+              </button>
+            </sc-for>
+          </div>
+          <span style="font-size:12px;color:#8F9AA2;">Schematic · roads simplified</span>
+        </div>
+        <ol style="flex:1 1 360px;min-width:0;list-style:none;margin:0;padding:0;border-top:1px solid #253038;">
+          <sc-for list="{{ attractions }}" as="a" hint-placeholder-count="7">
+            <li>
+              <button onMouseEnter="{{ a.enter }}" onMouseLeave="{{ a.leave }}" onFocus="{{ a.enter }}" onBlur="{{ a.leave }}" onClick="{{ a.tap }}" style="width:100%;display:flex;gap:16px;align-items:flex-start;padding:16px 12px;background:{{ a.rowBg }};border:0;border-bottom:1px solid #253038;text-align:left;color:#F1EEE8;font-family:inherit;cursor:pointer;transition:background .2s ease;">
+                <span style="position:relative;flex:none;width:96px;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 8px,#10181C 8px 16px);border-radius:8px;overflow:hidden;"><span style="position:absolute;left:6px;right:6px;bottom:5px;font-family:'Geist Mono',ui-monospace,monospace;font-size:10px;line-height:1.3;letter-spacing:.02em;color:#B7BFC5;">PHOTO</span></span>
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <span style="display:flex;align-items:center;gap:10px;"><span style="width:22px;height:22px;flex:none;border-radius:50%;border:1.5px solid {{ a.pinBorder }};background:{{ a.pinBg }};color:{{ a.pinColor }};font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;transition:background .2s ease,color .2s ease;">{{ a.num }}</span><span style="font-size:17px;font-weight:500;letter-spacing:-.01em;">{{ a.name }}</span></span>
+                  <span style="font-size:14px;line-height:1.5;color:#B7BFC5;">{{ a.desc }}</span>
+                  <span style="align-self:flex-start;height:26px;display:inline-flex;align-items:center;padding:0 10px;border-radius:999px;border:1px solid #5C6871;font-size:13px;color:#B7BFC5;">{{ a.tag }}</span>
+                </span>
+              </button>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+    </section>
+
+    <section data-screen-label="05 Getting there" style="border-top:1px solid #253038;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+      <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:999 1 600px;min-width:0;">
+          <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">Getting there from Lahore by road</h2>
+          <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+            <div style="margin-top:56px;padding:44px 0 48px;display:flex;align-items:center;">
+              <sc-for list="{{ routeItems }}" as="r" hint-placeholder-count="9">
+                <sc-if value="{{ r.isStop }}" hint-placeholder-val="{{ true }}">
+                  <div style="position:relative;flex:none;width:12px;height:12px;border-radius:50%;background:{{ r.dot }};">
+                    <span style="position:absolute;bottom:24px;left:{{ r.lLeft }};right:{{ r.lRight }};transform:{{ r.lShift }};white-space:nowrap;font-size:17px;font-weight:500;color:{{ r.nameColor }};">{{ r.name }}</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ r.isLeg }}" hint-placeholder-val="{{ false }}">
+                  <div style="flex:1;position:relative;height:2px;background:#F1EEE8;"><span style="position:absolute;top:18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:14px;color:#B7BFC5;font-variant-numeric:tabular-nums;">{{ r.time }}</span></div>
+                </sc-if>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+            <ol style="margin:40px 0 0;padding:0;list-style:none;">
+              <sc-for list="{{ routeStops }}" as="r" hint-placeholder-count="5">
+                <li style="display:flex;gap:16px;">
+                  <div style="flex:none;width:12px;display:flex;flex-direction:column;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:{{ r.dot }};margin-top:5px;flex:none;"></span><span style="flex:1;width:2px;background:{{ r.line }};"></span></div>
+                  <div style="padding-bottom:22px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:17px;font-weight:500;color:{{ r.nameColor }};">{{ r.name }}</span><span style="font-size:14px;color:#B7BFC5;">{{ r.next }}</span></div>
+                </li>
+              </sc-for>
+            </ol>
+          </sc-if>
+          <div style="margin-top:24px;border-top:1px solid #253038;">
+            <div style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:16px 0;border-bottom:1px solid #253038;"><span style="flex:0 0 120px;font-size:14px;color:#8F9AA2;">By road</span><span style="flex:1 1 300px;font-size:15px;line-height:1.55;">{{ routeNote }}</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:16px 0;border-bottom:1px solid #253038;"><span style="flex:0 0 120px;font-size:14px;color:#8F9AA2;">By air</span><span style="flex:1 1 300px;font-size:15px;line-height:1.55;">{{ flightNote }}</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section data-surface="light" data-screen-label="06 Good to know" style="background:#EEF1F3;color:#10161A;border-top:1px solid #CBD2D8;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+      <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:999 1 600px;min-width:0;">
+          <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">Good to know before you go</h2>
+        </div>
+      </div>
+      <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(260px,calc((100% - 2px) / 3)),1fr));gap:1px;background:#CBD2D8;border-top:1px solid #CBD2D8;border-bottom:1px solid #CBD2D8;">
+        <sc-for list="{{ notes }}" as="n" hint-placeholder-count="6">
+          <div style="background:#EEF1F3;padding:28px clamp(16px,1.7cqi,24px) 32px;display:flex;flex-direction:column;gap:8px;">
+            <span style="font-size:18px;font-weight:500;letter-spacing:-.01em;">{{ n.title }}</span>
+            <p style="margin:0;font-size:15px;line-height:1.55;color:#46525C;">{{ n.text }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section data-screen-label="07 Tours" style="border-top:1px solid #253038;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+      <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:999 1 600px;min-width:0;">
+          <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">{{ toursHead }}</h2>
+        </div>
+      </div>
+      <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(280px,calc((100% - 2px) / 3)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+        <sc-for list="{{ tours }}" as="t" hint-placeholder-count="2">
+          <div data-rise="1" style="background:#0C1216;display:flex;flex-direction:column;">
+            <dc-import name="TourCard" title="{{ t.title }}" price="{{ t.price }}" route="{{ t.route }}" dates="{{ t.dates }}" seats-left="{{ t.seats }}" total-seats="{{ t.total }}" rating="{{ t.rating }}" reviews="{{ t.reviews }}" status="{{ t.status }}" photo="{{ t.photo }}" href="{{ t.href }}" style="flex:1;" hint-size="100%,620px"></dc-import>
+          </div>
+        </sc-for>
+        <a href="{{ toursHref }}" style="background:#0C1216;min-height:200px;padding:32px 28px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;text-decoration:none;color:#F1EEE8;">
+          <span style="font-size:26px;line-height:1.08;font-weight:500;letter-spacing:-.025em;">{{ toursLink }}</span>
+          <span style="font-size:14px;color:#B7BFC5;">Opens the Tours page, filtered to {{ name }}</span>
+        </a>
+      </div>
+    </section>
+
+    <section data-screen-label="08 Private trip banner" style="border-top:1px solid #253038;padding:0 clamp(20px,3.4cqi,48px);">
+      <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:32px 48px;padding:clamp(40px,5cqi,72px) 0;">
+        <div style="flex:1 1 320px;max-width:560px;position:relative;aspect-ratio:16 / 10;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:16px;right:16px;bottom:14px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.5;color:#B7BFC5;">PHOTO · {{ bannerPhoto }}</div></div>
+        <div style="flex:1 1 360px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:20px;">
+          <h2 style="margin:0;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">{{ bannerHead }}</h2>
+          <p style="margin:0;max-width:460px;font-size:17px;line-height:1.6;color:#B7BFC5;">We plan private tours for families and teams, from 2 days to 2 weeks.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="{{ plannerHref }}" style="flex:1 1 auto;height:52px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 28px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;white-space:nowrap;">Plan a private trip <span>→</span></a>
+            <a href="#whatsapp" style="flex:1 1 auto;height:52px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 24px;border-radius:6px;border:1px solid #F1EEE8;color:#F1EEE8;text-decoration:none;font-size:16px;font-weight:500;white-space:nowrap;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">Ask on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="09 Reviews" style="border-top:1px solid #253038;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+      <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:999 1 600px;min-width:0;">
+          <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">{{ reviewsHead }}</h2>
+        </div>
+      </div>
+      <div style="margin-left:calc(-1 * clamp(16px,1.7cqi,24px));margin-right:calc(-1 * clamp(16px,1.7cqi,24px));clip-path:inset(0 clamp(16px,1.7cqi,24px));margin-top:56px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(290px,calc((100% - 2px) / 3)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+        <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+          <figure style="margin:0;background:#0C1216;padding:32px clamp(16px,1.7cqi,24px) 36px;display:flex;flex-direction:column;gap:24px;">
+            <div aria-label="5 out of 5 stars" style="display:flex;gap:4px;"><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg><svg width="15" height="15" viewBox="0 0 16 16"><polygon points="8,0.8 10.2,5.6 15.4,6.1 11.5,9.6 12.6,14.8 8,12.1 3.4,14.8 4.5,9.6 0.6,6.1 5.8,5.6" fill="#D9B44A"></polygon></svg></div>
+            <blockquote style="margin:0;font-size:clamp(19px,1.6cqi,23px);line-height:1.42;letter-spacing:-.01em;color:#F1EEE8;text-wrap:pretty;">“{{ r.quote }}”</blockquote>
+            <figcaption style="margin-top:auto;padding-top:20px;border-top:1px solid #253038;display:flex;flex-direction:column;gap:4px;"><span style="font-size:15px;font-weight:500;">{{ r.name }}</span><span style="font-size:14px;color:#8F9AA2;">{{ r.trip }}</span></figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </section>
+
+    <section data-screen-label="10 Other destinations" style="border-top:1px solid #253038;padding:clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px);">
+      <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:999 1 600px;min-width:0;">
+          <h2 style="margin:0;max-width:820px;font-size:clamp(34px,4.6cqi,66px);line-height:1;font-weight:500;letter-spacing:-.04em;">Other valleys we travel to</h2>
+        </div>
+      </div>
+      <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(160px,calc((100% - 4px) / 5)),1fr));gap:1px;background:#253038;border-top:1px solid #253038;border-bottom:1px solid #253038;">
+        <sc-for list="{{ others }}" as="o" hint-placeholder-count="5">
+          <a href="{{ o.href }}" style="grid-column:{{ o.span }};background:#0C1216;display:flex;flex-direction:column;text-decoration:none;color:#F1EEE8;">
+            <div style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#151E24 0 10px,#10181C 10px 20px);border-radius:8px;overflow:hidden;"><div style="position:absolute;left:12px;right:12px;bottom:10px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.45;color:#B7BFC5;">PHOTO · {{ o.photo }}</div></div>
+            <div style="padding:16px clamp(16px,1.7cqi,24px) 22px;display:flex;flex-direction:column;gap:4px;"><span style="font-size:20px;font-weight:500;letter-spacing:-.02em;">{{ o.name }}</span><span style="font-size:14px;color:#B7BFC5;">Best · {{ o.season }}</span><span style="font-size:13px;color:#8F9AA2;">{{ o.toursText }}</span></div>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <footer id="whatsapp" data-surface="dark" data-screen-label="11 Footer" style="background:#0C1216;color:#F1EEE8;border-top:1px solid #253038;padding:clamp(72px,9cqi,128px) clamp(20px,3.4cqi,48px) 32px;">
+      <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+        <div style="flex:0 0 240px;display:flex;align-items:center;gap:10px;height:28px;font-size:13px;font-weight:500;letter-spacing:.01em;color:#B7BFC5;"><span style="width:11px;height:10px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>Contact</div>
+        <div style="flex:999 1 600px;min-width:0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:64px 48px;">
+          <nav style="display:flex;flex-direction:column;">
+            <a href="Tours.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Tours</a>
+            <a href="Homepage.dc.html#destinations" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Destinations</a>
+            <a href="Trip Planner.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Private trips</a>
+            <a href="About.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">About us</a>
+            <a href="Homepage.dc.html#reviews" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Reviews</a>
+          </nav>
+          <div style="flex:0 1 380px;display:flex;flex-direction:column;gap:28px;">
+            <p style="margin:0;font-size:17px;line-height:1.55;color:#B7BFC5;">Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.</p>
+            <a href="#whatsapp" style="height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Chat on WhatsApp</a>
+            <div style="display:flex;flex-direction:column;border-top:1px solid #253038;">
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">WhatsApp</span><a href="#whatsapp" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 3XX XXX XXXX</a></div>
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Phone</span><a href="#phone" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 42 XXXX XXXX</a></div>
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Email</span><a href="#email" style="text-decoration:none;">hello@[brand].pk</a></div>
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Office</span><span style="text-align:right;">[Office address],<br>Lahore, Punjab</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:96px;padding-top:24px;border-top:1px solid #253038;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;font-size:13px;color:#B7BFC5;">
+        <span>© 2026 [BRAND NAME] · DTS Licence No. [NUMBER]</span>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 24px;"><a href="#instagram" style="color:#B7BFC5;">Instagram</a><a href="#facebook" style="color:#B7BFC5;">Facebook</a><a href="#youtube" style="color:#B7BFC5;">YouTube</a><a href="Help.dc.html" style="color:#B7BFC5;">Help</a><a href="Contact.dc.html" style="color:#B7BFC5;">Contact</a><a href="Legal.dc.html?doc=privacy" style="color:#B7BFC5;">Privacy</a><a href="Legal.dc.html?doc=terms" style="color:#B7BFC5;">Terms</a></div>
+      </div>
+    </footer>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;dest&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;hunza&quot;,&quot;murree&quot;],&quot;default&quot;:&quot;hunza&quot;,&quot;tsType&quot;:&quot;'hunza'|'murree'&quot;,&quot;label&quot;:&quot;Destination&quot;},&quot;highlight&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;baltit&quot;,&quot;altit&quot;,&quot;eagle&quot;,&quot;attabad&quot;,&quot;passu&quot;,&quot;hussaini&quot;,&quot;rakaposhi&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;label&quot;:&quot;Highlighted place&quot;},&quot;checkOnly&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Template check (hero + calendar only)&quot;},&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Show build notes&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Enable motion&quot;},&quot;frameWidth&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  state = { hover: null, picked: null, menuOpen: false };
+  static MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  static TOURS = {
+    grand: { title: 'Hunza & Skardu Grand', price: '145,000', route: 'Lahore → Hunza → Skardu', dates: '12–20 May · 9 days, 8 nights', seats: 3, total: 16, rating: '4.9', reviews: '128', status: 'urgent', photo: 'Attabad Lake, turquoise water, boats at the jetty', href: 'Tour Detail.dc.html' },
+    express: { title: 'Hunza Express', price: '[X]', route: 'Lahore → Hunza', dates: '2–7 Jun · 6 days, 5 nights', seats: 12, total: 16, rating: '[X.X]', reviews: '[X]', status: 'open', photo: 'SAMPLE DATA · Karimabad from Eagle’s Nest at sunset', href: '#trip' },
+    murree: { title: 'Murree & Galiyat Weekend', price: '[X]', route: 'Lahore → Murree', dates: '29–31 May · 3 days, 2 nights', seats: 14, total: 20, rating: '[X.X]', reviews: '[X]', status: 'open', photo: 'SAMPLE DATA · Pine ridges of the Galiyat in mist', href: '#trip' }
+  };
+  static ALL = [
+    { key: 'hunza', name: 'Hunza', season: 'Apr – Oct', tours: 2, photo: 'Karimabad terraces, Rakaposhi' },
+    { key: 'skardu', name: 'Skardu', season: 'May – Oct', tours: 2, photo: 'Upper Kachura Lake at dawn' },
+    { key: 'naran-kaghan', name: 'Naran-Kaghan', season: 'Jun – Sep', tours: 1, photo: 'Lake Saiful Muluk' },
+    { key: 'swat', name: 'Swat', season: 'Apr – Oct', tours: 2, photo: 'Kalam forest and river' },
+    { key: 'fairy-meadows', name: 'Fairy Meadows', season: 'Jun – Sep', tours: 1, photo: 'Nanga Parbat from the meadow' },
+    { key: 'murree', name: 'Murree', season: 'May – Oct', tours: 1, photo: 'Pine ridges of the Galiyat' }
+  ];
+  static D = {
+    hunza: {
+      seo: 'Hunza tours from Lahore | [BRAND NAME]',
+      photo: 'Karimabad terraces with Rakaposhi behind, autumn poplars',
+      region: 'Gilgit-Baltistan', name: 'Hunza',
+      line: 'Forts, orchards and the Karakoram, three days up the highway from Lahore',
+      facts: [['Best season', 'April – October'], ['Altitude', '[2,438 m, verify]'], ['From Lahore', '[3 days by road]'], ['Tours', '[2]']],
+      overviewHead: 'A green valley under the highest peaks',
+      overview: [
+        'Hunza is a long, green valley under some of the highest mountains on earth. Terraced fields and apricot orchards climb towards Rakaposhi and Ultar, and the old forts of Baltit and Altit still watch over the villages.',
+        'People come for the views and stay for the pace: short walks between orchards, chai facing the glaciers, and the turquoise of Attabad Lake further up the highway. For many first-timers, it is where they fall for the north.'
+      ],
+      months: ['avoid', 'avoid', 'good', 'best', 'best', 'best', 'best', 'best', 'best', 'best', 'good', 'avoid'],
+      seasons: [
+        ['Spring', 'Mar – May', 'Apricot and cherry blossom in [early April]. Days [X–X°C], nights [X°C].'],
+        ['Summer', 'Jun – Aug', 'Warm days, [X–X°C]. The busiest months; book [X] weeks ahead.'],
+        ['Autumn', 'Sep – Nov', 'Poplars turn gold in [late October]. [X–X°C], cold nights.'],
+        ['Winter', 'Dec – Feb', '[Snow on the KKH, many hotels closed]. [X°C to −X°C].']
+      ],
+      attractions: [
+        { id: 'baltit', name: 'Baltit Fort', tag: 'Heritage', desc: 'The centuries-old fort above Karimabad, restored and open to visitors.', x: 210, y: 208 },
+        { id: 'altit', name: 'Altit Fort', tag: 'Heritage', desc: 'Older still, on a cliff above the river, with a royal garden below.', x: 240, y: 232 },
+        { id: 'eagle', name: 'Eagle’s Nest', tag: 'Viewpoint', desc: 'Sunset over Rakaposhi, Ultar and Lady Finger from the ridge at Duikar.', x: 258, y: 182 },
+        { id: 'attabad', name: 'Attabad Lake', tag: 'Lake', desc: 'Turquoise lake formed by the 2010 landslide; boats leave from the jetty.', x: 352, y: 204 },
+        { id: 'passu', name: 'Passu Cones', tag: 'Viewpoint', desc: 'Jagged spires above the highway in upper Hunza.', x: 372, y: 70 },
+        { id: 'hussaini', name: 'Hussaini Bridge', tag: 'Adventure', desc: 'A swaying suspension bridge over the Hunza River. Not for everyone.', x: 392, y: 112 },
+        { id: 'rakaposhi', name: 'Rakaposhi viewpoint', tag: 'Viewpoint', desc: 'A roadside tea stop facing one of the world’s great mountain faces.', x: 80, y: 330 }
+      ],
+      route: [['Lahore', '[4–5 hrs]'], ['Islamabad', '[11–12 hrs]'], ['Chilas', '[3–4 hrs]'], ['Gilgit', '[2–3 hrs]'], ['Hunza', null]],
+      routeNote: 'Babusar Top route usually open [June–September]; otherwise via the Karakoram Highway.',
+      flightNote: 'Flights from Islamabad to Gilgit are an option but often cancelled in bad weather [verify]. We plan every trip by road.',
+      notes: [
+        ['Altitude and acclimatising', 'Karimabad sits at about [2,438 m]. Take the first evening slowly and drink plenty of water. [Add advice].'],
+        ['Weather and what to pack', 'Warm layers even in summer; nights drop to [X°C]. Sun cream, sunglasses, comfortable shoes. [Add list].'],
+        ['Mobile signal and internet', '[Networks that work] in Karimabad; patchy or none in upper Hunza. Hotel Wi-Fi is [slow / variable].'],
+        ['Cash and ATMs', 'ATMs in [Aliabad / Karimabad], but they run dry. Carry enough cash; cards accepted at [some hotels].'],
+        ['Dress and local customs', 'Modest dress is appreciated. Ask before photographing people, especially women. [Add notes].'],
+        ['Road conditions and delays', 'Landslides can close the KKH, mostly in [spring]. We build in [buffer] and update you on WhatsApp.']
+      ],
+      tours: ['grand', 'express'],
+      reviews: [
+        ['Three nights in Hunza was the right call. Nothing felt rushed, and the kids still talk about the boat on Attabad.', '[Traveller name] & family, Lahore', 'Hunza & Skardu Grand · May 2026'],
+        ['They told us upfront that day two is long. The coaster was comfortable, and the driver stopped whenever my father needed a break.', '[Traveller name], Lahore', 'Hunza & Skardu Grand · June 2026'],
+        ['Our driver knew which bends worried my mother and slowed down before she had to ask. Nine days, and nothing for us to sort out.', '[Traveller name] & family, Lahore', 'Hunza & Skardu Grand · May 2026']
+      ],
+      bannerPhoto: 'A family with their guide on the Karimabad terraces, candid'
+    },
+    murree: {
+      seo: 'Murree tours from Lahore | [BRAND NAME]',
+      photo: 'Mall Road and pine ridges of the Galiyat in winter mist',
+      region: 'Punjab · Galiyat', name: 'Murree',
+      line: 'Pine ridges and cool air, a long weekend from Lahore',
+      facts: [['Best season', '[May – Jun, Sep – Oct]'], ['Altitude', '[2,291 m, verify]'], ['From Lahore', '[5–6 hrs by road]'], ['Tours', '[1]']],
+      overviewHead: 'Cool air, a long weekend away',
+      overview: ['[Overview paragraph one]', '[Overview paragraph two]'],
+      months: ['avoid', 'good', 'good', 'good', 'best', 'best', 'good', 'good', 'best', 'best', 'good', 'good'],
+      seasons: [
+        ['Spring', 'Mar – May', 'Fresh green ridges, [X–X°C]. Quieter on weekdays.'],
+        ['Summer', 'Jun – Aug', 'An escape from the plains heat, [X–X°C]. Monsoon rain [July–August].'],
+        ['Autumn', 'Sep – Nov', 'Clear views to the hills, [X–X°C].'],
+        ['Winter', 'Dec – Feb', 'Snow [Dec–Feb]. Road closures and heavy traffic possible; [X°C].']
+      ],
+      attractions: [], route: [['Lahore', '[4–5 hrs]'], ['Islamabad', '[1.5–2 hrs]'], ['Murree', null]],
+      routeNote: 'Motorway M-2 to Islamabad, then the Murree Expressway.', flightNote: 'No flights needed.',
+      notes: [], tours: ['murree'], reviews: [], bannerPhoto: '[Photo]'
+    }
+  };
+  rootRef = React.createRef();
+  mapRef = React.createRef();
+
+  componentDidMount() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    this.isStatic = this.props.motion === false;
+    this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!this.isStatic) { try { document.title = this.data().seo; } catch (e) {} }
+    this.measure = () => { if (this.bucketKey() !== this.renderedKey) this.forceUpdate(); else this.fixLabels(); };
+    this.ro = new ResizeObserver(() => this.measure());
+    this.ro.observe(this.observedEl = root);
+    window.addEventListener('resize', this.measure);
+    requestAnimationFrame(this.measure);
+    [300, 1000, 2500].forEach(t => setTimeout(() => { const el = this.rootRef.current; if (el && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); } this.measure(); }, t));
+    if (!this.isStatic && !this.reduce) setTimeout(() => this.setupMotion(), 300);
+  }
+  fixLabels() {
+    const map = this.mapRef.current;
+    if (!map) return;
+    const box = map.querySelector('[data-pin]') ? map.querySelector('[data-pin]').parentElement.getBoundingClientRect() : null;
+    const statics = [...map.querySelectorAll('[data-maplabel]')];
+    statics.forEach(l => { l.style.visibility = ''; });
+    const pl = map.querySelector('[data-pinlabel]');
+    if (!pl || !box) return;
+    const own = pl.closest('[data-pin]');
+    const badges = [...map.querySelectorAll('[data-pin]')].filter(p => p !== own).map(p => p.children[1].getBoundingClientRect());
+    const hit = (a, b, pad) => !(a.right < b.left - pad || a.left > b.right + pad || a.bottom < b.top - pad || a.top > b.bottom + pad);
+    const spots = [
+      { left: '50%', right: 'auto', top: 'auto', bottom: '38px', transform: 'translateX(-50%)' },
+      { left: '50%', right: 'auto', top: '38px', bottom: 'auto', transform: 'translateX(-50%)' },
+      { left: '40px', right: 'auto', top: '50%', bottom: 'auto', transform: 'translateY(-50%)' },
+      { left: 'auto', right: '40px', top: '50%', bottom: 'auto', transform: 'translateY(-50%)' }
+    ];
+    let best = null, bestScore = Infinity;
+    for (const sp of spots) {
+      Object.assign(pl.style, sp);
+      const r = pl.getBoundingClientRect();
+      const inside = r.left >= box.left && r.right <= box.right && r.top >= box.top && r.bottom <= box.bottom;
+      const n = badges.filter(b => hit(r, b, 2)).length;
+      const score = n * 10 + (inside ? 0 : 5);
+      if (score < bestScore) { bestScore = score; best = sp; }
+      if (score === 0) break;
+    }
+    Object.assign(pl.style, best);
+    const pr = pl.getBoundingClientRect();
+    statics.forEach(l => { if (hit(l.getBoundingClientRect(), pr, 4)) l.style.visibility = 'hidden'; });
+  }
+  componentDidUpdate() {
+    this.fixLabels();
+    const el = this.rootRef.current;
+    if (el && this.ro && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); }
+    this.measure && this.measure();
+  }
+  componentWillUnmount() {
+    this.ro && this.ro.disconnect();
+    this.io && this.io.disconnect();
+    this.measure && window.removeEventListener('resize', this.measure);
+    this.onScroll && window.removeEventListener('scroll', this.onScroll);
+  }
+  width() { const el = this.rootRef.current; const w = el ? el.getBoundingClientRect().width : 0; return w || this.props.frameWidth || 1440; }
+  bp() { return { isMobile: this.width() < 820 }; }
+  bucketKey() { return String(this.bp().isMobile); }
+  key() {
+    if (this.props.dest) return this.props.dest;
+    try { const q = new URLSearchParams(location.search).get('d'); if (q && Component.D[q]) return q; } catch (e) {}
+    return 'hunza';
+  }
+  data() { return Component.D[this.key()] || Component.D.hunza; }
+
+  setupMotion() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    this.heads = [...root.querySelectorAll('[data-reveal]')].map(el => ({ el, words: [...el.querySelectorAll('span')].filter(s => !s.querySelector('span')) }));
+    this.heads.forEach(h => h.words.forEach(w => { w.style.transition = 'opacity .25s linear'; }));
+    this.onScroll = () => {
+      const c = v => Math.min(1, Math.max(0, v)), h = window.innerHeight;
+      this.heads.forEach(({ el, words }) => {
+        const r = el.getBoundingClientRect(), p = (h * 0.92 - r.top) / (h * 0.45), n = words.length;
+        words.forEach((w, i) => { w.style.opacity = (0.16 + 0.84 * c(p * n - i)).toFixed(3); });
+      });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+  }
+
+  renderVals() {
+    const b = this.bp(); this.renderedKey = this.bucketKey();
+    const d = this.data(), k = this.key();
+    const hl = this.state.hover || this.state.picked || this.props.highlight || null;
+    const full = !this.props.checkOnly;
+    const len = d.name.length;
+    const others = Component.ALL.filter(o => o.key !== k);
+    const odd = others.length % 2 === 1;
+    const routeItems = [];
+    d.route.forEach(([name, time], i) => {
+      const last = i === d.route.length - 1, first = i === 0;
+      routeItems.push({ isStop: true, isLeg: false, name, dot: last ? '#D9B44A' : '#F1EEE8', nameColor: last ? '#D9B44A' : '#F1EEE8',
+        lLeft: first ? '0' : last ? 'auto' : '50%', lRight: last ? '0' : 'auto', lShift: first || last ? 'none' : 'translateX(-50%)' });
+      if (time) routeItems.push({ isStop: false, isLeg: true, time });
+    });
+    return {
+      rootRef: this.rootRef, mapRef: this.mapRef,
+      showNotes: this.props.showNotes ?? true, full,
+      isMobile: b.isMobile, isDesktop: !b.isMobile, menuOpen: b.isMobile && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      seo: d.seo, seoChip: `SEO · <title>${d.seo}</title>`, photo: d.photo, region: d.region, name: d.name, line: d.line,
+      nameSize: `min(20cqi, ${Math.round(150 / Math.max(len, 5))}cqi)`,
+      facts: d.facts.map(([label, value]) => ({ label, value })),
+      overviewHead: d.overviewHead, overview: d.overview.map(text => ({ text })),
+      monthCols: b.isMobile ? 'repeat(6, minmax(0, 1fr))' : 'repeat(12, minmax(0, 1fr))',
+      months: d.months.map((m, i) => ({
+        name: Component.MONTHS[i], label: m === 'best' ? 'Best' : m === 'good' ? 'Good' : 'Avoid',
+        bg: m === 'best' ? '#F1EEE8' : m === 'good' ? '#121A1F' : '#0C1216',
+        color: m === 'best' ? '#0C1216' : m === 'good' ? '#F1EEE8' : '#B7BFC5',
+        sub: m === 'best' ? '#0C1216' : m === 'good' ? '#B7BFC5' : '#8F9AA2'
+      })),
+      seasons: d.seasons.map(([name, months, text]) => ({ name, months, text })),
+      placesHead: `What to see in ${d.name}`,
+      mapPos: b.isMobile ? 'static' : 'sticky',
+      attractions: d.attractions.map((a, i) => {
+        const on = hl === a.id, xp = a.x / 484 * 100;
+        return {
+          ...a, num: String(i + 1), hl: on,
+          left: xp.toFixed(2) + '%', top: (a.y / 420 * 100).toFixed(2) + '%',
+          lLeft: xp > 66 ? 'auto' : '40px', lRight: xp > 66 ? '40px' : 'auto',
+          halo: on ? 1 : 0, z: on ? 3 : 1,
+          pinBg: on ? '#D9B44A' : '#0C1216', pinColor: on ? '#0C1216' : '#F1EEE8', pinBorder: on ? '#D9B44A' : '#F1EEE8',
+          rowBg: on ? '#121A1F' : 'transparent',
+          enter: () => this.setState({ hover: a.id }),
+          leave: () => this.setState({ hover: null }),
+          pick: () => this.setState({ picked: a.id }),
+          tap: () => {
+            this.setState({ picked: a.id });
+            if (this.bp().isMobile && this.props.motion !== false && this.mapRef.current) {
+              const top = this.mapRef.current.getBoundingClientRect().top + window.scrollY - 88;
+              window.scrollTo({ top, behavior: this.reduce ? 'auto' : 'smooth' });
+            }
+          }
+        };
+      }),
+      routeItems,
+      routeStops: d.route.map(([name, time], i) => {
+        const last = i === d.route.length - 1;
+        return { name, next: time ? `↓ ${time}` : 'Arrive', dot: last ? '#D9B44A' : '#F1EEE8', nameColor: last ? '#D9B44A' : '#F1EEE8', line: last ? 'transparent' : '#F1EEE8' };
+      }),
+      routeNote: d.routeNote, flightNote: d.flightNote,
+      notes: d.notes.map(([title, text]) => ({ title, text })),
+      toursHead: `Tours that visit ${d.name}`,
+      tours: d.tours.map(id => Component.TOURS[id]),
+      toursHref: `Tours.dc.html?dest=${k}`, plannerHref: `Trip Planner.dc.html?dest=${k}`, toursLink: `See all ${d.name} trips →`,
+      bannerHead: `${d.name}, on your own dates`, bannerPhoto: d.bannerPhoto,
+      reviewsHead: `What travellers said about ${d.name}`,
+      reviews: d.reviews.map(([quote, name, trip]) => ({ quote, name, trip })),
+      others: others.map((o, i) => ({
+        ...o, href: Component.D[o.key] ? `Destination.dc.html?d=${o.key}` : '#',
+        toursText: `${o.tours} tour${o.tours === 1 ? '' : 's'}`,
+        span: b.isMobile && odd && i === others.length - 1 ? '1 / -1' : 'auto'
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

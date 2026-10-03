@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>*{box-sizing:border-box} body{margin:0;background:#1C2328;color:#F1EEE8;font-family:'Geist',system-ui,sans-serif} a{color:#F1EEE8} a:hover{color:#F4A66A}</style>
+</helmet>
+<section style="padding:80px;display:flex;flex-direction:column;gap:56px;">
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:48px;font-weight:500;letter-spacing:-.04em;">Destination template · Hunza</div>
+    <div style="font-size:16px;color:#B7BFC5;">One template filled from data. Open <a href="Destination.dc.html">Destination</a> on its own for motion and map hover; <a href="Destination.dc.html?d=murree">?d=murree</a> loads the Murree data. Related: <a href="Tours Views.dc.html">Tours</a> · <a href="Tour Detail Views.dc.html">Tour Detail</a> · <a href="Design System.dc.html">Design System</a>.</div>
+  </div>
+  <div style="display:flex;gap:80px;align-items:flex-start;">
+    <div id="1a" style="display:flex;flex-direction:column;gap:16px;flex:none;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1a</span>Mobile · 390px · Attabad Lake highlighted</div>
+      <div style="width:390px;outline:1px solid #3A4751;"><dc-import name="Destination" dest="hunza" highlight="attabad" frame-width="{{ 390 }}" motion="{{ false }}" show-notes="{{ true }}" hint-size="390px,11000px"></dc-import></div>
+    </div>
+    <div id="1b" style="display:flex;flex-direction:column;gap:16px;flex:none;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1b</span>Desktop · 1440px · Baltit Fort highlighted</div>
+      <div style="width:1440px;outline:1px solid #3A4751;"><dc-import name="Destination" dest="hunza" highlight="baltit" frame-width="{{ 1440 }}" motion="{{ false }}" show-notes="{{ true }}" hint-size="1440px,8000px"></dc-import></div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:24px;padding-top:56px;border-top:1px solid #3A4751;">
+    <div style="font-size:28px;font-weight:500;letter-spacing:-.03em;">Template check · Murree (hill station)</div>
+    <div style="font-size:15px;color:#B7BFC5;">Same template, filled from the Murree data: hero, quick facts and season calendar.</div>
+    <div style="display:flex;gap:80px;align-items:flex-start;">
+    <div style="display:flex;gap:80px;align-items:flex-start;flex:none;">
+      <div id="1c" style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1c</span>Template check · Murree · desktop</div>
+        <div style="width:1440px;outline:1px solid #3A4751;"><dc-import name="Destination" dest="murree" check-only="{{ true }}" frame-width="{{ 1440 }}" motion="{{ false }}" show-notes="{{ false }}" hint-size="1440px,1500px"></dc-import></div>
+      </div>
+      <div id="1d" style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;"><span style="padding:2px 8px;border-radius:4px;background:#F1EEE8;color:#0C1216;font-family:'Geist Mono',monospace;font-size:12px;">1d</span>Template check · Murree · mobile</div>
+        <div style="width:390px;outline:1px solid #3A4751;"><dc-import name="Destination" dest="murree" check-only="{{ true }}" frame-width="{{ 390 }}" motion="{{ false }}" show-notes="{{ false }}" hint-size="390px,1800px"></dc-import></div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0C1216;color:#F1EEE8;-webkit-font-smoothing:antialiased}
+a{color:#F1EEE8}
+a:hover{color:#D9B44A}
+[data-surface="light"] a{color:#10161A}
+[data-surface="light"] a:hover{color:#7A5A12}
+[data-surface="dark"] a{color:#F1EEE8}
+[data-surface="dark"] a:hover{color:#D9B44A}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="container-type:inline-size;background:#0C1216;color:#F1EEE8;font-family:'Geist',system-ui,sans-serif;">
+  <header data-surface="dark" style="color:#F1EEE8;position:sticky;top:0;z-index:50;height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 clamp(20px,3.4cqi,48px);background:rgba(12,18,22,.86);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid rgba(241,238,232,.12);">
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:#F1EEE8;">
+      <span style="width:16px;height:14px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>
+      <span style="font-size:16px;font-weight:600;letter-spacing:-.01em;">[BRAND NAME]</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500;">
+        <a href="Tours.dc.html" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Tours</a>
+        <a href="Homepage.dc.html#how" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Destinations</a>
+        <a href="About.dc.html#guides" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F1EEE8;">Reviews</a>
+      </nav>
+      <a href="#whatsapp" style="flex:none;white-space:nowrap;display:flex;align-items:center;gap:10px;height:44px;padding:0 18px;border-radius:6px;border:1px solid rgba(241,238,232,.5);text-decoration:none;color:#F1EEE8;font-size:14px;font-weight:500;"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;">WhatsApp us</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <a href="#whatsapp" aria-label="Chat on WhatsApp" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(241,238,232,.5);"><img src="icons/whatsapp-light.svg" alt="" width="18" height="18" style="display:block;"></a>
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:6px;border:1px solid rgba(241,238,232,.5);background:transparent;cursor:pointer;padding:0;"><span style="width:16px;height:1.5px;background:#F1EEE8;"></span><span style="width:16px;height:1.5px;background:#F1EEE8;"></span></button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:72px;left:0;right:0;height:calc(100vh - 72px);min-height:560px;background:#0C1216;padding:32px 20px;display:flex;flex-direction:column;gap:4px;border-top:1px solid #253038;">
+        <a href="Tours.dc.html" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Tours</a>
+        <a href="Homepage.dc.html#how" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">How it works</a>
+        <a href="Homepage.dc.html#destinations" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Destinations</a>
+        <a href="About.dc.html#guides" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Guides</a>
+        <a href="Homepage.dc.html#reviews" style="display:flex;align-items:center;min-height:56px;font-size:40px;font-weight:500;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid #253038;">Reviews</a>
+        <a href="#whatsapp" style="margin-top:32px;height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Plan on WhatsApp</a>
+      </div>
+    </sc-if>
+  </header>
+
+  <div data-surface="light" style="background:#EEF1F3;color:#10161A;">
+  <section data-screen-label="01 Title" style="padding:clamp(64px,8cqi,128px) clamp(20px,3.4cqi,48px) clamp(40px,4cqi,64px);">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:999 1 600px;min-width:0;">
+        <h1 style="margin:0;font-size:clamp(40px,6.4cqi,92px);line-height:.98;font-weight:500;letter-spacing:-.045em;">{{ title }}</h1>
+        <p style="margin:20px 0 0;font-size:15px;color:#46525C;">Last updated [date]</p>
+        <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;"><span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #5B6770;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#10161A;">PLACEHOLDER · All legal text is placeholder until written and reviewed by us and our lawyer</span><span style="display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:1px dashed #5B6770;border-radius:6px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;line-height:1.4;color:#10161A;">TEMPLATE · /privacy and /terms share this layout; ?doc=terms loads the Terms</span></div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="02 Body" style="border-top:1px solid #CBD2D8;padding:clamp(40px,5cqi,72px) clamp(20px,3.4cqi,48px) clamp(72px,9cqi,144px);display:flex;flex-wrap:wrap;gap:32px 48px;align-items:flex-start;">
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Contents" style="flex:0 0 240px;position:sticky;top:96px;display:flex;flex-direction:column;">
+        <span style="font-size:13px;font-weight:500;color:#46525C;padding-bottom:10px;">Contents</span>
+        <div style="border-top:1px solid #CBD2D8;">
+          <sc-for list="{{ toc }}" as="t" hint-placeholder-count="9"><a href="{{ t.href }}" style="min-height:44px;display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #CBD2D8;text-decoration:none;font-size:14px;line-height:1.35;"><span style="flex:none;width:22px;color:#5B6770;font-variant-numeric:tabular-nums;">{{ t.n }}</span>{{ t.label }}</a></sc-for>
+        </div>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Contents" style="flex:1 1 100%;border-top:1px solid #CBD2D8;border-bottom:1px solid #CBD2D8;">
+        <button onClick="{{ toggleToc }}" aria-expanded="{{ tocOpen }}" style="width:100%;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0;background:transparent;border:0;color:#10161A;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;">{{ tocLabel }}<span style="font-size:13px;color:#46525C;display:inline-block;transform:{{ tocRot }};">▾</span></button>
+        <sc-if value="{{ tocOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="padding-bottom:8px;"><sc-for list="{{ toc }}" as="t" hint-placeholder-count="9"><a href="{{ t.href }}" onClick="{{ closeToc }}" style="min-height:44px;display:flex;align-items:center;gap:10px;border-top:1px solid #CBD2D8;text-decoration:none;font-size:15px;"><span style="flex:none;width:22px;color:#5B6770;font-variant-numeric:tabular-nums;">{{ t.n }}</span>{{ t.label }}</a></sc-for></div>
+        </sc-if>
+      </nav>
+    </sc-if>
+    <article style="flex:999 1 600px;min-width:0;max-width:35em;display:flex;flex-direction:column;gap:clamp(40px,4cqi,56px);">
+      <sc-if value="{{ hasBody }}" hint-placeholder-val="{{ true }}">
+        <sc-for list="{{ sections }}" as="s" hint-placeholder-count="9">
+          <section id="{{ s.id }}" style="scroll-margin-top:96px;display:flex;flex-direction:column;gap:14px;">
+            <h2 style="margin:0;font-size:clamp(22px,2.2cqi,28px);line-height:1.15;font-weight:500;letter-spacing:-.02em;"><span style="color:#5B6770;font-variant-numeric:tabular-nums;">{{ s.n }}.</span> {{ s.label }}</h2>
+            <sc-for list="{{ s.paras }}" as="p" hint-placeholder-count="2"><p style="margin:0;font-size:17px;line-height:1.65;color:#46525C;">{{ p.text }}</p></sc-for>
+          </section>
+        </sc-for>
+      </sc-if>
+      <sc-if value="{{ noBody }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0;font-size:17px;line-height:1.65;color:#46525C;">[The Terms text will follow the contents list. Each section uses the same numbered layout as the Privacy Policy.]</p>
+      </sc-if>
+      <div style="padding-top:24px;border-top:1px solid #CBD2D8;font-size:17px;line-height:1.6;">Questions about this policy? Email <a href="mailto:[address]" style="text-decoration:underline;text-underline-offset:4px;">[address]</a>.</div>
+    </article>
+  </section>
+</div>
+  <footer id="whatsapp" data-surface="dark" data-screen-label="11 Footer" style="background:#0C1216;color:#F1EEE8;border-top:1px solid #253038;padding:clamp(72px,9cqi,128px) clamp(20px,3.4cqi,48px) 32px;">
+    <div style="display:flex;flex-wrap:wrap;gap:24px 48px;">
+      <div style="flex:0 0 240px;display:flex;align-items:center;gap:10px;height:28px;font-size:13px;font-weight:500;letter-spacing:.01em;color:#B7BFC5;"><span style="width:11px;height:10px;background:#F1EEE8;clip-path:polygon(50% 0,100% 100%,0 100%);flex:none;"></span>Contact</div>
+      <div style="flex:999 1 600px;min-width:0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:64px 48px;">
+        <nav style="display:flex;flex-direction:column;">
+          <a href="Tours.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Tours</a>
+          <a href="Homepage.dc.html#destinations" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Destinations</a>
+          <a href="Trip Planner.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Private trips</a>
+          <a href="About.dc.html" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">About us</a>
+          <a href="Homepage.dc.html#reviews" style="font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:500;letter-spacing:-.045em;text-decoration:none;">Reviews</a>
+        </nav>
+        <div style="flex:0 1 380px;display:flex;flex-direction:column;gap:28px;">
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#B7BFC5;">Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.</p>
+          <a href="#whatsapp" style="height:56px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:6px;background:#D9B44A;color:#10161A;text-decoration:none;font-size:16px;font-weight:500;"><img src="icons/whatsapp-dark.svg" alt="" width="18" height="18" style="display:block;">Chat on WhatsApp</a>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #253038;">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">WhatsApp</span><a href="#whatsapp" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 3XX XXX XXXX</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Phone</span><a href="#phone" style="text-decoration:none;font-variant-numeric:tabular-nums;">+92 42 XXXX XXXX</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Email</span><a href="#email" style="text-decoration:none;">hello@[brand].pk</a></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #253038;font-size:15px;"><span style="color:#8F9AA2;">Office</span><span style="text-align:right;">[Office address],<br>Lahore, Punjab</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:96px;padding-top:24px;border-top:1px solid #253038;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;font-size:13px;color:#B7BFC5;">
+      <span>© 2026 [BRAND NAME] · DTS Licence No. [NUMBER]</span>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 24px;"><a href="#instagram" style="color:#B7BFC5;">Instagram</a><a href="#facebook" style="color:#B7BFC5;">Facebook</a><a href="#youtube" style="color:#B7BFC5;">YouTube</a><a href="Help.dc.html" style="color:#B7BFC5;">Help</a><a href="Contact.dc.html" style="color:#B7BFC5;">Contact</a><a href="Legal.dc.html?doc=privacy" style="color:#B7BFC5;">Privacy</a><a href="Legal.dc.html?doc=terms" style="color:#B7BFC5;">Terms</a></div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;doc&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;privacy&quot;,&quot;terms&quot;],&quot;default&quot;:&quot;privacy&quot;,&quot;tsType&quot;:&quot;'privacy'|'terms'&quot;,&quot;label&quot;:&quot;Document&quot;},&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Show build notes&quot;},&quot;motion&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;boolean&quot;},&quot;frameWidth&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  state = { menuOpen: false, tocOpen: false };
+  static DOCS = {
+    privacy: { title: 'Privacy Policy', sections: [
+      ['who-we-are', 'Who we are', ['[BRAND NAME] is a tour operator based in Lahore, licensed by the Department of Tourist Services, Punjab (DTS licence No. [NUMBER]).', '[Registered company name and address.]']],
+      ['what-we-collect', 'What we collect', ['[Details you give us: name, WhatsApp number, email, trip preferences, group size and children’s ages.]', '[Details needed for bookings: CNIC or passport details where hotels or checkpoints require them.]']],
+      ['why', 'Why we collect it', ['[To plan and price your trip, confirm bookings, keep you informed before and during the trip, and meet legal requirements.]']],
+      ['how-long', 'How long we keep it', ['[Retention period for booking records, messages and payment records.]']],
+      ['sharing', 'Who we share it with', ['[Hotels, transport and guides needed for your trip; payment providers; authorities where the law requires.] We never sell your details.']],
+      ['choices', 'Your choices and rights', ['[How to ask for a copy, a correction or deletion of your details, and how to stop marketing messages.]']],
+      ['cookies', 'Cookies and analytics', ['[Which cookies or analytics tools the website uses, if any, and how to turn them off.]']],
+      ['changes', 'Changes to this policy', ['[How we tell you about changes, and the date of the latest version.]']],
+      ['contact', 'Contact', ['[Who to contact about privacy, by email and post.]']]
+    ] },
+    terms: { title: 'Terms & Conditions', sections: [
+      ['bookings', 'Bookings and payment', ['[How a booking is made and confirmed, the [X]% advance, accepted payment methods and when the balance is due.]']],
+      ['cancellations', 'Cancellations and refunds', ['[Refund schedule by days before departure, how to cancel, and how refunds are paid back.]']],
+      ['changes-by-us', 'Changes by us', ['[When we may change or cancel a trip, for example for safety or road closures, and what you are offered.]']],
+      ['your-responsibilities', 'Your responsibilities', ['[Travel documents, accurate health information, following guide instructions, and respecting local customs.]']],
+      ['health', 'Health and safety', ['[Fitness and altitude, medical conditions, travel insurance, and how we handle emergencies.]']],
+      ['liability', 'Liability', ['[What we are and are not responsible for, and limits of liability.]']],
+      ['complaints', 'Complaints', ['[How to raise a complaint during or after a trip, and how quickly we respond.]']],
+      ['law', 'Governing law', ['[The laws of Pakistan and the courts of Lahore, subject to legal review.]']],
+      ['contact', 'Contact', ['[Who to contact about these terms, by email and post.]']]
+    ] }
+  };
+  rootRef = React.createRef();
+  componentDidMount() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    this.measure = () => { if (this.bucketKey() !== this.renderedKey) this.forceUpdate(); };
+    this.ro = new ResizeObserver(() => this.measure());
+    this.ro.observe(this.observedEl = root);
+    window.addEventListener('resize', this.measure);
+    requestAnimationFrame(this.measure);
+    [300, 1000, 2500].forEach(t => setTimeout(() => { const el = this.rootRef.current; if (el && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); } this.measure(); }, t));
+    if (this.props.motion !== false) this.forceUpdate();
+  }
+  componentDidUpdate() {
+    const el = this.rootRef.current;
+    if (el && this.ro && el !== this.observedEl) { this.ro.disconnect(); this.ro.observe(this.observedEl = el); }
+    this.measure && this.measure();
+  }
+  componentWillUnmount() { this.ro && this.ro.disconnect(); this.measure && window.removeEventListener('resize', this.measure); }
+  width() { const el = this.rootRef.current; const w = el ? el.getBoundingClientRect().width : 0; return w || this.props.frameWidth || 1440; }
+  bp() { return { isMobile: this.width() < 820 }; }
+  bucketKey() { return String(this.bp().isMobile); }
+  docKey() {
+    if (this.props.motion !== false) { try { const d = new URLSearchParams(location.search).get('doc'); if (d && Component.DOCS[d]) return d; } catch (e) {} }
+    if (this.props.doc) return this.props.doc;
+    return 'privacy';
+  }
+  renderVals() {
+    const b = this.bp(); this.renderedKey = this.bucketKey();
+    const d = Component.DOCS[this.docKey()];
+    const secs = d.sections.map(([id, label, paras], i) => ({ id, label, n: String(i + 1), href: '#' + id, paras: (paras || []).map(text => ({ text })) }));
+    const tocOpen = this.state.tocOpen;
+    return {
+      rootRef: this.rootRef,
+      showNotes: this.props.showNotes ?? true,
+      isMobile: b.isMobile, isDesktop: !b.isMobile, menuOpen: b.isMobile && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      title: d.title, toc: secs, sections: secs, hasBody: d.body !== false, noBody: d.body === false,
+      tocOpen, tocRot: tocOpen ? 'rotate(180deg)' : 'rotate(0deg)', tocLabel: `Contents (${secs.length})`,
+      toggleToc: () => this.setState(s => ({ tocOpen: !s.tocOpen })), closeToc: () => this.setState({ tocOpen: false })
+    };
+  }
+}
+</script>
+</body>
+</html>
