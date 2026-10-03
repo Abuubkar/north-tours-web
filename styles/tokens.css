@@ -137,6 +137,10 @@
   --grid-reviews-cols: 3;
   --grid-trust-min: 165px;
   --grid-trust-cols: 4;
+  --grid-destinations-min: 160px;
+  --grid-destinations-cols: 6;
+  --grid-guides-min: 150px;
+  --grid-guides-cols: 4;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

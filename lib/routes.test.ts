@@ -12,12 +12,17 @@ describe('routes', () => {
       routes.contact,
       routes.privacy,
       routes.terms,
-    ]).toEqual(['/', '/tours', '/plan', '/about', '/help', '/contact', '/privacy', '/terms']);
+      routes.credits,
+    ]).toEqual(['/', '/tours', '/plan', '/about', '/help', '/contact', '/privacy', '/terms', '/credits']);
   });
 
   it('builds tour and destination URLs from a slug', () => {
     expect(routes.tour('hunza-skardu-grand')).toBe('/tours/hunza-skardu-grand');
     expect(routes.destination('hunza')).toBe('/destinations/hunza');
+  });
+
+  it('links a guide to their profile on the About page', () => {
+    expect(routes.guide('karim-baig')).toBe('/about#guide-karim-baig');
   });
 
   it('has the four nav anchors', () => {

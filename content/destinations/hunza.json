@@ -8,7 +8,19 @@
     "to": "Oct"
   },
   "image": {
-    "placeholder": "Karimabad terraces with Rakaposhi behind, autumn poplars",
-    "alt": "Terraced fields and poplars in Karimabad with snow-capped Rakaposhi behind"
+    "src": "/images/hunza/rakaposhi-village.jpg",
+    "alt": "Rakaposhi’s snowy face above a Hunza village and terraced fields lined with yellow autumn poplars",
+    "width": 1200,
+    "height": 741,
+    "focus": {
+      "x": 42,
+      "y": 40
+    },
+    "credit": {
+      "source": "wikimedia",
+      "author": "Wasif Mehmood Arain",
+      "licence": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Rakaposhi_from_Hunza_valley.jpg"
+    }
   }
 }

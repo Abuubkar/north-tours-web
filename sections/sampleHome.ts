@@ -32,5 +32,7 @@ export const sampleHome: HomeCopy = {
     ],
   },
   route: { headline: 'The road north, from Lahore to Hunza and Skardu' },
+  destinations: { headline: 'Where we go, and when to go there', seasonLabel: 'Best season' },
+  guides: { headline: 'Meet the guides and drivers' },
   reviews: { headline: 'Families come back, and next time they bring the cousins' },
 };

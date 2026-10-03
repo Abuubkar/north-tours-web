@@ -85,6 +85,7 @@ export const FooterNav: Story = {
     for (const name of ['Help', 'Contact', 'Privacy', 'Terms']) {
       await expect(canvas.getByRole('link', { name })).toBeVisible();
     }
+    await expect(canvas.getByRole('link', { name: 'Photo credits' })).toHaveAttribute('href', '/credits');
   },
 };
 

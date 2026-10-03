@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
 import { UpcomingDepartures } from '@/components/tour-card/UpcomingDepartures/UpcomingDepartures';
-import { getTour, getTours } from '@/lib/content/catalog';
+import { getDestinations, getTour, getTours } from '@/lib/content/catalog';
+import { getGuides } from '@/lib/content/guides';
 import { getHomeCopy } from '@/lib/content/pages';
 import { getReviews } from '@/lib/content/reviews';
 import { getRouteMap } from '@/lib/content/routeMap';
@@ -12,6 +13,8 @@ import { pageMetadata } from '@/lib/utils/metadata';
 import { ratingSummary } from '@/lib/utils/rating';
 import { fillTokens, settingsTokens } from '@/lib/utils/tokens';
 import { BrandStatement } from '@/sections/BrandStatement/BrandStatement';
+import { DestinationsGrid } from '@/sections/DestinationsGrid/DestinationsGrid';
+import { GuidesGrid } from '@/sections/GuidesGrid/GuidesGrid';
 import { HomeHero } from '@/sections/HomeHero/HomeHero';
 import { HowBookingWorks } from '@/sections/HowBookingWorks/HowBookingWorks';
 import { ReviewsSection } from '@/sections/ReviewsSection/ReviewsSection';
@@ -54,6 +57,8 @@ export default function HomePage() {
       </TourCardsSection>
       <HowBookingWorks copy={{ ...copy.how, steps }} />
       <RouteMapSection copy={copy.route} map={getRouteMap()} />
+      <DestinationsGrid copy={copy.destinations} destinations={getDestinations()} />
+      <GuidesGrid copy={copy.guides} guides={getGuides()} />
       <ReviewsSection copy={copy.reviews} reviews={reviews} summary={ratingSummary(tours.map((tour) => tour.rating))} />
       <TrustStrip settings={settings} year={new Date().getFullYear()} />
     </PageMain>

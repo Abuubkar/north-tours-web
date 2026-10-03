@@ -1,0 +1,19 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.grid {
+  composes: grid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-destinations-min);
+  --grid-cols: var(--grid-destinations-cols);
+  margin-top: var(--space-64);
+}
+
+.cell {
+  composes: cell from '../../styles/layout.module.css';
+}

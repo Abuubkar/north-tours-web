@@ -13,10 +13,13 @@ export const routes = {
   contact: '/contact',
   privacy: '/privacy',
   terms: '/terms',
+  credits: '/credits',
 
   /* Sections the nav jumps to. */
   how: '/#how',
   destinations: '/#destinations',
   reviews: '/#reviews',
   guides: '/about#guides',
+  /** One guide's profile on the About page. */
+  guide: (slug: string) => `/about#guide-${slug}`,
 } as const;
