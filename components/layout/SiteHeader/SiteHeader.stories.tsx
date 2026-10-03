@@ -22,7 +22,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** From 820px: brand, the five nav links and "WhatsApp us"; the icon button is hidden. */
+/** From 820px: brand, the five nav links and "WhatsApp us"; the icon buttons are hidden. */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('banner')).toHaveAttribute('data-surface', 'dark');
@@ -33,6 +33,7 @@ export const Desktop: Story = {
     for (const link of links) await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
     await expect(canvas.getByRole('link', { name: 'WhatsApp us' })).toBeVisible();
     await expect(canvas.queryByRole('link', { name: 'Chat on WhatsApp' })).toBeNull();
+    await expect(canvas.queryByRole('button', { name: 'Menu' })).toBeNull();
   },
 };
 
@@ -41,7 +42,7 @@ export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light' }
 
 export const Laptop: Story = { ...Desktop, globals: { viewport: { value: 'laptop' } } };
 
-/** At 390 the nav and "WhatsApp us" give way to a 44px "Chat on WhatsApp" icon button. */
+/** At 390 the nav and "WhatsApp us" give way to 44px "Chat on WhatsApp" and "Menu" buttons. */
 export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas }) => {
@@ -50,6 +51,7 @@ export const Phone: Story = {
     const whatsapp = canvas.getByRole('link', { name: 'Chat on WhatsApp' });
     await expect(whatsapp).toBeVisible();
     await expect(whatsapp.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
+    await expect(canvas.getByRole('button', { name: 'Menu' })).toBeVisible();
   },
 };
 

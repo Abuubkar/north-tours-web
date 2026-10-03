@@ -5,6 +5,8 @@ import { NavLinks } from './NavLinks';
 const meta = {
   title: 'Layout/NavLinks',
   component: NavLinks,
+  args: { variant: 'header' },
+  argTypes: { variant: { control: 'inline-radio', options: ['header', 'menu'] } },
   parameters: { nextjs: { appDirectory: true, navigation: { pathname: '/about' } } },
 } satisfies Meta<typeof NavLinks>;
 
@@ -20,3 +22,8 @@ export const OnAboutPage: Story = {
 };
 
 export const OnAboutPageOnLight: Story = { ...OnAboutPage, globals: { surface: 'light' } };
+
+/** Large stacked links for the mobile menu, divided by hairlines. */
+export const Menu: Story = { ...OnAboutPage, args: { variant: 'menu' } };
+
+export const MenuOnLight: Story = { ...Menu, globals: { surface: 'light' } };

@@ -1,0 +1,15 @@
+.menuButton {
+  display: flex;
+}
+
+@media (width >= 820px) {
+  .menuButton {
+    display: none;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+}

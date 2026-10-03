@@ -2,17 +2,24 @@
 
 import { usePathname } from 'next/navigation';
 import { activeNavItem, mainNav } from '@/lib/utils/nav';
+import type { NavLinksProps } from './NavLinks.types';
 import styles from './NavLinks.module.css';
 
+const variantClass = {
+  header: { list: styles.headerList, link: styles.headerLink },
+  menu: { list: styles.menuList, link: styles.menuLink },
+};
+
 /** The main nav links. The current page's item is gold and marked aria-current="page". */
-export function NavLinks() {
+export function NavLinks({ variant }: NavLinksProps) {
   const active = activeNavItem(usePathname());
+  const classes = variantClass[variant];
 
   return (
-    <ul className={styles.list}>
+    <ul className={classes.list}>
       {mainNav.map(({ id, label, href }) => (
         <li key={id}>
-          <a href={href} className={styles.link} aria-current={id === active ? 'page' : undefined}>
+          <a href={href} className={classes.link} aria-current={id === active ? 'page' : undefined}>
             {label}
           </a>
         </li>

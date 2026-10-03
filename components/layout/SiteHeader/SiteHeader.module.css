@@ -20,6 +20,13 @@
   }
 }
 
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-8);
+}
+
 /* The nav breakpoint (DESIGN.md §4): below 820px the nav gives way to icon buttons. */
 .wide {
   display: none;

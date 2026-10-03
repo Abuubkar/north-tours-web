@@ -27,6 +27,16 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Tooling:** Storybook as the component workshop and test runner (ADR-0012).
 - Full measurements for every component (tags, chips, sheet, dropdown, stepper, icons, motion) are in PRD #8.
 
+**Decided in the layout shell PRD (#32, 2026-10-04):**
+
+- **Where it lives:** `SiteHeader`, `MobileMenu` and `SiteFooter` are in `components/layout` (with `SkipLink` and the client `NavLinks`), not `/sections`. `BrandMark`, `SectionLabel` and `KeyValueRow` are base components in `components/ui`.
+- **Mobile menu:** the `Sheet` **drawer** variant (from the side), not the design's panel under the header. Close button, backdrop, Escape and focus return come from the Sheet. Every page gets "Plan on WhatsApp", including the Planner (§5 item 39).
+- **Other mobile overlays** (booking, filters, sort) use the Sheet's **bottom** variant.
+- **Routes:** one route map in `lib/routes.ts`. Nav and footer links point to pages that don't exist yet.
+- **Active nav item** comes from the URL (`lib/utils/nav.ts`): Tours on `/tours` and `/tours/*`, Destinations on `/destinations/*`, Guides on `/about`. Homepage scroll-tracking belongs to the Homepage PRD.
+- **WhatsApp links** are built by `lib/utils/whatsapp.ts` from the number and messages in `content/settings.json`. While the number is a placeholder they go to `https://wa.me/?text=…`; placeholder phone, email and social links show as plain text.
+- **Skip link** first on every page, to `<main id="main" tabindex="-1">`. In-page anchors land below the sticky header (`scroll-padding-top: var(--header-h)`).
+
 Open questions are in §6, grouped by the PRD that settles them.
 
 Token names used below: `ink-900 #0C1216`, `ink-800 #121A1F`, `line #253038`, `line-strong #5C6871`, `text #F1EEE8`, `text-2 #B7BFC5`, `text-3 #8F9AA2`, `gold #D9B44A`, `gold-hover #E3C366`, `gold-pressed #C9A43C`, `on-gold #10161A`, `mist-50 #EEF1F3`, `mist-100 #E2E7EB`, `line-light #CBD2D8`, `line-strong-light #7D8992`, `ink-text #10161A`, `ink-text-2 #46525C`, `ink-text-3 #5B6770`, `gold-deep #7A5A12`.
@@ -491,16 +501,16 @@ A caret-style show/hide (▾ rotates 180°), distinct from the `+` accordion:
 
 ### 3.2 Shared sections, in detail
 
-#### `SiteHeader` / `MobileMenu` — `sections/SiteHeader` (client)
-- Sticky, 72px, `rgba(12,18,22,.86)` with `backdrop-filter: blur(18px) saturate(140%)` (M3 "frosted"; solid `ink-900` when unsupported), bottom border `rgba(241,238,232,.12)`, `data-surface="dark"`. Contents: `BrandMark`, then on desktop a nav (14/500, gap 32, min-height 44 per link, active item gold) and the header WhatsApp button.
+#### `SiteHeader` / `MobileMenu` — `components/layout` (built in PRD #32)
+- Sticky, 72px, `rgba(12,18,22,.86)` with `backdrop-filter: blur(18px) saturate(140%)` (M3 "frosted"; solid `ink-900` when unsupported), bottom hairline, `data-surface="dark"`. Contents: `BrandMark`, then on desktop a nav (14/500, gap 32, min-height 44 per link, active item gold) and the header WhatsApp button. `SiteHeader` is server-rendered; only `NavLinks` (reads the path) and `MobileMenu` (open state) are client components.
 - **Mobile < 820:** a WhatsApp `IconButton` 44 plus the menu `IconButton` 44.
-- **MobileMenu:** a panel below the header (`height: calc(100vh - 72px)`, min 560) with 40px/500 links (min-height 56, hairlines, active item gold) and a primary 56 "Plan on WhatsApp" (absent on Planner). It closes on link click. **No Escape or focus handling is designed** (CLAUDE.md requires it).
-- **Nav items:** Tours (→ Tours), How it works (→ Home#how), Destinations (→ Home#destinations), Guides (→ About#guides), Reviews (→ Home#reviews). On Home, items are `#` anchors with **scroll-spy** (active once a section's top is above 40% of the viewport).
+- **MobileMenu:** the `Sheet` drawer (side), titled "Menu", with the nav links in the `footerNav` role (min-height 44, hairlines, active item gold) and a primary 56 "Plan on WhatsApp" on every page. It closes on link tap, the close button, the backdrop and Escape, returning focus to the menu button. *(The design shows a panel below the header with no Escape or focus handling and no WhatsApp button on the Planner; PRD #32 replaced it.)*
+- **Nav items:** Tours (→ `/tours`), How it works (→ `/#how`), Destinations (→ `/#destinations`), Guides (→ `/about#guides`), Reviews (→ `/#reviews`). On Home the design adds **scroll-spy** (active once a section's top is above 40% of the viewport); that belongs to the Homepage PRD.
 
-#### `SiteFooter` — `sections/SiteFooter` (static)
-- Identical on all 9 pages (only hrefs differ on Home). `SectionLabel` "Contact" (240 column), then large nav links `clamp(40px,5.2cqi,76px)`/500 (Tours, Destinations, Private trips, About us, Reviews), then a right column (`flex:0 1 380px`) with an intro 17, primary 56 "Chat on WhatsApp" and `KeyValueRow`s (WhatsApp, Phone, Email, Office).
-- Bottom bar (margin-top 96, hairline, 13px `text-2`): "© 2026 [BRAND NAME] · DTS Licence No. [NUMBER]" and links (Instagram, Facebook, YouTube, Help, Contact, Privacy, Terms).
-- `id="whatsapp"` is the anchor every `#whatsapp` link points to in the design. In production those links go to `wa.me`.
+#### `SiteFooter` — `components/layout/SiteFooter` (static, built in PRD #32)
+- Identical on all 9 pages. `SectionLabel` "Contact" (240 column), then large nav links `clamp(40px,5.2cqi,76px)`/500 (Tours, Destinations, Private trips, About us, Reviews), then a right column (`flex:0 1 380px`) with an intro 17, primary 56 "Chat on WhatsApp" and `KeyValueRow`s (WhatsApp, Phone, Email, Office with address and hours).
+- Bottom bar (margin-top 96, hairline, 13px `text-2`): "© {build year} {brand} · DTS Licence No. {licence}" and links (Instagram, Facebook, YouTube, Help, Contact, Privacy, Terms). Placeholder phone, email and social values show as plain text.
+- The design's `id="whatsapp"` anchor isn't used: every WhatsApp link goes to `wa.me`.
 
 #### `HomeHero` — `sections/HomeHero` (client for scroll effect)
 - `clamp(700px,100vh,980px)`, `margin-top:-72px`. Layers: video (placeholder stripes 12/24), scrim gradient, `ink-900` dim layer (opacity 0 animated to .8), "VIDEO PLACEHOLDER" note box. At the bottom: a lead (max 460) and buttons (`flex:0 1 420px`; primary "Explore Tours →" and secondary "Plan on WhatsApp" with the .25 fill), then the Display word "NORTH" (27cqi/600/.74).
@@ -690,8 +700,7 @@ Each one is asked (grilled) at the start of its PRD. A recommendation is noted w
 - "We accept" copy read from `content/settings.json`: "Cash · Bank transfer".
 
 **Layout shell PRD**
-- `data-surface="dark"` now works anywhere (added for status tags in #11), so the header and footer can use it directly.
-- Mobile menu: close button, Escape, focus trap and return (required by CLAUDE.md), and add the missing "Plan on WhatsApp" button on the Planner (§5 item 39).
+- All settled (see the decisions at the top of this file).
 
 **Homepage PRD**
 - Which element is the page's single `<h1>`. The design has none. Recommended: the brand statement ("Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway") as the `<h1>`; the display word "NORTH" is decorative and hidden from screen readers.
