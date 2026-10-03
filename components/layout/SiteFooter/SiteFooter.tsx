@@ -82,8 +82,9 @@ export function SiteFooter({ settings }: SiteFooterProps) {
                 </TextOrLink>
               </KeyValueRow>
               <KeyValueRow label="Office">
-                <span className={styles.line}>{contact.officeAddress}</span>
-                <span className={styles.line}>{contact.officeHours}</span>
+                {contact.officeAddress}
+                <br />
+                {contact.officeHours}
               </KeyValueRow>
             </dl>
           </div>

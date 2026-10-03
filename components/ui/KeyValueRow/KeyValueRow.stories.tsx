@@ -11,9 +11,9 @@ const meta = {
       <KeyValueRow {...args} />
       <KeyValueRow label="Email">hello@example.pk</KeyValueRow>
       <KeyValueRow label="Office">
-        <span>12 Main Boulevard, Gulberg, Lahore</span>
+        12 Main Boulevard, Gulberg, Lahore
         <br />
-        <span>Mon–Sat, 10 am – 7 pm</span>
+        Mon–Sat, 10 am – 7 pm
       </KeyValueRow>
     </dl>
   ),

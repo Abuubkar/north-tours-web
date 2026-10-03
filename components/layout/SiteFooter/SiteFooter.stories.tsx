@@ -54,7 +54,9 @@ export const Placeholders: Story = {
       await expect(canvas.queryByRole('link', { name })).toBeNull();
       await expect(canvas.getByText(name)).toBeVisible();
     }
-    await expect(canvas.getByText(/DTS Licence No\. \[DTS licence number\]$/)).toBeVisible();
+    await expect(canvas.getByText(/DTS Licence No\. \[DTS licence number\]$/)).toHaveTextContent(
+      /^© \d{4} \[BRAND NAME\] · /,
+    );
   },
 };
 

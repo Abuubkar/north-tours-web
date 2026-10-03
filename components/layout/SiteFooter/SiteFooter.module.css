@@ -16,7 +16,7 @@
 
 .columns {
   display: flex;
-  flex: 999 1 600px;
+  flex: 999 1 var(--content-col-min);
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-64) var(--gutter);
@@ -59,10 +59,6 @@
   text-decoration: none;
 }
 
-.line {
-  display: block;
-}
-
 .bottom {
   composes: label from '../../../styles/typography.module.css';
   display: flex;
@@ -74,7 +70,6 @@
   padding-top: var(--space-12);
   border-top: var(--hairline-width) solid var(--hairline);
   color: var(--fg-2);
-  font-weight: var(--fw-regular);
 }
 
 .smallLinks {
