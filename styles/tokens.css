@@ -51,10 +51,143 @@
   --focus-width: 2px;
   --focus-offset: 3px;
 
-  /* Type basics (full scale in the typography tokens) */
+  /* Surfaces outside the palette */
+  --map-surface: #0e151a;
+  --placeholder-a: #151e24;
+  --placeholder-b: #10181c;
+  --header-bg: rgb(12 18 22 / 0.86);
+  --header-blur: 18px;
+  --hero-scrim: linear-gradient(
+    180deg,
+    rgb(12 18 22 / 0.6) 0%,
+    transparent 20%,
+    transparent 42%,
+    rgb(12 18 22 / 0.78) 76%,
+    var(--ink-900) 100%
+  );
+
+  /* Spacing scale, named by pixel value (DESIGN.md §4) */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+  --space-144: 144px;
+
+  /* Layout (DESIGN.md §4–5). cqi resolves against the page width (body is the container). */
+  --margin: clamp(20px, 3.4cqi, 48px);
+  --section-y: clamp(72px, 9cqi, 144px);
+  --section-y-statement: clamp(88px, 10cqi, 160px);
+  --cell-pad: clamp(16px, 1.7cqi, 24px);
+  --gutter: 48px;
+  --row-gap: 24px;
+  --label-col: 240px;
+  --header-h: 72px;
+  --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
+
+  /*
+   * Breakpoints can't be custom properties inside media queries, so they are
+   * written as literals there. The design uses:
+   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns
+   *   1100px Tour Detail and Trip Planner side columns appear
+   *   1280px Tour Detail side map appears
+   *   viewport height 920px  compact booking panel below this
+   */
+
+  /* Motion (DESIGN.md §10) */
+  --dur-300: 0.3s;
+  --dur-400: 0.4s;
+  --dur-900: 0.9s;
+  --dur-1000: 1s;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Type (DESIGN.md §3). Roles live in typography.module.css. */
   --font: var(--font-geist), system-ui, sans-serif;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  --fs-display: 27cqi;
+  --lh-display: 0.74;
+  --ls-display: -0.065em;
+  --indent-display: -0.035em;
+
+  --fs-tour-hero: clamp(48px, 7.2cqi, 108px);
+  --lh-tour-hero: 0.95;
+  --ls-tour-hero: -0.05em;
+
+  /* Destination hero name: fits the name's length, capped at 20cqi (set --name-length inline). */
+  --fs-destination-hero-max: 20cqi;
+  --fs-destination-hero-fit: 150cqi;
+  --name-length-min: 5;
+  --lh-destination-hero: 0.8;
+
+  --fs-statement: clamp(40px, 6.4cqi, 92px);
+  --lh-statement: 0.98;
+  --ls-statement: -0.045em;
+
+  --fs-section: clamp(34px, 4.6cqi, 66px);
+  --lh-section: 1;
+  --ls-section: -0.04em;
+
+  --fs-section-long: clamp(32px, 3.9cqi, 56px);
+  --lh-section-long: 1.08;
+  --ls-section-long: -0.03em;
+
+  --fs-footer-nav: clamp(40px, 5.2cqi, 76px);
+  --lh-footer-nav: 1.06;
+  --ls-footer-nav: -0.045em;
+
+  --fs-numeral: clamp(56px, 6cqi, 88px);
+  --lh-numeral: 0.9;
+  --ls-numeral: -0.05em;
+
+  --fs-trust-value: clamp(26px, 2.6cqi, 38px);
+  --lh-trust-value: 1.05;
+  --ls-trust-value: -0.03em;
+
+  --fs-panel-price: 30px;
+  --lh-panel-price: 1.05;
+  --ls-panel-price: -0.025em;
+
+  --fs-card-title: 26px;
+  --lh-card-title: 1.08;
+  --ls-card-title: -0.025em;
+
+  --fs-price: 24px;
+  --lh-price: 1.1;
+  --ls-price: -0.02em;
+
+  --fs-destination: 22px;
+  --ls-destination: -0.02em;
+
+  --fs-lead: clamp(18px, 1.6cqi, 22px);
+  --lh-lead: 1.4;
+
+  --fs-quote: clamp(19px, 1.6cqi, 23px);
+  --lh-quote: 1.42;
+  --ls-quote: -0.01em;
+
+  --fs-step-title: 20px;
+  --ls-step-title: -0.015em;
+
+  --fs-body-large: 17px;
+  --lh-body-large: 1.6;
   --fs-body: 16px;
   --lh-body: 1.55;
+  --fs-small: 15px;
+  --fs-ui: 14px;
+  --lh-ui: 1.5;
+  --fs-label: 13px;
+  --ls-label: 0.01em;
+  --fs-waypoint: 12px;
 }
 
 [data-surface='light'] {

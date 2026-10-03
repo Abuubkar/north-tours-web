@@ -87,25 +87,35 @@ In code, Geist is loaded with `next/font/google`: it is downloaded at build time
 
 Fluid sizes use container-query units: the page root has `container-type: inline-size` and sizes are expressed in `cqi` (1cqi = 1% of page width).
 
-| Role | Size | Weight | Line height | Tracking | Notes |
-|---|---|---|---|---|---|
-| Display (hero word) | `27cqi` (≈105px @390, ≈389px @1440) | 600 | .74 | −0.065em | One word, e.g. NORTH. `white-space: nowrap`, slight negative left margin (−.035em), sits flush to hero bottom |
-| H1 statement | `clamp(40px, 6.4cqi, 92px)` | 500 | .98 | −0.045em | Brand statement, two lines on desktop |
-| H2 section headline | `clamp(34px, 4.6cqi, 66px)` | 500 | 1.0 | −0.04em | Max-width ~720–820px |
-| Footer nav | `clamp(40px, 5.2cqi, 76px)` | 500 | 1.06 | −0.045em | Large stacked links |
-| Step numeral | `clamp(56px, 6cqi, 88px)` | 300 | .9 | −0.05em | Tabular figures |
-| Trust value | `clamp(26px, 2.6cqi, 38px)` | 500 | 1.05 | −0.03em | |
-| H3 card title | 26px | 500 | 1.08 | −0.025em | `text-wrap: balance` |
-| Price | 24px | 500 | 1.1 | −0.02em | Tabular, `nowrap` |
-| Destination name | 22px | 500 | — | −0.02em | |
-| Lead (hero sub) | `clamp(18px, 1.6cqi, 22px)` | 400 | 1.4 | 0 | |
-| Quote | `clamp(19px, 1.6cqi, 23px)` | 400 | 1.42 | −0.01em | |
-| Step title | 20px | 500 | — | −0.015em | |
-| Body | 16–17px | 400 | 1.55–1.6 | 0 | Usually `--text-2` |
-| Small / UI | 14–15px | 400–500 | 1.5 | 0 | Dates, buttons, rows |
-| Label / meta | 13px | 500 | — | +0.01em | Minimum text size anywhere |
-| Map waypoint | 12px | 400 | — | 0 | `--text-2` |
-| Mono placeholder | 11px Geist Mono | 400 | 1.5 | +0.02em | Uppercase prefix: `PHOTO ·`, `PORTRAIT ·`, `VIDEO PLACEHOLDER ·` |
+In code each role is one class in `styles/typography.module.css`, reused with CSS Modules `composes`. Role names describe the look only: the heading element is chosen for meaning, and each page has exactly one `<h1>`. A dash in the line-height column means the role inherits the body line height.
+
+| Role | Class | Size | Weight | Line height | Tracking | Notes |
+|---|---|---|---|---|---|---|
+| Display (hero word) | `display` | `27cqi` (≈105px @390, ≈389px @1440) | 600 | .74 | −0.065em | One word, e.g. NORTH. `white-space: nowrap`, slight negative left margin (−.035em), sits flush to hero bottom |
+| Tour hero title | `tourHero` | `clamp(48px, 7.2cqi, 108px)` | 500 | .95 | −0.05em | Tour Detail hero. `text-wrap: balance` |
+| Destination hero name | `destinationHero` | `min(20cqi, 150cqi / max(length, 5))` | 600 | .8 | −0.065em | Fits the name on one line; the component sets `--name-length`. Negative left margin as Display |
+| Statement | `statement` | `clamp(40px, 6.4cqi, 92px)` | 500 | .98 | −0.045em | Brand statement, two lines on desktop |
+| Section headline | `section` | `clamp(34px, 4.6cqi, 66px)` | 500 | 1.0 | −0.04em | Max-width ~720–820px |
+| Section headline, long | `sectionLong` | `clamp(32px, 3.9cqi, 56px)` | 500 | 1.08 | −0.03em | Headlines over ~44 characters (§6) |
+| Footer nav | `footerNav` | `clamp(40px, 5.2cqi, 76px)` | 500 | 1.06 | −0.045em | Large stacked links |
+| Step numeral | `numeral` | `clamp(56px, 6cqi, 88px)` | 300 | .9 | −0.05em | Tabular figures |
+| Trust value | `trustValue` | `clamp(26px, 2.6cqi, 38px)` | 500 | 1.05 | −0.03em | |
+| Panel price | `panelPrice` | 30px | 500 | 1.05 | −0.025em | Booking panel. Tabular, `nowrap` |
+| Card title | `cardTitle` | 26px | 500 | 1.08 | −0.025em | `text-wrap: balance` |
+| Price | `price` | 24px | 500 | 1.1 | −0.02em | Tabular, `nowrap` |
+| Destination name | `destination` | 22px | 500 | — | −0.02em | |
+| Lead (hero sub) | `lead` | `clamp(18px, 1.6cqi, 22px)` | 400 | 1.4 | 0 | |
+| Quote | `quote` | `clamp(19px, 1.6cqi, 23px)` | 400 | 1.42 | −0.01em | `text-wrap: pretty` |
+| Step title | `stepTitle` | 20px | 500 | — | −0.015em | |
+| Body, large | `bodyLarge` | 17px | 400 | 1.6 | 0 | Longer reading text. Usually `--fg-2` |
+| Body | `body` | 16px | 400 | 1.55 | 0 | Page default. Usually `--fg-2` |
+| Small | `small` | 15px | inherit | 1.5 | 0 | Dates, rows |
+| UI | `ui` | 14px | inherit | 1.5 | 0 | Buttons, nav, meta rows |
+| Label / meta | `label` | 13px | 500 | — | +0.01em | Minimum text size anywhere |
+| Map waypoint | `waypoint` | 12px | 400 | — | 0 | `--fg-2` |
+| Mono placeholder | — | 11px Geist Mono | 400 | 1.5 | +0.02em | Design files only; not in code |
+
+Other sizes in the design files that are not in this table move to the nearest role (see `docs/components.md`).
 
 Use sentence case everywhere: no all-caps labels, and no italics.
 
@@ -303,40 +313,23 @@ Never animated: prices, dates, seats left, error messages, buttons.
 
 ## 13. Tokens (CSS)
 
-The tokens in code live in `styles/tokens.css`, which is the only stylesheet allowed to hold raw values.
+The tokens in code live in `styles/tokens.css`, the only stylesheet allowed to hold raw values. Groups, in file order:
 
-Surface tokens (`--bg`, `--fg`, `--fg-2`, `--fg-3`, `--hairline`, `--control-border`, `--link`, `--link-hover`, `--error`) are defined in code as the table in §2: dark values on `:root`, light values inside `[data-surface="light"]`, plus `color-scheme` so native controls and scrollbars match the surface (ADR-0011).
+| Group | Tokens |
+|---|---|
+| Raw palette | `--ink-900` `--ink-800` `--line` `--line-strong` `--text` `--text-2` `--text-3` `--gold` `--gold-hover` `--gold-pressed` `--on-gold` `--mist-50` `--mist-100` `--line-light` `--line-strong-light` `--ink-text` `--ink-text-2` `--ink-text-3` `--gold-deep` (values in §2). Used only inside the tokens file. |
+| Surface | `--bg` `--fg` `--fg-2` `--fg-3` `--hairline` `--control-border` `--link` `--link-hover` `--error`, plus `color-scheme`. Dark on `:root`, light inside `[data-surface="light"]` (table in §2, ADR-0011). |
+| Radius | `--radius-input` 2px, `--radius-button` 6px, `--radius-card` 8px, `--radius-chip` 999px |
+| Interaction | `--tap` 44px, `--focus-width` 2px, `--focus-offset` 3px |
+| Other surfaces | `--map-surface` `#0E151A`, `--placeholder-a` `#151E24`, `--placeholder-b` `#10181C`, `--header-bg` `rgb(12 18 22 / .86)`, `--header-blur` 18px, `--hero-scrim` (§9 gradient) |
+| Spacing | `--space-4` `--space-8` `--space-12` `--space-16` `--space-20` `--space-24` `--space-32` `--space-48` `--space-64` `--space-96` `--space-144`, named by pixel value |
+| Layout | `--margin` `clamp(20px, 3.4cqi, 48px)`, `--section-y` `clamp(72px, 9cqi, 144px)`, `--section-y-statement` `clamp(88px, 10cqi, 160px)`, `--cell-pad` `clamp(16px, 1.7cqi, 24px)`, `--gutter` 48px, `--row-gap` 24px, `--label-col` 240px, `--header-h` 72px, `--measure-lead` 460px |
+| Motion | `--dur-300` .3s, `--dur-400` .4s, `--dur-900` .9s, `--dur-1000` 1s, `--ease-out` `cubic-bezier(.2, .7, .2, 1)` |
+| Type | `--font` (`var(--font-geist)`, set by `next/font`, then `system-ui`); weights `--fw-light` 300, `--fw-regular` 400, `--fw-medium` 500, `--fw-semibold` 600; per role `--fs-*`, `--lh-*`, `--ls-*` matching the §3 table (e.g. `--fs-statement`, `--lh-statement`, `--ls-statement`); `--indent-display` −.035em (display and destination hero left margin); `--fs-destination-hero-max` 20cqi, `--fs-destination-hero-fit` 150cqi and `--name-length-min` 5 for the destination hero |
 
-```css
-:root {
-  --focus-width: 2px;  --focus-offset: 3px;
-  --lh-body: 1.55;
-}
-```
+Breakpoints can't be custom properties in media queries, so they are literals there and documented in the tokens file: 820px (nav collapses, sheets replace dropdowns), 1100px (Tour Detail and Trip Planner side columns), 1280px (Tour Detail side map), viewport height 920px (compact booking panel).
 
-```css
-:root {
-  --ink-900: #0C1216;  --ink-800: #121A1F;
-  --line: #253038;     --line-strong: #5C6871;
-  --text: #F1EEE8;     --text-2: #B7BFC5;  --text-3: #8F9AA2;
-  --gold: #D9B44A;     --gold-hover: #E3C366;  --gold-pressed: #C9A43C;  --on-gold: #10161A;
-  --mist-50: #EEF1F3;  --mist-100: #E2E7EB;
-  --line-light: #CBD2D8;  --line-strong-light: #7D8992;
-  --ink-text: #10161A; --ink-text-2: #46525C; --ink-text-3: #5B6770;
-  --gold-deep: #7A5A12;
-  --radius-input: 2px; --radius-button: 6px; --radius-card: 8px; --radius-chip: 999px;
-  --font: var(--font-geist), system-ui, sans-serif; /* --font-geist is set by next/font */
-  --margin: clamp(20px, 3.4cqi, 48px);
-  --section-y: clamp(72px, 9cqi, 144px);
-  --fs-display: 27cqi;
-  --fs-h1: clamp(40px, 6.4cqi, 92px);
-  --fs-h2: clamp(34px, 4.6cqi, 66px);
-  --fs-h2-long: clamp(32px, 3.9cqi, 56px);
-  --fs-h3: 26px; --fs-body: 16px; --fs-small: 14px; --fs-label: 13px;
-  --ease-out: cubic-bezier(.2, .7, .2, 1);
-  --tap: 44px;
-}
-```
+The design files' token names `--fs-h1`, `--fs-h2`, `--fs-h2-long` and `--fs-h3` are `--fs-statement`, `--fs-section`, `--fs-section-long` and `--fs-card-title` in code, because type roles are visual only. `--fs-small` is 15px and `--fs-ui` 14px (the design's "Small / UI 14–15px").
 
 ---
 
