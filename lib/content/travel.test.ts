@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { loadTravelContent } from './check.ts';
+import { travelAsOf } from './travel.ts';
 import type { Destination } from './destinations.ts';
 import { CONTENT_DIR } from './files.ts';
 import { contentFixture } from './testing.ts';
@@ -130,5 +131,28 @@ describe('tours and destinations', () => {
       Object.assign(d, { region: 'Sindh' });
     });
     expect(result.problems).toHaveLength(2);
+  });
+});
+
+describe('travelAsOf', () => {
+  const dates = (today: string) =>
+    travelAsOf(today).tours.find((t) => t.slug === 'hunza-skardu-grand')!.departures.map((d) => d.start);
+
+  it('drops departures before the given day (Asia/Karachi) and keeps the rest', () => {
+    expect(dates('2027-06-09')).toEqual(['2027-06-09', '2027-06-23']);
+    expect(dates('2027-06-10')).toEqual(['2027-06-23']);
+  });
+
+  it('leaves a tour with no upcoming departures in the list, with none to show', () => {
+    expect(dates('2027-12-31')).toEqual([]);
+  });
+
+  it('throws a ContentError when content is invalid', () => {
+    const dir = contentFixture({
+      'destinations/hunza.json': { ...hunza, region: 'Sindh' },
+      'destinations/skardu.json': skardu,
+      'tours/hunza-skardu-grand.json': grand,
+    });
+    expect(() => travelAsOf('2027-01-01', dir)).toThrow(/destinations\/hunza\.json › region/);
   });
 });
