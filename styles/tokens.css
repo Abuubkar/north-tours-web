@@ -1,0 +1,71 @@
+/*
+ * Design tokens (DESIGN.md §2, §7, §13). The only place raw values live.
+ * Components use the surface tokens below, plus the gold tokens, which are
+ * the same on both surfaces.
+ */
+
+:root {
+  /* Raw palette: dark surface (imagery) */
+  --ink-900: #0c1216;
+  --ink-800: #121a1f;
+  --line: #253038;
+  --line-strong: #5c6871;
+  --text: #f1eee8;
+  --text-2: #b7bfc5;
+  --text-3: #8f9aa2;
+  --gold: #d9b44a;
+  --gold-hover: #e3c366;
+  --gold-pressed: #c9a43c;
+  --on-gold: #10161a;
+
+  /* Raw palette: light surface (reading) */
+  --mist-50: #eef1f3;
+  --mist-100: #e2e7eb;
+  --line-light: #cbd2d8;
+  --line-strong-light: #7d8992;
+  --ink-text: #10161a;
+  --ink-text-2: #46525c;
+  --ink-text-3: #5b6770;
+  --gold-deep: #7a5a12;
+
+  /* Surface tokens: dark by default, redefined for [data-surface='light'] */
+  --bg: var(--ink-900);
+  --fg: var(--text);
+  --fg-2: var(--text-2);
+  --fg-3: var(--text-3);
+  --hairline: var(--line);
+  --control-border: var(--line-strong);
+  --link: var(--text);
+  --link-hover: var(--gold);
+  --error: var(--gold); /* paired with the "!" badge and a message, never colour alone */
+  color-scheme: dark;
+
+  /* Radius (DESIGN.md §7) */
+  --radius-input: 2px;
+  --radius-button: 6px;
+  --radius-card: 8px;
+  --radius-chip: 999px;
+
+  /* Interaction */
+  --tap: 44px;
+  --focus-width: 2px;
+  --focus-offset: 3px;
+
+  /* Type basics (full scale in the typography tokens) */
+  --font: var(--font-geist), system-ui, sans-serif;
+  --fs-body: 16px;
+  --lh-body: 1.55;
+}
+
+[data-surface='light'] {
+  --bg: var(--mist-50);
+  --fg: var(--ink-text);
+  --fg-2: var(--ink-text-2);
+  --fg-3: var(--ink-text-3);
+  --hairline: var(--line-light);
+  --control-border: var(--line-strong-light);
+  --link: var(--ink-text);
+  --link-hover: var(--gold-deep);
+  --error: var(--gold-deep);
+  color-scheme: light;
+}

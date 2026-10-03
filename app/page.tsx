@@ -11,11 +11,21 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main>
-      <p>[BRAND NAME]</p>
-      <h1>Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway</h1>
-      <p>
-        Guided group and private tours from Lahore to Hunza, Skardu and the valleys in between.
-      </p>
+      <section>
+        <p>[BRAND NAME]</p>
+        <h1>Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway</h1>
+        <p>
+          Guided group and private tours from Lahore to Hunza, Skardu and the valleys in between.{' '}
+          <a href="#good-to-know">Good to know before you go</a>
+        </p>
+      </section>
+      <section id="good-to-know" data-surface="light">
+        <h2>Good to know before you go</h2>
+        <p>
+          Warm layers even in summer, cash for the upper valleys, and a day of rest before the high
+          passes. <a href="#">Back to the top</a>
+        </p>
+      </section>
     </main>
   );
 }
