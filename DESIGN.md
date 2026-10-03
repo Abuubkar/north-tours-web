@@ -82,6 +82,7 @@ Primary buttons stay gold `#D9B44A` with `#10161A` text on both surfaces. Outlin
 | Sold out | Always dark (on a photo) | `--control-border` | `--fg` | “Sold out” |
 | Category | Follows the page | `--control-border` | `--fg-2` | Heritage, Viewpoint, Lake, Adventure |
 
+- **Chips** (`Chip`): 44px, 999px, 14/500, 0 16px. Variants: toggle (`aria-pressed`), dropdown trigger (`aria-expanded`, caret turns over when open, optional count), removable (the whole chip is the button “Remove filter {label}”, so the tap target is the full pill) and link. Off: `--control-border` border. Hover and selected: `--bg-raised` fill with a `--fg` border, on both surfaces. Never gold. Counts in `--fg-2`.
 - **Ratings:** `StarRating` shows five 15px (or 13px) stars, `--accent` up to the rating and `--hairline` after it, read as “N out of 5 stars”. `RatingInline` shows a 15px `--accent` star, the score (600, tabular, one decimal) and “(count)” in `--fg-3`, read as “4.9 out of 5, 128 reviews” (“1 review” in the singular). The text is built by the rating helpers in `lib/utils`.
 - The sticky header uses `rgba(12,18,22,.86)` so it stays legible over light sections.
 
