@@ -31,7 +31,7 @@ export function Chip(props: ChipProps) {
     case 'trigger': {
       const { variant, expanded, active = false, children, count, type = 'button', ...rest } =
         props;
-      const classes = active ? `${styles.chip} ${styles.selected}` : styles.chip;
+      const classes = active ? `${styles.chip} ${styles.active}` : styles.chip;
       return (
         <button {...rest} type={type} aria-expanded={expanded} className={classes}>
           {children}
@@ -48,7 +48,7 @@ export function Chip(props: ChipProps) {
           type={type}
           onClick={onRemove}
           aria-label={`Remove filter ${children}`}
-          className={`${styles.chip} ${styles.selected} ${styles.removable}`}
+          className={`${styles.chip} ${styles.active} ${styles.removable}`}
         >
           {children}
           <Icon name="close" size={ICON_SIZE} className={styles.remove} />

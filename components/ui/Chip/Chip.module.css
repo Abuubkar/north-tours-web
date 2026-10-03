@@ -21,10 +21,9 @@
 /* Hover follows the quiet button; selected uses the same raised surface (PRD #8). */
 .chip:hover,
 .chip[aria-pressed='true'],
-.selected {
+.active {
   border-color: var(--fg);
   background: var(--bg-raised);
-  color: var(--fg);
 }
 
 .count {

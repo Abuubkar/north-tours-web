@@ -65,8 +65,10 @@ export const AllVariants: RenderStory = { render: allVariants };
 export const AllVariantsOnLight: RenderStory = {
   render: allVariants,
   globals: { surface: 'light' },
-  play: async ({ canvasElement }) => {
-    await expect(canvasElement.querySelector('[data-surface]')).toHaveAttribute('data-surface', 'light');
+  play: async ({ canvas }) => {
+    const pressed = canvas.getByRole('button', { name: 'Flexible' });
+    // Mist 100, the light raised surface: selection is never gold.
+    await expect(getComputedStyle(pressed).backgroundColor).toBe('rgb(226, 231, 235)');
   },
 };
 
@@ -93,12 +95,14 @@ export const Trigger: RenderStory = {
     await expect(chip).toHaveAttribute('aria-expanded', 'false');
     await userEvent.click(chip);
     await expect(chip).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.click(chip);
+    await expect(chip).toHaveAttribute('aria-expanded', 'false');
   },
 };
 
-/** The whole chip is the remove button, so the tap target is the full 44px pill. */
 const removeHunza = fn();
 
+/** The whole chip is the remove button, so the tap target is the full 44px pill. */
 export const Removable: Story = {
   args: { variant: 'removable', children: 'Hunza', onRemove: removeHunza },
   play: async ({ canvas, userEvent }) => {
