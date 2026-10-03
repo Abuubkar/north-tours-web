@@ -1,0 +1,66 @@
+.accordion {
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+.item {
+  border-bottom: var(--hairline-width) solid var(--hairline);
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+  padding: var(--space-16) 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.question {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+.marker {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-44);
+  height: var(--control-44);
+  color: var(--fg);
+}
+
+/* Only the glyph turns; the bordered box stays put. */
+.glyph {
+  transition: transform var(--dur-300) var(--ease-out);
+}
+
+.plus {
+  border: var(--hairline-width) solid var(--control-border);
+  border-radius: var(--radius-button);
+}
+
+.item[open] .plus .glyph {
+  transform: rotate(45deg);
+}
+
+.item[open] .caret .glyph {
+  transform: rotate(180deg);
+}
+
+.panel {
+  composes: body from '../../../styles/typography.module.css';
+  max-width: var(--measure-answer);
+  padding: 0 var(--space-64) var(--space-24) 0;
+  color: var(--fg-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glyph {
+    transition: none;
+  }
+}
