@@ -196,3 +196,17 @@ Folders are created only when the first file for them is needed (section 3).
   manually by the owner later.
 - Online payments, CMS integration, databases, analytics, cookie banners.
 - Do not add these "to prepare" for later. They arrive with their own issue and ADR.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs live in GitHub Issues (Abuubkar/north-tours-web), managed with `gh`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five labels: needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `GLOSSARY.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
