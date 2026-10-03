@@ -10,13 +10,21 @@ export function Stepper({ label, value, min, max, onChange, decreaseLabel, incre
   const atMin = value <= min;
   const atMax = value >= max;
 
+  function decrease() {
+    if (!atMin) onChange(value - 1);
+  }
+
+  function increase() {
+    if (!atMax) onChange(value + 1);
+  }
+
   return (
     <div role="group" aria-label={label} className={styles.stepper}>
       <IconButton
         icon="minus"
         label={decreaseLabel}
         aria-disabled={atMin}
-        onClick={() => !atMin && onChange(value - 1)}
+        onClick={decrease}
       />
       <output aria-live="polite" className={styles.value}>
         {value}
@@ -25,7 +33,7 @@ export function Stepper({ label, value, min, max, onChange, decreaseLabel, incre
         icon="plus"
         label={increaseLabel}
         aria-disabled={atMax}
-        onClick={() => !atMax && onChange(value + 1)}
+        onClick={increase}
       />
     </div>
   );

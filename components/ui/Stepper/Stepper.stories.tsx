@@ -44,10 +44,15 @@ export const AtMinimum: RenderStory = {
     await expect(fewer).toHaveAttribute('aria-disabled', 'true');
     await userEvent.click(fewer);
     await expect(value).toHaveTextContent('1');
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    await expect(value).toHaveTextContent('1');
     // Focus stays on the button at its limit, so keyboard users don't lose their place.
     await expect(fewer).toHaveFocus();
   },
 };
+
+export const AtMinimumOnLight: RenderStory = { ...AtMinimum, globals: { surface: 'light' } };
 
 /** At the maximum, + is unavailable, by mouse and by keyboard. */
 export const AtMaximum: RenderStory = {
@@ -68,6 +73,8 @@ export const AtMaximum: RenderStory = {
     );
   },
 };
+
+export const AtMaximumOnLight: RenderStory = { ...AtMaximum, globals: { surface: 'light' } };
 
 /** The group is named, and the value is announced politely when it changes. */
 export const Announced: RenderStory = {
