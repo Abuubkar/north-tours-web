@@ -32,5 +32,3 @@ const placeholder = z.strictObject({
 export const imageSchema = z.union([photo, placeholder], {
   error: 'Needs alt text and either a photo (src, width, height, credit) or a placeholder',
 });
-
-export type ContentImage = z.infer<typeof imageSchema>;

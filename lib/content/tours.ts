@@ -1,11 +1,10 @@
 import path from 'node:path';
 import { z } from 'zod';
-import { loadCollection, SLUG } from './collection.ts';
+import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
 import { nonEmpty } from './fields.ts';
 import { imageSchema } from './images.ts';
 
-const slug = z.string().regex(SLUG, 'Use lowercase words joined by hyphens');
 const isoDate = z.iso.date('Use a real date as YYYY-MM-DD');
 const pkr = z.int('Use whole rupees').positive();
 
@@ -26,11 +25,11 @@ export const departureSchema = z
 
 export const tourSchema = z
   .strictObject({
-    slug,
+    slug: slugSchema,
     title: nonEmpty,
     /** Stops in order, e.g. ["Lahore", "Hunza", "Skardu"]. */
     route: z.array(nonEmpty).min(2, 'A route needs at least two stops'),
-    destinations: z.array(slug).min(1),
+    destinations: z.array(slugSchema).min(1),
     tripTypes: z.array(z.enum(['family', 'couples', 'friends', 'corporate'])).min(1),
     days: z.int().positive(),
     nights: z.int().min(0),
@@ -50,10 +49,11 @@ export const tourSchema = z
         ctx.addIssue({ code: 'custom', message: 'Two departures start on this date', path: ['departures', i, 'start'] });
       }
       starts.add(d.start);
-      if (daysBetween(d.start, d.end) + 1 !== tour.days) {
+      const length = daysBetween(d.start, d.end) + 1;
+      if (length !== tour.days) {
         ctx.addIssue({
           code: 'custom',
-          message: `Lasts ${daysBetween(d.start, d.end) + 1} days; the tour is ${tour.days}`,
+          message: `Lasts ${length} days; the tour is ${tour.days}`,
           path: ['departures', i, 'end'],
         });
       }

@@ -1,8 +1,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { loadTravelContent } from './check.ts';
-import { travelAsOf } from './travel.ts';
+import { catalogAsOf, loadCatalog } from './catalog.ts';
 import type { Destination } from './destinations.ts';
 import { CONTENT_DIR } from './files.ts';
 import { contentFixture } from './testing.ts';
@@ -18,7 +17,7 @@ function load(change: (tour: Tour, destination: Destination) => void = () => {})
   const tour = structuredClone(grand);
   const destination = structuredClone(hunza);
   change(tour, destination);
-  return loadTravelContent(
+  return loadCatalog(
     contentFixture({
       'destinations/hunza.json': destination,
       'destinations/skardu.json': skardu,
@@ -27,12 +26,16 @@ function load(change: (tour: Tour, destination: Destination) => void = () => {})
   );
 }
 
-const fields = (result: ReturnType<typeof load>) => result.problems.map((p) => p.field);
+/** Fields with problems; also checks every problem names the file it came from. */
+const fields = (result: ReturnType<typeof load>) => {
+  for (const problem of result.problems) expect(problem.file).toMatch(/^.*content-[^/]+\/(tours|destinations)\/[a-z-]+\.json$/);
+  return result.problems.map((p) => p.field);
+};
 const firstDeparture = (tour: Tour) => tour.departures[0];
 
-describe('tours and destinations', () => {
+describe('catalog: tours and destinations', () => {
   it('accepts the live content', () => {
-    expect(loadTravelContent().problems).toEqual([]);
+    expect(loadCatalog().problems).toEqual([]);
   });
 
   it('accepts the fixture unchanged and sorts departures by date', () => {
@@ -113,6 +116,10 @@ describe('tours and destinations', () => {
     ]);
   });
 
+  it('rejects a slug that is not lowercase words joined by hyphens', () => {
+    expect(fields(load((t) => t.destinations.push('Hunza_Valley')))).toEqual(['destinations.2']);
+  });
+
   it('rejects a tour pointing to a destination that does not exist', () => {
     const result = load((t) => t.destinations.push('chitral'));
     expect(result.problems).toEqual([
@@ -134,9 +141,9 @@ describe('tours and destinations', () => {
   });
 });
 
-describe('travelAsOf', () => {
+describe('catalogAsOf', () => {
   const dates = (today: string) =>
-    travelAsOf(today).tours.find((t) => t.slug === 'hunza-skardu-grand')!.departures.map((d) => d.start);
+    catalogAsOf(today).tours.find((t) => t.slug === 'hunza-skardu-grand')!.departures.map((d) => d.start);
 
   it('drops departures before the given day (Asia/Karachi) and keeps the rest', () => {
     expect(dates('2027-06-09')).toEqual(['2027-06-09', '2027-06-23']);
@@ -153,6 +160,6 @@ describe('travelAsOf', () => {
       'destinations/skardu.json': skardu,
       'tours/hunza-skardu-grand.json': grand,
     });
-    expect(() => travelAsOf('2027-01-01', dir)).toThrow(/destinations\/hunza\.json › region/);
+    expect(() => catalogAsOf('2027-01-01', dir)).toThrow(/destinations\/hunza\.json › region/);
   });
 });
