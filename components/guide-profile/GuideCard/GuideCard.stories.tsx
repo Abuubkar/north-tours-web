@@ -27,6 +27,7 @@ export const Placeholder: Story = {
     const link = canvas.getByRole('link', { name: 'Karim Baig' });
     await expect(link).toHaveAttribute('href', '/about#guide-karim-baig');
     await expect(link).toHaveAccessibleDescription('Lead guide · Hunza');
+    await expect(canvas.getByRole('heading', { level: 3, name: 'Karim Baig' })).toBeVisible();
     await expect(canvas.getByRole('img', { name: 'Karim Baig, lead guide' })).toBeVisible();
   },
 };
@@ -46,3 +47,7 @@ export const Photo: Story = {
 };
 
 export const PhotoOnLight: Story = { ...Photo, globals: { surface: 'light' } };
+
+export const PhotoPhone: Story = { ...Photo, globals: { viewport: { value: 'phone' } } };
+
+export const PhotoDesktop: Story = { ...Photo, globals: { viewport: { value: 'desktop' } } };

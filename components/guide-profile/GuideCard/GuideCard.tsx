@@ -15,14 +15,14 @@ export function GuideCard({ guide }: GuideCardProps) {
   return (
     <a href={routes.guide(guide.slug)} className={styles.card} aria-labelledby={`${id}-name`} aria-describedby={`${id}-role`}>
       <MediaFrame image={guide.portrait} ratio="4:5" sizes={PHOTO_SIZES} />
-      <span className={styles.text}>
-        <span id={`${id}-name`} className={styles.name}>
+      <div className={styles.text}>
+        <h3 id={`${id}-name`} className={styles.name}>
           {guide.name}
-        </span>
+        </h3>
         <span id={`${id}-role`} className={styles.role}>
           {guide.role} · {guide.base}
         </span>
-      </span>
+      </div>
     </a>
   );
 }

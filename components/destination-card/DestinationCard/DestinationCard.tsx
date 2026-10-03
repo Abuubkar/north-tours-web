@@ -21,15 +21,15 @@ export function DestinationCard({ destination, seasonLabel }: DestinationCardPro
       aria-describedby={`${id}-season`}
     >
       <MediaFrame image={destination.image} ratio="3:4" sizes={PHOTO_SIZES} />
-      <span className={styles.text}>
-        <span id={`${id}-name`} className={styles.name}>
+      <div className={styles.text}>
+        <h3 id={`${id}-name`} className={styles.name}>
           {destination.name}
-        </span>
+        </h3>
         <span id={`${id}-season`} className={styles.season}>
           <span className={styles.label}>{seasonLabel}</span>
-          <span className={styles.months}>{seasonRange(destination.bestSeason.from, destination.bestSeason.to)}</span>
+          <span className={styles.months}>{seasonRange(destination.bestSeason)}</span>
         </span>
-      </span>
+      </div>
     </a>
   );
 }

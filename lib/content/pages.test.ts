@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { homeCopyFile, loadCreditsCopy, loadHomeCopy, type HomeCopy } from './pages.ts';
+import { creditsCopyFile, homeCopyFile, loadCreditsCopy, loadHomeCopy, type HomeCopy } from './pages.ts';
 import { contentFixture } from './testing.ts';
 
 const home: HomeCopy = JSON.parse(readFileSync(homeCopyFile(), 'utf8'));
@@ -74,7 +74,7 @@ describe('credits page copy', () => {
   });
 
   it('rejects a missing headline', () => {
-    const { headline, ...rest } = JSON.parse(readFileSync(homeCopyFile().replace('home.json', 'credits.json'), 'utf8'));
+    const { headline, ...rest } = JSON.parse(readFileSync(creditsCopyFile(), 'utf8'));
     expect(headline).toBeTruthy();
     expect(loadCreditsCopy(contentFixture({ 'pages/credits.json': rest })).problems.map((p) => p.field)).toEqual(['headline']);
   });

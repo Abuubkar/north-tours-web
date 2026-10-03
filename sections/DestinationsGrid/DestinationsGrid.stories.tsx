@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
+import { gridColumns } from '../../.storybook/gridColumns';
 import { sampleDestinations } from '@/components/destination-card/sampleDestinations';
 import { sampleHome } from '../sampleHome';
 import { DestinationsGrid } from './DestinationsGrid';
@@ -15,10 +16,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const columns = (canvas: ReturnType<typeof within>) => {
-  const tops = canvas.getAllByRole('listitem').map((li: HTMLElement) => Math.round(li.getBoundingClientRect().top));
-  return tops.filter((top: number) => top === tops[0]).length;
-};
+const columns = (canvas: ReturnType<typeof within>) => gridColumns(canvas.getAllByRole('listitem'));
 
 /** Six across at 1440; each card links to its destination, and photos load lazily. */
 export const Desktop: Story = {

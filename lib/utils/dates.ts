@@ -1,3 +1,5 @@
+import type { Destination } from '../content/destinations.ts';
+
 /*
  * Date wording for cards and messages. Content dates are YYYY-MM-DD with no time zone, so
  * they're read and shown as calendar dates, never shifted by the visitor's clock.
@@ -57,8 +59,8 @@ export function yearsSince(since: number, currentYear: number): number {
   return currentYear - since;
 }
 
-/** A destination's best season, "Apr" to "Oct" → "April – October". */
-export function seasonRange(from: string, to: string): string {
+/** A destination's best season, Apr to Oct → "April – October". */
+export function seasonRange({ from, to }: Destination['bestSeason']): string {
   const long = (month: string) => LONG_MONTHS[SHORT_MONTHS.indexOf(month)];
   return `${long(from)} – ${long(to)}`;
 }

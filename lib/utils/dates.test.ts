@@ -49,7 +49,7 @@ describe('yearsSince', () => {
 
 describe('seasonRange', () => {
   it('names both months in full', () => {
-    expect(seasonRange('Apr', 'Oct')).toBe('April – October');
-    expect(seasonRange('Jun', 'Sep')).toBe('June – September');
+    expect(seasonRange({ from: 'Apr', to: 'Oct' })).toBe('April – October');
+    expect(seasonRange({ from: 'Jun', to: 'Sep' })).toBe('June – September');
   });
 });

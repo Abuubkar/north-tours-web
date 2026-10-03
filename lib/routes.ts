@@ -14,12 +14,12 @@ export const routes = {
   privacy: '/privacy',
   terms: '/terms',
   credits: '/credits',
+  /** One guide's profile on the About page. */
+  guide: (slug: string) => `/about#guide-${slug}`,
 
   /* Sections the nav jumps to. */
   how: '/#how',
   destinations: '/#destinations',
   reviews: '/#reviews',
   guides: '/about#guides',
-  /** One guide's profile on the About page. */
-  guide: (slug: string) => `/about#guide-${slug}`,
 } as const;

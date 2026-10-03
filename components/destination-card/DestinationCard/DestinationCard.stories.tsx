@@ -27,6 +27,7 @@ export const Photo: Story = {
     await expect(link).toHaveAttribute('href', '/destinations/hunza');
     await expect(link).toHaveAccessibleDescription('Best season April – October');
     await expect(canvas.getAllByRole('link')).toHaveLength(1);
+    await expect(canvas.getByRole('heading', { level: 3, name: 'Hunza' })).toBeVisible();
   },
 };
 
@@ -46,3 +47,7 @@ export const Placeholder: Story = {
 };
 
 export const PlaceholderOnLight: Story = { ...Placeholder, globals: { surface: 'light' } };
+
+export const PlaceholderPhone: Story = { ...Placeholder, globals: { viewport: { value: 'phone' } } };
+
+export const PlaceholderDesktop: Story = { ...Placeholder, globals: { viewport: { value: 'desktop' } } };
