@@ -83,6 +83,11 @@
   --label-col: 240px;
   --header-h: 72px;
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
+  --drawer-w: 460px; /* side drawer, e.g. guide profile */
+  --sheet-max-h: 92dvh; /* bottom sheet */
+  --handle-w: 36px; /* bottom sheet grab handle */
+  --handle-h: 4px;
+  --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent);
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
