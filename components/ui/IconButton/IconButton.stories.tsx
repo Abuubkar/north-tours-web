@@ -35,6 +35,15 @@ export const Gallery: Story = {
   ),
 };
 
+/** The same set on the light surface, so axe checks light contrast too. */
+export const GalleryOnLight: Story = {
+  ...Gallery,
+  globals: { surface: 'light' },
+  play: async ({ canvasElement }) => {
+    await expect(canvasElement.querySelector('[data-surface]')).toHaveAttribute('data-surface', 'light');
+  },
+};
+
 /** WhatsApp links are real links with an accessible name. */
 export const AsLink: Story = {
   args: { icon: 'whatsapp', label: 'Chat on WhatsApp', href: 'https://wa.me/', size: 48 },

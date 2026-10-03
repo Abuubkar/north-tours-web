@@ -43,6 +43,15 @@ export const AllVariantsAndSizes: Story = {
   ),
 };
 
+/** The same set on the light surface, so axe checks light contrast too. */
+export const AllVariantsAndSizesOnLight: Story = {
+  ...AllVariantsAndSizes,
+  globals: { surface: 'light' },
+  play: async ({ canvasElement }) => {
+    await expect(canvasElement.querySelector('[data-surface]')).toHaveAttribute('data-surface', 'light');
+  },
+};
+
 /** The header's "WhatsApp us": secondary at 44 with the softer border. */
 export const Header: Story = {
   args: { variant: 'secondary', size: 44, icon: 'whatsapp', children: 'WhatsApp us' },
