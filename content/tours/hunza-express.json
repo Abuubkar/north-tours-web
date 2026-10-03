@@ -1,0 +1,41 @@
+{
+  "slug": "hunza-express",
+  "title": "Hunza Express",
+  "route": [
+    "Lahore",
+    "Hunza"
+  ],
+  "destinations": [
+    "hunza"
+  ],
+  "tripTypes": [
+    "family",
+    "couples"
+  ],
+  "days": 6,
+  "nights": 5,
+  "priceFrom": 98000,
+  "rating": {
+    "score": 4.7,
+    "count": 41
+  },
+  "image": {
+    "placeholder": "Karimabad from Eagle’s Nest at sunset",
+    "alt": "Karimabad and the Hunza valley at sunset from Eagle’s Nest"
+  },
+  "departures": [
+    {
+      "start": "2027-06-02",
+      "end": "2027-06-07",
+      "seatsTotal": 16,
+      "seatsLeft": 12
+    },
+    {
+      "start": "2027-08-18",
+      "end": "2027-08-23",
+      "seatsTotal": 16,
+      "seatsLeft": 16,
+      "price": 104000
+    }
+  ]
+}

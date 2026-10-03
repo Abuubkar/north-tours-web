@@ -1,0 +1,14 @@
+{
+  "slug": "hunza",
+  "name": "Hunza",
+  "region": "Gilgit-Baltistan",
+  "description": "A long, green valley under some of the highest mountains on earth: terraced orchards, the old forts of Baltit and Altit, and the turquoise of Attabad Lake.",
+  "bestSeason": {
+    "from": "Apr",
+    "to": "Oct"
+  },
+  "image": {
+    "placeholder": "Karimabad terraces with Rakaposhi behind, autumn poplars",
+    "alt": "Terraced fields and poplars in Karimabad with snow-capped Rakaposhi behind"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "naran-kaghan-getaway",
+  "title": "Naran-Kaghan Getaway",
+  "route": [
+    "Lahore",
+    "Naran",
+    "Babusar Top"
+  ],
+  "destinations": [
+    "naran-kaghan"
+  ],
+  "tripTypes": [
+    "family",
+    "friends",
+    "corporate"
+  ],
+  "days": 4,
+  "nights": 3,
+  "priceFrom": 38000,
+  "rating": {
+    "score": 4.8,
+    "count": 214
+  },
+  "image": {
+    "placeholder": "Lake Saiful Muluk, Malika Parbat behind, early morning mist",
+    "alt": "Lake Saiful Muluk in morning mist with Malika Parbat behind"
+  },
+  "departures": [
+    {
+      "start": "2027-05-22",
+      "end": "2027-05-25",
+      "seatsTotal": 20,
+      "seatsLeft": 11
+    },
+    {
+      "start": "2027-06-19",
+      "end": "2027-06-22",
+      "seatsTotal": 20,
+      "seatsLeft": 20
+    },
+    {
+      "start": "2027-07-24",
+      "end": "2027-07-27",
+      "seatsTotal": 20,
+      "seatsLeft": 17
+    }
+  ]
+}

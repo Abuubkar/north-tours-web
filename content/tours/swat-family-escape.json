@@ -1,0 +1,40 @@
+{
+  "slug": "swat-family-escape",
+  "title": "Swat Family Escape",
+  "route": [
+    "Lahore",
+    "Malam Jabba",
+    "Kalam"
+  ],
+  "destinations": [
+    "swat"
+  ],
+  "tripTypes": [
+    "family"
+  ],
+  "days": 5,
+  "nights": 4,
+  "priceFrom": 52000,
+  "rating": {
+    "score": 4.8,
+    "count": 96
+  },
+  "image": {
+    "placeholder": "Kalam valley, pine forest road beside the Swat River",
+    "alt": "A pine forest road beside the Swat River in the Kalam valley"
+  },
+  "departures": [
+    {
+      "start": "2027-06-05",
+      "end": "2027-06-09",
+      "seatsTotal": 18,
+      "seatsLeft": 9
+    },
+    {
+      "start": "2027-07-03",
+      "end": "2027-07-07",
+      "seatsTotal": 18,
+      "seatsLeft": 18
+    }
+  ]
+}

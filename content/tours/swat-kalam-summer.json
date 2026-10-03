@@ -1,0 +1,41 @@
+{
+  "slug": "swat-kalam-summer",
+  "title": "Swat & Kalam Summer",
+  "route": [
+    "Lahore",
+    "Swat",
+    "Kalam"
+  ],
+  "destinations": [
+    "swat"
+  ],
+  "tripTypes": [
+    "family",
+    "friends"
+  ],
+  "days": 4,
+  "nights": 3,
+  "priceFrom": 45000,
+  "rating": {
+    "score": 4.7,
+    "count": 52
+  },
+  "image": {
+    "placeholder": "Ushu forest and the river at Kalam",
+    "alt": "The river running through Ushu forest near Kalam"
+  },
+  "departures": [
+    {
+      "start": "2027-07-10",
+      "end": "2027-07-13",
+      "seatsTotal": 18,
+      "seatsLeft": 10
+    },
+    {
+      "start": "2027-08-07",
+      "end": "2027-08-10",
+      "seatsTotal": 18,
+      "seatsLeft": 18
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "slug": "swat",
+  "name": "Swat",
+  "region": "Khyber Pakhtunkhwa",
+  "description": "Pine forests, rivers and meadows from Malam Jabba to Kalam, an easy first trip north for families.",
+  "bestSeason": {
+    "from": "Apr",
+    "to": "Oct"
+  },
+  "image": {
+    "placeholder": "Kalam forest and river",
+    "alt": "A pine forest road beside the Swat River near Kalam"
+  }
+}

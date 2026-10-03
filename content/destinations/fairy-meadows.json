@@ -1,0 +1,14 @@
+{
+  "slug": "fairy-meadows",
+  "name": "Fairy Meadows",
+  "region": "Gilgit-Baltistan",
+  "description": "A high meadow facing the north face of Nanga Parbat, reached by jeep from Raikot Bridge and a short trek.",
+  "bestSeason": {
+    "from": "Jun",
+    "to": "Sep"
+  },
+  "image": {
+    "placeholder": "Nanga Parbat from Fairy Meadows at sunrise",
+    "alt": "Nanga Parbat lit pink at sunrise above the grass of Fairy Meadows"
+  }
+}

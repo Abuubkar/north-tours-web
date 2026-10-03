@@ -1,0 +1,40 @@
+{
+  "slug": "murree-galiyat-weekend",
+  "title": "Murree & Galiyat Weekend",
+  "route": [
+    "Lahore",
+    "Murree"
+  ],
+  "destinations": [
+    "murree"
+  ],
+  "tripTypes": [
+    "family",
+    "corporate"
+  ],
+  "days": 3,
+  "nights": 2,
+  "priceFrom": 28000,
+  "rating": {
+    "score": 4.6,
+    "count": 58
+  },
+  "image": {
+    "placeholder": "Pine ridges of the Galiyat in mist",
+    "alt": "Pine-covered ridges of the Galiyat in mist"
+  },
+  "departures": [
+    {
+      "start": "2027-05-29",
+      "end": "2027-05-31",
+      "seatsTotal": 20,
+      "seatsLeft": 14
+    },
+    {
+      "start": "2027-06-26",
+      "end": "2027-06-28",
+      "seatsTotal": 20,
+      "seatsLeft": 20
+    }
+  ]
+}

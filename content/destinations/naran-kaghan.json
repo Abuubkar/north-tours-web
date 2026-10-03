@@ -1,0 +1,14 @@
+{
+  "slug": "naran-kaghan",
+  "name": "Naran-Kaghan",
+  "region": "Khyber Pakhtunkhwa",
+  "description": "A cool summer valley along the Kunhar River, with Lake Saiful Muluk and the road over Babusar Top.",
+  "bestSeason": {
+    "from": "Jun",
+    "to": "Sep"
+  },
+  "image": {
+    "placeholder": "Lake Saiful Muluk, Malika Parbat behind, early morning mist",
+    "alt": "Lake Saiful Muluk in morning mist with the peak of Malika Parbat behind"
+  }
+}
