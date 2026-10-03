@@ -1,13 +1,5 @@
-import { icons, type IconName } from './icons';
-
-type IconProps = {
-  name: IconName;
-  /** Rendered width and height in px. */
-  size: number;
-  /** Accessible name. Without it the icon is decorative and hidden from assistive tech. */
-  label?: string;
-  className?: string;
-};
+import { icons } from './icons';
+import type { IconProps } from './Icon.types';
 
 export function Icon({ name, size, label, className }: IconProps) {
   const { kind, body } = icons[name];
