@@ -1,0 +1,40 @@
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
+
+type ButtonAttrs = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'className'>;
+
+type ToggleChip = ButtonAttrs & {
+  variant: 'toggle';
+  /** On or off; the caller owns the state. */
+  pressed: boolean;
+  children: ReactNode;
+  count?: number;
+};
+
+type TriggerChip = ButtonAttrs & {
+  variant: 'trigger';
+  /** Whether the dropdown or sheet it opens is open. */
+  expanded: boolean;
+  /** Filters are applied, e.g. "Destination (2)". */
+  active?: boolean;
+  children: ReactNode;
+  count?: number;
+};
+
+type RemovableChip = Omit<ButtonAttrs, 'onClick'> & {
+  variant: 'removable';
+  /** The filter's name, also used in the accessible name "Remove filter {label}". */
+  children: string;
+  onRemove: () => void;
+};
+
+type LinkChip = {
+  variant: 'link';
+  href: string;
+  children: ReactNode;
+  count?: number;
+};
+
+/** toggle: on/off choice. trigger: opens a dropdown or sheet. removable: an applied filter. link: navigates. */
+export type ChipProps = ToggleChip | TriggerChip | RemovableChip | LinkChip;
+
+export type CountProps = { value?: number };

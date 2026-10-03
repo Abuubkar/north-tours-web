@@ -1,0 +1,56 @@
+.chip {
+  composes: ui from '../../../styles/typography.module.css';
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--control-44);
+  padding: 0 var(--space-16);
+  border: var(--hairline-width) solid var(--control-border);
+  border-radius: var(--radius-chip);
+  background: transparent;
+  color: var(--fg);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-300) var(--ease-out),
+    border-color var(--dur-300) var(--ease-out);
+}
+
+/* Hover follows the quiet button; selected uses the same raised surface (PRD #8). */
+.chip:hover,
+.chip[aria-pressed='true'],
+.selected {
+  border-color: var(--fg);
+  background: var(--bg-raised);
+  color: var(--fg);
+}
+
+.count {
+  color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.caret {
+  transition: transform var(--dur-300) var(--ease-out);
+}
+
+.chip[aria-expanded='true'] .caret {
+  transform: rotate(180deg);
+}
+
+.removable {
+  padding-right: var(--space-12);
+}
+
+.remove {
+  color: var(--fg-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .caret {
+    transition: none;
+  }
+}
