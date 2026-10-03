@@ -53,7 +53,7 @@ Primary buttons stay gold `#D9B44A` with `#10161A` text on both surfaces. Outlin
 ### Rules
 
 - Mark each light block with `data-surface="light"` (header and footer carry `data-surface="dark"`), so default link colours follow the surface.
-- Components use **surface tokens**, never the raw palette. They default to the dark values and switch inside `data-surface="light"`:
+- Components use **surface tokens**, never the raw palette (ADR-0011). They default to the dark values and switch inside `data-surface="light"`:
 
 | Surface token | Dark | Light |
 |---|---|---|
@@ -79,7 +79,7 @@ Primary buttons stay gold `#D9B44A` with `#10161A` text on both surfaces. Outlin
 
 **Family:** Geist (Google Fonts, variable 300–700). **Geist Mono** is used *only* for image placeholders and motion annotations, never in production UI.
 
-In code, Geist is loaded with `next/font/google`: it is downloaded at build time, served from the site itself with a size-matched fallback, and exposed as `--font-geist`. Geist Mono is not loaded. The `<link>` below is how the design files load it.
+In code, Geist is loaded with `next/font/google`: it is downloaded at build time, served from the site itself with a size-matched fallback, and exposed as `--font-geist`. The variable font file covers weights 100–900; the design uses 300–700. Geist Mono is not loaded. The `<link>` below is how the design files load it.
 
 ```html
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap">
@@ -305,10 +305,10 @@ Never animated: prices, dates, seats left, error messages, buttons.
 
 The tokens in code live in `styles/tokens.css`, which is the only stylesheet allowed to hold raw values.
 
+Surface tokens (`--bg`, `--fg`, `--fg-2`, `--fg-3`, `--hairline`, `--control-border`, `--link`, `--link-hover`, `--error`) are defined in code as the table in §2: dark values on `:root`, light values inside `[data-surface="light"]`, plus `color-scheme` so native controls and scrollbars match the surface (ADR-0011).
+
 ```css
-/* Surface tokens: dark defaults, redefined inside [data-surface="light"] (table in §2) */
 :root {
-  --bg; --fg; --fg-2; --fg-3; --hairline; --control-border; --link; --link-hover; --error;
   --focus-width: 2px;  --focus-offset: 3px;
   --lh-body: 1.55;
 }

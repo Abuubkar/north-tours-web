@@ -7,7 +7,6 @@ import '@/styles/globals.css';
 const geist = Geist({
   subsets: ['latin'],
   variable: '--font-geist',
-  display: 'swap',
 });
 
 type RootLayoutProps = {

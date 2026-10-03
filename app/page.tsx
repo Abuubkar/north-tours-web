@@ -23,7 +23,7 @@ export default function HomePage() {
         <h2>Good to know before you go</h2>
         <p>
           Warm layers even in summer, cash for the upper valleys, and a day of rest before the high
-          passes. <a href="#good-to-know">Read the packing list</a>
+          passes. <a href="#">Back to the top</a>
         </p>
       </section>
     </main>

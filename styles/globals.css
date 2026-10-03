@@ -1,7 +1,5 @@
 body {
   container-type: inline-size;
-  background: var(--bg);
-  color: var(--fg);
   font-family: var(--font);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
@@ -9,7 +7,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* A surface block paints its own background so its tokens apply to what it contains. */
+/* The page and each surface block paint their own background, so their tokens apply to what they contain. */
+body,
 [data-surface] {
   background: var(--bg);
   color: var(--fg);
