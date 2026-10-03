@@ -20,4 +20,12 @@ export const Default: Story = {
   },
 };
 
-export const OnLight: Story = { globals: { surface: 'light' } };
+export const OnLight: Story = { ...Default, globals: { surface: 'light' } };
+
+export const Phone: Story = { ...Default, globals: { viewport: { value: 'phone' } } };
+
+export const PhoneOnLight: Story = { ...Default, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+export const Desktop: Story = { ...Default, globals: { viewport: { value: 'desktop' } } };
+
+export const DesktopOnLight: Story = { ...Default, globals: { surface: 'light', viewport: { value: 'desktop' } } };

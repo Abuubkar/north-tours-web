@@ -17,7 +17,7 @@
 }
 
 .name {
-  font-size: var(--fs-body);
+  composes: body from '../../../styles/typography.module.css';
   font-weight: var(--fw-semibold);
   letter-spacing: var(--ls-brand);
   white-space: nowrap;

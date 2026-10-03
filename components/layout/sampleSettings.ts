@@ -2,7 +2,7 @@ import type { Settings } from '@/lib/content/settings';
 
 /*
  * Sample settings for the layout stories, which can't read content files. The placeholder set
- * matches content/settings.json today (ADR-0010); the real set shows what launch will look like.
+ * matches content/settings.json today (ADR-0010).
  */
 
 export const placeholderSettings: Settings = {
@@ -23,23 +23,5 @@ export const placeholderSettings: Settings = {
     generalMessage: 'Hi, I’d like to plan a trip north.',
     footerIntro:
       'Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.',
-  },
-};
-
-export const realSettings: Settings = {
-  ...placeholderSettings,
-  contact: {
-    ...placeholderSettings.contact,
-    whatsapp: '+92 300 1234567',
-    phone: '+92 42 3578 1234',
-    email: 'hello@example.pk',
-    officeAddress: '12 Main Boulevard, Gulberg, Lahore',
-    officeHours: 'Mon–Sat, 10 am – 7 pm',
-  },
-  legal: { dtsLicence: '1234', companyRegistration: '0123456' },
-  social: {
-    instagram: 'https://instagram.com/example',
-    facebook: 'https://facebook.com/example',
-    youtube: 'https://youtube.com/@example',
   },
 };

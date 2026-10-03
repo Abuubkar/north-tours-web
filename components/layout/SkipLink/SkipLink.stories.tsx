@@ -43,7 +43,13 @@ export const Keyboard: Story = {
     if (!keys) return;
     await keys.keyboard('{Tab}');
     await expect(link).toHaveFocus();
-    await waitFor(() => expect(link.getBoundingClientRect().top).toBeGreaterThanOrEqual(0));
+    // Fully in view at the top-left once focused.
+    await waitFor(() => {
+      const { top, left, bottom, right } = link.getBoundingClientRect();
+      expect(Math.min(top, left)).toBeGreaterThanOrEqual(0);
+      expect(bottom).toBeLessThanOrEqual(window.innerHeight / 2);
+      expect(right).toBeLessThanOrEqual(window.innerWidth / 2);
+    });
 
     // A link navigation ends the Vitest browser session, so the click is replayed as the same
     // fragment navigation through location.hash. The browser then moves focus as it would.
