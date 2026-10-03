@@ -21,4 +21,4 @@ This is a content-only task (CLAUDE.md §7). Create one file in `content/reviews
 5. **Write the file** in the same shape as the existing reviews, with `"consent": true`.
 6. **Check:** run `pnpm content:check`. If it fails, delete the new file and report the problem.
 7. **Show the change:** run `git status --short content/` and show the new file's contents (`cat <file>`); `git diff` doesn't show new files. Then summarise it in one line.
-8. Don't commit or push unless asked.
+8. Don't commit or push unless asked. The change goes live after the next build (ADR-0003).

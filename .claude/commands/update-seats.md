@@ -15,5 +15,5 @@ This is a content-only task (CLAUDE.md §7). Change only files in `content/`; ne
    - If the request doesn't say booked or freed, ask.
 4. **Change only that departure's `seatsLeft`.** Keep the JSON formatting as it is.
 5. **Check:** run `pnpm content:check`. If it fails, undo the edit and report the problem.
-6. **Show the change:** run `git diff -- content/` and summarise it in one line, e.g. "Hunza & Skardu Grand, 12–20 May 2027: 3 → 1 seats left (urgent tag now 'Only 1 seat left')." Say what the site will show: with 1–3 seats left the tag reads "Only N seat(s) left"; at 0 the departure shows "Sold out · waitlist open" (rules in `lib/utils/departures.ts`).
+6. **Show the change:** run `git diff -- content/` and summarise it in one line, e.g. "Hunza & Skardu Grand, 12–20 May 2027: 3 → 1 seats left (urgent tag now 'Only 1 seat left')." Say whether the departure's label changes (urgent, sold out or open), using the rules and wording in `lib/utils/departures.ts` (`seatStatus`, `urgencyText`, `seatsLeftText`); don't restate them from memory.
 7. Don't commit or push unless asked. The change goes live after the next build (ADR-0003).
