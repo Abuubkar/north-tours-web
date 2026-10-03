@@ -1,3 +1,5 @@
+import type { Photo } from '../content/images.ts';
+
 /*
  * Image variants (ADR-0015). `pnpm images` writes them and `MediaFrame` reads them, both from
  * these names, so the two always agree. Nothing here is stored in content.
@@ -15,7 +17,7 @@ export type ImageFormat = (typeof IMAGE_FORMATS)[number];
 export const SHARE_IMAGE = { width: 1200, height: 630 } as const;
 
 /** Where in a photo the subject is, in percent from the top-left. The centre when not set. */
-export type Focus = { x: number; y: number };
+export type Focus = NonNullable<Photo['focus']>;
 
 const CENTRE: Focus = { x: 50, y: 50 };
 
@@ -32,15 +34,18 @@ export function variantSrc(src: string, width: number, format: ImageFormat): str
 }
 
 /** The `srcset` for one format: every variant width of the photo. */
-export function variantSrcSet(photo: { src: string; width: number }, format: ImageFormat): string {
+export function variantSrcSet(photo: Pick<Photo, 'src' | 'width'>, format: ImageFormat): string {
   return variantWidths(photo.width)
     .map((w) => `${variantSrc(photo.src, w, format)} ${w}w`)
     .join(', ');
 }
 
-/** The `src` for browsers without `srcset`: the largest JPEG up to 1200px wide. */
-export function fallbackSrc(photo: { src: string; width: number }): string {
-  const widths = variantWidths(photo.width).filter((w) => w <= 1200);
+/** Browsers without `srcset` get one JPEG: the largest up to this width. */
+const FALLBACK_MAX_WIDTH = 1200;
+
+/** The `src` for browsers without `srcset`. */
+export function fallbackSrc(photo: Pick<Photo, 'src' | 'width'>): string {
+  const widths = variantWidths(photo.width).filter((w) => w <= FALLBACK_MAX_WIDTH);
   return variantSrc(photo.src, widths[widths.length - 1], 'jpg');
 }
 
@@ -61,8 +66,8 @@ export function objectPosition(focus: Focus = CENTRE): string {
  * region to cut from it.
  */
 export function coverCrop(
-  photo: { width: number; height: number },
-  target: { width: number; height: number },
+  photo: Pick<Photo, 'width' | 'height'>,
+  target: Pick<Photo, 'width' | 'height'>,
   focus: Focus = CENTRE,
 ) {
   const scale = Math.max(target.width / photo.width, target.height / photo.height);

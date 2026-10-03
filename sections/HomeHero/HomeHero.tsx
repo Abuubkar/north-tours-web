@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button/Button';
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
 import { routes } from '@/lib/routes';
+import { whatsappLink } from '@/lib/utils/whatsapp';
 import type { HomeHeroProps } from './HomeHero.types';
 import styles from './HomeHero.module.css';
 
@@ -9,7 +10,9 @@ import styles from './HomeHero.module.css';
  * page's LCP image), the legibility scrim, and the dim layer the scroll motion darkens. Then
  * the lead, the two buttons and the decorative display word, which screen readers skip.
  */
-export function HomeHero({ copy, whatsappHref }: HomeHeroProps) {
+export function HomeHero({ copy, settings }: HomeHeroProps) {
+  const whatsappHref = whatsappLink(settings.contact.whatsapp, settings.whatsapp.generalMessage);
+
   return (
     <section className={styles.hero} data-surface="dark">
       <div className={styles.media}>

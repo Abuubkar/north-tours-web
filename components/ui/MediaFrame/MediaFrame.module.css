@@ -47,9 +47,6 @@
   right: var(--space-16);
   bottom: var(--space-12);
   left: var(--space-16);
+  composes: placeholderCaption from '../../../styles/typography.module.css';
   color: var(--fg-2);
-  font-family: var(--font-mono);
-  font-size: var(--fs-placeholder);
-  line-height: var(--lh-placeholder);
-  letter-spacing: var(--ls-placeholder);
 }

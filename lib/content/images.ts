@@ -52,4 +52,4 @@ export const portraitSchema = z.union([z.strictObject({ ...photoFields, credit: 
 });
 
 export type Photo = z.infer<typeof photoSchema>;
-export type Image = z.infer<typeof imageSchema>;
+export type ContentImage = z.infer<typeof imageSchema>;

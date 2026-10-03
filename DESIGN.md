@@ -130,7 +130,7 @@ In code each role is one class in `styles/typography.module.css`, reused with CS
 | UI | `ui` | 14px | inherit | 1.5 | 0 | Buttons, nav, meta rows |
 | Label / meta | `label` | 13px | 500 | — | +0.01em | Minimum text size anywhere |
 | Map waypoint | `waypoint` | 12px | 400 | — | 0 | `--fg-2` |
-| Mono placeholder | — | 11px Geist Mono | 400 | 1.5 | +0.02em | Image placeholder captions only. In code the system monospace (`--font-mono`), since Geist Mono isn't loaded |
+| Mono placeholder | `placeholderCaption` | 11px Geist Mono | 400 | 1.5 | +0.02em | Image placeholder captions only. In code the system monospace (`--font-mono`), since Geist Mono isn't loaded |
 
 Other sizes in the design files that are not in this table move to the nearest role (see `docs/components.md`).
 
@@ -281,11 +281,11 @@ Touch devices always show the Default state; nothing depends on hover.
 
 ## 9. Other components
 
-- **Hero:** full-screen (`clamp(700px, 100vh, 980px)`), slides under the header (`margin-top: -72px`). Video layer, then a legibility scrim `linear-gradient(180deg, rgba(12,18,22,.6) 0%, transparent 20%, transparent 42%, rgba(12,18,22,.78) 76%, #0C1216 100%)`, then an Ink 900 dim layer (opacity 0, animated). At the bottom: a row with the lead line (max 460px) and buttons (wrap to full width on mobile), then the Display word.
+- **Hero:** full-screen (`clamp(700px, 100svh, 980px)`, so mobile browser bars don't resize it), slides under the header (`margin-top: -72px`). Video layer, then a legibility scrim `linear-gradient(180deg, rgba(12,18,22,.6) 0%, transparent 20%, transparent 42%, rgba(12,18,22,.78) 76%, #0C1216 100%)`, then an Ink 900 dim layer (opacity 0, animated). At the bottom: a row with the lead line (max 460px) and buttons (wrap to full width on mobile), then the Display word.
 - **Header:** sticky, 72px, frosted (see M3). Desktop: logo · nav (14/500, 32px gap, active item gold) · “WhatsApp us” button (6px radius). Mobile (below 820px): logo · WhatsApp icon 44 · menu 44 (two 16px lines). The menu button opens the mobile menu as a **side drawer** (the `Sheet` drawer variant, titled “Menu”, full width on narrow screens): the five nav links in the `footerNav` role divided by hairlines, the current page's in gold, then a primary 56 “Plan on WhatsApp” button on every page. It closes with its close button, the backdrop, Escape or Android's back gesture, and when a link is tapped; focus returns to the menu button. Other mobile overlays (booking, filters, sort) use the bottom sheet.
 - **Steps:** numeral, then a `→` in `--text-3` on steps 1–3, a 20/500 title and a 15px `--text-2` description (max 300px).
 - **Route map:** 560×700 schematic. Ink surface `#0E151A` with a 1px `#253038` border and graticule every 1°. Main route (motorway + KKH) 2px `#F1EEE8` with round joins; valley roads 1.5px dashed `#8F9AA2` (4/5); destinations are 9px gold dots with 20px halos and 14/500 labels; waypoints are 8px hollow white rings with 12px `--text-2` labels; start (Lahore) is a 10px white square. Labels are HTML overlays so they keep their pixel size on mobile. Next to the map: a stop list with number, name, elevation and a one-line note.
-- **Image placeholder:** `repeating-linear-gradient(135deg, #151E24 0 10px, #10181C 10px 20px)` with an 11px Geist Mono caption at bottom-left naming the exact shot.
+- **Image placeholder:** `repeating-linear-gradient(135deg, #151E24 0 12px, #10181C 12px 24px)` (12/24 in code, on the spacing scale; the design files draw 10/20) with an 11px Geist Mono caption at bottom-left naming the exact shot.
 - **Reviews:** five 15px gold stars, then the quote, then a hairline, then name (15/500) and trip · month (14 `--text-3`).
 - **Trust strip:** four cells, each with a 13px `--text-3` label, a large value and a 14px `--text-2` note.
 - **Footer:** contact label column; large nav links on the left; on the right a 380px column with an intro line, primary WhatsApp button and hairline contact rows (WhatsApp, Phone, Email, Office). The bottom bar sits on a hairline: © + DTS licence on the left, social and legal links on the right (13px `--text-2`).

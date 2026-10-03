@@ -1,4 +1,4 @@
-import type { Image, Photo } from '@/lib/content/images';
+import type { ContentImage, Photo } from '@/lib/content/images';
 
 /* Sample images for stories, which can't read content files. The photo's variants are in public/. */
 
@@ -16,7 +16,7 @@ export const samplePhoto: Photo = {
   },
 };
 
-export const samplePlaceholder: Extract<Image, { placeholder: string }> = {
+export const samplePlaceholder: Extract<ContentImage, { placeholder: string }> = {
   placeholder: 'Lead guide, outdoors in Karimabad',
   alt: 'Karim Baig, lead guide',
 };

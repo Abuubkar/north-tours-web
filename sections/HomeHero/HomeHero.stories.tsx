@@ -1,14 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
+import { placeholderSettings, realSettings } from '@/components/layout/sampleSettings';
 import { sampleHome } from '../sampleHome';
 import { HomeHero } from './HomeHero';
 
-const WHATSAPP = 'https://wa.me/?text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
+/** The general message from settings. */
+const MESSAGE = 'text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
+const WHATSAPP = `https://wa.me/?${MESSAGE}`;
 
 const meta = {
   title: 'Sections/HomeHero',
   component: HomeHero,
-  args: { copy: sampleHome.hero, whatsappHref: WHATSAPP },
+  args: { copy: sampleHome.hero, settings: placeholderSettings },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof HomeHero>;
@@ -48,3 +51,14 @@ export const Phone: Story = {
 };
 
 export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** With a real number, "Plan on WhatsApp" carries its digits and the general message. */
+export const RealNumber: Story = {
+  args: { settings: realSettings },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('link', { name: 'Plan on WhatsApp' })).toHaveAttribute(
+      'href',
+      `https://wa.me/923001234567?${MESSAGE}`,
+    );
+  },
+};
