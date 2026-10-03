@@ -84,6 +84,7 @@
   --label-col: 240px;
   --header-h: 72px;
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
+  --measure-answer: 740px; /* FAQ and policy answers */
   --drawer-w: 460px; /* side drawer, e.g. guide profile */
   --sheet-max-h: 92dvh; /* bottom sheet */
   --handle-w: 36px; /* bottom sheet grab handle */
