@@ -23,7 +23,9 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Dropdown:** in the base components folder, on the native `popover` attribute.
 - **Stepper:** the value uses the `stepTitle` role; buttons at a limit are disabled.
 - **Native first:** Accordion on `<details name>`, Sheet on `<dialog>` with `showModal()`, Dropdown on `popover`.
+- **Hover:** secondary and quiet buttons use `--bg-raised` (Ink 800 / Mist 100); icon buttons brighten their border to `--fg`.
 - **Tooling:** Storybook as the component workshop and test runner (ADR-0012).
+- Full measurements for every component (tags, chips, sheet, dropdown, stepper, icons, motion) are in PRD #8.
 
 Open questions are in §6, grouped by the PRD that settles them.
 
@@ -679,6 +681,9 @@ Each one is asked (grilled) at the start of its PRD. A recommendation is noted w
 
 **Base components PRD**
 - All settled (see the decisions at the top of this file).
+
+**Trip Planner and Help PRDs (inputs)**
+- Hover and focus states for inputs, selects and textareas are not designed (§5 item 23). Decide when the first input is built.
 
 **Content system PRD**
 - One seats-copy formatter for all the variants in §5 item 31.

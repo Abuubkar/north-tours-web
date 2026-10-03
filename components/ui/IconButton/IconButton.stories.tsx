@@ -45,3 +45,21 @@ export const AsLink: Story = {
     );
   },
 };
+
+export const Disabled: Story = {
+  args: { icon: 'minus', label: 'Fewer travellers', disabled: true },
+  play: async ({ canvas, args, userEvent }) => {
+    const button = canvas.getByRole('button', { name: 'Fewer travellers' });
+    await expect(button).toBeDisabled();
+    await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/** Icon buttons are at least the 44px tap target. */
+export const TapTarget: Story = {
+  play: async ({ canvas }) => {
+    const { width, height } = canvas.getByRole('button', { name: 'Menu' }).getBoundingClientRect();
+    await expect(Math.min(width, height)).toBeGreaterThanOrEqual(44);
+  },
+};

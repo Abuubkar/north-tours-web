@@ -69,8 +69,11 @@
 
 .secondary:hover,
 .quiet:hover {
-  border-color: var(--link-hover);
-  color: var(--link-hover);
+  background: var(--bg-raised);
+}
+
+.quiet:hover {
+  border-color: var(--fg);
 }
 
 .quiet {
@@ -89,7 +92,7 @@
 }
 
 .button:hover .arrow {
-  transform: translateX(var(--space-4));
+  transform: translateX(var(--nudge));
 }
 
 .button:disabled .arrow {

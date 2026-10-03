@@ -3,10 +3,20 @@ import { Icon } from '../Icon/Icon';
 import type { IconName } from '../Icon/icons';
 import styles from './Button.module.css';
 
+type Variant = 'primary' | 'secondary' | 'quiet';
+/** Height in px: 44 header and social, 48 cards and panels, 52 default, 56 closing CTAs. */
+type Size = 44 | 48 | 52 | 56;
+
+const sizeClass: Record<Size, string> = {
+  44: styles.size44,
+  48: styles.size48,
+  52: styles.size52,
+  56: styles.size56,
+};
+
 type ButtonOwnProps = {
-  variant?: 'primary' | 'secondary' | 'quiet';
-  /** Height in px: 44 header and social, 48 cards and panels, 52 default, 56 closing CTAs. */
-  size?: 44 | 48 | 52 | 56;
+  variant?: Variant;
+  size?: Size;
   /** Leading icon, e.g. WhatsApp. */
   icon?: IconName;
   /** Trailing arrow that nudges right on hover. */
@@ -27,7 +37,7 @@ const ICON_SIZE = 18;
 
 export function Button(props: ButtonProps) {
   const { variant = 'primary', size = 52, icon, arrow = false, children, className, ...rest } = props;
-  const classes = [styles.button, styles[variant], styles[`size${size}`], className]
+  const classes = [styles.button, styles[variant], sizeClass[size], className]
     .filter(Boolean)
     .join(' ');
 
