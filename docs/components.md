@@ -629,7 +629,7 @@ Hairline grid MIN/N values found:
 14. Design System page still says "Radius 0 on surfaces · 999 on buttons + chips" (`Design System:90`). Stale.
 
 **Chips and tags**
-15. **Status tag heights:** urgent is 28px with padding 10. Sold out is **30px** with padding 12 (`TourCard:21,24`). The Destination category tag is 26px.
+15. *(Decided: every tag is 28px, padding 0 12px; see the decisions at the top.)* **Status tag heights:** urgent is 28px with padding 10. Sold out is **30px** with padding 12 (`TourCard:21,24`). The Destination category tag is 26px.
 16. **Three different "selected" chip styles:** desktop filter trigger and removable chip use an `ink-800` fill with a `text` border. Mobile filter-sheet option uses a **solid `text` fill with ink text**. Light-surface planner chips use a solid `ink-text` fill with `mist-50` text. The first two are both on dark on the same Tours page.
 17. Chip and dropdown **hover and focus states** are not designed anywhere.
 
@@ -690,7 +690,7 @@ Each one is asked (grilled) at the start of its PRD. A recommendation is noted w
 - "We accept" copy read from `content/settings.json`: "Cash · Bank transfer".
 
 **Layout shell PRD**
-- `data-surface="dark"` on the header and footer (DESIGN.md §2) needs a `[data-surface='dark']` block that repeats the dark surface values; today only light redefines them, so a dark block nested in a light one would keep light values.
+- `data-surface="dark"` now works anywhere (added for status tags in #11), so the header and footer can use it directly.
 - Mobile menu: close button, Escape, focus trap and return (required by CLAUDE.md), and add the missing "Plan on WhatsApp" button on the Planner (§5 item 39).
 
 **Homepage PRD**

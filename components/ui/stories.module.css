@@ -11,3 +11,14 @@
   align-items: center;
   gap: var(--space-12);
 }
+
+/* Stand-in for a photo behind status tags (DESIGN.md §9 image placeholder). */
+.photo {
+  padding: var(--space-24);
+  border-radius: var(--radius-card);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--placeholder-stripe-a) 0 var(--space-12),
+    var(--placeholder-stripe-b) var(--space-12) var(--space-24)
+  );
+}

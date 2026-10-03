@@ -6,10 +6,18 @@ import { playwright } from '@vitest/browser-playwright';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Every story runs as a test in headless Chromium (ADR-0012).
+// Pure functions run as plain unit tests in Node; every story runs as a test in
+// headless Chromium (ADR-0012).
 export default defineConfig({
   test: {
     projects: [
+      {
+        test: {
+          name: 'unit',
+          environment: 'node',
+          include: ['lib/**/*.test.ts'],
+        },
+      },
       {
         extends: true,
         plugins: [storybookTest({ configDir: path.join(dirname, '.storybook') })],

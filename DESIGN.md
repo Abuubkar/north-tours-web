@@ -52,7 +52,7 @@ Primary buttons stay gold `#D9B44A` with `#10161A` text on both surfaces. Outlin
 
 ### Rules
 
-- Mark each light block with `data-surface="light"` (header and footer carry `data-surface="dark"`), so default link colours follow the surface.
+- Mark each light block with `data-surface="light"` (header and footer carry `data-surface="dark"`), so default link colours follow the surface. `data-surface="dark"` restores the dark values inside a light block; status tags use it because they always sit on a photo.
 - Components use **surface tokens**, never the raw palette (ADR-0011). They default to the dark values and switch inside `data-surface="light"`:
 
 | Surface token | Dark | Light |
@@ -67,12 +67,22 @@ Primary buttons stay gold `#D9B44A` with `#10161A` text on both surfaces. Outlin
 | `--control-border-soft` | `--text` at 50% | `--ink-text` at 50% |
 | `--link` | `--text` | `--ink-text` |
 | `--link-hover` | `--gold` | `--gold-deep` |
+| `--accent` | `--gold` | `--gold-deep` |
 | `--error` | `--gold` | `--gold-deep` |
 
-  Gold, on-gold, gold hover and gold pressed are the same on both surfaces, so components use them directly.
+  Gold, on-gold, gold hover and gold pressed (primary buttons) are the same on both surfaces, so components use them directly. Ratings, markers and key highlights use `--accent`, which turns deep gold on light.
 - **Errors** use `--error`: gold on dark, deep gold on light. No separate error colour. An error always pairs the colour with the “!” badge and a written message, so colour is never the only signal.
 - Input, select and textarea borders on light use `--control-border` (`#7D8992`, 3.2:1), never the hairline grey.
 - Urgency (“Only 3 seats left”) is an **outlined tag**: Ink 900 fill (it sits on a photo), 1px gold border, gold text and a 13px clock icon. Never a filled gold shape.
+- **Tags** (`Tag` in the base components): every tag is 28px high (`--tag-h`), 999px radius, 0 12px padding, 13/500 text (the `label` role).
+
+| Tag | Surface | Border | Text | Use |
+|---|---|---|---|---|
+| Urgent | Always dark (on a photo) | `--gold` | `--gold`, with a 13px clock icon | “Only 3 seats left” |
+| Sold out | Always dark (on a photo) | `--control-border` | `--fg` | “Sold out” |
+| Category | Follows the page | `--control-border` | `--fg-2` | Heritage, Viewpoint, Lake, Adventure |
+
+- **Ratings:** `StarRating` shows five 15px (or 13px) stars, `--accent` up to the rating and `--hairline` after it, read as “N out of 5 stars”. `RatingInline` shows a 15px `--accent` star, the score (600, tabular, one decimal) and “(count)” in `--fg-3`, read as “4.9 out of 5, 128 reviews” (“1 review” in the singular). The text is built by the rating helpers in `lib/utils`.
 - The sticky header uses `rgba(12,18,22,.86)` so it stays legible over light sections.
 
 ---
@@ -235,7 +245,7 @@ In every row of tour cards the buttons align at the bottom of the card regardles
 
 ### Anatomy (top to bottom)
 
-1. **Photo**: 4:3 aspect, 8px radius, overflow hidden, striped placeholder until supplied. Status chip top-left at 16px inset.
+1. **Photo**: 4:3 aspect, 8px radius, overflow hidden, striped placeholder until supplied. Status tag top-left at 16px inset (tag rules in §2).
 2. **Body**: padding 24px, flex column, fills the height.
    - Route: 13px / 500 / `--text-2`, e.g. “Lahore → Hunza → Skardu”, 10px above the title.
    - Title: H3 26/500.
@@ -331,9 +341,9 @@ The tokens in code live in `styles/tokens.css`, the only stylesheet allowed to h
 | Group | Tokens |
 |---|---|
 | Raw palette | `--ink-900` `--ink-800` `--line` `--line-strong` `--text` `--text-2` `--text-3` `--gold` `--gold-hover` `--gold-pressed` `--on-gold` `--mist-50` `--mist-100` `--line-light` `--line-strong-light` `--ink-text` `--ink-text-2` `--ink-text-3` `--gold-deep` (values in §2). Used only inside the tokens file. |
-| Surface | `--bg` `--bg-raised` `--fg` `--fg-2` `--fg-3` `--hairline` `--control-border` `--control-border-soft` `--link` `--link-hover` `--error`, plus `color-scheme`. Dark on `:root`, light inside `[data-surface="light"]` (table in §2, ADR-0011). |
+| Surface | `--bg` `--bg-raised` `--accent` `--fg` `--fg-2` `--fg-3` `--hairline` `--control-border` `--control-border-soft` `--link` `--link-hover` `--error`, plus `color-scheme`. Dark on `:root` and inside `[data-surface="dark"]`, light inside `[data-surface="light"]` (table in §2, ADR-0011). |
 | Radius | `--radius-input` 2px, `--radius-button` 6px, `--radius-card` 8px, `--radius-chip` 999px |
-| Interaction | `--tap` 44px, `--control-44` (= `--tap`) `--control-48` `--control-52` `--control-56` (button and icon-button heights), `--hairline-width` 1px, `--focus-width` 2px, `--focus-offset` 3px |
+| Interaction | `--tap` 44px, `--control-44` (= `--tap`) `--control-48` `--control-52` `--control-56` (button and icon-button heights), `--tag-h` 28px, `--hairline-width` 1px, `--focus-width` 2px, `--focus-offset` 3px |
 | Other surfaces | `--map-surface` `#0E151A`, `--placeholder-stripe-a` `#151E24`, `--placeholder-stripe-b` `#10181C`, `--header-bg` (Ink 900 at 86%), `--header-backdrop` `blur(18px) saturate(140%)`, `--hero-scrim` (§9 gradient). The translucent values are derived from `--ink-900` with `color-mix()` |
 | Spacing | `--space-4` `--space-8` `--space-12` `--space-16` `--space-20` `--space-24` `--space-32` `--space-48` `--space-64` `--space-96` `--space-144`, named by pixel value |
 | Layout | `--margin` `clamp(20px, 3.4cqi, 48px)`, `--section-y` `clamp(72px, 9cqi, 144px)`, `--section-y-statement` `clamp(88px, 10cqi, 160px)`, `--cell-pad` `clamp(16px, 1.7cqi, 24px)`, `--gutter` (`--space-48`), `--row-gap` (`--space-24`), `--label-col` 240px, `--header-h` 72px, `--measure-lead` 460px |
