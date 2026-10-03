@@ -3,6 +3,12 @@ import { expect } from 'storybook/test';
 import { Accordion } from './Accordion';
 import type { AccordionItem } from './Accordion.types';
 
+const questions = [
+  { id: 'packing', summary: 'What should I pack?' },
+  { id: 'altitude', summary: 'Will the altitude affect me?' },
+  { id: 'children', summary: 'Can we travel with children?' },
+];
+
 const faqs: AccordionItem[] = [
   {
     id: 'packing',
@@ -66,21 +72,26 @@ export const OneOpenAtATime: Story = {
 };
 
 /**
- * Every question is reached with Tab and is a native <summary>, which the browser opens on
- * Enter and Space. (Synthetic key events can't trigger that browser action, so Enter and
- * Space themselves are checked by hand with real key presses.)
+ * Every question is reached with Tab, and Enter and Space toggle it. Synthetic key events
+ * can't trigger <summary>'s built-in toggle, so under `pnpm test` the keys are pressed for real
+ * through Vitest's browser driver; the Storybook UI, which has no driver, checks Tab only.
  */
 export const Keyboard: Story = {
   args: { items: faqs.map((item) => ({ ...item, defaultOpen: false })) },
   play: async ({ canvas, userEvent }) => {
-    for (const question of faqs.map((item) => item.summary as string)) {
+    for (const { summary } of questions) {
       await userEvent.tab();
-      const summary = canvas.getByText(question).closest('summary');
-      await expect(summary).toHaveFocus();
+      await expect(canvas.getByText(summary).closest('summary')).toHaveFocus();
     }
-    const last = canvas.getByText('Can we travel with children?').closest('details');
-    await userEvent.click(canvas.getByText('Can we travel with children?'));
-    await expect(last).toHaveAttribute('open');
+
+    const realKeys = await import('vitest/browser').then((m) => m.userEvent).catch(() => null);
+    if (!realKeys) return;
+
+    const details = canvas.getByText('Can we travel with children?').closest('details');
+    await realKeys.keyboard('{Enter}');
+    await expect(details).toHaveAttribute('open');
+    await realKeys.keyboard(' ');
+    await expect(details).not.toHaveAttribute('open');
   },
 };
 
@@ -91,4 +102,22 @@ export const ClosedContentInPage: Story = {
     await expect(answer).toBeInTheDocument();
     await expect(answer.closest('details')).not.toHaveAttribute('open');
   },
+};
+
+
+/** The caret marker, open, on the light surface. */
+export const CaretOpenOnLight: Story = {
+  args: {
+    marker: 'caret',
+    name: undefined,
+    items: [
+      {
+        id: 'refunds',
+        summary: 'Read the full policy',
+        content: 'Cancel 30 or more days before departure for a full refund of your advance.',
+        defaultOpen: true,
+      },
+    ],
+  },
+  globals: { surface: 'light' },
 };

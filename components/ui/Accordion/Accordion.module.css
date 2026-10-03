@@ -20,7 +20,7 @@
   display: none;
 }
 
-.question {
+.summaryText {
   composes: stepTitle from '../../../styles/typography.module.css';
 }
 
@@ -52,7 +52,7 @@
   transform: rotate(180deg);
 }
 
-.panel {
+.content {
   composes: body from '../../../styles/typography.module.css';
   max-width: var(--measure-answer);
   padding: 0 var(--space-64) var(--space-24) 0;

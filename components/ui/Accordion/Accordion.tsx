@@ -12,14 +12,14 @@ export function Accordion({ items, marker = 'plus', name }: AccordionProps) {
   return (
     <div className={styles.accordion}>
       {items.map((item) => (
-        <details key={item.id} id={item.id} name={name} open={item.defaultOpen} className={styles.item}>
+        <details key={item.id} name={name} open={item.defaultOpen} className={styles.item}>
           <summary className={styles.summary}>
-            <span className={styles.question}>{item.summary}</span>
+            <span className={styles.summaryText}>{item.summary}</span>
             <span className={`${styles.marker} ${styles[marker]}`} aria-hidden="true">
-              <Icon name={marker === 'plus' ? 'plus' : 'caret'} size={ICON_SIZE} className={styles.glyph} />
+              <Icon name={marker} size={ICON_SIZE} className={styles.glyph} />
             </span>
           </summary>
-          <div className={styles.panel}>{item.content}</div>
+          <div className={styles.content}>{item.content}</div>
         </details>
       ))}
     </div>
