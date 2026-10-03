@@ -7,6 +7,7 @@ import type { Settings } from '@/lib/content/settings';
 
 export const placeholderSettings: Settings = {
   brand: { name: '[BRAND NAME]' },
+  site: { url: '[Site URL]' },
   contact: {
     whatsapp: '[+92 3XX XXX XXXX]',
     phone: '[+92 42 XXXX XXXX]',
@@ -37,6 +38,7 @@ export const realSettings: Settings = {
     officeAddress: '12 Main Boulevard, Gulberg, Lahore',
     officeHours: 'Mon–Sat, 10 am – 7 pm',
   },
+  site: { url: 'https://example.pk' },
   legal: { ...placeholderSettings.legal, dtsLicence: '1234' },
   social: {
     instagram: 'https://instagram.com/example',

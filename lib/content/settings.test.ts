@@ -16,6 +16,7 @@ const real: Settings = {
     email: 'hello@example.pk',
     travelSupport: '+92 321 7654321',
   },
+  site: { url: 'https://example.pk' },
   social: {
     instagram: 'https://instagram.com/example',
     facebook: 'https://facebook.com/example',
@@ -48,6 +49,7 @@ describe('settings', () => {
       Object.assign(s.contact, { whatsapp: '[+92 3XX XXX XXXX]', email: '[hello@brand.pk]' });
       Object.assign(s.legal, { dtsLicence: '[DTS licence number]' });
       Object.assign(s.social, { instagram: '[Instagram URL]' });
+      Object.assign(s.site, { url: '[Site URL]' });
     });
     expect(result.problems).toEqual([]);
   });
@@ -75,6 +77,10 @@ describe('settings', () => {
       }),
     ]);
     expect(result.problems[0].file).toMatch(/settings\.json$/);
+  });
+
+  it('rejects a site URL that is not a link or a placeholder', () => {
+    expect(fields(withChange((s) => Object.assign(s.site, { url: 'example.pk' })))).toEqual(['site.url']);
   });
 
   it('rejects a phone number not in +92 form', () => {

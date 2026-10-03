@@ -2,6 +2,9 @@
   "brand": {
     "name": "[BRAND NAME]"
   },
+  "site": {
+    "url": "[Site URL]"
+  },
   "contact": {
     "whatsapp": "[+92 3XX XXX XXXX]",
     "phone": "[+92 42 XXXX XXXX]",

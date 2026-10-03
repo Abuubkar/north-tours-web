@@ -7,6 +7,10 @@ const settingsSchema = z.strictObject({
   brand: z.strictObject({
     name: nonEmpty,
   }),
+  site: z.strictObject({
+    /** The live address, e.g. https://example.pk. Share images use absolute URLs once it's set. */
+    url: linkOrPlaceholder,
+  }),
   contact: z.strictObject({
     whatsapp: phoneOrPlaceholder,
     phone: phoneOrPlaceholder,

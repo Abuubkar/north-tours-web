@@ -98,6 +98,12 @@
   --label-mark-h: 10px;
   --list-row-y: 14px; /* label and value rows, DESIGN.md §5 */
   --footer-contact-w: 380px; /* footer contact column */
+  --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
+  --hero-row-pad: clamp(var(--space-24), 2.4cqi, var(--space-32)); /* under the hero's lead and buttons */
+  --hero-actions-w: 420px; /* the hero's button pair, before it wraps */
+  --measure-statement: 1040px; /* brand statement headline */
+  --measure-statement-body: 500px; /* brand statement paragraph */
+  --underline-offset: 6px; /* underlined text links */
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;
@@ -132,6 +138,7 @@
   --lh-display: 0.74;
   --ls-display: -0.065em;
   --indent-display: -0.035em;
+  --display-sink: 0.05em; /* sets the display word flush with the hero's bottom edge */
 
   --fs-tour-hero: clamp(48px, 7.2cqi, 108px);
   --lh-tour-hero: 0.95;
@@ -208,6 +215,12 @@
   --ls-label: 0.01em;
   --fs-waypoint: 12px;
   --ls-brand: -0.01em; /* brand name next to the logo mark, 16/600 */
+
+  /* Image placeholders only (DESIGN.md §9): the shot named in an 11px monospace caption. */
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --fs-placeholder: 11px;
+  --lh-placeholder: 1.5;
+  --ls-placeholder: 0.02em;
 }
 
 /*

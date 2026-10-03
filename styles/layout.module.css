@@ -1,0 +1,9 @@
+/*
+ * Shared layout patterns (docs/components.md §4), reused with
+ *   composes: statementSection from '../../styles/layout.module.css';
+ */
+
+/* The brand statement's shell: it follows the hero directly, with more room around it. */
+.statementSection {
+  padding: var(--section-y-statement) var(--margin);
+}

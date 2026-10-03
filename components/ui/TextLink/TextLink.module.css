@@ -1,0 +1,26 @@
+.textLink {
+  composes: small from '../../../styles/typography.module.css';
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--tap);
+  font-weight: var(--fw-medium);
+  text-decoration: underline;
+  text-decoration-thickness: var(--hairline-width);
+  text-underline-offset: var(--underline-offset);
+}
+
+.arrow {
+  flex: none;
+  transition: transform var(--dur-300) var(--ease-out);
+}
+
+.textLink:hover .arrow {
+  transform: translateX(var(--nudge));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    transition: none;
+  }
+}

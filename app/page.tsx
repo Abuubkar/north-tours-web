@@ -1,34 +1,27 @@
 import type { Metadata } from 'next';
-import styles from './page.module.css';
+import { PageMain } from '@/components/layout/PageMain/PageMain';
+import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { getHomeCopy } from '@/lib/content/pages';
+import { getSettings } from '@/lib/content/settings';
+import { pageMetadata } from '@/lib/utils/metadata';
+import { whatsappLink } from '@/lib/utils/whatsapp';
+import { BrandStatement } from '@/sections/BrandStatement/BrandStatement';
+import { HomeHero } from '@/sections/HomeHero/HomeHero';
 
-// Throwaway placeholder for the foundation PRD (#1). The Homepage PRD replaces this page.
-
-export const metadata: Metadata = {
-  title: '[BRAND NAME] · Tours from Lahore to northern Pakistan',
-  description:
-    'Guided group and private tours from Lahore to Hunza, Skardu and the valleys in between.',
-};
+export function generateMetadata(): Metadata {
+  return pageMetadata(getHomeCopy(), getSettings());
+}
 
 export default function HomePage() {
+  const copy = getHomeCopy();
+  const settings = getSettings();
+  const generalWhatsApp = whatsappLink(settings.contact.whatsapp, settings.whatsapp.generalMessage);
+
   return (
-    <main id="main" tabIndex={-1}>
-      <section className={styles.block}>
-        <p className={styles.brand}>[BRAND NAME]</p>
-        <h1 className={styles.title}>
-          Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway
-        </h1>
-        <p className={styles.lead}>
-          Guided group and private tours from Lahore to Hunza, Skardu and the valleys in between.{' '}
-          <a href="#good-to-know">Good to know before you go</a>
-        </p>
-      </section>
-      <section id="good-to-know" className={styles.block} data-surface="light">
-        <h2 className={styles.heading}>Good to know before you go</h2>
-        <p className={styles.body}>
-          Warm layers even in summer, cash for the upper valleys, and a day of rest before the high
-          passes. <a href="#">Back to the top</a>
-        </p>
-      </section>
-    </main>
+    <PageMain>
+      <ShareImageMeta photo={copy.hero.image} siteUrl={settings.site.url} />
+      <HomeHero copy={copy.hero} whatsappHref={generalWhatsApp} />
+      <BrandStatement copy={copy.statement} />
+    </PageMain>
   );
 }

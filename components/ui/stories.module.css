@@ -22,3 +22,13 @@
     var(--placeholder-stripe-b) var(--space-12) var(--space-24)
   );
 }
+
+/* A card-width column, for frames and cards shown on their own. */
+.card {
+  max-width: var(--measure-lead);
+}
+
+/* A hero-sized box for full-bleed media. */
+.fill {
+  height: var(--hero-h);
+}

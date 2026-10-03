@@ -1,0 +1,28 @@
+{
+  "title": "Tours from Lahore to northern Pakistan",
+  "description": "Guided group and private tours from Lahore to Hunza, Skardu, Swat, Naran-Kaghan, Fairy Meadows and Murree, with local guides and experienced drivers. Plan your trip on WhatsApp.",
+  "hero": {
+    "lead": "Guided group and private tours from Lahore to Hunza, Skardu and the valleys in between.",
+    "exploreLabel": "Explore Tours",
+    "whatsappLabel": "Plan on WhatsApp",
+    "displayWord": "NORTH",
+    "image": {
+      "src": "/images/hunza/rakaposhi-autumn.jpg",
+      "alt": "Snow-covered Rakaposhi above the Hunza valley at sunset, with golden autumn poplars below",
+      "width": 2560,
+      "height": 1707,
+      "focus": { "x": 47, "y": 22 },
+      "credit": {
+        "source": "wikimedia",
+        "author": "Muhammad Ashar",
+        "licence": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_at_Rackaposhi_Peak.jpg"
+      }
+    }
+  },
+  "statement": {
+    "headline": "Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway",
+    "body": "Our guides grew up in Hunza, Skardu and Swat. Our drivers have spent decades on the Karakoram Highway. They plan around the weather, the roads and your family’s pace, so all you have to do is look out of the window.",
+    "linkLabel": "Meet the team"
+  }
+}

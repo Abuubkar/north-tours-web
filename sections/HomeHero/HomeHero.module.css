@@ -1,0 +1,66 @@
+.hero {
+  position: relative;
+  height: var(--hero-h);
+  margin-top: calc(-1 * var(--header-h));
+  overflow: hidden;
+}
+
+/* Bleeds past the edges so the scroll blur never shows a soft border. */
+.media {
+  position: absolute;
+  inset: calc(-1 * var(--space-32));
+}
+
+.scrim,
+.dim {
+  position: absolute;
+  inset: 0;
+}
+
+.scrim {
+  background: var(--hero-scrim);
+}
+
+.dim {
+  background: var(--bg);
+  opacity: 0;
+}
+
+.foot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0 var(--margin);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--row-gap) var(--gutter);
+  padding-bottom: var(--hero-row-pad);
+}
+
+.lead {
+  composes: lead from '../../styles/typography.module.css';
+  max-width: var(--measure-lead);
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  flex: 0 1 var(--hero-actions-w);
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.action {
+  flex: 1 1 auto;
+}
+
+.display {
+  composes: display from '../../styles/typography.module.css';
+  transform: translateY(var(--display-sink));
+}
