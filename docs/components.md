@@ -21,7 +21,7 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Tags:** all 28px (§5 item 15).
 - **Accordion and disclosure:** one Accordion on `<details>`, with a `plus` or `caret` marker.
 - **Dropdown:** in the base components folder, on the native `popover` attribute.
-- **Stepper:** the value uses the `stepTitle` role; buttons at a limit are disabled.
+- **Stepper:** the value uses the `stepTitle` role; the button at a limit is `aria-disabled` with the disabled look, and stays focusable.
 - **Native first:** Accordion on `<details name>`, Sheet on `<dialog>` with `showModal()`, Dropdown on `popover`.
 - **Hover:** secondary and quiet buttons use `--bg-raised` (Ink 800 / Mist 100); icon buttons brighten their border to `--fg`.
 - **Tooling:** Storybook as the component workshop and test runner (ADR-0012).

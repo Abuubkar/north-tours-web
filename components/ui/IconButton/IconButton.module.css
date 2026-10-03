@@ -17,7 +17,8 @@
   color: var(--fg);
 }
 
-.iconButton:disabled {
+.iconButton:disabled,
+.iconButton[aria-disabled='true'] {
   border-color: transparent;
   background: var(--hairline);
   color: var(--fg-3);
