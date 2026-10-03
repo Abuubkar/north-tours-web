@@ -111,7 +111,8 @@
   --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
   --measure-note: 320px; /* a short note beside a section headline */
   --measure-step: 300px; /* a booking step's description */
-  --map-max-w: 620px; /* the route map beside its stop list */
+  --map-min-w: 440px; /* the route map beside its stop list: from */
+  --map-max-w: 620px; /* to */
   --map-list-min: 320px; /* the stop list before it wraps under the map */
   --stop-number-col: 36px; /* the route stop list's number column */
 
@@ -125,6 +126,7 @@
   --map-ring-width: 1.5px;
   --map-start-size: 10px; /* Lahore */
   --map-label-offset: 14px; /* label from the marker's centre */
+  --legend-swatch-w: 20px; /* a road sample in the legend */
 
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;

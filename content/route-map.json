@@ -36,6 +36,7 @@
   },
   "list": {
     "heading": "Main route · elevation",
+    "destinationLabel": "Destination",
     "stops": [
       { "stop": "Lahore", "elevation": 217, "note": "Start · M-2 motorway north" },
       { "stop": "Islamabad", "elevation": 540, "note": "Onto the Karakoram Highway" },

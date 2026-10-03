@@ -9,11 +9,11 @@ import type { RouteMap } from '../content/routeMap.ts';
 
 export const MAP_FRAME = { width: 560, height: 700, padding: 64 } as const;
 
-export type LatLon = { lat: number; lon: number };
-export type MapPoint = { x: number; y: number };
+type LatLon = { lat: number; lon: number };
+type MapPoint = { x: number; y: number };
 type GridLine = { value: number; at: number; label: string };
 
-export type MapProjection = {
+type MapProjection = {
   project: (place: LatLon) => MapPoint;
   /** Lines of latitude: `at` is the y position, label e.g. "34°N". */
   parallels: GridLine[];
@@ -28,7 +28,8 @@ const wholeDegrees = (from: number, to: number) =>
   Array.from({ length: Math.floor(to) - Math.ceil(from) + 1 }, (_, i) => Math.ceil(from) + i);
 
 /** A projection that fits `places` into the frame, with the graticule lines inside it. */
-export function mapProjection(places: readonly LatLon[], frame = MAP_FRAME): MapProjection {
+export function mapProjection(places: readonly LatLon[]): MapProjection {
+  const frame = MAP_FRAME;
   const lats = places.map((p) => p.lat);
   const lons = places.map((p) => p.lon);
   const [minLat, maxLat, minLon, maxLon] = [Math.min(...lats), Math.max(...lats), Math.min(...lons), Math.max(...lons)];

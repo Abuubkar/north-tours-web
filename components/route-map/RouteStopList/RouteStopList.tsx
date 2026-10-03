@@ -1,4 +1,5 @@
 import { formatElevation } from '@/lib/utils/elevation';
+import { sequenceNumber } from '@/lib/utils/sequence';
 import type { RouteStopListProps } from './RouteStopList.types';
 import styles from './RouteStopList.module.css';
 
@@ -7,17 +8,17 @@ export function RouteStopList({ list, stops }: RouteStopListProps) {
   const destinations = new Set(stops.filter((s) => s.kind === 'destination').map((s) => s.name));
 
   return (
-    <div className={styles.stopList}>
+    <div>
       <p className={styles.heading}>{list.heading}</p>
       <ol className={styles.list}>
         {list.stops.map(({ stop, elevation, note }, i) => (
           <li key={stop} className={styles.row}>
             <span className={styles.number} aria-hidden="true">
-              {String(i + 1).padStart(2, '0')}
+              {sequenceNumber(i + 1)}
             </span>
             <span className={styles.name}>
               {stop}
-              {destinations.has(stop) && <span className={styles.dot} role="img" aria-label="destination" />}
+              {destinations.has(stop) && <span className={styles.dot} role="img" aria-label={list.destinationLabel} />}
             </span>
             <span className={styles.elevation}>{formatElevation(elevation)}</span>
             <span className={styles.note}>{note}</span>

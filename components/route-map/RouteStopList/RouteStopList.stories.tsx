@@ -22,7 +22,7 @@ export const Desktop: Story = {
     await expect(rows).toHaveLength(6);
     await expect(rows[0]).toHaveTextContent('Lahore217 mStart · M-2 motorway north');
     await expect(rows[4]).toHaveTextContent('Hunza2,438 mKarimabad, under Rakaposhi');
-    const marked = rows.filter((row) => within(row).queryByRole('img', { name: 'destination' }));
+    const marked = rows.filter((row) => within(row).queryByRole('img', { name: 'Destination' }));
     await expect(marked).toEqual([rows[4], rows[5]]);
   },
 };

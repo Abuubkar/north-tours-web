@@ -38,6 +38,8 @@ const routeMapSchema = z
     /** The list beside the map: the main route's stops in order. */
     list: z.strictObject({
       heading: copy,
+      /** Read out for the gold dot that marks a destination in the list. */
+      destinationLabel: copy,
       stops: z.array(z.strictObject({ stop: nonEmpty, elevation: z.int().min(0), note: copy })).min(2),
     }),
   })
@@ -59,7 +61,6 @@ const routeMapSchema = z
   });
 
 export type RouteMap = z.infer<typeof routeMapSchema>;
-export type RouteStop = RouteMap['stops'][number];
 
 export function routeMapFile(dir = CONTENT_DIR): string {
   return path.join(dir, 'route-map.json');

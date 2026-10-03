@@ -6,7 +6,6 @@
 
 .frame {
   position: relative;
-  aspect-ratio: 560 / 700;
   overflow: hidden;
   border: var(--hairline-width) solid var(--hairline);
   background: var(--map-surface);
@@ -178,17 +177,10 @@
   gap: var(--space-8);
 }
 
-.mainSwatch,
-.valleySwatch {
-  width: var(--space-20);
-}
-
-.mainSwatch {
-  border-top: var(--map-route-width) solid var(--fg);
-}
-
-.valleySwatch {
-  border-top: var(--map-route-width) dashed var(--fg-3);
+.swatch {
+  width: var(--legend-swatch-w);
+  height: var(--map-route-width);
+  overflow: visible;
 }
 
 .dotSwatch {

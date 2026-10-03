@@ -34,8 +34,8 @@
 }
 
 .dot {
-  width: var(--map-ring-size);
-  height: var(--map-ring-size);
+  width: var(--map-dot-size);
+  height: var(--map-dot-size);
   border-radius: var(--radius-chip);
   background: var(--accent);
 }

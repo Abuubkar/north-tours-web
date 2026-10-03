@@ -1,4 +1,5 @@
 import { Icon } from '@/components/ui/Icon/Icon';
+import { sequenceNumber } from '@/lib/utils/sequence';
 import type { StepCellProps } from './StepCell.types';
 import styles from './StepCell.module.css';
 
@@ -12,7 +13,7 @@ export function StepCell({ number, title, text, arrow }: StepCellProps) {
   return (
     <li className={styles.step}>
       <div className={styles.top} aria-hidden="true">
-        <span className={styles.numeral}>{String(number).padStart(2, '0')}</span>
+        <span className={styles.numeral}>{sequenceNumber(number)}</span>
         {arrow && <Icon name="arrowRight" size={ARROW_SIZE} className={styles.arrow} />}
       </div>
       <h3 className={styles.title}>{title}</h3>

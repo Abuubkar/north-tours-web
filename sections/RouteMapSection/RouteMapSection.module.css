@@ -18,7 +18,7 @@
 }
 
 .map {
-  flex: 1 1 var(--content-col-min);
+  flex: 1 1 var(--map-min-w);
   max-width: var(--map-max-w);
   min-width: 0;
 }

@@ -132,6 +132,7 @@ export const sampleRouteMap: RouteMap = {
   },
   list: {
     heading: 'Main route · elevation',
+    destinationLabel: 'Destination',
     stops: [
       {
         stop: 'Lahore',

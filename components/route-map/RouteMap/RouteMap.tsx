@@ -13,7 +13,7 @@ const kindClass = {
 };
 
 /** Places an overlay at a point in the drawing, in percent, so it stays put at any size. */
-const at = (x: number, y: number) => ({ '--x': `${(x / width) * 100}%`, '--y': `${(y / height) * 100}%` }) as CSSProperties;
+const placeAt = (x: number, y: number) => ({ '--x': `${(x / width) * 100}%`, '--y': `${(y / height) * 100}%` }) as CSSProperties;
 
 /**
  * The schematic road map (DESIGN.md §9; CLAUDE.md §8: no borders, no basemap), drawn in full.
@@ -25,7 +25,13 @@ export function RouteMap({ map }: RouteMapProps) {
 
   return (
     <figure className={styles.figure}>
-      <div className={styles.frame} role="img" aria-label={map.description} data-surface="dark">
+      <div
+        className={styles.frame}
+        role="img"
+        aria-label={map.description}
+        data-surface="dark"
+        style={{ aspectRatio: `${width} / ${height}` }}
+      >
         <svg className={styles.drawing} viewBox={`0 0 ${width} ${height}`} aria-hidden="true">
           {parallels.map((line) => (
             <line key={line.label} className={styles.grid} x1={0} x2={width} y1={line.at} y2={line.at} />
@@ -42,17 +48,17 @@ export function RouteMap({ map }: RouteMapProps) {
         </svg>
         <div aria-hidden="true">
           {parallels.map((line) => (
-            <span key={line.label} className={styles.parallel} style={at(0, line.at)}>
+            <span key={line.label} className={styles.parallel} style={placeAt(0, line.at)}>
               {line.label}
             </span>
           ))}
           {meridians.map((line) => (
-            <span key={line.label} className={styles.meridian} style={at(line.at, 0)}>
+            <span key={line.label} className={styles.meridian} style={placeAt(line.at, 0)}>
               {line.label}
             </span>
           ))}
           {stops.map((stop) => (
-            <div key={stop.name} className={`${styles.stop} ${styles[stop.label]}`} style={at(stop.x, stop.y)}>
+            <div key={stop.name} className={`${styles.stop} ${styles[stop.label]}`} style={placeAt(stop.x, stop.y)}>
               <span className={`${styles.marker} ${kindClass[stop.kind].marker}`} />
               <span className={`${styles.label} ${kindClass[stop.kind].label}`}>
                 {stop.name}
@@ -68,11 +74,15 @@ export function RouteMap({ map }: RouteMapProps) {
       </div>
       <figcaption className={styles.legend}>
         <span className={styles.legendItem}>
-          <span className={styles.mainSwatch} aria-hidden="true" />
+          <svg className={styles.swatch} viewBox="0 0 20 2" aria-hidden="true">
+            <line className={styles.mainRoad} x1={0} x2={20} y1={1} y2={1} />
+          </svg>
           {map.legend.mainRoute}
         </span>
         <span className={styles.legendItem}>
-          <span className={styles.valleySwatch} aria-hidden="true" />
+          <svg className={styles.swatch} viewBox="0 0 20 2" aria-hidden="true">
+            <line className={styles.valleyRoad} x1={0} x2={20} y1={1} y2={1} />
+          </svg>
           {map.legend.valleyRoads}
         </span>
         <span className={styles.legendItem}>

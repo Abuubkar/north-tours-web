@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { drawRouteMap, MAP_FRAME } from '../utils/projection.ts';
 import { loadRouteMap, routeMapFile, type RouteMap } from './routeMap.ts';
 import { contentFixture } from './testing.ts';
 
@@ -40,5 +41,19 @@ describe('route map', () => {
   it('rejects two stops with the same name', () => {
     const result = withChange((m) => m.stops.push({ ...m.stops[3] }));
     expect(fields(result)).toEqual([`stops.${live.stops.length}.name`]);
+  });
+});
+
+describe('the live route map, drawn', () => {
+  it('keeps every stop and road bend inside the frame', () => {
+    const { stops, roads } = drawRouteMap(live);
+    const points = [
+      ...stops,
+      ...[...roads.main, ...roads.valley].flatMap((d) => [...d.matchAll(/[ML]([\d.]+) ([\d.]+)/g)].map((m) => ({ x: +m[1], y: +m[2] }))),
+    ];
+    for (const { x, y } of points) {
+      expect(x >= MAP_FRAME.padding && x <= MAP_FRAME.width - MAP_FRAME.padding).toBe(true);
+      expect(y >= MAP_FRAME.padding && y <= MAP_FRAME.height - MAP_FRAME.padding).toBe(true);
+    }
   });
 });
