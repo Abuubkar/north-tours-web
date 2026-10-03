@@ -40,6 +40,17 @@ const settingsSchema = z.strictObject({
     facebook: linkOrPlaceholder,
     youtube: linkOrPlaceholder,
   }),
+  /** The trust strip (Homepage, Tours, Help, Contact): the same on every page. */
+  trust: z.strictObject({
+    /** The year the company started; "Operating" counts years from it. */
+    operatingSince: z.int().min(1950, 'Use a year like 2014').max(new Date().getFullYear(), 'Can’t be in the future'),
+    /** As shown, e.g. "1,200+". */
+    tripsCompleted: nonEmpty,
+    licence: z.strictObject({ label: nonEmpty, value: copyWith('licence'), note: nonEmpty }),
+    operating: z.strictObject({ label: nonEmpty, value: copyWith('years'), note: nonEmpty }),
+    trips: z.strictObject({ label: nonEmpty, note: nonEmpty }),
+    payments: z.strictObject({ label: nonEmpty }),
+  }),
   /** WhatsApp wording, editable without touching code. */
   whatsapp: z.strictObject({
     /** Pre-filled in every general "WhatsApp us" link. */

@@ -20,3 +20,13 @@ export function ratingLabel(score: number, count: number): string {
 export function starsLabel(rating: number): string {
   return `${rating} out of 5 stars`;
 }
+
+/**
+ * The overall rating across tours: each tour's score weighted by its review count, and the
+ * total count. Null when no tour has reviews, so the summary is hidden.
+ */
+export function ratingSummary(ratings: readonly { score: number; count: number }[]): { score: number; count: number } | null {
+  const count = ratings.reduce((sum, r) => sum + r.count, 0);
+  if (count === 0) return null;
+  return { score: ratings.reduce((sum, r) => sum + r.score * r.count, 0) / count, count };
+}

@@ -1,0 +1,16 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+/* The design's bleed is reset by a later margin (docs/components.md §5 item 28); here it holds. */
+.steps {
+  composes: textGrid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-steps-min);
+  --grid-cols: var(--grid-steps-cols);
+  margin-top: var(--space-64);
+}

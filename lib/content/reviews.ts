@@ -16,7 +16,7 @@ const reviewSchema = z.strictObject({
   place: nonEmpty,
   /** When they travelled. */
   month: yearMonth,
-  rating: z.int().min(1).max(5),
+  rating: z.literal([1, 2, 3, 4, 5], 'Use a whole number of stars, 1 to 5'),
   quote: nonEmpty,
   consent,
 });

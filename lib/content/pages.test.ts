@@ -37,6 +37,20 @@ describe('home page copy', () => {
   });
 });
 
+describe('booking steps', () => {
+  it('needs exactly four steps', () => {
+    expect(fields(withChange((c) => c.how.steps.pop()))).toEqual(['how.steps']);
+    expect(fields(withChange((c) => c.how.steps.push({ ...c.how.steps[0] })))).toEqual(['how.steps']);
+  });
+
+  it('takes the settings tokens, and no others', () => {
+    expect(withChange((c) => Object.assign(c.how.steps[0], { text: 'From {pickupPoint}, {advancePercent}%' })).problems).toEqual([]);
+    const result = withChange((c) => Object.assign(c.how.steps[2], { text: 'Pay by {paymentMethod}.' }));
+    expect(fields(result)).toEqual(['how.steps.2.text']);
+    expect(result.problems[0].message).toBe('Unknown token {paymentMethod}. Use only {advancePercent}, {paymentMethods}, {pickupPoint}');
+  });
+});
+
 describe('photo focus', () => {
   it('accepts a focus point in percent', () => {
     expect(withChange((c) => Object.assign(c.hero.image, { focus: { x: 0, y: 100 } })).problems).toEqual([]);

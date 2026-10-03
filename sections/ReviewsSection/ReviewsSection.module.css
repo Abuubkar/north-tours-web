@@ -1,0 +1,38 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.header {
+  composes: sectionHeader from '../../styles/layout.module.css';
+}
+
+/* The long size: the headline runs past ~44 characters (DESIGN.md §6). */
+.headline {
+  composes: sectionLong from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.summary {
+  composes: small from '../../styles/typography.module.css';
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  color: var(--fg-2);
+}
+
+.star {
+  color: var(--accent);
+}
+
+.score {
+  color: var(--fg);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.grid {
+  composes: textGrid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-reviews-min);
+  --grid-cols: var(--grid-reviews-cols);
+  margin-top: var(--space-48);
+}

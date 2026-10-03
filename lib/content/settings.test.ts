@@ -79,6 +79,20 @@ describe('settings', () => {
     expect(result.problems[0].message).toBe('Unknown token {people}. Use only {tour}, {date}');
   });
 
+  it('rejects a missing trust section', () => {
+    expect(fields(withChange((s) => delete (s as Partial<Settings>).trust))).toEqual(['trust']);
+  });
+
+  it.each([1800, 2014.5, new Date().getFullYear() + 1])('rejects %s as the year operating since', (year) => {
+    expect(fields(withChange((s) => Object.assign(s.trust, { operatingSince: year })))).toEqual(['trust.operatingSince']);
+  });
+
+  it('rejects a trust value token other than its own', () => {
+    expect(fields(withChange((s) => Object.assign(s.trust.operating, { value: '{licence} years' })))).toEqual([
+      'trust.operating.value',
+    ]);
+  });
+
   it('rejects a malformed email and names the file and field', () => {
     const result = withChange((s) => Object.assign(s.contact, { email: 'not-an-email' }));
     expect(result.problems).toEqual([

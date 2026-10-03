@@ -112,6 +112,13 @@
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
   --grid-tours-cols: 4;
+  --grid-steps-min: 260px;
+  --grid-steps-cols: 4;
+  --grid-reviews-min: 290px;
+  --grid-reviews-cols: 3;
+  --grid-trust-min: 165px;
+  --grid-trust-cols: 4;
+  --measure-step: 300px; /* a booking step's description */
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

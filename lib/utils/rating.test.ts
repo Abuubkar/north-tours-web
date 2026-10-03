@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatReviewCount, formatScore, ratingLabel, starsLabel } from './rating';
+import { formatReviewCount, formatScore, ratingLabel, ratingSummary, starsLabel } from './rating';
 
 describe('formatScore', () => {
   it('always shows one decimal', () => {
@@ -29,5 +29,20 @@ describe('ratingLabel', () => {
 describe('starsLabel', () => {
   it('names the stars out of five', () => {
     expect(starsLabel(4)).toBe('4 out of 5 stars');
+  });
+});
+
+describe('ratingSummary', () => {
+  it('weights each score by its count and adds up the counts', () => {
+    expect(ratingSummary([{ score: 5, count: 3 }, { score: 4, count: 1 }])).toEqual({ score: 4.75, count: 4 });
+  });
+
+  it('leaves out a tour with no reviews', () => {
+    expect(ratingSummary([{ score: 4.9, count: 10 }, { score: 1, count: 0 }])).toEqual({ score: 4.9, count: 10 });
+  });
+
+  it('is null with no reviews at all', () => {
+    expect(ratingSummary([{ score: 4.5, count: 0 }])).toBeNull();
+    expect(ratingSummary([])).toBeNull();
   });
 });

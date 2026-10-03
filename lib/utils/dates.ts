@@ -30,3 +30,29 @@ export function messageDate(date: string): string {
   const { year, month, day } = parts(date);
   return `${day} ${month} ${year}`;
 }
+
+const LONG_MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+/** A review's month, "2026-05" → "May 2026". */
+export function monthYear(month: string): string {
+  const [year, number] = month.split('-').map(Number);
+  return `${LONG_MONTHS[number - 1]} ${year}`;
+}
+
+/** Whole years since `since`, as of `currentYear`: operating since 2014 is 12 years in 2026. */
+export function yearsSince(since: number, currentYear: number): number {
+  return currentYear - since;
+}

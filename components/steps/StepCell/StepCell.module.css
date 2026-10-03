@@ -1,0 +1,32 @@
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-32) var(--cell-pad) var(--space-48);
+  background: var(--bg);
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.numeral {
+  composes: numeral from '../../../styles/typography.module.css';
+}
+
+.arrow {
+  color: var(--fg-3);
+}
+
+.title {
+  composes: stepTitle from '../../../styles/typography.module.css';
+  margin-top: var(--space-24);
+}
+
+.text {
+  composes: small from '../../../styles/typography.module.css';
+  max-width: var(--measure-step);
+  color: var(--fg-2);
+}

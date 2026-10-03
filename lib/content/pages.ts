@@ -1,7 +1,8 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
-import { copy } from './fields.ts';
+import { SETTINGS_TOKENS } from '../utils/tokens.ts';
+import { copy, copyWith } from './fields.ts';
 import { photoSchema } from './images.ts';
 
 /*
@@ -32,6 +33,16 @@ const homeSchema = z.strictObject({
     /** Beside the headline: what the prices mean. */
     note: copy,
     allToursLabel: copy,
+  }),
+  how: z.strictObject({
+    headline: copy,
+    /** The four booking steps, in order. Text may use {advancePercent}, {paymentMethods} and {pickupPoint}. */
+    steps: z
+      .array(z.strictObject({ title: copy, text: copyWith(...SETTINGS_TOKENS) }))
+      .length(4, 'List exactly four steps'),
+  }),
+  reviews: z.strictObject({
+    headline: copy,
   }),
 });
 
