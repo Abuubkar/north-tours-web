@@ -1,0 +1,17 @@
+{
+  "slug": "imran-khattak",
+  "name": "Imran Khattak",
+  "role": "Driver",
+  "base": "Private tours",
+  "languages": [
+    "Pashto",
+    "Urdu"
+  ],
+  "years": 11,
+  "bio": "Drives private trips to Swat and Naran, and knows where to stop for chai on every road north.",
+  "portrait": {
+    "placeholder": "driver with the Prado in Swat",
+    "alt": "Imran Khattak, driver"
+  },
+  "consent": true
+}
