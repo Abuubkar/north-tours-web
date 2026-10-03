@@ -12,8 +12,11 @@ import { SeatsStatus } from '../../tour/SeatsStatus/SeatsStatus';
 import type { TourCardProps } from './TourCard.types';
 import styles from './TourCard.module.css';
 
-/** In a grid of at most four columns, each at least 280px (DESIGN.md §5). */
-const PHOTO_SIZES = '(width >= 1240px) 25vw, (width >= 640px) 50vw, 100vw';
+/**
+ * The photo's width in a grid of at most four columns, each at least 280px (DESIGN.md §5):
+ * four columns from about 1200px (4 × 280 plus the page margins), two from about 600px.
+ */
+const PHOTO_SIZES = '(width >= 1200px) 25vw, (width >= 600px) 50vw, 100vw';
 
 /**
  * One tour and the departure it shows (DESIGN.md §8). Urgent at 3 seats or fewer; sold out
@@ -22,8 +25,17 @@ const PHOTO_SIZES = '(width >= 1240px) 25vw, (width >= 640px) 50vw, 100vw';
 export function TourCard({ tour, departure, settings }: TourCardProps) {
   const status = seatStatus(departure);
   const soldOut = status === 'soldout';
-  const template = soldOut ? settings.whatsapp.waitlistMessage : settings.whatsapp.tourMessage;
-  const whatsapp = whatsappLink(settings.contact.whatsapp, departureMessage(template, tour.title, departure.start));
+  // Sold out, the card offers the waitlist instead of the trip.
+  const action = soldOut
+    ? {
+        template: settings.whatsapp.waitlistMessage,
+        whatsappLabel: `Join the waitlist for ${tour.title} on WhatsApp`,
+      }
+    : {
+        template: settings.whatsapp.tourMessage,
+        whatsappLabel: `Ask about ${tour.title} on WhatsApp`,
+      };
+  const whatsapp = whatsappLink(settings.contact.whatsapp, departureMessage(action.template, tour.title, departure.start));
 
   return (
     <article className={`${styles.card} ${soldOut ? styles.soldOut : styles.live}`}>
@@ -69,7 +81,7 @@ export function TourCard({ tour, departure, settings }: TourCardProps) {
             href={whatsapp}
             icon="whatsapp"
             size={48}
-            label={soldOut ? `Join the waitlist for ${tour.title} on WhatsApp` : `Ask about ${tour.title} on WhatsApp`}
+            label={action.whatsappLabel}
             className={styles.whatsapp}
           />
         </div>

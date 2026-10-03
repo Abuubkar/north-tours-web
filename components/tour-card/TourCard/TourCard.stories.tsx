@@ -64,17 +64,29 @@ export const RealNumber: Story = {
   },
 };
 
-/** Hover (a real pointer, in the test run only): the card lifts to the raised surface and the photo zooms. */
+/**
+ * Hover, forced with a real pointer in the test run (hover in the Storybook UI with the mouse):
+ * the card lifts to the raised surface, the photo zooms, the arrow nudges and the WhatsApp border brightens.
+ */
 export const Hover: Story = {
+  globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     const user = await realUser();
     if (!user) return;
     const card = canvas.getByRole('article');
-    const resting = getComputedStyle(card).backgroundColor;
+    const whatsapp = canvas.getByRole('link', { name: /on WhatsApp$/ });
+    const photo = canvas.getByRole('img', { name: sampleTour.image.alt }).closest('picture')!;
+    const resting = [getComputedStyle(card).backgroundColor, getComputedStyle(whatsapp).borderColor];
     await user.hover(canvas.getByRole('heading', { level: 3 }));
-    await waitFor(() => expect(getComputedStyle(card).backgroundColor).not.toBe(resting));
+    await waitFor(() => {
+      expect(getComputedStyle(card).backgroundColor).not.toBe(resting[0]);
+      expect(getComputedStyle(whatsapp).borderColor).not.toBe(resting[1]);
+      expect(getComputedStyle(photo).transform).not.toBe('none');
+    });
   },
 };
+
+export const HoverPhone: Story = { ...Hover, globals: { viewport: { value: 'phone' } } };
 
 /** Three seats or fewer: the "Only 3 seats left" tag and a gold seats line. */
 export const Urgent: Story = {
@@ -89,6 +101,8 @@ export const Urgent: Story = {
 export const UrgentOnLight: Story = { ...Urgent, globals: { surface: 'light' } };
 
 export const UrgentPhone: Story = { ...Urgent, globals: { viewport: { value: 'phone' } } };
+
+export const UrgentDesktop: Story = { ...Urgent, globals: { viewport: { value: 'desktop' } } };
 
 /** Sold out: the tag, "Sold out · waitlist open", and both actions carry the waitlist message. No hover. */
 export const SoldOut: Story = {
@@ -115,6 +129,8 @@ export const SoldOut: Story = {
 export const SoldOutOnLight: Story = { ...SoldOut, globals: { surface: 'light' } };
 
 export const SoldOutDesktop: Story = { ...SoldOut, globals: { viewport: { value: 'desktop' } } };
+
+export const SoldOutPhone: Story = { ...SoldOut, globals: { viewport: { value: 'phone' } } };
 
 /** Until the tour's photo exists, the striped placeholder names the shot. */
 export const PlaceholderPhoto: Story = {

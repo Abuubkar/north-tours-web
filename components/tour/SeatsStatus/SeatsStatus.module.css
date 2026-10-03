@@ -10,7 +10,7 @@
   flex: none;
   width: var(--seat-dot);
   height: var(--seat-dot);
-  border-radius: 50%;
+  border-radius: var(--radius-chip);
   background: currentcolor;
 }
 

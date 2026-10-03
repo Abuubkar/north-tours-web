@@ -66,18 +66,25 @@ describe('todayInKarachi', () => {
 const departure = (start: string, seatsLeft = 8) => ({ start, end: start, seatsTotal: 16, seatsLeft });
 
 describe('shownDeparture', () => {
+  const today = '2027-05-01';
+
   it('shows the next departure with seats', () => {
-    expect(shownDeparture([departure('2027-05-01', 0), departure('2027-05-08'), departure('2027-05-15')])).toEqual(
+    expect(shownDeparture([departure('2027-05-01', 0), departure('2027-05-08'), departure('2027-05-15')], today)).toEqual(
       departure('2027-05-08'),
     );
   });
 
-  it('shows the next sold-out date only when every departure is sold out', () => {
-    expect(shownDeparture([departure('2027-05-01', 0), departure('2027-05-08', 0)])).toEqual(departure('2027-05-01', 0));
+  it('shows the next sold-out date only when every upcoming departure is sold out', () => {
+    expect(shownDeparture([departure('2027-05-01', 0), departure('2027-05-08', 0)], today)).toEqual(departure('2027-05-01', 0));
   });
 
-  it('shows nothing without departures', () => {
-    expect(shownDeparture([])).toBeUndefined();
+  it('never shows a past departure, even one with seats', () => {
+    expect(shownDeparture([departure('2027-04-20'), departure('2027-05-08', 0)], today)).toEqual(departure('2027-05-08', 0));
+  });
+
+  it('shows nothing when nothing is upcoming', () => {
+    expect(shownDeparture([departure('2027-04-20')], today)).toBeUndefined();
+    expect(shownDeparture([], today)).toBeUndefined();
   });
 });
 

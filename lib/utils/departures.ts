@@ -48,18 +48,24 @@ export function todayInKarachi(now: Date): string {
 }
 
 /**
- * The departure a tour card shows, from a tour's upcoming departures in date order: the next
- * one with seats left. Only when every one is sold out does it show the next sold-out date,
- * with the waitlist. Undefined when there are none.
+ * The departure a tour card shows, as of `today` (YYYY-MM-DD, Asia/Karachi): the tour's next
+ * upcoming departure that still has seats. Only when every upcoming one is sold out does it
+ * show the next sold-out date, with the waitlist. Undefined when nothing is upcoming.
+ * One rule for every list of tour cards; a filter (e.g. a month on Tours) narrows `departures`
+ * first or extends this with an option.
  */
-export function shownDeparture<T extends Pick<Departure, 'seatsLeft'>>(departures: readonly T[]): T | undefined {
-  return departures.find((departure) => seatStatus(departure) !== 'soldout') ?? departures[0];
+export function shownDeparture<T extends Pick<Departure, 'start' | 'seatsLeft'>>(
+  departures: readonly T[],
+  today: string,
+): T | undefined {
+  const upcoming = upcomingDepartures(departures, today);
+  return upcoming.find((departure) => seatStatus(departure) !== 'soldout') ?? upcoming[0];
 }
 
 /**
- * Upcoming departures across tours, one card per tour: each tour's shown departure as of
- * `today` (YYYY-MM-DD, Asia/Karachi), soonest first, then by tour title, at most `limit`.
- * A tour with nothing left drops out and the next tour fills in.
+ * Upcoming departures across tours, one card per tour: each tour's shown departure, soonest
+ * first, then by tour title, at most `limit`. A tour with nothing left drops out and the next
+ * tour fills in.
  */
 export function soonestDepartures<T extends { title: string; departures: readonly Departure[] }>(
   tours: readonly T[],
@@ -68,7 +74,7 @@ export function soonestDepartures<T extends { title: string; departures: readonl
 ): { tour: T; departure: Departure }[] {
   return tours
     .flatMap((tour) => {
-      const departure = shownDeparture(upcomingDepartures(tour.departures, today));
+      const departure = shownDeparture(tour.departures, today);
       return departure ? [{ tour, departure }] : [];
     })
     .sort((a, b) => a.departure.start.localeCompare(b.departure.start) || a.tour.title.localeCompare(b.tour.title))

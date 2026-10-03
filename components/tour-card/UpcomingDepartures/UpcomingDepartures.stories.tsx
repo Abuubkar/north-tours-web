@@ -48,14 +48,15 @@ export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', 
 /** One column at 390. */
 export const Phone: Story = { ...Desktop, globals: { viewport: { value: 'phone' } } };
 
-/** 1366: three columns, and the View Trip buttons line up across the row. */
+/** 1366: the four cards share a row, and their View Trip buttons line up although the titles wrap differently. */
 export const Laptop: Story = {
   ...Desktop,
   globals: { viewport: { value: 'laptop' } },
   play: async (context) => {
     await Desktop.play!(context);
-    const buttons = context.canvas.getAllByRole('link', { name: /^View Trip/ }).slice(0, 3);
+    const buttons = context.canvas.getAllByRole('link', { name: /^View Trip/ });
     const tops = buttons.map((b) => Math.round(b.getBoundingClientRect().top));
+    await expect(tops).toHaveLength(4);
     await expect(new Set(tops).size).toBe(1);
   },
 };

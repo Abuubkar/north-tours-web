@@ -8,14 +8,14 @@ import { TourCard } from '../TourCard/TourCard';
 import type { UpcomingDeparturesProps } from './UpcomingDepartures.types';
 import styles from './UpcomingDepartures.module.css';
 
+/** Today's date isn't watched: a page left open past midnight keeps the day it was opened. */
+const noUpdates = () => () => {};
+
 /**
  * The soonest departures as tour cards, one per tour. It renders as built, then checks again
  * against today's date in the browser, so a page built days ago never shows a trip that has
  * already left; the next tour fills in. With nothing left it offers WhatsApp instead.
  */
-/** Today's date isn't watched: a page left open past midnight keeps the day it was opened. */
-const noUpdates = () => () => {};
-
 export function UpcomingDepartures({ tours, builtOn, limit, settings }: UpcomingDeparturesProps) {
   // The build's date while hydrating, so the first render matches the built HTML; the browser's after.
   const today = useSyncExternalStore(
