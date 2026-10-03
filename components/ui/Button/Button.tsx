@@ -1,37 +1,14 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import { Icon } from '../Icon/Icon';
-import type { IconName } from '../Icon/icons';
+import type { ButtonProps, ButtonSize } from './Button.types';
 import styles from './Button.module.css';
 
-type Variant = 'primary' | 'secondary' | 'quiet';
-/** Height in px: 44 header and social, 48 cards and panels, 52 default, 56 closing CTAs. */
-type Size = 44 | 48 | 52 | 56;
-
-const sizeClass: Record<Size, string> = {
+const sizeClass: Record<ButtonSize, string> = {
   44: styles.size44,
   48: styles.size48,
   52: styles.size52,
   56: styles.size56,
 };
-
-type ButtonOwnProps = {
-  variant?: Variant;
-  size?: Size;
-  /** Leading icon, e.g. WhatsApp. */
-  icon?: IconName;
-  /** Trailing arrow that nudges right on hover. */
-  arrow?: boolean;
-  children: ReactNode;
-  className?: string;
-};
-
-type LinkButtonProps = ButtonOwnProps &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonOwnProps> & { href: string };
-
-type ActionButtonProps = ButtonOwnProps &
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonOwnProps> & { href?: never };
-
-export type ButtonProps = LinkButtonProps | ActionButtonProps;
 
 const ICON_SIZE = 18;
 

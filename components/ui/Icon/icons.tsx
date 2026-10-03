@@ -1,9 +1,7 @@
-import type { ReactNode } from 'react';
+import type { IconDefinition } from './Icon.types';
 
 // Stroke icons are copied from Lucide (ISC, see LICENSE-lucide.txt).
 // The WhatsApp mark is from Simple Icons (CC0). "menu" is the design's two-line mark.
-
-type IconDefinition = { kind: 'stroke' | 'fill'; body: ReactNode };
 
 export const icons = {
   arrowRight: {
@@ -75,5 +73,3 @@ export const icons = {
     ),
   },
 } satisfies Record<string, IconDefinition>;
-
-export type IconName = keyof typeof icons;

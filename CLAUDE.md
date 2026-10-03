@@ -94,6 +94,8 @@ Folders are created only when the first file for them is needed (section 3).
 
 - **One component per file.** A file exports one component. Small private subcomponents
   only if they are used nowhere else and stay short.
+- **Types in their own file.** A component's props and related types live in
+  `Component.types.ts` next to it (e.g. `Button.types.ts`); the component file imports them.
 - **Keep components lean.** If a component file grows beyond about 150 lines, or mixes
   rendering, data shaping and side effects, split it.
 - **Separate concerns:**
