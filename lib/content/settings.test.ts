@@ -56,6 +56,16 @@ describe('settings', () => {
     expect(fields(withChange((s) => delete (s as Partial<Settings>).booking))).toContain('booking');
   });
 
+  it('rejects a missing whatsapp section', () => {
+    expect(fields(withChange((s) => delete (s as Partial<Settings>).whatsapp))).toContain('whatsapp');
+  });
+
+  it('rejects an empty WhatsApp message', () => {
+    expect(fields(withChange((s) => Object.assign(s.whatsapp, { generalMessage: ' ' })))).toEqual([
+      'whatsapp.generalMessage',
+    ]);
+  });
+
   it('rejects a malformed email and names the file and field', () => {
     const result = withChange((s) => Object.assign(s.contact, { email: 'not-an-email' }));
     expect(result.problems).toEqual([

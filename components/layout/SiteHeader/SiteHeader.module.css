@@ -1,0 +1,21 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+  height: var(--header-h);
+  padding: 0 var(--margin);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+  background: var(--header-bg);
+  backdrop-filter: var(--header-backdrop);
+}
+
+/* Without the blur the translucent bar would be hard to read over content, so it turns solid. */
+@supports not (backdrop-filter: blur(0)) {
+  .header {
+    background: var(--bg);
+  }
+}

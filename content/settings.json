@@ -26,5 +26,9 @@
     "instagram": "[Instagram URL]",
     "facebook": "[Facebook URL]",
     "youtube": "[YouTube URL]"
+  },
+  "whatsapp": {
+    "generalMessage": "Hi, I’d like to plan a trip north.",
+    "footerIntro": "Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there."
   }
 }

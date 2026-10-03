@@ -26,3 +26,13 @@ a:hover {
   outline: var(--focus-width) solid var(--fg);
   outline-offset: var(--focus-offset);
 }
+
+/* In-page anchors land below the sticky header, not under it. */
+html {
+  scroll-padding-top: var(--header-h);
+}
+
+/* The skip link focuses <main> so the next Tab starts there; <main> itself needs no ring. */
+main:focus {
+  outline: none;
+}

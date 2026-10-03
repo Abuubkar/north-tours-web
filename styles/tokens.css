@@ -90,6 +90,12 @@
   --handle-w: 36px; /* bottom sheet grab handle */
   --handle-h: 4px;
   --dropdown-min-w: 260px; /* dropdown panel */
+  --brand-mark-w: 16px; /* logo triangle in the header */
+  --brand-mark-h: 14px;
+
+  /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
+  --z-header: 10;
+  --z-skip-link: 20; /* above the header when focused */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
@@ -195,6 +201,7 @@
   --fs-label: 13px;
   --ls-label: 0.01em;
   --fs-waypoint: 12px;
+  --ls-brand: -0.01em; /* brand name next to the logo mark, 16/600 */
 }
 
 /*
