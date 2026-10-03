@@ -1,6 +1,7 @@
 #!/bin/bash
-# Blocks destructive git commands. Pushing a named feature branch is allowed;
-# pushing to main, force pushes, deletions and pushes without an explicit branch are not.
+# Blocks destructive git commands. Pushing a named feature branch and merging a PR with
+# `gh pr merge` are allowed; pushing to main, force pushes, deletions, pushes without an
+# explicit branch, admin merges that bypass protections and merges that delete the branch are not.
 
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command')
@@ -24,6 +25,7 @@ for pattern in "${DANGEROUS_PATTERNS[@]}"; do
   fi
 done
 
+# `gh pr merge` may not use --admin or delete the branch.
 # Every `git push` must name a remote and a feature branch, with no force, delete or bulk flags.
 PUSH_CHECK=$(COMMAND="$COMMAND" python3 - <<'PY'
 import os, re, shlex
@@ -33,6 +35,11 @@ for segment in re.split(r"&&|\|\||;|\||\n", cmd):
         words = shlex.split(segment)
     except ValueError:
         words = segment.split()
+    if words[:3] == ["gh", "pr", "merge"]:
+        bad = [a for a in words[3:] if a in {"--admin", "-d", "--delete-branch"}]
+        if bad:
+            print(f"uses merge flag {bad[0]}"); break
+        continue
     if "git" not in words or "push" not in words:
         continue
     args = words[words.index("push") + 1:]

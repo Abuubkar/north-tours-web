@@ -58,8 +58,13 @@ This is the most important rule in the project.
   never skip it with `--no-verify` unless the owner says so.
 - **Pushing:** Claude may push its own feature branches by name (`git push -u origin <branch>`)
   and open PRs. Never push to `main`, force-push, push without naming the branch, delete
-  branches, or `reset --hard`. **The human reviews and merges every PR.** The git-guardrails
-  hook enforces this.
+  branches, or `reset --hard`.
+- **Merging:** Claude may merge its own PRs into `main` with `gh pr merge <number> --merge`, but
+  only once the `/code-review` findings are addressed, lint, typecheck, `pnpm test`,
+  `pnpm content:check` and the build pass, and the PR has no conflicts. Never merge with
+  `--admin`, never delete the branch on merge, and never merge a PR the owner has asked to
+  review first. Then update local `main` with `git pull --ff-only`.
+- The git-guardrails hook enforces the pushing and merging rules.
 
 ## 5. Architecture Decision Records
 
