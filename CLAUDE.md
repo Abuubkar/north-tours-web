@@ -47,15 +47,17 @@ This is the most important rule in the project.
 
 ## 4. Specs and workflow (Matt Pocock skills + GitHub)
 
-- **Specs live in GitHub Issues.** PRDs are created with `/to-prd`, then broken into
-  vertical-slice issues with `/to-issues`. Use `/triage` to keep issues agent-ready.
+- **Specs live in GitHub Issues.** PRDs are created with `/to-spec`, then broken into
+  vertical-slice issues with `/to-tickets`. Use `/triage` to keep issues agent-ready.
 - **Work one issue at a time.** Read the issue fully before writing code. If anything is
   ambiguous, ask (or use `/grill-me`) before starting.
 - **Before opening a PR,** run `/code-review` against the issue and these standards.
 - **Commits:** small, descriptive, and reference the issue number (e.g. `feat(tour-card): …
   (#12)`).
-- **Never push, force-push, reset --hard or delete branches.** The human pushes and merges
-  (git-guardrails hooks enforce this).
+- **Pushing:** Claude may push its own feature branches by name (`git push -u origin <branch>`)
+  and open PRs. Never push to `main`, force-push, push without naming the branch, delete
+  branches, or `reset --hard`. **The human reviews and merges every PR.** The git-guardrails
+  hook enforces this.
 
 ## 5. Architecture Decision Records
 
