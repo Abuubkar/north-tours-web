@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useId, useRef, type MouseEvent } from 'react';
+import { useId, type MouseEvent } from 'react';
+import { useModalDialog } from '@/hooks/useModalDialog';
 import { IconButton } from '../IconButton/IconButton';
 import type { SheetProps } from './Sheet.types';
 import styles from './Sheet.module.css';
@@ -10,36 +11,29 @@ import styles from './Sheet.module.css';
  * closes it on Escape and returns focus to whatever opened it.
  */
 export function Sheet({ open, onClose, title, variant = 'bottom', handle = false, children }: SheetProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const { ref, close } = useModalDialog(open);
   const titleId = useId();
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    if (!open && dialog.open) dialog.close();
-  }, [open]);
 
   // Clicks on the dialog element itself land on the backdrop; the panel content is a child.
   function closeOnBackdrop(event: MouseEvent<HTMLDialogElement>) {
-    if (event.target === event.currentTarget) dialogRef.current?.close();
+    if (event.target === event.currentTarget) close();
   }
 
   return (
     <dialog
-      ref={dialogRef}
+      ref={ref}
       aria-labelledby={titleId}
       className={`${styles.sheet} ${styles[variant]}`}
       onClose={onClose}
       onClick={closeOnBackdrop}
     >
       <div className={styles.panel}>
-        {handle && variant === 'bottom' && <span className={styles.handle} aria-hidden="true" />}
+        {handle && <span className={styles.handle} aria-hidden="true" />}
         <header className={styles.header}>
           <h2 id={titleId} className={styles.title}>
             {title}
           </h2>
-          <IconButton icon="close" label="Close" onClick={() => dialogRef.current?.close()} />
+          <IconButton icon="close" label="Close" onClick={close} />
         </header>
         <div className={styles.body}>{children}</div>
       </div>

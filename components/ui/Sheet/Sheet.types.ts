@@ -1,14 +1,22 @@
 import type { ReactNode } from 'react';
 
-export type SheetProps = {
+type SheetBase = {
   open: boolean;
   /** Called when the sheet closes by Escape, the backdrop, or the close button. */
   onClose: () => void;
   /** Shown in the header and used as the dialog's accessible name. */
   title: string;
-  /** bottom: sheets on phones (booking, filters, sort). drawer: side panel (guide profile). */
-  variant?: 'bottom' | 'drawer';
-  /** A grab handle at the top of a bottom sheet. */
-  handle?: boolean;
   children: ReactNode;
 };
+
+/** On phones: booking, filters, sort. */
+type BottomSheet = SheetBase & {
+  variant?: 'bottom';
+  /** A grab handle at the top. */
+  handle?: boolean;
+};
+
+/** A side panel, e.g. a guide profile. */
+type Drawer = SheetBase & { variant: 'drawer'; handle?: never };
+
+export type SheetProps = BottomSheet | Drawer;

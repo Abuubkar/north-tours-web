@@ -50,6 +50,7 @@
   --placeholder-stripe-a: #151e24;
   --placeholder-stripe-b: #10181c;
   --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent);
+  --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
   --hero-scrim: linear-gradient(
     180deg,
@@ -87,7 +88,6 @@
   --sheet-max-h: 92dvh; /* bottom sheet */
   --handle-w: 36px; /* bottom sheet grab handle */
   --handle-h: 4px;
-  --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent);
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are

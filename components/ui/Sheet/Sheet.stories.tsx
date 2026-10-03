@@ -5,7 +5,7 @@ import { Button } from '../Button/Button';
 import { Sheet } from './Sheet';
 import type { SheetProps } from './Sheet.types';
 
-type DemoProps = Pick<SheetProps, 'variant' | 'handle' | 'title'> & { startOpen?: boolean };
+type DemoProps = { title: string; variant?: SheetProps['variant']; handle?: boolean; startOpen?: boolean };
 
 function SheetDemo({ variant, handle, title, startOpen = false }: DemoProps) {
   const [open, setOpen] = useState(startOpen);
@@ -14,10 +14,16 @@ function SheetDemo({ variant, handle, title, startOpen = false }: DemoProps) {
       <Button variant="secondary" onClick={() => setOpen(true)}>
         Show {title.toLowerCase()}
       </Button>
-      <Sheet open={open} onClose={() => setOpen(false)} title={title} variant={variant} handle={handle}>
-        <p>Choose the dates that suit your family. Prices are per person, twin sharing.</p>
-        <Button>Show 8 trips</Button>
-      </Sheet>
+      {variant === 'drawer' ? (
+        <Sheet open={open} onClose={() => setOpen(false)} title={title} variant="drawer">
+          <p>Lead guide, Hunza. Speaks Burushaski, Urdu and English.</p>
+        </Sheet>
+      ) : (
+        <Sheet open={open} onClose={() => setOpen(false)} title={title} handle={handle}>
+          <p>Choose the dates that suit your family. Prices are per person, twin sharing.</p>
+          <Button>Show 8 trips</Button>
+        </Sheet>
+      )}
     </>
   );
 }
@@ -39,6 +45,15 @@ export const BottomSheetOnLight: RenderStory = {
   globals: { surface: 'light' },
 };
 
+export const BottomSheetNoHandle: RenderStory = {
+  render: () => <SheetDemo title="Sort" variant="bottom" startOpen />,
+};
+
+export const BottomSheetNoHandleOnLight: RenderStory = {
+  ...BottomSheetNoHandle,
+  globals: { surface: 'light' },
+};
+
 export const Drawer: RenderStory = {
   render: () => <SheetDemo title="Guide profile" variant="drawer" startOpen />,
 };
@@ -53,6 +68,10 @@ export const Opens: RenderStory = {
     const dialog = canvas.getByRole('dialog', { name: 'Filters' });
     await expect(dialog).toBeVisible();
     await expect(dialog.matches(':modal')).toBe(true);
+    // The page behind is inert: its trigger can't take focus while the sheet is open.
+    const trigger = canvas.getByRole('button', { name: 'Show filters', hidden: true });
+    trigger.focus();
+    await expect(trigger).not.toHaveFocus();
   },
 };
 
