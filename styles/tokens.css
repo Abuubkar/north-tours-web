@@ -28,20 +28,6 @@
   --ink-text-3: #5b6770;
   --gold-deep: #7a5a12;
 
-  /* Surface tokens: dark by default, redefined for [data-surface='light'] */
-  --bg: var(--ink-900);
-  --bg-raised: var(--ink-800); /* hover and selected (DESIGN.md §2) */
-  --fg: var(--text);
-  --fg-2: var(--text-2);
-  --fg-3: var(--text-3);
-  --hairline: var(--line);
-  --control-border: var(--line-strong);
-  --link: var(--text);
-  --link-hover: var(--gold);
-  --error: var(--gold); /* paired with the "!" badge and a message, never colour alone */
-  --control-border-soft: color-mix(in srgb, var(--text) 50%, transparent);
-  color-scheme: dark;
-
   /* Radius (DESIGN.md §7) */
   --radius-input: 2px;
   --radius-button: 6px;
@@ -204,6 +190,28 @@
   --fs-waypoint: 12px;
 }
 
+/*
+ * Surface tokens (ADR-0011). Dark on the page and inside [data-surface='dark'] (header,
+ * footer, and tags that sit on photos); light inside [data-surface='light'].
+ * Components use these, never the raw palette.
+ */
+:root,
+[data-surface='dark'] {
+  --bg: var(--ink-900);
+  --bg-raised: var(--ink-800); /* hover and selected (DESIGN.md §2) */
+  --fg: var(--text);
+  --fg-2: var(--text-2);
+  --fg-3: var(--text-3);
+  --hairline: var(--line);
+  --control-border: var(--line-strong);
+  --control-border-soft: color-mix(in srgb, var(--text) 50%, transparent);
+  --link: var(--text);
+  --link-hover: var(--gold);
+  --accent: var(--gold); /* ratings, markers, key highlights (DESIGN.md §1) */
+  --error: var(--gold); /* paired with the "!" badge and a message, never colour alone */
+  color-scheme: dark;
+}
+
 [data-surface='light'] {
   --bg: var(--mist-50);
   --bg-raised: var(--mist-100);
@@ -214,26 +222,8 @@
   --control-border: var(--line-strong-light);
   --link: var(--ink-text);
   --link-hover: var(--gold-deep);
+  --accent: var(--gold-deep);
   --error: var(--gold-deep);
   --control-border-soft: color-mix(in srgb, var(--ink-text) 50%, transparent);
   color-scheme: light;
-}
-
-/*
- * Forces the dark surface inside a light one: header, footer, and tags that sit on photos
- * (ADR-0011). Repeats the :root surface values.
- */
-[data-surface='dark'] {
-  --bg: var(--ink-900);
-  --bg-raised: var(--ink-800);
-  --fg: var(--text);
-  --fg-2: var(--text-2);
-  --fg-3: var(--text-3);
-  --hairline: var(--line);
-  --control-border: var(--line-strong);
-  --control-border-soft: color-mix(in srgb, var(--text) 50%, transparent);
-  --link: var(--text);
-  --link-hover: var(--gold);
-  --error: var(--gold);
-  color-scheme: dark;
 }

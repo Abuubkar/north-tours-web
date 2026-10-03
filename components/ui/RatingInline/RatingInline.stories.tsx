@@ -27,3 +27,12 @@ export const WholeScore: Story = {
     await expect(canvas.getByText('5.0')).toBeInTheDocument();
   },
 };
+
+export const OneReview: Story = {
+  args: { score: 5, count: 1 },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('img', { name: '5.0 out of 5, 1 review' })).toBeInTheDocument();
+  },
+};
+
+export const OnLight: Story = { globals: { surface: 'light' } };

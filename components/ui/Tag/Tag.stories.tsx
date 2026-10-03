@@ -20,18 +20,21 @@ export const SoldOut: Story = { args: { variant: 'soldout', children: 'Sold out'
 export const Category: Story = { args: { variant: 'category', children: 'Heritage' } };
 
 /** Status tags sit on photos and stay dark even inside a light section. */
-export const OnPhoto: Story = {
+export const OnPhotoInLightSection: Story = {
+  globals: { surface: 'light' },
   render: () => (
     <div className={`${styles.row} ${styles.photo}`}>
       <Tag variant="urgent">Only 3 seats left</Tag>
       <Tag variant="soldout">Sold out</Tag>
     </div>
   ),
-  play: async ({ canvas }) => {
+  play: async ({ canvas, canvasElement }) => {
+    await expect(canvasElement.querySelector('[data-surface]')).toHaveAttribute('data-surface', 'light');
     for (const text of ['Only 3 seats left', 'Sold out']) {
-      const tag = canvas.getByText(text);
-      await expect(tag).toHaveAttribute('data-surface', 'dark');
-      await expect(parseFloat(getComputedStyle(tag).fontSize)).toBeGreaterThanOrEqual(13);
+      const style = getComputedStyle(canvas.getByText(text));
+      // Ink 900, the dark surface, even though the section around it is light.
+      await expect(style.backgroundColor).toBe('rgb(12, 18, 22)');
+      await expect(parseFloat(style.fontSize)).toBeGreaterThanOrEqual(13);
     }
   },
 };
@@ -47,3 +50,5 @@ export const Categories: Story = {
     </div>
   ),
 };
+
+export const CategoriesOnLight: Story = { ...Categories, globals: { surface: 'light' } };

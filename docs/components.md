@@ -629,7 +629,7 @@ Hairline grid MIN/N values found:
 14. Design System page still says "Radius 0 on surfaces · 999 on buttons + chips" (`Design System:90`). Stale.
 
 **Chips and tags**
-15. **Status tag heights:** urgent is 28px with padding 10. Sold out is **30px** with padding 12 (`TourCard:21,24`). The Destination category tag is 26px.
+15. *(Decided: every tag is 28px, padding 0 12px; see the decisions at the top.)* **Status tag heights:** urgent is 28px with padding 10. Sold out is **30px** with padding 12 (`TourCard:21,24`). The Destination category tag is 26px.
 16. **Three different "selected" chip styles:** desktop filter trigger and removable chip use an `ink-800` fill with a `text` border. Mobile filter-sheet option uses a **solid `text` fill with ink text**. Light-surface planner chips use a solid `ink-text` fill with `mist-50` text. The first two are both on dark on the same Tours page.
 17. Chip and dropdown **hover and focus states** are not designed anywhere.
 

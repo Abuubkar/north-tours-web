@@ -31,3 +31,6 @@ export const FourStars: Story = {
 };
 
 export const Compact: Story = { args: { size: 13 } };
+
+/** Deep gold on light, so the stars keep their contrast (DESIGN.md §1). */
+export const OnLight: Story = { args: { rating: 4 }, globals: { surface: 'light' } };
