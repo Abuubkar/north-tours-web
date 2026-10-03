@@ -90,6 +90,7 @@
   --handle-w: 36px; /* bottom sheet grab handle */
   --handle-h: 4px;
   --dropdown-min-w: 260px; /* dropdown panel */
+  --nav-gap: clamp(var(--space-24), 2.9cqi, var(--space-32)); /* header nav: 32px, 24px near 820px so it fits */
   --brand-mark-w: 16px; /* logo triangle in the header */
   --brand-mark-h: 14px;
 

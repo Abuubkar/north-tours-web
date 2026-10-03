@@ -19,3 +19,23 @@
     background: var(--bg);
   }
 }
+
+/* The nav breakpoint (DESIGN.md §4): below 820px the nav gives way to icon buttons. */
+.wide {
+  display: none;
+  flex: none;
+}
+
+.narrow {
+  display: flex;
+}
+
+@media (width >= 820px) {
+  .wide {
+    display: block;
+  }
+
+  .narrow {
+    display: none;
+  }
+}

@@ -1,0 +1,21 @@
+.list {
+  display: flex;
+  gap: var(--nav-gap);
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  composes: ui from '../../../styles/typography.module.css';
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--fg);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link[aria-current='page'] {
+  color: var(--accent);
+}
