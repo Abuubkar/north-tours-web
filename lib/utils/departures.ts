@@ -13,7 +13,7 @@ export function seatStatus({ seatsLeft }: Pick<Departure, 'seatsLeft'>): SeatSta
 
 /** The seats line on cards and rows: "3 of 16 seats left", or "Sold out · waitlist open". */
 export function seatsLeftText({ seatsLeft, seatsTotal }: Pick<Departure, 'seatsLeft' | 'seatsTotal'>): string {
-  if (seatsLeft === 0) return 'Sold out · waitlist open';
+  if (seatStatus({ seatsLeft }) === 'soldout') return 'Sold out · waitlist open';
   return `${seatsLeft} of ${seatsTotal} seats left`;
 }
 

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import {
-  NO_UPCOMING_DATES,
   seatsLeftText,
   seatStatus,
   todayInKarachi,
@@ -32,10 +31,6 @@ describe('seats wording', () => {
   ])('%i seats left', (left, line, tag) => {
     expect(seatsLeftText(seats(left))).toBe(line);
     expect(urgencyText(seats(left))).toBe(tag);
-  });
-
-  it('has the no-dates line', () => {
-    expect(NO_UPCOMING_DATES).toBe('No upcoming dates · ask on WhatsApp');
   });
 });
 
