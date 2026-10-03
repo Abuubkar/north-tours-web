@@ -1,0 +1,164 @@
+/*
+ * Type roles (DESIGN.md §3). Components reuse a role with
+ *   composes: section from '../../styles/typography.module.css';
+ * Roles describe the look only; pick the heading element for meaning.
+ */
+
+.display {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  margin-left: var(--indent-display);
+  white-space: nowrap;
+}
+
+.tourHero {
+  font-size: var(--fs-tour-hero);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tour-hero);
+  letter-spacing: var(--ls-tour-hero);
+  text-wrap: balance;
+}
+
+.destinationHero {
+  font-size: min(
+    var(--fs-destination-hero-max),
+    round(nearest, var(--destination-hero-fit) / max(var(--name-length), var(--name-length-min)), 1) *
+      1cqi
+  );
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-destination-hero);
+  letter-spacing: var(--ls-destination-hero);
+  margin-left: var(--indent-display);
+  white-space: nowrap;
+}
+
+.statement {
+  font-size: var(--fs-statement);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-statement);
+  letter-spacing: var(--ls-statement);
+}
+
+.section {
+  font-size: var(--fs-section);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-section);
+  letter-spacing: var(--ls-section);
+}
+
+.sectionLong {
+  font-size: var(--fs-section-long);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-section-long);
+  letter-spacing: var(--ls-section-long);
+}
+
+.footerNav {
+  font-size: var(--fs-footer-nav);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-footer-nav);
+  letter-spacing: var(--ls-footer-nav);
+}
+
+.numeral {
+  font-size: var(--fs-numeral);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-numeral);
+  letter-spacing: var(--ls-numeral);
+  font-variant-numeric: tabular-nums;
+}
+
+.trustValue {
+  font-size: var(--fs-trust-value);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-trust-value);
+  letter-spacing: var(--ls-trust-value);
+}
+
+.panelPrice {
+  font-size: var(--fs-panel-price);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-panel-price);
+  letter-spacing: var(--ls-panel-price);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cardTitle {
+  font-size: var(--fs-card-title);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-card-title);
+  letter-spacing: var(--ls-card-title);
+  text-wrap: balance;
+}
+
+.price {
+  font-size: var(--fs-price);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-price);
+  letter-spacing: var(--ls-price);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.destination {
+  font-size: var(--fs-destination);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-destination);
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-lead);
+}
+
+.quote {
+  font-size: var(--fs-quote);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-quote);
+  letter-spacing: var(--ls-quote);
+  text-wrap: pretty;
+}
+
+.stepTitle {
+  font-size: var(--fs-step-title);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-step-title);
+}
+
+.bodyLarge {
+  font-size: var(--fs-body-large);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body-large);
+  text-wrap: pretty;
+}
+
+.body {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body);
+}
+
+.small {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.ui {
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+}
+
+.label {
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-label);
+}
+
+.waypoint {
+  font-size: var(--fs-waypoint);
+  font-weight: var(--fw-regular);
+}
