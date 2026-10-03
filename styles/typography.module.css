@@ -24,11 +24,12 @@
 .destinationHero {
   font-size: min(
     var(--fs-destination-hero-max),
-    calc(var(--fs-destination-hero-fit) / max(var(--name-length), var(--name-length-min)))
+    round(nearest, var(--destination-hero-fit) / max(var(--name-length), var(--name-length-min)), 1) *
+      1cqi
   );
   font-weight: var(--fw-semibold);
   line-height: var(--lh-destination-hero);
-  letter-spacing: var(--ls-display);
+  letter-spacing: var(--ls-destination-hero);
   margin-left: var(--indent-display);
   white-space: nowrap;
 }
@@ -143,7 +144,7 @@
 
 .small {
   font-size: var(--fs-small);
-  line-height: var(--lh-ui);
+  line-height: var(--lh-small);
 }
 
 .ui {

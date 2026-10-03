@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main>
-      <section className={styles.section}>
+      <section className={styles.block}>
         <p className={styles.brand}>[BRAND NAME]</p>
         <h1 className={styles.title}>
           Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway
@@ -22,7 +22,7 @@ export default function HomePage() {
           <a href="#good-to-know">Good to know before you go</a>
         </p>
       </section>
-      <section id="good-to-know" className={styles.section} data-surface="light">
+      <section id="good-to-know" className={styles.block} data-surface="light">
         <h2 className={styles.heading}>Good to know before you go</h2>
         <p className={styles.body}>
           Warm layers even in summer, cash for the upper valleys, and a day of rest before the high

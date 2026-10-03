@@ -93,7 +93,7 @@ In code each role is one class in `styles/typography.module.css`, reused with CS
 |---|---|---|---|---|---|---|
 | Display (hero word) | `display` | `27cqi` (≈105px @390, ≈389px @1440) | 600 | .74 | −0.065em | One word, e.g. NORTH. `white-space: nowrap`, slight negative left margin (−.035em), sits flush to hero bottom |
 | Tour hero title | `tourHero` | `clamp(48px, 7.2cqi, 108px)` | 500 | .95 | −0.05em | Tour Detail hero. `text-wrap: balance` |
-| Destination hero name | `destinationHero` | `min(20cqi, 150cqi / max(length, 5))` | 600 | .8 | −0.065em | Fits the name on one line; the component sets `--name-length`. Negative left margin as Display |
+| Destination hero name | `destinationHero` | `min(20cqi, round(150 / max(length, 5)) cqi)` | 600 | .8 | −0.065em | Fits the name on one line; the component sets `--name-length`. Negative left margin as Display |
 | Statement | `statement` | `clamp(40px, 6.4cqi, 92px)` | 500 | .98 | −0.045em | Brand statement, two lines on desktop |
 | Section headline | `section` | `clamp(34px, 4.6cqi, 66px)` | 500 | 1.0 | −0.04em | Max-width ~720–820px |
 | Section headline, long | `sectionLong` | `clamp(32px, 3.9cqi, 56px)` | 500 | 1.08 | −0.03em | Headlines over ~44 characters (§6) |
@@ -271,7 +271,7 @@ Touch devices always show the Default state; nothing depends on hover.
 | Cards rise | **The only entrance animation.** Once, on first view: translateY 40px → 0, 0.9s `cubic-bezier(.2,.7,.2,1)`, 90ms stagger; the photo fades in, text never fades. Cards are visible by default: JS adds the offset only to cards still below the fold, so nothing is hidden if the script fails. On Tours, first load only, never on filter change. | Cards simply appear. |
 | Brand statement | **Homepage only.** The brand headline lights up word by word on scroll (16% → 100% opacity). All other headlines simply appear. | Full opacity. |
 | Hero blur | Scroll-linked, not an entrance: hero video blurs 0 → 16px, scales to 1.08 and darkens to 80% as it scrolls away. | Static. |
-| Frosted header | Sticky, `rgba(12,18,22,.86)` + 18px backdrop blur. | Solid Ink 900 if no backdrop-filter. |
+| Frosted header | Sticky, `rgba(12,18,22,.86)` + `blur(18px) saturate(140%)` backdrop. | Solid Ink 900 if no backdrop-filter. |
 | Maps | Routes, markers and pins are drawn in full on load. The Tour Detail itinerary progress line follows the day being read (functional). | Progress jumps. |
 | Steps (planner) | Gentle slide between steps. | Steps swap. |
 
@@ -321,11 +321,11 @@ The tokens in code live in `styles/tokens.css`, the only stylesheet allowed to h
 | Surface | `--bg` `--fg` `--fg-2` `--fg-3` `--hairline` `--control-border` `--link` `--link-hover` `--error`, plus `color-scheme`. Dark on `:root`, light inside `[data-surface="light"]` (table in §2, ADR-0011). |
 | Radius | `--radius-input` 2px, `--radius-button` 6px, `--radius-card` 8px, `--radius-chip` 999px |
 | Interaction | `--tap` 44px, `--focus-width` 2px, `--focus-offset` 3px |
-| Other surfaces | `--map-surface` `#0E151A`, `--placeholder-a` `#151E24`, `--placeholder-b` `#10181C`, `--header-bg` `rgb(12 18 22 / .86)`, `--header-blur` 18px, `--hero-scrim` (§9 gradient) |
+| Other surfaces | `--map-surface` `#0E151A`, `--placeholder-stripe-a` `#151E24`, `--placeholder-stripe-b` `#10181C`, `--header-bg` (Ink 900 at 86%), `--header-backdrop` `blur(18px) saturate(140%)`, `--hero-scrim` (§9 gradient). The translucent values are derived from `--ink-900` with `color-mix()` |
 | Spacing | `--space-4` `--space-8` `--space-12` `--space-16` `--space-20` `--space-24` `--space-32` `--space-48` `--space-64` `--space-96` `--space-144`, named by pixel value |
-| Layout | `--margin` `clamp(20px, 3.4cqi, 48px)`, `--section-y` `clamp(72px, 9cqi, 144px)`, `--section-y-statement` `clamp(88px, 10cqi, 160px)`, `--cell-pad` `clamp(16px, 1.7cqi, 24px)`, `--gutter` 48px, `--row-gap` 24px, `--label-col` 240px, `--header-h` 72px, `--measure-lead` 460px |
+| Layout | `--margin` `clamp(20px, 3.4cqi, 48px)`, `--section-y` `clamp(72px, 9cqi, 144px)`, `--section-y-statement` `clamp(88px, 10cqi, 160px)`, `--cell-pad` `clamp(16px, 1.7cqi, 24px)`, `--gutter` (`--space-48`), `--row-gap` (`--space-24`), `--label-col` 240px, `--header-h` 72px, `--measure-lead` 460px |
 | Motion | `--dur-300` .3s, `--dur-400` .4s, `--dur-900` .9s, `--dur-1000` 1s, `--ease-out` `cubic-bezier(.2, .7, .2, 1)` |
-| Type | `--font` (`var(--font-geist)`, set by `next/font`, then `system-ui`); weights `--fw-light` 300, `--fw-regular` 400, `--fw-medium` 500, `--fw-semibold` 600; per role `--fs-*`, `--lh-*`, `--ls-*` matching the §3 table (e.g. `--fs-statement`, `--lh-statement`, `--ls-statement`); `--indent-display` −.035em (display and destination hero left margin); `--fs-destination-hero-max` 20cqi, `--fs-destination-hero-fit` 150cqi and `--name-length-min` 5 for the destination hero |
+| Type | `--font` (`var(--font-geist)`, set by `next/font`, then `system-ui`); weights `--fw-light` 300, `--fw-regular` 400, `--fw-medium` 500, `--fw-semibold` 600; per role `--fs-*`, `--lh-*`, `--ls-*` matching the §3 table (e.g. `--fs-statement`, `--lh-statement`, `--ls-statement`); `--indent-display` −.035em (display and destination hero left margin); `--fs-destination-hero-max` 20cqi, `--destination-hero-fit` 150 and `--name-length-min` 5 for the destination hero (size in cqi = round(150 / max(length, 5))) |
 
 Breakpoints can't be custom properties in media queries, so they are literals there and documented in the tokens file: 820px (nav collapses, sheets replace dropdowns), 1100px (Tour Detail and Trip Planner side columns), 1280px (Tour Detail side map), viewport height 920px (compact booking panel).
 

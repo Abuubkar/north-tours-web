@@ -53,16 +53,16 @@
 
   /* Surfaces outside the palette */
   --map-surface: #0e151a;
-  --placeholder-a: #151e24;
-  --placeholder-b: #10181c;
-  --header-bg: rgb(12 18 22 / 0.86);
-  --header-blur: 18px;
+  --placeholder-stripe-a: #151e24;
+  --placeholder-stripe-b: #10181c;
+  --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent);
+  --header-backdrop: blur(18px) saturate(140%);
   --hero-scrim: linear-gradient(
     180deg,
-    rgb(12 18 22 / 0.6) 0%,
+    color-mix(in srgb, var(--ink-900) 60%, transparent) 0%,
     transparent 20%,
     transparent 42%,
-    rgb(12 18 22 / 0.78) 76%,
+    color-mix(in srgb, var(--ink-900) 78%, transparent) 76%,
     var(--ink-900) 100%
   );
 
@@ -84,8 +84,8 @@
   --section-y: clamp(72px, 9cqi, 144px);
   --section-y-statement: clamp(88px, 10cqi, 160px);
   --cell-pad: clamp(16px, 1.7cqi, 24px);
-  --gutter: 48px;
-  --row-gap: 24px;
+  --gutter: var(--space-48);
+  --row-gap: var(--space-24);
   --label-col: 240px;
   --header-h: 72px;
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
@@ -123,11 +123,15 @@
   --lh-tour-hero: 0.95;
   --ls-tour-hero: -0.05em;
 
-  /* Destination hero name: fits the name's length, capped at 20cqi (set --name-length inline). */
+  /*
+   * Destination hero name: fits the name on one line, capped at 20cqi. The size in cqi is
+   * round(150 / max(name length, 5)), as in the design. The component sets --name-length inline.
+   */
   --fs-destination-hero-max: 20cqi;
-  --fs-destination-hero-fit: 150cqi;
+  --destination-hero-fit: 150;
   --name-length-min: 5;
   --lh-destination-hero: 0.8;
+  --ls-destination-hero: -0.065em;
 
   --fs-statement: clamp(40px, 6.4cqi, 92px);
   --lh-statement: 0.98;
@@ -183,6 +187,7 @@
   --fs-body: 16px;
   --lh-body: 1.55;
   --fs-small: 15px;
+  --lh-small: 1.5;
   --fs-ui: 14px;
   --lh-ui: 1.5;
   --fs-label: 13px;
