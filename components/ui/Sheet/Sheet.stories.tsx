@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
+import { realUser } from '../../../.storybook/realUser';
 import { Button } from '../Button/Button';
 import { Sheet } from './Sheet';
 import type { SheetProps } from './Sheet.types';
@@ -27,9 +28,6 @@ function SheetDemo({ variant, handle, title, startOpen = false }: DemoProps) {
     </>
   );
 }
-
-/** Real key presses under `pnpm test`; null in the Storybook UI, which has no browser driver. */
-const realKeys = () => import('vitest/browser').then((m) => m.userEvent).catch(() => null);
 
 const meta = { title: 'Base/Sheet', component: Sheet } satisfies Meta<typeof Sheet>;
 
@@ -106,7 +104,7 @@ export const Escape: RenderStory = {
     await userEvent.click(trigger);
     await expect(canvas.getByRole('dialog', { name: 'Filters' })).toBeVisible();
 
-    const keys = await realKeys();
+    const keys = await realUser();
     if (!keys) return;
     await keys.keyboard('{Escape}');
     await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
