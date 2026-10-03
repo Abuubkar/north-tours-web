@@ -1,0 +1,24 @@
+.row {
+  composes: small from '../../../styles/typography.module.css';
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding-block: var(--list-row-y);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+}
+
+.row:first-child {
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+.label {
+  flex: none;
+  color: var(--fg-3);
+}
+
+.value {
+  min-width: 0;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}

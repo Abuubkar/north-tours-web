@@ -82,6 +82,7 @@
   --gutter: var(--space-48);
   --row-gap: var(--space-24);
   --label-col: 240px;
+  --content-col-min: 600px; /* content beside the label column wraps below it under this width */
   --header-h: 72px;
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
   --measure-answer: 740px; /* FAQ and policy answers */
@@ -90,6 +91,17 @@
   --handle-w: 36px; /* bottom sheet grab handle */
   --handle-h: 4px;
   --dropdown-min-w: 260px; /* dropdown panel */
+  --nav-gap: clamp(var(--space-24), 2.9cqi, var(--space-32)); /* header nav: 32px, 24px near 820px so it fits */
+  --brand-mark-w: 16px; /* logo triangle in the header */
+  --brand-mark-h: 14px;
+  --label-mark-w: 11px; /* section label triangle */
+  --label-mark-h: 10px;
+  --list-row-y: 14px; /* label and value rows, DESIGN.md §5 */
+  --footer-contact-w: 380px; /* footer contact column */
+
+  /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
+  --z-header: 10;
+  --z-skip-link: 20; /* above the header when focused */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
@@ -195,6 +207,7 @@
   --fs-label: 13px;
   --ls-label: 0.01em;
   --fs-waypoint: 12px;
+  --ls-brand: -0.01em; /* brand name next to the logo mark, 16/600 */
 }
 
 /*

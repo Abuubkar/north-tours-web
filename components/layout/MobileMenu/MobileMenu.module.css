@@ -1,0 +1,19 @@
+/*
+ * The nav breakpoint (DESIGN.md §4), as in SiteHeader. Only the button hides; the drawer
+ * stays usable if the window widens while it's open.
+ */
+.menuButton {
+  display: flex;
+}
+
+@media (width >= 820px) {
+  .menuButton {
+    display: none;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+}

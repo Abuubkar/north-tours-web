@@ -1,0 +1,24 @@
+.brandMark {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--tap);
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.mark {
+  flex: none;
+  width: var(--brand-mark-w);
+  height: var(--brand-mark-h);
+  background: currentcolor;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.name {
+  composes: body from '../../../styles/typography.module.css';
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-brand);
+  white-space: nowrap;
+}

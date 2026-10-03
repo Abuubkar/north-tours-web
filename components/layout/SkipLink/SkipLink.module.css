@@ -1,0 +1,11 @@
+/* Out of view until focused, then shown top-left above the header. */
+.skipLink {
+  position: fixed;
+  top: var(--space-12);
+  left: var(--margin);
+  z-index: var(--z-skip-link);
+}
+
+.skipLink:not(:focus) {
+  transform: translateY(calc(-100% - var(--space-12) - var(--space-4)));
+}

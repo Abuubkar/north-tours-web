@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <main>
+    <main id="main" tabIndex={-1}>
       <section className={styles.block}>
         <p className={styles.brand}>[BRAND NAME]</p>
         <h1 className={styles.title}>

@@ -1,0 +1,41 @@
+.list {
+  display: flex;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.link[aria-current='page'] {
+  color: var(--accent);
+}
+
+.headerList {
+  composes: list;
+  gap: var(--nav-gap);
+}
+
+.headerLink {
+  composes: link;
+  composes: ui from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+.menuList {
+  composes: list;
+  flex-direction: column;
+}
+
+.menuLink {
+  composes: link;
+  composes: footerNav from '../../../styles/typography.module.css';
+  padding-block: var(--space-8);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+}

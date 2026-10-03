@@ -1,6 +1,5 @@
 import { z } from 'zod';
-
-const PLACEHOLDER = /^\[[^\]]+\]$/;
+import { PLACEHOLDER } from '../utils/placeholder.ts';
 
 /** Accepts a real value that passes `schema`, or a `[placeholder]`. `expected` names the value. */
 function orPlaceholder<T extends z.ZodType>(schema: T, expected: string) {

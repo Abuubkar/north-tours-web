@@ -36,6 +36,13 @@ const settingsSchema = z.strictObject({
     facebook: linkOrPlaceholder,
     youtube: linkOrPlaceholder,
   }),
+  /** WhatsApp wording, editable without touching code. */
+  whatsapp: z.strictObject({
+    /** Pre-filled in every general "WhatsApp us" link. */
+    generalMessage: nonEmpty,
+    /** The line above the footer's WhatsApp button. */
+    footerIntro: nonEmpty,
+  }),
 });
 
 export type Settings = z.infer<typeof settingsSchema>;
