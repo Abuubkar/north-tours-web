@@ -1,6 +1,6 @@
 import { ReviewCard } from '@/components/review-card/ReviewCard/ReviewCard';
 import { Icon } from '@/components/ui/Icon/Icon';
-import { formatReviewCount, formatScore } from '@/lib/utils/rating';
+import { formatScore, summaryText } from '@/lib/utils/rating';
 import type { ReviewsSectionProps } from './ReviewsSection.types';
 import styles from './ReviewsSection.module.css';
 
@@ -16,8 +16,7 @@ export function ReviewsSection({ copy, reviews, summary }: ReviewsSectionProps) 
           <p className={styles.summary}>
             <Icon name="star" size={STAR_SIZE} className={styles.star} />
             <span>
-              <span className={styles.score}>{formatScore(summary.score)}</span> average ·{' '}
-              {formatReviewCount(summary.count)} reviews
+              <span className={styles.score}>{formatScore(summary.score)}</span> {summaryText(summary.count)}
             </span>
           </p>
         )}

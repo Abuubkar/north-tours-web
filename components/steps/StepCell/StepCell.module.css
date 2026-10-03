@@ -1,9 +1,7 @@
 .step {
-  display: flex;
-  flex-direction: column;
+  composes: cell from '../../../styles/layout.module.css';
   gap: var(--space-16);
   padding: var(--space-32) var(--cell-pad) var(--space-48);
-  background: var(--bg);
 }
 
 .top {

@@ -1,7 +1,7 @@
-import type { Review } from '@/lib/content/reviews';
+import type { ReviewWithTour } from '@/sections/ReviewsSection/ReviewsSection.types';
 
 /* Sample reviews for stories, which can't read content files. */
-export const sampleReviews: { review: Review; tourTitle: string }[] = [
+export const sampleReviews: ReviewWithTour[] = [
   {
     review: {
       slug: 'hunza-2026-05-ayesha',

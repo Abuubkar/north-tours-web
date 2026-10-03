@@ -1,10 +1,8 @@
 /* A cell of a text grid: padded on both sides (DESIGN.md §5). */
 .card {
-  display: flex;
-  flex-direction: column;
+  composes: cell from '../../../styles/layout.module.css';
   gap: var(--space-24);
   padding: var(--space-32) var(--cell-pad);
-  background: var(--bg);
 }
 
 .quote {

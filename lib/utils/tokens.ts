@@ -5,7 +5,7 @@
  */
 
 import type { Settings } from '../content/settings.ts';
-import { paymentMethodsText } from './payments.ts';
+import { paymentMethodsSentence } from './payments.ts';
 
 const TOKEN = /\{(\w+)\}/g;
 
@@ -31,7 +31,7 @@ export function fillTokens(template: string, values: Record<string, string>): st
 export function settingsTokens(settings: Pick<Settings, 'booking' | 'payments'>): Record<SettingsToken, string> {
   return {
     advancePercent: String(settings.booking.advancePercent),
-    paymentMethods: paymentMethodsText(settings),
+    paymentMethods: paymentMethodsSentence(settings),
     pickupPoint: settings.booking.pickupPoint,
   };
 }

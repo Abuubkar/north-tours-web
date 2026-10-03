@@ -5,12 +5,12 @@ import type { TrustStripProps } from './TrustStrip.types';
 import styles from './TrustStrip.module.css';
 
 /**
- * Four facts that show the company is genuine: DTS licence, years operating (from the build
+ * Four facts that show the company is genuine: DTS licence, years operating (up to the build
  * year), trips completed and accepted payments. Read from settings, so it's the same on every page.
  */
-export function TrustStrip({ settings }: TrustStripProps) {
+export function TrustStrip({ settings, year }: TrustStripProps) {
   const { trust } = settings;
-  const years = yearsSince(trust.operatingSince, new Date().getFullYear());
+  const years = yearsSince(trust.operatingSince, year);
   // The first three values are figures; "We accept" is a list, so it's set smaller.
   const cells = [
     { ...trust.licence, value: fillTokens(trust.licence.value, { licence: settings.legal.dtsLicence }), figure: true },

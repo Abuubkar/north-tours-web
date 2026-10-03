@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { paymentMethodsLabel, paymentMethodsText } from './payments.ts';
+import { paymentMethodsLabel, paymentMethodsSentence } from './payments.ts';
 
 describe('paymentMethodsLabel', () => {
   it('joins the methods with a middle dot', () => {
@@ -13,8 +13,8 @@ describe('paymentMethodsLabel', () => {
   });
 });
 
-describe('paymentMethodsText', () => {
-  const text = (methods: string[]) => paymentMethodsText({ payments: { methods } });
+describe('paymentMethodsSentence', () => {
+  const text = (methods: string[]) => paymentMethodsSentence({ payments: { methods } });
 
   it('reads as part of a sentence', () => {
     expect(text(['Cash', 'Bank transfer'])).toBe('cash or bank transfer');

@@ -52,7 +52,7 @@ export default function HomePage() {
       </TourCardsSection>
       <HowBookingWorks copy={{ ...copy.how, steps }} />
       <ReviewsSection copy={copy.reviews} reviews={reviews} summary={ratingSummary(tours.map((tour) => tour.rating))} />
-      <TrustStrip settings={settings} />
+      <TrustStrip settings={settings} year={new Date().getFullYear()} />
     </PageMain>
   );
 }

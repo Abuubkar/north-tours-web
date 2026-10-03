@@ -13,11 +13,9 @@
 }
 
 .cell {
-  display: flex;
-  flex-direction: column;
+  composes: cell from '../../styles/layout.module.css';
   gap: var(--space-8);
   padding: var(--space-32) var(--cell-pad);
-  background: var(--bg);
 }
 
 .label {

@@ -108,6 +108,7 @@
   --seat-dot: 7px; /* the seats line's status dot */
   --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
   --measure-note: 320px; /* a short note beside a section headline */
+  --measure-step: 300px; /* a booking step's description */
 
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
@@ -118,7 +119,6 @@
   --grid-reviews-cols: 3;
   --grid-trust-min: 165px;
   --grid-trust-cols: 4;
-  --measure-step: 300px; /* a booking step's description */
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

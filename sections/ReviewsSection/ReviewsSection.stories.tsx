@@ -26,7 +26,25 @@ export const Desktop: Story = {
 
 export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-export const Phone: Story = { ...Desktop, globals: { viewport: { value: 'phone' } } };
+/** At 390 one column, its text lined up with the headline (the bleed holds). */
+export const Phone: Story = {
+  ...Desktop,
+  globals: { viewport: { value: 'phone' } },
+  play: async (context) => {
+    await Desktop.play!(context);
+    const headline = context.canvas.getByRole('heading', { level: 2 }).getBoundingClientRect();
+    const quote = context.canvasElement.querySelector('blockquote')!.getBoundingClientRect();
+    await expect(Math.round(quote.left)).toBe(Math.round(headline.left));
+  },
+};
+
+/** One review in all: "1 review", in the singular. */
+export const OneReview: Story = {
+  args: { summary: { score: 5, count: 1 } },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText(/average · 1 review$/)).toBeVisible();
+  },
+};
 
 export const PhoneOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
