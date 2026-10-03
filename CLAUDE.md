@@ -185,7 +185,8 @@ Folders are created only when the first file for them is needed (section 3).
   - keyboard operable;
   - Escape closes overlays and returns focus;
   - tap targets ≥ 44px;
-  - correct heading order.
+  - exactly one `<h1>` per page, and correct heading order (no skipped levels). Type roles
+    are visual only: a role named "H1" or "Display" does not make an element a heading.
 - Every page has its own `<title>`, meta description and social share image.
 - No console errors. Type-check and lint pass.
 - **Placeholder check:** list any `[placeholder]` text touched in the PR description.
