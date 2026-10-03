@@ -16,7 +16,7 @@ import styles from './MobileMenu.module.css';
 export function MobileMenu({ whatsappHref }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
-  // Tapping any link in the menu closes it.
+  // Tapping any link in the menu closes it, "Plan on WhatsApp" included.
   function closeOnLink(event: MouseEvent<HTMLDivElement>) {
     if ((event.target as Element).closest('a')) setOpen(false);
   }
@@ -28,9 +28,7 @@ export function MobileMenu({ whatsappHref }: MobileMenuProps) {
       </div>
       <Sheet open={open} onClose={() => setOpen(false)} title="Menu" variant="drawer">
         <div className={styles.content} onClick={closeOnLink}>
-          <nav aria-label="Main">
-            <NavLinks variant="menu" />
-          </nav>
+          <NavLinks variant="menu" />
           <Button href={whatsappHref} size={56} icon="whatsapp">
             Plan on WhatsApp
           </Button>

@@ -10,20 +10,22 @@ const variantClass = {
   menu: { list: styles.menuList, link: styles.menuLink },
 };
 
-/** The main nav links. The current page's item is gold and marked aria-current="page". */
+/** The main nav, named "Main". The current page's item is gold and marked aria-current="page". */
 export function NavLinks({ variant }: NavLinksProps) {
   const active = activeNavItem(usePathname());
   const classes = variantClass[variant];
 
   return (
-    <ul className={classes.list}>
-      {mainNav.map(({ id, label, href }) => (
-        <li key={id}>
-          <a href={href} className={classes.link} aria-current={id === active ? 'page' : undefined}>
-            {label}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <nav aria-label="Main">
+      <ul className={classes.list}>
+        {mainNav.map(({ id, label, href }) => (
+          <li key={id}>
+            <a href={href} className={classes.link} aria-current={id === active ? 'page' : undefined}>
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }

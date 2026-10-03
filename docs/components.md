@@ -466,13 +466,15 @@ A caret-style show/hide (▾ rotates 180°), distinct from the `+` accordion:
 
 ## 3. Page sections (`/sections`)
 
+The shared header, mobile menu and footer live in `components/layout` instead (PRD #32).
+
 ### 3.1 Page × shared-section matrix
 
 ✓ = present. `v` = present as a variant (see notes). Page labels are the `data-screen-label` values.
 
 | Section | Home | Tours | Tour Detail | Destination | Planner | About | Help | Contact | Legal |
 |---|---|---|---|---|---|---|---|---|---|
-| `SiteHeader` (+ `MobileMenu`) | ✓ (scroll-spy) | ✓ active Tours | ✓ active Tours | ✓ active Destinations | ✓ (no active; menu lacks WhatsApp CTA) | ✓ active Guides | ✓ | ✓ | ✓ |
+| `SiteHeader` (+ `MobileMenu`) | ✓ (scroll-spy) | ✓ active Tours | ✓ active Tours | ✓ active Destinations | ✓ (no active; the design's menu lacks the WhatsApp CTA, added in PRD #32) | ✓ active Guides | ✓ | ✓ | ✓ |
 | `SiteFooter` | ✓ 10 | ✓ 07 | ✓ 13 | ✓ 11 | ✓ | ✓ 11 | ✓ 11 | ✓ 11 | ✓ 11 |
 | `HomeHero` (video + Display word) | ✓ 01 | | | | | | | | |
 | `PhotoHero` (back link + H1 + FactsRow) | | | ✓ 01 | v 01 (display name, lead) | | | | | |
@@ -673,9 +675,9 @@ Hairline grid MIN/N values found:
 38. **Screen-label numbering:** the Help and Contact trust strips are labelled "09 Trust strip" and their footers "11 Footer" (copy-paste). Harmless, but don't rely on the numbers.
 
 **Header, menu, overlays**
-39. **Planner mobile menu has no "Plan on WhatsApp" button** (`Trip Planner:51-57`). Every other page has it.
+39. **Planner mobile menu has no "Plan on WhatsApp" button** (`Trip Planner:51-57`). Every other page has it. *(Fixed in PRD #32: every page's menu has it.)*
 40. The **Homepage** header and footer use the simple-icons CDN WhatsApp image with `filter:invert(1)`. Other pages use local `icons/whatsapp-light|dark.svg`. The README notes `icons/whatsapp.svg` is missing.
-41. **Sheet anatomy differs:** TD and Tours sheets have a grab handle and a title header. The About profile sheet has no handle and a counter, prev/next and close header. **Escape / focus-return / scroll-lock are only implemented for the About profile and Tours dropdowns.** The TD booking sheet, Tours filter and sort sheets and the mobile menu have none.
+41. **Sheet anatomy differs:** TD and Tours sheets have a grab handle and a title header. The About profile sheet has no handle and a counter, prev/next and close header. **Escape / focus-return / scroll-lock are only implemented for the About profile and Tours dropdowns.** The TD booking sheet, Tours filter and sort sheets and the mobile menu have none. *(The `Sheet` base component (PRD #8) adds them to every sheet; the mobile menu uses it since PRD #32.)*
 42. **Light-on-dark backgrounds:** the planner progress and summary bar use a light frosted bar, while the planner bottom bar on the same page is dark frosted.
 
 **Stale content (apply the overrides)**

@@ -17,9 +17,9 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
   return (
     <header data-surface="dark" className={styles.header}>
       <BrandMark name={settings.brand.name} />
-      <nav aria-label="Main" className={styles.wide}>
+      <div className={styles.wide}>
         <NavLinks variant="header" />
-      </nav>
+      </div>
       <div className={styles.actions}>
         <div className={styles.wide}>
           <Button href={whatsapp} variant="secondary" size={44} icon="whatsapp">
