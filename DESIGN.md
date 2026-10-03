@@ -53,6 +53,23 @@ Primary buttons stay gold `#D9B44A` with `#10161A` text on both surfaces. Outlin
 ### Rules
 
 - Mark each light block with `data-surface="light"` (header and footer carry `data-surface="dark"`), so default link colours follow the surface.
+- Components use **surface tokens**, never the raw palette. They default to the dark values and switch inside `data-surface="light"`:
+
+| Surface token | Dark | Light |
+|---|---|---|
+| `--bg` | `--ink-900` | `--mist-50` |
+| `--fg` | `--text` | `--ink-text` |
+| `--fg-2` | `--text-2` | `--ink-text-2` |
+| `--fg-3` | `--text-3` | `--ink-text-3` |
+| `--hairline` | `--line` | `--line-light` |
+| `--control-border` | `--line-strong` | `--line-strong-light` |
+| `--link` | `--text` | `--ink-text` |
+| `--link-hover` | `--gold` | `--gold-deep` |
+| `--error` | `--gold` | `--gold-deep` |
+
+  Gold, on-gold, gold hover and gold pressed are the same on both surfaces, so components use them directly.
+- **Errors** use `--error`: gold on dark, deep gold on light. No separate error colour. An error always pairs the colour with the “!” badge and a written message, so colour is never the only signal.
+- Input, select and textarea borders on light use `--control-border` (`#7D8992`, 3.2:1), never the hairline grey.
 - Urgency (“Only 3 seats left”) is an **outlined tag**: Ink 900 fill (it sits on a photo), 1px gold border, gold text and a 13px clock icon. Never a filled gold shape.
 - The sticky header uses `rgba(12,18,22,.86)` so it stays legible over light sections.
 
@@ -61,6 +78,8 @@ Primary buttons stay gold `#D9B44A` with `#10161A` text on both surfaces. Outlin
 ## 3. Typography
 
 **Family:** Geist (Google Fonts, variable 300–700). **Geist Mono** is used *only* for image placeholders and motion annotations, never in production UI.
+
+In code, Geist is loaded with `next/font/google`: it is downloaded at build time, served from the site itself with a size-matched fallback, and exposed as `--font-geist`. Geist Mono is not loaded. The `<link>` below is how the design files load it.
 
 ```html
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap">
@@ -284,6 +303,17 @@ Never animated: prices, dates, seats left, error messages, buttons.
 
 ## 13. Tokens (CSS)
 
+The tokens in code live in `styles/tokens.css`, which is the only stylesheet allowed to hold raw values.
+
+```css
+/* Surface tokens: dark defaults, redefined inside [data-surface="light"] (table in §2) */
+:root {
+  --bg; --fg; --fg-2; --fg-3; --hairline; --control-border; --link; --link-hover; --error;
+  --focus-width: 2px;  --focus-offset: 3px;
+  --lh-body: 1.55;
+}
+```
+
 ```css
 :root {
   --ink-900: #0C1216;  --ink-800: #121A1F;
@@ -295,7 +325,7 @@ Never animated: prices, dates, seats left, error messages, buttons.
   --ink-text: #10161A; --ink-text-2: #46525C; --ink-text-3: #5B6770;
   --gold-deep: #7A5A12;
   --radius-input: 2px; --radius-button: 6px; --radius-card: 8px; --radius-chip: 999px;
-  --font: 'Geist', system-ui, sans-serif;
+  --font: var(--font-geist), system-ui, sans-serif; /* --font-geist is set by next/font */
   --margin: clamp(20px, 3.4cqi, 48px);
   --section-y: clamp(72px, 9cqi, 144px);
   --fs-display: 27cqi;
