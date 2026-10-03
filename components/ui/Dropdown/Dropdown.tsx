@@ -11,7 +11,7 @@ import styles from './Dropdown.module.css';
  * an outside click; CSS anchor positioning places the panel under the chip (with a small
  * script where that isn't supported).
  */
-export function Dropdown({ label, count, active = false, children }: DropdownProps) {
+export function Dropdown({ label, count, active, children }: DropdownProps) {
   const id = `dropdown-${useId().replace(/[^\w-]/g, '')}`;
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLSpanElement>(null);
@@ -30,8 +30,8 @@ export function Dropdown({ label, count, active = false, children }: DropdownPro
         id={id}
         popover="auto"
         className={styles.panel}
-        style={anchor}
-        onToggle={(event: ToggleEvent<HTMLDivElement>) => setOpen(event.newState === 'open')}
+        // beforetoggle, so a script-placed panel is positioned before it first paints.
+        onBeforeToggle={(event: ToggleEvent<HTMLDivElement>) => setOpen(event.newState === 'open')}
       >
         {children}
       </div>

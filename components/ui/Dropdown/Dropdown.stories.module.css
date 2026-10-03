@@ -31,3 +31,8 @@
   flex-direction: column;
   gap: var(--space-96);
 }
+
+.rightEdge {
+  display: flex;
+  justify-content: flex-end;
+}

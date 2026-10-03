@@ -69,11 +69,27 @@ export const OpensUnderTrigger: Story = {
   },
 };
 
-/** Escape closes it and focus is on the trigger (real key press under `pnpm test`). */
+/** Opens from the keyboard with Enter and Space (real key presses under `pnpm test`). */
+export const Keyboard: Story = {
+  play: async ({ canvas }) => {
+    const trigger = canvas.getByRole('button', { name: /Destination/ });
+    trigger.focus();
+    const user = await realUser();
+    if (!user) return;
+    await user.keyboard('{Enter}');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await user.keyboard(' ');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  },
+};
+
+/** Escape from inside the panel closes it and focus returns to the trigger. */
 export const Escape: Story = {
   play: async ({ canvas, userEvent }) => {
     const trigger = canvas.getByRole('button', { name: /Destination/ });
     await userEvent.click(trigger);
+    canvas.getByRole('button', { name: /Hunza/ }).focus();
+    await expect(trigger).not.toHaveFocus();
     const user = await realUser();
     if (!user) return;
     await user.keyboard('{Escape}');
@@ -97,5 +113,46 @@ export const ClickOutside: Story = {
     if (!user) return;
     await user.click(canvas.getByText('Somewhere else on the page'));
     await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+  },
+};
+
+/** At the right edge of a phone-width screen the panel stays fully on screen. */
+export const NearRightEdge: Story = {
+  render: (args) => (
+    <div className={styles.rightEdge}>
+      <Dropdown {...args} />
+    </div>
+  ),
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: /Destination/ }));
+    const panel = canvas.getByRole('button', { name: /Hunza/ }).closest('[popover]')!;
+    const box = panel.getBoundingClientRect();
+    await expect(box.left).toBeGreaterThanOrEqual(0);
+    await expect(box.right).toBeLessThanOrEqual(window.innerWidth);
+  },
+};
+
+/** Where CSS anchor positioning isn't supported, the script places the panel under the chip. */
+export const ScriptFallback: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const original = CSS.supports;
+    Object.defineProperty(CSS, 'supports', { value: () => false, configurable: true });
+    // Switch off the CSS placement so only the script can put the panel in place.
+    const noAnchor = document.createElement('style');
+    noAnchor.textContent = '[popover] { position-anchor: none !important; }';
+    document.head.append(noAnchor);
+    try {
+      const trigger = canvas.getByRole('button', { name: /Destination/ });
+      await userEvent.click(trigger);
+      const panel = canvas.getByRole('button', { name: /Hunza/ }).closest('[popover]') as HTMLElement;
+      await expect(panel.style.top).not.toBe('');
+      const gap = panel.getBoundingClientRect().top - trigger.getBoundingClientRect().bottom;
+      await expect(gap).toBeGreaterThanOrEqual(0);
+      await expect(gap).toBeLessThanOrEqual(16);
+    } finally {
+      Object.defineProperty(CSS, 'supports', { value: original, configurable: true });
+      noAnchor.remove();
+    }
   },
 };

@@ -1,10 +1,12 @@
 import { useLayoutEffect, type RefObject } from 'react';
 
-const EDGE_GAP = 8;
+/** Smallest distance kept between the panel and the edge of the viewport. */
+const VIEWPORT_MARGIN = 8;
 
 /**
  * For browsers without CSS anchor positioning: places a fixed panel under its anchor while
- * open, kept inside the viewport, and follows scroll and resize. Does nothing where CSS can.
+ * open (above it when there's no room below), kept inside the viewport, following scroll and
+ * resize. Does nothing where CSS can.
  */
 export function useAnchorFallback(
   panelRef: RefObject<HTMLElement | null>,
@@ -19,9 +21,12 @@ export function useAnchorFallback(
       const anchor = anchorRef.current;
       if (!panel || !anchor) return;
       const box = anchor.getBoundingClientRect();
-      const maxLeft = window.innerWidth - panel.offsetWidth - EDGE_GAP;
-      panel.style.top = `${box.bottom}px`;
-      panel.style.left = `${Math.max(EDGE_GAP, Math.min(box.left, maxLeft))}px`;
+      const gap = parseFloat(getComputedStyle(panel).marginTop) || 0;
+      const fitsBelow = box.bottom + gap + panel.offsetHeight <= window.innerHeight - VIEWPORT_MARGIN;
+      const top = fitsBelow ? box.bottom : box.top - panel.offsetHeight - 2 * gap;
+      const maxLeft = window.innerWidth - panel.offsetWidth - VIEWPORT_MARGIN;
+      panel.style.top = `${Math.max(VIEWPORT_MARGIN, top)}px`;
+      panel.style.left = `${Math.max(VIEWPORT_MARGIN, Math.min(box.left, maxLeft))}px`;
     }
 
     place();
