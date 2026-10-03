@@ -38,6 +38,7 @@
   --link: var(--text);
   --link-hover: var(--gold);
   --error: var(--gold); /* paired with the "!" badge and a message, never colour alone */
+  --control-border-soft: color-mix(in srgb, var(--text) 50%, transparent);
   color-scheme: dark;
 
   /* Radius (DESIGN.md §7) */
@@ -48,6 +49,11 @@
 
   /* Interaction */
   --tap: 44px;
+  --control-44: 44px; /* header, social links, icon buttons */
+  --control-48: 48px; /* cards, panels, bars */
+  --control-52: 52px; /* default */
+  --control-56: 56px; /* closing CTAs */
+  --hairline-width: 1px; /* every hairline and control border (DESIGN.md §5) */
   --focus-width: 2px;
   --focus-offset: 3px;
 
@@ -205,5 +211,6 @@
   --link: var(--ink-text);
   --link-hover: var(--gold-deep);
   --error: var(--gold-deep);
+  --control-border-soft: color-mix(in srgb, var(--ink-text) 50%, transparent);
   color-scheme: light;
 }

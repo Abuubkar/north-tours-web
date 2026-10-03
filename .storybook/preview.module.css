@@ -1,0 +1,4 @@
+.surface {
+  min-height: 100vh;
+  padding: var(--space-48) var(--margin);
+}

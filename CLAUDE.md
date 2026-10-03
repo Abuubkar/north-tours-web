@@ -114,7 +114,8 @@ Folders are created only when the first file for them is needed (section 3).
 
 - **Every value comes from tokens:** colour, spacing, radius, type scale, shadows, motion
   durations. No hard-coded hex values or magic numbers in component CSS.
-- **Co-locate styles:** `Component.tsx` + `Component.module.css` in the same folder.
+- **Co-locate:** `Component.tsx`, `Component.module.css` and `Component.stories.tsx` in the same
+  folder.
 - Keep selector specificity flat (one class per rule where possible); avoid styling by
   element type inside components.
 - Radius scale from the design system:
@@ -188,7 +189,9 @@ Folders are created only when the first file for them is needed (section 3).
   - exactly one `<h1>` per page, and correct heading order (no skipped levels). Type roles
     are visual only: a role named "H1" or "Display" does not make an element a heading.
 - Every page has its own `<title>`, meta description and social share image.
-- No console errors. Type-check and lint pass.
+- No console errors. Type-check, lint and `pnpm test` pass.
+- **Components have stories** covering their variants and states. Behaviour is tested in story
+  `play` functions only; no separate component `.test.tsx` files (ADR-0012).
 - **Placeholder check:** list any `[placeholder]` text touched in the PR description.
 
 ## 11. Out of scope until explicitly requested
