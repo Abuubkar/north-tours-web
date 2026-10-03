@@ -3,5 +3,5 @@ import { loadSettings } from './settings.ts';
 
 /** Validates all content and returns every problem found (empty when everything is valid). */
 export function checkContent(dir = CONTENT_DIR): ContentProblem[] {
-  return [...loadSettings(dir).problems];
+  return loadSettings(dir).problems;
 }

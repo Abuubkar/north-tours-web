@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { paymentMethodsLabel } from './payments';
+import { paymentMethodsLabel } from './payments.ts';
 
 describe('paymentMethodsLabel', () => {
   it('joins the methods with a middle dot', () => {
