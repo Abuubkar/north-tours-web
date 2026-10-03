@@ -89,6 +89,7 @@
   --sheet-max-h: 92dvh; /* bottom sheet */
   --handle-w: 36px; /* bottom sheet grab handle */
   --handle-h: 4px;
+  --dropdown-min-w: 260px; /* dropdown panel */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
