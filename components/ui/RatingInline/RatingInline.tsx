@@ -1,13 +1,7 @@
 import { formatReviewCount, formatScore, ratingLabel } from '@/lib/utils/rating';
 import { Icon } from '../Icon/Icon';
+import type { RatingInlineProps } from './RatingInline.types';
 import styles from './RatingInline.module.css';
-
-type RatingInlineProps = {
-  /** Average score out of 5, e.g. 4.9. */
-  score: number;
-  /** Number of reviews. */
-  count: number;
-};
 
 const STAR_SIZE = 15;
 

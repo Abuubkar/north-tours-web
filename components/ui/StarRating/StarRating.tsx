@@ -1,13 +1,7 @@
 import { starsLabel } from '@/lib/utils/rating';
 import { Icon } from '../Icon/Icon';
+import type { StarRatingProps } from './StarRating.types';
 import styles from './StarRating.module.css';
-
-type StarRatingProps = {
-  /** Whole stars out of five, as given in the review. */
-  rating: 1 | 2 | 3 | 4 | 5;
-  /** Star size in px: 15 on review cards, 13 on compact cards. */
-  size?: 15 | 13;
-};
 
 const STARS = [1, 2, 3, 4, 5] as const;
 

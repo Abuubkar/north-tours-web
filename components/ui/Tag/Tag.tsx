@@ -1,15 +1,6 @@
-import type { ReactNode } from 'react';
 import { Icon } from '../Icon/Icon';
+import type { TagProps } from './Tag.types';
 import styles from './Tag.module.css';
-
-type TagProps = {
-  /**
-   * urgent: "Only 3 seats left", on a photo. soldout: "Sold out", on a photo.
-   * category: a place type such as "Heritage", on the page surface.
-   */
-  variant: 'urgent' | 'soldout' | 'category';
-  children: ReactNode;
-};
 
 const CLOCK_SIZE = 13;
 
