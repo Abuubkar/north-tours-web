@@ -24,6 +24,8 @@ export const placeholderSettings: Settings = {
     generalMessage: 'Hi, I’d like to plan a trip north.',
     footerIntro:
       'Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.',
+    tourMessage: 'Hi, I’m interested in {tour} on {date}.',
+    waitlistMessage: 'Hi, please add me to the waitlist for {tour} on {date} in case a seat opens up.',
   },
 };
 

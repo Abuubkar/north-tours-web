@@ -7,3 +7,41 @@
 .statementSection {
   padding: var(--section-y-statement) var(--margin);
 }
+
+/* Section shell: every section after the hero opens with a hairline. */
+.section {
+  padding: var(--section-y) var(--margin);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/* Section header row: the headline, with optional meta aligned bottom-right; wraps on phones. */
+.sectionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--row-gap) var(--gutter);
+}
+
+/*
+ * Capped auto-fill hairline grid (DESIGN.md §5): at most --grid-cols columns, each at least
+ * --grid-min wide, no media queries. The 1px gap over the hairline colour draws the lines.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(max(var(--grid-min), calc((100% - (var(--grid-cols) - 1) * var(--hairline-width)) / var(--grid-cols))), 1fr)
+  );
+  gap: var(--hairline-width);
+  padding: 0;
+  border-block: var(--hairline-width) solid var(--hairline);
+  background: var(--hairline);
+  list-style: none;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}

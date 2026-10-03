@@ -20,8 +20,20 @@
     "count": 58
   },
   "image": {
-    "placeholder": "Pine ridges of the Galiyat in mist",
-    "alt": "Pine-covered ridges of the Galiyat in mist"
+    "src": "/images/murree/galiyat-clouds.jpg",
+    "alt": "Pine-covered ridges of the Galiyat at dusk, with monsoon cloud filling the valleys below",
+    "width": 1200,
+    "height": 797,
+    "focus": {
+      "x": 60,
+      "y": 60
+    },
+    "credit": {
+      "source": "wikimedia",
+      "author": "Saadyousafcheema",
+      "licence": "CC BY-SA 3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Moonsoon_clouds_over_Galiyat_(Galyat),_Pakistan.jpg"
+    }
   },
   "departures": [
     {

@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
-import { emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder } from './fields.ts';
+import { copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder } from './fields.ts';
 
 const settingsSchema = z.strictObject({
   brand: z.strictObject({
@@ -46,6 +46,10 @@ const settingsSchema = z.strictObject({
     generalMessage: nonEmpty,
     /** The line above the footer's WhatsApp button. */
     footerIntro: nonEmpty,
+    /** A tour card's WhatsApp message: {tour} is its title, {date} the start date ("12 May 2027"). */
+    tourMessage: copyWith('tour', 'date'),
+    /** A sold-out card's message, with the same tokens. */
+    waitlistMessage: copyWith('tour', 'date'),
   }),
 });
 

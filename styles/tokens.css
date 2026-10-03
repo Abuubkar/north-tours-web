@@ -52,6 +52,7 @@
   --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent);
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
+  --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --hero-scrim: linear-gradient(
     180deg,
     color-mix(in srgb, var(--ink-900) 60%, transparent) 0%,
@@ -104,6 +105,13 @@
   --measure-statement: 1040px; /* brand statement headline */
   --measure-statement-body: 500px; /* brand statement paragraph */
   --underline-offset: 6px; /* underlined text links */
+  --seat-dot: 7px; /* the seats line's status dot */
+  --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
+  --measure-note: 320px; /* a short note beside a section headline */
+
+  /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
+  --grid-tours-min: 280px;
+  --grid-tours-cols: 4;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;
@@ -124,6 +132,7 @@
   --dur-400: 0.4s;
   --dur-900: 0.9s;
   --dur-1000: 1s;
+  --photo-zoom: 1.045; /* tour card photo on hover */
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* Type (DESIGN.md §3). Roles live in typography.module.css. */

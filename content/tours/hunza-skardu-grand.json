@@ -23,8 +23,20 @@
     "count": 128
   },
   "image": {
-    "placeholder": "Attabad Lake, turquoise water, boats at the jetty",
-    "alt": "Boats at the jetty on the turquoise water of Attabad Lake"
+    "src": "/images/hunza/attabad-lake.jpg",
+    "alt": "Turquoise Attabad Lake below a sunlit mountain, with boats and ferry pontoons at the jetty",
+    "width": 1200,
+    "height": 800,
+    "focus": {
+      "x": 55,
+      "y": 60
+    },
+    "credit": {
+      "source": "wikimedia",
+      "author": "Waseem Abbas",
+      "licence": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Attabad_Lake_-_Gilgit_Baltistan_-_Pakistan.jpg"
+    }
   },
   "departures": [
     {

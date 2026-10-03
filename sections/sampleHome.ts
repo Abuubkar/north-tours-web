@@ -17,4 +17,9 @@ export const sampleHome: HomeCopy = {
     body: 'Our guides grew up in Hunza, Skardu and Swat. Our drivers have spent decades on the Karakoram Highway. They plan around the weather, the roads and your family’s pace, so all you have to do is look out of the window.',
     linkLabel: 'Meet the team',
   },
+  departures: {
+    headline: 'Upcoming group departures',
+    note: 'Prices per person, twin sharing. Every departure leaves from Lahore.',
+    allToursLabel: 'All tours',
+  },
 };

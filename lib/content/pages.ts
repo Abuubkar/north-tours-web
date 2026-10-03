@@ -27,6 +27,12 @@ const homeSchema = z.strictObject({
     body: copy,
     linkLabel: copy,
   }),
+  departures: z.strictObject({
+    headline: copy,
+    /** Beside the headline: what the prices mean. */
+    note: copy,
+    allToursLabel: copy,
+  }),
 });
 
 export type HomeCopy = z.infer<typeof homeSchema>;

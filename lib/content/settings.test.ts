@@ -68,6 +68,17 @@ describe('settings', () => {
     ]);
   });
 
+  it.each(['tourMessage', 'waitlistMessage'] as const)('rejects a missing or empty %s', (key) => {
+    expect(fields(withChange((s) => delete (s.whatsapp as Partial<Settings['whatsapp']>)[key]))).toEqual([`whatsapp.${key}`]);
+    expect(fields(withChange((s) => Object.assign(s.whatsapp, { [key]: '' })))).toEqual([`whatsapp.${key}`]);
+  });
+
+  it('rejects a message token other than {tour} and {date}', () => {
+    const result = withChange((s) => Object.assign(s.whatsapp, { tourMessage: 'Hi, {tour} for {people}?' }));
+    expect(fields(result)).toEqual(['whatsapp.tourMessage']);
+    expect(result.problems[0].message).toBe('Unknown token {people}. Use only {tour}, {date}');
+  });
+
   it('rejects a malformed email and names the file and field', () => {
     const result = withChange((s) => Object.assign(s.contact, { email: 'not-an-email' }));
     expect(result.problems).toEqual([

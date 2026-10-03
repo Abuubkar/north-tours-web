@@ -1,0 +1,32 @@
+/*
+ * Date wording for cards and messages. Content dates are YYYY-MM-DD with no time zone, so
+ * they're read and shown as calendar dates, never shifted by the visitor's clock.
+ */
+
+const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function parts(date: string) {
+  const [year, month, day] = date.split('-').map(Number);
+  return { year, month: SHORT_MONTHS[month - 1], day };
+}
+
+/** "12–20 May" in one month, "26 May – 3 Jun" across two. */
+export function dateRange(start: string, end: string): string {
+  const from = parts(start);
+  const to = parts(end);
+  if (from.month === to.month && from.year === to.year) return `${from.day}–${to.day} ${to.month}`;
+  return `${from.day} ${from.month} – ${to.day} ${to.month}`;
+}
+
+const plural = (count: number, noun: string) => `${count} ${noun}${count === 1 ? '' : 's'}`;
+
+/** "9 days, 8 nights"; a day trip is "1 day". */
+export function tripLength(days: number, nights: number): string {
+  return nights > 0 ? `${plural(days, 'day')}, ${plural(nights, 'night')}` : plural(days, 'day');
+}
+
+/** The date in a WhatsApp message, with the year: "12 May 2027". */
+export function messageDate(date: string): string {
+  const { year, month, day } = parts(date);
+  return `${day} ${month} ${year}`;
+}

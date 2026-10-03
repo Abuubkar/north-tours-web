@@ -1,0 +1,31 @@
+.seats {
+  composes: ui from '../../../styles/typography.module.css';
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-weight: var(--fw-medium);
+}
+
+.dot {
+  flex: none;
+  width: var(--seat-dot);
+  height: var(--seat-dot);
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+.open {
+  color: var(--fg-2);
+}
+
+.urgent {
+  color: var(--accent);
+}
+
+.soldout {
+  color: var(--fg-3);
+}
+
+.soldout .dot {
+  background: var(--control-border);
+}
