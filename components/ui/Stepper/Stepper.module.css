@@ -1,0 +1,12 @@
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.value {
+  composes: stepTitle from '../../../styles/typography.module.css';
+  min-width: var(--space-32);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
