@@ -6,7 +6,26 @@
   },
   "categories": {
     "label": "Help categories",
-    "count": { "one": "{count} answer", "other": "{count} answers" }
+    "count": {
+      "one": "{count} answer",
+      "other": "{count} answers"
+    }
   },
-  "linkToAnswer": "Link to this answer · {path}"
+  "linkToAnswer": "Link to this answer · {path}",
+  "search": {
+    "label": "Search questions",
+    "placeholder": "Search questions, e.g. refund, altitude, children",
+    "clear": "Clear search",
+    "results": {
+      "many": "{count} answers for “{query}”",
+      "one": "1 answer for “{query}”",
+      "none": "No answers for “{query}”"
+    }
+  },
+  "empty": {
+    "headline": "No answers for that yet.",
+    "lead": "Ask us directly and we’ll reply on WhatsApp {replyTime}. We often add the answer here afterwards.",
+    "askLabel": "Ask on WhatsApp",
+    "clearLabel": "Clear search"
+  }
 }

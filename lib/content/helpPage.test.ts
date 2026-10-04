@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { getFaqs } from './faqs.ts';
-import { helpCategories } from './helpPage.ts';
+import { getHelpPage, helpCategories } from './helpPage.ts';
 import { helpCopyFile, loadHelpCopy, type HelpCopy } from './pages.ts';
 import { getSettings } from './settings.ts';
 import { contentFixture } from './testing.ts';
@@ -24,6 +24,10 @@ describe('help page copy', () => {
     const result = withChange((c) => Object.assign(c, { linkToAnswer: 'Link · {url}' }));
     expect(result.problems.map((p) => p.field)).toEqual(['linkToAnswer']);
     expect(result.problems[0].message).toMatch(/^Unknown token \{url\}/);
+    const search = withChange((c) => Object.assign(c.search.results, { none: 'No {count} answers for “{query}”' }));
+    expect(search.problems.map((p) => p.field)).toEqual(['search.results.none']);
+    const empty = withChange((c) => Object.assign(c.empty, { lead: 'We reply {replyTime}, {officeHours}.' }));
+    expect(empty.problems.map((p) => p.field)).toEqual(['empty.lead']);
   });
 });
 
@@ -34,5 +38,13 @@ describe('helpCategories', () => {
     const answers = categories.flatMap((c) => c.questions);
     expect(answers).toHaveLength(getFaqs().categories.flatMap((c) => c.questions).length);
     for (const { answer } of answers) expect(answer).not.toMatch(/\{\w+\}/);
+  });
+});
+
+describe('getHelpPage', () => {
+  it('fills the empty state’s reply time, and asks on WhatsApp with the general message', () => {
+    const { copy, askHref, settings } = getHelpPage();
+    expect(copy.empty.lead).toContain(settings.booking.replyTime);
+    expect(askHref).toBe(`https://wa.me/?text=${encodeURIComponent(settings.whatsapp.generalMessage)}`);
   });
 });

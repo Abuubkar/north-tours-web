@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
+import { HelpProvider } from '@/components/help/HelpProvider/HelpProvider';
+import { HelpSearch } from '@/components/help/HelpSearch/HelpSearch';
 import { sampleAbout } from '../sampleAbout';
+import { sampleHelpCategories, sampleHelpCopy } from '../sampleHelp';
 import { PageHeader } from './PageHeader';
 
 const meta = {
@@ -148,10 +151,18 @@ export const LegalPhone: Story = {
   },
 };
 
-/** Help (light): the only <h1>, at the statement size. */
+/** Help (light): the only <h1>, at the statement size, then the search landmark under it. */
 export const Help: Story = {
-  args: { variant: 'help', headline: 'Help with booking, payments and the trip', lead: undefined },
+  args: { variant: 'help', headline: 'Help with booking, payments and the trip', lead: undefined, search: <HelpSearch copy={sampleHelpCopy.search} /> },
+  decorators: [
+    (Story) => (
+      <HelpProvider categories={sampleHelpCategories}>
+        <Story />
+      </HelpProvider>
+    ),
+  ],
   play: async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByRole('search')).toBeVisible();
     const h1 = canvas.getByRole('heading', { level: 1, name: 'Help with booking, payments and the trip' });
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
     await expect(parseFloat(getComputedStyle(h1).fontSize)).toBeGreaterThanOrEqual(40);

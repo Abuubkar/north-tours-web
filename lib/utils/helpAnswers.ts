@@ -18,14 +18,21 @@ export type AnswerCountWords = { one: string; other: string };
 /** A category's link in Help's category list: its count, and its name read out with the count. */
 export type CategoryLink = { id: string; title: string; count: number; name: string };
 
-/** Each category's link, with how many answers it holds: named "Booking & payment, 4 answers". */
-export function categoryLinks(categories: readonly HelpCategory[], words: AnswerCountWords): CategoryLink[] {
-  return categories.map(({ id, title, questions }) => ({
-    id,
-    title,
-    count: questions.length,
-    name: optionName(title, questions.length, words),
-  }));
+/**
+ * Each category's link, with how many answers it holds: named "Booking & payment, 4 answers".
+ * During a search (`matching` given) it counts the matches, and leaves out categories with none.
+ */
+export function categoryLinks(
+  categories: readonly HelpCategory[],
+  words: AnswerCountWords,
+  matching: ReadonlySet<string> | null = null,
+): CategoryLink[] {
+  return categories
+    .map(({ id, title, questions }) => {
+      const count = matching ? questions.filter((q) => matching.has(q.id)).length : questions.length;
+      return { id, title, count, name: optionName(title, count, words) };
+    })
+    .filter(({ count }) => count > 0);
 }
 
 /**

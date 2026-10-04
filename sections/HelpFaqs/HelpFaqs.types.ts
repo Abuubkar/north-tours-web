@@ -1,9 +1,8 @@
 import type { HelpCopy } from '@/lib/content/pages';
-import type { HelpCategory } from '@/lib/utils/helpAnswers';
 
 export type HelpFaqsProps = {
-  /** The category list's words and "Link to this answer". */
-  copy: Pick<HelpCopy, 'categories' | 'linkToAnswer'>;
-  /** Every category, in order, answers filled from settings. */
-  categories: HelpCategory[];
+  /** The category list's words, "Link to this answer" and the empty state (its lead's reply time filled). */
+  copy: Pick<HelpCopy, 'categories' | 'linkToAnswer' | 'empty'>;
+  /** "Ask on WhatsApp" when nothing matches: the general message. */
+  askHref: string;
 };

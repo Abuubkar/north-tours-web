@@ -7,8 +7,10 @@ import styles from './CategoryNav.module.css';
  * Help's categories: from 820px a sticky list beside the questions, below it a row of chips
  * above them that scrolls sideways on its own. CSS shows one, so one nav is in the
  * accessibility tree. Each link goes to its category's heading and says how many answers it holds.
+ * With no categories to show (a search with no match), there's no list.
  */
 export function CategoryNav({ label, links }: CategoryNavProps) {
+  if (links.length === 0) return null;
   return (
     <>
       <nav aria-label={label} className={styles.side}>

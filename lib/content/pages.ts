@@ -720,6 +720,16 @@ const helpCopySchema = z.strictObject({
   categories: z.strictObject({ label: copy, count: countWords }),
   /** Under each answer: "Link to this answer · {path}", the answer's own address (/help#refunds). */
   linkToAnswer: copyWith('path'),
+  /** The search in the header: its hidden label, the field's placeholder, the clear button's name and the result line. */
+  search: z.strictObject({
+    label: copy,
+    placeholder: copy,
+    clear: copy,
+    /** Under the field once typing stops: "3 answers for “refund”", "1 answer for “altitude”", "No answers for “visa”". */
+    results: z.strictObject({ many: copyWith('count', 'query'), one: copyWith('count', 'query'), none: copyWith('query') }),
+  }),
+  /** When nothing matches. The headline's wording is fixed (DESIGN.md §6); the lead may say the reply time. */
+  empty: z.strictObject({ headline: copy, lead: copyWith('replyTime'), askLabel: copy, clearLabel: copy }),
 });
 
 export type HelpCopy = z.infer<typeof helpCopySchema>;

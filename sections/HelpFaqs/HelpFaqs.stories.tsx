@@ -2,13 +2,21 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { realUser } from '../../.storybook/realUser';
 import { atHash } from '../../.storybook/storyUrl';
+import { HelpProvider } from '@/components/help/HelpProvider/HelpProvider';
 import { sampleHelpCategories, sampleHelpCopy } from '../sampleHelp';
 import { HelpFaqs } from './HelpFaqs';
 
 const meta = {
   title: 'Sections/HelpFaqs',
   component: HelpFaqs,
-  args: { copy: sampleHelpCopy, categories: sampleHelpCategories },
+  args: { copy: sampleHelpCopy, askHref: 'https://wa.me/?text=Hi' },
+  decorators: [
+    (Story) => (
+      <HelpProvider categories={sampleHelpCategories}>
+        <Story />
+      </HelpProvider>
+    ),
+  ],
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
   // Opening an answer writes its anchor into the URL; each story starts with none and puts the URL back after.

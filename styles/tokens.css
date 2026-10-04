@@ -200,6 +200,7 @@
   --body-top: clamp(40px, 5cqi, 72px); /* above Help's questions and a legal document's text */
   --side-top: calc(var(--header-h) + var(--space-24)); /* where Help's category list and the legal contents stop, under the header */
   --measure-legal: 35em; /* a legal document's text */
+  --measure-search: 640px; /* Help's search field */
 
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */

@@ -28,3 +28,9 @@
 .input[aria-invalid='true'] {
   border-color: var(--error);
 }
+
+/* A search field's own clear button and decoration are hidden: the page draws its own (Help). */
+.input::-webkit-search-cancel-button,
+.input::-webkit-search-decoration {
+  appearance: none;
+}

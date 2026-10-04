@@ -1,4 +1,4 @@
-/* Between hairlines, in place of the cards. */
+/* Between hairlines, in place of the results: the cards on Tours, the answers on Help. */
 .empty {
   display: flex;
   flex-direction: column;
@@ -9,12 +9,12 @@
 }
 
 .headline {
-  composes: section from '../../../styles/typography.module.css';
+  composes: section from '../../styles/typography.module.css';
   max-width: var(--measure-headline);
 }
 
 .lead {
-  composes: bodyLarge from '../../../styles/typography.module.css';
+  composes: bodyLarge from '../../styles/typography.module.css';
   max-width: var(--measure-cta-actions);
   color: var(--fg-2);
 }

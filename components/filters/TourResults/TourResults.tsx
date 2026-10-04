@@ -1,11 +1,13 @@
 'use client';
 
+import { Button } from '@/components/ui/Button/Button';
 import { useTourFilters } from '@/hooks/useTourFilters';
+import { routes } from '@/lib/routes';
 import { sortedByText, tripsCount } from '@/lib/utils/resultsText';
 import { ActiveFilterChips } from '../ActiveFilterChips/ActiveFilterChips';
-import { EmptyResults } from '../EmptyResults/EmptyResults';
 import { ResultsGrid } from '../ResultsGrid/ResultsGrid';
 import { ResultsHeader } from '../ResultsHeader/ResultsHeader';
+import { EmptyState } from '@/sections/EmptyState/EmptyState';
 import type { TourResultsProps } from './TourResults.types';
 import styles from './TourResults.module.css';
 
@@ -35,7 +37,19 @@ export function TourResults({ copy, labels, settings, banner }: TourResultsProps
       {results.length > 0 ? (
         <ResultsGrid results={results} banner={banner} ready={ready} changes={changes} settings={settings} />
       ) : (
-        <EmptyResults copy={copy.empty} onClear={clearAndFocus} />
+        <EmptyState
+          headline={copy.empty.headline}
+          lead={copy.empty.lead}
+          actions={
+            <>
+              {/* "Clear all filters" keeps the sort; "Plan a private trip" goes to the planner. */}
+              <Button onClick={clearAndFocus}>{copy.empty.clearLabel}</Button>
+              <Button href={routes.plan} variant="secondary">
+                {copy.empty.planLabel}
+              </Button>
+            </>
+          }
+        />
       )}
       <p role="status" className={styles.status}>
         {announcement}

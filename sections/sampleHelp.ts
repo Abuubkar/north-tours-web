@@ -1,7 +1,7 @@
 import type { HelpCopy } from '@/lib/content/pages';
 import type { HelpCategory } from '@/lib/utils/helpAnswers';
 
-/* Sample Help content for the Help stories, which can't read content files: the shared FAQs, filled. */
+/* Sample Help content for the Help stories, which can't read content files: the page copy and the shared FAQs, their tokens filled. */
 
 export const sampleHelpCopy: HelpCopy = {
   title: 'Help and FAQs',
@@ -18,6 +18,22 @@ export const sampleHelpCopy: HelpCopy = {
     },
   },
   linkToAnswer: 'Link to this answer · {path}',
+  search: {
+    label: 'Search questions',
+    placeholder: 'Search questions, e.g. refund, altitude, children',
+    clear: 'Clear search',
+    results: {
+      many: '{count} answers for “{query}”',
+      one: '1 answer for “{query}”',
+      none: 'No answers for “{query}”',
+    },
+  },
+  empty: {
+    headline: 'No answers for that yet.',
+    lead: 'Ask us directly and we’ll reply on WhatsApp within 2 hours. We often add the answer here afterwards.',
+    askLabel: 'Ask on WhatsApp',
+    clearLabel: 'Clear search',
+  },
 };
 
 export const sampleHelpCategories: HelpCategory[] = [

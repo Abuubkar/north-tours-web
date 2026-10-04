@@ -9,7 +9,7 @@ const cancellations = sampleHelpCategories[1];
 const meta = {
   title: 'Help/FaqCategory',
   component: FaqCategory,
-  args: { ...cancellations, linkLabel: sampleHelpCopy.linkToAnswer, group: 'help-faqs', openIds: new Set(), onToggle: fn(), onAnswerLink: fn() },
+  args: { ...cancellations, linkLabel: sampleHelpCopy.linkToAnswer, group: 'help-faqs', terms: [], openIds: new Set(), onToggle: fn(), onAnswerLink: fn() },
   globals: { surface: 'light', viewport: { value: 'desktop' } },
 } satisfies Meta<typeof FaqCategory>;
 
@@ -86,3 +86,15 @@ export const Phone: Story = {
     await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
   },
 };
+
+/** During a search: the words marked in the question and the answer, case and accents kept. */
+export const Marked: Story = {
+  args: { group: undefined, terms: ['refund'], openIds: new Set(['refunds']) },
+  play: async ({ canvasElement }) => {
+    const marks = [...canvasElement.querySelectorAll('#refunds mark')].map((mark) => mark.textContent);
+    await expect(marks.length).toBeGreaterThan(1);
+    for (const mark of marks) await expect(mark?.toLowerCase()).toBe('refund');
+  },
+};
+
+export const MarkedOnDark: Story = { ...Marked, globals: { surface: 'dark', viewport: { value: 'desktop' } } };
