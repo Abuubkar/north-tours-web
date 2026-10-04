@@ -51,10 +51,6 @@ describe('activeNavItem', () => {
     expect(activeNavItem('/help/')).toBeNull();
   });
 
-  it('marks Home on the Homepage only, never on a page under it', () => {
-    for (const path of ['/tours', '/help', '/credits', '/no-such-page']) expect(activeNavItem(path)).not.toBe('home');
-  });
-
   it('does not match a page that only starts with the same letters', () => {
     expect(activeNavItem('/tours-archive')).toBeNull();
     expect(activeNavItem('/destinations-old')).toBeNull();

@@ -70,7 +70,7 @@ export const NoDepartures: Story = {
 
 /** At 820 (four columns) the fifth fact also takes the whole second row. */
 export const NavBreakpoint: Story = {
-  globals: { viewport: { value: 'navBreakpoint' } },
+  globals: { viewport: { value: 'breakpoint820' } },
   play: async ({ canvasElement }) => {
     const all = cells(canvasElement);
     await expect(gridColumns(all)).toBe(4);

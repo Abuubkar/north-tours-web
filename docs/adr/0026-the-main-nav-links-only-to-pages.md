@@ -1,6 +1,6 @@
 # ADR-0026: The main nav links only to pages
 
-- **Status:** Accepted; superseded in part by ADR-0027 (the item list, and the Homepage marking no item)
+- **Status:** Accepted; superseded in part by ADR-0027
 - **Date:** 2026-10-04
 - **Related issue:** #118, #120
 

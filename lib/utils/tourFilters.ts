@@ -30,7 +30,7 @@ export const DEFAULT_SORT: Sort = 'soonest';
 export const FILTER_BAR_QUERY = '(width >= 820px)';
 
 /**
- * A tour card photo's width in the per-card hairline grid (layout.module.css `cardGrid`): one,
+ * A tour card photo's width in the tour card grid (layout.module.css `cardGrid`): one,
  * two or three columns below 820px, below 1100px and from 1100px. Tours' results and a
  * destination's tours.
  */

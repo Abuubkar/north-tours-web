@@ -139,7 +139,7 @@ export const HeaderBreakpoint: Story = {
 export const HeaderBreakpointOnLight: Story = { ...HeaderBreakpoint, globals: { surface: 'light', viewport: { value: 'headerBreakpoint' } } };
 
 /** Below 960px (here 820, a tablet held upright) six items don't fit: the icon buttons take over, as on phones. */
-export const BelowHeaderBreakpoint: Story = { ...Phone, globals: { viewport: { value: 'navBreakpoint' } } };
+export const BelowHeaderBreakpoint: Story = { ...Phone, globals: { viewport: { value: 'breakpoint820' } } };
 
 /** Keyboard focus shows the 2px ring on the nav links and "WhatsApp us" (real key presses). */
 export const FocusRing: Story = {

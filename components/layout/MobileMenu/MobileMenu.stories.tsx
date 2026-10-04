@@ -106,7 +106,7 @@ export const HiddenAtHeaderBreakpoint: Story = { ...HiddenOnDesktop, globals: { 
 
 /** Below 960px (here 820, a tablet held upright) the menu button shows, since the six pages don't fit in the header. */
 export const ShownBelowHeaderBreakpoint: Story = {
-  globals: { viewport: { value: 'navBreakpoint' } },
+  globals: { viewport: { value: 'breakpoint820' } },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('button', { name: 'Menu' })).toBeVisible();
   },

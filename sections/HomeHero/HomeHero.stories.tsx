@@ -51,6 +51,8 @@ export const DisplayWord: Story = {
 
 export const DisplayWordPhone: Story = { ...DisplayWord, globals: { viewport: { value: 'phone' } } };
 
+export const DisplayWordOnLight: Story = { ...DisplayWord, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
 /** The hero always sits on its photo, so it stays dark on a light page. */
 export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 

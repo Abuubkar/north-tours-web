@@ -8,7 +8,7 @@
 ## Context
 ADR-0026 made the main nav list five pages: Tours, Destinations, Private trips, About and Contact. The Homepage was reachable only from the brand name, and no nav item was marked there. Reviewing the built site, the owner asked for a "Home" item. ADR-0026 also says a new main-nav page needs its own decision, because the header was sized for five items next to the brand and "WhatsApp us" from 820px.
 
-Measured on the built site with "[BRAND NAME]": brand, six items and "WhatsApp us" need about 880px with the nav's 24px minimum gap, and overflow the header at 820px by about 60px. Closing the gap enough to fit at 820px would take it to about 12px, which runs the links together.
+Measured on the built site with "[BRAND NAME]": brand, six items and "WhatsApp us" need about 880px with the nav's 24px minimum gap (about 856px once the logo triangle went), and overflow the header at 820px by about 60px. Closing the gap enough to fit at 820px would take it to about 12px, which runs the links together.
 
 ## Decision
 - **The main nav is Home (`/`), Tours, Destinations, Private trips, About and Contact**, in that order. It stays one list (`mainNav`), shared by the header, the mobile menu and the footer's large links.
@@ -25,4 +25,4 @@ Measured on the built site with "[BRAND NAME]": brand, six items and "WhatsApp u
 ## Consequences
 - Every page, the Homepage included, shows where you are in the nav.
 - Screens from 820 to 959px wide (tablets held upright, small laptop windows) get the menu instead of the full nav.
-- The header has about 50px to spare at 960px; a seventh item, or a brand name much longer than "[BRAND NAME]", needs the fit measured again.
+- The header has about 75px to spare at 960px, with the brand as text (the logo triangle went in the same round of feedback); a seventh item, or a brand name much longer than "[BRAND NAME]", needs the fit measured again.

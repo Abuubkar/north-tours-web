@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 
 const cells = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll('li')];
 /** The cards after the banner, one list. */
-const restCells = (canvasElement: HTMLElement) => [...[...canvasElement.querySelectorAll('ul')].at(-1)!.querySelectorAll('li')];
+const restCells = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll<HTMLElement>('ul:last-of-type > li')];
 /** No line anywhere: not on the list, not on a card's cell. */
 const expectNoLines = async (canvasElement: HTMLElement) => {
   for (const element of [...canvasElement.querySelectorAll('ul'), ...cells(canvasElement)]) await expect(drawsLines(element)).toBe(false);
@@ -62,7 +62,7 @@ export const Laptop: Story = {
 export const TwoColumns: Story = {
   args: { results: allResults },
   beforeEach: emulateReducedMotion,
-  globals: { viewport: { value: 'navBreakpoint' } },
+  globals: { viewport: { value: 'breakpoint820' } },
   play: async ({ canvasElement }) => {
     const all = cells(canvasElement);
     await expect(gridColumns(all)).toBe(2);

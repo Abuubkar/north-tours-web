@@ -203,7 +203,7 @@
 .cardGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--tour-grid-row-gap) var(--tour-grid-gap);
+  gap: var(--grid-tours-row-gap) var(--grid-tours-gap);
   padding: 0;
   list-style: none;
 }
@@ -225,11 +225,15 @@
   }
 }
 
-/* Capped auto-fill tour cards (the Homepage's departures, Tour Detail's other trips), with the gaps above. */
+/*
+ * Capped auto-fill tour cards (the Homepage's departures, Tour Detail's other trips), with the gaps
+ * above. Name `gridColumns` with it: the production build passes on only one level of composition.
+ * Its gap variables inherit, so don't nest another capped grid inside a tour card grid.
+ */
 .tourGrid {
   composes: gridColumns;
-  --grid-gap: var(--tour-grid-gap);
-  --grid-row-gap: var(--tour-grid-row-gap);
+  --grid-gap: var(--grid-tours-gap);
+  --grid-row-gap: var(--grid-tours-row-gap);
   --grid-min: var(--grid-tours-min);
 }
 
