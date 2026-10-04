@@ -97,5 +97,3 @@ export const NotFoundRows: Story = {
     await expect(rows.map((a) => [a.textContent?.replace('→', ''), a.getAttribute('href')])).toEqual(notFoundLinks.map((l) => [l.label, l.href]));
   },
 };
-
-export const NotFoundRowsPhone: Story = { ...NotFoundRows, globals: { viewport: { value: 'phone' } } };

@@ -6,6 +6,14 @@ import { getContactCopy, getHomeCopy, type ContactCopy } from './pages.ts';
 import { getSettings, type Settings } from './settings.ts';
 
 /**
+ * Contact's quick links section with the given rows (Contact's own, or the not-found page's): its
+ * label and "Follow the trips" stay Contact's, and the social profiles are links once real.
+ */
+export function quickLinksSection(copy: ContactCopy, links: { label: string; href: string }[], settings: Settings) {
+  return { label: copy.quickLinks.label, links, follow: copy.quickLinks.follow, social: socialLinks(settings.social) };
+}
+
+/**
  * The Contact page's words and channels: the copy's `{tokens}` filled from settings, and each
  * contact value with its link, or none while it's a `[placeholder]` (shown as plain text, so
  * nobody reaches a made-up number). Takes the copy and settings, so tests can change them.
@@ -31,17 +39,16 @@ export function contactPage(copy: ContactCopy, settings: Settings) {
     /** The travel support line: "Call travel support" only once the number is real. */
     travelSupport: { value: contact.travelSupport, href: phoneHref(contact.travelSupport) },
     /** Where to carry on from the page, and the social profiles (links once real, as in the footer). */
-    quickLinks: {
-      label: copy.quickLinks.label,
-      links: [
+    quickLinks: quickLinksSection(
+      copy,
+      [
         { label: copy.quickLinks.links.plan, href: routes.plan },
         { label: copy.quickLinks.links.tours, href: routes.tours },
         { label: copy.quickLinks.links.help, href: routes.help },
         { label: copy.quickLinks.links.policies, href: routes.policies },
       ],
-      follow: copy.quickLinks.follow,
-      social: socialLinks(settings.social),
-    },
+      settings,
+    ),
   };
 }
 

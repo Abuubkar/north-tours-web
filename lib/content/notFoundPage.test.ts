@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { getNotFoundPage } from './notFoundPage.ts';
-import { loadNotFoundCopy, notFoundCopyFile, type NotFoundCopy } from './pages.ts';
+import { notFoundPage } from './notFoundPage.ts';
+import { getContactCopy, loadNotFoundCopy, notFoundCopyFile, type NotFoundCopy } from './pages.ts';
+import { getSettings } from './settings.ts';
 import { contentFixture } from './testing.ts';
 
 const copy: NotFoundCopy = JSON.parse(readFileSync(notFoundCopyFile(), 'utf8'));
@@ -31,20 +32,24 @@ describe('not-found page copy', () => {
   });
 });
 
-describe('getNotFoundPage', () => {
+describe('notFoundPage', () => {
+  const rows: NotFoundCopy['quickLinks'] = [
+    { label: 'Where to go', page: 'destinations' },
+    { label: 'Ask a question', page: 'help' },
+  ];
+
   it('links each quick link row to its page, under Contact’s label and “Follow the trips”', () => {
-    const { quickLinks } = getNotFoundPage();
+    const contact = getContactCopy();
+    const { quickLinks } = notFoundPage({ ...copy, quickLinks: rows }, contact, getSettings());
     expect(quickLinks.links).toEqual([
-      { label: 'Plan a private trip', href: '/plan' },
-      { label: 'Destinations', href: '/#destinations' },
-      { label: 'About us and our guides', href: '/about' },
-      { label: 'Help & FAQs', href: '/help' },
+      { label: 'Where to go', href: '/#destinations' },
+      { label: 'Ask a question', href: '/help' },
     ]);
-    expect([quickLinks.label, quickLinks.follow]).toEqual(['Quick links', 'Follow the trips']);
+    expect([quickLinks.label, quickLinks.follow]).toEqual([contact.quickLinks.label, contact.quickLinks.follow]);
   });
 
   it('asks on WhatsApp with the general message', () => {
-    const { askHref, settings } = getNotFoundPage();
-    expect(askHref).toContain(encodeURIComponent(settings.whatsapp.generalMessage));
+    const settings = getSettings();
+    expect(notFoundPage(copy, getContactCopy(), settings).askHref).toContain(encodeURIComponent(settings.whatsapp.generalMessage));
   });
 });

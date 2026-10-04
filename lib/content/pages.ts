@@ -1,9 +1,9 @@
 import path from 'node:path';
 import { z } from 'zod';
+import { PAGE_NAMES, type PageName } from '../routes.ts';
 import { slugSchema } from './collection.ts';
 import { CONTENT_DIR, displayPath, parseFile, requireValid } from './files.ts';
 import { checkChosenReviews } from './links.ts';
-import { routes } from '../routes.ts';
 import { loadReviews } from './reviews.ts';
 import { SETTINGS_TOKENS, type CompanyToken, type PolicyToken, type SettingsToken } from '../utils/tokens.ts';
 import { checkUniqueIds, copy, copyWith, nonEmpty, pastDate, sample } from './fields.ts';
@@ -936,11 +936,6 @@ export function getLegalCopy(): LegalCopy {
   cachedLegal ??= requireValid(loadLegalCopy());
   return cachedLegal;
 }
-
-/** The route map's pages by name, for copy that links to one: "plan" is /plan, "destinations" /#destinations. */
-type PageName = { [K in keyof typeof routes]: (typeof routes)[K] extends string ? K : never }[keyof typeof routes];
-
-const PAGE_NAMES = Object.keys(routes).filter((name): name is PageName => typeof routes[name as keyof typeof routes] === 'string');
 
 /**
  * The not-found page's wording (PRD #94): the header's <h1> and lead, the empty state's headline,
