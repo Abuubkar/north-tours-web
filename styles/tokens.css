@@ -145,6 +145,15 @@
   --map-label-offset: 14px; /* label from the marker's centre */
   --legend-swatch-w: 20px; /* a road sample in the legend */
 
+  /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
+  --itinerary-node: 11px;
+  --measure-day: 520px; /* a day's text */
+  --day-fact-min: 130px; /* Overnight, Meals, Drive */
+  --map-side-w: 340px;
+  --map-side-top: calc(var(--header-h) + var(--space-32)); /* where the sticky side map stops */
+  --mini-map-w: 112px;
+  --mini-map-h: 156px;
+
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
   --grid-tours-cols: 4;

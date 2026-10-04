@@ -158,6 +158,103 @@
       }
     }
   ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Mingora",
+      "lat": 34.78,
+      "lon": 72.36,
+      "label": "left"
+    },
+    {
+      "name": "Malam Jabba",
+      "lat": 34.8,
+      "lon": 72.57,
+      "label": "right"
+    },
+    {
+      "name": "Bahrain",
+      "lat": 35.21,
+      "lon": 72.55,
+      "label": "right"
+    },
+    {
+      "name": "Kalam",
+      "lat": 35.49,
+      "lon": 72.58,
+      "label": "left"
+    },
+    {
+      "name": "Mahodand",
+      "lat": 35.75,
+      "lon": 72.66,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Malam Jabba",
+      "text": "North on the motorway and up into Swat, with a long lunch stop on the way.",
+      "stops": [
+        "Lahore",
+        "Mingora",
+        "Malam Jabba"
+      ],
+      "overnight": "Malam Jabba",
+      "meals": "Dinner",
+      "drive": "7–8 hrs"
+    },
+    {
+      "title": "Malam Jabba → Kalam",
+      "text": "The chairlift in the morning, then up the Swat valley past Bahrain to Kalam.",
+      "stops": [
+        "Malam Jabba",
+        "Bahrain",
+        "Kalam"
+      ],
+      "overnight": "Kalam",
+      "meals": "Breakfast, dinner",
+      "drive": "4–5 hrs"
+    },
+    {
+      "title": "Mahodand Lake",
+      "text": "Jeeps through the Ushu forest to Mahodand Lake, with time to paddle and picnic.",
+      "stops": [
+        "Mahodand"
+      ],
+      "overnight": "Kalam",
+      "meals": "Breakfast, dinner",
+      "drive": "3–4 hrs incl. jeep"
+    },
+    {
+      "title": "Kalam → Mingora",
+      "text": "Down the valley, with a stop at the White Palace at Marghazar.",
+      "stops": [
+        "Kalam",
+        "Bahrain",
+        "Mingora"
+      ],
+      "overnight": "Mingora",
+      "meals": "Breakfast, dinner",
+      "drive": "3–4 hrs"
+    },
+    {
+      "title": "Mingora → Lahore",
+      "text": "An easy morning, then home on the motorway.",
+      "stops": [
+        "Mingora",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "6–7 hrs"
+    }
+  ],
   "included": [
     {
       "icon": "hotel",

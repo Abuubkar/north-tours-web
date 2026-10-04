@@ -26,6 +26,7 @@ import { DatesAndPrices } from '@/sections/DatesAndPrices/DatesAndPrices';
 import { Highlights } from '@/sections/Highlights/Highlights';
 import { Hotels } from '@/sections/Hotels/Hotels';
 import { Included } from '@/sections/Included/Included';
+import { Itinerary } from '@/sections/Itinerary/Itinerary';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
 import { QuickFacts } from '@/sections/QuickFacts/QuickFacts';
 import { TripOverview } from '@/sections/TripOverview/TripOverview';
@@ -94,6 +95,7 @@ export default async function TourPage(props: TourPageProps) {
         >
           <TripOverview overview={tour.overview} copy={copy.overview} />
           <Highlights headline={copy.highlights.headline} highlights={tour.highlights} />
+          <Itinerary copy={copy.itinerary} tour={tour} />
           <Included copy={copy.included} included={tour.included} notIncluded={tour.notIncluded} />
           <Hotels copy={copy.hotels} stays={tour.stays} />
           <DatesAndPrices

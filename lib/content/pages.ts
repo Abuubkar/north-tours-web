@@ -130,6 +130,25 @@ const tourCopySchema = z.strictObject({
   /** The headings over the tour's suitability lists (the overview's headline is the tour's own). */
   overview: z.strictObject({ suitedTo: copy, notSuitedTo: copy }),
   highlights: z.strictObject({ headline: copy }),
+  /** "The route, day by day" (#itinerary). */
+  itinerary: z.strictObject({
+    headline: copy,
+    /** Over each day's title: {number} is "01". */
+    dayLabel: copyWith('number'),
+    overnight: copy,
+    meals: copy,
+    drive: copy,
+    /** The side map (from 1280px). */
+    map: z.strictObject({
+      /** Its header on a day: "Day 03 of 09". */
+      day: copyWith('day', 'days'),
+      /** Its header before day 1, over the start's name. */
+      start: copy,
+      /** Read out in place of the drawing. */
+      description: copy,
+      caption: copy,
+    }),
+  }),
   /** "What the price includes" (#included) and its two lists' headings. */
   included: z.strictObject({ headline: copy, included: copy, notIncluded: copy }),
   hotels: z.strictObject({

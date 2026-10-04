@@ -205,6 +205,27 @@ describe('catalog: tours and destinations', () => {
     });
   });
 
+  describe('itinerary', () => {
+    it('needs exactly one day per day of the tour', () => {
+      expect(fields(load((t) => t.itinerary.pop()))).toEqual(['itinerary']);
+      expect(fields(load((t) => t.itinerary.push({ ...t.itinerary[0] })))).toEqual(['itinerary']);
+    });
+
+    it('rejects a day naming a stop that isn’t on the map', () => {
+      const result = load((t) => t.itinerary[2].stops.push('Passu'));
+      expect(result.problems).toEqual([expect.objectContaining({ field: 'itinerary.2.stops.3', message: 'No stop named "Passu"' })]);
+    });
+
+    it('rejects a stop listed twice, or a latitude out of range', () => {
+      expect(fields(load((t) => t.stops.push({ ...t.stops[1] })))).toEqual(['stops.8.name']);
+      expect(fields(load((t) => Object.assign(t.stops[1], { lat: 95 })))).toEqual(['stops.1.lat']);
+    });
+
+    it('starts the map at the trip’s start', () => {
+      expect(fields(load((t) => t.stops.reverse()))).toEqual(['stops.0.name']);
+    });
+  });
+
   it('rejects an inclusion icon that isn’t one of the design’s nine', () => {
     expect(fields(load((t) => Object.assign(t.included[0], { icon: 'spa' })))).toEqual(['included.0.icon']);
   });

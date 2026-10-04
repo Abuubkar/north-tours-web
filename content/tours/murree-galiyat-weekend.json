@@ -138,6 +138,70 @@
       }
     }
   ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Islamabad",
+      "lat": 33.69,
+      "lon": 73.05,
+      "label": "left"
+    },
+    {
+      "name": "Murree",
+      "lat": 33.91,
+      "lon": 73.39,
+      "label": "right"
+    },
+    {
+      "name": "Nathia Gali",
+      "lat": 34.07,
+      "lon": 73.38,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Nathia Gali",
+      "text": "Up the motorway to Islamabad, then into the hills past Murree to Nathia Gali, in time for tea.",
+      "stops": [
+        "Lahore",
+        "Islamabad",
+        "Murree",
+        "Nathia Gali"
+      ],
+      "overnight": "Nathia Gali",
+      "meals": "Dinner",
+      "drive": "6–7 hrs"
+    },
+    {
+      "title": "Mushkpuri and the Pipeline Track",
+      "text": "A gentle morning walk to Mushkpuri Top, then the level Pipeline Track from Ayubia in the afternoon.",
+      "stops": [
+        "Nathia Gali"
+      ],
+      "overnight": "Nathia Gali",
+      "meals": "Breakfast, dinner",
+      "drive": "1 hr"
+    },
+    {
+      "title": "Nathia Gali → Lahore",
+      "text": "A slow morning, then back down through Murree and home by evening.",
+      "stops": [
+        "Nathia Gali",
+        "Murree",
+        "Islamabad",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "6–7 hrs"
+    }
+  ],
   "included": [
     {
       "icon": "hotel",

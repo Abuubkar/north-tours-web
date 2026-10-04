@@ -2,7 +2,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
-import { isoDate, nonEmpty, seasonSchema } from './fields.ts';
+import { isoDate, latitude, longitude, nonEmpty, seasonSchema } from './fields.ts';
 import { imageSchema } from './images.ts';
 
 const pkr = z.int('Use whole rupees').positive();
@@ -58,6 +58,27 @@ const staySchema = z.strictObject({
   image: imageSchema,
 });
 
+/** A stop on the itinerary map (schematic, CLAUDE.md §8). The label sits beside or below it. */
+const stopSchema = z.strictObject({
+  name: nonEmpty,
+  lat: latitude,
+  lon: longitude,
+  label: z.enum(['left', 'right', 'below']),
+});
+
+/** One day of the itinerary: "Day 03 · Chilas → Hunza". */
+const daySchema = z.strictObject({
+  title: nonEmpty,
+  text: nonEmpty,
+  /** The map stops the day covers, in order (names from `stops`). Its last is where it ends. */
+  stops: z.array(nonEmpty).min(1, 'Name at least one stop'),
+  /** Where you sleep, e.g. "Karimabad, Hunza"; "Home" on the last day. */
+  overnight: nonEmpty,
+  meals: nonEmpty,
+  /** e.g. "4–5 hrs". */
+  drive: nonEmpty,
+});
+
 export const tourSchema = z
   .strictObject({
     slug: slugSchema,
@@ -97,8 +118,30 @@ export const tourSchema = z
     notIncluded: z.array(inclusionSchema).min(1),
     /** Each night of the trip, once: from night 1 to the last, with no gap or overlap. */
     stays: z.array(staySchema).min(1),
+    /** The itinerary map's stops; the first is where the trip starts (Lahore). */
+    stops: z.array(stopSchema).min(2, 'List at least two stops'),
+    /** One entry per day. */
+    itinerary: z.array(daySchema),
   })
   .refine((t) => t.nights <= t.days, { message: 'Can’t have more nights than days', path: ['nights'] })
+  .superRefine((tour, ctx) => {
+    if (tour.itinerary.length !== tour.days) {
+      ctx.addIssue({ code: 'custom', message: `Has ${tour.itinerary.length} days; the tour is ${tour.days}`, path: ['itinerary'] });
+    }
+    const names = new Set<string>();
+    tour.stops.forEach(({ name }, i) => {
+      if (names.has(name)) ctx.addIssue({ code: 'custom', message: `"${name}" is listed twice`, path: ['stops', i, 'name'] });
+      names.add(name);
+    });
+    if (tour.stops[0].name !== tour.route[0]) {
+      ctx.addIssue({ code: 'custom', message: `The first stop is where the trip starts: ${tour.route[0]}`, path: ['stops', 0, 'name'] });
+    }
+    tour.itinerary.forEach((day, i) =>
+      day.stops.forEach((stop, j) => {
+        if (!names.has(stop)) ctx.addIssue({ code: 'custom', message: `No stop named "${stop}"`, path: ['itinerary', i, 'stops', j] });
+      }),
+    );
+  })
   .superRefine((tour, ctx) => {
     let next = 1;
     tour.stays.forEach(({ nights }, i) => {

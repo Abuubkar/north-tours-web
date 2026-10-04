@@ -212,6 +212,157 @@
       }
     }
   ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Islamabad",
+      "lat": 33.69,
+      "lon": 73.05,
+      "label": "left"
+    },
+    {
+      "name": "Chilas",
+      "lat": 35.42,
+      "lon": 74.1,
+      "label": "below"
+    },
+    {
+      "name": "Gilgit",
+      "lat": 35.92,
+      "lon": 74.31,
+      "label": "left"
+    },
+    {
+      "name": "Hunza",
+      "lat": 36.32,
+      "lon": 74.66,
+      "label": "left"
+    },
+    {
+      "name": "Attabad",
+      "lat": 36.33,
+      "lon": 74.86,
+      "label": "right"
+    },
+    {
+      "name": "Skardu",
+      "lat": 35.3,
+      "lon": 75.63,
+      "label": "right"
+    },
+    {
+      "name": "Deosai",
+      "lat": 35.03,
+      "lon": 75.42,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Islamabad",
+      "text": "Leave Lahore early and head north on the M-2 through the Salt Range. The evening in Islamabad is free.",
+      "stops": [
+        "Lahore",
+        "Islamabad"
+      ],
+      "overnight": "Islamabad",
+      "meals": "Dinner",
+      "drive": "4–5 hrs"
+    },
+    {
+      "title": "Islamabad → Chilas",
+      "text": "Onto the Karakoram Highway past Abbottabad and Besham, then along the Indus into the mountains. A long day, with plenty of stops for tea.",
+      "stops": [
+        "Islamabad",
+        "Chilas"
+      ],
+      "overnight": "Chilas",
+      "meals": "Breakfast, dinner",
+      "drive": "11–12 hrs"
+    },
+    {
+      "title": "Chilas → Hunza",
+      "text": "Stop at the Nanga Parbat viewpoint and the place where the Himalaya, Karakoram and Hindu Kush meet. Then on through Gilgit to Rakaposhi viewpoint and Karimabad.",
+      "stops": [
+        "Chilas",
+        "Gilgit",
+        "Hunza"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "6–7 hrs"
+    },
+    {
+      "title": "Hunza",
+      "text": "Baltit and Altit forts in the morning and Karimabad bazaar after lunch, then sunset from Eagle’s Nest above the valley.",
+      "stops": [
+        "Hunza"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "1–2 hrs"
+    },
+    {
+      "title": "Upper Hunza",
+      "text": "A boat on Attabad Lake, then the Passu Cones and the Hussaini suspension bridge for those who want to try it.",
+      "stops": [
+        "Attabad"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "4–5 hrs"
+    },
+    {
+      "title": "Hunza → Skardu",
+      "text": "Back through Gilgit, then east on the Skardu Road, high above the Indus gorge.",
+      "stops": [
+        "Hunza",
+        "Gilgit",
+        "Skardu"
+      ],
+      "overnight": "Skardu",
+      "meals": "Breakfast, dinner",
+      "drive": "7–8 hrs"
+    },
+    {
+      "title": "Deosai & Shangrila",
+      "text": "Jeeps up to the Deosai plains and Sheosar Lake, then Shangrila and Upper Kachura on the way back down.",
+      "stops": [
+        "Deosai"
+      ],
+      "overnight": "Skardu",
+      "meals": "Breakfast, dinner",
+      "drive": "6–7 hrs incl. jeep"
+    },
+    {
+      "title": "Skardu → Chilas or Naran",
+      "text": "Back down the Skardu Road and the Karakoram Highway to Chilas, or over Babusar Top to Naran when the pass is open (usually June to September).",
+      "stops": [
+        "Skardu",
+        "Chilas"
+      ],
+      "overnight": "Chilas or Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Chilas or Naran → Lahore",
+      "text": "The final stretch to the motorway, arriving in Lahore in the late evening.",
+      "stops": [
+        "Chilas",
+        "Islamabad",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "12–14 hrs"
+    }
+  ],
   "included": [
     {
       "icon": "hotel",

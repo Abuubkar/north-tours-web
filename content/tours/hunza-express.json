@@ -200,6 +200,114 @@
       }
     }
   ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Naran",
+      "lat": 34.91,
+      "lon": 73.65,
+      "label": "left"
+    },
+    {
+      "name": "Babusar Top",
+      "lat": 35.15,
+      "lon": 74.04,
+      "label": "right"
+    },
+    {
+      "name": "Chilas",
+      "lat": 35.42,
+      "lon": 74.1,
+      "label": "below"
+    },
+    {
+      "name": "Hunza",
+      "lat": 36.32,
+      "lon": 74.66,
+      "label": "left"
+    },
+    {
+      "name": "Passu",
+      "lat": 36.48,
+      "lon": 74.89,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Naran",
+      "text": "North on the motorway, then up the Kaghan valley along the Kunhar River to Naran.",
+      "stops": [
+        "Lahore",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Naran → Hunza",
+      "text": "Over Babusar Top in the morning light, down to the Indus at Chilas, then up the Karakoram Highway to Karimabad.",
+      "stops": [
+        "Naran",
+        "Babusar Top",
+        "Chilas",
+        "Hunza"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "10–11 hrs"
+    },
+    {
+      "title": "Hunza",
+      "text": "Baltit and Altit forts, Karimabad bazaar, and sunset from Eagle’s Nest.",
+      "stops": [
+        "Hunza"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "1–2 hrs"
+    },
+    {
+      "title": "Upper Hunza",
+      "text": "A boat on Attabad Lake, the Passu Cones and the Hussaini suspension bridge.",
+      "stops": [
+        "Passu"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "3–4 hrs"
+    },
+    {
+      "title": "Hunza → Naran",
+      "text": "Back down the Karakoram Highway and over Babusar Top to Naran.",
+      "stops": [
+        "Hunza",
+        "Chilas",
+        "Babusar Top",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "10–11 hrs"
+    },
+    {
+      "title": "Naran → Lahore",
+      "text": "Down the Kaghan valley and home on the motorway by evening.",
+      "stops": [
+        "Naran",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "9–10 hrs"
+    }
+  ],
   "included": [
     {
       "icon": "hotel",

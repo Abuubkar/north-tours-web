@@ -1,0 +1,89 @@
+.day {
+  position: relative;
+  padding: 0 0 var(--space-48) var(--space-32);
+}
+
+.day:last-child {
+  padding-bottom: var(--space-8);
+}
+
+/* The day's node on the timeline's rule: current gold, visited filled, upcoming hollow. */
+.node {
+  position: absolute;
+  top: var(--space-4);
+  left: calc(-1 * var(--itinerary-node) / 2);
+  width: var(--itinerary-node);
+  height: var(--itinerary-node);
+  border: var(--map-ring-width) solid var(--control-border);
+  border-radius: var(--radius-chip);
+  background: var(--bg);
+  transition:
+    background-color var(--dur-300) var(--ease-out),
+    border-color var(--dur-300) var(--ease-out);
+}
+
+.visited {
+  border-color: var(--fg);
+  background: var(--fg);
+}
+
+.current {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+
+/* The mini map shows below 1280px; from there the side map takes over. */
+@media (width >= 1280px) {
+  .mini {
+    display: none;
+  }
+}
+
+.label {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+.title {
+  composes: cardTitle from '../../../styles/typography.module.css';
+  margin-top: var(--space-4);
+}
+
+.text {
+  composes: body from '../../../styles/typography.module.css';
+  max-width: var(--measure-day);
+  margin-top: var(--space-12);
+  color: var(--fg-2);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--day-fact-min), 1fr));
+  gap: var(--space-12) var(--space-24);
+  margin-top: var(--space-20);
+  padding-top: var(--space-16);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+.factLabel {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}
+
+.factValue {
+  composes: small from '../../../styles/typography.module.css';
+  margin-top: var(--space-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .node {
+    transition: none;
+  }
+}

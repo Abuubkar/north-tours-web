@@ -9,6 +9,9 @@ import type { RouteMap } from '../content/routeMap.ts';
 
 export const MAP_FRAME = { width: 560, height: 700, padding: 64 } as const;
 
+/** A drawing's size and the margin kept clear around what it shows. */
+export type MapFrame = { width: number; height: number; padding: number };
+
 type LatLon = { lat: number; lon: number };
 type MapPoint = { x: number; y: number };
 type GridLine = { value: number; at: number; label: string };
@@ -27,9 +30,8 @@ const round = (n: number) => Math.round(n * 10) / 10;
 const wholeDegrees = (from: number, to: number) =>
   Array.from({ length: Math.floor(to) - Math.ceil(from) + 1 }, (_, i) => Math.ceil(from) + i);
 
-/** A projection that fits `places` into the frame, with the graticule lines inside it. */
-export function mapProjection(places: readonly LatLon[]): MapProjection {
-  const frame = MAP_FRAME;
+/** A projection that fits `places` into the frame (the route map's unless given), with the graticule lines inside it. */
+export function mapProjection(places: readonly LatLon[], frame: MapFrame = MAP_FRAME): MapProjection {
   const lats = places.map((p) => p.lat);
   const lons = places.map((p) => p.lon);
   const [minLat, maxLat, minLon, maxLon] = [Math.min(...lats), Math.max(...lats), Math.min(...lons), Math.max(...lons)];

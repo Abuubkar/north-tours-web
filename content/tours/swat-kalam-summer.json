@@ -139,6 +139,86 @@
       }
     }
   ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Mingora",
+      "lat": 34.78,
+      "lon": 72.36,
+      "label": "left"
+    },
+    {
+      "name": "Bahrain",
+      "lat": 35.21,
+      "lon": 72.55,
+      "label": "right"
+    },
+    {
+      "name": "Kalam",
+      "lat": 35.49,
+      "lon": 72.58,
+      "label": "left"
+    },
+    {
+      "name": "Mahodand",
+      "lat": 35.75,
+      "lon": 72.66,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Kalam",
+      "text": "An early start, up the motorway and the whole Swat valley to Kalam.",
+      "stops": [
+        "Lahore",
+        "Mingora",
+        "Bahrain",
+        "Kalam"
+      ],
+      "overnight": "Kalam",
+      "meals": "Dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Ushu and Mahodand",
+      "text": "Jeeps through the Ushu forest to Mahodand Lake, back to Kalam for dinner.",
+      "stops": [
+        "Mahodand"
+      ],
+      "overnight": "Kalam",
+      "meals": "Breakfast, dinner",
+      "drive": "3–4 hrs incl. jeep"
+    },
+    {
+      "title": "Kalam → Mingora",
+      "text": "Down the valley through Bahrain, with a stop at the White Palace at Marghazar.",
+      "stops": [
+        "Kalam",
+        "Bahrain",
+        "Mingora"
+      ],
+      "overnight": "Mingora",
+      "meals": "Breakfast, dinner",
+      "drive": "3–4 hrs"
+    },
+    {
+      "title": "Mingora → Lahore",
+      "text": "An easy morning, then home on the motorway.",
+      "stops": [
+        "Mingora",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "6–7 hrs"
+    }
+  ],
   "included": [
     {
       "icon": "hotel",

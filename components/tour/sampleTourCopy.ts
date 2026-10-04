@@ -29,6 +29,19 @@ export const sampleTourCopy: TourCopy = {
   highlights: {
     headline: 'What you’ll see along the way',
   },
+  itinerary: {
+    headline: 'The route, day by day',
+    dayLabel: 'Day {number}',
+    overnight: 'Overnight',
+    meals: 'Meals',
+    drive: 'Drive',
+    map: {
+      day: 'Day {day} of {days}',
+      start: 'Start',
+      description: 'Schematic map of this tour’s route',
+      caption: 'Schematic · roads simplified',
+    },
+  },
   included: {
     headline: 'What the price includes',
     included: 'Included',

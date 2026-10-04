@@ -160,6 +160,120 @@
       }
     }
   ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Naran",
+      "lat": 34.91,
+      "lon": 73.65,
+      "label": "left"
+    },
+    {
+      "name": "Babusar Top",
+      "lat": 35.15,
+      "lon": 74.04,
+      "label": "left"
+    },
+    {
+      "name": "Chilas",
+      "lat": 35.42,
+      "lon": 74.1,
+      "label": "below"
+    },
+    {
+      "name": "Skardu",
+      "lat": 35.3,
+      "lon": 75.63,
+      "label": "right"
+    },
+    {
+      "name": "Kachura",
+      "lat": 35.43,
+      "lon": 75.45,
+      "label": "left"
+    },
+    {
+      "name": "Deosai",
+      "lat": 35.03,
+      "lon": 75.42,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Naran",
+      "text": "North on the motorway, then up the Kaghan valley to Naran.",
+      "stops": [
+        "Lahore",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Naran → Skardu",
+      "text": "Over Babusar Top, down to the Indus at Chilas, then east on the Skardu Road, high above the gorge.",
+      "stops": [
+        "Naran",
+        "Babusar Top",
+        "Chilas",
+        "Skardu"
+      ],
+      "overnight": "Skardu",
+      "meals": "Breakfast, dinner",
+      "drive": "11–12 hrs"
+    },
+    {
+      "title": "Shangrila and the cold desert",
+      "text": "Upper Kachura Lake and Shangrila in the morning, the sand dunes at Katpana in the afternoon light.",
+      "stops": [
+        "Kachura"
+      ],
+      "overnight": "Skardu",
+      "meals": "Breakfast, dinner",
+      "drive": "2–3 hrs"
+    },
+    {
+      "title": "Deosai Plains",
+      "text": "A full day by jeep on the plateau: Sheosar Lake, wildflowers and, with luck, marmots.",
+      "stops": [
+        "Deosai"
+      ],
+      "overnight": "Skardu",
+      "meals": "Breakfast, dinner",
+      "drive": "6–7 hrs incl. jeep"
+    },
+    {
+      "title": "Skardu → Naran",
+      "text": "Back along the Skardu Road and over Babusar Top to Naran.",
+      "stops": [
+        "Skardu",
+        "Chilas",
+        "Babusar Top",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "11–12 hrs"
+    },
+    {
+      "title": "Naran → Lahore",
+      "text": "Down the Kaghan valley and home on the motorway by evening.",
+      "stops": [
+        "Naran",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "9–10 hrs"
+    }
+  ],
   "included": [
     {
       "icon": "hotel",

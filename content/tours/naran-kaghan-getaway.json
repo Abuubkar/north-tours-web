@@ -142,6 +142,92 @@
       }
     }
   ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Islamabad",
+      "lat": 33.69,
+      "lon": 73.05,
+      "label": "left"
+    },
+    {
+      "name": "Naran",
+      "lat": 34.91,
+      "lon": 73.65,
+      "label": "left"
+    },
+    {
+      "name": "Saiful Muluk",
+      "lat": 34.88,
+      "lon": 73.69,
+      "label": "right"
+    },
+    {
+      "name": "Lulusar",
+      "lat": 35.08,
+      "lon": 73.93,
+      "label": "right"
+    },
+    {
+      "name": "Babusar Top",
+      "lat": 35.15,
+      "lon": 74.04,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Naran",
+      "text": "North on the motorway, then up the Kaghan valley along the Kunhar River to Naran.",
+      "stops": [
+        "Lahore",
+        "Islamabad",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Lake Saiful Muluk",
+      "text": "A short jeep ride up to the lake under Malika Parbat, with the afternoon free in Naran.",
+      "stops": [
+        "Saiful Muluk"
+      ],
+      "overnight": "Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "2 hrs incl. jeep"
+    },
+    {
+      "title": "Lulusar and Babusar Top",
+      "text": "Up the valley past Lulusar Lake to Babusar Top, at over 4,000 metres, then back down for dinner.",
+      "stops": [
+        "Naran",
+        "Lulusar",
+        "Babusar Top"
+      ],
+      "overnight": "Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "4–5 hrs"
+    },
+    {
+      "title": "Naran → Lahore",
+      "text": "Down the Kaghan valley and home on the motorway by evening.",
+      "stops": [
+        "Naran",
+        "Islamabad",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "9–10 hrs"
+    }
+  ],
   "included": [
     {
       "icon": "hotel",

@@ -140,6 +140,104 @@
       }
     }
   ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Naran",
+      "lat": 34.91,
+      "lon": 73.65,
+      "label": "left"
+    },
+    {
+      "name": "Babusar Top",
+      "lat": 35.15,
+      "lon": 74.04,
+      "label": "left"
+    },
+    {
+      "name": "Raikot Bridge",
+      "lat": 35.49,
+      "lon": 74.6,
+      "label": "right"
+    },
+    {
+      "name": "Fairy Meadows",
+      "lat": 35.39,
+      "lon": 74.58,
+      "label": "left"
+    },
+    {
+      "name": "Beyal",
+      "lat": 35.35,
+      "lon": 74.62,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Naran",
+      "text": "North on the motorway, then up the Kaghan valley to Naran.",
+      "stops": [
+        "Lahore",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Naran → Fairy Meadows",
+      "text": "Over Babusar Top to Raikot Bridge, by jeep up to Tato, then a three-hour walk up to the meadow.",
+      "stops": [
+        "Naran",
+        "Babusar Top",
+        "Raikot Bridge",
+        "Fairy Meadows"
+      ],
+      "overnight": "Fairy Meadows",
+      "meals": "Breakfast, dinner",
+      "drive": "5–6 hrs, jeep 1 hr, walk 3 hrs"
+    },
+    {
+      "title": "Beyal and the base camp viewpoint",
+      "text": "A walk through the forest to Beyal Camp and on towards the Nanga Parbat base camp viewpoint.",
+      "stops": [
+        "Beyal"
+      ],
+      "overnight": "Fairy Meadows",
+      "meals": "Breakfast, dinner",
+      "drive": "On foot, 5–6 hrs"
+    },
+    {
+      "title": "Fairy Meadows → Naran",
+      "text": "Down to Tato on foot, by jeep to Raikot Bridge, then over Babusar Top to Naran.",
+      "stops": [
+        "Fairy Meadows",
+        "Raikot Bridge",
+        "Babusar Top",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "Walk 2 hrs, jeep 1 hr, 5 hrs"
+    },
+    {
+      "title": "Naran → Lahore",
+      "text": "Down the Kaghan valley and home on the motorway by evening.",
+      "stops": [
+        "Naran",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "9–10 hrs"
+    }
+  ],
   "included": [
     {
       "icon": "hotel",

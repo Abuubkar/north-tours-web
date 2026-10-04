@@ -61,4 +61,9 @@ describe('sectionInView', () => {
   it('marks Reviews at the bottom of the page', () => {
     expect(sectionInView(at(-3200), viewport)).toBe('reviews');
   });
+
+  it('takes another line, e.g. 50% for the itinerary', () => {
+    expect(sectionInView(at(450), viewport, 0.5)).toBe('how');
+    expect(sectionInView(at(500), viewport, 0.5)).toBeNull();
+  });
 });

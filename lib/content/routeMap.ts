@@ -1,15 +1,12 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
-import { copy, nonEmpty } from './fields.ts';
+import { copy, latitude, longitude, nonEmpty } from './fields.ts';
 
 /*
  * The route map (CLAUDE.md §8): a schematic of the road north, drawn from coordinates. No
  * borders and no basemap. The final map needs Survey of Pakistan vetting before launch.
  */
-
-const latitude = z.number().min(-90, 'Use a latitude from -90 to 90').max(90, 'Use a latitude from -90 to 90');
-const longitude = z.number().min(-180, 'Use a longitude from -180 to 180').max(180, 'Use a longitude from -180 to 180');
 
 const stop = z.strictObject({
   name: nonEmpty,
