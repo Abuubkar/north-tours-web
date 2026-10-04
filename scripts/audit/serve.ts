@@ -1,9 +1,13 @@
 // A small static server for `pnpm audit:site`, as a static host would serve the export: `/path`
-// serves `path.html`, `/` serves `index.html`, anything else `404.html` with status 404. Text is
-// gzipped, as any host does, so load times read as they will live.
-import { existsSync, readFileSync, statSync } from 'node:fs';
-import { createServer } from 'node:http';
+// serves `path.html`, `/` serves `index.html`, anything else `404.html` with status 404. Like any
+// host, it serves HTTP/2 over TLS and gzips text, so load times read as they will live: Lighthouse
+// models a page loaded over HTTP/1.1 with up to six connections, each with its own slow start,
+// which reads LCP up to a second slower than the same page from a real host.
+import { execFileSync } from 'node:child_process';
+import { existsSync, mkdtempSync, readFileSync, rmSync, statSync } from 'node:fs';
+import { createSecureServer } from 'node:http2';
 import type { AddressInfo } from 'node:net';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { gzipSync } from 'node:zlib';
 
@@ -45,27 +49,48 @@ function fileFor(root: string, pathname: string): string | null {
 /** Each file's body, gzipped once for every request that accepts it. */
 const gzipped = new Map<string, Buffer>();
 
-/** Serves the export in `root` on a free localhost port. */
+/**
+ * A throwaway certificate for localhost, made with the system's `openssl` (no dependency). The
+ * browsers that load the site are started to accept it.
+ */
+function localCertificate(): { key: Buffer; cert: Buffer } {
+  const dir = mkdtempSync(path.join(tmpdir(), 'audit-tls-'));
+  const key = path.join(dir, 'key.pem');
+  const cert = path.join(dir, 'cert.pem');
+  try {
+    const args = ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-keyout', key, '-out', cert, '-days', '1', '-subj', '/CN=localhost'];
+    execFileSync('openssl', args, { stdio: 'ignore' });
+    return { key: readFileSync(key), cert: readFileSync(cert) };
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+/** Chromium flag for the throwaway certificate; only ever passed to the audit's own browsers. */
+export const ACCEPT_LOCAL_CERTIFICATE = '--ignore-certificate-errors';
+
+/** Serves the export in `root` on a free localhost port, over HTTP/2 with TLS. */
 export async function serveExport(root: string): Promise<{ origin: string; close: () => Promise<void> }> {
-  const server = createServer((request, response) => {
+  const server = createSecureServer({ ...localCertificate(), allowHTTP1: true }, (request, response) => {
     const { pathname } = new URL(request.url ?? '/', 'http://localhost');
     const file = fileFor(root, pathname);
     const served = file ?? path.join(root, '404.html');
     const type = TYPES[path.extname(served)] ?? 'application/octet-stream';
     let body: Buffer = readFileSync(served);
-    const headers: Record<string, string> = { 'Content-Type': type };
+    const headers: Record<string, string> = { 'content-type': type };
     if (COMPRESSED.test(type) && /\bgzip\b/.test(request.headers['accept-encoding'] ?? '')) {
       if (!gzipped.has(served)) gzipped.set(served, gzipSync(body));
       body = gzipped.get(served)!;
-      headers['Content-Encoding'] = 'gzip';
+      headers['content-encoding'] = 'gzip';
     }
-    response.writeHead(file ? 200 : 404, { ...headers, 'Content-Length': String(body.length) });
-    response.end(request.method === 'HEAD' ? undefined : body);
+    response.writeHead(file ? 200 : 404, { ...headers, 'content-length': String(body.length) });
+    if (request.method === 'HEAD') response.end();
+    else response.end(body);
   });
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
   const { port } = server.address() as AddressInfo;
   return {
-    origin: `http://127.0.0.1:${port}`,
+    origin: `https://localhost:${port}`,
     close: () => new Promise((resolve) => server.close(() => resolve())),
   };
 }

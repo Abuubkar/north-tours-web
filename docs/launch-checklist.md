@@ -29,7 +29,7 @@ Reviews and guides added with `/add-review` and `/add-guide` are real and never 
 pnpm audit:site
 ```
 
-It builds the site, serves the static export on a free localhost port (as a static host would: `/path` serves `path.html`, an unknown path the 404 page with status 404, text gzipped) and checks every built page: each route, all eight tours, all six destinations and the 404. It prints one Markdown table (page, LCP, CLS, TBT, axe violations, page checks, result) for the PR, then each failure and warning in detail, and exits 1 on any failure. A full run takes about 7 minutes. It isn't part of `pnpm test`, the pre-commit hook or the build (ADR-0021).
+It builds the site, serves the static export on a free localhost port (as a static host would: HTTP/2 over TLS with a throwaway certificate made by the system's `openssl`, `/path` serves `path.html`, an unknown path the 404 page with status 404, text gzipped) and checks every built page: each route, all eight tours, all six destinations and the 404. It prints one Markdown table (page, LCP, CLS, TBT, axe violations, page checks, result) for the PR, then each failure and warning in detail, and exits 1 on any failure. A full run takes about 7 minutes. It isn't part of `pnpm test`, the pre-commit hook or the build (ADR-0021).
 
 - **Lighthouse**, with its default mobile settings (a mid-range phone screen, simulated slow 4G, 4x CPU slowdown): fails on LCP over 2.5 s or CLS over 0.1. A page over a limit is run twice more and judged on the median of three, so one noisy run doesn't fail it.
 - **Axe** (axe-core's default rules) at 390 and 1440, with reduced motion so everything is in its final state: any violation fails, listed with page, width, rule and element.
@@ -38,5 +38,5 @@ It builds the site, serves the static export on a free localhost port (as a stat
 
 **Its limits:**
 - **INP needs real taps,** and Lighthouse only loads pages. The audit reports TBT (Total Blocking Time) as the lab stand-in and warns above 200 ms without failing. INP is checked by hand on the interactive flows.
-- Lab numbers are estimates for a mid-range phone on slow mobile data, not what real visitors measure.
+- Lab numbers are estimates for a mid-range phone on slow mobile data, not what real visitors measure. They depend on how the site is served: Lighthouse reads LCP up to a second slower from a plain HTTP/1.1 server than from HTTP/2, which every host uses, so the audit serves HTTP/2.
 - Fix a failure where it starts (the component, section, content or image), never by switching off an axe rule, raising a limit or skipping a page.

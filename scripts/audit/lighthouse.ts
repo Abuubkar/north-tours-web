@@ -5,6 +5,7 @@ import lighthouse from 'lighthouse';
 import { createServer } from 'node:net';
 import { chromium } from 'playwright';
 import type { Vitals } from '../../lib/utils/audit.ts';
+import { ACCEPT_LOCAL_CERTIFICATE } from './serve.ts';
 
 /** A free localhost port for Chromium's remote debugging, which Lighthouse connects to. */
 function freePort(): Promise<number> {
@@ -21,7 +22,7 @@ function freePort(): Promise<number> {
 /** Starts Chromium for Lighthouse and returns a function measuring one URL. */
 export async function startLighthouse() {
   const port = await freePort();
-  const browser = await chromium.launch({ channel: 'chromium', args: [`--remote-debugging-port=${port}`] });
+  const browser = await chromium.launch({ channel: 'chromium', args: [`--remote-debugging-port=${port}`, ACCEPT_LOCAL_CERTIFICATE] });
   const measure = async (url: string): Promise<Vitals> => {
     const result = await lighthouse(url, { port, output: 'json', logLevel: 'error', onlyCategories: ['performance'] });
     const lhr = result?.lhr;
