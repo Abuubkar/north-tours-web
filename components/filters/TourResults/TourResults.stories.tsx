@@ -9,7 +9,7 @@ import { placeholderSettings } from '../../layout/sampleSettings';
 import { tourWith } from '../../tour-card/sampleTours';
 import { samplePhoto } from '../../ui/MediaFrame/samplePhotos';
 import { sampleListTours, sampleOptionLabels, sampleSoonestOrder, sampleToursCopy, withTourFilters } from '../sampleFilters';
-import { PrivateTripBanner } from '../../../sections/PrivateTripBanner/PrivateTripBanner';
+import { PrivateTripBanner } from '@/sections/PrivateTripBanner/PrivateTripBanner';
 import { TourResults } from './TourResults';
 
 const meta = {
@@ -183,9 +183,9 @@ export const BannerAfterFirstRow: Story = {
 
 export const BannerAfterFirstRowLaptop: Story = { ...BannerAfterFirstRow, globals: { viewport: { value: 'laptop' } } };
 
-/** Below 1100px it follows the second card: one row of two on tablets, two cards on phones. */
+/** Below 1100px it follows the second card: one row of two on tablets (900), two cards on phones. */
 export const BannerAfterTwo: Story = {
-  globals: { viewport: { value: 'navBreakpoint' } },
+  globals: { viewport: { value: 'tablet' } },
   play: async ({ canvas }) => {
     await waitFor(() => expect(cardsBeforeBanner(canvas)).toBe(2));
   },
@@ -218,6 +218,7 @@ export const RisesOnFirstLoad: Story = {
       within(card).getByText(/^PKR /),
       within(card).getByText(/ of \d+ seats left$/),
       within(card).getByRole('link', { name: /^View Trip/ }),
+      within(card).getByRole('link', { name: /on WhatsApp$/ }),
     ]) {
       await expect(opacityUpTo(essential, card)).toBe(1);
     }

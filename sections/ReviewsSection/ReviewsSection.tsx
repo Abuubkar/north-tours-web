@@ -13,7 +13,7 @@ const headlineClass = { long: styles.headline, standard: styles.standardHeadline
  * headline is visually hidden, so the section is still reachable by heading, and the cards are
  * the compact ones.
  */
-export function ReviewsSection({ copy, variant = 'full', headlineSize = 'long', reviews, summary }: ReviewsSectionProps) {
+export function ReviewsSection({ copy, variant = 'default', headlineSize = 'long', reviews, summary }: ReviewsSectionProps) {
   const compact = variant === 'compact';
   // A tour with no reviews yet has no section; its rating still shows in the hero.
   if (reviews.length === 0) return null;
@@ -32,7 +32,7 @@ export function ReviewsSection({ copy, variant = 'full', headlineSize = 'long', 
       </div>
       <div className={styles.grid}>
         {reviews.map(({ review, tourTitle }) => (
-          <ReviewCard key={review.slug} review={review} tourTitle={tourTitle} variant={compact ? 'compact' : 'default'} />
+          <ReviewCard key={review.slug} review={review} tourTitle={tourTitle} variant={variant} />
         ))}
       </div>
     </section>

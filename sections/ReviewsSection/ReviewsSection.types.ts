@@ -5,7 +5,7 @@ import type { RatingSummary } from '@/lib/utils/rating';
 export type ReviewWithTour = { review: Review; tourTitle: string };
 
 type Full = {
-  variant?: 'full';
+  variant?: 'default';
   /** long: the Homepage's long headline. standard: Tour Detail's (docs/components.md §5 item 34). */
   headlineSize?: 'long' | 'standard';
 };

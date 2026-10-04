@@ -18,13 +18,16 @@
   }
 }
 
+/* The count and buttons are hidden while a linked view is applied, so "Filters (2)" doesn't push them. */
 .count {
   composes: body from '../../../styles/typography.module.css';
+  composes: pendingHidden from '../../../styles/layout.module.css';
   font-weight: var(--fw-medium);
   white-space: nowrap;
 }
 
 .actions {
+  composes: pendingHidden from '../../../styles/layout.module.css';
   display: flex;
   gap: var(--space-8);
 }

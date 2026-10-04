@@ -3,7 +3,7 @@ import { monthYear } from '@/lib/utils/dates';
 import type { ReviewCardProps } from './ReviewCard.types';
 import styles from './ReviewCard.module.css';
 
-const classes = {
+const looks = {
   default: { card: styles.card, quote: styles.quote, caption: styles.caption, name: styles.name, trip: styles.trip, stars: 15 },
   compact: {
     card: styles.compactCard,
@@ -20,7 +20,7 @@ const classes = {
  * compact card (Tours) sets each smaller part on the nearest type role and spacing token.
  */
 export function ReviewCard({ review, tourTitle, variant = 'default' }: ReviewCardProps) {
-  const look = classes[variant];
+  const look = looks[variant];
   return (
     <figure className={look.card}>
       <StarRating rating={review.rating} size={look.stars} />

@@ -12,9 +12,15 @@
 
 /* The button form, e.g. "Clear all": the same underline at the UI size, no arrow. */
 .textButton {
-  composes: textLink;
   composes: ui from '../../../styles/typography.module.css';
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
   padding: 0 var(--space-8);
+  font-weight: var(--fw-medium);
+  text-decoration: underline;
+  text-decoration-thickness: var(--hairline-width);
+  text-underline-offset: var(--underline-offset);
   border: 0;
   background: transparent;
   color: var(--link);

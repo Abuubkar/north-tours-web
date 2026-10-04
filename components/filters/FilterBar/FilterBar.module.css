@@ -14,7 +14,9 @@
   }
 }
 
+/* Its controls are hidden while a linked view is applied, so their counts and chips don't push each other. */
 .row {
+  composes: pendingHidden from '../../../styles/layout.module.css';
   display: flex;
   flex-wrap: wrap;
   align-items: center;
