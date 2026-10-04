@@ -5,6 +5,7 @@ import { EMPTY_DETAILS, switchPhoneMode, type Details } from '@/lib/utils/planne
 import { callBackMessage, tripRequestMessage, type PlannerTemplates } from '@/lib/utils/plannerMessage';
 import { destinationChoices, monthChoices } from '@/lib/utils/plannerOptions';
 import {
+  linksDestination,
   parsePlanner,
   PLANNER_PENDING,
   PLANNER_STORAGE_KEY,
@@ -154,7 +155,7 @@ export function usePlannerState({ destinations, builtOn, messages, words, templa
     if (!arrival) return null;
     const saved = parsePlanner(arrival.saved, { destinations, today, messages });
     const answers = withLinkedDestination(saved.answers, arrival.search, destinations);
-    return { answers, step: saved.step as PlannerStep, linked: answers !== saved.answers };
+    return { answers, step: saved.step, linked: answers !== saved.answers };
   }, [arrival, destinations, today, messages]);
   const start = restored?.answers ?? DEFAULT_ANSWERS;
   // The visitor's own changes, from the first one on; until then, what was restored.
@@ -188,9 +189,11 @@ export function usePlannerState({ destinations, builtOn, messages, words, templa
 
   // Once arrived: a linked destination leaves the address bar (no history entry, so a reload
   // doesn't add it again) and is saved; then the planner shows, restored, in this same paint.
+  const arrived = useRef(false);
   useLayoutEffect(() => {
-    if (!arrival || !restored) return;
-    if (new URLSearchParams(arrival.search).has('dest')) {
+    if (!arrival || !restored || arrived.current) return;
+    arrived.current = true;
+    if (linksDestination(arrival.search)) {
       const { pathname, hash } = window.location;
       window.history.replaceState(window.history.state, '', `${pathname}${searchWithoutDestination(arrival.search)}${hash}`);
       if (restored.linked) save(restored.answers, restored.step);
@@ -259,9 +262,8 @@ export function usePlannerState({ destinations, builtOn, messages, words, templa
       setAnswers(DEFAULT_ANSWERS);
       setDetails(EMPTY_DETAILS);
       setTried({});
-      setStep(1);
-      setDirection('back');
-      setFocus({ target: 'progress' });
+      go(1, 'back');
+      // Not saved again until the visitor answers something.
       setSaving(false);
       forget();
     },

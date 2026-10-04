@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { plannerCopyFile, type PlannerCopy } from '../content/pages.ts';
 import { DEFAULT_ANSWERS, type TripAnswers } from './plannerAnswers.ts';
-import { parsePlanner, PLANNER_PENDING_SCRIPT, searchWithoutDestination, serialisePlanner, withLinkedDestination } from './plannerStorage.ts';
+import { parsePlanner, PLANNER_PENDING, PLANNER_PENDING_SCRIPT, searchWithoutDestination, serialisePlanner, withLinkedDestination } from './plannerStorage.ts';
 
 const { errors: messages }: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
 const destinations = ['hunza', 'skardu', 'swat'];
@@ -118,8 +118,28 @@ describe('a ?dest= link', () => {
 });
 
 describe('the pending script', () => {
-  it('reads the saved key and the link', () => {
-    expect(PLANNER_PENDING_SCRIPT).toContain("localStorage.getItem('planner-answers-v1')");
-    expect(PLANNER_PENDING_SCRIPT).toContain('dest=');
+  /** Runs the script against a page at `search` with `saved` in storage (or storage throwing); true if it marked the planner pending. */
+  const marks = (search: string, saved: string | null | Error) => {
+    const set: string[] = [];
+    const localStorage = {
+      getItem: () => {
+        if (saved instanceof Error) throw saved;
+        return saved;
+      },
+    };
+    const documentElement = { setAttribute: (name: string) => set.push(name) };
+    new Function('localStorage', 'location', 'document', PLANNER_PENDING_SCRIPT)(localStorage, { search }, { documentElement });
+    return set.includes(PLANNER_PENDING);
+  };
+
+  it('marks the planner pending with saved answers or a ?dest= link', () => {
+    expect(marks('', '{"step":2}')).toBe(true);
+    expect(marks('?dest=hunza', null)).toBe(true);
+    expect(marks('?utm=x&dest=hunza', new Error('blocked'))).toBe(true);
+  });
+
+  it('leaves it alone with neither', () => {
+    expect(marks('', null)).toBe(false);
+    expect(marks('?utm=x', new Error('blocked'))).toBe(false);
   });
 });

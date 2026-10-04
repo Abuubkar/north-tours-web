@@ -35,8 +35,11 @@ export function serialisePlanner(answers: TripAnswers, step: number): string {
   return JSON.stringify({ ...answers, step: Math.min(step, LAST_SAVED_STEP) });
 }
 
+/** The furthest step that's saved: 1 to 4 (the review). */
+export type SavedStep = 1 | 2 | 3 | 4;
+
 /** What the parser checks against: the destinations in content, today in Karachi, and the page's messages. */
-export type ParseContext = { destinations: readonly string[]; today: string; messages: PlannerCopy['errors'] };
+type ParseContext = { destinations: readonly string[]; today: string; messages: PlannerCopy['errors'] };
 
 const isInt = (value: unknown, { min, max }: { min: number; max: number }): value is number =>
   Number.isInteger(value) && (value as number) >= min && (value as number) <= max;
@@ -51,40 +54,40 @@ const realDate = (value: unknown): value is string =>
 /** A date still to come (today counts), or null. */
 const comingDate = (value: unknown, today: string) => (realDate(value) && value >= today ? value : null);
 
-/** The trip answers in saved data, each field checked on its own; anything unreadable gives the defaults. */
-export function parseAnswers(raw: string | null, { destinations, today }: Omit<ParseContext, 'messages'>): TripAnswers {
-  let data: Record<string, unknown>;
+/** The saved object, or null for nothing saved or anything unreadable. */
+function readObject(raw: string | null): Record<string, unknown> | null {
   try {
     const parsed: unknown = raw === null ? null : JSON.parse(raw);
-    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return DEFAULT_ANSWERS;
-    data = parsed as Record<string, unknown>;
+    return typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) ? (parsed as Record<string, unknown>) : null;
   } catch {
-    return DEFAULT_ANSWERS;
+    return null;
   }
-  const d = DEFAULT_ANSWERS;
-  const choices = destinationChoices(destinations);
+}
+
+/** The trip answers in saved data, each field checked on its own against its default. */
+function parseAnswers(data: Record<string, unknown>, { destinations, today }: ParseContext): TripAnswers {
+  const defaults = DEFAULT_ANSWERS;
   const saved = Array.isArray(data.destinations) ? data.destinations : [];
-  const adults = isInt(data.adults, ADULTS) ? data.adults : d.adults;
-  const children = isInt(data.children, CHILDREN) ? data.children : d.children;
-  const agesFit = Array.isArray(data.ages) && data.ages.length === children && data.ages.every((age) => age === null || AGES.includes(age as number));
-  const month = typeof data.month === 'string' && monthChoices(today).includes(data.month) ? data.month : null;
+  const children = isInt(data.children, CHILDREN) ? data.children : defaults.children;
+  const agesFit =
+    Array.isArray(data.ages) && data.ages.length === children && data.ages.every((age) => age === null || AGES.includes(age as number));
   return {
-    destinations: choices.filter((choice) => saved.includes(choice)),
-    dateMode: oneOf(DATE_MODES, data.dateMode, d.dateMode) ?? d.dateMode,
+    destinations: destinationChoices(destinations).filter((choice) => saved.includes(choice)),
+    dateMode: oneOf(DATE_MODES, data.dateMode, defaults.dateMode) ?? defaults.dateMode,
     from: comingDate(data.from, today),
     to: comingDate(data.to, today),
-    month,
-    days: isInt(data.days, DAYS) ? data.days : d.days,
+    month: typeof data.month === 'string' && monthChoices(today).includes(data.month) ? data.month : null,
+    days: isInt(data.days, DAYS) ? data.days : defaults.days,
     length: oneOf(TRIP_LENGTHS, data.length, null),
-    lengthAuto: typeof data.lengthAuto === 'boolean' ? data.lengthAuto : d.lengthAuto,
-    adults,
+    lengthAuto: typeof data.lengthAuto === 'boolean' ? data.lengthAuto : defaults.lengthAuto,
+    adults: isInt(data.adults, ADULTS) ? data.adults : defaults.adults,
     children,
     ages: agesFit ? (data.ages as (number | null)[]) : Array.from({ length: children }, () => null),
     groupType: oneOf(GROUP_TYPES, data.groupType, null),
     hotels: oneOf(HOTELS, data.hotels, null),
     transport: oneOf(TRANSPORT, data.transport, null),
-    departingFrom: oneOf(DEPARTING_FROM, data.departingFrom, d.departingFrom) ?? d.departingFrom,
-    otherCity: typeof data.otherCity === 'string' ? data.otherCity : d.otherCity,
+    departingFrom: oneOf(DEPARTING_FROM, data.departingFrom, defaults.departingFrom) ?? defaults.departingFrom,
+    otherCity: typeof data.otherCity === 'string' ? data.otherCity : defaults.otherCity,
     budget: oneOf(PLANNER_BUDGETS, data.budget, null),
   };
 }
@@ -93,24 +96,28 @@ export function parseAnswers(raw: string | null, { destinations, today }: Omit<P
  * The step to return to: the saved one (never past the review), moved back to the first step
  * that doesn't pass. Your details are never saved, so a saved review returns to Your details.
  */
-export function restoredStep(raw: string | null, answers: TripAnswers, { today, messages }: Omit<ParseContext, 'destinations'>): number {
-  let saved = 1;
-  try {
-    const step: unknown = raw === null ? null : (JSON.parse(raw) as { step?: unknown }).step;
-    if (isInt(step, { min: 1, max: LAST_SAVED_STEP })) saved = step;
-  } catch {
-    return 1;
+function restoredStep(saved: unknown, answers: TripAnswers, { today, messages }: ParseContext): SavedStep {
+  const furthest = isInt(saved, { min: 1, max: LAST_SAVED_STEP }) ? (saved as SavedStep) : 1;
+  for (let step = 1; step < furthest; step++) {
+    if (stepErrors(step, answers, EMPTY_DETAILS, today, messages).length > 0) return step as SavedStep;
   }
-  for (let step = 1; step < saved; step++) {
-    if (stepErrors(step, answers, EMPTY_DETAILS, today, messages).length > 0) return step;
-  }
-  return saved;
+  return furthest;
 }
 
-/** The planner as saved: its answers and its step. */
-export function parsePlanner(raw: string | null, context: ParseContext): { answers: TripAnswers; step: number } {
-  const answers = parseAnswers(raw, context);
-  return { answers, step: restoredStep(raw, answers, context) };
+/** The planner as saved, checked field by field: its answers and its step. Unreadable data gives the defaults. */
+export function parsePlanner(raw: string | null, context: ParseContext): { answers: TripAnswers; step: SavedStep } {
+  const data = readObject(raw);
+  if (!data) return { answers: DEFAULT_ANSWERS, step: 1 };
+  const answers = parseAnswers(data, context);
+  return { answers, step: restoredStep(data.step, answers, context) };
+}
+
+/** The link's parameter that names a destination: /plan?dest=hunza. */
+export const DEST_PARAM = 'dest';
+
+/** Whether a link asks for a destination. */
+export function linksDestination(search: string): boolean {
+  return new URLSearchParams(search).has(DEST_PARAM);
 }
 
 /**
@@ -118,7 +125,7 @@ export function parsePlanner(raw: string | null, context: ParseContext): { answe
  * that isn't a destination in content is ignored.
  */
 export function withLinkedDestination(answers: TripAnswers, search: string, destinations: readonly string[]): TripAnswers {
-  const dest = new URLSearchParams(search).get('dest');
+  const dest = new URLSearchParams(search).get(DEST_PARAM);
   if (!dest || !destinations.includes(dest) || answers.destinations.includes(dest)) return answers;
   return toggleDestination(answers, dest, destinationChoices(destinations));
 }
@@ -126,7 +133,7 @@ export function withLinkedDestination(answers: TripAnswers, search: string, dest
 /** The query without `dest`, so a reload doesn't add the destination again: "?dest=hunza&x=1" → "?x=1". */
 export function searchWithoutDestination(search: string): string {
   const query = new URLSearchParams(search);
-  query.delete('dest');
+  query.delete(DEST_PARAM);
   const rest = query.toString();
   return rest ? `?${rest}` : '';
 }
@@ -139,4 +146,4 @@ export const PLANNER_PENDING = 'data-planner-pending';
  * `?dest=` link it marks the planner as pending, so step 1's defaults never flash before the
  * restored step. Without JavaScript it never runs, and nothing is hidden.
  */
-export const PLANNER_PENDING_SCRIPT = `try{if(localStorage.getItem('${PLANNER_STORAGE_KEY}')||/[?&]dest=/.test(location.search))document.documentElement.setAttribute('${PLANNER_PENDING}','')}catch(e){if(/[?&]dest=/.test(location.search))document.documentElement.setAttribute('${PLANNER_PENDING}','')}`;
+export const PLANNER_PENDING_SCRIPT = `var s=null;try{s=localStorage.getItem('${PLANNER_STORAGE_KEY}')}catch(e){}if(s||/[?&]${DEST_PARAM}=/.test(location.search))document.documentElement.setAttribute('${PLANNER_PENDING}','')`;
