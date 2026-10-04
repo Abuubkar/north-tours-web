@@ -20,5 +20,3 @@ export function getAboutPage() {
     sharePhoto: copy.header.image,
   };
 }
-
-export type AboutPage = ReturnType<typeof getAboutPage>;

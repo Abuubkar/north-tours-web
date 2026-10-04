@@ -1,17 +1,23 @@
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
-import type { PageHeaderProps } from './PageHeader.types';
+import type { PageHeaderProps, PageHeaderVariant } from './PageHeader.types';
 import styles from './PageHeader.module.css';
 
-type Variant = NonNullable<PageHeaderProps['variant']>;
-
-const headlineClass: Record<Variant, string> = {
+const headlineClass: Record<PageHeaderVariant, string> = {
   default: styles.headline,
   planner: styles.headline,
   plannerSlim: styles.slimHeadline,
   about: styles.aboutHeadline,
 };
 
-const leadClass: Record<Variant, string> = {
+/** The shell's padding: the planner's headers change it; the others keep the default. */
+const headerClass: Record<PageHeaderVariant, string | undefined> = {
+  default: undefined,
+  planner: styles.planner,
+  plannerSlim: styles.plannerSlim,
+  about: undefined,
+};
+
+const leadClass: Record<PageHeaderVariant, string> = {
   default: styles.lead,
   planner: styles.plannerLead,
   plannerSlim: styles.lead,
@@ -24,7 +30,7 @@ const leadClass: Record<Variant, string> = {
  * page keeps exactly one <h1> on every step; the size is visual only.
  */
 export function PageHeader({ headline, lead, variant = 'default', image }: PageHeaderProps) {
-  const classes = [styles.header, variant !== 'default' && styles[variant]].filter(Boolean).join(' ');
+  const classes = [styles.header, headerClass[variant]].filter(Boolean).join(' ');
   return (
     <header className={classes}>
       <h1 className={headlineClass[variant]}>{headline}</h1>

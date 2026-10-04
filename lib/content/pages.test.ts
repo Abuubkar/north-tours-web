@@ -287,6 +287,7 @@ describe('about page copy', () => {
   });
 
   it('marks invented claims with sample: true, and nothing else (ADR-0019)', () => {
+    expect(load((c) => Object.assign(c.story, { sample: true })).problems).toEqual([]);
     expect(load((c) => delete c.story.sample).problems).toEqual([]);
     const result = load((c) => Object.assign(c.story, { sample: false }));
     expect(problems(result)).toEqual(['story.sample']);

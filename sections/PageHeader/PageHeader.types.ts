@@ -1,6 +1,7 @@
 import type { Photo } from '@/lib/content/images';
 
-type Text = {
+/** A text-only header: no photo. */
+type WithoutPhoto = {
   /**
    * default: the <h1> at the statement size over the lead (Tours). planner: the same on the light
    * page with a shorter lead and less room below (Trip Planner, step 1). plannerSlim: the planner's
@@ -17,9 +18,11 @@ type About = {
   image: Photo;
 };
 
-export type PageHeaderProps = (Text | About) & {
+export type PageHeaderProps = (WithoutPhoto | About) & {
   /** The page's <h1>. */
   headline: string;
   /** The line under it; the slim planner header has none. */
   lead?: string;
 };
+
+export type PageHeaderVariant = NonNullable<PageHeaderProps['variant']>;
