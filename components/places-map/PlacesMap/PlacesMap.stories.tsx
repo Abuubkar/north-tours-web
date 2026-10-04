@@ -73,7 +73,15 @@ export const BaltitLit: Story = {
 
 export const BaltitLitOnLight: Story = { ...BaltitLit, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-export const BaltitLitPhone: Story = { ...BaltitLit, globals: { viewport: { value: 'phone' } } };
+/** On a phone nothing on the map, a degree label at the edge included, widens the page. */
+export const BaltitLitPhone: Story = {
+  ...BaltitLit,
+  globals: { viewport: { value: 'phone' } },
+  play: async (context) => {
+    await BaltitLit.play!(context);
+    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
+  },
+};
 
 /** Passu Cones, near the top: its name goes below rather than leave the map. */
 export const PassuLit: Story = {

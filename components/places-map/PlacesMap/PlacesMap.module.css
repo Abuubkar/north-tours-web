@@ -6,9 +6,13 @@
   scroll-margin-top: var(--space-16);
 }
 
-/* No border and no surface fill, as designed (only the Homepage's route map has a frame). */
+/*
+ * No border and no surface fill, as designed (only the Homepage's route map has a frame). Labels
+ * near an edge are clipped to it, so a degree label never widens the page.
+ */
 .frame {
   position: relative;
+  overflow: clip;
 }
 
 .drawing {
