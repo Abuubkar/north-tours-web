@@ -6,9 +6,9 @@ import { Tag } from '@/components/ui/Tag/Tag';
 import { routes } from '@/lib/routes';
 import { dateRange, tripLength } from '@/lib/utils/dates';
 import { NO_UPCOMING_DATES, seatStatus, urgencyText } from '@/lib/utils/departures';
-import { departurePrices } from '@/lib/utils/price';
+import { cardPrice } from '@/lib/utils/price';
 import { routeLine } from '@/lib/utils/route';
-import { departureMessage, whatsappLink } from '@/lib/utils/whatsapp';
+import { cardMessage, whatsappLink } from '@/lib/utils/whatsapp';
 import { PriceBlock } from '../../tour/PriceBlock/PriceBlock';
 import { SeatsStatus } from '../../tour/SeatsStatus/SeatsStatus';
 import type { TourCardProps } from './TourCard.types';
@@ -16,25 +16,10 @@ import styles from './TourCard.module.css';
 
 /**
  * The photo's width in a grid of at most four columns, each at least 280px (DESIGN.md §5):
- * four columns from about 1200px (4 × 280 plus the page margins), two from about 600px.
+ * four columns from about 1200px (4 × 280 plus the page margins), two from about 600px. A list
+ * with other columns gives its own.
  */
 const PHOTO_SIZES = '(width >= 1200px) 25vw, (width >= 600px) 50vw, 100vw';
-
-/** What the card's actions say and send: the trip, its waitlist, or (with no dates left) a general question. */
-function cardAction(tour: TourCardProps['tour'], departure: TourCardProps['departure'], settings: TourCardProps['settings']) {
-  if (!departure) {
-    return {
-      message: settings.whatsapp.generalMessage,
-      whatsappLabel: `Ask about ${tour.title} on WhatsApp`,
-    };
-  }
-  const soldOut = seatStatus(departure) === 'soldout';
-  const template = soldOut ? settings.whatsapp.waitlistMessage : settings.whatsapp.tourMessage;
-  return {
-    message: departureMessage(template, tour.title, departure.start),
-    whatsappLabel: soldOut ? `Join the waitlist for ${tour.title} on WhatsApp` : `Ask about ${tour.title} on WhatsApp`,
-  };
-}
 
 /**
  * One tour and the departure it shows (DESIGN.md §8), with that date's twin price. Urgent at 3
@@ -42,16 +27,15 @@ function cardAction(tour: TourCardProps['tour'], departure: TourCardProps['depar
  * the tour's own "from" price (its twin price, ADR-0017) and asks on WhatsApp in general. Each
  * link names the tour for screen readers.
  */
-export function TourCard({ tour, departure, priority = false, settings }: TourCardProps) {
+export function TourCard({ tour, departure, priority = false, photoSizes = PHOTO_SIZES, settings }: TourCardProps) {
   const status = departure && seatStatus(departure);
   const soldOut = status === 'soldout';
-  const action = cardAction(tour, departure, settings);
-  const whatsapp = whatsappLink(settings.contact.whatsapp, action.message);
+  const whatsapp = whatsappLink(settings.contact.whatsapp, cardMessage(settings.whatsapp, tour.title, departure));
 
   return (
     <article className={`${styles.card} ${soldOut ? styles.soldOut : styles.live}`}>
       <div className={styles.media}>
-        <MediaFrame image={tour.image} ratio="4:3" sizes={PHOTO_SIZES} priority={priority} className={styles.photo} />
+        <MediaFrame image={tour.image} ratio="4:3" sizes={photoSizes} priority={priority} className={styles.photo} />
         {departure && status === 'urgent' && (
           <div className={styles.tag}>
             <Tag variant="urgent">{urgencyText(departure)}</Tag>
@@ -71,7 +55,7 @@ export function TourCard({ tour, departure, priority = false, settings }: TourCa
         </p>
         <div className={styles.priceRow}>
           <div className={styles.price}>
-            <PriceBlock amount={departure ? departurePrices(tour, departure).twin : tour.prices.twin} />
+            <PriceBlock amount={cardPrice(tour, departure)} />
           </div>
           <RatingInline score={tour.rating.score} count={tour.rating.count} />
         </div>
@@ -94,7 +78,7 @@ export function TourCard({ tour, departure, priority = false, settings }: TourCa
             href={whatsapp}
             icon="whatsapp"
             size={48}
-            label={action.whatsappLabel}
+            label={soldOut ? `Join the waitlist for ${tour.title} on WhatsApp` : `Ask about ${tour.title} on WhatsApp`}
             className={styles.whatsapp}
           />
         </div>

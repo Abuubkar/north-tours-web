@@ -17,7 +17,7 @@ export function TourResults({ tours, builtOn, copy, settings }: TourResultsProps
   const results = tourResults(tours, useToday(builtOn));
 
   return (
-    <section id="results" className={styles.results}>
+    <section className={styles.results}>
       <ResultsHeader
         count={tripsCount(results.length, copy.results.count)}
         sortedBy={sortedByText(copy.results.sortedBy, copy.sorts.soonest)}

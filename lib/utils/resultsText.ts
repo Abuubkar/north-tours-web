@@ -1,7 +1,8 @@
+import type { ToursCopy } from '../content/pages.ts';
 import { fillTokens } from './tokens.ts';
 
 /** Page copy for a count of trips: "{count} trip" and "{count} trips". */
-export type CountWords = { one: string; other: string };
+type CountWords = ToursCopy['results']['count'];
 
 /** "1 trip", "8 trips", "0 trips", from the page's words. */
 export function tripsCount(count: number, words: CountWords): string {

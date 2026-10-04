@@ -5,6 +5,9 @@ import styles from './ResultsGrid.module.css';
 /** The widest layout's first row (three columns): their photos load straight away, the rest lazily. */
 const FIRST_ROW = 3;
 
+/** Each photo's width in one, two or three columns (below 820px, below 1100px, from 1100px). */
+const PHOTO_SIZES = '(width >= 1100px) 33vw, (width >= 820px) 50vw, 100vw';
+
 /**
  * The results as tour cards in one, two or three columns (below 820px, below 1100px, from
  * 1100px). Each card draws its own hairlines, so a short last row simply ends (docs/components.md
@@ -15,7 +18,13 @@ export function ResultsGrid({ results, settings }: ResultsGridProps) {
     <ul className={styles.grid}>
       {results.map(({ tour, departure }, index) => (
         <li key={tour.slug} className={styles.cell}>
-          <TourCard tour={tour} departure={departure} priority={index < FIRST_ROW} settings={settings} />
+          <TourCard
+            tour={tour}
+            departure={departure}
+            priority={index < FIRST_ROW}
+            photoSizes={PHOTO_SIZES}
+            settings={settings}
+          />
         </li>
       ))}
     </ul>

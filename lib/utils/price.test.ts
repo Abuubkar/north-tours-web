@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Departure, RoomPrices } from '../content/tours.ts';
-import { departurePrices, formatPkr, fromPrice, shownPrice } from './price.ts';
+import { cardPrice, departurePrices, formatPkr, fromPrice, shownPrice } from './price.ts';
 
 describe('formatPkr', () => {
   it('groups thousands', () => {
@@ -57,5 +57,18 @@ describe('fromPrice', () => {
   it('falls back to the tour’s twin price with no departure left', () => {
     expect(fromPrice({ prices, departures: [departure('2027-04-20', eid)] }, today)).toBe(145000);
     expect(fromPrice({ prices, departures: [] }, today)).toBe(145000);
+  });
+});
+
+describe('cardPrice', () => {
+  const tour = { prices: { twin: 145000, triple: 135000, quad: 127000 } };
+
+  it('is the twin price of the departure the card shows, its own if it has one', () => {
+    expect(cardPrice(tour, {})).toBe(145000);
+    expect(cardPrice(tour, { prices: { twin: 160000, triple: 150000, quad: 140000 } })).toBe(160000);
+  });
+
+  it('is the tour’s "from" price, its twin price, with no dates left', () => {
+    expect(cardPrice(tour, undefined)).toBe(145000);
   });
 });

@@ -14,6 +14,14 @@ export function departurePrices(tour: Pick<Tour, 'prices'>, departure: Pick<Depa
 }
 
 /**
+ * The price a tour card shows: the twin price of its departure, or with no dates left the tour's
+ * "from" price, which is then its own twin price (ADR-0017).
+ */
+export function cardPrice(tour: Pick<Tour, 'prices'>, departure: Pick<Departure, 'prices'> | undefined): number {
+  return departure ? departurePrices(tour, departure).twin : tour.prices.twin;
+}
+
+/**
  * The "from" price as of `today` (YYYY-MM-DD, Asia/Karachi): the lowest twin price across the
  * tour's upcoming departures, or the tour's own twin price when none is left. Never stored.
  */

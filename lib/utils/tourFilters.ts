@@ -10,7 +10,7 @@ import { seatStatus, shownDeparture } from './departures.ts';
 export type ListedTour = Pick<Tour, 'title'> & { departures: readonly Departure[] };
 
 /** A card on the list: its tour and the departure it shows, or none when the tour has no dates left. */
-export type TourResult<T extends ListedTour> = { tour: T; departure: Departure | undefined };
+export type TourResult<T> = { tour: T; departure: Departure | undefined };
 
 /** Bookable trips first, then sold out (the card's date is full), then trips with no upcoming dates. */
 function availability(departure: Departure | undefined): number {

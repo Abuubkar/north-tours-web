@@ -5,12 +5,8 @@ import styles from './PageHeader.module.css';
 export function PageHeader({ headline, lead }: PageHeaderProps) {
   return (
     <header className={styles.header}>
-      <div className={styles.row}>
-        <div className={styles.content}>
-          <h1 className={styles.headline}>{headline}</h1>
-          <p className={styles.lead}>{lead}</p>
-        </div>
-      </div>
+      <h1 className={styles.headline}>{headline}</h1>
+      <p className={styles.lead}>{lead}</p>
     </header>
   );
 }

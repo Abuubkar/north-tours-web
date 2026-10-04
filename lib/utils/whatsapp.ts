@@ -1,4 +1,7 @@
+import type { Settings } from '../content/settings.ts';
+import type { Departure } from '../content/tours.ts';
 import { messageDate } from './dates.ts';
+import { seatStatus } from './departures.ts';
 import { isPlaceholder } from './placeholder.ts';
 import { fillTokens } from './tokens.ts';
 
@@ -15,4 +18,18 @@ export function whatsappLink(number: string, message: string): string {
 /** A tour card's message from a settings template: "Hi, I’m interested in {tour} on {date}." */
 export function departureMessage(template: string, tour: string, start: string): string {
   return fillTokens(template, { tour, date: messageDate(start) });
+}
+
+/**
+ * A tour card's WhatsApp message: about the date it shows, the waitlist when that date is full,
+ * or a general question when the tour has no dates left.
+ */
+export function cardMessage(
+  whatsapp: Pick<Settings['whatsapp'], 'tourMessage' | 'waitlistMessage' | 'generalMessage'>,
+  tour: string,
+  departure: Pick<Departure, 'start' | 'seatsLeft'> | undefined,
+): string {
+  if (!departure) return whatsapp.generalMessage;
+  const template = seatStatus(departure) === 'soldout' ? whatsapp.waitlistMessage : whatsapp.tourMessage;
+  return departureMessage(template, tour, departure.start);
 }
