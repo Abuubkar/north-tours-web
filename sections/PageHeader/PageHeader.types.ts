@@ -7,9 +7,10 @@ type WithoutPhoto = {
   /**
    * default: the <h1> at the statement size over the lead (Tours). planner: the same on the light
    * page with a shorter lead and less room below (Trip Planner, step 1). plannerSlim: the planner's
-   * later steps, where the same <h1> reads as a slim line ("Planning your private trip").
+   * later steps, where the same <h1> reads as a slim line ("Planning your private trip"). contact:
+   * the <h1> and a lead at most 600px wide, with no label (it would repeat the headline).
    */
-  variant?: 'default' | 'planner' | 'plannerSlim';
+  variant?: 'default' | 'planner' | 'plannerSlim' | 'contact';
   image?: never;
   updated?: never;
   search?: never;
@@ -42,15 +43,7 @@ type Legal = {
   search?: never;
 };
 
-/** Contact (dark): the <h1>, then the lead at most 600px wide. No label: it would repeat the headline. */
-type Contact = {
-  variant: 'contact';
-  image?: never;
-  updated?: never;
-  search?: never;
-};
-
-export type PageHeaderProps = (WithoutPhoto | About | Help | Legal | Contact) & {
+export type PageHeaderProps = (WithoutPhoto | About | Help | Legal) & {
   /** The page's <h1>. */
   headline: string;
   /** The line under it; the slim planner header has none. */

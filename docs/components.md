@@ -334,7 +334,7 @@ A caret-style show/hide (▾ rotates 180°), distinct from the `+` accordion:
 - In production this is the real `<img>` with width and height. The mono caption is placeholder only. Static.
 
 #### 17 `SectionLabel` — `components/ui/SectionLabel`
-- 13/500 `text-2`, height 28, `flex:0 0 240px`. *(The design's 11×10 triangle before it is removed, owner feedback 2026-10-04: text only.)*
+- 13/500 `text-2`, height 28, `flex:0 0 240px`. *(The design's 11×10 triangle before it was removed, owner feedback 2026-10-04: text only.)*
 - Used in the footer "Contact" (all pages), About "07 Credentials", Contact "05 Quick links". Static. *(Contact "01 Header" had one too, removed by the owner on 2026-10-04.)*
 
 #### 18 `BrandMark` — `components/ui/BrandMark`
