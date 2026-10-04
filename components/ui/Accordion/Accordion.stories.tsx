@@ -172,3 +172,36 @@ export const Anchors: Story = {
     await expect([...canvasElement.querySelectorAll('details')].map((d) => d.id)).toEqual(['packing', 'altitude', 'children']);
   },
 };
+
+/**
+ * Link: one item whose summary looks like a text link with the caret after it, at least 44px
+ * tall; it reads "Hide the full policy" while open, from the open state alone (real keys).
+ */
+export const Link: Story = {
+  args: {
+    size: 'link',
+    marker: 'caret',
+    name: undefined,
+    items: [
+      {
+        id: 'refunds',
+        summary: 'Read the full policy',
+        openSummary: 'Hide the full policy',
+        content: <p>Cancel 14 or more days before departure for a full refund of your advance.</p>,
+      },
+    ],
+  },
+  play: async ({ canvasElement }) => {
+    const summary = canvasElement.querySelector('summary')!;
+    await expect(summary.innerText.trim()).toBe('Read the full policy');
+    await expect(summary.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
+    await expect(getComputedStyle(summary.querySelector('span')!).textDecorationLine).toBe('underline');
+    const keys = await realUser();
+    if (!keys) return;
+    summary.focus();
+    await keys.keyboard('{Enter}');
+    await expect(summary.innerText.trim()).toBe('Hide the full policy');
+  },
+};
+
+export const LinkOnLight: Story = { ...Link, globals: { surface: 'light' } };

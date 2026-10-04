@@ -710,6 +710,35 @@ export function getAboutCopy(): AboutCopy {
   return cachedAbout;
 }
 
+/** The tokens Help's policies may use, so no figure from settings is typed into them. */
+export const POLICY_TEXT_TOKENS = [
+  'advancePercent',
+  'paymentMethods',
+  'refundSchedule',
+  'fullRefundDays',
+  'refundPaidWithinDays',
+  'balanceDueDays',
+  'childFromAge',
+  'replyTime',
+  'officeHours',
+  'travelSupport',
+  'brand',
+] as const satisfies readonly (SettingsToken | PolicyToken | CompanyToken)[];
+
+/**
+ * One booking policy: a short summary, the refund table from settings where it applies, and the
+ * full text. Sample text until the owner's lawyer has reviewed it, marked `sample: true` (ADR-0020).
+ */
+const policySchema = z.strictObject({
+  id: slugSchema,
+  title: copy,
+  summary: copyWith(...POLICY_TEXT_TOKENS),
+  /** Show the refund table, built from the settings refund schedule. */
+  refundTable: z.literal(true, { error: 'Use refundTable: true, or leave it out' }).optional(),
+  paragraphs: z.array(copyWith(...POLICY_TEXT_TOKENS)).min(1, 'Write at least one paragraph'),
+  sample,
+});
+
 /** The Help page's wording (PRD #86); its questions and answers are the shared FAQs (content/faqs.json). */
 const helpCopySchema = z.strictObject({
   title: copy,
@@ -730,6 +759,35 @@ const helpCopySchema = z.strictObject({
   }),
   /** When nothing matches. The headline's wording is fixed (DESIGN.md §6); the lead may say the reply time. */
   empty: z.strictObject({ headline: copy, lead: copyWith('replyTime'), askLabel: copy, clearLabel: copy }),
+  /** When the policies were last updated: not after the build date. */
+  policiesUpdated: pastDate,
+  /** "Our booking policies, in plain words" (#policies). */
+  policies: z.strictObject({
+    headline: copy,
+    /** Beside the headline: "Last updated {date}". */
+    lastUpdated: copyWith('date'),
+    /** The disclosure's summary, closed and open. */
+    readMore: copy,
+    hide: copy,
+    /** The refund table's words: its hidden caption, column headers, and each row's days and share. */
+    refundTable: z.strictObject({
+      caption: copy,
+      days: copy,
+      refund: copy,
+      /** "14 or more days", "7–13 days", "Under 7 days"; "50%", and "None" for nothing back. */
+      from: copyWith('days'),
+      range: copyWith('from', 'to'),
+      under: copyWith('days'),
+      percent: copyWith('percent'),
+      none: copy,
+    }),
+    items: z
+      .array(policySchema)
+      .min(1, 'List at least one policy')
+      .superRefine((items, ctx) => checkUniqueIds(items.map(({ id }, i) => ({ id, path: [i] })), ctx)),
+  }),
+  /** "Still have a question? Ask us on WhatsApp": "Call us" shows only once the phone number is real. */
+  cta: z.strictObject({ headline: copy, lead: copyWith('replyTime', 'officeHours'), askLabel: copy, callLabel: copy }),
 });
 
 export type HelpCopy = z.infer<typeof helpCopySchema>;

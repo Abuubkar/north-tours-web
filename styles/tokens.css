@@ -279,6 +279,8 @@
   --grid-principles-cols: 4;
   --grid-vehicles-min: 200px; /* About's vehicles */
   --grid-vehicles-cols: 2;
+  --grid-policies-min: 280px; /* Help's booking policies */
+  --grid-policies-cols: 2;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

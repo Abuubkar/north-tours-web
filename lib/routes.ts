@@ -15,8 +15,11 @@ export const helpCategoryAnchor = (id: string) => `${HELP_CATEGORY_PREFIX}${id}`
 /** The hash of one Help answer, its id: "#refunds". */
 export const helpAnswerHash = (id: string) => `#${id}`;
 
+/** Help's booking policies carry this id: `/help#policies`. */
+export const POLICIES_ANCHOR = 'policies';
+
 /** The Help page's other anchors, which an answer can't take: every page's <main> and the policies. */
-export const HELP_PAGE_ANCHORS: readonly string[] = ['main', 'policies'];
+export const HELP_PAGE_ANCHORS: readonly string[] = ['main', POLICIES_ANCHOR];
 
 /**
  * Every URL on the site. Links use these, never hard-coded paths. Most pages are built by

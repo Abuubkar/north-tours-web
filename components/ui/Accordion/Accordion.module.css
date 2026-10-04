@@ -86,8 +86,53 @@
   white-space: nowrap;
 }
 
-.compactItem[open] .caret .glyph {
+.compactItem[open] .caret .glyph,
+.linkItem[open] .caret .glyph {
   transform: rotate(180deg);
+}
+
+/* A summary that changes while open ("Read the full policy" / "Hide the full policy"). */
+.linkItem[open] .whenClosed,
+.linkItem:not([open]) .whenOpen {
+  display: none;
+}
+
+/* Link: one item whose summary looks like a text link, the caret after the words. */
+.linkItem {
+  display: block;
+}
+
+.linkSummary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--tap);
+  cursor: pointer;
+  list-style: none;
+}
+
+.linkSummary::-webkit-details-marker {
+  display: none;
+}
+
+.linkText {
+  composes: ui from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+  text-decoration: underline;
+  text-decoration-thickness: var(--hairline-width);
+  text-underline-offset: var(--underline-offset);
+}
+
+.linkMarker {
+  display: inline-flex;
+  color: var(--fg-2);
+}
+
+.linkContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding-top: var(--space-4);
 }
 
 @media (prefers-reduced-motion: reduce) {
