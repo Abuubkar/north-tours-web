@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
-import { markedLinks, scrollThrough } from '../../../.storybook/markedLinks';
-import { roomBelow } from '../../../.storybook/scrollRoom';
+import { markedLinks, onPath } from '../../../.storybook/markedLinks';
+import { roomBelow, scrollThrough } from '../../../.storybook/scrollRoom';
 import { NavLinks } from './NavLinks';
 
 const PAGES = [
@@ -11,8 +11,6 @@ const PAGES = [
   ['About', '/about'],
   ['Contact', '/contact'],
 ];
-
-const onPath = (pathname: string) => ({ nextjs: { appDirectory: true, navigation: { pathname } } });
 
 const meta = {
   title: 'Layout/NavLinks',

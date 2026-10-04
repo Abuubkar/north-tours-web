@@ -10,7 +10,7 @@ import type { SiteFooterProps } from './SiteFooter.types';
 import styles from './SiteFooter.module.css';
 
 /** The small links after social. Contact is one of the main nav's large links above. */
-const legalLinks = [
+const smallPages = [
   { label: 'Help', href: routes.help },
   { label: 'Privacy', href: routes.privacy },
   { label: 'Terms', href: routes.terms },
@@ -68,7 +68,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
           © {new Date().getFullYear()} {brand.name} · DTS Licence No. {legal.dtsLicence}
         </p>
         <ul className={styles.smallLinks}>
-          {[...socialLinks(social), ...legalLinks].map(({ label, href }) => (
+          {[...socialLinks(social), ...smallPages].map(({ label, href }) => (
             <li key={label} className={styles.smallItem}>
               <TextOrLink href={href} className={styles.smallLink}>
                 {label}

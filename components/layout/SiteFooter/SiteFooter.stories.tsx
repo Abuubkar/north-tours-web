@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
+import { onPath } from '../../../.storybook/markedLinks';
 import { placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteFooter } from './SiteFooter';
 
 const MESSAGE = 'text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
-
-const onPath = (pathname: string) => ({ nextjs: { appDirectory: true, navigation: { pathname } } });
 
 const meta = {
   title: 'Layout/SiteFooter',

@@ -7,8 +7,8 @@ import styles from './NavLinks.module.css';
 
 const variants = {
   header: { name: 'Main', list: styles.headerList, link: styles.headerLink },
-  menu: { name: 'Main', list: styles.menuList, link: styles.menuLink },
-  footer: { name: 'Footer', list: styles.footerList, link: styles.footerLink },
+  menu: { name: 'Main', list: styles.stackedList, link: styles.menuLink },
+  footer: { name: 'Footer', list: styles.stackedList, link: styles.footerLink },
 };
 
 /**

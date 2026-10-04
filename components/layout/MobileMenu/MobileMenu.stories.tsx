@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import { markedLinks, scrollThrough } from '../../../.storybook/markedLinks';
+import { markedLinks, onPath } from '../../../.storybook/markedLinks';
 import { realUser } from '../../../.storybook/realUser';
-import { roomBelow } from '../../../.storybook/scrollRoom';
+import { roomBelow, scrollThrough } from '../../../.storybook/scrollRoom';
 import { MobileMenu } from './MobileMenu';
 
 const WHATSAPP = 'https://wa.me/?text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
@@ -11,7 +11,7 @@ const meta = {
   title: 'Layout/MobileMenu',
   component: MobileMenu,
   args: { whatsappHref: WHATSAPP },
-  parameters: { nextjs: { appDirectory: true, navigation: { pathname: '/tours' } } },
+  parameters: onPath('/tours'),
   globals: { viewport: { value: 'phone' } },
 } satisfies Meta<typeof MobileMenu>;
 
@@ -57,6 +57,8 @@ export const Contents: Story = {
   },
 };
 
+export const ContentsOnLight: Story = { ...Contents, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 /** Escape closes it and focus returns to the menu button (real key press). */
 export const Escape: Story = {
   play: async ({ canvas, userEvent }) => {
@@ -100,7 +102,7 @@ export const HiddenOnDesktop: Story = {
 
 /** On the Contact page, Contact is the current item. */
 export const OnContactPage: Story = {
-  parameters: { nextjs: { appDirectory: true, navigation: { pathname: '/contact' } } },
+  parameters: onPath('/contact'),
   play: async ({ canvas, userEvent }) => {
     const menu = within(await openMenu(canvas, userEvent));
     await expect(markedLinks(menu.getByRole('navigation', { name: 'Main' }))).toEqual(['Contact (page)']);
@@ -109,7 +111,7 @@ export const OnContactPage: Story = {
 
 /** On the Homepage at 390, the menu marks no item, wherever the page is scrolled. */
 export const OnHomepage: Story = {
-  parameters: { nextjs: { appDirectory: true, navigation: { pathname: '/' } } },
+  parameters: onPath('/'),
   decorators: [roomBelow],
   play: async ({ canvas }) => {
     await scrollThrough(async () => {

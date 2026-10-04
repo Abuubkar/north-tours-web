@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
-import { markedLinks, scrollThrough } from '../../../.storybook/markedLinks';
+import { markedLinks, onPath } from '../../../.storybook/markedLinks';
 import { realUser } from '../../../.storybook/realUser';
-import { roomBelow } from '../../../.storybook/scrollRoom';
+import { roomBelow, scrollThrough } from '../../../.storybook/scrollRoom';
 import { placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteHeader } from './SiteHeader';
 
@@ -16,8 +16,6 @@ const NAV = [
 const MESSAGE = 'text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
 
 type Canvas = ReturnType<typeof within>;
-
-const onPath = (pathname: string) => ({ nextjs: { appDirectory: true, navigation: { pathname } } });
 
 const meta = {
   title: 'Layout/SiteHeader',
@@ -80,6 +78,8 @@ export const OnPlanner: Story = {
     await expect(markedLinks(canvas.getByRole('navigation', { name: 'Main' }))).toEqual(['Private trips (page)']);
   },
 };
+
+export const OnPlannerOnLight: Story = { ...OnPlanner, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** On a page outside the nav, no item is current. */
 export const NoCurrentItem: Story = {
