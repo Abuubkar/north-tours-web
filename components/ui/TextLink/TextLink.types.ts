@@ -9,6 +9,8 @@ type LinkForm = {
 type ButtonForm = {
   variant: 'button';
   onClick: () => void;
+  /** Its accessible name, when the words alone don't say enough: "Edit" named "Edit where and when". */
+  label?: string;
   href?: never;
 };
 

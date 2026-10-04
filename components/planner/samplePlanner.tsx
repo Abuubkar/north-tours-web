@@ -1,6 +1,14 @@
+import { useEffect, type ReactNode } from 'react';
 import type { Decorator } from '@storybook/nextjs-vite';
+import { usePlanner } from '@/hooks/usePlanner';
+import { EMPTY_PHONE } from '@/lib/utils/phone';
+import { DEFAULT_ANSWERS, type TripAnswers } from '@/lib/utils/plannerAnswers';
+import { PLANNER_STORAGE_KEY } from '@/lib/utils/plannerStorage';
+import type { Details } from '@/lib/utils/plannerDetails';
 import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
 import type { PlannerPage } from '@/lib/content/plannerPage';
+import { placeholderSettings } from '@/components/layout/sampleSettings';
+import { summaryWords } from '@/lib/utils/plannerSummary';
 import { PlannerProvider } from './PlannerProvider/PlannerProvider';
 
 /* Sample Trip Planner copy and destinations for stories, which can't read content files (content/pages/planner.json). */
@@ -15,7 +23,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
   },
   progress: { step: 'Step {step} of 3 · {title}', review: 'Review · Check and send' },
   steps: { whereWhen: 'Where and when', whosComing: 'Who’s coming', details: 'Your details' },
-  nav: { back: 'Back', next: 'Next: {title}', review: 'Review' },
+  nav: { back: 'Back', next: 'Next: {title}', nextShort: 'Next', review: 'Review' },
   whereWhen: {
     destinations: { label: 'Destinations', hint: 'Required · choose one or more', unsure: 'Not sure, suggest something' },
     dates: {
@@ -79,6 +87,69 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     notes: { label: 'Anything else?', hint: 'Optional', placeholder: 'Celebrating something? Travelling with elderly parents? Tell us.' },
     privacy: { text: 'We only use your details to plan this trip. {link}.', link: 'Privacy policy' },
   },
+  summary: {
+    unsure: 'Suggest something',
+    flexibleDates: '{month}, about {days} days',
+    exactDates: '{from} – {to}',
+    adults: { one: '{count} adult', other: '{count} adults' },
+    children: { one: '{count} child', other: '{count} children' },
+    ages: { one: '(age {ages})', other: '(ages {ages})' },
+    underTwo: 'under 2',
+  },
+  review: {
+    rows: {
+      destinations: 'Destinations',
+      dates: 'Dates',
+      length: 'Trip length',
+      group: 'Group',
+      groupType: 'Group type',
+      hotels: 'Hotels',
+      transport: 'Transport',
+      from: 'Departing from',
+      budget: 'Budget',
+      name: 'Name',
+      phone: 'WhatsApp',
+      bestTime: 'Best time',
+      notes: 'Anything else',
+    },
+    edit: 'Edit',
+    editLabel: 'Edit {section}',
+    notGiven: 'Not given',
+    previewTitle: 'Message preview',
+    previewNote: 'Opens WhatsApp with this message ready to send. Nothing is sent until you press send there.',
+    send: 'Send on WhatsApp',
+    callBack: 'Request a call back',
+  },
+  success: {
+    headline: 'Thanks, {firstName}.',
+    line: 'Check WhatsApp, we’ll reply within 2 hours. If you asked for a call back, we’ll ring you at your best time.',
+    browse: 'Browse tours',
+    explore: 'Explore destinations',
+    again: 'Plan another trip',
+  },
+  aside: {
+    label: 'Your trip so far',
+    answered: '{count} of 9 answered',
+    notAnswered: 'Not answered',
+    rows: {
+      destinations: 'Destinations',
+      dates: 'Dates',
+      length: 'Trip length',
+      group: 'Group',
+      groupType: 'Group type',
+      hotels: 'Hotels',
+      transport: 'Transport',
+      from: 'From',
+      budget: 'Budget',
+    },
+  },
+  bar: { yourTrip: 'Your trip', suggestions: 'Suggestions', noDates: 'Dates?', more: '+{count}', people: { one: '{count} person', other: '{count} people' } },
+  next: {
+    title: 'What happens next',
+    steps: ['We reply on WhatsApp within 2 hours.', 'We send a day-by-day plan and price.', 'You confirm with a 30% advance.'],
+    licence: 'DTS licence No. [DTS licence number]',
+    office: 'Office in Lahore',
+  },
   errors: {
     destinations: 'Choose at least one destination, or “Not sure, suggest something”.',
     month: 'Pick a month, or switch to exact dates.',
@@ -105,12 +176,73 @@ export const samplePlannerDestinations: PlannerPage['destinations'] = [
   { slug: 'swat', name: 'Swat', image: samplePhoto },
 ];
 
+/** The summary bar's words, with the sample destinations' names. */
+export const sampleBarWords: PlannerPage['barWords'] = {
+  ...samplePlannerCopy.bar,
+  destinations: Object.fromEntries(samplePlannerDestinations.map((d) => [d.slug, d.name])),
+};
+
 /** A build date long past, so the browser's own date (today) is what the planner uses. */
 export const sampleBuiltOn = '2026-01-01';
 
+/** What the page gives the planner's state. */
+export const samplePlannerConfig: PlannerPage['config'] = {
+  destinations: samplePlannerDestinations.map((d) => d.slug),
+  builtOn: sampleBuiltOn,
+  messages: samplePlannerCopy.errors,
+  words: summaryWords(samplePlannerCopy, samplePlannerDestinations),
+  templates: placeholderSettings.whatsapp.planner,
+  whatsappNumber: placeholderSettings.contact.whatsapp,
+};
+
 /** Puts the story inside a planner, as the page does. */
 export const withPlanner: Decorator = (Story) => (
-  <PlannerProvider destinations={samplePlannerDestinations.map((d) => d.slug)} builtOn={sampleBuiltOn} messages={samplePlannerCopy.errors}>
+  <PlannerProvider {...samplePlannerConfig}>
     <Story />
   </PlannerProvider>
 );
+
+/** A whole trip, as a visitor would have answered it. */
+export const sampleAnswers: TripAnswers = {
+  ...DEFAULT_ANSWERS,
+  destinations: ['hunza'],
+  month: '2027-06',
+  children: 2,
+  ages: [6, 9],
+  groupType: 'family',
+  hotels: 'upgraded',
+};
+
+export const sampleDetails: Details = { name: 'Ayesha Khan', phone: { ...EMPTY_PHONE, pk: '300 123 4567' }, bestTime: 'evening', notes: '' };
+
+/** Fills the planner with the sample trip and details once, then shows its children. */
+function Answered({ children }: { children: ReactNode }) {
+  const { update, updateDetails } = usePlanner();
+  useEffect(() => {
+    update(() => sampleAnswers);
+    updateDetails(() => sampleDetails);
+  }, [update, updateDetails]);
+  return children;
+}
+
+/** Puts the story inside a planner already answered (the review's parts). */
+export const withAnsweredPlanner: Decorator = (Story) => (
+  <PlannerProvider {...samplePlannerConfig}>
+    <Answered>
+      <Story />
+    </Answered>
+  </PlannerProvider>
+);
+
+/**
+ * A story's `beforeEach`: the browser holds `saved` as the planner's saved answers (or nothing),
+ * and is cleared again afterwards, so no story sees another's answers.
+ */
+export const savedPlanner = (saved: string | null) => () => {
+  if (saved === null) localStorage.removeItem(PLANNER_STORAGE_KEY);
+  else localStorage.setItem(PLANNER_STORAGE_KEY, saved);
+  return () => localStorage.removeItem(PLANNER_STORAGE_KEY);
+};
+
+/** Nothing saved: the planner starts at step 1. */
+export const noSavedPlanner = savedPlanner(null);

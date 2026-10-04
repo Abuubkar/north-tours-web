@@ -3,18 +3,28 @@ import { expect, waitFor, within } from 'storybook/test';
 import { opacityUpTo } from '../../.storybook/opacity';
 import { realUser } from '../../.storybook/realUser';
 import { emulateFullMotion, emulateReducedMotion } from '../../.storybook/reducedMotion';
-import { samplePlannerCopy, samplePlannerDestinations, withPlanner } from '@/components/planner/samplePlanner';
+import { noSavedPlanner, sampleAnswers, sampleBarWords, samplePlannerCopy, samplePlannerDestinations, savedPlanner, withPlanner } from '@/components/planner/samplePlanner';
+import { atQuery } from '../../.storybook/storyUrl';
+import type { TripAnswers } from '@/lib/utils/plannerAnswers';
+import { monthChoices } from '@/lib/utils/plannerOptions';
+import { PLANNER_STORAGE_KEY, serialisePlanner } from '@/lib/utils/plannerStorage';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { TripPlanner } from './TripPlanner';
 
 const meta = {
   title: 'Sections/TripPlanner',
   component: TripPlanner,
-  args: { copy: samplePlannerCopy, destinations: samplePlannerDestinations },
+  args: { copy: samplePlannerCopy, destinations: samplePlannerDestinations, barWords: sampleBarWords },
   decorators: [withPlanner],
+  // Reduced motion by default (story files share one page, ADR-0023), put back for the next file afterwards.
   beforeEach: async () => {
     await emulateReducedMotion();
     window.scrollTo({ top: 0, behavior: 'instant' });
+    const forget = noSavedPlanner();
+    return async () => {
+      forget();
+      await emulateFullMotion();
+    };
   },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
@@ -25,10 +35,19 @@ type Story = StoryObj<typeof meta>;
 type Canvas = ReturnType<typeof within>;
 
 const button = (canvas: Canvas, name: string | RegExp) => canvas.getByRole('button', { name });
-const progress = (canvas: Canvas) => canvas.getByRole('heading', { level: 2 });
+/** The progress heading: the one <h2> announced politely (in the form from 1100px, in the summary bar below). */
+const progress = (canvas: Canvas) => {
+  const headings = canvas.getAllByRole('heading', { level: 2 }).filter((h: HTMLElement) => h.getAttribute('aria-live') === 'polite');
+  if (headings.length !== 1) throw new Error(`Expected one progress heading, found ${headings.length}`);
+  return headings[0];
+};
 const monthChips = (canvas: Canvas) => within(canvas.getByRole('group', { name: 'Month' })).getAllByRole('button');
-/** The sticky bar holding the progress. */
-const bar = (canvas: Canvas) => progress(canvas).parentElement!.parentElement!;
+/** The sticky bar holding the progress: the progress bar from 1100px, the summary bar below. */
+const bar = (canvas: Canvas) => {
+  let element: HTMLElement | null = progress(canvas);
+  while (element && getComputedStyle(element).position !== 'sticky') element = element.parentElement;
+  return element!;
+};
 
 /** Waits for the page to stop scrolling (a smooth scroll takes a few frames). */
 async function settled() {
@@ -55,7 +74,9 @@ export const Step1: Story = {
     await expect(canvas.getAllByRole('button', { pressed: false }).length).toBeGreaterThan(7);
     await expect(button(canvas, 'Not sure, suggest something')).toBeVisible();
     await expect(monthChips(canvas)).toHaveLength(12);
-    await expect(button(canvas, /^Next: Who’s coming/)).toBeVisible();
+    // One Next: in the form from 1100px, in the bottom bar below; short below 820px.
+    await expect(canvas.getAllByRole('button', { name: /^Next/ })).toHaveLength(1);
+    await expect(button(canvas, /^Next/)).toHaveAccessibleName(window.innerWidth >= 820 ? 'Next: Who’s coming' : 'Next');
     await expect(canvas.queryByRole('button', { name: 'Back' })).toBeNull();
     await expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
   },
@@ -216,7 +237,7 @@ export const StepSlides: Story = {
   beforeEach: emulateFullMotion,
   play: async ({ canvas, canvasElement, userEvent }) => {
     await toStep2(canvas, userEvent);
-    const body = progress(canvas).parentElement!.parentElement!.nextElementSibling as HTMLElement;
+    const body = canvasElement.querySelector<HTMLElement>('[data-direction]')!;
     const animations = body.getAnimations();
     await expect(animations).toHaveLength(1);
     const keyframes = (animations[0].effect as KeyframeEffect).getKeyframes();
@@ -231,9 +252,9 @@ export const StepSlides: Story = {
 
 /** Reduced motion: steps simply swap. */
 export const StepSwapsReduced: Story = {
-  play: async ({ canvas, userEvent }) => {
+  play: async ({ canvas, canvasElement, userEvent }) => {
     await toStep2(canvas, userEvent);
-    const body = progress(canvas).parentElement!.parentElement!.nextElementSibling as HTMLElement;
+    const body = canvasElement.querySelector<HTMLElement>('[data-direction]')!;
     await expect(body.getAnimations()).toHaveLength(0);
   },
 };
@@ -245,7 +266,7 @@ export const MissingAge: Story = {
     await userEvent.click(button(canvas, 'More children'));
     await userEvent.click(button(canvas, 'More children'));
     await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Child 1' }), '6');
-    await userEvent.click(button(canvas, /^Next: Your details/));
+    await userEvent.click(button(canvas, /^Next/));
     const second = canvas.getByRole('combobox', { name: 'Child 2' });
     await waitFor(() => expect(second).toHaveFocus());
     await expect(second).toHaveAttribute('aria-invalid', 'true');
@@ -271,7 +292,7 @@ export const Step2Kept: Story = {
     await userEvent.click(button(canvas, 'Other city'));
     await userEvent.type(canvas.getByRole('textbox', { name: 'Other city' }), 'Multan');
     await userEvent.click(button(canvas, 'Back'));
-    await userEvent.click(button(canvas, /^Next: Who’s coming/));
+    await userEvent.click(button(canvas, /^Next/));
     await expect(canvas.getByRole('group', { name: 'Adults' })).toHaveTextContent('3');
     await expect(canvas.getByRole('combobox', { name: 'Child 1' })).toHaveDisplayValue('9');
     await expect(button(canvas, 'Couple')).toHaveAttribute('aria-pressed', 'true');
@@ -281,7 +302,7 @@ export const Step2Kept: Story = {
 
 const toStep3 = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void> }) => {
   await toStep2(canvas, userEvent);
-  await userEvent.click(button(canvas, /^Next: Your details/));
+  await userEvent.click(button(canvas, /^Next/));
 };
 
 /** Step 3: Next with nothing filled shows the name and number messages, focuses the name; each input is invalid and described. */
@@ -306,7 +327,7 @@ export const DetailsEmptyPhone: Story = { ...DetailsEmpty, globals: { viewport: 
 /**
  * Real keys: the number keeps digits and spaces; "300 12" is incomplete (5 of 10 digits), its
  * message wraps under the field, and it takes focus once the name is filled. Abroad, "44" and
- * "7700 900123" pass; "Pakistani number?" brings back the number as typed.
+ * "7700 900123" pass; back on Your details, "Pakistani number?" brings back the number as typed.
  */
 export const DetailsPhone: Story = {
   play: async ({ canvas, canvasElement, userEvent }) => {
@@ -332,8 +353,11 @@ export const DetailsPhone: Story = {
     await expect(canvas.queryByText(/looks incomplete|country code and number/)).toBeNull();
     await userEvent.type(code, '44');
     await userEvent.type(canvas.getByRole('textbox', { name: 'Number' }), '7700 900123');
+    // A valid number abroad passes: on to the review, which shows it in international form.
     await userEvent.click(button(canvas, /^Review/));
-    await expect(canvas.queryByText(/country code and number/)).toBeNull();
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Review · Check and send'));
+    await expect(canvas.getByText('+44 7700 900123')).toBeVisible();
+    await userEvent.click(button(canvas, 'Edit your details'));
     await userEvent.click(button(canvas, 'Pakistani number?'));
     await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('300 12');
   },
@@ -352,10 +376,389 @@ export const DetailsKept: Story = {
     await userEvent.click(button(canvas, 'Evening'));
     await userEvent.type(canvas.getByRole('textbox', { name: 'Anything else?' }), 'Travelling with my mother.');
     await userEvent.click(button(canvas, 'Back'));
-    await userEvent.click(button(canvas, /^Next: Your details/));
+    await userEvent.click(button(canvas, /^Next/));
     await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('Ayesha Khan');
     await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('300 123 4567');
     await expect(button(canvas, 'Evening')).toHaveAttribute('aria-pressed', 'true');
     await expect(canvas.getByRole('textbox', { name: 'Anything else?' })).toHaveValue('Travelling with my mother.');
+  },
+};
+
+/** Keeps the story on the page: a followed wa.me link still runs its click handler, but opens nothing. */
+const stayOnPage = () => {
+  const block = (event: MouseEvent) => {
+    if ((event.target as Element).closest('a[href^="https://wa.me"]')) event.preventDefault();
+  };
+  document.addEventListener('click', block);
+  return () => document.removeEventListener('click', block);
+};
+
+/** Every step answered, then Review: Hunza in the fourth month, 2 adults and 2 children (6, 9), Family, Upgraded, Ayesha. */
+const toReview = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void>; type: (el: Element, text: string) => Promise<void>; selectOptions: (el: Element, value: string) => Promise<void> }) => {
+  await userEvent.click(button(canvas, 'Hunza'));
+  await userEvent.click(monthChips(canvas)[3]);
+  await userEvent.click(button(canvas, /^Next/));
+  await userEvent.click(button(canvas, 'More children'));
+  await userEvent.click(button(canvas, 'More children'));
+  await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Child 1' }), '6');
+  await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Child 2' }), '9');
+  await userEvent.click(button(canvas, 'Family'));
+  await userEvent.click(button(canvas, 'Upgraded'));
+  await userEvent.click(button(canvas, /^Next/));
+  await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+  await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+  await userEvent.click(button(canvas, 'Evening'));
+  await userEvent.click(button(canvas, /^Review/));
+};
+
+const linkText = (link: HTMLElement) => new URL(link.getAttribute('href')!).searchParams.get('text');
+
+/**
+ * Review: every answer in its section (<h3>s under the progress <h2>), "Not given" for the rest,
+ * and the preview is exactly the message "Send on WhatsApp" carries. One <h1>.
+ */
+export const Review: Story = {
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await waitFor(() => expect(progress(canvas)).toHaveFocus());
+    await expect(progress(canvas)).toHaveTextContent('Review · Check and send');
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    const sections = canvas.getAllByRole('heading', { level: 3 }).map((h) => h.textContent);
+    await expect(sections).toEqual(['Where and when', 'Who’s coming', 'Your details']);
+    const values = canvas.getAllByRole('definition').map((d) => d.textContent);
+    for (const value of ['Hunza', '5–7 days', '2 adults, 2 children (ages 6, 9)', 'Family', 'Upgraded', 'Lahore', 'Ayesha Khan', '+92 300 123 4567', 'Evening']) {
+      await expect(values).toContain(value);
+    }
+    await expect(canvas.getAllByText('Not given').map((n) => n.closest('div')!.firstChild!.textContent)).toEqual(['Transport', 'Budget', 'Anything else']);
+    const send = canvas.getByRole('link', { name: 'Send on WhatsApp' });
+    await expect(send).toHaveAttribute('target', '_blank');
+    await expect(send).toHaveAttribute('rel', 'noopener');
+    await expect(linkText(send)).toBe(canvasElement.querySelector('figure p')!.textContent);
+    await expect(linkText(send)).toContain('• Group: 2 adults, 2 children (ages 6, 9) · Family');
+  },
+};
+
+export const ReviewPhone: Story = { ...Review, globals: { viewport: { value: 'phone' } } };
+
+export const ReviewLaptop: Story = { ...Review, globals: { viewport: { value: 'laptop' } } };
+
+/** "Edit who’s coming" opens step 2 with focus on its first field; Next goes on through the steps again. */
+export const Edit: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await userEvent.click(button(canvas, 'Edit who’s coming'));
+    await waitFor(() => expect(button(canvas, 'Fewer adults')).toHaveFocus());
+    await expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming');
+    await userEvent.click(button(canvas, /^Next/));
+    await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('Ayesha Khan');
+    await userEvent.click(button(canvas, /^Review/));
+    await userEvent.click(button(canvas, 'Edit your details'));
+    await waitFor(() => expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveFocus());
+  },
+};
+
+/** "Request a call back" asks for a call on the number at the best time, with the trip; following it shows the thank-you. */
+export const CallBack: Story = {
+  beforeEach: stayOnPage,
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await toReview(canvas, userEvent);
+    const callBack = canvas.getByRole('link', { name: 'Request a call back' });
+    const text = linkText(callBack)!;
+    await expect(callBack.getAttribute('href')).toMatch(/^https:\/\/wa\.me\/\?text=/);
+    await expect(text.split('\n')[0]).toBe('Please call me back on +92 300 123 4567, best time evening.');
+    await expect(text).toContain('• Destinations: Hunza');
+    await expect(text.split('\n').at(-1)).toBe('Name: Ayesha Khan');
+    await userEvent.click(callBack);
+    const thanks = canvas.getByRole('heading', { level: 2, name: 'Thanks, Ayesha.' });
+    await waitFor(() => expect(thanks).toHaveFocus());
+    await expect(canvas.queryByText(/^Step|^Review ·/)).toBeNull();
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Planning your private trip' })).toBeVisible();
+  },
+};
+
+/** "Send on WhatsApp" leads to the thank-you too; "Plan another trip" starts a clean step 1, focus on the progress. */
+export const SendAndAgain: Story = {
+  beforeEach: stayOnPage,
+  play: async ({ canvas, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await waitFor(() => expect(canvas.getByRole('heading', { level: 2, name: 'Thanks, Ayesha.' })).toHaveFocus());
+    await expect(canvas.getByRole('link', { name: 'Browse tours' })).toHaveAttribute('href', '/tours');
+    await expect(canvas.getByRole('link', { name: 'Explore destinations' })).toHaveAttribute('href', '/#destinations');
+    await userEvent.click(button(canvas, 'Plan another trip'));
+    await waitFor(() => expect(progress(canvas)).toHaveFocus());
+    await expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when');
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Your dates, your group' })).toBeVisible();
+    await expect(canvas.queryAllByRole('button', { pressed: true }).map((b) => b.textContent)).toEqual(['Flexible']);
+    // The details are cleared too.
+    await toStep3(canvas, userEvent);
+    await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('');
+    await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('');
+    await expect(button(canvas, 'Evening')).toHaveAttribute('aria-pressed', 'false');
+  },
+};
+
+export const SendAndAgainPhone: Story = { ...SendAndAgain, globals: { viewport: { value: 'phone' } } };
+
+export const SendAndAgainLaptop: Story = { ...SendAndAgain, globals: { viewport: { value: 'laptop' } } };
+
+/* Saved answers and the ?dest= link (#76, ADR-0018). */
+
+/** A month the planner still offers, whenever the story runs. */
+const comingMonth = () => monthChoices(todayInKarachi(new Date()))[3];
+
+const savedTrip = (step: number, change: Partial<TripAnswers> = {}) =>
+  serialisePlanner({ ...sampleAnswers, month: comingMonth(), ...change }, step);
+
+const saved = () => JSON.parse(localStorage.getItem(PLANNER_STORAGE_KEY) ?? 'null');
+
+/** Counts pushState calls from before the story renders, so a linked destination can be shown to leave no history entry. */
+let pushed = 0;
+const noNewHistory = () => {
+  pushed = 0;
+  const { pushState } = window.history;
+  window.history.pushState = (...args: Parameters<History['pushState']>) => {
+    pushed += 1;
+    pushState.apply(window.history, args);
+  };
+  return () => {
+    window.history.pushState = pushState;
+  };
+};
+
+/** Runs several `beforeEach` steps, and their cleanups after. */
+const all =
+  (...steps: (() => (() => void) | void | Promise<unknown>)[]) =>
+  async () => {
+    const cleanups: unknown[] = [];
+    for (const step of steps) cleanups.push(await step());
+    return () => cleanups.reverse().forEach((cleanup) => typeof cleanup === 'function' && cleanup());
+  };
+
+/** Every change writes the trip and step at once, and never the name, number, best time or notes. */
+export const Saving: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await expect(localStorage.getItem(PLANNER_STORAGE_KEY)).toBeNull();
+    await userEvent.click(button(canvas, 'Hunza'));
+    await waitFor(() => expect(saved()).toMatchObject({ destinations: ['hunza'], step: 1 }));
+    await toStep3Answered(canvas, userEvent);
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+    await userEvent.click(button(canvas, 'Evening'));
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Anything else?' }), 'A quiet room, please.');
+    await waitFor(() => expect(saved()).toMatchObject({ step: 3, adults: 2 }));
+    const raw = localStorage.getItem(PLANNER_STORAGE_KEY)!;
+    for (const detail of ['Ayesha', '300', 'evening', 'quiet room', '"name"', '"phone"', '"notes"', '"bestTime"']) {
+      await expect(raw).not.toContain(detail);
+    }
+  },
+};
+
+const toStep3Answered = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void> }) => {
+  await userEvent.click(monthChips(canvas)[3]);
+  await userEvent.click(button(canvas, /^Next/));
+  await userEvent.click(button(canvas, /^Next/));
+};
+
+/** Saved on step 2: the planner opens there, with the trip as it was. */
+export const SavedStep2: Story = {
+  beforeEach: () => savedPlanner(savedTrip(2))(),
+  play: async ({ canvas }) => {
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming'));
+    await expect(canvas.getByRole('combobox', { name: 'Child 2' })).toHaveDisplayValue('9');
+    await expect(button(canvas, 'Family')).toHaveAttribute('aria-pressed', 'true');
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Planning your private trip' })).toBeVisible();
+  },
+};
+
+/** Saved on the review: details were never saved, so it opens on Your details, the trip kept and the details empty. */
+export const SavedReview: Story = {
+  beforeEach: () => savedPlanner(savedTrip(4))(),
+  play: async ({ canvas, userEvent }) => {
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 3 of 3 · Your details'));
+    await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('');
+    await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('');
+    await userEvent.click(button(canvas, 'Back'));
+    await expect(button(canvas, 'Upgraded')).toHaveAttribute('aria-pressed', 'true');
+  },
+};
+
+export const SavedReviewPhone: Story = { ...SavedReview, globals: { viewport: { value: 'phone' } } };
+
+/** Saved junk: a past month and a destination no longer in content fall back to their defaults; the rest stays. */
+export const SavedJunk: Story = {
+  beforeEach: () => savedPlanner(savedTrip(2, { month: '2020-01', destinations: ['atlantis', 'skardu'] }))(),
+  play: async ({ canvas }) => {
+    // Without a month, step 1 doesn't pass, so the planner opens there.
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when'));
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Skardu', 'Flexible']);
+  },
+};
+
+/** /plan?dest=hunza ticks Hunza; the link loses dest with replaceState (no pushState, no new history entry), and the choice is saved. */
+export const LinkedDestination: Story = {
+  beforeEach: all(atQuery('?dest=hunza'), noNewHistory),
+  play: async ({ canvas }) => {
+    await waitFor(() => expect(button(canvas, 'Hunza')).toHaveAttribute('aria-pressed', 'true'));
+    await waitFor(() => expect(window.location.search).toBe(''));
+    await expect(pushed).toBe(0);
+    await expect(saved()).toMatchObject({ destinations: ['hunza'] });
+  },
+};
+
+export const LinkedDestinationPhone: Story = { ...LinkedDestination, globals: { viewport: { value: 'phone' } } };
+
+/** A link joins the saved destinations, keeping the saved step. */
+export const LinkedJoinsSaved: Story = {
+  beforeEach: all(() => savedPlanner(savedTrip(2, { destinations: ['skardu'] }))(), atQuery('?dest=hunza')),
+  play: async ({ canvas, userEvent }) => {
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming'));
+    await userEvent.click(button(canvas, 'Back'));
+    await expect(canvas.getAllByRole('button', { pressed: true }).slice(0, 2).map((b) => b.getAttribute('aria-label'))).toEqual(['Hunza', 'Skardu']);
+  },
+};
+
+/** ?dest=nowhere changes nothing. */
+export const LinkedUnknown: Story = {
+  beforeEach: atQuery('?dest=nowhere'),
+  play: async ({ canvas }) => {
+    await waitFor(() => expect(window.location.search).toBe(''));
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.textContent)).toEqual(['Flexible']);
+    await expect(localStorage.getItem(PLANNER_STORAGE_KEY)).toBeNull();
+  },
+};
+
+/** "Plan another trip" removes the saved answers. */
+export const AgainForgets: Story = {
+  beforeEach: stayOnPage,
+  play: async ({ canvas, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await expect(saved()).toMatchObject({ step: 4 });
+    await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await userEvent.click(button(canvas, 'Plan another trip'));
+    await waitFor(() => expect(localStorage.getItem(PLANNER_STORAGE_KEY)).toBeNull());
+  },
+};
+
+/** With storage throwing (private mode, a full quota), the planner still works through every step. */
+export const StorageThrows: Story = {
+  beforeEach: all(stayOnPage, () => {
+    const { getItem, setItem, removeItem } = Storage.prototype;
+    const blocked = () => {
+      throw new Error('blocked');
+    };
+    Object.assign(Storage.prototype, { getItem: blocked, setItem: blocked, removeItem: blocked });
+    return () => Object.assign(Storage.prototype, { getItem, setItem, removeItem });
+  }),
+  play: async ({ canvas, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await expect(progress(canvas)).toHaveTextContent('Review · Check and send');
+    await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await waitFor(() => expect(canvas.getByRole('heading', { level: 2, name: 'Thanks, Ayesha.' })).toHaveFocus());
+    await userEvent.click(button(canvas, 'Plan another trip'));
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when'));
+  },
+};
+
+/* The wide and compact layouts (#77). */
+
+/** 1440: "Your trip so far" beside the form, nine rows, the count following the answers, empty rows read "Not answered"; gone on success. */
+export const Aside: Story = {
+  beforeEach: stayOnPage,
+  play: async ({ canvas, userEvent }) => {
+    const aside = canvas.getByRole('complementary', { name: 'Your trip so far' });
+    const rows = within(aside);
+    await expect(rows.getAllByRole('term')).toHaveLength(9);
+    await expect(aside).toHaveTextContent('2 of 9 answered');
+    await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Not answered');
+    await userEvent.click(button(canvas, 'Hunza'));
+    await userEvent.click(monthChips(canvas)[3]);
+    await expect(aside).toHaveTextContent('5 of 9 answered');
+    await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Hunza');
+    await expect(rows.getByRole('heading', { level: 2, name: 'What happens next' })).toBeVisible();
+    await expect(rows.getAllByRole('listitem')).toHaveLength(3);
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+    await userEvent.click(button(canvas, /^Review/));
+    await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await waitFor(() => expect(canvas.queryByRole('complementary', { name: 'Your trip so far' })).toBeNull());
+  },
+};
+
+export const AsideLaptop: Story = { ...Aside, globals: { viewport: { value: 'laptop' } } };
+
+/** 390: the summary bar reads the trip in one line, and Enter opens and closes it; only one progress heading exists. */
+export const SummaryBar: Story = {
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await expect(canvas.queryByRole('complementary')).toBeNull();
+    await userEvent.click(button(canvas, 'Hunza'));
+    const month = monthChips(canvas)[3];
+    await userEvent.click(month);
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.click(button(canvas, 'More children'));
+    await userEvent.click(button(canvas, 'More children'));
+    const summary = canvasElement.querySelector('summary')!;
+    await expect(summary).toHaveTextContent(`Hunza · ${month.textContent!.split(' ')[0]} · 4 people`);
+    await expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming');
+    const user = await realUser();
+    if (!user) return;
+    summary.focus();
+    await user.keyboard('{Enter}');
+    await expect(summary.closest('details')!.open).toBe(true);
+    await expect(within(summary.closest('details')!).getAllByRole('term')).toHaveLength(9);
+    await user.keyboard('{Enter}');
+    await expect(summary.closest('details')!.open).toBe(false);
+  },
+};
+
+/**
+ * 390: Back and Next live in the dark bottom bar; Next checks the step, Back appears from step 2,
+ * and on review it becomes "Send on WhatsApp" with the trip request; "Request a call back" stays
+ * inline, and the inline step buttons aren't shown.
+ */
+export const BottomBar: Story = {
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, userEvent }) => {
+    await expect(canvas.getAllByRole('button', { name: /^Next/ })).toHaveLength(1);
+    await expect(button(canvas, /^Next/)).toHaveAccessibleName('Next');
+    await expect(button(canvas, /^Next/).closest('[data-surface]')).toHaveAttribute('data-surface', 'dark');
+    await expect(canvas.queryByRole('button', { name: 'Back' })).toBeNull();
+    await userEvent.click(button(canvas, /^Next/));
+    await expect(canvas.getByText(/Choose at least one destination/)).toBeVisible();
+    await toReview(canvas, userEvent);
+    await expect(canvas.getAllByRole('button', { name: 'Back' })).toHaveLength(1);
+    const sends = canvas.getAllByRole('link', { name: 'Send on WhatsApp' });
+    await expect(sends).toHaveLength(1);
+    await expect(sends[0].closest('[data-surface]')).toHaveAttribute('data-surface', 'dark');
+    await expect(linkText(sends[0])).toContain('Assalam o Alaikum');
+    await expect(canvas.getByRole('link', { name: 'Request a call back' }).closest('[data-surface]')).toHaveAttribute('data-surface', 'light');
+  },
+};
+
+/** 900 (below 1100px, from 820px): the bottom bar's Next names the step it goes to. */
+export const Tablet: Story = {
+  globals: { viewport: { value: 'tablet' } },
+  play: async ({ canvas }) => {
+    await expect(canvas.getAllByRole('button', { name: /^Next/ })).toHaveLength(1);
+    await expect(button(canvas, /^Next/)).toHaveAccessibleName('Next: Who’s coming');
+    await expect(canvas.queryByRole('complementary')).toBeNull();
+    await expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
+  },
+};
+
+/** 390, the summary bar open: a failed Next still lands the first card below the bar. */
+export const EmptyNextBarOpen: Story = {
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await userEvent.click(canvasElement.querySelector('summary')!);
+    await expect(canvasElement.querySelector('details')!.open).toBe(true);
+    await userEvent.click(button(canvas, /^Next/));
+    const first = button(canvas, 'Fairy Meadows');
+    await waitFor(() => expect(first).toHaveFocus());
+    await expect(first.getBoundingClientRect().top).toBeGreaterThanOrEqual(bar(canvas).getBoundingClientRect().bottom);
   },
 };

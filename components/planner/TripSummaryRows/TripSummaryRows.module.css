@@ -1,0 +1,13 @@
+/* KeyValueRow's label column, its width set by the parent (--key-col-w), the value always beside it, in dense rows. */
+.rows {
+  --key-value-min: 0px;
+  --key-row-y: var(--space-8);
+}
+
+.empty {
+  color: var(--fg-3);
+}
+
+.hidden {
+  composes: visuallyHidden from '../../../styles/layout.module.css';
+}

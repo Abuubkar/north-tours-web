@@ -1,0 +1,46 @@
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-24);
+  padding-block: var(--planner-success-y);
+}
+
+/* A 44px round ✓ in the text colour (decorative: the heading says it). */
+.check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-44);
+  height: var(--control-44);
+  border-radius: var(--radius-chip);
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* The section size; focused by script on arrival, so it needs no ring. */
+.headline {
+  composes: section from '../../../styles/typography.module.css';
+}
+
+.headline:focus {
+  outline: none;
+}
+
+.line {
+  composes: bodyLarge from '../../../styles/typography.module.css';
+  max-width: var(--measure-cta-actions);
+  color: var(--fg-2);
+}
+
+/* "Plan another trip": the text button in the secondary text colour. */
+.again {
+  --link: var(--fg-2);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  margin-top: var(--space-8);
+}

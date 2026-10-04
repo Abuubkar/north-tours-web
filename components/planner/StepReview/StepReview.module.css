@@ -1,0 +1,17 @@
+/* After a hairline (the step body draws it); the buttons wrap on narrow screens. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+/* Back and Send: inline from 1100px; below it the bottom bar has them. */
+.wideOnly {
+  display: none;
+}
+
+@media (width >= 1100px) {
+  .wideOnly {
+    display: inline-flex;
+  }
+}

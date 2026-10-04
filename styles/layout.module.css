@@ -258,6 +258,18 @@
   animation: pending-reveal 0s var(--results-pending-max) forwards;
 }
 
+/*
+ * The Trip Planner: saved answers or a `?dest=` link are applied after hydration. Until then the
+ * page's inline script marks the planner pending and what may change stays hidden with its space
+ * kept, so step 1 never flashes: the whole planner for saved answers (the step and header may
+ * change), only the form for a link alone. If the app's script never runs, it shows after the same wait.
+ */
+:global(html[data-planner-pending='saved']) .plannerPending,
+:global(html[data-planner-pending]) .plannerFormPending {
+  visibility: hidden;
+  animation: pending-reveal 0s var(--results-pending-max) forwards;
+}
+
 @keyframes pending-reveal {
   to {
     visibility: visible;

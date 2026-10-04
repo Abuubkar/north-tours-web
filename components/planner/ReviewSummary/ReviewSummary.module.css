@@ -1,0 +1,42 @@
+/* A panel: 8px, a hairline border (docs/components.md §5 item 10). */
+.box {
+  border: var(--hairline-width) solid var(--hairline);
+  border-radius: var(--radius-card);
+}
+
+.section {
+  padding: var(--space-20) var(--cell-pad) var(--space-24);
+}
+
+.section + .section {
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-16);
+}
+
+/* The step title role at 17/500 in the design moves to the nearest role, 20/500. */
+.title {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+/* KeyValueRow's label column at 110px, the value beside it (180px from 1100px). */
+.rows {
+  --key-col-w: var(--review-key-w);
+  --key-value-min: 0px;
+  margin-top: var(--space-8);
+}
+
+@media (width >= 1100px) {
+  .rows {
+    --key-col-w: var(--review-key-w-wide);
+  }
+}
+
+.notGiven {
+  color: var(--fg-3);
+}

@@ -47,6 +47,22 @@ export const placeholderSettings: Settings = {
     destinationMessage: 'Hi, I’d like to plan a private trip to {destination}.',
     reserveMessage:
       'Hi, I’d like to reserve {travellers} on {tour}, {dates}, {room} sharing. Total {total}; I’ll pay the {advancePercent}% advance of {advance}.',
+    planner: {
+      greeting: 'Assalam o Alaikum! I’d like to plan a private trip.',
+      destinations: '• Destinations: {destinations}',
+      dates: '• Dates: {dates}',
+      group: '• Group: {group}',
+      stay: '• Hotels: {hotels} · Transport: {transport}',
+      departingFrom: '• Departing from: {departingFrom}',
+      budget: '• Budget per person: {budget}',
+      bestTime: '• Best time to reach me: {bestTime}',
+      notes: '• Notes: {notes}',
+      name: 'Name: {name}',
+      phone: 'WhatsApp: {phone}',
+      callBack: 'Please call me back on {phone}, best time {bestTime}.',
+      any: 'Any',
+      anyTime: 'any time',
+    },
   },
 };
 

@@ -1,0 +1,44 @@
+.next {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+/* A panel: 8px, a hairline border (docs/components.md §5 item 10). */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-20) var(--cell-pad);
+  border: var(--hairline-width) solid var(--hairline);
+  border-radius: var(--radius-card);
+}
+
+/* The design's 17/500 at the nearest role. */
+.title {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+.steps {
+  composes: ui from '../../../styles/typography.module.css';
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding-left: var(--space-20);
+}
+
+.step::marker {
+  color: var(--fg-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.licence {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+}
+
+.number {
+  color: var(--fg);
+  font-weight: var(--fw-medium);
+}

@@ -6,6 +6,7 @@ import { getPlannerCopy } from '@/lib/content/pages';
 import { getPlannerPage } from '@/lib/content/plannerPage';
 import { getSettings } from '@/lib/content/settings';
 import { pageMetadata } from '@/lib/utils/metadata';
+import { PLANNER_PENDING_SCRIPT } from '@/lib/utils/plannerStorage';
 import { TripPlanner } from '@/sections/TripPlanner/TripPlanner';
 
 export function generateMetadata(): Metadata {
@@ -18,12 +19,14 @@ export function generateMetadata(): Metadata {
  * It has no photo of its own, so it shares the Homepage's image.
  */
 export default function PlanPage() {
-  const { copy, settings, builtOn, sharePhoto, destinations } = getPlannerPage();
+  const { copy, settings, sharePhoto, destinations, barWords, config } = getPlannerPage();
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
-      <PlannerProvider destinations={destinations.map((d) => d.slug)} builtOn={builtOn} messages={copy.errors}>
-        <TripPlanner copy={copy} destinations={destinations} />
+      {/* Before the planner is painted: saved answers or a ?dest= link keep it hidden until applied. */}
+      <script dangerouslySetInnerHTML={{ __html: PLANNER_PENDING_SCRIPT }} />
+      <PlannerProvider {...config}>
+        <TripPlanner copy={copy} destinations={destinations} barWords={barWords} />
       </PlannerProvider>
     </PageMain>
   );

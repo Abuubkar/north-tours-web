@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { samplePlannerCopy, samplePlannerDestinations, withPlanner } from '../samplePlanner';
+import { noSavedPlanner, samplePlannerCopy, samplePlannerDestinations, withPlanner } from '../samplePlanner';
 import { StepWhereWhen } from './StepWhereWhen';
 
 const meta = {
@@ -8,6 +8,7 @@ const meta = {
   component: StepWhereWhen,
   args: { destinations: samplePlannerDestinations, copy: samplePlannerCopy.whereWhen },
   decorators: [withPlanner],
+  beforeEach: noSavedPlanner,
   globals: { surface: 'light', viewport: { value: 'desktop' } },
 } satisfies Meta<typeof StepWhereWhen>;
 

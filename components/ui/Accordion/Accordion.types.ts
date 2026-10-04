@@ -17,4 +17,6 @@ export type AccordionProps = {
    * that's unique on the page: two accordions with the same name close each other's items.
    */
   name?: string;
+  /** default: FAQs, the step title role with room around it. compact: a 52px row at 15/500 with no list lines (the planner's summary bar). */
+  size?: 'default' | 'compact';
 };

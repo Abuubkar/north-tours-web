@@ -1,21 +1,77 @@
 /*
  * The whole planner sits on the light surface (docs/components.md §3.3). It clips sideways, so a
- * step body sliding in from the side never widens the page.
+ * step body sliding in from the side never widens the page, and stays hidden while saved answers
+ * are restored (`plannerPending`; for a link alone only the form waits, `plannerFormPending`).
  */
 .page {
+  composes: plannerPending from '../../styles/layout.module.css';
+  display: flex;
+  flex-direction: column;
   overflow-x: clip;
 }
 
+/*
+ * When the browser scrolls a focused field into view (Tab), it keeps clear of the planner's
+ * sticky bars: the summary bar and the bottom bar below 1100px, the progress from 1100px.
+ */
+:global(html):has(.page) {
+  scroll-padding: calc(var(--header-h) + var(--planner-top-reach)) 0 var(--planner-bottom-reach);
+}
+
+@media (width >= 1100px) {
+  :global(html):has(.page) {
+    scroll-padding: calc(var(--header-h) + var(--planner-progress-reach)) 0 0;
+  }
+}
+
+/* The summary bar comes after the <h1> in reading order (so headings stay in order) but shows above it, under the site header. */
+.summaryBar {
+  order: -1;
+}
+
 .layout {
+  composes: plannerFormPending from '../../styles/layout.module.css';
   padding: 0 var(--margin) var(--section-y);
 }
 
+/* From 1100px the form and the 380px side column, 64px apart. */
+@media (width >= 1100px) {
+  .layout {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--aside-gap);
+  }
+}
+
 .form {
+  flex: 1 1 0;
   min-width: 0;
   border-top: var(--hairline-width) solid var(--hairline);
 }
 
-/* The progress sticks under the site header, on the light frosted bar (the header's blur). */
+/* Shown from 1100px only: the progress bar in the form, and the inline Back and Next. */
+.bar,
+.wideOnly {
+  display: none;
+}
+
+@media (width >= 1100px) {
+  .bar,
+  .wideOnly {
+    display: block;
+  }
+
+  .nextBelow {
+    display: none;
+  }
+}
+
+/* Below 1100px "What happens next" follows the form, before the footer. */
+.nextBelow {
+  padding: 0 var(--margin) var(--section-y);
+}
+
+/* From 1100px the progress sticks under the site header, on the light frosted bar (the header's blur). */
 .bar {
   position: sticky;
   top: var(--header-h);

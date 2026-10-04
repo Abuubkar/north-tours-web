@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { expect } from 'storybook/test';
 import { usePlanner } from '@/hooks/usePlanner';
 import { setChildren } from '@/lib/utils/plannerAnswers';
-import { samplePlannerCopy, withPlanner } from '../samplePlanner';
+import { noSavedPlanner, samplePlannerCopy, withPlanner } from '../samplePlanner';
 import { ChildAgeSelects } from './ChildAgeSelects';
 
 /** Two children, as if "More children" was pressed twice. */
@@ -17,6 +17,7 @@ const meta = {
   title: 'Planner/ChildAgeSelects',
   component: TwoChildren,
   decorators: [withPlanner],
+  beforeEach: noSavedPlanner,
   globals: { surface: 'light' },
 } satisfies Meta<typeof TwoChildren>;
 

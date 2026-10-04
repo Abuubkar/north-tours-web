@@ -14,7 +14,7 @@ export function TextLink(props: TextLinkProps) {
   const { children } = props;
   if (props.variant === 'button') {
     return (
-      <button type="button" className={styles.textButton} onClick={props.onClick}>
+      <button type="button" aria-label={props.label} className={styles.textButton} onClick={props.onClick}>
         {children}
       </button>
     );

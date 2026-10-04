@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { realUser } from '../../../.storybook/realUser';
-import { samplePlannerCopy, withPlanner } from '../samplePlanner';
+import { noSavedPlanner, samplePlannerCopy, withPlanner } from '../samplePlanner';
 import { StepWhosComing } from './StepWhosComing';
 
 const meta = {
@@ -9,6 +9,7 @@ const meta = {
   component: StepWhosComing,
   args: { copy: samplePlannerCopy.whosComing },
   decorators: [withPlanner],
+  beforeEach: noSavedPlanner,
   globals: { surface: 'light', viewport: { value: 'desktop' } },
 } satisfies Meta<typeof StepWhosComing>;
 

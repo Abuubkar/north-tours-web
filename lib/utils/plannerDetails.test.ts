@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EMPTY_DETAILS, pickBestTime, switchPhoneMode } from './plannerDetails.ts';
+import { EMPTY_DETAILS, firstName, pickBestTime, switchPhoneMode } from './plannerDetails.ts';
 
 describe('your details', () => {
   it('start empty, with a Pakistani number', () => {
@@ -17,5 +17,12 @@ describe('your details', () => {
     const evening = pickBestTime(EMPTY_DETAILS, 'evening');
     expect(evening.bestTime).toBe('evening');
     expect(pickBestTime(evening, 'evening').bestTime).toBeNull();
+  });
+});
+
+describe('first name', () => {
+  it('is the first word of the name', () => {
+    expect(firstName({ ...EMPTY_DETAILS, name: '  Ayesha  Khan ' })).toBe('Ayesha');
+    expect(firstName({ ...EMPTY_DETAILS, name: 'Bilal' })).toBe('Bilal');
   });
 });

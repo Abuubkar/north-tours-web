@@ -76,6 +76,10 @@ export const Hover: Story = {
     const card = canvas.getByRole('article');
     const whatsapp = canvas.getByRole('link', { name: /on WhatsApp$/ });
     const photo = canvas.getByRole('img', { name: sampleTour.image.alt }).closest('picture')!;
+    // The pointer stays where the previous story left it, possibly over this card: move it off and
+    // let the slowest transition (the photo zoom) settle, so the resting colours are read at rest.
+    await user.unhover(card);
+    await waitFor(() => expect(getComputedStyle(photo).transform).toBe('none'), { timeout: 3000 });
     const resting = [getComputedStyle(card).backgroundColor, getComputedStyle(whatsapp).borderColor];
     await user.hover(canvas.getByRole('heading', { level: 3 }));
     await waitFor(() => {

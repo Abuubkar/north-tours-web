@@ -75,3 +75,14 @@ export const Inline: Story = {
 };
 
 export const InlineOnLight: Story = { ...Inline, globals: { surface: 'light' } };
+
+/** A button named more fully than its words: "Edit", read as "Edit where and when". */
+export const ButtonLabelled: Story = {
+  args: { variant: 'button', href: undefined, children: 'Edit', label: 'Edit where and when', onClick: fn() },
+  play: async ({ canvas, args, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Edit where and when' }));
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+};
+
+export const ButtonLabelledOnLight: Story = { ...ButtonLabelled, globals: { surface: 'light' } };
