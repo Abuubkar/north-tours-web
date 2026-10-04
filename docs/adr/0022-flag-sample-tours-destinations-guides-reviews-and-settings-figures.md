@@ -14,7 +14,7 @@ PRD 12 needs to tell sample from real in two places:
 While the owner swaps sample content for real, the two sit side by side: real reviews next to sample ones, a real tour with a rating that's still invented.
 
 ## Decision
-- **ADR-0019's `sample: true` extends to ADR-0010's sample content.** It carries the same rules: only `true` is allowed, the owner confirms an item by removing the field, and it never shows on the site.
+- **ADR-0019's `sample: true` extends to ADR-0010's sample content.** It carries the same rules: only `true` is allowed, the owner confirms an item by removing the field, and it never shows on the site. This replaces ADR-0019's "Not flagged: … the sample tours, guides and reviews ADR-0010 already covers"; the rest of ADR-0019 stands.
 - **Where it goes:**
   - each tour, destination, guide and review file, at its top level;
   - each tour's `rating` on its own, so a real tour can still carry a sample rating;

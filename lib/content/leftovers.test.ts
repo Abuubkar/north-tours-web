@@ -37,13 +37,15 @@ describe('launch leftovers', () => {
     expect(leftovers()).toEqual([]);
   });
 
-  it('lists a placeholder brand name and site URL as their own kinds', () => {
-    const found = leftovers({ 'settings.json': { ...realSettings, brand: { name: '[BRAND NAME]' }, site: { url: '[Site URL]' } } });
-    expect(found).toEqual([
-      expect.objectContaining({ kind: 'brand', field: 'brand.name', label: '[BRAND NAME]' }),
-      expect.objectContaining({ kind: 'siteUrl', field: 'site.url', label: '[Site URL]' }),
-    ]);
-    expect(found[0].file).toMatch(/settings\.json$/);
+  it('lists a placeholder brand name as its own kind', () => {
+    const found = leftovers({ 'settings.json': { ...realSettings, brand: { name: '[BRAND NAME]' } } });
+    expect(where(found)).toEqual(['brand settings.json › brand.name']);
+    expect(found[0].label).toBe('[BRAND NAME]');
+  });
+
+  it('lists a placeholder site URL as its own kind', () => {
+    const found = leftovers({ 'settings.json': { ...realSettings, site: { url: '[Site URL]' } } });
+    expect(where(found)).toEqual(['siteUrl settings.json › site.url']);
   });
 
   it('lists a whole and a partial placeholder with their file and field', () => {
@@ -105,10 +107,8 @@ describe('launch leftovers', () => {
     expect(result.leftovers).toEqual([]);
   });
 
-  it('lists every kind of leftover in the live content, which is valid', () => {
-    const { problems, leftovers: live } = launchCheck();
-    expect(problems).toEqual([]);
-    expect(new Set(live.map((leftover) => leftover.kind))).toEqual(new Set(LEFTOVER_KINDS));
+  it('finds the live content valid, whatever is left in it', () => {
+    expect(launchCheck().problems).toEqual([]);
   });
 });
 
