@@ -31,7 +31,8 @@ This is the most important rule in the project.
 
 - **Nothing is added before a feature needs it.** A dependency, file, folder, config or
   script is only created inside the issue that requires it.
-  - Example: GSAP is installed in the issue that builds the first animation, not at setup.
+  - Example: motion is native CSS and one small hook (ADR-0016); a motion library would need
+    its own issue and an ADR that supersedes it.
   - Example: the content validation library is installed in the issue that builds the
     content system.
 - **Every new dependency must be justified in the PR description:** which feature needs it,
@@ -191,7 +192,9 @@ Folders are created only when the first file for them is needed (section 3).
 
 ## 9. Motion rules
 
-- GSAP is added only in the first animation issue (section 3).
+- Motion is native (ADR-0016): CSS scroll-driven animations, plus `useRiseOnView` for the
+  cards' entrance. No GSAP or other animation library. Without scroll-driven animation support,
+  everything shows in its final state.
 - One entrance animation per page at most. Prices, dates, seats and buttons are never hidden
   by animation.
 - **Content is visible by default.** Animations enhance; if JS fails, everything still shows.

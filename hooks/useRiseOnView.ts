@@ -1,0 +1,41 @@
+import { useEffect, type RefObject } from 'react';
+
+/** How much of a card must be in view before it rises (as in the design). */
+const THRESHOLD = 0.12;
+
+/**
+ * Cards rise (M4, DESIGN.md §10, ADR-0016): once, for the children of `listRef` that are still
+ * below the fold when the page loads. Each gets `data-rise="below"` (its CSS offsets it), then
+ * `data-rise="in"` the first time it comes into view, with a stagger by column in `--rise-delay`.
+ * Cards in view at load are never touched, nor anything with reduced motion, so nothing is
+ * hidden if the script fails.
+ */
+export function useRiseOnView(listRef: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const cards = [...list.children] as HTMLElement[];
+    const below = cards.filter((card) => card.getBoundingClientRect().top > window.innerHeight);
+    if (below.length === 0) return;
+    // Cards in the first row share its top edge; that count is the number of columns.
+    const columns = cards.filter((card) => card.offsetTop === cards[0].offsetTop).length;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          (entry.target as HTMLElement).dataset.rise = 'in';
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: THRESHOLD },
+    );
+    for (const card of below) {
+      card.style.setProperty('--rise-column', String(cards.indexOf(card) % columns));
+      card.dataset.rise = 'below';
+      observer.observe(card);
+    }
+    return () => observer.disconnect();
+  }, [listRef]);
+}

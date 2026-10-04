@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect } from 'storybook/test';
+import { expect, waitFor } from 'storybook/test';
+import { emulateFullMotion, emulateReducedMotion } from '../../.storybook/reducedMotion';
+import styles from '@/components/ui/stories.module.css';
 import { placeholderSettings, realSettings } from '@/components/layout/sampleSettings';
 import { sampleHome } from '../sampleHome';
 import { HomeHero } from './HomeHero';
@@ -60,5 +62,49 @@ export const RealNumber: Story = {
       'href',
       `https://wa.me/923001234567?${MESSAGE}`,
     );
+  },
+};
+
+/** Scroll room after the hero, so it can scroll away. */
+const withScrollRoom = [
+  (Story: () => React.ReactNode) => (
+    <>
+      <Story />
+      <div className={styles.scrollRoom} />
+    </>
+  ),
+];
+
+const layers = (canvasElement: HTMLElement) => {
+  const photo = canvasElement.querySelector('picture')!.parentElement!;
+  return { photo: getComputedStyle(photo), dim: getComputedStyle(photo.nextElementSibling!.nextElementSibling!) };
+};
+
+/** M1: halfway scrolled away, the photo is blurred and zoomed, and the dim layer darkens it. */
+export const ScrolledAway: Story = {
+  decorators: withScrollRoom,
+  beforeEach: emulateFullMotion,
+  play: async ({ canvasElement }) => {
+    window.scrollTo(0, 450);
+    await waitFor(() => {
+      const { photo, dim } = layers(canvasElement);
+      expect(photo.filter).toMatch(/^blur\(\d/);
+      expect(photo.transform).not.toBe('none');
+      expect(Number(dim.opacity)).toBeGreaterThan(0.2);
+    });
+    window.scrollTo(0, 0);
+  },
+};
+
+/** With reduced motion the hero stays still: no blur, no zoom, no dimming, however far it's scrolled. */
+export const ReducedMotion: Story = {
+  decorators: withScrollRoom,
+  beforeEach: emulateReducedMotion,
+  play: async ({ canvasElement }) => {
+    window.scrollTo(0, 450);
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const { photo, dim } = layers(canvasElement);
+    await expect([photo.filter, photo.transform, dim.opacity]).toEqual(['none', 'none', '0']);
+    window.scrollTo(0, 0);
   },
 };

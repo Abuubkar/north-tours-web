@@ -64,3 +64,47 @@
   composes: display from '../../styles/typography.module.css';
   transform: translateY(var(--display-sink));
 }
+
+/*
+ * M1 (DESIGN.md §10, ADR-0016): as the hero scrolls away, the photo blurs and zooms and the dim
+ * layer darkens, tied to the scroll. Without scroll-driven animations, or with reduced motion,
+ * the hero simply stays as it is.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero {
+      view-timeline: --hero block;
+      /* Measured against the whole screen, not the space below the header (scroll-padding). */
+      view-timeline-inset: 0;
+    }
+
+    .media,
+    .dim {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --hero;
+      animation-range: exit-crossing 0% exit-crossing 100%;
+    }
+
+    .media {
+      animation-name: hero-blur;
+    }
+
+    .dim {
+      animation-name: hero-dim;
+    }
+  }
+}
+
+@keyframes hero-blur {
+  to {
+    filter: blur(var(--hero-blur));
+    transform: scale(var(--hero-zoom));
+  }
+}
+
+@keyframes hero-dim {
+  to {
+    opacity: var(--hero-dim);
+  }
+}

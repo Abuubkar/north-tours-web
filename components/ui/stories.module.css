@@ -32,3 +32,8 @@
 .fill {
   height: var(--hero-h);
 }
+
+/* Scroll room for motion stories: pushes content below the fold, or lets a section scroll away. */
+.scrollRoom {
+  height: calc(1.5 * var(--hero-h));
+}
