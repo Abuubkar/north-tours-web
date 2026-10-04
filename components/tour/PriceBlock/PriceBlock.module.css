@@ -21,3 +21,7 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+.panelAmount {
+  composes: panelPrice from '../../../styles/typography.module.css';
+}

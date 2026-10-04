@@ -1,0 +1,49 @@
+.footer {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding-top: var(--space-16);
+  border-top: var(--hairline-width) solid var(--hairline);
+  background: var(--bg);
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.totalRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-12);
+  min-height: var(--space-32);
+}
+
+.breakdown {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+.muted {
+  composes: small from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+}
+
+.total {
+  composes: price from '../../../styles/typography.module.css';
+}
+
+.advance,
+.cancel {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}
+
+.note {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}

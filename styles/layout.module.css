@@ -75,3 +75,28 @@
   gap: var(--space-4);
   padding: var(--space-16) var(--cell-pad) var(--space-24);
 }
+
+/*
+ * A section in the Tour Detail main column (beside the booking aside from 1100px): the column
+ * carries the page margin, so the section only pads top and bottom.
+ */
+.columnSection {
+  padding-block: var(--section-y);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/*
+ * A light section in that column bleeds to the page edge on the left, and on the right to the
+ * page edge, or from 1100px to the booking aside, so its text stays in line with the column.
+ */
+.columnBleed {
+  margin-inline: calc(-1 * var(--margin));
+  padding-inline: var(--margin);
+}
+
+@media (width >= 1100px) {
+  .columnBleed {
+    margin-right: calc(-1 * var(--aside-gap));
+    padding-right: var(--aside-gap);
+  }
+}

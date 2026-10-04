@@ -4,7 +4,9 @@ import type { TourCopy } from '@/lib/content/pages';
 
 export const sampleTourCopy: TourCopy = {
   title: '{tour}, {duration} from Lahore',
-  hero: { backLabel: 'All tours' },
+  hero: {
+    backLabel: 'All tours',
+  },
   facts: {
     duration: 'Duration',
     rating: 'Rating',
@@ -19,5 +21,54 @@ export const sampleTourCopy: TourCopy = {
     departsFrom: 'Departs from',
     bestSeason: 'Best season',
     transport: 'Transport',
+  },
+  dates: {
+    headline: 'Upcoming departures and prices',
+    rowMeta: '{tripLength} · departs Lahore',
+    priceNote: 'per person, twin',
+    selectLabel: 'Select date',
+    selectedLabel: 'Selected',
+    waitlistLabel: 'Join waitlist',
+    rooms: {
+      heading: 'Room sharing',
+      twin: {
+        label: 'Twin sharing',
+        note: 'Base price · 2 per room',
+      },
+      triple: {
+        label: 'Triple sharing',
+        note: '3 per room',
+      },
+      quad: {
+        label: 'Quad sharing',
+        note: '4 per room · good for families',
+      },
+      note: 'Prices are per person. Children under {childFromAge} share their parents’ room free.',
+    },
+  },
+  booking: {
+    label: 'Book this tour',
+    priceNote: 'per person · twin sharing',
+    dateLabel: 'Departure date',
+    travellersLabel: 'Travellers',
+    travellersHint: 'Adults and children {childFromAge}+',
+    fewerTravellers: 'Fewer travellers',
+    moreTravellers: 'More travellers',
+    roomLabel: 'Room sharing',
+    rooms: {
+      twin: 'Twin',
+      triple: 'Triple',
+      quad: 'Quad',
+    },
+    trustLicence: 'DTS licence No. {licence}',
+    trustDeparts: 'Departs from {pickupPoint}',
+    totalLabel: 'Total',
+    chooseDate: 'Choose a date',
+    advance: 'Advance to reserve: {advance} ({advancePercent}% of total)',
+    reserveLabel: 'Reserve with {advancePercent}% advance',
+    soldOut: '{date} is full. Join the waitlist and we’ll message you on WhatsApp if a seat opens.',
+    waitlistLabel: 'Join waitlist',
+    askLabel: 'Ask on WhatsApp',
+    cancelNote: 'Cancel {fullRefundDays} or more days before departure for a full refund of your advance.',
   },
 };

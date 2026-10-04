@@ -27,10 +27,20 @@ describe('settingsTokens', () => {
     const values = settingsTokens({
       booking: { advancePercent: 30, replyTime: 'within 2 hours', pickupPoint: '[Pickup point], Lahore' },
       payments: { methods: ['Cash', 'Bank transfer'] },
+      policies: {
+        refundSchedule: [
+          { daysBefore: 14, refundPercent: 100 },
+          { daysBefore: 0, refundPercent: 0 },
+        ],
+        balanceDueDays: 7,
+        childFromAge: 5,
+      },
     });
     expect(fillTokens('Hold your seats with a {advancePercent}% advance, paid by {paymentMethods}.', values)).toBe(
       'Hold your seats with a 30% advance, paid by cash or bank transfer.',
     );
     expect(fillTokens('Meet us at {pickupPoint}.', values)).toBe('Meet us at [Pickup point], Lahore.');
+    expect(fillTokens('Cancel {fullRefundDays} or more days before', values)).toBe('Cancel 14 or more days before');
+    expect(fillTokens('Adults and children {childFromAge}+', values)).toBe('Adults and children 5+');
   });
 });

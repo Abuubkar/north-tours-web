@@ -32,6 +32,14 @@ export function tripLength(days: number, nights: number): string {
   return nights > 0 ? `${plural(days, 'day')}, ${plural(nights, 'night')}` : plural(days, 'day');
 }
 
+/** A departure's dates in a WhatsApp message, with the year: "12–20 May 2027", "26 May – 3 Jun 2027". */
+export function messageDateRange(start: string, end: string): string {
+  const from = parts(start);
+  const to = parts(end);
+  if (from.year !== to.year) return `${messageDate(start)} – ${messageDate(end)}`;
+  return `${dateRange(start, end)} ${to.year}`;
+}
+
 /** The date in a WhatsApp message, with the year: "12 May 2027". */
 export function messageDate(date: string): string {
   const { year, month, day } = parts(date);

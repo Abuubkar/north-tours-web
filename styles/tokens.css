@@ -118,6 +118,16 @@
   --map-max-w: 620px; /* to */
   --map-list-min: 320px; /* the stop list before it wraps under the map */
   --stop-number-col: 36px; /* the route stop list's number column */
+  --aside-w: 380px; /* Tour Detail booking aside, from 1100px */
+  --aside-gap: var(--space-64); /* between the main column and the aside */
+  --aside-top: calc(var(--header-h) + var(--space-16)); /* where the sticky aside stops, under the header */
+  --aside-panel-max-h: calc(100vh - 156px); /* its panel's height; the body scrolls, the footer stays in view */
+  --departure-when-min: 200px; /* a departure row: dates, then seats and price before they wrap */
+  --departure-seats-min: 160px;
+  --departure-price-w: 140px;
+  --radio-size: 16px; /* the booking panel's date radio ring */
+  --radio-dot: 8px;
+  --radio-ring-width: 1.5px;
 
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */

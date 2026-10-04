@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dateRange, dayCount, messageDate, monthYear, seasonRange, tripLength, yearsSince } from './dates.ts';
+import { dateRange, dayCount, messageDate, messageDateRange, monthYear, seasonRange, tripLength, yearsSince } from './dates.ts';
 
 describe('dateRange', () => {
   it('names the month once when both dates share it', () => {
@@ -37,6 +37,17 @@ describe('messageDate', () => {
   it('gives the start date with the year', () => {
     expect(messageDate('2027-05-12')).toBe('12 May 2027');
     expect(messageDate('2027-06-03')).toBe('3 Jun 2027');
+  });
+});
+
+describe('messageDateRange', () => {
+  it('adds the year once', () => {
+    expect(messageDateRange('2027-05-12', '2027-05-20')).toBe('12–20 May 2027');
+    expect(messageDateRange('2027-05-26', '2027-06-03')).toBe('26 May – 3 Jun 2027');
+  });
+
+  it('gives both years when the trip crosses the new year', () => {
+    expect(messageDateRange('2026-12-28', '2027-01-03')).toBe('28 Dec 2026 – 3 Jan 2027');
   });
 });
 

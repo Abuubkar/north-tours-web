@@ -1,0 +1,10 @@
+.heading {
+  composes: stepTitle from '../../../styles/typography.module.css';
+  padding-bottom: var(--space-16);
+}
+
+.note {
+  composes: ui from '../../../styles/typography.module.css';
+  margin-top: var(--space-16);
+  color: var(--fg-2);
+}

@@ -17,6 +17,15 @@ export const placeholderSettings: Settings = {
     travelSupport: '[24/7 number]',
   },
   booking: { advancePercent: 30, replyTime: 'within 2 hours', pickupPoint: '[Pickup point], Lahore' },
+  policies: {
+    refundSchedule: [
+      { daysBefore: 14, refundPercent: 100 },
+      { daysBefore: 7, refundPercent: 50 },
+      { daysBefore: 0, refundPercent: 0 },
+    ],
+    balanceDueDays: 7,
+    childFromAge: 5,
+  },
   payments: { methods: ['Cash', 'Bank transfer'] },
   legal: { dtsLicence: '[DTS licence number]', companyRegistration: '[SECP or NTN number]' },
   social: { instagram: '[Instagram URL]', facebook: '[Facebook URL]', youtube: '[YouTube URL]' },
@@ -34,6 +43,8 @@ export const placeholderSettings: Settings = {
       'Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.',
     tourMessage: 'Hi, I’m interested in {tour} on {date}.',
     waitlistMessage: 'Hi, please add me to the waitlist for {tour} on {date} in case a seat opens up.',
+    reserveMessage:
+      'Hi, I’d like to reserve {travellers} on {tour}, {dates}, {room} sharing. Total {total}; I’ll pay the {advancePercent}% advance of {advance}.',
   },
 };
 

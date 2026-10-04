@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { BookingPanel } from '@/components/booking-panel/BookingPanel/BookingPanel';
+import { BookingProvider } from '@/components/booking-panel/BookingProvider/BookingProvider';
 import { HeroFacts } from '@/components/facts/HeroFacts/HeroFacts';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
@@ -12,8 +14,10 @@ import { dayCount } from '@/lib/utils/dates';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { routeLine } from '@/lib/utils/route';
-import { fillTokens } from '@/lib/utils/tokens';
+import { fillTokens, settingsTokens } from '@/lib/utils/tokens';
 import { whatsappLink } from '@/lib/utils/whatsapp';
+import { BookingLayout } from '@/sections/BookingLayout/BookingLayout';
+import { DatesAndPrices } from '@/sections/DatesAndPrices/DatesAndPrices';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
 import { QuickFacts } from '@/sections/QuickFacts/QuickFacts';
 
@@ -43,6 +47,11 @@ export default async function TourPage(props: TourPageProps) {
   const settings = getSettings();
   // The share image is the tour's photo; until it has one, the Homepage's.
   const sharePhoto = isPhoto(tour.image) ? tour.image : getHomeCopy().hero.image;
+  const builtOn = todayInKarachi(new Date());
+  const tokens = { ...settingsTokens(settings), licence: settings.legal.dtsLicence };
+  // Client components get only what they use; everything passed to them is sent to the browser.
+  const { title, days, nights, rating, prices, departures } = tour;
+  const messages = { contact: settings.contact, whatsapp: settings.whatsapp };
 
   return (
     <PageMain>
@@ -54,13 +63,33 @@ export default async function TourPage(props: TourPageProps) {
         title={tour.title}
       >
         <HeroFacts
-          tour={tour}
-          builtOn={todayInKarachi(new Date())}
+          tour={{ days, nights, rating, prices, departures }}
+          builtOn={builtOn}
           copy={copy.facts}
           whatsappHref={whatsappLink(settings.contact.whatsapp, settings.whatsapp.generalMessage)}
         />
       </PhotoHero>
       <QuickFacts copy={copy.quickFacts} tour={tour} pickupPoint={settings.booking.pickupPoint} />
+      <BookingProvider departures={tour.departures} builtOn={builtOn}>
+        <BookingLayout
+          label={copy.booking.label}
+          aside={
+            <BookingPanel
+              tour={{ title, rating, prices }}
+              copy={copy.booking}
+              tokens={tokens}
+              settings={{ ...messages, booking: settings.booking, payments: settings.payments }}
+            />
+          }
+        >
+          <DatesAndPrices
+            tour={{ title, days, nights, prices }}
+            copy={copy.dates}
+            settings={messages}
+            roomsNote={fillTokens(copy.dates.rooms.note, tokens)}
+          />
+        </BookingLayout>
+      </BookingProvider>
     </PageMain>
   );
 }

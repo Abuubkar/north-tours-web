@@ -29,3 +29,13 @@ export const Fact: Story = {
 };
 
 export const FactOnLight: Story = { ...Fact, globals: { surface: 'light' } };
+
+/** The booking panel's larger price. */
+export const Panel: Story = {
+  args: { size: 'panel', note: 'per person · twin sharing' },
+  play: async ({ canvasElement }) => {
+    await expect(canvasElement.querySelector('p')).toHaveTextContent('fromPKR 145,000per person · twin sharing');
+  },
+};
+
+export const PanelOnLight: Story = { ...Panel, globals: { surface: 'light' } };

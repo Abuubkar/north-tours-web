@@ -1,0 +1,78 @@
+/* An option tile (8px, the shared selected state; docs/components.md, PRD #8). */
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: var(--control-48);
+  padding: 0 var(--space-12);
+  border: var(--hairline-width) solid var(--hairline);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+}
+
+.option:has(:checked) {
+  border-color: var(--fg);
+  background: var(--bg-raised);
+}
+
+/* The tile shows the focus ring for the radio inside it. */
+.option:has(:focus-visible) {
+  outline: var(--focus-width) solid var(--fg);
+  outline-offset: var(--focus-offset);
+}
+
+/* The design's ring: hollow, then filled with a dot once chosen. */
+.radio {
+  display: grid;
+  flex: none;
+  place-content: center;
+  width: var(--radio-size);
+  height: var(--radio-size);
+  margin: 0;
+  border: var(--radio-ring-width) solid var(--control-border);
+  border-radius: var(--radius-chip);
+  appearance: none;
+}
+
+.radio:focus-visible {
+  outline: none;
+}
+
+.radio:checked {
+  border-color: var(--fg);
+}
+
+.radio:checked::before {
+  width: var(--radio-dot);
+  height: var(--radio-dot);
+  border-radius: var(--radius-chip);
+  background: var(--fg);
+  content: '';
+}
+
+.dates {
+  composes: small from '../../../styles/typography.module.css';
+  flex: 1;
+  font-weight: var(--fw-medium);
+}
+
+.soldOut .dates {
+  color: var(--fg-2);
+}
+
+.seats {
+  composes: label from '../../../styles/typography.module.css';
+  white-space: nowrap;
+}
+
+.open {
+  color: var(--fg-2);
+}
+
+.urgent {
+  color: var(--accent);
+}
+
+.soldout {
+  color: var(--fg-3);
+}
