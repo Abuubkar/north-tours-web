@@ -108,6 +108,8 @@ export const TwoRowPlaceholdersOnLight: Story = { ...TwoRowPlaceholders, globals
 
 export const TwoRowPlaceholdersPhone: Story = { ...TwoRowPlaceholders, globals: { viewport: { value: 'phone' } } };
 
+export const TwoRowPlaceholdersPhoneOnLight: Story = { ...TwoRowPlaceholders, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 /** The two-row form with a real address: "Get directions →" opens Google Maps in a new tab, and still no "WhatsApp first". */
 export const TwoRowRealValues: Story = {
   args: { form: 'two-row', settings: realSettings },
@@ -124,3 +126,5 @@ export const TwoRowRealValues: Story = {
 export const TwoRowRealValuesOnLight: Story = { ...TwoRowRealValues, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const TwoRowRealValuesPhone: Story = { ...TwoRowRealValues, globals: { viewport: { value: 'phone' } } };
+
+export const TwoRowRealValuesPhoneOnLight: Story = { ...TwoRowRealValues, globals: { surface: 'light', viewport: { value: 'phone' } } };

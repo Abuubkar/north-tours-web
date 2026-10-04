@@ -1,3 +1,4 @@
+import type { Settings } from '../content/settings.ts';
 import { hasPlaceholder, isPlaceholder } from './placeholder.ts';
 import { whatsappLink } from './whatsapp.ts';
 
@@ -34,4 +35,16 @@ export function whatsappHref(number: string, message: string): string | undefine
  */
 export function directionsHref(address: string): string | undefined {
   return hasPlaceholder(address) ? undefined : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+}
+
+/** A social profile's name and its link, or none while it's a placeholder (plain text). */
+export type SocialLink = { label: string; href: string | undefined };
+
+/** Instagram, Facebook and YouTube from settings, in that order (the footer and Contact's quick links). */
+export function socialLinks(social: Settings['social']): SocialLink[] {
+  return [
+    { label: 'Instagram', href: webHref(social.instagram) },
+    { label: 'Facebook', href: webHref(social.facebook) },
+    { label: 'YouTube', href: webHref(social.youtube) },
+  ];
 }

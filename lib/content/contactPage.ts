@@ -1,5 +1,5 @@
 import { routes } from '../routes.ts';
-import { emailHref, phoneHref, webHref, whatsappHref } from '../utils/contact.ts';
+import { emailHref, phoneHref, socialLinks, whatsappHref } from '../utils/contact.ts';
 import { fillTokens } from '../utils/tokens.ts';
 import { whatsappLink } from '../utils/whatsapp.ts';
 import { getContactCopy, getHomeCopy, type ContactCopy } from './pages.ts';
@@ -40,11 +40,7 @@ export function contactPage(copy: ContactCopy, settings: Settings) {
         { label: copy.quickLinks.links.policies, href: routes.policies },
       ],
       follow: copy.quickLinks.follow,
-      social: [
-        { label: 'Instagram', href: webHref(settings.social.instagram) },
-        { label: 'Facebook', href: webHref(settings.social.facebook) },
-        { label: 'YouTube', href: webHref(settings.social.youtube) },
-      ],
+      social: socialLinks(settings.social),
     },
   };
 }

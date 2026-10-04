@@ -3,7 +3,7 @@ import { KeyValueRow } from '@/components/ui/KeyValueRow/KeyValueRow';
 import { SectionLabel } from '@/components/ui/SectionLabel/SectionLabel';
 import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
 import { routes } from '@/lib/routes';
-import { emailHref, phoneHref, webHref } from '@/lib/utils/contact';
+import { emailHref, phoneHref, socialLinks } from '@/lib/utils/contact';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import type { SiteFooterProps } from './SiteFooter.types';
 import styles from './SiteFooter.module.css';
@@ -28,11 +28,6 @@ const legalLinks = [
 export function SiteFooter({ settings }: SiteFooterProps) {
   const { brand, contact, legal, social, whatsapp } = settings;
   const chatHref = whatsappLink(contact.whatsapp, whatsapp.generalMessage);
-  const socialLinks = [
-    { label: 'Instagram', href: webHref(social.instagram) },
-    { label: 'Facebook', href: webHref(social.facebook) },
-    { label: 'YouTube', href: webHref(social.youtube) },
-  ];
 
   return (
     <footer data-surface="dark" className={styles.footer}>
@@ -87,7 +82,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
           © {new Date().getFullYear()} {brand.name} · DTS Licence No. {legal.dtsLicence}
         </p>
         <ul className={styles.smallLinks}>
-          {[...socialLinks, ...legalLinks].map(({ label, href }) => (
+          {[...socialLinks(social), ...legalLinks].map(({ label, href }) => (
             <li key={label} className={styles.smallItem}>
               <TextOrLink href={href} className={styles.smallLink}>
                 {label}

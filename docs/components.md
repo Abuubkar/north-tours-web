@@ -812,7 +812,7 @@ Each one is asked (grilled) at the start of its PRD. A recommendation is noted w
 - All settled (see the decisions at the top of this file).
 
 **Trip Planner and Help PRDs (inputs)**
-- *(Settled in PRD #71: `Input`'s hover and focus follow #51's `Select`; see the decisions at the top of this file.)*
+- *(Settled in PRD #71: `Input`'s hover and focus follow #51's `Select`; and in PRD #86 for Help's search, the same 52px `Input` with `type="search"`; see the decisions at the top of this file.)*
 
 **Content system PRD**
 - One seats-copy formatter for all the variants in §5 item 31.

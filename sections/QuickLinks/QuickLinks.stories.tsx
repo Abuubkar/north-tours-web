@@ -79,3 +79,5 @@ export const RealSocial: Story = {
 export const RealSocialOnLight: Story = { ...RealSocial, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const RealSocialPhone: Story = { ...RealSocial, globals: { viewport: { value: 'phone' } } };
+
+export const RealSocialPhoneOnLight: Story = { ...RealSocial, globals: { surface: 'light', viewport: { value: 'phone' } } };

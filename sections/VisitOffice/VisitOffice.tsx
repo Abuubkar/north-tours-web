@@ -19,7 +19,8 @@ const PHOTO_SIZES = '(width >= 820px) 50vw, 100vw';
 export function VisitOffice({ settings, form = 'four-row' }: VisitOfficeProps) {
   const { visitOffice: copy, contact, whatsapp } = settings;
   const directions = directionsHref(contact.officeAddress);
-  const full = form === 'four-row';
+  // The four-row form adds the phone and WhatsApp rows and "WhatsApp first".
+  const showNumbers = form === 'four-row';
   return (
     <section className={styles.section}>
       <div className={styles.split}>
@@ -28,7 +29,7 @@ export function VisitOffice({ settings, form = 'four-row' }: VisitOfficeProps) {
           <dl>
             <KeyValueRow label={copy.rows.office}>{contact.officeAddress}</KeyValueRow>
             <KeyValueRow label={copy.rows.open}>{contact.officeHours}</KeyValueRow>
-            {full && (
+            {showNumbers && (
               <>
                 <KeyValueRow label={copy.rows.phone}>
                   <TextOrLink href={phoneHref(contact.phone)} className={styles.rowLink}>
@@ -43,14 +44,14 @@ export function VisitOffice({ settings, form = 'four-row' }: VisitOfficeProps) {
               </>
             )}
           </dl>
-          {(directions || full) && (
+          {(directions || showNumbers) && (
             <div className={styles.actions}>
               {directions && (
                 <Button href={directions} arrow target="_blank" rel="noopener">
                   {copy.directionsLabel}
                 </Button>
               )}
-              {full && (
+              {showNumbers && (
                 <Button href={whatsappLink(contact.whatsapp, whatsapp.generalMessage)} variant="secondary" icon="whatsapp">
                   {copy.whatsappLabel}
                 </Button>

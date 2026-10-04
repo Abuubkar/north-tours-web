@@ -1,3 +1,5 @@
+import type { SocialLink } from '@/lib/utils/contact';
+
 export type QuickLink = { label: string; href: string };
 
 export type QuickLinksProps = {
@@ -8,5 +10,5 @@ export type QuickLinksProps = {
   /** "Follow the trips", over the social links. */
   follow: string;
   /** Instagram, Facebook and YouTube: links once real, plain text while placeholders (href undefined). */
-  social: { label: string; href: string | undefined }[];
+  social: SocialLink[];
 };
