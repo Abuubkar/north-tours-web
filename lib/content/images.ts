@@ -13,7 +13,7 @@ const credit = z.discriminatedUnion('source', [
     sourceUrl: z.url(),
     /**
      * Every edit made to the photo beyond resizing and format changes, e.g. "Cropped; number plate
-     * pixelated", shown on /credits after the licence (ADR-0028). Left out when it's unchanged.
+     * pixelated", shown on /credits after the licence (ADR-0028). Left out when the photo is unchanged.
      */
     changes: nonEmpty.optional(),
   }),
