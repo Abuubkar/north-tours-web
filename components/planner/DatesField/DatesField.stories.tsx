@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { shortMonthYear } from '@/lib/utils/dates';
-import { samplePlannerCopy, withPlanner } from '../samplePlanner';
+import { noSavedPlanner, samplePlannerCopy, withPlanner } from '../samplePlanner';
 import { DatesField } from './DatesField';
 
 const meta = {
@@ -10,6 +10,7 @@ const meta = {
   component: DatesField,
   args: { copy: samplePlannerCopy.whereWhen.dates },
   decorators: [withPlanner],
+  beforeEach: noSavedPlanner,
   globals: { surface: 'light', viewport: { value: 'desktop' } },
 } satisfies Meta<typeof DatesField>;
 

@@ -6,6 +6,7 @@ import { getPlannerCopy } from '@/lib/content/pages';
 import { getPlannerPage } from '@/lib/content/plannerPage';
 import { getSettings } from '@/lib/content/settings';
 import { pageMetadata } from '@/lib/utils/metadata';
+import { PLANNER_PENDING_SCRIPT } from '@/lib/utils/plannerStorage';
 import { TripPlanner } from '@/sections/TripPlanner/TripPlanner';
 
 export function generateMetadata(): Metadata {
@@ -22,6 +23,8 @@ export default function PlanPage() {
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
+      {/* Before the planner is painted: saved answers or a ?dest= link keep it hidden until applied. */}
+      <script dangerouslySetInnerHTML={{ __html: PLANNER_PENDING_SCRIPT }} />
       <PlannerProvider {...config}>
         <TripPlanner copy={copy} destinations={destinations} />
       </PlannerProvider>

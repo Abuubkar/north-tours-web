@@ -3,6 +3,7 @@ import type { Decorator } from '@storybook/nextjs-vite';
 import { usePlanner } from '@/hooks/usePlanner';
 import { EMPTY_PHONE } from '@/lib/utils/phone';
 import { DEFAULT_ANSWERS, type TripAnswers } from '@/lib/utils/plannerAnswers';
+import { PLANNER_STORAGE_KEY } from '@/lib/utils/plannerStorage';
 import type { Details } from '@/lib/utils/plannerDetails';
 import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
 import type { PlannerPage } from '@/lib/content/plannerPage';
@@ -203,3 +204,16 @@ export const withAnsweredPlanner: Decorator = (Story) => (
     </Answered>
   </PlannerProvider>
 );
+
+/**
+ * A story's `beforeEach`: the browser holds `saved` as the planner's saved answers (or nothing),
+ * and is cleared again afterwards, so no story sees another's answers.
+ */
+export const savedPlanner = (saved: string | null) => () => {
+  if (saved === null) localStorage.removeItem(PLANNER_STORAGE_KEY);
+  else localStorage.setItem(PLANNER_STORAGE_KEY, saved);
+  return () => localStorage.removeItem(PLANNER_STORAGE_KEY);
+};
+
+/** Nothing saved: the planner starts at step 1. */
+export const noSavedPlanner = savedPlanner(null);

@@ -3,7 +3,11 @@ import { expect, waitFor, within } from 'storybook/test';
 import { opacityUpTo } from '../../.storybook/opacity';
 import { realUser } from '../../.storybook/realUser';
 import { emulateFullMotion, emulateReducedMotion } from '../../.storybook/reducedMotion';
-import { samplePlannerCopy, samplePlannerDestinations, withPlanner } from '@/components/planner/samplePlanner';
+import { noSavedPlanner, sampleAnswers, samplePlannerCopy, samplePlannerDestinations, savedPlanner, withPlanner } from '@/components/planner/samplePlanner';
+import { atQuery } from '../../.storybook/storyUrl';
+import type { TripAnswers } from '@/lib/utils/plannerAnswers';
+import { monthChoices } from '@/lib/utils/plannerOptions';
+import { PLANNER_STORAGE_KEY, serialisePlanner } from '@/lib/utils/plannerStorage';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { TripPlanner } from './TripPlanner';
 
@@ -15,6 +19,7 @@ const meta = {
   beforeEach: async () => {
     await emulateReducedMotion();
     window.scrollTo({ top: 0, behavior: 'instant' });
+    return noSavedPlanner();
   },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
@@ -481,3 +486,151 @@ export const SendAndAgain: Story = {
 export const SendAndAgainPhone: Story = { ...SendAndAgain, globals: { viewport: { value: 'phone' } } };
 
 export const SendAndAgainLaptop: Story = { ...SendAndAgain, globals: { viewport: { value: 'laptop' } } };
+
+/* Saved answers and the ?dest= link (#76, ADR-0018). */
+
+/** A month the planner still offers, whenever the story runs. */
+const comingMonth = () => monthChoices(todayInKarachi(new Date()))[3];
+
+const savedTrip = (step: number, change: Partial<TripAnswers> = {}) =>
+  serialisePlanner({ ...sampleAnswers, month: comingMonth(), ...change }, step);
+
+const saved = () => JSON.parse(localStorage.getItem(PLANNER_STORAGE_KEY) ?? 'null');
+
+/** Runs several `beforeEach` steps, and their cleanups after. */
+const all =
+  (...steps: (() => (() => void) | void | Promise<unknown>)[]) =>
+  async () => {
+    const cleanups: unknown[] = [];
+    for (const step of steps) cleanups.push(await step());
+    return () => cleanups.reverse().forEach((cleanup) => typeof cleanup === 'function' && cleanup());
+  };
+
+/** Every change writes the trip and step at once, and never the name, number, best time or notes. */
+export const Saving: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await expect(localStorage.getItem(PLANNER_STORAGE_KEY)).toBeNull();
+    await userEvent.click(button(canvas, 'Hunza'));
+    await waitFor(() => expect(saved()).toMatchObject({ destinations: ['hunza'], step: 1 }));
+    await toStep3Answered(canvas, userEvent);
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+    await userEvent.click(button(canvas, 'Evening'));
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Anything else?' }), 'A quiet room, please.');
+    await waitFor(() => expect(saved()).toMatchObject({ step: 3, adults: 2 }));
+    const raw = localStorage.getItem(PLANNER_STORAGE_KEY)!;
+    for (const detail of ['Ayesha', '300', 'evening', 'quiet room', '"name"', '"phone"', '"notes"', '"bestTime"']) {
+      await expect(raw).not.toContain(detail);
+    }
+  },
+};
+
+const toStep3Answered = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void> }) => {
+  await userEvent.click(monthChips(canvas)[3]);
+  await userEvent.click(button(canvas, /^Next/));
+  await userEvent.click(button(canvas, /^Next/));
+};
+
+/** Saved on step 2: the planner opens there, with the trip as it was. */
+export const SavedStep2: Story = {
+  beforeEach: all(noSavedPlanner, () => savedPlanner(savedTrip(2))()),
+  play: async ({ canvas }) => {
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming'));
+    await expect(canvas.getByRole('combobox', { name: 'Child 2' })).toHaveDisplayValue('9');
+    await expect(button(canvas, 'Family')).toHaveAttribute('aria-pressed', 'true');
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Planning your private trip' })).toBeVisible();
+  },
+};
+
+/** Saved on the review: details were never saved, so it opens on Your details, the trip kept and the details empty. */
+export const SavedReview: Story = {
+  beforeEach: all(noSavedPlanner, () => savedPlanner(savedTrip(4))()),
+  play: async ({ canvas, userEvent }) => {
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 3 of 3 · Your details'));
+    await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('');
+    await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('');
+    await userEvent.click(button(canvas, 'Back'));
+    await expect(button(canvas, 'Upgraded')).toHaveAttribute('aria-pressed', 'true');
+  },
+};
+
+export const SavedReviewPhone: Story = { ...SavedReview, globals: { viewport: { value: 'phone' } } };
+
+/** Saved junk: a past month and a destination no longer in content fall back to their defaults; the rest stays. */
+export const SavedJunk: Story = {
+  beforeEach: all(noSavedPlanner, () => savedPlanner(savedTrip(2, { month: '2020-01', destinations: ['atlantis', 'skardu'] }))()),
+  play: async ({ canvas }) => {
+    // Without a month, step 1 doesn't pass, so the planner opens there.
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when'));
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Skardu', 'Flexible']);
+  },
+};
+
+/** /plan?dest=hunza ticks Hunza; the link loses dest without a new history entry, and the choice is saved. */
+export const LinkedDestination: Story = {
+  beforeEach: all(noSavedPlanner, atQuery('?dest=hunza')),
+  play: async ({ canvas }) => {
+    const length = window.history.length;
+    await waitFor(() => expect(button(canvas, 'Hunza')).toHaveAttribute('aria-pressed', 'true'));
+    await waitFor(() => expect(window.location.search).toBe(''));
+    await expect(window.history.length).toBe(length);
+    await expect(saved()).toMatchObject({ destinations: ['hunza'] });
+  },
+};
+
+export const LinkedDestinationPhone: Story = { ...LinkedDestination, globals: { viewport: { value: 'phone' } } };
+
+/** A link joins the saved destinations, keeping the saved step. */
+export const LinkedJoinsSaved: Story = {
+  beforeEach: all(noSavedPlanner, () => savedPlanner(savedTrip(2, { destinations: ['skardu'] }))(), atQuery('?dest=hunza')),
+  play: async ({ canvas, userEvent }) => {
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming'));
+    await userEvent.click(button(canvas, 'Back'));
+    await expect(canvas.getAllByRole('button', { pressed: true }).slice(0, 2).map((b) => b.getAttribute('aria-label'))).toEqual(['Hunza', 'Skardu']);
+  },
+};
+
+/** ?dest=nowhere changes nothing. */
+export const LinkedUnknown: Story = {
+  beforeEach: all(noSavedPlanner, atQuery('?dest=nowhere')),
+  play: async ({ canvas }) => {
+    await waitFor(() => expect(window.location.search).toBe(''));
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.textContent)).toEqual(['Flexible']);
+    await expect(localStorage.getItem(PLANNER_STORAGE_KEY)).toBeNull();
+  },
+};
+
+/** "Plan another trip" removes the saved answers. */
+export const AgainForgets: Story = {
+  beforeEach: all(noSavedPlanner, stayOnPage),
+  play: async ({ canvas, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await expect(saved()).toMatchObject({ step: 4 });
+    await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await userEvent.click(button(canvas, 'Plan another trip'));
+    await waitFor(() => expect(localStorage.getItem(PLANNER_STORAGE_KEY)).toBeNull());
+  },
+};
+
+/** With storage throwing (private mode, a full quota), the planner still works through every step. */
+export const StorageThrows: Story = {
+  beforeEach: all(noSavedPlanner, stayOnPage, () => {
+    const { getItem, setItem } = Storage.prototype;
+    Storage.prototype.getItem = () => {
+      throw new Error('blocked');
+    };
+    Storage.prototype.setItem = () => {
+      throw new Error('blocked');
+    };
+    return () => {
+      Storage.prototype.getItem = getItem;
+      Storage.prototype.setItem = setItem;
+    };
+  }),
+  play: async ({ canvas, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await expect(progress(canvas)).toHaveTextContent('Review · Check and send');
+    await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await waitFor(() => expect(canvas.getByRole('heading', { level: 2, name: 'Thanks, Ayesha.' })).toHaveFocus());
+  },
+};

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { samplePlannerCopy, withAnsweredPlanner } from '../samplePlanner';
+import { noSavedPlanner, samplePlannerCopy, withAnsweredPlanner } from '../samplePlanner';
 import { PlannerSuccess } from './PlannerSuccess';
 
 const meta = {
@@ -8,6 +8,7 @@ const meta = {
   component: PlannerSuccess,
   args: { copy: samplePlannerCopy.success },
   decorators: [withAnsweredPlanner],
+  beforeEach: noSavedPlanner,
   globals: { surface: 'light', viewport: { value: 'desktop' } },
 } satisfies Meta<typeof PlannerSuccess>;
 

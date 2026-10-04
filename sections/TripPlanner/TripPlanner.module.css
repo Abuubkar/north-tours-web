@@ -1,8 +1,10 @@
 /*
  * The whole planner sits on the light surface (docs/components.md §3.3). It clips sideways, so a
- * step body sliding in from the side never widens the page.
+ * step body sliding in from the side never widens the page, and stays hidden while saved answers
+ * are restored (`plannerPending`).
  */
 .page {
+  composes: plannerPending from '../../styles/layout.module.css';
   overflow-x: clip;
 }
 

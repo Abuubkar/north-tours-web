@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { samplePlannerCopy, withAnsweredPlanner } from '../samplePlanner';
+import { noSavedPlanner, samplePlannerCopy, withAnsweredPlanner } from '../samplePlanner';
 import { StepReview } from './StepReview';
 
 const meta = {
@@ -8,6 +8,7 @@ const meta = {
   component: StepReview,
   args: { copy: samplePlannerCopy.review, steps: samplePlannerCopy.steps, backLabel: 'Back' },
   decorators: [withAnsweredPlanner],
+  beforeEach: noSavedPlanner,
   globals: { surface: 'light', viewport: { value: 'desktop' } },
 } satisfies Meta<typeof StepReview>;
 

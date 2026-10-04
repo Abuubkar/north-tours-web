@@ -1,9 +1,17 @@
-import { createContext, use, useCallback, useId, useMemo, useRef, useState, type RefObject } from 'react';
+import { createContext, use, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type RefObject } from 'react';
 import type { PlannerCopy } from '@/lib/content/pages';
 import { DEFAULT_ANSWERS, type TripAnswers } from '@/lib/utils/plannerAnswers';
 import { EMPTY_DETAILS, switchPhoneMode, type Details } from '@/lib/utils/plannerDetails';
 import { callBackMessage, tripRequestMessage, type PlannerTemplates } from '@/lib/utils/plannerMessage';
 import { destinationChoices, monthChoices } from '@/lib/utils/plannerOptions';
+import {
+  parsePlanner,
+  PLANNER_PENDING,
+  PLANNER_STORAGE_KEY,
+  searchWithoutDestination,
+  serialisePlanner,
+  withLinkedDestination,
+} from '@/lib/utils/plannerStorage';
 import { detailsSummary, tripSummary, type DetailsSummary, type SummaryWords, type TripSummary } from '@/lib/utils/plannerSummary';
 import { stepErrors, type FieldProblem } from '@/lib/utils/plannerValidation';
 import { whatsappLink } from '@/lib/utils/whatsapp';
@@ -85,6 +93,39 @@ export type Planner = {
   successRef: RefObject<HTMLHeadingElement | null>;
 };
 
+/** What the page arrived with: the saved answers (if storage can be read) and the link's query. */
+type Arrival = { saved: string | null; search: string };
+
+function readArrival(): Arrival {
+  let saved: string | null = null;
+  try {
+    saved = window.localStorage.getItem(PLANNER_STORAGE_KEY);
+  } catch {
+    // Storage can't be read (private mode, blocked): the planner starts fresh and works in memory.
+  }
+  return { saved, search: window.location.search };
+}
+
+/** Writes the trip answers and step; storage errors (private mode, a full quota) are ignored. */
+function save(answers: TripAnswers, step: number) {
+  try {
+    window.localStorage.setItem(PLANNER_STORAGE_KEY, serialisePlanner(answers, step));
+  } catch {
+    // The planner keeps working in memory.
+  }
+}
+
+function forget() {
+  try {
+    window.localStorage.removeItem(PLANNER_STORAGE_KEY);
+  } catch {
+    // Nothing to remove if storage can't be reached.
+  }
+}
+
+/** The arrival isn't watched: it's read once, after hydration. */
+const noUpdates = () => () => {};
+
 export const PlannerContext = createContext<Planner | null>(null);
 
 /** The planner from the nearest `PlannerProvider`. */
@@ -96,14 +137,34 @@ export function usePlanner(): Planner {
 
 /**
  * The Trip Planner's state (PRD #71): the answers, your details, the step and the steps the
- * visitor has tried to leave. The rules (options, validation, summary, messages) are pure
- * functions in lib/utils; scrolling and focus live in `usePlannerFocus`.
+ * visitor has tried to leave. The rules (options, validation, summary, messages, saved answers)
+ * are pure functions in lib/utils; scrolling and focus live in `usePlannerFocus`.
+ *
+ * Saved answers (ADR-0018): the page is built showing step 1. After hydration the saved trip and
+ * step are read once and checked, a `?dest=` link adds its destination (and leaves the address
+ * bar), and every change to the trip or step is written at once. Your details are never written.
  */
 export function usePlannerState({ destinations, builtOn, messages, words, templates, whatsappNumber }: PlannerConfig): Planner {
   const today = useToday(builtOn);
-  const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS);
+  // Saved answers and the link: none while hydrating, so the first render matches the built HTML.
+  const arrivalRef = useRef<Arrival | null>(null);
+  const getArrival = useCallback(() => (arrivalRef.current ??= readArrival()), []);
+  const arrival = useSyncExternalStore(noUpdates, getArrival, () => null);
+  const restored = useMemo(() => {
+    if (!arrival) return null;
+    const saved = parsePlanner(arrival.saved, { destinations, today, messages });
+    const answers = withLinkedDestination(saved.answers, arrival.search, destinations);
+    return { answers, step: saved.step as PlannerStep, linked: answers !== saved.answers };
+  }, [arrival, destinations, today, messages]);
+  const start = restored?.answers ?? DEFAULT_ANSWERS;
+  // The visitor's own changes, from the first one on; until then, what was restored.
+  const [chosen, setAnswers] = useState<TripAnswers | null>(null);
+  const [chosenStep, setStep] = useState<PlannerStep | null>(null);
+  const answers = chosen ?? start;
+  const step = chosenStep ?? restored?.step ?? 1;
+  /** Off after "Plan another trip", so the cleared planner isn't saved until the visitor answers again. */
+  const [saving, setSaving] = useState(true);
   const [details, setDetails] = useState<Details>(EMPTY_DETAILS);
-  const [step, setStep] = useState<PlannerStep>(1);
   const [direction, setDirection] = useState<Planner['direction']>(null);
   const [tried, setTried] = useState<Partial<Record<PlannerStep, boolean>>>({});
   /** After switching the phone's mode, its message hides until the next Next. */
@@ -117,7 +178,30 @@ export function usePlannerState({ destinations, builtOn, messages, words, templa
   const base = useId();
   const fieldId = useCallback((field: string) => `${base}-${field}`, [base]);
   usePlannerFocus(focus, { fieldId, progressRef, formRef, barRef, bodyRef, successRef });
-  const update = useCallback((change: (answers: TripAnswers) => TripAnswers) => setAnswers(change), []);
+  const update = useCallback(
+    (change: (answers: TripAnswers) => TripAnswers) => {
+      setAnswers((was) => change(was ?? start));
+      setSaving(true);
+    },
+    [start],
+  );
+
+  // Once arrived: a linked destination leaves the address bar (no history entry, so a reload
+  // doesn't add it again) and is saved; then the planner shows, restored, in this same paint.
+  useLayoutEffect(() => {
+    if (!arrival || !restored) return;
+    if (new URLSearchParams(arrival.search).has('dest')) {
+      const { pathname, hash } = window.location;
+      window.history.replaceState(window.history.state, '', `${pathname}${searchWithoutDestination(arrival.search)}${hash}`);
+      if (restored.linked) save(restored.answers, restored.step);
+    }
+    document.documentElement.removeAttribute(PLANNER_PENDING);
+  }, [arrival, restored]);
+
+  // Every change to the trip or the step is saved at once (never your details).
+  useEffect(() => {
+    if (saving && (chosen !== null || chosenStep !== null)) save(answers, step);
+  }, [saving, chosen, chosenStep, answers, step]);
   const updateDetails = useCallback((change: (details: Details) => Details) => setDetails(change), []);
 
   const choices = useMemo(
@@ -132,6 +216,7 @@ export function usePlannerState({ destinations, builtOn, messages, words, templa
 
   function go(to: PlannerStep, way: 'forward' | 'back', then: FocusRequest = { target: 'progress' }) {
     setStep(to);
+    setSaving(true);
     setDirection(way);
     setFocus(then);
   }
@@ -174,7 +259,11 @@ export function usePlannerState({ destinations, builtOn, messages, words, templa
       setAnswers(DEFAULT_ANSWERS);
       setDetails(EMPTY_DETAILS);
       setTried({});
-      go(1, 'back');
+      setStep(1);
+      setDirection('back');
+      setFocus({ target: 'progress' });
+      setSaving(false);
+      forget();
     },
     fieldId,
     progressRef,
