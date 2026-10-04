@@ -14,7 +14,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const notes = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll<HTMLElement>('ul > li')];
+const notes = (canvasElement: HTMLElement) => within(canvasElement).getAllByRole('listitem');
 
 /** Four seasons, each an <h3> with its months and note; four across on a wide screen. */
 export const Desktop: Story = {
@@ -39,13 +39,24 @@ export const Phone: Story = {
   },
 };
 
+export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 export const Murree: Story = {
   args: { seasons: sampleMurree.seasons },
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvasElement }) => {
     await expect(within(notes(canvasElement)[3]).getByText('Dec – Feb')).toBeVisible();
     await expect(notes(canvasElement)[3]).toHaveTextContent(sampleMurree.seasons[3].text);
+    await expect(gridColumns(notes(canvasElement))).toBe(4);
   },
 };
 
-export const MurreePhone: Story = { ...Murree, globals: { viewport: { value: 'phone' } } };
+export const MurreeOnLight: Story = { ...Murree, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const MurreePhone: Story = {
+  args: { seasons: sampleMurree.seasons },
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvasElement }) => {
+    await expect(gridColumns(notes(canvasElement))).toBe(1);
+  },
+};

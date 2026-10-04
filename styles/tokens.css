@@ -162,7 +162,7 @@
 
   /* Destination season calendar (PRD #63): twelve month cells and the legend's swatches. */
   --month-cell-min-h: 76px;
-  --legend-swatch-size: 14px;
+  --calendar-swatch-size: 14px;
 
   /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
   --itinerary-node: 11px;
@@ -216,7 +216,8 @@
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
-   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns; Tours results go to two columns
+   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns; Tours results go to two columns;
+   *          a destination's month calendar goes from six columns to twelve
    *   1100px Tour Detail and Trip Planner side columns appear; Tours results go to three columns
    *   1280px Tour Detail side map appears
    *   viewport height 920px  compact booking panel below this

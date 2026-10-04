@@ -36,6 +36,8 @@ export const Phone: Story = {
   },
 };
 
+export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 /** A headline past ~44 characters takes the long size: at most 56px, where the standard size reaches 66px at 1440. */
 export const LongHeadline: Story = {
   args: { overview: { ...sampleDestination.overview, headline: 'Cold desert and glacial lakes at the end of the Indus road' } },

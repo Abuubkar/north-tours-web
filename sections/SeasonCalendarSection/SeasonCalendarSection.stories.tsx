@@ -35,4 +35,8 @@ export const Phone: Story = {
   },
 };
 
+export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 export const Murree: Story = { ...Desktop, args: { destination: sampleMurree } };
+
+export const MurreeOnLight: Story = { ...Murree, globals: { surface: 'light', viewport: { value: 'desktop' } } };

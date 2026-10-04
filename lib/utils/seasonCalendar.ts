@@ -13,10 +13,8 @@ export type MonthLevel = (typeof MONTH_LEVELS)[number];
 /** The four season notes, in the order a destination lists them. */
 export const SEASONS = ['spring', 'summer', 'autumn', 'winter'] as const;
 
-export type SeasonName = (typeof SEASONS)[number];
-
 /** One month in the calendar: "Jan" shown, "January" read out, its level and the level's label. */
-export type CalendarCell = { short: string; full: string; level: MonthLevel; label: string };
+type CalendarCell = { short: string; full: string; level: MonthLevel; label: string };
 
 /** The twelve stored levels, January first, as the calendar's cells. */
 export function calendarCells(levels: readonly MonthLevel[], labels: Record<MonthLevel, string>): CalendarCell[] {

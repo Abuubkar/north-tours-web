@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect } from 'storybook/test';
+import { expect, within } from 'storybook/test';
 import { sampleDestinationCopy } from '@/components/destination-card/sampleDestinationCopy';
 import { sampleDestination, sampleMurree } from '@/components/destination-card/sampleDestinations';
 import { gridColumns } from '../../../.storybook/gridColumns';
@@ -14,7 +14,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const months = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll<HTMLElement>('ol > li')];
+/** The months: the items of the ordered list (the legend is the other list). */
+const months = (canvasElement: HTMLElement) => within(canvasElement.querySelector('ol')!).getAllByRole('listitem');
 
 /** Twelve months in an ordered list, each named in full with its level; twelve columns from 820px. */
 export const Desktop: Story = {
@@ -52,22 +53,13 @@ export const Murree: Story = {
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvasElement }) => {
     const cells = months(canvasElement);
-    await expect(cells.map((cell) => cell.textContent)).toEqual([
-      'JanJanuary: Avoid',
-      'FebFebruary: Good',
-      'MarMarch: Good',
-      'AprApril: Good',
-      'MayMay: Best',
-      'JunJune: Best',
-      'JulJuly: Good',
-      'AugAugust: Good',
-      'SepSeptember: Best',
-      'OctOctober: Best',
-      'NovNovember: Good',
-      'DecDecember: Good',
-    ]);
+    const read = ['January: Avoid', 'February: Good', 'March: Good', 'April: Good', 'May: Best', 'June: Best', 'July: Good', 'August: Good', 'September: Best', 'October: Best', 'November: Good', 'December: Good'];
+    for (const [i, words] of read.entries()) await expect(cells[i]).toHaveTextContent(words);
+    await expect(gridColumns(cells)).toBe(12);
   },
 };
+
+export const MurreeOnLight: Story = { ...Murree, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const MurreePhone: Story = {
   args: { months: sampleMurree.months },
