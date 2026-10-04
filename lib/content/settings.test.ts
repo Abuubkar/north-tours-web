@@ -97,6 +97,17 @@ describe('settings', () => {
     expect(result.problems[0].message).toBe('Unknown token {guide}. Use only {name}, {role}, {url}');
   });
 
+  it('rejects a missing visitOffice section or field', () => {
+    expect(fields(withChange((s) => delete (s as Partial<Settings>).visitOffice))).toEqual(['visitOffice']);
+    expect(fields(withChange((s) => delete (s.visitOffice as Partial<Settings['visitOffice']>).directionsLabel))).toEqual([
+      'visitOffice.directionsLabel',
+    ]);
+    expect(fields(withChange((s) => delete (s.visitOffice.rows as Partial<Settings['visitOffice']['rows']>).open))).toEqual([
+      'visitOffice.rows.open',
+    ]);
+    expect(fields(withChange((s) => Object.assign(s.visitOffice.image, { alt: '' })))).toEqual(['visitOffice.image.alt']);
+  });
+
   it('rejects an empty reserve message or one with an unknown token', () => {
     expect(fields(withChange((s) => Object.assign(s.whatsapp, { reserveMessage: '' })))).toEqual(['whatsapp.reserveMessage']);
     const result = withChange((s) => Object.assign(s.whatsapp, { reserveMessage: 'Reserve {seats} on {tour}' }));

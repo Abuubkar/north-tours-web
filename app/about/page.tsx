@@ -12,6 +12,7 @@ import { InNumbers } from '@/sections/InNumbers/InNumbers';
 import { OurStory } from '@/sections/OurStory/OurStory';
 import { PageHeader } from '@/sections/PageHeader/PageHeader';
 import { VehiclesAndSafety } from '@/sections/VehiclesAndSafety/VehiclesAndSafety';
+import { VisitOffice } from '@/sections/VisitOffice/VisitOffice';
 
 export function generateMetadata(): Metadata {
   return pageMetadata(getAboutCopy(), getSettings());
@@ -31,6 +32,7 @@ export default function AboutPage() {
       <VehiclesAndSafety copy={copy.vehicles} />
       <InNumbers headline={copy.numbers.headline} stats={stats} />
       <Credentials credentials={credentials} />
+      <VisitOffice settings={settings} />
     </PageMain>
   );
 }

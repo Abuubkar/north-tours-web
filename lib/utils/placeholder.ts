@@ -5,3 +5,11 @@ export const PLACEHOLDER = /^\[[^\]]+\]$/;
 export function isPlaceholder(value: string): boolean {
   return PLACEHOLDER.test(value);
 }
+
+/**
+ * True while any part of a value is still a `[placeholder]`, e.g. "[Office address], Lahore,
+ * Punjab", which `isPlaceholder` (the whole value only) lets through.
+ */
+export function hasPlaceholder(value: string): boolean {
+  return /\[[^\]]+\]/.test(value);
+}

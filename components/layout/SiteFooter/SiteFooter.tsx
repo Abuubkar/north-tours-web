@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/Button/Button';
 import { KeyValueRow } from '@/components/ui/KeyValueRow/KeyValueRow';
 import { SectionLabel } from '@/components/ui/SectionLabel/SectionLabel';
+import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
 import { routes } from '@/lib/routes';
 import { emailHref, phoneHref, webHref } from '@/lib/utils/contact';
 import { whatsappLink } from '@/lib/utils/whatsapp';
-import type { SiteFooterProps, TextOrLinkProps } from './SiteFooter.types';
+import type { SiteFooterProps } from './SiteFooter.types';
 import styles from './SiteFooter.module.css';
 
 const footerNav = [
@@ -22,16 +23,6 @@ const legalLinks = [
   { label: 'Terms', href: routes.terms },
   { label: 'Photo credits', href: routes.credits },
 ];
-
-function TextOrLink({ href, className, children }: TextOrLinkProps) {
-  return href ? (
-    <a href={href} className={className}>
-      {children}
-    </a>
-  ) : (
-    children
-  );
-}
 
 /** The footer on every page, built from settings. Placeholders show as written, unlinked. */
 export function SiteFooter({ settings }: SiteFooterProps) {

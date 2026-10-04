@@ -38,6 +38,13 @@ export const placeholderSettings: Settings = {
     departs: { label: 'Departs from' },
     payments: { label: 'We accept' },
   },
+  visitOffice: {
+    headline: 'Plan your trip over chai at our Lahore office',
+    rows: { office: 'Office', open: 'Open', phone: 'Phone', whatsapp: 'WhatsApp' },
+    directionsLabel: 'Get directions',
+    whatsappLabel: 'WhatsApp first',
+    image: { placeholder: 'The office front from the street, sign visible', alt: 'Our office in Lahore' },
+  },
   whatsapp: {
     generalMessage: 'Hi, I’d like to plan a trip north.',
     footerIntro:
