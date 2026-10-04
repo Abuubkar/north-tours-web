@@ -48,8 +48,8 @@ export function getTourPage(slug: string) {
       question,
       answer: fillTokens(answer, tokens),
     })),
-    /** Every tour as its card needs it, for the related trips. */
-    others: getTours().map((t) => ({
+    /** Every tour as its card needs it (this one too; the rule leaves it out), for the related trips. */
+    relatedCandidates: getTours().map((t) => ({
       slug: t.slug,
       title: t.title,
       route: t.route,

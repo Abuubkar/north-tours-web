@@ -6,9 +6,9 @@ import styles from './ReviewsSection.module.css';
 
 const STAR_SIZE = 16;
 
-/** The headline with the overall rating beside it, then the review cards. */
 const headlineClass = { long: styles.headline, standard: styles.standardHeadline };
 
+/** The headline with the overall rating beside it, then the review cards. */
 export function ReviewsSection({ copy, headlineSize = 'long', reviews, summary }: ReviewsSectionProps) {
   // A tour with no reviews yet has no section; its rating still shows in the hero.
   if (reviews.length === 0) return null;

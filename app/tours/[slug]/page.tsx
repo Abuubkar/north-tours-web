@@ -5,9 +5,9 @@ import { BookingProvider } from '@/components/booking-panel/BookingProvider/Book
 import { BookingSheet } from '@/components/booking-panel/BookingSheet/BookingSheet';
 import { BookingStickyBar } from '@/components/booking-panel/BookingStickyBar/BookingStickyBar';
 import { HeroFacts } from '@/components/facts/HeroFacts/HeroFacts';
-import { RelatedTours } from '@/components/tour-card/RelatedTours/RelatedTours';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { RelatedTours } from '@/components/tour-card/RelatedTours/RelatedTours';
 import { getTour, getTours } from '@/lib/content/catalog';
 import { getSettings } from '@/lib/content/settings';
 import { getTourPage, tourPageTitle } from '@/lib/content/tourPage';
@@ -19,8 +19,8 @@ import { fillTokens } from '@/lib/utils/tokens';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import { BookingLayout } from '@/sections/BookingLayout/BookingLayout';
 import { ClosingCta } from '@/sections/ClosingCta/ClosingCta';
-import { FaqSection } from '@/sections/FaqSection/FaqSection';
 import { DatesAndPrices } from '@/sections/DatesAndPrices/DatesAndPrices';
+import { FaqSection } from '@/sections/FaqSection/FaqSection';
 import { Highlights } from '@/sections/Highlights/Highlights';
 import { Hotels } from '@/sections/Hotels/Hotels';
 import { Included } from '@/sections/Included/Included';
@@ -110,7 +110,7 @@ export default async function TourPage({ params }: TourPageProps) {
         </ClosingCta>
         <FaqSection headline={copy.faqs.headline} questions={page.questions} />
         <TourCardsSection id="related" copy={copy.related}>
-          <RelatedTours tour={{ slug: tour.slug, destinations: tour.destinations }} tours={page.others} builtOn={builtOn} settings={whatsapp} />
+          <RelatedTours tour={{ slug: tour.slug, destinations: tour.destinations }} tours={page.relatedCandidates} builtOn={builtOn} settings={whatsapp} />
         </TourCardsSection>
         <BookingStickyBar tour={{ title, prices }} copy={copy.bar} priceNote={copy.booking.priceNote} settings={whatsapp} />
         <BookingSheet subtitle={fillTokens(copy.sheet.subtitle, { tripLength: tripLength(days, nights) })} {...panel} />

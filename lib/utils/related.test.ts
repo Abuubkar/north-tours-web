@@ -24,6 +24,7 @@ describe('relatedTours', () => {
   it('leaves out the tour itself, and tours with no date left', () => {
     expect(slugs()).not.toContain('hunza-skardu-grand');
     expect(slugs()).not.toContain('murree');
+    expect(slugs('2027-05-01', [...tours, tour('none', ['hunza'], [])])).not.toContain('none');
   });
 
   it('shows at most three', () => {

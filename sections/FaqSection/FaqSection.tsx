@@ -11,7 +11,7 @@ export function FaqSection({ headline, questions }: FaqSectionProps) {
         <Accordion
           name="tour-faqs"
           items={questions.map(({ question, answer }, i) => ({
-            id: question,
+            id: `${i}`,
             summary: question,
             content: answer,
             defaultOpen: i === 0,

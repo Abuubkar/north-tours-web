@@ -208,7 +208,8 @@ export const sampleTour: Tour = {
       meals: 'Breakfast',
       drive: '12–14 hrs',
     },
-  ],  faqs: [
+  ],
+  faqs: [
     {
       question: 'Will the altitude affect me?',
       answer: 'All overnight stops are below about 2,500 m. The highest point is the Deosai plateau, around 4,000 m, which we visit for a few hours only.',

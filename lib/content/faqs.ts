@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { slugSchema } from './collection.ts';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { copyWith, nonEmpty } from './fields.ts';
+import type { PolicyToken, SettingsToken } from '../utils/tokens.ts';
 
 /*
  * Shared questions and answers (PRD #47), in categories: Tour Detail shows the booking
@@ -10,7 +11,13 @@ import { copyWith, nonEmpty } from './fields.ts';
  */
 
 /** The settings an answer may quote, filled in when shown (lib/utils/tokens `settingsTokens`). */
-export const FAQ_TOKENS = ['advancePercent', 'paymentMethods', 'refundSchedule', 'balanceDueDays', 'childFromAge'] as const;
+export const FAQ_TOKENS = [
+  'advancePercent',
+  'paymentMethods',
+  'refundSchedule',
+  'balanceDueDays',
+  'childFromAge',
+] as const satisfies readonly (SettingsToken | PolicyToken)[];
 
 const faqsSchema = z.strictObject({
   categories: z

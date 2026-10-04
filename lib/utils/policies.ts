@@ -17,13 +17,13 @@ export function refundScheduleText(policies: Pick<Policies, 'refundSchedule'>): 
   return rows
     .map((row, i) => {
       if (i === 0) return `Cancel ${row.daysBefore} or more days before departure for a full refund of your advance.`;
-      const upTo = rows[i - 1].daysBefore - 1;
+      const above = rows[i - 1].daysBefore;
       if (row.daysBefore === 0) {
         return row.refundPercent === 0
-          ? `Within ${upTo + 1} days the advance is non-refundable.`
-          : `Within ${upTo + 1} days, ${row.refundPercent}% is refunded.`;
+          ? `Within ${above} days the advance is non-refundable.`
+          : `Within ${above} days, ${row.refundPercent}% is refunded.`;
       }
-      return `Between ${row.daysBefore} and ${upTo} days, ${row.refundPercent}% is refunded.`;
+      return `Between ${row.daysBefore} and ${above - 1} days, ${row.refundPercent}% is refunded.`;
     })
     .join(' ');
 }
