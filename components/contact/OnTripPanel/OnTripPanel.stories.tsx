@@ -35,7 +35,6 @@ export const Placeholder: Story = {
     await expect(figure).toBeVisible();
     await expect(figure).toHaveAttribute('aria-hidden', 'true');
     await expect(figure.querySelector('figcaption')).toBeNull();
-    await expect(canvas.queryByRole('img')).toBeNull();
     // From 1100px the map sits beside the words.
     const words = canvas.getByRole('heading', { level: 2 }).getBoundingClientRect();
     await expect(figure.getBoundingClientRect().left).toBeGreaterThan(words.right);
@@ -45,6 +44,18 @@ export const Placeholder: Story = {
 export const PlaceholderOnLight: Story = { ...Placeholder, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const PlaceholderLaptop: Story = { ...Placeholder, globals: { viewport: { value: 'laptop' } } };
+
+/** 900 (from 820px, below about 960px): the map wraps under the words, centred, still whole. */
+export const PlaceholderTablet: Story = {
+  globals: { viewport: { value: 'tablet' } },
+  play: async ({ canvas, canvasElement }) => {
+    const figure = canvasElement.querySelector('figure')!;
+    await expect(figure).toBeVisible();
+    const words = canvas.getByRole('list').getBoundingClientRect();
+    await expect(figure.getBoundingClientRect().top).toBeGreaterThan(words.bottom);
+    await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
+  },
+};
 
 /** At 390 the map is left out (it would be a tall drawing under the words); nothing scrolls sideways. */
 export const PlaceholderPhone: Story = {

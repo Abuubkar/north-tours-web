@@ -69,24 +69,24 @@ export function RouteMap({ map, decorative = false }: RouteMapProps) {
         </div>
       </div>
       {!decorative && (
-      <figcaption className={styles.legend}>
-        <span className={styles.legendItem}>
-          <svg className={styles.swatch} viewBox="0 0 20 2" aria-hidden="true">
-            <line className={styles.mainRoad} x1={0} x2={20} y1={1} y2={1} />
-          </svg>
-          {map.legend.mainRoute}
-        </span>
-        <span className={styles.legendItem}>
-          <svg className={styles.swatch} viewBox="0 0 20 2" aria-hidden="true">
-            <line className={styles.valleyRoad} x1={0} x2={20} y1={1} y2={1} />
-          </svg>
-          {map.legend.valleyRoads}
-        </span>
-        <span className={styles.legendItem}>
-          <span className={styles.dotSwatch} aria-hidden="true" />
-          {map.legend.destinations}
-        </span>
-      </figcaption>
+        <figcaption className={styles.legend}>
+          <span className={styles.legendItem}>
+            <svg className={styles.swatch} viewBox="0 0 20 2" aria-hidden="true">
+              <line className={styles.mainRoad} x1={0} x2={20} y1={1} y2={1} />
+            </svg>
+            {map.legend.mainRoute}
+          </span>
+          <span className={styles.legendItem}>
+            <svg className={styles.swatch} viewBox="0 0 20 2" aria-hidden="true">
+              <line className={styles.valleyRoad} x1={0} x2={20} y1={1} y2={1} />
+            </svg>
+            {map.legend.valleyRoads}
+          </span>
+          <span className={styles.legendItem}>
+            <span className={styles.dotSwatch} aria-hidden="true" />
+            {map.legend.destinations}
+          </span>
+        </figcaption>
       )}
     </figure>
   );

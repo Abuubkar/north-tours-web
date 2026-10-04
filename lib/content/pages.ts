@@ -857,7 +857,6 @@ const contactCopySchema = z.strictObject({
     phone: z.strictObject({ label: copy }),
     email: z.strictObject({ label: copy, line: copy }),
   }),
-  /** "On a trip right now?": the travel support line, and its button once the number is real. */
   /**
    * "On a trip right now?": the heading, the line under it, the two people to call (the guide, whose
    * number is in the trip confirmation, and the support line's label) and the call button.
