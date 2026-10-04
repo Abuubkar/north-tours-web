@@ -20,9 +20,10 @@ export function MediaFrame({ image, ratio, sizes, priority = false, className }:
 
   if ('placeholder' in image) {
     return (
-      <div role="img" aria-label={image.alt} className={`${frame} ${styles.placeholder}`} data-surface="dark">
+      // A <span> (shown as a block), so a placeholder is valid inside a button or a link, as a <picture> is.
+      <span role="img" aria-label={image.alt} className={`${frame} ${styles.placeholder}`} data-surface="dark">
         <span className={styles.caption}>{image.placeholder}</span>
-      </div>
+      </span>
     );
   }
 

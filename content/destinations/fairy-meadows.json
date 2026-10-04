@@ -3,10 +3,13 @@
   "name": "Fairy Meadows",
   "region": "Gilgit-Baltistan",
   "description": "A high meadow facing the north face of Nanga Parbat, reached by jeep from Raikot Bridge and a short trek.",
+  "lead": "A high meadow under Nanga Parbat, reached by a jeep track and a morning’s walk",
   "bestSeason": {
     "from": "Jun",
     "to": "Sep"
   },
+  "altitude": 3300,
+  "fromLahore": "2 days by road",
   "image": {
     "src": "/images/fairy-meadows/nanga-parbat.jpg",
     "alt": "First sunlight on the summit of Nanga Parbat above the Raikot glacier and the pines of Fairy Meadows",
@@ -22,5 +25,141 @@
       "licence": "CC BY-SA 4.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Golden_hour_-_Sunrise_at_the_Killer_Mountain,_the_mighty_Nanga_Parbat.jpg"
     }
-  }
+  },
+  "overview": {
+    "headline": "A high meadow facing the north face of Nanga Parbat",
+    "paragraphs": [
+      "Fairy Meadows is a grassy clearing in the pines at about 3,300 m, looking straight across the Raikot Glacier at Nanga Parbat, the ninth-highest mountain on earth.",
+      "Getting there is half the story: a narrow jeep track from Raikot Bridge on the Karakoram Highway, then a walk of two to three hours. There are no roads at the top, only wooden cabins, a few camps and the mountain."
+    ]
+  },
+  "months": ["avoid", "avoid", "avoid", "avoid", "good", "best", "best", "best", "best", "good", "avoid", "avoid"],
+  "seasons": [
+    {
+      "season": "spring",
+      "text": "Snow lingers on the trail into May, and the cabins open late in the month."
+    },
+    {
+      "season": "summer",
+      "text": "Green meadows and the clearest views of the mountain. Days 15–20°C, nights near freezing."
+    },
+    {
+      "season": "autumn",
+      "text": "Crisp, clear days in September. The cabins close in October as the cold sets in."
+    },
+    {
+      "season": "winter",
+      "text": "The meadow lies under deep snow, and the jeep track is closed."
+    }
+  ],
+  "places": [
+    {
+      "id": "raikot-jeep-track",
+      "name": "Raikot jeep track",
+      "kind": "adventure",
+      "text": "The narrow track from Raikot Bridge to Tato, an hour by jeep along the gorge.",
+      "lat": 35.44,
+      "lon": 74.56,
+      "image": {
+        "src": "/images/fairy-meadows/raikot-road.jpg",
+        "alt": "A narrow jeep track built on dry-stone walls clings to a barren mountainside on the route between Raikot and Fairy Meadows.",
+        "width": 1600,
+        "height": 867,
+        "focus": {
+          "x": 50,
+          "y": 65
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Imtiazqureshi",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Narrow_mountain_road_from_Fairy_Meadows_to_Raikot,_Gilgit_Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "id": "fairy-meadows",
+      "name": "Fairy Meadows",
+      "kind": "meadow",
+      "text": "The grassy clearing in the pines, facing the north face of Nanga Parbat.",
+      "lat": 35.388,
+      "lon": 74.58,
+      "image": {
+        "src": "/images/fairy-meadows/fairy-meadows.jpg",
+        "alt": "Wooden huts dot the green meadow and pine forest of Fairy Meadows, with a stream in front and cloud-wrapped Nanga Parbat behind.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fassifarooq",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fairy_Meadows,_the_beautiful_meadows_under_the_shadow_of_Nanga_Parbat.jpg"
+        }
+      }
+    },
+    {
+      "id": "raikot-glacier",
+      "name": "Raikot Glacier",
+      "kind": "viewpoint",
+      "text": "The great glacier below Nanga Parbat, seen from the trail beyond the meadow.",
+      "lat": 35.378,
+      "lon": 74.62,
+      "image": {
+        "src": "/images/fairy-meadows/raikot-glacier.jpg",
+        "alt": "The grey Raikot Glacier running down between pine forests, with snowy peaks behind",
+        "width": 1280,
+        "height": 853,
+        "focus": {
+          "x": 50,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Pervisha Khan (Khanumsays)",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stunning_Rakhiot_Glacier.jpg"
+        }
+      }
+    },
+    {
+      "id": "beyal-camp",
+      "name": "Beyal Camp",
+      "kind": "meadow",
+      "text": "A cluster of huts an hour’s walk on, the start of the base camp trail.",
+      "lat": 35.36,
+      "lon": 74.61,
+      "image": {
+        "src": "/images/fairy-meadows/beyal-camp.jpg",
+        "alt": "Wooden huts of Beyal Camp stand beside a rushing stream, with snowy peaks and green slopes under a blue sky.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 60,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Emad ul Hassan",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beyal_Camp_Fairy_Meadows.jpg"
+        }
+      }
+    }
+  ],
+  "mapLabels": [
+    {
+      "name": "Raikot Bridge",
+      "lat": 35.495,
+      "lon": 74.593
+    },
+    {
+      "name": "Nanga Parbat",
+      "lat": 35.2375,
+      "lon": 74.5891
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+/* Media + text split (docs/components.md §4): the map above the list on phones. */
+.explorer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-48);
+}
+
+/* From 820px side by side; the map stays in view beside the list (sticky, never trapping the scroll). */
+@media (width >= 820px) {
+  .explorer {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .map {
+    position: sticky;
+    top: var(--places-map-top);
+    flex: 1 1 var(--places-list-min);
+    max-width: var(--places-map-max);
+    min-width: 0;
+  }
+
+  .list {
+    flex: 1 1 var(--places-list-min);
+    min-width: 0;
+  }
+}

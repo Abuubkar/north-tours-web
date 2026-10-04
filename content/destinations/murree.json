@@ -3,10 +3,13 @@
   "name": "Murree",
   "region": "Punjab",
   "description": "Cool pine ridges of the Galiyat, close enough to Lahore for a long weekend away.",
+  "lead": "Pine ridges and cool air, a long weekend from Lahore",
   "bestSeason": {
     "from": "May",
     "to": "Oct"
   },
+  "altitude": 2291,
+  "fromLahore": "5–7 hrs by road",
   "image": {
     "src": "/images/murree/galiyat-clouds.jpg",
     "alt": "Pine-covered ridges of the Galiyat at dusk, with monsoon cloud filling the valleys below",
@@ -22,5 +25,31 @@
       "licence": "CC BY-SA 3.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Moonsoon_clouds_over_Galiyat_(Galyat),_Pakistan.jpg"
     }
-  }
+  },
+  "overview": {
+    "headline": "Cool air, a long weekend away",
+    "paragraphs": [
+      "Murree and the Galiyat run along a ridge of pine forest an hour above Islamabad, in the foothills of the Himalaya. For families in Lahore, it is the closest escape from the summer heat.",
+      "Most visitors stay on Mall Road. We stay further along the ridge at Nathia Gali, where the walks are quieter: the Pipeline Track to Ayubia, and the climb to Mushkpuri Top for views across to the Kashmir peaks."
+    ]
+  },
+  "months": ["avoid", "good", "good", "good", "best", "best", "good", "good", "best", "best", "good", "good"],
+  "seasons": [
+    {
+      "season": "spring",
+      "text": "Fresh green ridges, 15–22°C. Quieter on weekdays."
+    },
+    {
+      "season": "summer",
+      "text": "An escape from the plains heat, 20–28°C. Monsoon rain in July and August."
+    },
+    {
+      "season": "autumn",
+      "text": "Clear views to the hills, 12–22°C."
+    },
+    {
+      "season": "winter",
+      "text": "Snow from December to February. Roads can close and traffic is heavy; nights below 0°C."
+    }
+  ]
 }

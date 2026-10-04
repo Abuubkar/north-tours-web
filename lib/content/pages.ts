@@ -4,6 +4,8 @@ import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith } from './fields.ts';
 import { photoSchema } from './images.ts';
+import { PLACE_KINDS } from '../utils/destination.ts';
+import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
 
 /*
@@ -329,4 +331,56 @@ let cachedTours: ToursCopy | undefined;
 export function getToursCopy(): ToursCopy {
   cachedTours ??= requireValid(loadToursCopy());
   return cachedTours;
+}
+
+/** The destination page's wording (PRD #63); each destination fills in its name. */
+const destinationCopySchema = z.strictObject({
+  /** The <title> part: "Hunza tours from Lahore". */
+  title: copyWith('destination'),
+  hero: z.strictObject({
+    /** "← All destinations", to the Homepage's destinations (there's no index page). */
+    backLabel: copy,
+  }),
+  /** The facts under the hero's lead. */
+  facts: z.strictObject({
+    bestSeason: copy,
+    altitude: copy,
+    fromLahore: copy,
+    /** How many tours visit; left out when none do. */
+    tours: copy,
+  }),
+  /** "The best months to visit": the legend, each month's label, and each season's name and months. */
+  calendar: z.strictObject({
+    headline: copy,
+    /** The legend's words for each level, e.g. "Avoid · closed or not recommended". */
+    legend: z.record(z.enum(MONTH_LEVELS), copy),
+    /** Each month's label, e.g. "Best". */
+    levels: z.record(z.enum(MONTH_LEVELS), copy),
+    /** Each season's name and its months, e.g. "Spring", "Mar – May". */
+    seasons: z.record(z.enum(SEASONS), z.strictObject({ name: copy, months: copy })),
+  }),
+  /** "What to see in {destination}" (#places) and each kind's tag. */
+  places: z.strictObject({
+    headline: copyWith('destination'),
+    kinds: z.record(z.enum(PLACE_KINDS), copy),
+    /** Under the map, e.g. "Schematic · positions approximate"; hidden from screen readers with the drawing. */
+    mapCaption: copy,
+  }),
+});
+
+export type DestinationCopy = z.infer<typeof destinationCopySchema>;
+
+export function destinationCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'destination.json');
+}
+
+export function loadDestinationCopy(dir = CONTENT_DIR) {
+  return parseFile(destinationCopySchema, destinationCopyFile(dir));
+}
+
+let cachedDestination: DestinationCopy | undefined;
+
+export function getDestinationCopy(): DestinationCopy {
+  cachedDestination ??= requireValid(loadDestinationCopy());
+  return cachedDestination;
 }

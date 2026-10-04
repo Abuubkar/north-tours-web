@@ -105,6 +105,7 @@
   --footer-contact-w: 380px; /* footer contact column */
   --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
   --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero */
+  --destination-hero-h: clamp(620px, 52cqi, 780px); /* Destination photo hero */
   --photo-hero-scrim-stretch: 160%; /* its scrim on phones, drawn taller so the text sits on the dark end */
   --hero-row-pad: clamp(var(--space-24), 2.4cqi, var(--space-32)); /* under the hero's lead and buttons */
   --hero-actions-w: 420px; /* the hero's button pair, before it wraps */
@@ -116,6 +117,7 @@
   --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
   --measure-note: 320px; /* a short note beside a section headline */
   --measure-overview: 620px; /* a tour overview's paragraphs */
+  --measure-destination: 560px; /* a destination's hero lead and overview paragraphs */
   --measure-step: 300px; /* a booking step's description */
   --map-min-w: 440px; /* the route map beside its stop list: from */
   --map-max-w: 620px; /* to */
@@ -158,6 +160,19 @@
   --map-label-offset: 14px; /* label from the marker's centre */
   --legend-swatch-w: 20px; /* a road sample in the legend */
 
+  /* Destination season calendar (PRD #63): twelve month cells and the legend's swatches. */
+  --month-cell-min-h: 76px;
+  --calendar-swatch-size: 14px;
+
+  /* Destination places to see (PRD #63): each row's photo and number. */
+  --place-photo-w: 96px;
+  --place-number: 22px;
+  --places-list-min: 360px; /* the list beside the map, and the map's own basis */
+  --places-map-max: 640px; /* the map beside the list, from 820px */
+  --places-map-top: calc(var(--header-h) + var(--space-24)); /* where the sticky map stops, under the header */
+  --pin-size: 26px; /* a place's numbered circle on the map */
+  --pin-halo: 40px; /* the glow around a lit pin */
+
   /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
   --itinerary-node: 11px;
   --measure-day: 520px; /* a day's text */
@@ -197,6 +212,8 @@
   --grid-pairs-cols: 2;
   --grid-quick-facts-min: 160px;
   --grid-quick-facts-cols: 5;
+  --grid-seasons-min: 240px; /* a destination's season notes */
+  --grid-seasons-cols: 4;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;
@@ -208,7 +225,8 @@
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
-   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns; Tours results go to two columns
+   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns; Tours results go to two columns;
+   *          a destination's month calendar goes from six columns to twelve
    *   1100px Tour Detail and Trip Planner side columns appear; Tours results go to three columns
    *   1280px Tour Detail side map appears
    *   viewport height 920px  compact booking panel below this

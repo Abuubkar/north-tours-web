@@ -1,0 +1,111 @@
+/* A 44px target centred on its point (`--x`, `--y`), the circle inside it. */
+.pin {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+/* Lit: above the other pins, so its name is never under them. */
+.litPin {
+  composes: pin;
+  z-index: 2;
+}
+
+.halo {
+  position: absolute;
+  width: var(--pin-halo);
+  height: var(--pin-halo);
+  border-radius: var(--radius-chip);
+  background: var(--map-halo);
+  opacity: 0;
+  transition: opacity var(--dur-300) var(--ease-out);
+}
+
+.circle {
+  composes: label from '../../../styles/typography.module.css';
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pin-size);
+  height: var(--pin-size);
+  border: var(--map-ring-width) solid var(--fg);
+  border-radius: var(--radius-chip);
+  background: var(--bg);
+  color: var(--fg);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color var(--dur-300) var(--ease-out),
+    border-color var(--dur-300) var(--ease-out),
+    color var(--dur-300) var(--ease-out);
+}
+
+.litPin .halo {
+  opacity: 1;
+}
+
+.litPin .circle {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/*
+ * The lit place's name on a chip, beside the circle at the spot hooks/usePinLabel picks
+ * (`data-spot`); above until it's measured.
+ */
+.label {
+  composes: label from '../../../styles/typography.module.css';
+  --pin-label-gap: var(--space-8);
+  --pin-label-reach: calc(50% + var(--pin-size) / 2 + var(--pin-label-gap));
+  position: absolute;
+  bottom: var(--pin-label-reach);
+  left: 50%;
+  padding: 0 var(--space-4);
+  background: var(--bg);
+  color: var(--accent);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.label[data-spot='below'] {
+  top: var(--pin-label-reach);
+  bottom: auto;
+}
+
+.label[data-spot='right'] {
+  top: 50%;
+  bottom: auto;
+  left: var(--pin-label-reach);
+  transform: translateY(-50%);
+}
+
+.label[data-spot='left'] {
+  top: 50%;
+  right: var(--pin-label-reach);
+  bottom: auto;
+  left: auto;
+  transform: translateY(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo,
+  .circle {
+    transition: none;
+  }
+}

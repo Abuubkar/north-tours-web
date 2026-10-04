@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
+import { sampleDestinationCopy } from '@/components/destination-card/sampleDestinationCopy';
+import { sampleDestination } from '@/components/destination-card/sampleDestinations';
+import { DestinationFacts } from '@/components/facts/DestinationFacts/DestinationFacts';
 import { HeroFacts } from '@/components/facts/HeroFacts/HeroFacts';
 import { departureOn as departure, sampleTour } from '@/components/tour-card/sampleTours';
 import { sampleTourCopy } from '@/components/tour/sampleTourCopy';
@@ -107,3 +110,110 @@ export const StaleBuild: Story = {
     await waitFor(() => expect(canvas.getByText('Next departure').nextElementSibling).toHaveTextContent(/^12–20 May/));
   },
 };
+
+/** Nothing on the page scrolls sideways. */
+async function noSideScroll(canvasElement: HTMLElement) {
+  await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
+}
+
+/** A destination's facts under its hero. */
+const destinationFacts = (tourCount: number) => (
+  <DestinationFacts destination={sampleDestination} tourCount={tourCount} copy={sampleDestinationCopy.facts} />
+);
+
+/** The name sits on one line, wholly inside the hero: its size follows its length. */
+async function nameFitsOnOneLine(canvasElement: HTMLElement) {
+  const name = canvasElement.querySelector('h1')!;
+  const text = document.createRange();
+  text.selectNodeContents(name);
+  await expect(text.getClientRects()).toHaveLength(1);
+  await expect(name.scrollWidth).toBeLessThanOrEqual(name.clientWidth);
+  await expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(canvasElement.getBoundingClientRect().right);
+}
+
+/** Destination: the name at display size is the only <h1>; "All destinations" goes to the Homepage's list; the facts follow the lead. */
+export const Destination: Story = {
+  args: {
+    variant: 'destination',
+    image: sampleDestination.image,
+    back: { href: '/#destinations', label: 'All destinations' },
+    kicker: sampleDestination.region,
+    title: sampleDestination.name,
+    lead: sampleDestination.lead,
+    children: destinationFacts(2),
+  },
+  play: async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Hunza' })).toBeVisible();
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await nameFitsOnOneLine(canvasElement);
+    await expect(canvas.getByRole('link', { name: 'All destinations' })).toHaveAttribute('href', '/#destinations');
+    await expect(canvas.getByText('Gilgit-Baltistan')).toBeVisible();
+    await expect(canvas.getByText(sampleDestination.lead)).toBeVisible();
+    for (const [label, value] of [['Best season', 'April – October'], ['Altitude', '2,438 m'], ['From Lahore', '3 days by road'], ['Tours', '2']]) {
+      await expect(canvas.getByText(label, { selector: 'dt' }).nextElementSibling).toHaveTextContent(value);
+    }
+    const photo = canvas.getByRole('img', { name: sampleDestination.image.alt });
+    await expect(photo).toHaveAttribute('fetchpriority', 'high');
+  },
+};
+
+export const DestinationOnLight: Story = { ...Destination, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const DestinationPhone: Story = {
+  ...Destination,
+  globals: { viewport: { value: 'phone' } },
+  play: async (context) => {
+    await Destination.play!(context);
+    await noSideScroll(context.canvasElement);
+  },
+};
+
+/** A long name ("Fairy Meadows") shrinks to stay on one line. */
+export const DestinationLongName: Story = {
+  args: { ...Destination.args, title: 'Fairy Meadows' },
+  play: async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Fairy Meadows' })).toBeVisible();
+    await nameFitsOnOneLine(canvasElement);
+  },
+};
+
+export const DestinationLongNamePhone: Story = {
+  ...DestinationLongName,
+  globals: { viewport: { value: 'phone' } },
+  play: async (context) => {
+    await DestinationLongName.play!(context);
+    await noSideScroll(context.canvasElement);
+  },
+};
+
+/** A short name ("Swat") is capped at the display size. */
+export const DestinationShortName: Story = {
+  args: { ...Destination.args, title: 'Swat', kicker: 'Khyber Pakhtunkhwa' },
+  play: async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Swat' })).toBeVisible();
+    await nameFitsOnOneLine(canvasElement);
+  },
+};
+
+export const DestinationShortNamePhone: Story = { ...DestinationShortName, globals: { viewport: { value: 'phone' } } };
+
+/** Until the destination has a photo, the striped placeholder names the shot. */
+export const DestinationPlaceholder: Story = {
+  args: { ...Destination.args, image: { placeholder: 'Karimabad terraces with Rakaposhi behind', alt: 'Karimabad and Rakaposhi' } },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('img', { name: 'Karimabad and Rakaposhi' })).toBeVisible();
+  },
+};
+
+export const DestinationPlaceholderPhone: Story = { ...DestinationPlaceholder, globals: { viewport: { value: 'phone' } } };
+
+/** No tour visits yet: no Tours fact. */
+export const DestinationNoTours: Story = {
+  args: { ...Destination.args, children: destinationFacts(0) },
+  play: async ({ canvas }) => {
+    await expect(canvas.queryByText('Tours', { selector: 'dt' })).toBeNull();
+    await expect(canvas.getByText('From Lahore', { selector: 'dt' })).toBeVisible();
+  },
+};
+
+export const DestinationNoToursPhone: Story = { ...DestinationNoTours, globals: { viewport: { value: 'phone' } } };

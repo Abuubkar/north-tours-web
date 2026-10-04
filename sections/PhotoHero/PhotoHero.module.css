@@ -11,6 +11,11 @@
   overflow: hidden;
 }
 
+/* Destination: a little taller, for the name at display size. */
+.destination {
+  min-height: var(--destination-hero-h);
+}
+
 .media,
 .scrim {
   position: absolute;
@@ -52,4 +57,15 @@
 
 .title {
   composes: tourHero from '../../styles/typography.module.css';
+}
+
+/* The destination's name: one line, its size set from its length (`--name-length`). */
+.name {
+  composes: destinationHero from '../../styles/typography.module.css';
+}
+
+.lead {
+  composes: lead from '../../styles/typography.module.css';
+  max-width: var(--measure-destination);
+  text-wrap: pretty;
 }

@@ -1,0 +1,90 @@
+.map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  /* Brought into view a little below the sticky header (the page's scroll padding) when a place is picked on a phone. */
+  scroll-margin-top: var(--space-16);
+}
+
+/*
+ * No border and no surface fill, as designed (only the Homepage's route map has a frame). Labels
+ * near an edge are clipped to it, so a degree label never widens the page.
+ */
+.frame {
+  position: relative;
+  overflow: clip;
+}
+
+.drawing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.grid {
+  fill: none;
+  stroke: var(--map-grid);
+  stroke-width: var(--hairline-width);
+  vector-effect: non-scaling-stroke;
+}
+
+/* Overlays sit at --x/--y, a point in the drawing given in percent. */
+.parallel,
+.meridian,
+.context {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  white-space: nowrap;
+}
+
+.parallel,
+.meridian {
+  color: var(--fg-3);
+  font-size: var(--fs-map-grid);
+}
+
+.parallel {
+  left: var(--space-4);
+  transform: translateY(calc(-100% - var(--space-4)));
+}
+
+.meridian {
+  transform: translate(var(--space-4), calc(-100% - var(--space-4)));
+}
+
+/* Names for context: beside their place, or at the edge the place lies beyond. */
+.context {
+  composes: waypoint from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+  transform: translate(var(--context-x, 0), var(--context-y, -50%));
+}
+
+.inside {
+  padding-inline: var(--space-8);
+}
+
+/* The text runs back from its point, so it stays inside the map. */
+.end {
+  --context-x: -100%;
+}
+
+.top {
+  --context-y: 0;
+}
+
+/* Above the meridians' labels along the bottom. */
+.bottom {
+  --context-y: calc(-100% - var(--space-20));
+}
+
+/* Covered by a pin, or by the lit pin's name (hooks/usePinLabel). */
+.context[data-covered] {
+  visibility: hidden;
+}
+
+.caption {
+  composes: waypoint from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+}

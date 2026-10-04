@@ -3,10 +3,13 @@
   "name": "Skardu",
   "region": "Gilgit-Baltistan",
   "description": "The gateway to Baltistan: cold desert, glacial lakes like Upper Kachura and Shangrila, and the high Deosai plains by jeep.",
+  "lead": "Cold desert, glacial lakes and the high Deosai plains, two days north of Lahore",
   "bestSeason": {
     "from": "May",
     "to": "Oct"
   },
+  "altitude": 2228,
+  "fromLahore": "2 days by road",
   "image": {
     "src": "/images/skardu/upper-kachura.jpg",
     "alt": "Still water of Upper Kachura Lake at dawn, reflecting a sunlit rocky peak and tall poplars",
@@ -22,5 +25,189 @@
       "licence": "CC BY-SA 4.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Upper_Kachura_Lake_in_Morning.jpg"
     }
-  }
+  },
+  "overview": {
+    "headline": "Cold desert and glacial lakes at the end of the Indus road",
+    "paragraphs": [
+      "Skardu sits in a wide bowl of the Indus, ringed by bare mountains: sand dunes on the valley floor, poplar villages along the river, and clear lakes tucked into the hills at Kachura.",
+      "It is also the way up to Deosai, one of the highest plateaus on earth, where the road crosses open grassland and wildflowers in summer. Up the Shigar valley, a restored fort marks the old route towards K2."
+    ]
+  },
+  "months": ["avoid", "avoid", "avoid", "good", "best", "best", "best", "best", "best", "best", "good", "avoid"],
+  "seasons": [
+    {
+      "season": "spring",
+      "text": "Apricot blossom in April, though Deosai is still under snow. Days 12–20°C."
+    },
+    {
+      "season": "summer",
+      "text": "Warm and dry, 25–32°C in the valley. The road over Deosai opens from late June."
+    },
+    {
+      "season": "autumn",
+      "text": "Gold poplars and clear skies in October. Days 10–20°C, nights near freezing."
+    },
+    {
+      "season": "winter",
+      "text": "Very cold, down to −15°C at night. Deosai and the high roads close."
+    }
+  ],
+  "places": [
+    {
+      "id": "upper-kachura",
+      "name": "Upper Kachura Lake",
+      "kind": "lake",
+      "text": "A deep, clear lake in the hills above Skardu, with rowing boats in summer.",
+      "lat": 35.451,
+      "lon": 75.423,
+      "image": {
+        "src": "/images/skardu/upper-kachura-above.jpg",
+        "alt": "Upper Kachura Lake from above, a deep blue pool ringed by green trees below bare, rocky mountains",
+        "width": 1280,
+        "height": 719,
+        "focus": {
+          "x": 42,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "ADIL RIAZ",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Upper_kachura.jpg"
+        }
+      }
+    },
+    {
+      "id": "shangrila",
+      "name": "Shangrila",
+      "kind": "lake",
+      "text": "Lower Kachura Lake and its gardens, the easy lakeside stop on the way in.",
+      "lat": 35.422,
+      "lon": 75.45,
+      "image": {
+        "src": "/images/skardu/shangrila.jpg",
+        "alt": "Lower Kachura Lake mirrors a steep mountain and autumn trees, with a red pagoda roof and small cottages on the far shore.",
+        "width": 1600,
+        "height": 1046,
+        "focus": {
+          "x": 45,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Furqanlw",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heaven_on_Earth_Lower_Kachura_Lake_(Shangrila_Lake).jpg"
+        }
+      }
+    },
+    {
+      "id": "cold-desert",
+      "name": "Cold desert",
+      "kind": "adventure",
+      "text": "Sand dunes under snowy peaks at Katpana, best at sunset.",
+      "lat": 35.325,
+      "lon": 75.545,
+      "image": {
+        "src": "/images/skardu/katpana-desert.jpg",
+        "alt": "Rippled golden sand dunes of the Katpana desert lead to bare poplars and a hazy grey mountain range under a clear sky.",
+        "width": 1600,
+        "height": 1049,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Abdullah Shakoor",
+          "licence": "CC0 1.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skardu_Katpana_Desert.jpg"
+        }
+      }
+    },
+    {
+      "id": "shigar-fort",
+      "name": "Shigar Fort",
+      "kind": "heritage",
+      "text": "A restored 17th-century palace of the Amacha rulers, on the old road towards K2.",
+      "lat": 35.4253,
+      "lon": 75.7383,
+      "image": {
+        "src": "/images/skardu/shigar-fort.jpg",
+        "alt": "Stone and timber walls and wooden stairs in the courtyard of Shigar Fort",
+        "width": 1280,
+        "height": 850,
+        "focus": {
+          "x": 55,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Furqanlw",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shigar_Fort_Gilgit_Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "id": "deosai-plains",
+      "name": "Deosai Plains",
+      "kind": "meadow",
+      "text": "One of the highest plateaus on earth: open grassland, streams and wildflowers in summer.",
+      "lat": 35.03,
+      "lon": 75.45,
+      "image": {
+        "src": "/images/skardu/deosai-plains.jpg",
+        "alt": "A clear stream winding through the green grassland of the Deosai plains, under a line of snowy peaks",
+        "width": 1280,
+        "height": 837,
+        "focus": {
+          "x": 50,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Qammer Wazir",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Land_of_Giants,_Deosai.jpg"
+        }
+      }
+    },
+    {
+      "id": "sheosar-lake",
+      "name": "Sheosar Lake",
+      "kind": "lake",
+      "text": "A high, still lake at the western edge of Deosai.",
+      "lat": 34.991,
+      "lon": 75.234,
+      "image": {
+        "src": "/images/skardu/sheosar-lake.jpg",
+        "alt": "Still water of Sheosar Lake reflects snow-streaked rounded peaks above green alpine grass on the Deosai plateau.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Tariqsulemani",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sheosar_lake_,_PAKISTAN.jpg"
+        }
+      }
+    }
+  ],
+  "mapLabels": [
+    {
+      "name": "Skardu",
+      "lat": 35.297,
+      "lon": 75.633
+    },
+    {
+      "name": "Khaplu",
+      "lat": 35.158,
+      "lon": 76.333
+    }
+  ]
 }

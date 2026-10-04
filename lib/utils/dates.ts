@@ -5,7 +5,8 @@ import type { Season } from '../content/fields.ts';
  * they're read and shown as calendar dates, never shifted by the visitor's clock.
  */
 
-const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** January to December, as content writes them ("Jan") and as the season calendar shows them. */
+export const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function parts(date: string) {
   const [year, month, day] = date.split('-').map(Number);
@@ -46,7 +47,8 @@ export function messageDate(date: string): string {
   return `${day} ${month} ${year}`;
 }
 
-const LONG_MONTHS = [
+/** January to December in full, as read out and in review months. */
+export const LONG_MONTHS = [
   'January',
   'February',
   'March',

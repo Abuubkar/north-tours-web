@@ -2,6 +2,9 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   creditsCopyFile,
+  destinationCopyFile,
+  loadDestinationCopy,
+  type DestinationCopy,
   homeCopyFile,
   loadCreditsCopy,
   loadHomeCopy,
@@ -154,5 +157,45 @@ describe('tours page copy', () => {
     const result = withToursChange((c) => Object.assign(c.results, { sortedBy: 'Sorted by {order}' }));
     expect(result.problems.map((p) => p.field)).toEqual(['results.sortedBy']);
     expect(result.problems[0].message).toBe('Unknown token {order}. Use only {sort}');
+  });
+});
+
+describe('destination page copy', () => {
+  const destination: DestinationCopy = JSON.parse(readFileSync(destinationCopyFile(), 'utf8'));
+  const load = (change: (copy: DestinationCopy) => void) => {
+    const copy = structuredClone(destination);
+    change(copy);
+    return loadDestinationCopy(contentFixture({ 'pages/destination.json': copy }));
+  };
+  const problems = (result: ReturnType<typeof loadDestinationCopy>) => result.problems.map((p) => p.field);
+
+  it('accepts the live file', () => {
+    expect(loadDestinationCopy().problems).toEqual([]);
+  });
+
+  it('rejects a missing field', () => {
+    expect(problems(load((c) => delete (c.facts as Partial<DestinationCopy['facts']>).altitude))).toEqual(['facts.altitude']);
+  });
+
+  it('takes {destination} in the title, and no other token', () => {
+    expect(load((c) => Object.assign(c, { title: 'Trips to {destination}' })).problems).toEqual([]);
+    const result = load((c) => Object.assign(c, { title: '{name} tours from Lahore' }));
+    expect(problems(result)).toEqual(['title']);
+    expect(result.problems[0].message).toBe('Unknown token {name}. Use only {destination}');
+    expect(problems(load((c) => Object.assign(c.hero, { backLabel: 'All {destination}' })))).toEqual(['hero.backLabel']);
+  });
+});
+
+describe('destination calendar copy', () => {
+  const destination: DestinationCopy = JSON.parse(readFileSync(destinationCopyFile(), 'utf8'));
+  const load = (change: (copy: DestinationCopy) => void) => {
+    const copy = structuredClone(destination);
+    change(copy);
+    return loadDestinationCopy(contentFixture({ 'pages/destination.json': copy })).problems.map((p) => p.field);
+  };
+
+  it('needs a label for every level and every season', () => {
+    expect(load((c) => delete (c.calendar.levels as Partial<DestinationCopy['calendar']['levels']>).good)).toEqual(['calendar.levels.good']);
+    expect(load((c) => delete (c.calendar.seasons as Partial<DestinationCopy['calendar']['seasons']>).winter)).toEqual(['calendar.seasons.winter']);
   });
 });

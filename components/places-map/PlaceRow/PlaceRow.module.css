@@ -1,0 +1,85 @@
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+  width: 100%;
+  padding: var(--space-16) var(--space-12);
+  border: 0;
+  border-bottom: var(--hairline-width) solid var(--hairline);
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur-300) var(--ease-out);
+}
+
+/* Lit, here or on its pin: the raised surface, and its number in gold as on the pin. */
+.litRow {
+  composes: row;
+  background: var(--bg-raised);
+}
+
+.photo {
+  flex: none;
+  width: var(--place-photo-w);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+/* The number on its pin: a real sequence, keying the row to the map. */
+.number {
+  composes: label from '../../../styles/typography.module.css';
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--place-number);
+  height: var(--place-number);
+  border: var(--map-ring-width) solid var(--fg);
+  border-radius: var(--radius-chip);
+  background: var(--bg);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color var(--dur-300) var(--ease-out),
+    border-color var(--dur-300) var(--ease-out),
+    color var(--dur-300) var(--ease-out);
+}
+
+.litRow .number {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* The design's 17/500. */
+.name {
+  composes: bodyLarge from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+.text {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .number {
+    transition: none;
+  }
+}
