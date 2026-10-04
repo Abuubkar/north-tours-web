@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cardMessage, departureMessage, whatsappLink } from './whatsapp.ts';
+import { cardMessage, departureMessage, destinationMessage, whatsappLink } from './whatsapp.ts';
 
 describe('whatsappLink', () => {
   it('reduces a real number to its digits', () => {
@@ -52,5 +52,13 @@ describe('cardMessage', () => {
 
   it('asks in general when the tour has no dates left', () => {
     expect(cardMessage(whatsapp, 'Murree & Galiyat Weekend', undefined)).toBe('Hi, I’d like to plan a trip north.');
+  });
+});
+
+describe('destinationMessage', () => {
+  it('names the destination in the settings template', () => {
+    expect(destinationMessage({ destinationMessage: 'Hi, I’d like to plan a private trip to {destination}.' }, 'Hunza')).toBe(
+      'Hi, I’d like to plan a private trip to Hunza.',
+    );
   });
 });

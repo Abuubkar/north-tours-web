@@ -1,0 +1,140 @@
+/*
+ * Phones: a vertical list, a dot and a connector beside each name. From 820px the same list lies
+ * flat as one line (see below). Legs are the route map's 2px line.
+ */
+.line {
+  padding: 0;
+  list-style: none;
+}
+
+.stop {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--route-dot) minmax(0, 1fr);
+  column-gap: var(--space-16);
+  padding-bottom: var(--space-20);
+}
+
+/* The destination: a gold dot and name, and nothing after it. */
+.arrival {
+  composes: stop;
+  padding-bottom: 0;
+  color: var(--accent);
+}
+
+/* The dot, level with the middle of its name's first line. */
+.marker {
+  grid-row: span 2;
+  width: var(--route-dot);
+  height: var(--route-dot);
+  margin-top: calc((var(--fs-body-large) * var(--lh-body-large) - var(--route-dot)) / 2);
+  border-radius: var(--radius-chip);
+  background: currentcolor;
+}
+
+.stop:not(.arrival)::after {
+  position: absolute;
+  top: calc((var(--fs-body-large) * var(--lh-body-large) + var(--route-dot)) / 2);
+  bottom: 0;
+  left: calc((var(--route-dot) - var(--map-route-width)) / 2);
+  width: var(--map-route-width);
+  background: var(--fg);
+  content: '';
+}
+
+/* The design's 17/500. */
+.name {
+  composes: bodyLarge from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+.leg,
+.arrive {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* "4–5 hrs by road to Islamabad", read out in place of the arrow and time. */
+.spoken {
+  composes: visuallyHidden from '../../../styles/layout.module.css';
+}
+
+@media (width >= 820px) {
+  .line {
+    display: flex;
+    padding-block: var(--space-48);
+  }
+
+  .stop {
+    display: block;
+    flex: 1;
+    height: var(--route-dot);
+    padding: 0;
+  }
+
+  .arrival {
+    flex: none;
+    width: var(--route-dot);
+  }
+
+  .marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+
+  /* The leg to the next stop: from this dot to the next. */
+  .stop:not(.arrival)::after {
+    top: calc((var(--route-dot) - var(--map-route-width)) / 2);
+    right: 0;
+    bottom: auto;
+    left: var(--route-dot);
+    width: auto;
+    height: var(--map-route-width);
+  }
+
+  /* Names above their dots: the first starts at its dot, the last ends at it, the rest centre on it. */
+  .name {
+    position: absolute;
+    bottom: calc(100% + var(--space-12));
+    left: calc(var(--route-dot) / 2);
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+
+  .stop:first-child .name {
+    left: 0;
+    transform: none;
+  }
+
+  .arrival .name {
+    right: 0;
+    left: auto;
+    transform: none;
+  }
+
+  /* Drive times under the middle of their legs. */
+  .leg {
+    position: absolute;
+    top: calc(100% + var(--space-12));
+    left: calc(50% + var(--route-dot) / 2);
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+
+  .down {
+    display: none;
+  }
+
+  /* The line ends in gold; "Arrive" is only read out (layout.module.css visuallyHidden, which can't be composed in a media query). */
+  .arrive {
+    position: absolute;
+    width: var(--hidden-size);
+    height: var(--hidden-size);
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

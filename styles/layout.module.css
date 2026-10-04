@@ -119,6 +119,47 @@
 }
 
 /*
+ * Tour cards in 1, 2 or 3 columns (below 820px, below 1100px, from 1100px) with per-card
+ * hairlines (PRD #56): a line under every card and one between columns, so a part-filled last
+ * row leaves no empty cells in the line colour (docs/components.md §5 item 27). The column counts
+ * are literals because the `:nth-child()` selectors need them. Tours' results and a destination's
+ * tours.
+ */
+.cardGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0;
+  border-top: var(--hairline-width) solid var(--hairline);
+  list-style: none;
+}
+
+.cardCell {
+  display: flex;
+  flex-direction: column;
+  border-bottom: var(--hairline-width) solid var(--hairline);
+}
+
+@media (820px <= width < 1100px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cardCell:not(:nth-child(2n)) {
+    border-right: var(--hairline-width) solid var(--hairline);
+  }
+}
+
+@media (width >= 1100px) {
+  .cardGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cardCell:not(:nth-child(3n)) {
+    border-right: var(--hairline-width) solid var(--hairline);
+  }
+}
+
+/*
  * A selectable option tile wrapping a radio (the booking panel's dates and rooms): 8px, and the
  * shared selected state once its radio is checked (docs/components.md, PRD #8). The tile shows
  * the focus ring for the radio inside it.

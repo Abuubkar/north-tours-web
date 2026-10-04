@@ -4,7 +4,19 @@
   flex-wrap: wrap;
   gap: var(--space-32) var(--gutter);
   padding-block: var(--banner-y);
+}
+
+/* Tours: inside the results, which carry the page margin; a hairline below. */
+.inResults {
+  composes: banner;
   border-bottom: var(--hairline-width) solid var(--hairline);
+}
+
+/* Destination: its own section, at the page margin, opening with a hairline. */
+.ownSection {
+  composes: banner;
+  padding-inline: var(--margin);
+  border-top: var(--hairline-width) solid var(--hairline);
 }
 
 .media {

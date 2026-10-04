@@ -13,6 +13,8 @@ export const routes = {
   tour: (slug: string) => `/tours/${slug}`,
   destination: (slug: string) => `/destinations/${slug}`,
   plan: '/plan',
+  /** The Trip Planner with a destination chosen: /plan?dest=hunza (the Planner pre-selects it). */
+  planFor: (destination: string) => `/plan?dest=${encodeURIComponent(destination)}`,
   about: '/about',
   help: '/help',
   contact: '/contact',

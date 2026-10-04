@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
 import { placeholderSettings } from '@/components/layout/sampleSettings';
 import { openDeparture, sampleTour, urgentDeparture } from '@/components/tour-card/sampleTours';
+import { DestinationTours } from '@/components/tour-card/DestinationTours/DestinationTours';
 import { TourCard } from '@/components/tour-card/TourCard/TourCard';
+import { tourWith } from '@/components/tour-card/sampleTours';
 import { sampleHome } from '../sampleHome';
 import { TourCardsSection } from './TourCardsSection';
 
@@ -41,3 +43,30 @@ export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', 
 export const Phone: Story = { ...Desktop, globals: { viewport: { value: 'phone' } } };
 
 export const PhoneOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** Destination: "Tours that visit Hunza", its cards as <h3>s under the <h2>, then the see-all cell. */
+export const Destination: Story = {
+  args: {
+    id: 'tours',
+    copy: { headline: 'Tours that visit Hunza' },
+    children: (
+      <DestinationTours
+        tours={[{ ...tourWith('Hunza Express', [['2099-06-02', 12]]), destinations: ['hunza'] }]}
+        builtOn="2020-01-01"
+        seeAll={{ title: 'See all Hunza trips', note: 'Opens the Tours page, filtered to Hunza', href: '/tours?dest=hunza' }}
+        settings={placeholderSettings}
+      />
+    ),
+  },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('heading', { level: 2 })).toHaveTextContent('Tours that visit Hunza');
+    await expect(canvas.getAllByRole('heading', { level: 3 }).map((h: HTMLElement) => h.textContent)).toEqual(['Hunza Express']);
+    await expect(canvas.getByRole('link', { name: 'See all Hunza trips' })).toHaveAttribute('href', '/tours?dest=hunza');
+  },
+};
+
+export const DestinationOnLight: Story = { ...Destination, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const DestinationAt1366: Story = { ...Destination, globals: { viewport: { value: 'laptop' } } };
+
+export const DestinationPhone: Story = { ...Destination, globals: { viewport: { value: 'phone' } } };

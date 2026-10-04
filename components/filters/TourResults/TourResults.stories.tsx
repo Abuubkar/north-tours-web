@@ -19,7 +19,7 @@ const meta = {
     copy: sampleToursCopy,
     labels: sampleOptionLabels,
     settings: placeholderSettings,
-    banner: <PrivateTripBanner copy={sampleToursCopy.banner} whatsappHref="https://wa.me/?text=Hi" />,
+    banner: <PrivateTripBanner copy={sampleToursCopy.banner} planHref="/plan" whatsappHref="https://wa.me/?text=Hi" />,
   },
   decorators: [withTourFilters()],
   // Each story starts at plain /tours (a story's own query follows), and the URL is put back after.

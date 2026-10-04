@@ -21,6 +21,10 @@ describe('routes', () => {
     expect(routes.destination('hunza')).toBe('/destinations/hunza');
   });
 
+  it('opens the Planner with a destination chosen', () => {
+    expect(routes.planFor('hunza')).toBe('/plan?dest=hunza');
+  });
+
   it('links a guide to their profile on the About page', () => {
     expect(routes.guide('karim-baig')).toBe('/about#guide-karim-baig');
   });

@@ -1,0 +1,14 @@
+/* Per-card hairlines in 1, 2 or 3 columns (layout.module.css `cardGrid`). */
+.grid {
+  composes: cardGrid from '../../../styles/layout.module.css';
+}
+
+/* Rises into place once (M4, layout.module.css `riseCell`). */
+.cell {
+  composes: cardCell riseCell from '../../../styles/layout.module.css';
+}
+
+/* The see-all cell: a cell of the grid, but not a card, so it never rises. */
+.seeAll {
+  composes: cardCell from '../../../styles/layout.module.css';
+}

@@ -21,4 +21,29 @@ export const sampleDestinationCopy: DestinationCopy = {
     kinds: { heritage: 'Heritage', viewpoint: 'Viewpoint', lake: 'Lake', adventure: 'Adventure', meadow: 'Meadow' },
     mapCaption: 'Schematic · positions approximate',
   },
+  gettingThere: {
+    headline: 'Getting there from Lahore by road',
+    byRoad: 'By road',
+    byAir: 'By air',
+    arrive: 'Arrive',
+    leg: '{time} by road to {stop}',
+  },
+  goodToKnow: { headline: 'Good to know before you go' },
+  tours: {
+    headline: 'Tours that visit {destination}',
+    seeAll: 'See all {destination} trips',
+    seeAllNote: 'Opens the Tours page, filtered to {destination}',
+  },
+  reviews: { headline: 'What travellers said about {destination}' },
+  others: {
+    headline: 'Other valleys we travel to',
+    season: 'Best · {season}',
+    tourCount: { one: '{count} tour', other: '{count} tours' },
+  },
+  banner: {
+    headline: '{destination}, on your own dates',
+    lead: 'We plan private tours for families and teams, from 2 days to 2 weeks.',
+    planLabel: 'Plan a private trip',
+    askLabel: 'Ask on WhatsApp',
+  },
 };

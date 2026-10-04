@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect } from 'storybook/test';
+import { expect, within } from 'storybook/test';
 import { sampleReviews } from '@/components/review-card/sampleReviews';
+import { monthYear } from '@/lib/utils/dates';
 import { sampleHome } from '../sampleHome';
 import { ReviewsSection } from './ReviewsSection';
 
@@ -97,3 +98,34 @@ export const Compact: Story = {
 export const CompactOnLight: Story = { ...Compact, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const CompactPhone: Story = { ...Compact, globals: { viewport: { value: 'phone' } } };
+
+/** Destination: the standard headline and no rating summary, then the three most recent reviews, each its stars, quote, name and "tour · month". */
+export const Destination: Story = {
+  args: { copy: { headline: 'What travellers said about Hunza' }, headlineSize: 'standard', summary: null },
+  play: async ({ canvas, args }) => {
+    await expect(canvas.getByRole('heading', { level: 2, name: 'What travellers said about Hunza' })).toBeVisible();
+    await expect(canvas.queryByText(/average ·/)).toBeNull();
+    const cards = canvas.getAllByRole('figure');
+    await expect(cards).toHaveLength(3);
+    for (const [i, { review, tourTitle }] of args.reviews.entries()) {
+      const card = within(cards[i]);
+      await expect(card.getByRole('img', { name: `${review.rating} out of 5 stars` })).toBeVisible();
+      await expect(card.getByText(review.quote, { exact: false })).toBeVisible();
+      await expect(cards[i]).toHaveTextContent(review.name);
+      await expect(cards[i]).toHaveTextContent(`${tourTitle} · ${monthYear(review.month)}`);
+    }
+  },
+};
+
+export const DestinationOnLight: Story = { ...Destination, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const DestinationPhone: Story = { ...Destination, globals: { viewport: { value: 'phone' } } };
+
+/** With no reviews the section is left out entirely: no headline, no grid. */
+export const DestinationNoReviews: Story = {
+  args: { ...Destination.args, reviews: [] },
+  play: async ({ canvas }) => {
+    await expect(canvas.queryByRole('heading', { name: 'What travellers said about Hunza' })).toBeNull();
+    await expect(canvas.queryAllByRole('figure')).toHaveLength(0);
+  },
+};

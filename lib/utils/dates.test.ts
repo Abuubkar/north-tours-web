@@ -70,4 +70,8 @@ describe('seasonRange', () => {
     expect(seasonRange({ from: 'Apr', to: 'Oct' })).toBe('April – October');
     expect(seasonRange({ from: 'Jun', to: 'Sep' })).toBe('June – September');
   });
+
+  it('names them in short for a destination’s other valleys: "Apr – Oct"', () => {
+    expect(seasonRange({ from: 'Apr', to: 'Oct' }, 'short')).toBe('Apr – Oct');
+  });
 });

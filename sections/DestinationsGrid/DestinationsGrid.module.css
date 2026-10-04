@@ -14,6 +14,28 @@
   margin-top: var(--space-64);
 }
 
+/*
+ * A destination page's other valleys: at most five across from 820px; below it two, so an odd
+ * last card can take the whole row, as designed. A little closer to its headline (48px, as
+ * designed) than the Homepage's grid.
+ */
+.otherGrid {
+  composes: grid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-destinations-min);
+  --grid-cols: var(--grid-destinations-other-cols);
+  margin-top: var(--space-48);
+}
+
+@media (width < 820px) {
+  .otherGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .otherGrid > .cell:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
 .cell {
   composes: cell from '../../styles/layout.module.css';
 }

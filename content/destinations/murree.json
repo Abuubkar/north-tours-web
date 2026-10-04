@@ -51,5 +51,22 @@
       "season": "winter",
       "text": "Snow from December to February. Roads can close and traffic is heavy; nights below 0°C."
     }
-  ]
+  ],
+  "gettingThere": {
+    "stops": [
+      {
+        "name": "Lahore",
+        "drive": "4–5 hrs"
+      },
+      {
+        "name": "Islamabad",
+        "drive": "1–2 hrs"
+      },
+      {
+        "name": "Murree"
+      }
+    ],
+    "byRoad": "Motorway M-2 to Islamabad, then the Murree Expressway.",
+    "byAir": "No flights needed."
+  }
 }

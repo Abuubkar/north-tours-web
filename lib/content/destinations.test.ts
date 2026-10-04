@@ -104,3 +104,32 @@ describe('map labels', () => {
     expect(fields((d) => Object.assign(d.mapLabels![0], { lon: 181 }))).toEqual(['mapLabels.0.lon']);
   });
 });
+
+describe('getting there', () => {
+  const stops = (d: Destination) => d.gettingThere.stops;
+
+  it('starts the road at Lahore', () => {
+    expect(fields((d) => Object.assign(stops(d)[0], { name: 'Islamabad' }))).toEqual(['gettingThere.stops.0.name']);
+  });
+
+  it('needs at least two stops', () => {
+    expect(fields((d) => Object.assign(d.gettingThere, { stops: [{ name: 'Lahore' }] }))).toEqual(['gettingThere.stops']);
+  });
+
+  it('needs a drive time on every stop but the last, and none on the last', () => {
+    expect(fields((d) => delete stops(d)[1].drive)).toEqual(['gettingThere.stops.1.drive']);
+    expect(fields((d) => Object.assign(stops(d).at(-1)!, { drive: '1 hr' }))).toEqual(['gettingThere.stops.4.drive']);
+  });
+
+  it('needs the "By road" and "By air" notes', () => {
+    expect(fields((d) => delete (d.gettingThere as Partial<Destination['gettingThere']>).byAir)).toEqual(['gettingThere.byAir']);
+  });
+});
+
+describe('good to know', () => {
+  it('takes up to 6 notes, or none at all (empty or left out)', () => {
+    expect(fields((d) => delete d.notes)).toEqual([]);
+    expect(fields((d) => Object.assign(d, { notes: [] }))).toEqual([]);
+    expect(fields((d) => d.notes!.push({ title: 'One more', text: 'A seventh note.' }))).toEqual(['notes']);
+  });
+});

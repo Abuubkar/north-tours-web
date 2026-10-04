@@ -190,8 +190,9 @@ Folders are created only when the first file for them is needed (section 3).
     drivers, team and travellers; keep the placeholder until then;
   - no AI-generated images of real destinations, guides or customers. AI-generated media is
     allowed only for abstract atmosphere, and must be marked as such in the content files.
-- **Map:** the route map is a schematic SVG with no country borders. Do not add a third-party
-  basemap. The final map needs Survey of Pakistan vetting before launch.
+- **Maps:** the route map, the itinerary maps and each destination's places map are schematic
+  (SVG or HTML overlays) with no country borders. Do not add a third-party basemap. The final
+  maps need Survey of Pakistan vetting before launch.
 
 ## 9. Motion rules
 

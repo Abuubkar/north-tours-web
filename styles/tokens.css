@@ -102,6 +102,8 @@
   --label-mark-w: 11px; /* section label triangle */
   --label-mark-h: 10px;
   --list-row-y: 14px; /* label and value rows, DESIGN.md §5 */
+  --key-col-w: 120px; /* a label and value row's label column (a destination's "By road") */
+  --key-value-min: 300px; /* its value, before it wraps under the label */
   --footer-contact-w: 380px; /* footer contact column */
   --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
   --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero */
@@ -173,6 +175,10 @@
   --pin-size: 26px; /* a place's numbered circle on the map */
   --pin-halo: 40px; /* the glow around a lit pin */
 
+  /* Destination getting there (PRD #63): the route line's stops. */
+  --route-dot: 12px;
+  --see-all-min-h: 200px; /* the "See all Hunza trips" cell after a destination's tour cards */
+
   /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
   --itinerary-node: 11px;
   --measure-day: 520px; /* a day's text */
@@ -199,6 +205,7 @@
   --grid-trust-mini-cols: 3;
   --grid-destinations-min: 160px;
   --grid-destinations-cols: 6;
+  --grid-destinations-other-cols: 5; /* a destination page's other valleys */
   --grid-guides-min: 150px;
   --grid-guides-cols: 4;
   --grid-hero-facts-min: 150px; /* a photo hero's facts (gaps, not hairlines) */
@@ -214,6 +221,8 @@
   --grid-quick-facts-cols: 5;
   --grid-seasons-min: 240px; /* a destination's season notes */
   --grid-seasons-cols: 4;
+  --grid-notes-min: 260px; /* a destination's good to know notes */
+  --grid-notes-cols: 3;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

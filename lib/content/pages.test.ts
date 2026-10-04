@@ -194,6 +194,12 @@ describe('destination calendar copy', () => {
     return loadDestinationCopy(contentFixture({ 'pages/destination.json': copy })).problems.map((p) => p.field);
   };
 
+  it('takes {destination} in the tours and banner wording, and no other token', () => {
+    expect(load((c) => Object.assign(c.tours, { seeAll: 'Every {destination} trip' }))).toEqual([]);
+    expect(load((c) => Object.assign(c.banner, { headline: '{valley}, on your own dates' }))).toEqual(['banner.headline']);
+    expect(load((c) => Object.assign(c.banner, { lead: 'Trips to {destination}' }))).toEqual(['banner.lead']);
+  });
+
   it('needs a label for every level and every season', () => {
     expect(load((c) => delete (c.calendar.levels as Partial<DestinationCopy['calendar']['levels']>).good)).toEqual(['calendar.levels.good']);
     expect(load((c) => delete (c.calendar.seasons as Partial<DestinationCopy['calendar']['seasons']>).winter)).toEqual(['calendar.seasons.winter']);

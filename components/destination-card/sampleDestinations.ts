@@ -42,6 +42,25 @@ export const sampleDestination: Destination = {
     { season: 'autumn', text: 'The poplars turn gold in late October. Days 10–20°C, cold nights.' },
     { season: 'winter', text: 'Snow on the Karakoram Highway, and many hotels close.' },
   ],
+  gettingThere: {
+    stops: [
+      { name: 'Lahore', drive: '4–5 hrs' },
+      { name: 'Islamabad', drive: '11–12 hrs' },
+      { name: 'Chilas', drive: '3–4 hrs' },
+      { name: 'Gilgit', drive: '2–3 hrs' },
+      { name: 'Hunza' },
+    ],
+    byRoad: 'Over Babusar Top from June to September; the rest of the year up the Karakoram Highway from Islamabad.',
+    byAir: 'Flights from Islamabad to Gilgit are an option but often cancelled in bad weather. We plan every trip by road.',
+  },
+  notes: [
+    { title: 'Altitude and acclimatising', text: 'Karimabad sits at about 2,438 m. Take the first evening slowly and drink plenty of water.' },
+    { title: 'Weather and what to pack', text: 'Warm layers even in summer, as nights drop to around 10°C.' },
+    { title: 'Mobile signal and internet', text: 'Jazz and SCOM work in Karimabad; signal is patchy in upper Hunza.' },
+    { title: 'Cash and ATMs', text: 'There are ATMs in Aliabad and Karimabad, but they run dry. Carry enough cash.' },
+    { title: 'Dress and local customs', text: 'Modest dress is appreciated. Ask before photographing people, especially women.' },
+    { title: 'Road conditions and delays', text: 'Landslides can close the Karakoram Highway, mostly in spring. We build in a spare half day.' },
+  ],
 };
 
 /* Murree, the sparse destination: good months inside its best season. */
@@ -59,4 +78,10 @@ export const sampleMurree: Destination = {
     { season: 'autumn', text: 'Clear views to the hills, 12–22°C.' },
     { season: 'winter', text: 'Snow from December to February. Roads can close and traffic is heavy.' },
   ],
+  gettingThere: {
+    stops: [{ name: 'Lahore', drive: '4–5 hrs' }, { name: 'Islamabad', drive: '1–2 hrs' }, { name: 'Murree' }],
+    byRoad: 'Motorway M-2 to Islamabad, then the Murree Expressway.',
+    byAir: 'No flights needed.',
+  },
+  notes: undefined,
 };

@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { TourCard } from '@/components/tour-card/TourCard/TourCard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useRiseOnView } from '@/hooks/useRiseOnView';
-import { NARROW_RESULTS_QUERY } from '@/lib/utils/tourFilters';
+import { CARD_GRID_PHOTO_SIZES, NARROW_RESULTS_QUERY } from '@/lib/utils/tourFilters';
 import type { CardListProps, ResultsGridProps } from './ResultsGrid.types';
 import styles from './ResultsGrid.module.css';
 
@@ -14,9 +14,6 @@ const FIRST_ROW = 3;
 /** Below 1100px the banner follows two cards (one row of two on tablets; as designed on phones). */
 const NARROW_FIRST_ROW = 2;
 
-
-/** Each photo's width in one, two or three columns (below 820px, below 1100px, from 1100px). */
-const PHOTO_SIZES = '(width >= 1100px) 33vw, (width >= 820px) 50vw, 100vw';
 
 /**
  * One run of cards. Cards below the fold rise once the view is ready (M4); a change of filter or
@@ -34,7 +31,7 @@ function CardList({ results, from, ready, changes, className, settings }: CardLi
             tour={tour}
             departure={departure}
             priority={from + index < FIRST_ROW}
-            photoSizes={PHOTO_SIZES}
+            photoSizes={CARD_GRID_PHOTO_SIZES}
             settings={settings}
           />
         </li>

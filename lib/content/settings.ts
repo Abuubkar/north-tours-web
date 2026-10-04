@@ -96,6 +96,8 @@ const settingsSchema = z.strictObject({
     tourMessage: copyWith('tour', 'date'),
     /** A sold-out card's message, with the same tokens. */
     waitlistMessage: copyWith('tour', 'date'),
+    /** "Ask on WhatsApp" on a destination page: {destination} is its name. */
+    destinationMessage: copyWith('destination'),
     /** "Reserve with 30% advance" on the booking panel: everything the visitor chose, filled in. */
     reserveMessage: copyWith('travellers', 'tour', 'dates', 'room', 'total', 'advancePercent', 'advance'),
   }),

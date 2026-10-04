@@ -366,6 +366,41 @@ const destinationCopySchema = z.strictObject({
     /** Under the map, e.g. "Schematic · positions approximate"; hidden from screen readers with the drawing. */
     mapCaption: copy,
   }),
+  /** "Getting there from Lahore by road": the route line and its two notes. */
+  gettingThere: z.strictObject({
+    headline: copy,
+    byRoad: copy,
+    byAir: copy,
+    /** Under the destination on phones. */
+    arrive: copy,
+    /** Each leg read out: "{time} by road to {stop}", e.g. "4–5 hrs by road to Islamabad". */
+    leg: copyWith('time', 'stop'),
+  }),
+  /** "Good to know before you go" (light). */
+  goodToKnow: z.strictObject({ headline: copy }),
+  /** "Tours that visit {destination}", and the cell after the cards that opens Tours filtered to it. */
+  tours: z.strictObject({
+    headline: copyWith('destination'),
+    seeAll: copyWith('destination'),
+    seeAllNote: copyWith('destination'),
+  }),
+  /** "What travellers said about {destination}": its tours' reviews, with no rating summary. */
+  reviews: z.strictObject({ headline: copyWith('destination') }),
+  /** "Other valleys we travel to": a card per other destination. */
+  others: z.strictObject({
+    headline: copy,
+    /** Under each name: "Best · {season}", the short months, e.g. "Best · Apr – Oct". */
+    season: copyWith('season'),
+    /** How many tours visit: "{count} tour" and "{count} tours". */
+    tourCount: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
+  }),
+  /** "{destination}, on your own dates": a private trip, in the planner or on WhatsApp (its photo is the Tours banner's). */
+  banner: z.strictObject({
+    headline: copyWith('destination'),
+    lead: copy,
+    planLabel: copy,
+    askLabel: copy,
+  }),
 });
 
 export type DestinationCopy = z.infer<typeof destinationCopySchema>;
