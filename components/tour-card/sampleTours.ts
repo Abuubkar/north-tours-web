@@ -1,4 +1,4 @@
-import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
+import { samplePhoto, samplePlaceholder } from '@/components/ui/MediaFrame/samplePhotos';
 import type { Departure, Tour } from '@/lib/content/tours';
 
 /* Sample tours for stories, which can't read content files. */
@@ -19,6 +19,26 @@ export const sampleTour: Tour = {
   rating: { score: 4.9, count: 128 },
   image: samplePhoto,
   departures: [],
+  overview: {
+    headline: 'Nine days up the Karakoram Highway to Hunza and Skardu',
+    paragraphs: [
+      'We drive up from Lahore on the motorway and the Karakoram Highway. Then we spend three nights in Hunza under Rakaposhi, and cross to Skardu for its lakes and the high Deosai plains.',
+      'This is a road trip at heart. Your driver and guide set the pace, plan around the weather and know where to stop for chai.',
+    ],
+    suitedTo: [
+      'First-time visitors who want Hunza and Skardu in one trip',
+      'Couples and friends who would rather not drive the Karakoram Highway themselves',
+    ],
+    notSuitedTo: [
+      'Travellers who dislike long road journeys',
+      'Anyone after a real trek (see the Fairy Meadows Trek)',
+    ],
+  },
+  highlights: [
+    { title: 'Rakaposhi viewpoint', text: 'A huge mountain face, seen from your tea stop', image: samplePhoto },
+    { title: 'Attabad Lake', text: 'A turquoise lake formed by the 2010 landslide', image: { ...samplePlaceholder, placeholder: 'Attabad Lake from the boat jetty', alt: 'Attabad Lake' } },
+    { title: 'Baltit Fort', text: 'The centuries-old fort above Karimabad', image: { ...samplePlaceholder, placeholder: 'Baltit Fort above Karimabad', alt: 'Baltit Fort' } },
+  ],
 };
 
 export const openDeparture: Departure = { start: '2027-05-26', end: '2027-06-03', seatsTotal: 16, seatsLeft: 9 };

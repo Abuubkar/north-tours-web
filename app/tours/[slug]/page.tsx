@@ -23,8 +23,10 @@ import { whatsappLink } from '@/lib/utils/whatsapp';
 import { BookingLayout } from '@/sections/BookingLayout/BookingLayout';
 import { ClosingCta } from '@/sections/ClosingCta/ClosingCta';
 import { DatesAndPrices } from '@/sections/DatesAndPrices/DatesAndPrices';
+import { Highlights } from '@/sections/Highlights/Highlights';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
 import { QuickFacts } from '@/sections/QuickFacts/QuickFacts';
+import { TripOverview } from '@/sections/TripOverview/TripOverview';
 import { TrustStrip } from '@/sections/TrustStrip/TrustStrip';
 
 type TourPageProps = { params: Promise<{ slug: string }> };
@@ -88,6 +90,8 @@ export default async function TourPage(props: TourPageProps) {
           label={copy.booking.label}
           aside={<BookingPanel variant="aside" {...panel} />}
         >
+          <TripOverview overview={tour.overview} copy={copy.overview} />
+          <Highlights headline={copy.highlights.headline} highlights={tour.highlights} />
           <DatesAndPrices
             tour={{ title, days, nights, prices }}
             copy={copy.dates}

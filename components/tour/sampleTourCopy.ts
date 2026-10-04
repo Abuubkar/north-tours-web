@@ -22,6 +22,13 @@ export const sampleTourCopy: TourCopy = {
     bestSeason: 'Best season',
     transport: 'Transport',
   },
+  overview: {
+    suitedTo: 'Who this trip is for',
+    notSuitedTo: 'Who it may not suit',
+  },
+  highlights: {
+    headline: 'What you’ll see along the way',
+  },
   dates: {
     headline: 'Upcoming departures and prices',
     rowMeta: '{tripLength} · departs Lahore',

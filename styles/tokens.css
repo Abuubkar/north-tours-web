@@ -114,6 +114,7 @@
   --seat-dot: 7px; /* the seats line's status dot */
   --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
   --measure-note: 320px; /* a short note beside a section headline */
+  --measure-overview: 620px; /* a tour overview's paragraphs */
   --measure-step: 300px; /* a booking step's description */
   --map-min-w: 440px; /* the route map beside its stop list: from */
   --map-max-w: 620px; /* to */
@@ -161,6 +162,10 @@
   --grid-guides-cols: 4;
   --grid-hero-facts-min: 150px; /* a photo hero's facts (gaps, not hairlines) */
   --grid-hero-facts-cols: 4;
+  --grid-highlights-min: 160px;
+  --grid-highlights-cols: 3;
+  --grid-pairs-min: 260px; /* two cells side by side: who a trip suits, what's included */
+  --grid-pairs-cols: 2;
   --grid-quick-facts-min: 160px;
   --grid-quick-facts-cols: 5;
 

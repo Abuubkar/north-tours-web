@@ -164,6 +164,19 @@ describe('catalog: tours and destinations', () => {
     expect(departurePrice.problems[0].message).toMatch(/"price"/);
   });
 
+  it('needs an overview headline, and 2 to 5 lines on who the trip suits and doesn’t', () => {
+    expect(fields(load((t) => delete (t.overview as Partial<Tour['overview']>).headline))).toEqual(['overview.headline']);
+    expect(fields(load((t) => t.overview.suitedTo.splice(1)))).toEqual(['overview.suitedTo']);
+    expect(fields(load((t) => t.overview.notSuitedTo.push('a', 'b')))).toEqual(['overview.notSuitedTo']);
+    expect(fields(load((t) => Object.assign(t.overview, { paragraphs: [] })))).toEqual(['overview.paragraphs']);
+  });
+
+  it('needs 3 to 6 highlights, each image with alt text', () => {
+    expect(fields(load((t) => t.highlights.splice(2)))).toEqual(['highlights']);
+    expect(fields(load((t) => t.highlights.push({ ...t.highlights[0] })))).toEqual(['highlights']);
+    expect(fields(load((t) => Object.assign(t.highlights[0].image, { alt: '' })))).toEqual(['highlights.0.image.alt']);
+  });
+
   it('needs a summary of at most 160 characters', () => {
     expect(fields(load((t) => delete (t as Partial<Tour>).summary))).toEqual(['summary']);
     expect(fields(load((t) => Object.assign(t, { summary: 'x'.repeat(160) })))).toEqual([]);

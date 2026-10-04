@@ -60,5 +60,103 @@
       "seatsTotal": 18,
       "seatsLeft": 18
     }
+  ],
+  "overview": {
+    "headline": "Four days up the Swat valley to Kalam, out of the summer heat",
+    "paragraphs": [
+      "We drive straight up the Swat valley to Kalam on the first day and stay two nights by the river, in the pine forests at the top of the valley.",
+      "The full day in Kalam takes in the Ushu forest and Mahodand Lake by jeep. On the way back we stop at the White Palace at Marghazar before a night in Mingora."
+    ],
+    "suitedTo": [
+      "Friends and couples who want a cool summer break",
+      "Families with older children",
+      "Travellers short on leave who still want real mountains"
+    ],
+    "notSuitedTo": [
+      "Anyone who dislikes a long first day: it is 9 to 10 hours on the road",
+      "Travellers outside summer, when the road above Kalam can close"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Kalam",
+      "text": "The river and the pines at the top of the Swat valley",
+      "image": {
+        "src": "/images/swat/kalam-river.jpg",
+        "alt": "The green Swat River at Kalam, between pine-covered slopes and a snow-capped peak",
+        "width": 1200,
+        "height": 795,
+        "focus": {
+          "x": 50,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Akram Attari",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kalam,_Swat_(Pakistan).jpg"
+        }
+      }
+    },
+    {
+      "title": "Ushu Forest",
+      "text": "Tall cedars on the road above Kalam",
+      "image": {
+        "src": "/images/swat/ushu-forest.jpg",
+        "alt": "A white-water stream over dark boulders through the conifers of Ushu forest near Kalam",
+        "width": 1200,
+        "height": 795,
+        "focus": {
+          "x": 55,
+          "y": 65
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Syed Basit Imran",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Route_to_mahodand_lake_from_Kalam_2.JPG"
+        }
+      }
+    },
+    {
+      "title": "Mahodand Lake",
+      "text": "A day out by jeep to the lake of fish",
+      "image": {
+        "src": "/images/swat/mahodand-lake.jpg",
+        "alt": "Turquoise Mahodand Lake curves through golden meadow grass toward a rocky valley under storm clouds, with pines along the shore.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muh.Ashar",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mahodand_Lake,_Swat.JPG"
+        }
+      }
+    },
+    {
+      "title": "White Palace",
+      "text": "The old summer palace at Marghazar, on the way home",
+      "image": {
+        "src": "/images/swat/white-palace.jpg",
+        "alt": "The white columned facade of the 1941 White Palace at Marghazar, with rose beds and a lawn in front of wooded hills.",
+        "width": 1600,
+        "height": 1000,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Ihsan Farid",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:White_palace_Swat.JPG"
+        }
+      }
+    }
   ]
 }

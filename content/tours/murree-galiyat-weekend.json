@@ -59,5 +59,103 @@
       "seatsTotal": 20,
       "seatsLeft": 20
     }
+  ],
+  "overview": {
+    "headline": "A cool long weekend in the pine hills above Islamabad",
+    "paragraphs": [
+      "Three easy days for when Lahore is too hot. We stay two nights at Nathia Gali, high in the Galiyat, with gentle forest walks and evenings cool enough for a jacket.",
+      "There is time for the Mushkpuri trail and the Pipeline Track at Ayubia, and time to do nothing at all on a veranda above the clouds."
+    ],
+    "suitedTo": [
+      "Families with young children and grandparents",
+      "Couples and friends with only a long weekend",
+      "First-timers who want a taste of the hills before a longer trip"
+    ],
+    "notSuitedTo": [
+      "Anyone hoping for snow peaks and glaciers; these are forested hills",
+      "Travellers who want quiet roads on Eid and public holidays"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Nathia Gali",
+      "text": "Pine forest at 2,500 metres, our base for two nights",
+      "image": {
+        "src": "/images/murree/nathia-gali.jpg",
+        "alt": "Sunbeams slant through tall pine trees on a misty hillside above a dry grassy trail in Nathia Gali.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 55,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mohammed-Daanyaal Aziz",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nathia_Gali_Trees.jpg"
+        }
+      }
+    },
+    {
+      "title": "Mushkpuri Top",
+      "text": "A gentle trail to a meadow with views to Kashmir",
+      "image": {
+        "src": "/images/murree/mushkpuri.jpg",
+        "alt": "A green meadow ridge dotted with pine trees rises toward Mushkpuri Top, with hazy blue hills stretching away behind.",
+        "width": 1600,
+        "height": 900,
+        "focus": {
+          "x": 35,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "ZILL NIAZI",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mushkpuri_Hilltop.jpg"
+        }
+      }
+    },
+    {
+      "title": "Pipeline Track",
+      "text": "A level forest walk from Ayubia, cut into the hillside",
+      "image": {
+        "src": "/images/murree/ayubia.jpg",
+        "alt": "The railed Pipeline Track hugs a rocky cliff above a pine forest valley with patches of late snow.",
+        "width": 1600,
+        "height": 1200,
+        "focus": {
+          "x": 65,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Zunaish",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ayubia_National_Park_Pipeline_Track.jpg"
+        }
+      }
+    },
+    {
+      "title": "Above the clouds",
+      "text": "Monsoon mornings in the Galiyat",
+      "image": {
+        "src": "/images/murree/galiyat-clouds.jpg",
+        "alt": "Pine-covered ridges of the Galiyat at dusk, with monsoon cloud filling the valleys below",
+        "width": 1200,
+        "height": 797,
+        "focus": {
+          "x": 60,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Saadyousafcheema",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Moonsoon_clouds_over_Galiyat_(Galyat),_Pakistan.jpg"
+        }
+      }
+    }
   ]
 }

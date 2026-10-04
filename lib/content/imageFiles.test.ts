@@ -62,9 +62,15 @@ describe('photo files', () => {
   });
 
   it('gives each tour’s photo a share crop: it’s the tour page’s share image', () => {
-    const tourPhotos = contentPhotos().filter((use) => /tours\/[a-z-]+\.json$/.test(use.file));
+    const tourPhotos = contentPhotos().filter((use) => /tours\/[a-z-]+\.json$/.test(use.file) && use.field === 'image');
     expect(tourPhotos.length).toBeGreaterThan(0);
     for (const use of tourPhotos) expect(use.share).toBe(true);
+  });
+
+  it('lists each tour’s highlight photos, without share crops', () => {
+    const highlights = contentPhotos().filter((use) => use.field.startsWith('highlights.'));
+    expect(highlights.length).toBeGreaterThan(0);
+    for (const use of highlights) expect(use.share).toBe(false);
   });
 });
 

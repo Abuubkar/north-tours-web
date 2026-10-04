@@ -60,5 +60,124 @@
       "seatsTotal": 14,
       "seatsLeft": 10
     }
+  ],
+  "overview": {
+    "headline": "Six days to Skardu, its lakes and the high Deosai plains",
+    "paragraphs": [
+      "We cross Babusar Top to Skardu and spend three nights there. One day is for the lakes: Upper Kachura, the calm of Shangrila, and the cold desert where sand dunes meet the mountains.",
+      "The other is a full day by jeep on the Deosai plains, one of the highest plateaus in the world, with Sheosar Lake, wildflowers in summer and, if we are lucky, marmots."
+    ],
+    "suitedTo": [
+      "Travellers who have seen Hunza and want Baltistan next",
+      "Nature lovers and photographers",
+      "Families with older children who are fine with long drives"
+    ],
+    "notSuitedTo": [
+      "Serious heart or breathing conditions: Deosai is above 4,000 metres",
+      "Anyone who dislikes long road days: days 2 and 5 are 11 hours or more",
+      "Very young children, for the altitude and the jeep day"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Upper Kachura Lake",
+      "text": "A deep blue lake in the trees above Shangrila",
+      "image": {
+        "src": "/images/skardu/upper-kachura.jpg",
+        "alt": "Still water of Upper Kachura Lake at dawn, reflecting a sunlit rocky peak and tall poplars",
+        "width": 1200,
+        "height": 668,
+        "focus": {
+          "x": 70,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Hassaan ur Rahman",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Upper_Kachura_Lake_in_Morning.jpg"
+        }
+      }
+    },
+    {
+      "title": "Shangrila",
+      "text": "Lower Kachura Lake and its famous resort",
+      "image": {
+        "src": "/images/skardu/shangrila.jpg",
+        "alt": "Lower Kachura Lake mirrors a steep mountain and autumn trees, with a red pagoda roof and small cottages on the far shore.",
+        "width": 1600,
+        "height": 1046,
+        "focus": {
+          "x": 45,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Furqanlw",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heaven_on_Earth_Lower_Kachura_Lake_(Shangrila_Lake).jpg"
+        }
+      }
+    },
+    {
+      "title": "Cold desert",
+      "text": "Sand dunes at Katpana, under snow-capped peaks",
+      "image": {
+        "src": "/images/skardu/katpana-desert.jpg",
+        "alt": "Rippled golden sand dunes of the Katpana desert lead to bare poplars and a hazy grey mountain range under a clear sky.",
+        "width": 1600,
+        "height": 1049,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Abdullah Shakoor",
+          "licence": "CC0 1.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skardu_Katpana_Desert.jpg"
+        }
+      }
+    },
+    {
+      "title": "Deosai Plains",
+      "text": "A full day by jeep on the high plateau",
+      "image": {
+        "src": "/images/skardu/deosai.jpg",
+        "alt": "A clear stream winding across the green Deosai plateau towards snow-streaked mountains",
+        "width": 1200,
+        "height": 785,
+        "focus": {
+          "x": 45,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Qammer Wazir",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Land_of_Giants,_Deosai.jpg"
+        }
+      }
+    },
+    {
+      "title": "Sheosar Lake",
+      "text": "The lake at the western edge of Deosai",
+      "image": {
+        "src": "/images/skardu/sheosar-lake.jpg",
+        "alt": "Still water of Sheosar Lake reflects snow-streaked rounded peaks above green alpine grass on the Deosai plateau.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Tariqsulemani",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sheosar_lake_,_PAKISTAN.jpg"
+        }
+      }
+    }
   ]
 }

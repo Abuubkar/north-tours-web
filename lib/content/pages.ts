@@ -127,6 +127,9 @@ const tourCopySchema = z.strictObject({
     bestSeason: copy,
     transport: copy,
   }),
+  /** The headings over the tour's suitability lists (the overview's headline is the tour's own). */
+  overview: z.strictObject({ suitedTo: copy, notSuitedTo: copy }),
+  highlights: z.strictObject({ headline: copy }),
   /** "Upcoming departures and prices" (#dates). */
   dates: z.strictObject({
     headline: copy,

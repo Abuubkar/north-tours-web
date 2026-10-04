@@ -60,5 +60,104 @@
       "seatsTotal": 12,
       "seatsLeft": 7
     }
+  ],
+  "overview": {
+    "headline": "Two nights at Fairy Meadows, under the north face of Nanga Parbat",
+    "paragraphs": [
+      "The road ends at Raikot Bridge. From there a jeep climbs one of the most dramatic tracks in the country to Tato, and we walk the last three hours up to Fairy Meadows.",
+      "We stay two nights in wooden cabins on the meadow. The full day is a walk towards Beyal Camp and the Nanga Parbat base camp viewpoint, with the mountain in front of you all the way."
+    ],
+    "suitedTo": [
+      "Fit travellers who enjoy a few hours of uphill walking",
+      "Friends and couples looking for a real adventure",
+      "Photographers: the morning light on Nanga Parbat is famous"
+    ],
+    "notSuitedTo": [
+      "Anyone who can’t walk uphill for 3 to 4 hours at altitude",
+      "Travellers who are nervous on steep, narrow jeep tracks",
+      "Young children and older parents with limited mobility"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Nanga Parbat",
+      "text": "The world’s ninth-highest mountain, from your cabin",
+      "image": {
+        "src": "/images/fairy-meadows/nanga-parbat.jpg",
+        "alt": "First sunlight on the summit of Nanga Parbat above the Raikot glacier and the pines of Fairy Meadows",
+        "width": 1200,
+        "height": 800,
+        "focus": {
+          "x": 58,
+          "y": 30
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mohammad Yaseen",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Golden_hour_-_Sunrise_at_the_Killer_Mountain,_the_mighty_Nanga_Parbat.jpg"
+        }
+      }
+    },
+    {
+      "title": "Fairy Meadows",
+      "text": "A meadow of pines and streams, our home for two nights",
+      "image": {
+        "src": "/images/fairy-meadows/fairy-meadows.jpg",
+        "alt": "Wooden huts dot the green meadow and pine forest of Fairy Meadows, with a stream in front and cloud-wrapped Nanga Parbat behind.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fassifarooq",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fairy_Meadows,_the_beautiful_meadows_under_the_shadow_of_Nanga_Parbat.jpg"
+        }
+      }
+    },
+    {
+      "title": "Raikot jeep track",
+      "text": "One of the most dramatic roads in the country",
+      "image": {
+        "src": "/images/fairy-meadows/raikot-road.jpg",
+        "alt": "A narrow jeep track built on dry-stone walls clings to a barren mountainside on the route between Raikot and Fairy Meadows.",
+        "width": 1600,
+        "height": 867,
+        "focus": {
+          "x": 50,
+          "y": 65
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Imtiazqureshi",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Narrow_mountain_road_from_Fairy_Meadows_to_Raikot,_Gilgit_Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Beyal Camp",
+      "text": "The walk towards Nanga Parbat base camp",
+      "image": {
+        "src": "/images/fairy-meadows/beyal-camp.jpg",
+        "alt": "Wooden huts of Beyal Camp stand beside a rushing stream, with snowy peaks and green slopes under a blue sky.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 60,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Emad ul Hassan",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beyal_Camp_Fairy_Meadows.jpg"
+        }
+      }
+    }
   ]
 }

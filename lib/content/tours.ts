@@ -31,6 +31,12 @@ export const departureSchema = z
     path: ['seatsLeft'],
   });
 
+/** 2 to 5 short lines, e.g. who a trip suits. */
+const lines = z.array(nonEmpty).min(2, 'List at least 2').max(5, 'List at most 5');
+
+/** A place on the trip with its photo, e.g. a highlight. */
+const placeCard = z.strictObject({ title: nonEmpty, text: nonEmpty, image: imageSchema });
+
 export const tourSchema = z
   .strictObject({
     slug: slugSchema,
@@ -57,6 +63,15 @@ export const tourSchema = z
     }),
     image: imageSchema,
     departures: z.array(departureSchema),
+    /** What kind of trip it is: the overview's headline and paragraphs, and who it suits. */
+    overview: z.strictObject({
+      headline: nonEmpty,
+      paragraphs: z.array(nonEmpty).min(1, 'Write at least one paragraph').max(2, 'Keep it to two paragraphs'),
+      suitedTo: lines,
+      notSuitedTo: lines,
+    }),
+    /** What you'll see along the way: a title, one line and a place photo each. */
+    highlights: z.array(placeCard).min(3, 'List at least 3 highlights').max(6, 'List at most 6 highlights'),
   })
   .refine((t) => t.nights <= t.days, { message: 'Can’t have more nights than days', path: ['nights'] })
   .superRefine((tour, ctx) => {

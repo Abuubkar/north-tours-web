@@ -67,5 +67,99 @@
       "seatsTotal": 20,
       "seatsLeft": 17
     }
+  ],
+  "overview": {
+    "headline": "Four days in the Kaghan valley, its lakes and its high pass",
+    "paragraphs": [
+      "We drive up the Kaghan valley along the Kunhar River to Naran, our base for three nights. From there it is a short jeep ride to Lake Saiful Muluk under Malika Parbat.",
+      "On the third day we go higher, past Lulusar Lake to Babusar Top, where the road tops out at over 4,000 metres before we come back down for dinner."
+    ],
+    "suitedTo": [
+      "Families who want mountain lakes without long drives each day",
+      "Friends and couples on a short summer break",
+      "Travellers who prefer one hotel for the whole trip"
+    ],
+    "notSuitedTo": [
+      "Anyone travelling outside June to September, when the upper valley is closed",
+      "Travellers who find jeep tracks uncomfortable; the Saiful Muluk road is rough"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Lake Saiful Muluk",
+      "text": "The famous lake under Malika Parbat, by jeep",
+      "image": {
+        "src": "/images/naran-kaghan/saiful-muluk.jpg",
+        "alt": "Lake Saiful Muluk lying still, mirroring green slopes and the snowy peaks above it",
+        "width": 1020,
+        "height": 800,
+        "focus": {
+          "x": 30,
+          "y": 40
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Nusrat Ashfaq",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saif_ul_Malook_4.JPG"
+        }
+      }
+    },
+    {
+      "title": "Lulusar Lake",
+      "text": "A long jade lake at the head of the valley",
+      "image": {
+        "src": "/images/naran-kaghan/lulusar-lake.jpg",
+        "alt": "Jade-green Lulusar Lake sits between grassy mountain slopes under billowing clouds, with pink wildflowers on the rocky shore.",
+        "width": 1600,
+        "height": 972,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Shahbaz Aslam",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lulusar_lake_kaghan_valley.jpg"
+        }
+      }
+    },
+    {
+      "title": "Babusar Top",
+      "text": "The road tops out at over 4,000 metres",
+      "image": {
+        "src": "/images/naran-kaghan/babusar-top.jpg",
+        "alt": "The Babusar road snakes down a green valley in tight hairpins from the pass, between grassy slopes and distant ridges.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "MazharHusayn",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Babusar_Top,_Way_to_Chilas,_Gilgit-Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Kunhar River",
+      "text": "The river you follow all the way up the valley",
+      "image": {
+        "src": "/images/naran-kaghan/kunhar-river.jpg",
+        "alt": "The broad Kunhar River flows past gravel bars between steep pine-covered slopes toward a distant peak.",
+        "width": 1600,
+        "height": 1200,
+        "credit": {
+          "source": "wikimedia",
+          "author": "Almazi",
+          "licence": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kunhar_river_in_Naran_valley_of_Pakistan.jpg"
+        }
+      }
+    }
   ]
 }

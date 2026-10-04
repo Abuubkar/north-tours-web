@@ -74,5 +74,142 @@
       "seatsTotal": 16,
       "seatsLeft": 14
     }
+  ],
+  "overview": {
+    "headline": "Nine days up the Karakoram Highway to Hunza and Skardu",
+    "paragraphs": [
+      "We drive up from Lahore on the motorway and the Karakoram Highway. Then we spend three nights in Hunza under Rakaposhi, and cross to Skardu for its lakes and the high Deosai plains.",
+      "This is a road trip at heart. The drive between stops is part of the trip: the Indus gorge, the place where three mountain ranges meet, the turquoise of Attabad. Your driver and guide set the pace, plan around the weather and know where to stop for chai."
+    ],
+    "suitedTo": [
+      "First-time visitors who want Hunza and Skardu in one trip",
+      "Families with school-age children, and parents who like a planned pace",
+      "Couples and friends who would rather not drive the Karakoram Highway themselves",
+      "Corporate teams (private departures on request)"
+    ],
+    "notSuitedTo": [
+      "Travellers who dislike long road journeys. Days 2 and 9 are 11 hours or more",
+      "Anyone after a real trek (see the Fairy Meadows Trek)",
+      "Serious heart or breathing conditions at altitude. Check with your doctor first",
+      "Travellers who need luxury hotels every night; Chilas is simple"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Baltit Fort",
+      "text": "The centuries-old fort above Karimabad",
+      "image": {
+        "src": "/images/hunza/baltit-fort.jpg",
+        "alt": "Whitewashed walls and carved red wooden balconies of Baltit Fort rise above a stone terrace under a deep blue sky.",
+        "width": 1600,
+        "height": 992,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fassifarooq",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Attabad Lake",
+      "text": "A turquoise lake formed by the 2010 landslide",
+      "image": {
+        "src": "/images/hunza/attabad-lake.jpg",
+        "alt": "Turquoise Attabad Lake below a sunlit mountain, with boats and ferry pontoons at the jetty",
+        "width": 1200,
+        "height": 800,
+        "focus": {
+          "x": 55,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Waseem Abbas",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Attabad_Lake_-_Gilgit_Baltistan_-_Pakistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Passu Cones",
+      "text": "Jagged peaks along the upper Hunza road",
+      "image": {
+        "src": "/images/hunza/passu-cones.jpg",
+        "alt": "The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.",
+        "width": 1600,
+        "height": 1068,
+        "credit": {
+          "source": "wikimedia",
+          "author": "Saadsiddique001",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Passu_cones.jpg"
+        }
+      }
+    },
+    {
+      "title": "Rakaposhi viewpoint",
+      "text": "A huge mountain face, seen from your tea stop",
+      "image": {
+        "src": "/images/hunza/rakaposhi-village.jpg",
+        "alt": "Rakaposhi’s snowy face above a Hunza village and terraced fields lined with yellow autumn poplars",
+        "width": 1200,
+        "height": 741,
+        "focus": {
+          "x": 42,
+          "y": 40
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Wasif Mehmood Arain",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Rakaposhi_from_Hunza_valley.jpg"
+        }
+      }
+    },
+    {
+      "title": "Shangrila",
+      "text": "Lower Kachura Lake and its famous resort",
+      "image": {
+        "src": "/images/skardu/shangrila.jpg",
+        "alt": "Lower Kachura Lake mirrors a steep mountain and autumn trees, with a red pagoda roof and small cottages on the far shore.",
+        "width": 1600,
+        "height": 1046,
+        "focus": {
+          "x": 45,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Furqanlw",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heaven_on_Earth_Lower_Kachura_Lake_(Shangrila_Lake).jpg"
+        }
+      }
+    },
+    {
+      "title": "Deosai Plains",
+      "text": "One of the world’s highest plateaus, by jeep",
+      "image": {
+        "src": "/images/skardu/deosai.jpg",
+        "alt": "A clear stream winding across the green Deosai plateau towards snow-streaked mountains",
+        "width": 1200,
+        "height": 785,
+        "focus": {
+          "x": 45,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Qammer Wazir",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Land_of_Giants,_Deosai.jpg"
+        }
+      }
+    }
   ]
 }

@@ -1,0 +1,26 @@
+.section {
+  composes: columnSection from '../../styles/layout.module.css';
+}
+
+/* The long size: tour headlines run past ~44 characters (DESIGN.md §6). */
+.headline {
+  composes: sectionLong from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  max-width: var(--measure-overview);
+  margin-top: var(--space-48);
+}
+
+.paragraph {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+.suitability {
+  margin-top: var(--space-48);
+}

@@ -64,5 +64,140 @@
         "quad": 92000
       }
     }
+  ],
+  "overview": {
+    "headline": "Three nights in Hunza, over Babusar Top and back in six days",
+    "paragraphs": [
+      "The shortest way to see Hunza properly. We break the drive in Naran, cross Babusar Top in the morning light and reach Karimabad by evening, with three nights there to settle in.",
+      "In Hunza you see the forts at Baltit and Altit, take a boat on Attabad Lake and drive up to the Passu Cones, then come home the same way."
+    ],
+    "suitedTo": [
+      "Families and couples with a week off who want Hunza without rushing",
+      "Travellers who want summer weather; the pass is open June to September",
+      "Anyone who prefers one base for most of the trip"
+    ],
+    "notSuitedTo": [
+      "Travellers who want Skardu too (see the Hunza & Skardu Grand)",
+      "Anyone who dislikes long road days: days 2 and 5 are over 10 hours",
+      "Dates outside summer, when Babusar Top is closed"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Babusar Top",
+      "text": "The high pass between the Kaghan valley and the Indus",
+      "image": {
+        "src": "/images/naran-kaghan/babusar-top.jpg",
+        "alt": "The Babusar road snakes down a green valley in tight hairpins from the pass, between grassy slopes and distant ridges.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "MazharHusayn",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Babusar_Top,_Way_to_Chilas,_Gilgit-Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Baltit Fort",
+      "text": "The centuries-old fort above Karimabad",
+      "image": {
+        "src": "/images/hunza/baltit-fort.jpg",
+        "alt": "Whitewashed walls and carved red wooden balconies of Baltit Fort rise above a stone terrace under a deep blue sky.",
+        "width": 1600,
+        "height": 992,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fassifarooq",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Altit Fort",
+      "text": "Hunza’s oldest fort, on a cliff above the river",
+      "image": {
+        "src": "/images/hunza/altit-fort.jpg",
+        "alt": "The stone tower of Altit Fort rises from a granite outcrop against a deep blue sky, beside poplar-covered mountain slopes.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 62,
+          "y": 40
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Vasiq Eqbal",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Altit_Fort_-_Hunza.jpg"
+        }
+      }
+    },
+    {
+      "title": "Attabad Lake",
+      "text": "A boat on the turquoise lake formed in 2010",
+      "image": {
+        "src": "/images/hunza/attabad-lake.jpg",
+        "alt": "Turquoise Attabad Lake below a sunlit mountain, with boats and ferry pontoons at the jetty",
+        "width": 1200,
+        "height": 800,
+        "focus": {
+          "x": 55,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Waseem Abbas",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Attabad_Lake_-_Gilgit_Baltistan_-_Pakistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Passu Cones",
+      "text": "Jagged peaks along the upper Hunza road",
+      "image": {
+        "src": "/images/hunza/passu-cones.jpg",
+        "alt": "The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.",
+        "width": 1600,
+        "height": 1068,
+        "credit": {
+          "source": "wikimedia",
+          "author": "Saadsiddique001",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Passu_cones.jpg"
+        }
+      }
+    },
+    {
+      "title": "Hussaini Bridge",
+      "text": "A suspension bridge over the Hunza River, for the brave",
+      "image": {
+        "src": "/images/hunza/hussaini-bridge.jpg",
+        "alt": "The empty Hussaini suspension bridge stretches over the grey Hunza River toward a sheer rock cliff and jagged peaks.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Areeb Adnan Khan",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hussaini_Bridge_1.jpg"
+        }
+      }
+    }
   ]
 }
