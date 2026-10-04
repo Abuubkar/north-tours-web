@@ -15,10 +15,32 @@ export const SETTINGS_TOKENS = ['advancePercent', 'paymentMethods', 'pickupPoint
 
 export type SettingsToken = (typeof SETTINGS_TOKENS)[number];
 
-/** Policy tokens only answers take (FAQs, later Help): the balance due and the refund schedule in sentences. */
-export const POLICY_TOKENS = ['balanceDueDays', 'refundSchedule'] as const;
+/**
+ * Policy tokens only answers, policies and legal text take: the balance due, the refund schedule
+ * in sentences and how soon a refund is paid back.
+ */
+export const POLICY_TOKENS = ['balanceDueDays', 'refundSchedule', 'refundPaidWithinDays'] as const;
 
 export type PolicyToken = (typeof POLICY_TOKENS)[number];
+
+/**
+ * The company's name, contact details, legal identifiers, hours and reply time, for answers,
+ * policies and legal text. Placeholders are filled in as written (ADR-0010).
+ */
+export const COMPANY_TOKENS = [
+  'brand',
+  'email',
+  'phone',
+  'whatsapp',
+  'travelSupport',
+  'officeAddress',
+  'officeHours',
+  'dtsLicence',
+  'companyRegistration',
+  'replyTime',
+] as const;
+
+export type CompanyToken = (typeof COMPANY_TOKENS)[number];
 
 /** The token names used in a template, in order: "{tour} on {date}" → ["tour", "date"]. */
 export function tokensIn(template: string): string[] {
@@ -52,5 +74,35 @@ export function settingsTokens(
     balanceDueDays: String(settings.policies.balanceDueDays),
     /** The whole schedule in sentences, for FAQ and Help answers. */
     refundSchedule: refundScheduleText(settings.policies),
+    refundPaidWithinDays: String(settings.policies.refundPaidWithinDays),
   };
+}
+
+/** The company's `{tokens}`, filled with their current values (placeholders as written). */
+export function companyTokens(
+  settings: Pick<Settings, 'brand' | 'contact' | 'legal' | 'booking'>,
+): Record<CompanyToken, string> {
+  const { contact, legal } = settings;
+  return {
+    brand: settings.brand.name,
+    email: contact.email,
+    phone: contact.phone,
+    whatsapp: contact.whatsapp,
+    travelSupport: contact.travelSupport,
+    officeAddress: contact.officeAddress,
+    officeHours: contact.officeHours,
+    dtsLicence: legal.dtsLicence,
+    companyRegistration: legal.companyRegistration,
+    replyTime: settings.booking.replyTime,
+  };
+}
+
+/**
+ * Every token answers, policies and legal text may take, filled from settings: each field's
+ * schema narrows it to the ones it allows. No figure from settings is ever typed into the text.
+ */
+export function textTokens(
+  settings: Pick<Settings, 'booking' | 'payments' | 'policies' | 'brand' | 'contact' | 'legal'>,
+): Record<SettingsToken | PolicyToken | CompanyToken, string> {
+  return { ...settingsTokens(settings), ...companyTokens(settings) };
 }

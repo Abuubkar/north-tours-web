@@ -1,9 +1,9 @@
 import { dayCount } from '../utils/dates.ts';
 import { todayInKarachi } from '../utils/departures.ts';
 import { paymentMethodsLabel } from '../utils/payments.ts';
-import { fillTokens, settingsTokens } from '../utils/tokens.ts';
+import { fillTokens, settingsTokens, textTokens } from '../utils/tokens.ts';
 import { getTour, getTours } from './catalog.ts';
-import { getFaqCategory } from './faqs.ts';
+import { getFaqs, tourPageFaqs } from './faqs.ts';
 import { isPhoto } from './images.ts';
 import { getHomeCopy, getTourCopy } from './pages.ts';
 import { getReviewsForTour } from './reviews.ts';
@@ -28,6 +28,7 @@ export function getTourPage(slug: string) {
   const copy = getTourCopy();
   const settings = getSettings();
   const tokens = { ...settingsTokens(settings), licence: settings.legal.dtsLicence };
+  const answerTokens = textTokens(settings);
   return {
     tour,
     copy,
@@ -43,10 +44,10 @@ export function getTourPage(slug: string) {
     reviews: getReviewsForTour(slug)
       .slice(0, REVIEW_CARDS)
       .map((review) => ({ review, tourTitle: tour.title })),
-    /** The tour's own questions, then the shared booking ones, answers filled from settings. */
-    questions: [...tour.faqs, ...getFaqCategory('booking').questions].map(({ question, answer }) => ({
+    /** The tour's own questions, then the shared ones marked for tour pages, answers filled from settings. */
+    questions: [...tour.faqs, ...tourPageFaqs(getFaqs())].map(({ question, answer }) => ({
       question,
-      answer: fillTokens(answer, tokens),
+      answer: fillTokens(answer, answerTokens),
     })),
     /** Every tour as its card needs it (this one too; the rule leaves it out), for the related trips. */
     relatedCandidates: getTours().map((t) => ({

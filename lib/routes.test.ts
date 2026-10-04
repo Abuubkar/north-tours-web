@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { guideAnchor, guideHash, routes } from './routes.ts';
+import { guideAnchor, guideHash, helpCategoryAnchor, routes } from './routes.ts';
 
 describe('routes', () => {
   it('has a URL for each page', () => {
@@ -29,6 +29,11 @@ describe('routes', () => {
     expect(routes.guide('karim-baig')).toBe('/about#guide-karim-baig');
     expect(guideAnchor('karim-baig')).toBe('guide-karim-baig');
     expect(guideHash('karim-baig')).toBe('#guide-karim-baig');
+  });
+
+  it('links to one answer on Help, and to a category’s heading', () => {
+    expect(routes.helpAnswer('refunds')).toBe('/help#refunds');
+    expect(helpCategoryAnchor('safety')).toBe('cat-safety');
   });
 
   it('has the four nav anchors', () => {

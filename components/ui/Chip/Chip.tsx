@@ -12,9 +12,9 @@ function Count({ value, inParens = false }: CountProps) {
 export function Chip(props: ChipProps) {
   switch (props.variant) {
     case 'link': {
-      const { href, children, count } = props;
+      const { href, children, count, label } = props;
       return (
-        <a href={href} className={styles.chip}>
+        <a href={href} aria-label={label} className={styles.chip}>
           {children}
           <Count value={count} />
         </a>

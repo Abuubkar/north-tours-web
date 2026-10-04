@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
+import { HelpProvider } from '@/components/help/HelpProvider/HelpProvider';
+import { HelpSearch } from '@/components/help/HelpSearch/HelpSearch';
 import { sampleAbout } from '../sampleAbout';
+import { sampleHelpCategories, sampleHelpCopy } from '../sampleHelp';
 import { PageHeader } from './PageHeader';
 
 const meta = {
@@ -124,3 +127,56 @@ export const AboutPhone: Story = {
 };
 
 export const AboutPhoneOnLight: Story = { ...AboutPhone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** The legal pages (light): the document's title as the only <h1>, then "Last updated" with its date in a <time>. */
+export const Legal: Story = {
+  args: { variant: 'legal', headline: 'Privacy policy', lead: undefined, updated: { template: 'Last updated {date}', date: '2026-10-04' } },
+  play: async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Privacy policy' })).toBeVisible();
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await expect(canvas.getByText(/^Last updated/)).toHaveTextContent('Last updated 4 October 2026');
+    await expect(canvasElement.querySelector('time')).toHaveAttribute('datetime', '2026-10-04');
+    await expect(canvasElement.querySelector('header')).toHaveAttribute('data-surface', 'light');
+  },
+};
+
+export const LegalOnLight: Story = { ...Legal, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const LegalPhone: Story = {
+  ...Legal,
+  globals: { viewport: { value: 'phone' } },
+  play: async (context) => {
+    await Legal.play!(context);
+    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
+  },
+};
+
+/** Help (light): the only <h1>, at the statement size, then the search landmark under it. */
+export const Help: Story = {
+  args: { variant: 'help', headline: 'Help with booking, payments and the trip', lead: undefined, search: <HelpSearch copy={sampleHelpCopy.search} /> },
+  decorators: [
+    (Story) => (
+      <HelpProvider categories={sampleHelpCategories}>
+        <Story />
+      </HelpProvider>
+    ),
+  ],
+  play: async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByRole('search')).toBeVisible();
+    const h1 = canvas.getByRole('heading', { level: 1, name: 'Help with booking, payments and the trip' });
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await expect(parseFloat(getComputedStyle(h1).fontSize)).toBeGreaterThanOrEqual(40);
+    await expect(canvasElement.querySelector('header')).toHaveAttribute('data-surface', 'light');
+  },
+};
+
+export const HelpOnLight: Story = { ...Help, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const HelpPhone: Story = {
+  ...Help,
+  globals: { viewport: { value: 'phone' } },
+  play: async (context) => {
+    await Help.play!(context);
+    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
+  },
+};

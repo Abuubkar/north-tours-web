@@ -35,6 +35,8 @@ type LinkChip = {
   href: string;
   children: ReactNode;
   count?: number;
+  /** Its accessible name, when the count needs its words read out: "Safety, 4 answers". */
+  label?: string;
 };
 
 /** toggle: on/off choice. trigger: opens a dropdown or sheet. removable: an applied filter. link: navigates. */

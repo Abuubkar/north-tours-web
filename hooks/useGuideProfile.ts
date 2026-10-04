@@ -1,17 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { guideAnchor, guideHash } from '@/lib/routes';
 import { guideForHash, steppedIndex } from '@/lib/utils/guideProfile';
+import { replaceHash } from './replaceHash';
 
-/**
- * Writes the profile shown into the address bar, or clears it (path and search kept), with
- * `replaceState`: no history entries, so Back leaves the page, and a reload after closing shows
- * the plain page.
- */
-function writeHash(slug: string | null) {
-  const { pathname, search } = window.location;
-  const hash = slug === null ? '' : guideHash(slug);
-  window.history.replaceState(window.history.state, '', `${pathname}${search}${hash}`);
-}
+/** Writes the profile shown into the address bar, or clears it. */
+const writeHash = (slug: string | null) => replaceHash(slug === null ? '' : guideHash(slug));
 
 /**
  * Which guide's profile is shown on About (PRD #78), by their place in `slugs` (the grid's

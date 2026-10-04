@@ -1,0 +1,20 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+/* The card title role: the design's clamp(22px, 2.2cqi, 28px) is off the scale (§5 item 33). */
+.heading {
+  composes: cardTitle from '../../../styles/typography.module.css';
+}
+
+.number {
+  color: var(--fg-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.paragraph {
+  composes: bodyLarge from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}

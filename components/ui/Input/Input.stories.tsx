@@ -125,3 +125,16 @@ export const DateInvalid: Story = {
 };
 
 export const DateInvalidOnLight: Story = { ...DateInvalid, globals: { surface: 'light' } };
+
+/** A search field (Help's), filled: 52px, a searchbox to assistive tech, with the --fg border once filled. */
+export const Search: Story = {
+  args: { type: 'search', initial: 'refund', placeholder: 'Search questions' },
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole('searchbox', { name: 'Name' });
+    await expect(input).toHaveValue('refund');
+    await expect(input.getBoundingClientRect().height).toBe(52);
+    await expect(border(input)).toBe(getComputedStyle(input).color);
+  },
+};
+
+export const SearchOnLight: Story = { ...Search, globals: { surface: 'light' } };

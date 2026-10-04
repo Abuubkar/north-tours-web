@@ -1,0 +1,5 @@
+/* The accent fill (deep gold on light) with the surface's colour as text: about 5.8:1 on light. */
+.mark {
+  background: var(--accent);
+  color: var(--bg);
+}

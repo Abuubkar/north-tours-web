@@ -24,6 +24,7 @@ export const placeholderSettings: Settings = {
       { daysBefore: 0, refundPercent: 0 },
     ],
     balanceDueDays: 7,
+    refundPaidWithinDays: 7,
     childFromAge: 5,
   },
   payments: { methods: ['Cash', 'Bank transfer'] },

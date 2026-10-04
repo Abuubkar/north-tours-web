@@ -4,8 +4,8 @@ import { slugSchema } from './collection.ts';
 import { CONTENT_DIR, displayPath, parseFile, requireValid } from './files.ts';
 import { checkChosenReviews } from './links.ts';
 import { loadReviews } from './reviews.ts';
-import { SETTINGS_TOKENS } from '../utils/tokens.ts';
-import { copy, copyWith, nonEmpty, sample } from './fields.ts';
+import { SETTINGS_TOKENS, type CompanyToken, type PolicyToken, type SettingsToken } from '../utils/tokens.ts';
+import { checkUniqueIds, copy, copyWith, nonEmpty, pastDate, sample } from './fields.ts';
 import { photoSchema, ownerImageSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
@@ -708,4 +708,128 @@ let cachedAbout: AboutCopy | undefined;
 export function getAboutCopy(): AboutCopy {
   cachedAbout ??= requireValid(loadAboutCopy());
   return cachedAbout;
+}
+
+/** The Help page's wording (PRD #86); its questions and answers are the shared FAQs (content/faqs.json). */
+const helpCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The page's <h1>. */
+  header: z.strictObject({ headline: copy }),
+  /** The category list beside the questions (chips on phones): its name, and each link's count read out ("4 answers"). */
+  categories: z.strictObject({ label: copy, count: countWords }),
+  /** Under each answer: "Link to this answer · {path}", the answer's own address (/help#refunds). */
+  linkToAnswer: copyWith('path'),
+  /** The search in the header: its hidden label, the field's placeholder, the clear button's name and the result line. */
+  search: z.strictObject({
+    label: copy,
+    placeholder: copy,
+    clear: copy,
+    /** Under the field once typing stops: "3 answers for “refund”", "1 answer for “altitude”", "No answers for “visa”". */
+    results: z.strictObject({ many: copyWith('count', 'query'), one: copyWith('count', 'query'), none: copyWith('query') }),
+  }),
+  /** When nothing matches. The headline's wording is fixed (DESIGN.md §6); the lead may say the reply time. */
+  empty: z.strictObject({ headline: copy, lead: copyWith('replyTime'), askLabel: copy, clearLabel: copy }),
+});
+
+export type HelpCopy = z.infer<typeof helpCopySchema>;
+
+export function helpCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'help.json');
+}
+
+export function loadHelpCopy(dir = CONTENT_DIR) {
+  return parseFile(helpCopySchema, helpCopyFile(dir));
+}
+
+let cachedHelp: HelpCopy | undefined;
+
+export function getHelpCopy(): HelpCopy {
+  cachedHelp ??= requireValid(loadHelpCopy());
+  return cachedHelp;
+}
+
+/**
+ * The tokens the Privacy Policy and the Terms may use: the company's details and the booking
+ * policies, so no figure from settings is ever typed into them.
+ */
+export const LEGAL_TOKENS = [
+  'brand',
+  'email',
+  'phone',
+  'whatsapp',
+  'officeAddress',
+  'dtsLicence',
+  'companyRegistration',
+  'replyTime',
+  'advancePercent',
+  'paymentMethods',
+  'refundSchedule',
+  'fullRefundDays',
+  'refundPaidWithinDays',
+  'balanceDueDays',
+  'childFromAge',
+] as const satisfies readonly (SettingsToken | PolicyToken | CompanyToken)[];
+
+/** One numbered section: its anchor (/privacy#cookies), its heading and its paragraphs. */
+const legalSectionSchema = z.strictObject({
+  id: slugSchema,
+  heading: copy,
+  paragraphs: z.array(copyWith(...LEGAL_TOKENS)).min(1, 'Write at least one paragraph'),
+});
+
+/**
+ * A legal document (/privacy or /terms). Sample text until the owner's lawyer has reviewed it,
+ * marked `sample: true` (ADR-0020); the owner removes the field once it has been.
+ */
+const legalDocumentSchema = z.strictObject({
+  /** The <title> part, e.g. "Privacy policy". */
+  title: copy,
+  description: copy,
+  /** The page's <h1>, in sentence case. */
+  headline: copy,
+  /** "Last updated": the date of this version, not after the build date. */
+  lastUpdated: pastDate,
+  /** The article's last line: "Questions about this policy? Email {email}." (a link once the email is real). */
+  closing: copyWith('email'),
+  sample,
+  /** Numbered in this order; each anchor once only. */
+  sections: z
+    .array(legalSectionSchema)
+    .min(1, 'Write at least one section')
+    .superRefine((sections, ctx) => checkUniqueIds(sections.map(({ id }, i) => ({ id, path: [i] })), ctx)),
+});
+
+/** The legal pages' wording (PRD #86): the template's labels and both documents, which share one layout. */
+const legalCopySchema = z.strictObject({
+  labels: z.strictObject({
+    /** Over the contents list from 820px. */
+    contents: copy,
+    /** The contents list's disclosure on phones: "Contents (9)". */
+    contentsCount: copyWith('count'),
+    /** Under the <h1>: "Last updated 4 October 2026". */
+    lastUpdated: copyWith('date'),
+  }),
+  privacy: legalDocumentSchema,
+  terms: legalDocumentSchema,
+});
+
+export type LegalCopy = z.infer<typeof legalCopySchema>;
+
+/** Which legal document a page shows. */
+export type LegalDocumentId = 'privacy' | 'terms';
+
+export function legalCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'legal.json');
+}
+
+export function loadLegalCopy(dir = CONTENT_DIR) {
+  return parseFile(legalCopySchema, legalCopyFile(dir));
+}
+
+let cachedLegal: LegalCopy | undefined;
+
+export function getLegalCopy(): LegalCopy {
+  cachedLegal ??= requireValid(loadLegalCopy());
+  return cachedLegal;
 }

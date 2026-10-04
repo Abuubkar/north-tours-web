@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect } from 'storybook/test';
+import { expect, fn } from 'storybook/test';
 import { realUser } from '../../../.storybook/realUser';
 import { Accordion } from './Accordion';
 import type { AccordionItem } from './Accordion.types';
@@ -146,3 +146,29 @@ export const Compact: Story = {
 };
 
 export const CompactOnLight: Story = { ...Compact, globals: { surface: 'light' } };
+
+/**
+ * Opened by the page: an item's `open` opens it, and `onToggle` reports every change, from the
+ * visitor or from the group closing an item (Help's answer links).
+ */
+export const OpenedByPage: Story = {
+  args: {
+    items: faqs.map((item) => ({ ...item, defaultOpen: undefined, open: item.id === 'altitude' })),
+    onToggle: fn(),
+  },
+  play: async ({ args, canvas, userEvent }) => {
+    const altitude = canvas.getByText('Will the altitude affect me?').closest('details')!;
+    await expect(altitude).toHaveAttribute('open');
+    await userEvent.click(canvas.getByText('Can we travel with children?'));
+    await expect(args.onToggle).toHaveBeenCalledWith('children', true);
+    await expect(args.onToggle).toHaveBeenCalledWith('altitude', false);
+  },
+};
+
+/** An item's anchor is its id, so a link (/help#refunds) reaches it. */
+export const Anchors: Story = {
+  args: { items: faqs.map((item) => ({ ...item, anchor: item.id })) },
+  play: async ({ canvasElement }) => {
+    await expect([...canvasElement.querySelectorAll('details')].map((d) => d.id)).toEqual(['packing', 'altitude', 'children']);
+  },
+};

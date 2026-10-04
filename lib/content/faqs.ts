@@ -2,37 +2,70 @@ import path from 'node:path';
 import { z } from 'zod';
 import { slugSchema } from './collection.ts';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
-import { copyWith, nonEmpty } from './fields.ts';
-import type { PolicyToken, SettingsToken } from '../utils/tokens.ts';
+import { checkUniqueIds, copy, copyWith, nonEmpty, sample } from './fields.ts';
+import { HELP_CATEGORY_PREFIX, HELP_PAGE_ANCHORS } from '../routes.ts';
+import type { CompanyToken, PolicyToken, SettingsToken } from '../utils/tokens.ts';
 
 /*
- * Shared questions and answers (PRD #47), in categories: Tour Detail shows the booking
- * category after each tour's own questions, and Help (PRD 11) reuses it and adds categories.
+ * Shared questions and answers (PRD #47, #86), in Help's categories. Help shows them all; tour
+ * pages show the ones marked `tourPages`, in file order, after each tour's own questions.
  */
 
-/** The settings an answer may quote, filled in when shown (lib/utils/tokens `settingsTokens`). */
+/** The settings an answer may quote, filled in when shown (lib/utils/tokens `textTokens`). */
 export const FAQ_TOKENS = [
   'advancePercent',
   'paymentMethods',
   'refundSchedule',
   'balanceDueDays',
   'childFromAge',
-] as const satisfies readonly (SettingsToken | PolicyToken)[];
+  'fullRefundDays',
+  'refundPaidWithinDays',
+  'replyTime',
+  'officeHours',
+  'pickupPoint',
+  'travelSupport',
+] as const satisfies readonly (SettingsToken | PolicyToken | CompanyToken)[];
+
+/** An answer's id is its anchor on Help (/help#refunds): a slug, and not one of the page's other anchors. */
+const answerIdSchema = slugSchema
+  .refine((id) => !HELP_PAGE_ANCHORS.includes(id), 'Already an anchor on the Help page')
+  .refine((id) => !id.startsWith(HELP_CATEGORY_PREFIX), `Can’t start with "${HELP_CATEGORY_PREFIX}", which category anchors use`);
+
+const questionSchema = z.strictObject({
+  id: answerIdSchema,
+  question: nonEmpty,
+  answer: copyWith(...FAQ_TOKENS),
+  /** Shown on every tour page too, after the tour's own questions. */
+  tourPages: z.literal(true, { error: 'Use tourPages: true, or leave it out' }).optional(),
+  /** An answer with an invented claim about the company (ADR-0019). */
+  sample,
+});
 
 const faqsSchema = z.strictObject({
   categories: z
     .array(
       z.strictObject({
-        /** e.g. "booking". */
+        /** e.g. "safety": its heading's anchor is /help#cat-safety. */
         id: slugSchema,
-        title: nonEmpty,
-        questions: z.array(z.strictObject({ question: nonEmpty, answer: copyWith(...FAQ_TOKENS) })).min(1),
+        /** "Safety", in Help's category list and over its questions. */
+        title: copy,
+        questions: z.array(questionSchema).min(1, 'List at least one question'),
       }),
     )
-    .min(1),
+    .min(1)
+    .superRefine((categories, ctx) => {
+      checkUniqueIds(categories.map(({ id }, i) => ({ id, path: [i] })), ctx);
+      // Answer ids are anchors on one page, so each is used once across every category.
+      checkUniqueIds(
+        categories.flatMap((category, i) => category.questions.map(({ id }, j) => ({ id, path: [i, 'questions', j] }))),
+        ctx,
+      );
+    }),
 });
 
 export type Faqs = z.infer<typeof faqsSchema>;
+
+export type Faq = Faqs['categories'][number]['questions'][number];
 
 export function faqsFile(dir = CONTENT_DIR): string {
   return path.join(dir, 'faqs.json');
@@ -49,9 +82,7 @@ export function getFaqs(): Faqs {
   return cached;
 }
 
-/** One category's questions, e.g. "booking". Throws if content has no such category. */
-export function getFaqCategory(id: string): Faqs['categories'][number] {
-  const category = getFaqs().categories.find((c) => c.id === id);
-  if (!category) throw new Error(`No FAQ category "${id}" in content/faqs.json`);
-  return category;
+/** The questions every tour page shows after its own: those marked `tourPages`, in file order. */
+export function tourPageFaqs(faqs: Faqs): Faq[] {
+  return faqs.categories.flatMap((category) => category.questions.filter((question) => question.tourPages));
 }

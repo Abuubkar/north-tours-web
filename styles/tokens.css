@@ -195,6 +195,13 @@
   --founder-w: 320px; /* the founder's portrait and name */
   --founder-min: 240px; /* narrowest it gets beside the text */
 
+  /* Help, Contact and Legal (PRD #86): the text pages' headers and their sticky side column. */
+  --page-header-bottom-short: clamp(40px, 4cqi, 64px); /* under the Help and legal headers */
+  --body-top: clamp(40px, 5cqi, 72px); /* above Help's questions and a legal document's text */
+  --side-top: calc(var(--header-h) + var(--space-24)); /* where Help's category list and the legal contents stop, under the header */
+  --measure-legal: 35em; /* a legal document's text */
+  --measure-search: 640px; /* Help's search field */
+
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */
   --map-road-width: 1.5px; /* valley roads */

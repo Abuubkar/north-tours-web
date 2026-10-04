@@ -1,0 +1,28 @@
+{
+  "title": "Help and FAQs",
+  "description": "Answers about booking, the advance and payments, refunds, children, altitude and safety on our tours from Lahore, plus our booking policies in plain words.",
+  "header": {
+    "headline": "Help with booking, payments and the trip"
+  },
+  "categories": {
+    "label": "Help categories",
+    "count": { "one": "{count} answer", "other": "{count} answers" }
+  },
+  "linkToAnswer": "Link to this answer · {path}",
+  "search": {
+    "label": "Search questions",
+    "placeholder": "Search questions, e.g. refund, altitude, children",
+    "clear": "Clear search",
+    "results": {
+      "many": "{count} answers for “{query}”",
+      "one": "1 answer for “{query}”",
+      "none": "No answers for “{query}”"
+    }
+  },
+  "empty": {
+    "headline": "No answers for that yet.",
+    "lead": "Ask us directly and we’ll reply on WhatsApp {replyTime}. We often add the answer here afterwards.",
+    "askLabel": "Ask on WhatsApp",
+    "clearLabel": "Clear search"
+  }
+}

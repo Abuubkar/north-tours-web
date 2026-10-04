@@ -1,0 +1,50 @@
+/* From 820px: the sticky 240px column (the shared two-column layout), 44px rows between hairlines. */
+.side {
+  composes: sideColumn from '../../../styles/layout.module.css';
+}
+
+.list {
+  padding: 0;
+  border-top: var(--hairline-width) solid var(--hairline);
+  list-style: none;
+}
+
+.row {
+  composes: ui from '../../../styles/typography.module.css';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  min-height: var(--tap);
+  padding-block: var(--space-8);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+}
+
+.count {
+  color: var(--fg-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Below 820px: the chips, full width above the questions. The row runs to the screen's edges and
+ * scrolls sideways on its own; room above and below keeps the focus ring inside it.
+ */
+.chips {
+  composes: sideTop from '../../../styles/layout.module.css';
+  margin-inline: calc(-1 * var(--margin));
+}
+
+.chipList {
+  display: flex;
+  gap: var(--space-8);
+  padding: var(--focus-reach) var(--margin);
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.chip {
+  flex: none;
+}

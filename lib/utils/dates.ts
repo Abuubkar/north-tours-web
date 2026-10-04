@@ -63,6 +63,12 @@ export const LONG_MONTHS = [
   'December',
 ];
 
+/** A date in full, as "Last updated" shows it: "2026-10-04" → "4 October 2026". */
+export function longDate(date: string): string {
+  const [year, month, day] = date.split('-').map(Number);
+  return `${day} ${LONG_MONTHS[month - 1]} ${year}`;
+}
+
 /** A review's month, "2026-05" → "May 2026". */
 export function monthYear(month: string): string {
   const [year, number] = month.split('-').map(Number);

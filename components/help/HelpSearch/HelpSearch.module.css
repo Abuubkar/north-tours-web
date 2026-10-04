@@ -1,0 +1,32 @@
+.search {
+  max-width: var(--measure-search);
+  margin-top: var(--space-32);
+}
+
+.label {
+  composes: visuallyHidden from '../../../styles/layout.module.css';
+}
+
+.field {
+  position: relative;
+}
+
+/* Room at the end for the clear button (over the field's own padding, hence two classes). */
+.field .input {
+  padding-inline-end: calc(var(--control-44) + var(--space-8));
+}
+
+/* The standard 44px icon button with its border (§5 item 13), inside the field's end. */
+.clear {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+}
+
+/* Its line is kept even while empty, so the result appearing never moves the page. */
+.result {
+  composes: small from '../../../styles/typography.module.css';
+  min-height: 1lh;
+  margin-top: var(--space-12);
+  color: var(--fg-2);
+}

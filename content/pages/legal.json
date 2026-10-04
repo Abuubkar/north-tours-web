@@ -1,0 +1,185 @@
+{
+  "labels": {
+    "contents": "Contents",
+    "contentsCount": "Contents ({count})",
+    "lastUpdated": "Last updated {date}"
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "description": "What we do with the details you send us, and what this website doesn’t do: no cookies, no analytics, and nothing you type sent to a server.",
+    "headline": "Privacy policy",
+    "lastUpdated": "2026-10-04",
+    "closing": "Questions about this policy? Email {email}.",
+    "sample": true,
+    "sections": [
+      {
+        "id": "who-we-are",
+        "heading": "Who we are",
+        "paragraphs": [
+          "{brand} is a tour operator based in Lahore, licensed by the Department of Tourist Services, Punjab (DTS licence No. {dtsLicence}, company registration {companyRegistration}). Our office is at {officeAddress}.",
+          "This policy explains what we do with the details you give us when you plan or book a trip, and what this website does and doesn’t do."
+        ]
+      },
+      {
+        "id": "what-we-collect",
+        "heading": "What we collect",
+        "paragraphs": [
+          "This website collects nothing about you. There are no accounts, and nothing you type into it is sent to us or to anyone else. The trip planner only prepares a WhatsApp message, which you choose whether to send.",
+          "What you send us on WhatsApp, by phone or in person: your name and number, who is travelling with you, your children’s ages, your dates and anything else you tell us about the trip.",
+          "CNIC or passport details for each traveller, only where a hotel or a checkpoint on the route requires them.",
+          "Records of the payments you make to us: the amount, the date and how you paid ({paymentMethods})."
+        ]
+      },
+      {
+        "id": "why",
+        "heading": "Why we collect it",
+        "paragraphs": [
+          "To plan and price your trip, confirm your seats and rooms, keep you informed before and during the trip, and meet what hotels, checkpoints and the law require.",
+          "We don’t use your details for anything else, and we only send you news of other trips if you ask us to."
+        ]
+      },
+      {
+        "id": "how-long",
+        "heading": "How long we keep it",
+        "paragraphs": [
+          "We keep your booking details and our messages for two years after your trip, so we can help with any question about it.",
+          "We keep payment records for as long as tax law requires. CNIC and passport details are deleted once the trip is over."
+        ]
+      },
+      {
+        "id": "sharing",
+        "heading": "Who we share it with",
+        "paragraphs": [
+          "Only what each of them needs, with the hotels, drivers and guides on your trip, and with the authorities where the law requires it, for example at a checkpoint.",
+          "We never sell your details, and never share them for advertising."
+        ]
+      },
+      {
+        "id": "choices",
+        "heading": "Your choices and rights",
+        "paragraphs": [
+          "You can ask for a copy of the details we hold about you, ask us to correct them, or ask us to delete them once we no longer need them for your booking or by law.",
+          "Message us on WhatsApp at {whatsapp} or email {email}. We reply {replyTime}."
+        ]
+      },
+      {
+        "id": "cookies",
+        "heading": "Cookies, analytics and your browser",
+        "paragraphs": [
+          "This website sets no cookies and uses no analytics or tracking of any kind. Its fonts and images are served by the website itself, so opening a page doesn’t contact any other company.",
+          "The trip planner keeps your trip answers (destinations, dates, group size and the like) in this browser’s storage, so they’re still there if you reload the page or come back later. They never leave your device unless you send them in a WhatsApp message. Your name, number, best time to call and notes are never stored.",
+          "To remove the saved answers, press “Plan another trip” at the end of the planner, or clear this site’s data in your browser’s settings."
+        ]
+      },
+      {
+        "id": "third-parties",
+        "heading": "Third parties",
+        "paragraphs": [
+          "WhatsApp is run by a separate company, with its own privacy policy. When you tap a WhatsApp button, your message goes through WhatsApp, and what happens to it there is covered by WhatsApp’s policy, not ours.",
+          "“Get directions” opens Google Maps, which is also run by a separate company with its own privacy policy.",
+          "Neither is contacted until you tap one of those buttons."
+        ]
+      },
+      {
+        "id": "changes",
+        "heading": "Changes to this policy",
+        "paragraphs": [
+          "If we change how we handle your details, we update this page and the date at the top.",
+          "If this website ever adds a cookie, analytics or a form that sends your details anywhere, this policy will say so first."
+        ]
+      },
+      {
+        "id": "contact",
+        "heading": "Contact",
+        "paragraphs": [
+          "For any question about your details or this policy, email {email}, call {phone} or write to us at {officeAddress}."
+        ]
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms and conditions",
+    "description": "The rules for booking a trip with us: the advance and payments, cancellations and refunds, changes, and what we and you are responsible for.",
+    "headline": "Terms and conditions",
+    "lastUpdated": "2026-10-04",
+    "closing": "Questions about these terms? Email {email}.",
+    "sample": true,
+    "sections": [
+      {
+        "id": "bookings",
+        "heading": "Bookings and payment",
+        "paragraphs": [
+          "You can book a group departure from its tour page or on WhatsApp, and plan a private trip in the trip planner or on WhatsApp. Your seats are confirmed once we have received a {advancePercent}% advance.",
+          "We accept {paymentMethods}, and nothing else. The balance is due {balanceDueDays} days before departure.",
+          "Children under {childFromAge} share their parents’ room free. From {childFromAge}, a child counts as a traveller."
+        ]
+      },
+      {
+        "id": "cancellations",
+        "heading": "Cancellations and refunds",
+        "paragraphs": [
+          "To cancel, message us on WhatsApp or email {email}. The day we receive your message is the day you cancelled.",
+          "{refundSchedule}",
+          "Refunds are paid back the same way you paid, within {refundPaidWithinDays} days of cancelling.",
+          "You can move to another date free of charge up to {fullRefundDays} days before departure, if it has seats. Someone else can take your place until the balance is due."
+        ]
+      },
+      {
+        "id": "changes-by-us",
+        "heading": "Changes by us",
+        "paragraphs": [
+          "We may change a route, a hotel or the order of the days when roads, weather or safety require it, and tell you on WhatsApp as soon as we know.",
+          "If we cancel a departure, you choose between a full refund and a free move to another date.",
+          "If a road closes during the trip, extra nights, meals and transport are shared at cost, with nothing added by us."
+        ]
+      },
+      {
+        "id": "your-responsibilities",
+        "heading": "Your responsibilities",
+        "paragraphs": [
+          "Bring a valid CNIC for every adult, or a passport for foreign nationals, and any document a hotel or checkpoint asks for.",
+          "Tell us before you book about any health condition, allergy or mobility need that affects the trip, and follow your guide’s and driver’s instructions on the road.",
+          "Respect local customs and the places we visit."
+        ]
+      },
+      {
+        "id": "health",
+        "heading": "Health and safety",
+        "paragraphs": [
+          "Mountain roads are long, and some stops are high. If you have a heart or breathing condition, or are pregnant, check with your doctor before you book.",
+          "In an emergency on a trip, call your guide first, then our travel support line. We recommend travel insurance that covers medical care."
+        ]
+      },
+      {
+        "id": "liability",
+        "heading": "Liability",
+        "paragraphs": [
+          "We arrange the trip you booked with reasonable care. We aren’t responsible for delays, closures or losses caused by weather, landslides, road closures, strikes or decisions of the authorities, but we always help you find the safest way on.",
+          "Keep your valuables with you: hotels and vehicles aren’t responsible for things left in them."
+        ]
+      },
+      {
+        "id": "complaints",
+        "heading": "Complaints",
+        "paragraphs": [
+          "If something isn’t right during the trip, tell your guide straight away so it can be put right there.",
+          "After the trip, message us on WhatsApp or email {email}. We reply {replyTime} and tell you what we’ll do about it."
+        ]
+      },
+      {
+        "id": "law",
+        "heading": "Governing law",
+        "paragraphs": [
+          "These terms are governed by the laws of Pakistan, and any dispute is heard by the courts of Lahore."
+        ]
+      },
+      {
+        "id": "contact",
+        "heading": "Contact",
+        "paragraphs": [
+          "For any question about these terms, email {email}, call {phone} or visit our office at {officeAddress}."
+        ]
+      }
+    ]
+  }
+}

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { todayInKarachi } from '../utils/departures.ts';
 import { PLACEHOLDER } from '../utils/placeholder.ts';
 import { tokensIn } from '../utils/tokens.ts';
 
@@ -24,6 +25,9 @@ export const linkOrPlaceholder = orPlaceholder(z.url(), 'a link');
 
 /** A real calendar date, YYYY-MM-DD. */
 export const isoDate = z.iso.date('Use a real date as YYYY-MM-DD');
+
+/** A date that has already come, e.g. when a policy was last updated: not after the build date (Asia/Karachi). */
+export const pastDate = isoDate.refine((date) => date <= todayInKarachi(new Date()), 'Can’t be after today');
 
 /** The best months to go, e.g. Apr to Oct. Destinations and tours both have one. */
 const month = z.enum(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
@@ -63,3 +67,15 @@ export const copy = copyWith();
 export const sample = z
   .literal(true, { error: 'Use sample: true for an invented claim, or remove the field once it’s confirmed (ADR-0019)' })
   .optional();
+
+/**
+ * Reports each id used more than once, at its place in the file: anchors on one page must be
+ * unique, or a link would land on the wrong one. `entries` pairs each id with its path.
+ */
+export function checkUniqueIds(entries: { id: string; path: PropertyKey[] }[], ctx: z.RefinementCtx): void {
+  const seen = new Set<string>();
+  for (const { id, path } of entries) {
+    if (seen.has(id)) ctx.addIssue({ code: 'custom', message: `"${id}" is used twice`, path: [...path, 'id'] });
+    seen.add(id);
+  }
+}
