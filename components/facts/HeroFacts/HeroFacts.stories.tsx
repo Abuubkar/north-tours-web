@@ -1,11 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import type { Departure } from '@/lib/content/tours';
-import { sampleTourCopy } from '@/sections/sampleTourCopy';
-import { sampleTour } from '../../tour-card/sampleTours';
+import { departureOn as departure, sampleTour } from '../../tour-card/sampleTours';
+import { sampleTourCopy } from '../../tour/sampleTourCopy';
 import { HeroFacts } from './HeroFacts';
-
-const departure = (start: string, end: string, seatsLeft: number): Departure => ({ start, end, seatsTotal: 16, seatsLeft });
 
 /*
  * `builtOn` is a fixed day in the past and the browser's real today is later, so the facts'

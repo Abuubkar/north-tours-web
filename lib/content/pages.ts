@@ -100,7 +100,7 @@ export function getCreditsCopy(): CreditsCopy {
 }
 
 /** The tour page's wording; each tour fills it in (the meta description is the tour's own summary). */
-const tourSchema = z.strictObject({
+const tourCopySchema = z.strictObject({
   /** The <title> part: "Hunza & Skardu Grand, 9 days from Lahore". */
   title: copyWith('tour', 'duration'),
   hero: z.strictObject({
@@ -127,14 +127,14 @@ const tourSchema = z.strictObject({
   }),
 });
 
-export type TourCopy = z.infer<typeof tourSchema>;
+export type TourCopy = z.infer<typeof tourCopySchema>;
 
 export function tourCopyFile(dir = CONTENT_DIR): string {
   return path.join(dir, 'pages', 'tour.json');
 }
 
 export function loadTourCopy(dir = CONTENT_DIR) {
-  return parseFile(tourSchema, tourCopyFile(dir));
+  return parseFile(tourCopySchema, tourCopyFile(dir));
 }
 
 let cachedTour: TourCopy | undefined;

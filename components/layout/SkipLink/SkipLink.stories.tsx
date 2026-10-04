@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
-import { realUser } from '../../../.storybook/realUser';
 import { routes } from '@/lib/routes';
+import { realUser } from '../../../.storybook/realUser';
 import { SkipLink } from './SkipLink';
 
 /** The skip link, a header link to skip past, and the page's main content. */

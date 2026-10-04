@@ -16,7 +16,7 @@ export function PhotoHero({ image, back, kicker, title, children }: PhotoHeroPro
       </div>
       <div className={styles.scrim} />
       <div className={styles.top}>
-        <TextLink href={back.href} back>
+        <TextLink href={back.href} variant="back">
           {back.label}
         </TextLink>
       </div>

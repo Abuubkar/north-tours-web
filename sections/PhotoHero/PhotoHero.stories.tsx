@@ -1,13 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
 import { HeroFacts } from '@/components/facts/HeroFacts/HeroFacts';
-import { sampleTour } from '@/components/tour-card/sampleTours';
+import { departureOn as departure, sampleTour } from '@/components/tour-card/sampleTours';
+import { sampleTourCopy } from '@/components/tour/sampleTourCopy';
 import type { Departure } from '@/lib/content/tours';
-import { sampleTourCopy } from '../sampleTourCopy';
 import { PhotoHero } from './PhotoHero';
 import styles from '../../components/ui/stories.module.css';
-
-const departure = (start: string, end: string, seatsLeft: number): Departure => ({ start, end, seatsTotal: 16, seatsLeft });
 const upcoming = [departure('2099-05-12', '2099-05-20', 3), departure('2099-05-26', '2099-06-03', 9)];
 
 /** The hero with a tour's facts, as the tour page renders it. `builtOn` is in the past (see HeroFacts). */

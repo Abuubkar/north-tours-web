@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
 import { sampleTour } from '@/components/tour-card/sampleTours';
 import { gridColumns } from '../../.storybook/gridColumns';
-import { sampleTourCopy } from '../sampleTourCopy';
+import { sampleTourCopy } from '@/components/tour/sampleTourCopy';
 import { QuickFacts } from './QuickFacts';
 
 const meta = {
@@ -65,5 +65,15 @@ export const NoDepartures: Story = {
   play: async ({ canvasElement }) => {
     await expect(cells(canvasElement)).toHaveLength(4);
     await expect(value(canvasElement, 'Group size')).toBeUndefined();
+  },
+};
+
+/** At 820 (four columns) the fifth fact also takes the whole second row. */
+export const NavBreakpoint: Story = {
+  globals: { viewport: { value: 'navBreakpoint' } },
+  play: async ({ canvasElement }) => {
+    const all = cells(canvasElement);
+    await expect(gridColumns(all)).toBe(4);
+    await expect(Math.round(all[4].getBoundingClientRect().width)).toBeGreaterThan(Math.round(all[0].getBoundingClientRect().width * 3));
   },
 };

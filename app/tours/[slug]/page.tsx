@@ -3,6 +3,7 @@ import { HeroFacts } from '@/components/facts/HeroFacts/HeroFacts';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
 import { getTour, getTours } from '@/lib/content/catalog';
+import { isPhoto } from '@/lib/content/images';
 import { getHomeCopy, getTourCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
 import type { Tour } from '@/lib/content/tours';
@@ -10,6 +11,7 @@ import { routes } from '@/lib/routes';
 import { dayCount } from '@/lib/utils/dates';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { pageMetadata } from '@/lib/utils/metadata';
+import { routeLine } from '@/lib/utils/route';
 import { fillTokens } from '@/lib/utils/tokens';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
@@ -40,7 +42,7 @@ export default async function TourPage(props: TourPageProps) {
   const copy = getTourCopy();
   const settings = getSettings();
   // The share image is the tour's photo; until it has one, the Homepage's.
-  const sharePhoto = 'src' in tour.image ? tour.image : getHomeCopy().hero.image;
+  const sharePhoto = isPhoto(tour.image) ? tour.image : getHomeCopy().hero.image;
 
   return (
     <PageMain>
@@ -48,7 +50,7 @@ export default async function TourPage(props: TourPageProps) {
       <PhotoHero
         image={tour.image}
         back={{ href: routes.tours, label: copy.hero.backLabel }}
-        kicker={tour.route.join(' → ')}
+        kicker={routeLine(tour.route)}
         title={tour.title}
       >
         <HeroFacts

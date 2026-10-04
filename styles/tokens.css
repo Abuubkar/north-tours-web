@@ -156,6 +156,7 @@
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
+   *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
    *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns
    *   1100px Tour Detail and Trip Planner side columns appear
    *   1280px Tour Detail side map appears

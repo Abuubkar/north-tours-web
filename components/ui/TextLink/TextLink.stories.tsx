@@ -29,7 +29,7 @@ export const Desktop: Story = { ...Default, globals: { viewport: { value: 'deskt
 
 /** A back link: the arrow first, no underline, still a 44px tap target. */
 export const Back: Story = {
-  args: { href: '/tours', children: 'All tours', back: true },
+  args: { href: '/tours', children: 'All tours', variant: 'back' },
   play: async ({ canvas }) => {
     const link = canvas.getByRole('link', { name: 'All tours' });
     await expect(link).toHaveAttribute('href', '/tours');

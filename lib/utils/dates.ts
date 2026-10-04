@@ -1,4 +1,4 @@
-import type { Season } from '../content/destinations.ts';
+import type { Season } from '../content/fields.ts';
 
 /*
  * Date wording for cards and messages. Content dates are YYYY-MM-DD with no time zone, so

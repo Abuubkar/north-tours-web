@@ -1,9 +1,8 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
-import { seasonSchema } from './destinations.ts';
 import { CONTENT_DIR } from './files.ts';
-import { isoDate, nonEmpty } from './fields.ts';
+import { isoDate, nonEmpty, seasonSchema } from './fields.ts';
 import { imageSchema } from './images.ts';
 
 const pkr = z.int('Use whole rupees').positive();

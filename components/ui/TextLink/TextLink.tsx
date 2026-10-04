@@ -8,8 +8,8 @@ const ARROW_SIZE = 16;
  * An underlined link with an arrow, e.g. "Meet the team →". The arrow nudges right on hover.
  * A back link, "← All tours", has its arrow first and no underline.
  */
-export function TextLink({ href, children, back = false }: TextLinkProps) {
-  if (back) {
+export function TextLink({ href, children, variant = 'arrow' }: TextLinkProps) {
+  if (variant === 'back') {
     return (
       <a href={href} className={styles.backLink}>
         <Icon name="arrowLeft" size={ARROW_SIZE} className={styles.arrow} />

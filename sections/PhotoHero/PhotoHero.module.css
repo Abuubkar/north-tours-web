@@ -17,18 +17,17 @@
   inset: 0;
 }
 
-.scrim {
-  background: var(--hero-scrim);
-}
-
 /*
  * On phones the title and facts fill most of the hero, so the scrim is stretched down to put its
  * dark end behind all of them (the same gradient, drawn taller and anchored at the bottom).
  */
-@media (width < 820px) {
+.scrim {
+  background: var(--hero-scrim) bottom / 100% var(--photo-hero-scrim-stretch);
+}
+
+@media (width >= 820px) {
   .scrim {
-    background-position: bottom;
-    background-size: 100% var(--photo-hero-scrim-stretch);
+    background-size: 100% 100%;
   }
 }
 

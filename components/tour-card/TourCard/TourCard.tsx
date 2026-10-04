@@ -6,6 +6,7 @@ import { Tag } from '@/components/ui/Tag/Tag';
 import { routes } from '@/lib/routes';
 import { dateRange, tripLength } from '@/lib/utils/dates';
 import { seatStatus, urgencyText } from '@/lib/utils/departures';
+import { routeLine } from '@/lib/utils/route';
 import { departureMessage, whatsappLink } from '@/lib/utils/whatsapp';
 import { PriceBlock } from '../../tour/PriceBlock/PriceBlock';
 import { SeatsStatus } from '../../tour/SeatsStatus/SeatsStatus';
@@ -53,7 +54,7 @@ export function TourCard({ tour, departure, settings }: TourCardProps) {
         )}
       </div>
       <div className={styles.body}>
-        <p className={styles.route}>{tour.route.join(' → ')}</p>
+        <p className={styles.route}>{routeLine(tour.route)}</p>
         <h3 className={styles.title}>{tour.title}</h3>
         <p className={styles.dates}>
           {dateRange(departure.start, departure.end)} · {tripLength(tour.days, tour.nights)}

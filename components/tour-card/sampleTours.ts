@@ -25,6 +25,11 @@ export const openDeparture: Departure = { start: '2027-05-26', end: '2027-06-03'
 export const urgentDeparture: Departure = { start: '2027-05-12', end: '2027-05-20', seatsTotal: 16, seatsLeft: 3 };
 export const soldOutDeparture: Departure = { start: '2027-06-09', end: '2027-06-17', seatsTotal: 16, seatsLeft: 0 };
 
+/** A departure from `start` to `end` with `seatsLeft` of 16 seats, for stories. */
+export function departureOn(start: string, end: string, seatsLeft: number): Departure {
+  return { start, end, seatsTotal: 16, seatsLeft };
+}
+
 /** A tour named `title` with the given departures (start dates and seats left). */
 export function tourWith(title: string, departures: [start: string, seatsLeft: number][]): Tour {
   const slug = title.toLowerCase().replace(/[^a-z]+/g, '-');

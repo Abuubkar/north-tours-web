@@ -183,6 +183,8 @@ The header row is a flex row with `flex-wrap: wrap; gap: 24px 48px`. Label: `fle
 | Guides | 150px | 4 | 2 | 4 |
 | Reviews | 290px | 3 | 1 | 3 |
 | Trust strip | 165px | 4 | 2 | 4 |
+| Quick facts (Tour Detail) | 160px | 5 | 2 | 5 |
+| Hero facts (Tour Detail; gaps, not hairlines) | 150px | 4 | 2 | 4 |
 
 - **Cell padding rule:** every cell in a hairline grid or divided row has the same inner padding on both sides, so text never touches a divider: **16px on mobile → 24px on desktop** (`P = clamp(16px, 1.7cqi, 24px)`).
   - *Text-only grids* (facts, steps, reviews, notes, trust strip): cells use `padding: Y P`. The grid bleeds outward by P and is clipped back (`margin-left/right: calc(-1 * P); clip-path: inset(0 P)`), so the first column's text still aligns with the page margin and the last column with the right margin, at any column count.
@@ -360,7 +362,7 @@ The tokens in code live in `styles/tokens.css`, the only stylesheet allowed to h
 | Motion | `--nudge` 4px (arrow on hover), `--dur-300` .3s, `--dur-400` .4s, `--dur-900` .9s, `--dur-1000` 1s, `--ease-out` `cubic-bezier(.2, .7, .2, 1)`, `--photo-zoom` 1.045 (tour card photo on hover), `--hero-blur` 16px, `--hero-zoom` 1.08 and `--hero-dim` .8 (hero blur, fully scrolled away), `--word-dim` .16, `--reveal-from` 8vh and `--reveal-span` 45vh (brand statement reveal), `--rise-distance` 40px and `--rise-stagger` 90ms (cards rise) |
 | Type | `--font` (`var(--font-geist)`, set by `next/font`, then `system-ui`); weights `--fw-light` 300, `--fw-regular` 400, `--fw-medium` 500, `--fw-semibold` 600; per role `--fs-*`, `--lh-*`, `--ls-*` matching the §3 table (e.g. `--fs-statement`, `--lh-statement`, `--ls-statement`); `--ls-brand` −.01em (brand name, 16/600); `--indent-display` −.035em (display and destination hero left margin); `--display-sink` .05em (sets the display word flush with the hero's bottom); `--font-mono`, `--fs-map-grid` 11px (route map degree labels, decorative), `--fs-placeholder` 11px, `--lh-placeholder` 1.5 and `--ls-placeholder` .02em (image placeholder captions only, in the system monospace); `--fs-destination-hero-max` 20cqi, `--destination-hero-fit` 150 and `--name-length-min` 5 for the destination hero (size in cqi = round(150 / max(length, 5))) |
 
-Breakpoints can't be custom properties in media queries, so they are literals there and documented in the tokens file: 820px (nav collapses, sheets replace dropdowns), 1100px (Tour Detail and Trip Planner side columns), 1280px (Tour Detail side map), viewport height 920px (compact booking panel).
+Breakpoints can't be custom properties in media queries, so they are literals there and documented in the tokens file: 490px, 656px and 829px (Tour Detail quick facts go to three, four, then five columns), 820px (nav collapses, sheets replace dropdowns), 1100px (Tour Detail and Trip Planner side columns), 1280px (Tour Detail side map), viewport height 920px (compact booking panel).
 
 The design files' token names `--fs-h1`, `--fs-h2`, `--fs-h2-long` and `--fs-h3` are `--fs-statement`, `--fs-section`, `--fs-section-long` and `--fs-card-title` in code, because type roles are visual only. `--fs-small` is 15px and `--fs-ui` 14px (the design's "Small / UI 14–15px").
 
