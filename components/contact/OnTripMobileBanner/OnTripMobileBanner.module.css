@@ -1,0 +1,23 @@
+/* A full-width 52px light strip, 15/600; only below 820px. */
+.banner {
+  composes: small from '../../../styles/typography.module.css';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  min-height: var(--control-52);
+  padding-inline: var(--margin);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+}
+
+/* The focus ring sits inside the strip, where the header can't cover it. */
+.banner:focus-visible {
+  outline-offset: calc(-1 * var(--focus-reach));
+}
+
+@media (width >= 820px) {
+  .banner {
+    display: none;
+  }
+}

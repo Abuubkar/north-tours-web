@@ -1,0 +1,8 @@
+/* A 56px pair (DESIGN.md §7, closing CTAs), at most 520px, that wraps to full width on phones. */
+.actions {
+  composes: buttonPair from '../../../styles/layout.module.css';
+}
+
+.action {
+  composes: buttonPairItem from '../../../styles/layout.module.css';
+}

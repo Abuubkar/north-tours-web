@@ -90,3 +90,41 @@ export const RealValuesPhone: Story = {
 };
 
 export const RealValuesPhoneOnLight: Story = { ...RealValuesPhone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/**
+ * Contact's two-row form, with placeholders: Office and Open only, no "WhatsApp first", and no
+ * "Get directions" while the address is a placeholder (so no buttons at all).
+ */
+export const TwoRowPlaceholders: Story = {
+  args: { form: 'two-row' },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('heading', { level: 2, name: 'Plan your trip over chai at our Lahore office' })).toBeVisible();
+    await expect(rows(canvas)).toEqual(['Office: [Office address], Lahore, Punjab', 'Open: [Mon–Sat, X am – X pm]']);
+    await expect(canvas.queryByRole('link')).toBeNull();
+  },
+};
+
+export const TwoRowPlaceholdersOnLight: Story = { ...TwoRowPlaceholders, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const TwoRowPlaceholdersPhone: Story = { ...TwoRowPlaceholders, globals: { viewport: { value: 'phone' } } };
+
+export const TwoRowPlaceholdersPhoneOnLight: Story = { ...TwoRowPlaceholders, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** The two-row form with a real address: "Get directions →" opens Google Maps in a new tab, and still no "WhatsApp first". */
+export const TwoRowRealValues: Story = {
+  args: { form: 'two-row', settings: realSettings },
+  play: async ({ canvas }) => {
+    await expect(rows(canvas)).toEqual(['Office: 12 Main Boulevard, Gulberg, Lahore', 'Open: Mon–Sat, 10 am – 7 pm']);
+    const directions = canvas.getByRole('link', { name: /Get directions/ });
+    await expect(directions).toHaveAttribute('href', `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('12 Main Boulevard, Gulberg, Lahore')}`);
+    await expect(directions).toHaveAttribute('target', '_blank');
+    await expect(directions).toHaveAttribute('rel', 'noopener');
+    await expect(canvas.queryByRole('link', { name: 'WhatsApp first' })).toBeNull();
+  },
+};
+
+export const TwoRowRealValuesOnLight: Story = { ...TwoRowRealValues, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const TwoRowRealValuesPhone: Story = { ...TwoRowRealValues, globals: { viewport: { value: 'phone' } } };
+
+export const TwoRowRealValuesPhoneOnLight: Story = { ...TwoRowRealValues, globals: { surface: 'light', viewport: { value: 'phone' } } };

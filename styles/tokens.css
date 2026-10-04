@@ -201,6 +201,12 @@
   --side-top: calc(var(--header-h) + var(--space-24)); /* where Help's category list and the legal contents stop, under the header */
   --measure-legal: 35em; /* a legal document's text */
   --measure-search: 640px; /* Help's search field */
+  --measure-contact-lead: 600px; /* the Contact header's lead */
+  --on-trip-pad-y: clamp(28px, 4cqi, 56px); /* inside Contact's "On a trip right now?" panel */
+  --on-trip-text-min: 360px; /* its words beside its button, before the button wraps under */
+  --quick-link-h: 64px; /* Contact's quick link rows */
+  --quick-links-min: 360px; /* the quick links beside the social links, before those wrap under */
+  --social-w: 280px; /* the social links beside them */
 
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */
@@ -279,6 +285,8 @@
   --grid-principles-cols: 4;
   --grid-vehicles-min: 200px; /* About's vehicles */
   --grid-vehicles-cols: 2;
+  --grid-policies-min: 280px; /* Help's booking policies */
+  --grid-policies-cols: 2;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

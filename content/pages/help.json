@@ -24,5 +24,95 @@
     "lead": "Ask us directly and we’ll reply on WhatsApp {replyTime}. We often add the answer here afterwards.",
     "askLabel": "Ask on WhatsApp",
     "clearLabel": "Clear search"
+  },
+  "policiesUpdated": "2026-10-04",
+  "policies": {
+    "headline": "Our booking policies, in plain words",
+    "lastUpdated": "Last updated {date}",
+    "readMore": "Read the full policy",
+    "hide": "Hide the full policy",
+    "refundTable": {
+      "caption": "How much of your advance is refunded, by how many days before departure you cancel",
+      "days": "Days before departure",
+      "refund": "Refund of advance",
+      "from": "{days} or more days",
+      "range": "{from}–{to} days",
+      "single": "{days} days",
+      "under": "Under {days} days",
+      "percent": "{percent}%",
+      "none": "None"
+    },
+    "items": [
+      {
+        "id": "cancellation",
+        "title": "Cancellation & refunds",
+        "summary": "How much of your advance comes back depends on how close to departure you cancel.",
+        "refundTable": true,
+        "paragraphs": [
+          "To cancel, message us on WhatsApp. The day we receive your message is the day you cancelled.",
+          "{refundSchedule}",
+          "Refunds are paid back the same way you paid, within {refundPaidWithinDays} days of cancelling.",
+          "If we cancel a departure, you choose between a full refund and a free move to another date."
+        ],
+        "sample": true
+      },
+      {
+        "id": "changes",
+        "title": "Changes to your booking",
+        "summary": "Move to another date for free up to {fullRefundDays} days before departure, if it has seats.",
+        "paragraphs": [
+          "You can move to another departure free of charge up to {fullRefundDays} days before your trip, as long as the new date has seats.",
+          "Someone else can take your place until the balance is due, {balanceDueDays} days before departure. Send us their name and number on WhatsApp."
+        ],
+        "sample": true
+      },
+      {
+        "id": "payments",
+        "title": "Payments and the advance",
+        "summary": "A {advancePercent}% advance holds your seats; the balance is due {balanceDueDays} days before departure.",
+        "paragraphs": [
+          "The advance holds your seats. We accept {paymentMethods}, and nothing else, and send the details on WhatsApp when you book.",
+          "The balance is due {balanceDueDays} days before departure. We remind you on WhatsApp a few days before.",
+          "You get a receipt on WhatsApp for every payment."
+        ],
+        "sample": true
+      },
+      {
+        "id": "children",
+        "title": "Children and room sharing",
+        "summary": "Children under {childFromAge} share their parents’ room free; older children count as travellers.",
+        "paragraphs": [
+          "Children under {childFromAge} travel free when they share their parents’ room. From {childFromAge}, a child counts as a traveller, with a seat and a place in the room.",
+          "Tell us your children’s ages when you book, and we’ll plan the rooms and the stops around them."
+        ],
+        "sample": true
+      },
+      {
+        "id": "weather",
+        "title": "Weather and road closures",
+        "summary": "If a road closes, we keep you safe first and adjust the plan.",
+        "paragraphs": [
+          "Landslides and snow can close mountain roads. Your driver and guide decide, safety first, whether to wait, take another road or turn back, and we keep you updated on WhatsApp.",
+          "Extra nights, meals and transport caused by a closure are shared at cost, with nothing added by {brand}."
+        ],
+        "sample": true
+      },
+      {
+        "id": "safety",
+        "title": "Safety on the trip",
+        "summary": "Checked vehicles, rested drivers, and a travel support line while you travel.",
+        "paragraphs": [
+          "Every vehicle is checked before each departure, and drivers never drive mountain roads after dark. On long days they stop every two to three hours.",
+          "On the trip, call your guide first, then our travel support line: {travelSupport}."
+        ],
+        "sample": true
+      }
+    ]
+  },
+  "cta": {
+    "headline": "Still have a question? Ask us on WhatsApp",
+    "lead": "We reply on WhatsApp {replyTime}. Phone lines are open {officeHours}.",
+    "askLabel": "Ask on WhatsApp",
+    "callLabel": "Call us"
   }
 }

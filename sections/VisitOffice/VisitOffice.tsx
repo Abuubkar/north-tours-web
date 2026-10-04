@@ -12,12 +12,15 @@ const PHOTO_SIZES = '(width >= 820px) 50vw, 100vw';
 
 /**
  * "Plan your trip over chai at our Lahore office", shared by About and Contact: the office's
- * address, hours, phone and WhatsApp from settings (placeholders as plain text), "Get directions"
- * once the address is real, "WhatsApp first", and the office photo (the owner's to supply).
+ * address and hours from settings, on About its phone and WhatsApp too (placeholders as plain
+ * text), "Get directions" once the address is real, on About "WhatsApp first", and the office
+ * photo (the owner's to supply).
  */
-export function VisitOffice({ settings }: VisitOfficeProps) {
+export function VisitOffice({ settings, form = 'four-row' }: VisitOfficeProps) {
   const { visitOffice: copy, contact, whatsapp } = settings;
   const directions = directionsHref(contact.officeAddress);
+  // The four-row form adds the phone and WhatsApp rows and "WhatsApp first".
+  const showNumbers = form === 'four-row';
   return (
     <section className={styles.section}>
       <div className={styles.split}>
@@ -26,27 +29,35 @@ export function VisitOffice({ settings }: VisitOfficeProps) {
           <dl>
             <KeyValueRow label={copy.rows.office}>{contact.officeAddress}</KeyValueRow>
             <KeyValueRow label={copy.rows.open}>{contact.officeHours}</KeyValueRow>
-            <KeyValueRow label={copy.rows.phone}>
-              <TextOrLink href={phoneHref(contact.phone)} className={styles.rowLink}>
-                {contact.phone}
-              </TextOrLink>
-            </KeyValueRow>
-            <KeyValueRow label={copy.rows.whatsapp}>
-              <TextOrLink href={whatsappHref(contact.whatsapp, whatsapp.generalMessage)} className={styles.rowLink}>
-                {contact.whatsapp}
-              </TextOrLink>
-            </KeyValueRow>
-          </dl>
-          <div className={styles.actions}>
-            {directions && (
-              <Button href={directions} arrow target="_blank" rel="noopener">
-                {copy.directionsLabel}
-              </Button>
+            {showNumbers && (
+              <>
+                <KeyValueRow label={copy.rows.phone}>
+                  <TextOrLink href={phoneHref(contact.phone)} className={styles.rowLink}>
+                    {contact.phone}
+                  </TextOrLink>
+                </KeyValueRow>
+                <KeyValueRow label={copy.rows.whatsapp}>
+                  <TextOrLink href={whatsappHref(contact.whatsapp, whatsapp.generalMessage)} className={styles.rowLink}>
+                    {contact.whatsapp}
+                  </TextOrLink>
+                </KeyValueRow>
+              </>
             )}
-            <Button href={whatsappLink(contact.whatsapp, whatsapp.generalMessage)} variant="secondary" icon="whatsapp">
-              {copy.whatsappLabel}
-            </Button>
-          </div>
+          </dl>
+          {(directions || showNumbers) && (
+            <div className={styles.actions}>
+              {directions && (
+                <Button href={directions} arrow target="_blank" rel="noopener">
+                  {copy.directionsLabel}
+                </Button>
+              )}
+              {showNumbers && (
+                <Button href={whatsappLink(contact.whatsapp, whatsapp.generalMessage)} variant="secondary" icon="whatsapp">
+                  {copy.whatsappLabel}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
         <MediaFrame image={copy.image} ratio="4:3" sizes={PHOTO_SIZES} className={styles.photo} />
       </div>

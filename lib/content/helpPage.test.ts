@@ -1,10 +1,10 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { getFaqs } from './faqs.ts';
-import { getHelpPage, helpCategories } from './helpPage.ts';
+import { getHelpPage, helpCategories, helpCtaLead, helpPolicies } from './helpPage.ts';
 import { helpCopyFile, loadHelpCopy, type HelpCopy } from './pages.ts';
 import { getSettings } from './settings.ts';
-import { contentFixture } from './testing.ts';
+import { changedSettings, contentFixture, staleFigures } from './testing.ts';
 
 const help: HelpCopy = JSON.parse(readFileSync(helpCopyFile(), 'utf8'));
 
@@ -46,5 +46,59 @@ describe('getHelpPage', () => {
     const { copy, askHref, settings } = getHelpPage();
     expect(copy.empty.lead).toContain(settings.booking.replyTime);
     expect(askHref).toBe(`https://wa.me/?text=${encodeURIComponent(settings.whatsapp.generalMessage)}`);
+  });
+});
+
+describe('helpPolicies', () => {
+  it('fills every token, and gives the refund table only to the policies that show it', () => {
+    const policies = helpPolicies(help, getSettings());
+    expect(policies.map((p) => p.title)).toEqual([
+      'Cancellation & refunds',
+      'Changes to your booking',
+      'Payments and the advance',
+      'Children and room sharing',
+      'Weather and road closures',
+      'Safety on the trip',
+    ]);
+    expect(policies.filter((p) => p.refundRows).map((p) => p.id)).toEqual(['cancellation']);
+    expect(policies[0].refundRows).toEqual([
+      { days: '14 or more days', refund: '100%' },
+      { days: '7–13 days', refund: '50%' },
+      { days: 'Under 7 days', refund: 'None' },
+    ]);
+    for (const p of policies) expect([p.summary, ...p.paragraphs].join(' ')).not.toMatch(/\{\w+\}/);
+  });
+
+  it('marks every policy as sample text (ADR-0020)', () => {
+    for (const item of help.policies.items) expect(item.sample).toBe(true);
+  });
+
+  it('shows changed settings in every policy and the closing lead, and none of the old figures', () => {
+    const live = getSettings();
+    const changed = changedSettings(live);
+    const policies = helpPolicies(help, changed);
+    const text = [
+      ...policies.flatMap((p) => [p.summary, ...p.paragraphs, ...(p.refundRows ?? []).flatMap((row) => [row.days, row.refund])]),
+      helpCtaLead(help, changed),
+    ].join('\n');
+    expect(staleFigures(text, live, changed)).toEqual([]);
+    expect(text).toContain('A 40% advance holds your seats');
+    expect(text).toContain('21 or more days');
+    expect(text).toContain('9–20 days');
+    expect(text).toContain('within 10 days of cancelling');
+    expect(text).toContain('Children under 3');
+    expect(text).toContain('We reply on WhatsApp within 4 hours');
+    expect(text).toContain('We accept bank transfer, and nothing else');
+  });
+
+  it('rejects a sample other than true, a missing title or summary, a future update date and an unknown token', () => {
+    const fieldsOf = (change: (c: HelpCopy) => void) => withChange(change).problems.map((p) => p.field);
+    expect(fieldsOf((c) => Object.assign(c.policies.items[0], { sample: false }))).toEqual(['policies.items.0.sample']);
+    expect(fieldsOf((c) => delete (c.policies.items[1] as Partial<HelpCopy['policies']['items'][number]>).title)).toEqual(['policies.items.1.title']);
+    expect(fieldsOf((c) => delete (c.policies.items[1] as Partial<HelpCopy['policies']['items'][number]>).summary)).toEqual(['policies.items.1.summary']);
+    expect(fieldsOf((c) => Object.assign(c, { policiesUpdated: '2999-01-01' }))).toEqual(['policiesUpdated']);
+    expect(fieldsOf((c) => c.policies.items[2].paragraphs.push('Email {email}.'))).toEqual([
+      `policies.items.2.paragraphs.${help.policies.items[2].paragraphs.length}`,
+    ]);
   });
 });

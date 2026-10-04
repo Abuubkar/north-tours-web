@@ -1,0 +1,30 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.header {
+  composes: sectionHeader from '../../styles/layout.module.css';
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.updated {
+  composes: ui from '../../styles/typography.module.css';
+  color: var(--fg-3);
+}
+
+/* A text hairline grid with bleed (DESIGN.md §5): at most two policies to a row, 280px at least. */
+.grid {
+  composes: textGrid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-policies-min);
+  --grid-cols: var(--grid-policies-cols);
+  margin-top: var(--space-48);
+}
+
+.cell {
+  composes: cell from '../../styles/layout.module.css';
+  padding: var(--space-24) var(--cell-pad) var(--space-32);
+}

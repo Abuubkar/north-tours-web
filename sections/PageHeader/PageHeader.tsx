@@ -1,5 +1,6 @@
 import { LastUpdated } from '@/components/ui/LastUpdated/LastUpdated';
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
+import { SectionLabel } from '@/components/ui/SectionLabel/SectionLabel';
 import type { PageHeaderProps, PageHeaderVariant } from './PageHeader.types';
 import styles from './PageHeader.module.css';
 
@@ -10,6 +11,7 @@ const headlineClass: Record<PageHeaderVariant, string> = {
   about: styles.aboutHeadline,
   help: styles.headline,
   legal: styles.headline,
+  contact: styles.headline,
 };
 
 /** The shell's padding: the planner's headers change it; the others keep the default. */
@@ -20,6 +22,7 @@ const headerClass: Record<PageHeaderVariant, string | undefined> = {
   about: undefined,
   help: styles.short,
   legal: styles.short,
+  contact: undefined,
 };
 
 const leadClass: Record<PageHeaderVariant, string> = {
@@ -29,6 +32,7 @@ const leadClass: Record<PageHeaderVariant, string> = {
   about: styles.aboutLead,
   help: styles.lead,
   legal: styles.lead,
+  contact: styles.contactLead,
 };
 
 /** The text pages read on the light surface; the others follow the page. */
@@ -37,18 +41,32 @@ const LIGHT: ReadonlySet<PageHeaderVariant> = new Set(['help', 'legal']);
 /**
  * A page's opening: the <h1> and a lead line under it (Tours, the planner's first step), on About
  * with a wide photo below, on Help with the search, on the legal pages with the date they were
- * last updated. On the planner's later steps the same <h1> becomes a slim line, so the page keeps
- * exactly one <h1> on every step; the size is visual only.
+ * last updated, on Contact beside its label. On the planner's later steps the same <h1> becomes a
+ * slim line, so the page keeps exactly one <h1> on every step; the size is visual only.
  */
-export function PageHeader({ headline, lead, variant = 'default', image, updated, search }: PageHeaderProps) {
+export function PageHeader({ headline, lead, variant = 'default', image, updated, search, label }: PageHeaderProps) {
   const classes = [styles.header, headerClass[variant]].filter(Boolean).join(' ');
-  return (
-    <header className={classes} data-surface={LIGHT.has(variant) ? 'light' : undefined}>
+  const body = (
+    <>
       <h1 className={headlineClass[variant]}>{headline}</h1>
       {lead && <p className={leadClass[variant]}>{lead}</p>}
       {search}
       {updated && <LastUpdated template={updated.template} date={updated.date} className={styles.updated} />}
       {image && <MediaFrame image={image} ratio="4:3" wideRatio="21:9" sizes="100vw" priority className={styles.photo} />}
+    </>
+  );
+  return (
+    <header className={classes} data-surface={LIGHT.has(variant) ? 'light' : undefined}>
+      {label ? (
+        <div className={styles.labelRow}>
+          <div className={styles.labelColumn}>
+            <SectionLabel>{label}</SectionLabel>
+          </div>
+          <div className={styles.labelContent}>{body}</div>
+        </div>
+      ) : (
+        body
+      )}
     </header>
   );
 }

@@ -5,22 +5,19 @@
 
 /* Section anatomy (DESIGN.md §4): the label column, then the content, wrapping on phones. */
 .top {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--row-gap) var(--gutter);
+  composes: labelRow from '../../../styles/layout.module.css';
 }
 
 .labelColumn {
-  flex: 0 0 var(--label-col);
+  composes: labelColumn from '../../../styles/layout.module.css';
 }
 
 .columns {
+  composes: labelContent from '../../../styles/layout.module.css';
   display: flex;
-  flex: 999 1 var(--content-col-min);
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-64) var(--gutter);
-  min-width: 0;
 }
 
 .list {

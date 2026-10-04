@@ -15,8 +15,14 @@ export const helpCategoryAnchor = (id: string) => `${HELP_CATEGORY_PREFIX}${id}`
 /** The hash of one Help answer, its id: "#refunds". */
 export const helpAnswerHash = (id: string) => `#${id}`;
 
+/** Help's booking policies carry this id: `/help#policies`. */
+export const POLICIES_ANCHOR = 'policies';
+
 /** The Help page's other anchors, which an answer can't take: every page's <main> and the policies. */
-export const HELP_PAGE_ANCHORS: readonly string[] = ['main', 'policies'];
+export const HELP_PAGE_ANCHORS: readonly string[] = ['main', POLICIES_ANCHOR];
+
+/** The Contact page's "On a trip right now?" panel carries this id: `/contact#on-trip`. */
+export const ON_TRIP_ANCHOR = 'on-trip';
 
 /**
  * Every URL on the site. Links use these, never hard-coded paths. Most pages are built by
@@ -34,6 +40,8 @@ export const routes = {
   planFor: (destination: string) => `/plan?dest=${encodeURIComponent(destination)}`,
   about: '/about',
   help: '/help',
+  /** Help's booking policies (Contact's quick links). */
+  policies: `/help#${POLICIES_ANCHOR}`,
   /** One answer on the Help page, which opens it: /help#refunds. */
   helpAnswer: (id: string) => `/help${helpAnswerHash(id)}`,
   contact: '/contact',

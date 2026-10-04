@@ -710,6 +710,35 @@ export function getAboutCopy(): AboutCopy {
   return cachedAbout;
 }
 
+/** The tokens Help's policies may use, so no figure from settings is typed into them. */
+const POLICY_TEXT_TOKENS = [
+  'advancePercent',
+  'paymentMethods',
+  'refundSchedule',
+  'fullRefundDays',
+  'refundPaidWithinDays',
+  'balanceDueDays',
+  'childFromAge',
+  'replyTime',
+  'officeHours',
+  'travelSupport',
+  'brand',
+] as const satisfies readonly (SettingsToken | PolicyToken | CompanyToken)[];
+
+/**
+ * One booking policy: a short summary, the refund table from settings where it applies, and the
+ * full text. Sample text until the owner's lawyer has reviewed it, marked `sample: true` (ADR-0020).
+ */
+const policySchema = z.strictObject({
+  id: slugSchema,
+  title: copy,
+  summary: copyWith(...POLICY_TEXT_TOKENS),
+  /** Show the refund table, built from the settings refund schedule. */
+  refundTable: z.literal(true, { error: 'Use refundTable: true, or leave it out' }).optional(),
+  paragraphs: z.array(copyWith(...POLICY_TEXT_TOKENS)).min(1, 'Write at least one paragraph'),
+  sample,
+});
+
 /** The Help page's wording (PRD #86); its questions and answers are the shared FAQs (content/faqs.json). */
 const helpCopySchema = z.strictObject({
   title: copy,
@@ -730,6 +759,37 @@ const helpCopySchema = z.strictObject({
   }),
   /** When nothing matches. The headline's wording is fixed (DESIGN.md §6); the lead may say the reply time. */
   empty: z.strictObject({ headline: copy, lead: copyWith('replyTime'), askLabel: copy, clearLabel: copy }),
+  /** When the policies were last updated: not after the build date. */
+  policiesUpdated: pastDate,
+  /** "Our booking policies, in plain words" (#policies). */
+  policies: z.strictObject({
+    headline: copy,
+    /** Beside the headline: "Last updated {date}". */
+    lastUpdated: copyWith('date'),
+    /** The disclosure's summary, closed and open. */
+    readMore: copy,
+    hide: copy,
+    /** The refund table's words: its hidden caption, column headers, and each row's days and share. */
+    refundTable: z.strictObject({
+      caption: copy,
+      days: copy,
+      refund: copy,
+      /** "14 or more days", "7–13 days", "Under 7 days"; "50%", and "None" for nothing back. */
+      from: copyWith('days'),
+      range: copyWith('from', 'to'),
+      /** A range of one day: "7 days". */
+      single: copyWith('days'),
+      under: copyWith('days'),
+      percent: copyWith('percent'),
+      none: copy,
+    }),
+    items: z
+      .array(policySchema)
+      .min(1, 'List at least one policy')
+      .superRefine((items, ctx) => checkUniqueIds(items.map(({ id }, i) => ({ id, path: [i] })), ctx)),
+  }),
+  /** "Still have a question? Ask us on WhatsApp": "Call us" shows only once the phone number is real. */
+  cta: z.strictObject({ headline: copy, lead: copyWith('replyTime', 'officeHours'), askLabel: copy, callLabel: copy }),
 });
 
 export type HelpCopy = z.infer<typeof helpCopySchema>;
@@ -747,6 +807,48 @@ let cachedHelp: HelpCopy | undefined;
 export function getHelpCopy(): HelpCopy {
   cachedHelp ??= requireValid(loadHelpCopy());
   return cachedHelp;
+}
+
+/** The Contact page's wording (PRD #86); the numbers, email and hours come from settings. */
+const contactCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The header: the "Contact" label beside the <h1> (an owner-approved exception to DESIGN.md §6), and the lead. */
+  header: z.strictObject({ label: copy, headline: copy, lead: copyWith('replyTime', 'officeHours') }),
+  /** "Ways to reach us" (a heading read out, not shown) and each channel's words. */
+  ways: z.strictObject({
+    headline: copy,
+    whatsapp: z.strictObject({ label: copy, line: copyWith('replyTime'), chatLabel: copy }),
+    phone: z.strictObject({ label: copy }),
+    email: z.strictObject({ label: copy, line: copy }),
+  }),
+  /** "On a trip right now?": the travel support line, and its button once the number is real. */
+  onTrip: z.strictObject({ heading: copy, line: copy, callLabel: copy }),
+  /** The phones' banner at the top of the page, to the on-trip panel. */
+  banner: copy,
+  /** "Quick links" (the section's label and heading), each link's words, and "Follow the trips" over the social links. */
+  quickLinks: z.strictObject({
+    label: copy,
+    links: z.strictObject({ plan: copy, tours: copy, help: copy, policies: copy }),
+    follow: copy,
+  }),
+});
+
+export type ContactCopy = z.infer<typeof contactCopySchema>;
+
+export function contactCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'contact.json');
+}
+
+export function loadContactCopy(dir = CONTENT_DIR) {
+  return parseFile(contactCopySchema, contactCopyFile(dir));
+}
+
+let cachedContact: ContactCopy | undefined;
+
+export function getContactCopy(): ContactCopy {
+  cachedContact ??= requireValid(loadContactCopy());
+  return cachedContact;
 }
 
 /**

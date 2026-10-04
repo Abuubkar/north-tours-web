@@ -1,0 +1,35 @@
+/* Right under the header, so no hairline of its own above the grid's. */
+.section {
+  padding: 0 var(--margin) var(--section-y);
+}
+
+.headline {
+  composes: visuallyHidden from '../../styles/layout.module.css';
+}
+
+/*
+ * A text hairline grid with bleed (DESIGN.md §5), but fixed: three known cells, 2fr 1fr 1fr from
+ * 1100px, one column below (docs/components.md §5 item 27).
+ */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--hairline-width);
+  margin-inline: calc(-1 * var(--cell-pad));
+  padding: 0;
+  border-block: var(--hairline-width) solid var(--hairline);
+  background: var(--hairline);
+  list-style: none;
+  clip-path: inset(0 var(--cell-pad));
+}
+
+@media (width >= 1100px) {
+  .grid {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
+
+.cell {
+  composes: cell from '../../styles/layout.module.css';
+  padding: var(--space-32) var(--cell-pad);
+}
