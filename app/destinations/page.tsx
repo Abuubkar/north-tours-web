@@ -15,6 +15,9 @@ export function generateMetadata(): Metadata {
   return pageMetadata(getDestinationsCopy(), getSettings());
 }
 
+/** On phones the first row's two photos are the largest thing on screen, so they load straight away. */
+const PRIORITY_CARDS = 2;
+
 /**
  * Every destination on one page (PRD #118), so the nav's Destinations opens a page: the header,
  * the Homepage's destination cards in content order, then a private trip. Built only from
@@ -27,7 +30,7 @@ export default function DestinationsPage() {
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
       <CanonicalMeta path={routes.destinations} siteUrl={settings.site.url} />
       <PageHeader headline={copy.header.headline} lead={copy.header.lead} />
-      <DestinationsGrid copy={copy.destinations} destinations={destinations} />
+      <DestinationsGrid copy={copy.destinations} destinations={destinations} priorityCards={PRIORITY_CARDS} />
       <PrivateTripBanner variant="section" copy={{ ...copy.banner, image: bannerImage }} planHref={routes.plan} whatsappHref={askHref} />
     </PageMain>
   );

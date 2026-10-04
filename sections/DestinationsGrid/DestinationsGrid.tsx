@@ -19,9 +19,9 @@ export function DestinationsGrid(props: DestinationsGridProps) {
                 <DestinationCard destination={destination} variant="other" details={details} />
               </li>
             ))
-          : props.destinations.map((destination) => (
+          : props.destinations.map((destination, i) => (
               <li key={destination.slug} className={styles.cell}>
-                <DestinationCard destination={destination} seasonLabel={props.copy.seasonLabel} />
+                <DestinationCard destination={destination} seasonLabel={props.copy.seasonLabel} priority={i < (props.priorityCards ?? 0)} />
               </li>
             ))}
       </ul>
