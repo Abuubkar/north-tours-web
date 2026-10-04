@@ -21,4 +21,12 @@ export const sampleDestinationCopy: DestinationCopy = {
     kinds: { heritage: 'Heritage', viewpoint: 'Viewpoint', lake: 'Lake', adventure: 'Adventure', meadow: 'Meadow' },
     mapCaption: 'Schematic · positions approximate',
   },
+  gettingThere: {
+    headline: 'Getting there from Lahore by road',
+    byRoad: 'By road',
+    byAir: 'By air',
+    arrive: 'Arrive',
+    leg: '{time} by road to {stop}',
+  },
+  goodToKnow: { headline: 'Good to know before you go' },
 };

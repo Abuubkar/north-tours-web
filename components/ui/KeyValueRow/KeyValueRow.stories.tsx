@@ -64,3 +64,37 @@ export const RoomPrices: Story = {
 };
 
 export const RoomPricesOnLight: Story = { ...RoomPrices, globals: { surface: 'light' } };
+
+/** Column layout: the label in a fixed column, the value as text beside it (a destination's "By road"). */
+export const Column: Story = {
+  render: () => (
+    <dl>
+      <KeyValueRow label="By road" layout="column">
+        Over Babusar Top from June to September; the rest of the year up the Karakoram Highway from Islamabad.
+      </KeyValueRow>
+      <KeyValueRow label="By air" layout="column">
+        Flights from Islamabad to Gilgit are often cancelled in bad weather. We plan every trip by road.
+      </KeyValueRow>
+    </dl>
+  ),
+  globals: { viewport: { value: 'desktop' } },
+  play: async ({ canvas }) => {
+    const [road] = canvas.getAllByRole('term');
+    const [value] = canvas.getAllByRole('definition');
+    await expect(road.getBoundingClientRect().width).toBe(120);
+    await expect(value.getBoundingClientRect().left).toBeGreaterThan(road.getBoundingClientRect().right);
+  },
+};
+
+export const ColumnOnLight: Story = { ...Column, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+/** On a phone the value wraps under its label. */
+export const ColumnPhone: Story = {
+  ...Column,
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas }) => {
+    const [road] = canvas.getAllByRole('term');
+    const [value] = canvas.getAllByRole('definition');
+    await expect(value.getBoundingClientRect().top).toBeGreaterThanOrEqual(road.getBoundingClientRect().bottom);
+  },
+};

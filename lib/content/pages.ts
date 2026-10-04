@@ -366,6 +366,18 @@ const destinationCopySchema = z.strictObject({
     /** Under the map, e.g. "Schematic · positions approximate"; hidden from screen readers with the drawing. */
     mapCaption: copy,
   }),
+  /** "Getting there from Lahore by road": the route line and its two notes. */
+  gettingThere: z.strictObject({
+    headline: copy,
+    byRoad: copy,
+    byAir: copy,
+    /** Under the destination on phones. */
+    arrive: copy,
+    /** Each leg read out: "{time} by road to {stop}", e.g. "4–5 hrs by road to Islamabad". */
+    leg: copyWith('time', 'stop'),
+  }),
+  /** "Good to know before you go" (light). */
+  goodToKnow: z.strictObject({ headline: copy }),
 });
 
 export type DestinationCopy = z.infer<typeof destinationCopySchema>;

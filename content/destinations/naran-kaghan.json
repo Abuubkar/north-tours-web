@@ -181,5 +181,40 @@
       "lat": 35.42,
       "lon": 74.096
     }
+  ],
+  "gettingThere": {
+    "stops": [
+      {
+        "name": "Lahore",
+        "drive": "4–5 hrs"
+      },
+      {
+        "name": "Islamabad",
+        "drive": "3 hrs"
+      },
+      {
+        "name": "Balakot",
+        "drive": "2 hrs"
+      },
+      {
+        "name": "Naran"
+      }
+    ],
+    "byRoad": "The motorway and the Hazara Expressway to Mansehra, then up the Kaghan Valley along the Kunhar.",
+    "byAir": "There’s no airport in the valley. We go by road."
+  },
+  "notes": [
+    {
+      "title": "The season is short",
+      "text": "The road above Naran opens around June and closes with the first snow. Outside summer, most hotels are shut."
+    },
+    {
+      "title": "Jeeps to the lakes",
+      "text": "Saiful Muluk is a short jeep ride above Naran on a rough track; the jeep is included in our trips."
+    },
+    {
+      "title": "Mobile signal",
+      "text": "Signal is good in Naran and gone at the lakes and on Babusar Top."
+    }
   ]
 }

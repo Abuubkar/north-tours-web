@@ -185,5 +185,36 @@
       "lat": 35.21,
       "lon": 72.55
     }
+  ],
+  "gettingThere": {
+    "stops": [
+      {
+        "name": "Lahore",
+        "drive": "4–5 hrs"
+      },
+      {
+        "name": "Islamabad",
+        "drive": "3–4 hrs"
+      },
+      {
+        "name": "Swat"
+      }
+    ],
+    "byRoad": "The motorway to Islamabad, then the Swat Expressway to Chakdara and Mingora.",
+    "byAir": "Saidu Sharif airport has no regular flights. We go by road."
+  },
+  "notes": [
+    {
+      "title": "Easy for families",
+      "text": "Short drives and good roads up to Kalam. The jeep track to Mahodand is bumpy but short."
+    },
+    {
+      "title": "Weather and what to pack",
+      "text": "Mingora is warm in summer; Kalam is cool, with nights around 10°C. Bring a warm layer."
+    },
+    {
+      "title": "Dress and local customs",
+      "text": "Swat is conservative. Modest dress is appreciated, and ask before photographing people."
+    }
   ]
 }

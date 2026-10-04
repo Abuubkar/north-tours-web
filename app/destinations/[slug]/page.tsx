@@ -10,6 +10,8 @@ import { destinationSections } from '@/lib/utils/destination';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { fillTokens } from '@/lib/utils/tokens';
 import { DestinationOverview } from '@/sections/DestinationOverview/DestinationOverview';
+import { GettingThere } from '@/sections/GettingThere/GettingThere';
+import { GoodToKnow } from '@/sections/GoodToKnow/GoodToKnow';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
 import { PlacesToSee } from '@/sections/PlacesToSee/PlacesToSee';
 import { SeasonCalendarSection } from '@/sections/SeasonCalendarSection/SeasonCalendarSection';
@@ -57,6 +59,8 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
           copy={copy.places}
         />
       )}
+      <GettingThere gettingThere={destination.gettingThere} copy={copy.gettingThere} />
+      {shows.has('goodToKnow') && <GoodToKnow headline={copy.goodToKnow.headline} notes={destination.notes ?? []} />}
     </PageMain>
   );
 }

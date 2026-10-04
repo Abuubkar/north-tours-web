@@ -31,13 +31,19 @@ describe('destinationSections', () => {
     lon: 74.6696,
     image: { placeholder: 'Baltit Fort', alt: 'Baltit Fort' },
   };
+  const note = { title: 'Cash and ATMs', text: 'Carry enough cash.' };
 
-  it('shows places to see when there are places (Hunza)', () => {
-    expect(destinationSections({ places: [place] })).toEqual(['hero', 'overview', 'calendar', 'places']);
+  it('shows every section with places and notes (Hunza)', () => {
+    expect(destinationSections({ places: [place], notes: [note] })).toEqual(['hero', 'overview', 'calendar', 'places', 'gettingThere', 'goodToKnow']);
   });
 
-  it('leaves places out with none (Murree), keeping the sections every page has', () => {
-    expect(destinationSections({})).toEqual(['hero', 'overview', 'calendar']);
-    expect(destinationSections({ places: [] })).toEqual(['hero', 'overview', 'calendar']);
+  it('leaves out places and good to know with none (Murree), keeping the sections every page has', () => {
+    expect(destinationSections({})).toEqual(['hero', 'overview', 'calendar', 'gettingThere']);
+    expect(destinationSections({ places: [], notes: [] })).toEqual(['hero', 'overview', 'calendar', 'gettingThere']);
+  });
+
+  it('shows each optional section on its own', () => {
+    expect(destinationSections({ places: [place] })).toEqual(['hero', 'overview', 'calendar', 'places', 'gettingThere']);
+    expect(destinationSections({ notes: [note] })).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'goodToKnow']);
   });
 });

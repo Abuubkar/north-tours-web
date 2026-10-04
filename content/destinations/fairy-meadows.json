@@ -161,5 +161,44 @@
       "lat": 35.2375,
       "lon": 74.5891
     }
+  ],
+  "gettingThere": {
+    "stops": [
+      {
+        "name": "Lahore",
+        "drive": "9–10 hrs"
+      },
+      {
+        "name": "Naran",
+        "drive": "5–6 hrs"
+      },
+      {
+        "name": "Raikot Bridge",
+        "drive": "4–5 hrs"
+      },
+      {
+        "name": "Fairy Meadows"
+      }
+    ],
+    "byRoad": "From Raikot Bridge it’s an hour by jeep to Tato, then a walk of two to three hours. Jeeps run from June to September.",
+    "byAir": "Flights to Gilgit save little time, as the jeep track starts on the Karakoram Highway. We go by road."
+  },
+  "notes": [
+    {
+      "title": "The walk in",
+      "text": "Two to three hours uphill from Tato on a good path. Ponies can carry bags, or you."
+    },
+    {
+      "title": "The jeep track",
+      "text": "Narrow and high above the gorge. Local drivers only; it is a white-knuckle hour for some."
+    },
+    {
+      "title": "Cold nights",
+      "text": "At 3,300 m nights drop close to freezing, even in July. Bring warm layers and a torch."
+    },
+    {
+      "title": "No signal",
+      "text": "There’s no mobile signal at the meadow, and power only in the evenings."
+    }
   ]
 }

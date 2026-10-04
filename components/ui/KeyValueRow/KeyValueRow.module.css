@@ -49,3 +49,24 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+/* Column layout: the label in a fixed column, the value as reading text beside it, wrapping under it on narrow screens. */
+.columnRow {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: var(--space-4) var(--space-24);
+  padding-block: var(--space-16);
+}
+
+.columnLabel {
+  composes: ui from '../../../styles/typography.module.css';
+  flex: 0 0 var(--key-col-w);
+  color: var(--fg-3);
+}
+
+.columnValue {
+  composes: small from '../../../styles/typography.module.css';
+  flex: 1 1 var(--key-value-min);
+  min-width: 0;
+  color: var(--fg);
+}

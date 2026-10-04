@@ -7,6 +7,9 @@ import { imageSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { bestSeasonProblems, MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 
+/** A stop on the road from Lahore: its name, and the drive to the next stop ("4–5 hrs"), which the last has none of. */
+const roadStopSchema = z.strictObject({ name: nonEmpty, drive: nonEmpty.optional() });
+
 /** A place to see: a kind, one line, where it is (for the places map) and a place photo, never people (ADR-0009). */
 const placeSchema = z.strictObject({
   /** Unique within the destination, e.g. "baltit-fort". */
@@ -19,6 +22,9 @@ const placeSchema = z.strictObject({
   lon: longitude,
   image: imageSchema,
 });
+
+/** Every trip leaves from Lahore. */
+const ROAD_START = 'Lahore';
 
 export const destinationSchema = z
   .strictObject({
@@ -50,6 +56,18 @@ export const destinationSchema = z
     seasons: z.array(z.strictObject({ season: z.enum(SEASONS), text: nonEmpty })).length(4, 'Write a note for each of the four seasons'),
     /** What to see, 1 to 8 places, numbered in this order. Leave it out to hide the section. */
     places: z.array(placeSchema).min(1, 'List at least one place, or leave places out').max(8, 'List at most 8 places').optional(),
+    /** The road from Lahore: its stops in order (Lahore first, the destination last), a "By road" and a "By air" note. */
+    gettingThere: z.strictObject({
+      stops: z.array(roadStopSchema).min(2, 'List at least two stops: Lahore and the destination'),
+      byRoad: nonEmpty,
+      byAir: nonEmpty,
+    }),
+    /** Good to know before you go: up to 6 practical notes. Leave it out to hide the section. */
+    notes: z
+      .array(z.strictObject({ title: nonEmpty, text: nonEmpty }))
+      .min(1, 'List at least one note, or leave notes out')
+      .max(6, 'List at most 6 notes')
+      .optional(),
     /** Names on the places map for context, e.g. "Karimabad"; one beyond the map shows at its edge ("↓ Gilgit"). */
     mapLabels: z.array(z.strictObject({ name: nonEmpty, lat: latitude, lon: longitude })).optional(),
   })
@@ -61,6 +79,19 @@ export const destinationSchema = z
     destination.places?.forEach(({ id }, i) => {
       if (ids.has(id)) ctx.addIssue({ code: 'custom', message: `"${id}" is used twice`, path: ['places', i, 'id'] });
       ids.add(id);
+    });
+    const { stops } = destination.gettingThere;
+    if (stops[0].name !== ROAD_START) {
+      ctx.addIssue({ code: 'custom', message: `The road starts at ${ROAD_START}`, path: ['gettingThere', 'stops', 0, 'name'] });
+    }
+    stops.forEach((stop, i) => {
+      const last = i === stops.length - 1;
+      if (!last && !stop.drive) {
+        ctx.addIssue({ code: 'custom', message: 'Add the drive to the next stop, e.g. "4–5 hrs"', path: ['gettingThere', 'stops', i, 'drive'] });
+      }
+      if (last && stop.drive) {
+        ctx.addIssue({ code: 'custom', message: 'The last stop is the destination: no drive after it', path: ['gettingThere', 'stops', i, 'drive'] });
+      }
     });
     destination.seasons.forEach(({ season }, i) => {
       if (season !== SEASONS[i]) {

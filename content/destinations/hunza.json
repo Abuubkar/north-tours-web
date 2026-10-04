@@ -234,5 +234,56 @@
       "lat": 36.85,
       "lon": 75.42
     }
+  ],
+  "gettingThere": {
+    "stops": [
+      {
+        "name": "Lahore",
+        "drive": "4–5 hrs"
+      },
+      {
+        "name": "Islamabad",
+        "drive": "11–12 hrs"
+      },
+      {
+        "name": "Chilas",
+        "drive": "3–4 hrs"
+      },
+      {
+        "name": "Gilgit",
+        "drive": "2–3 hrs"
+      },
+      {
+        "name": "Hunza"
+      }
+    ],
+    "byRoad": "Over Babusar Top from June to September; the rest of the year up the Karakoram Highway from Islamabad.",
+    "byAir": "Flights from Islamabad to Gilgit are an option but often cancelled in bad weather. We plan every trip by road."
+  },
+  "notes": [
+    {
+      "title": "Altitude and acclimatising",
+      "text": "Karimabad sits at about 2,438 m. Take the first evening slowly and drink plenty of water; a mild headache usually passes after a night’s sleep."
+    },
+    {
+      "title": "Weather and what to pack",
+      "text": "Warm layers even in summer, as nights drop to around 10°C. Sun cream, sunglasses and comfortable shoes for the forts’ steps."
+    },
+    {
+      "title": "Mobile signal and internet",
+      "text": "Jazz and SCOM work in Karimabad; signal is patchy or missing in upper Hunza. Hotel Wi-Fi is slow and comes and goes."
+    },
+    {
+      "title": "Cash and ATMs",
+      "text": "There are ATMs in Aliabad and Karimabad, but they run dry. Carry enough cash; only some hotels take cards."
+    },
+    {
+      "title": "Dress and local customs",
+      "text": "Modest dress is appreciated. Ask before photographing people, especially women."
+    },
+    {
+      "title": "Road conditions and delays",
+      "text": "Landslides can close the Karakoram Highway, mostly in spring. We build a spare half day into every trip and keep you posted on WhatsApp."
+    }
   ]
 }
