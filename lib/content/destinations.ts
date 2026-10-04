@@ -62,12 +62,8 @@ export const destinationSchema = z
       byRoad: nonEmpty,
       byAir: nonEmpty,
     }),
-    /** Good to know before you go: up to 6 practical notes. Leave it out to hide the section. */
-    notes: z
-      .array(z.strictObject({ title: nonEmpty, text: nonEmpty }))
-      .min(1, 'List at least one note, or leave notes out')
-      .max(6, 'List at most 6 notes')
-      .optional(),
+    /** Good to know before you go: up to 6 practical notes. Empty or left out hides the section. */
+    notes: z.array(z.strictObject({ title: nonEmpty, text: nonEmpty })).max(6, 'List at most 6 notes').optional(),
     /** Names on the places map for context, e.g. "Karimabad"; one beyond the map shows at its edge ("↓ Gilgit"). */
     mapLabels: z.array(z.strictObject({ name: nonEmpty, lat: latitude, lon: longitude })).optional(),
   })

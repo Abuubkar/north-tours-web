@@ -1,7 +1,7 @@
 import type { Destination } from '@/lib/content/destinations';
+import type { DestinationCopy } from '@/lib/content/pages';
 
 export type GoodToKnowProps = {
-  /** "Good to know before you go". */
-  headline: string;
+  copy: DestinationCopy['goodToKnow'];
   notes: NonNullable<Destination['notes']>;
 };

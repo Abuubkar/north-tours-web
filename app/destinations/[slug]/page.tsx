@@ -59,8 +59,8 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
           copy={copy.places}
         />
       )}
-      <GettingThere gettingThere={destination.gettingThere} copy={copy.gettingThere} />
-      {shows.has('goodToKnow') && <GoodToKnow headline={copy.goodToKnow.headline} notes={destination.notes ?? []} />}
+      {shows.has('gettingThere') && <GettingThere gettingThere={destination.gettingThere} copy={copy.gettingThere} />}
+      {shows.has('goodToKnow') && <GoodToKnow copy={copy.goodToKnow} notes={destination.notes ?? []} />}
     </PageMain>
   );
 }

@@ -127,9 +127,9 @@ describe('getting there', () => {
 });
 
 describe('good to know', () => {
-  it('takes 1 to 6 notes, or none at all', () => {
+  it('takes up to 6 notes, or none at all (empty or left out)', () => {
     expect(fields((d) => delete d.notes)).toEqual([]);
+    expect(fields((d) => Object.assign(d, { notes: [] }))).toEqual([]);
     expect(fields((d) => d.notes!.push({ title: 'One more', text: 'A seventh note.' }))).toEqual(['notes']);
-    expect(fields((d) => Object.assign(d, { notes: [] }))).toEqual(['notes']);
   });
 });

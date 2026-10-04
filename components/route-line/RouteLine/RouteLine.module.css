@@ -27,14 +27,14 @@
   grid-row: span 2;
   width: var(--route-dot);
   height: var(--route-dot);
-  margin-top: calc((var(--fs-small) * var(--lh-small) - var(--route-dot)) / 2);
+  margin-top: calc((var(--fs-body-large) * var(--lh-body-large) - var(--route-dot)) / 2);
   border-radius: var(--radius-chip);
   background: currentcolor;
 }
 
 .stop:not(.arrival)::after {
   position: absolute;
-  top: calc((var(--fs-small) * var(--lh-small) + var(--route-dot)) / 2);
+  top: calc((var(--fs-body-large) * var(--lh-body-large) + var(--route-dot)) / 2);
   bottom: 0;
   left: calc((var(--route-dot) - var(--map-route-width)) / 2);
   width: var(--map-route-width);
@@ -42,8 +42,9 @@
   content: '';
 }
 
+/* The design's 17/500. */
 .name {
-  composes: small from '../../../styles/typography.module.css';
+  composes: bodyLarge from '../../../styles/typography.module.css';
   font-weight: var(--fw-medium);
 }
 
