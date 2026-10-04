@@ -9,7 +9,7 @@ import styles from './SiteHeader.module.css';
 
 /**
  * The sticky, frosted header on every page. Always dark, even over a light section.
- * From 820px: brand, nav and "WhatsApp us". Below: brand, a WhatsApp icon button and the menu.
+ * From 960px: brand, nav and "WhatsApp us". Below: brand, a WhatsApp icon button and the menu.
  */
 export function SiteHeader({ settings }: SiteHeaderProps) {
   const whatsapp = whatsappLink(settings.contact.whatsapp, settings.whatsapp.generalMessage);

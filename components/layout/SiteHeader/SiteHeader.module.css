@@ -27,7 +27,10 @@
   gap: var(--space-8);
 }
 
-/* The nav breakpoint (DESIGN.md §4): below 820px the nav gives way to icon buttons. */
+/*
+ * The header breakpoint (DESIGN.md §4, ADR-0027): below 960px the nav gives way to icon buttons.
+ * Brand, the six nav items and "WhatsApp us" need about 880px; 960px leaves them room to breathe.
+ */
 .wide {
   display: none;
   flex: none;
@@ -37,7 +40,7 @@
   display: flex;
 }
 
-@media (width >= 820px) {
+@media (width >= 960px) {
   .wide {
     display: block;
   }

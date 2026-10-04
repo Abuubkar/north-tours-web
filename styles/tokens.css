@@ -99,7 +99,7 @@
   --handle-w: 36px; /* bottom sheet grab handle */
   --handle-h: 4px;
   --dropdown-min-w: 260px; /* dropdown panel */
-  --nav-gap: clamp(var(--space-24), 2.9cqi, var(--space-32)); /* header nav: 32px, 24px near 820px so it fits */
+  --nav-gap: clamp(var(--space-24), 2.9cqi, var(--space-32)); /* header nav: 32px, closing to about 28px at 960px */
   --brand-mark-w: 16px; /* logo triangle in the header */
   --brand-mark-h: 14px;
   --label-mark-w: 11px; /* section label triangle */
@@ -299,8 +299,9 @@
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
-   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns; Tours results go to two columns;
+   *   820px  sheets replace dropdowns; Tours results go to two columns;
    *          a destination's month calendar goes from six columns to twelve
+   *   960px  the header's nav collapses to WhatsApp + menu (six nav items, ADR-0027)
    *   1100px Tour Detail and Trip Planner side columns appear; Tours results go to three columns
    *   1280px Tour Detail side map appears
    *   viewport height 920px  compact booking panel below this

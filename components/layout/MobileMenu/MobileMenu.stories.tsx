@@ -39,19 +39,20 @@ export const Opens: Story = {
 
 export const OpensOnLight: Story = { ...Opens, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
-/** The five pages, the current page's in gold, then "Plan on WhatsApp". */
+/** The six pages, the current page's in gold, then "Plan on WhatsApp". */
 export const Contents: Story = {
   play: async ({ canvas, userEvent }) => {
     const menu = within(await openMenu(canvas, userEvent));
     const links = within(menu.getByRole('navigation', { name: 'Main' })).getAllByRole('link');
     await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual([
+      ['Home', '/'],
       ['Tours', '/tours'],
       ['Destinations', '/destinations'],
       ['Private trips', '/plan'],
       ['About', '/about'],
       ['Contact', '/contact'],
     ]);
-    await expect(links.filter((link) => link.getAttribute('aria-current') === 'page')).toEqual([links[0]]);
+    await expect(links.filter((link) => link.getAttribute('aria-current') === 'page')).toEqual([links[1]]);
     for (const link of links) await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
     await expect(menu.getByRole('link', { name: 'Plan on WhatsApp' })).toHaveAttribute('href', WHATSAPP);
   },
@@ -92,11 +93,22 @@ export const LinkCloses: Story = {
   },
 };
 
-/** From 820px the menu button is hidden; the header shows the full nav instead. */
+/** From 960px the menu button is hidden; the header shows the full nav instead. */
 export const HiddenOnDesktop: Story = {
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     await expect(canvas.queryByRole('button', { name: 'Menu' })).toBeNull();
+  },
+};
+
+/** At 960px, the header breakpoint, the button is already hidden. */
+export const HiddenAtHeaderBreakpoint: Story = { ...HiddenOnDesktop, globals: { viewport: { value: 'headerBreakpoint' } } };
+
+/** Below 960px (here 820, a tablet held upright) the menu button shows, since the six pages don't fit in the header. */
+export const ShownBelowHeaderBreakpoint: Story = {
+  globals: { viewport: { value: 'navBreakpoint' } },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('button', { name: 'Menu' })).toBeVisible();
   },
 };
 
@@ -109,7 +121,7 @@ export const OnContactPage: Story = {
   },
 };
 
-/** On the Homepage at 390, the menu marks no item, wherever the page is scrolled. */
+/** On the Homepage at 390, the menu marks Home, wherever the page is scrolled. */
 export const OnHomepage: Story = {
   parameters: onPath('/'),
   decorators: [roomBelow],
@@ -118,7 +130,7 @@ export const OnHomepage: Story = {
       // A DOM click, so the page isn't scrolled back up to the menu button first.
       canvas.getByRole('button', { name: 'Menu' }).click();
       const menu = within(await canvas.findByRole('dialog', { name: 'Menu' }));
-      await expect(markedLinks(menu.getByRole('navigation', { name: 'Main' }))).toEqual([]);
+      await expect(markedLinks(menu.getByRole('navigation', { name: 'Main' }))).toEqual(['Home (page)']);
       menu.getByRole('button', { name: 'Close' }).click();
       await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
     }, 2);

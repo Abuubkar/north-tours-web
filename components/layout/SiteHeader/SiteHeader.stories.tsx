@@ -7,6 +7,7 @@ import { placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteHeader } from './SiteHeader';
 
 const NAV = [
+  ['Home', '/'],
   ['Tours', '/tours'],
   ['Destinations', '/destinations'],
   ['Private trips', '/plan'],
@@ -28,7 +29,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** From 820px: brand, the five pages (none a section of a page) and "WhatsApp us"; the icon buttons are hidden. */
+/** Wide screens: brand, the six pages (none a section of a page) and "WhatsApp us"; the icon buttons are hidden. */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('banner')).toHaveAttribute('data-surface', 'dark');
@@ -111,17 +112,34 @@ export const RealWhatsApp: Story = {
   },
 };
 
-/** Just above the breakpoint, brand, nav and "WhatsApp us" still fit on one row. */
-export const NavBreakpoint: Story = {
-  globals: { viewport: { value: 'navBreakpoint' } },
+/**
+ * At the header breakpoint (960px), brand, the six pages and "WhatsApp us" fit on one row, every
+ * link at least 44×44, with clear room between the brand, the nav and the button.
+ */
+export const HeaderBreakpoint: Story = {
+  globals: { viewport: { value: 'headerBreakpoint' } },
   play: async ({ canvas }) => {
     const header = canvas.getByRole('banner');
-    await expect(canvas.getByRole('navigation', { name: 'Main' })).toBeVisible();
+    const nav = canvas.getByRole('navigation', { name: 'Main' });
+    await expect(nav).toBeVisible();
     await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
+    for (const link of within(nav).getAllByRole('link')) {
+      const { width, height } = link.getBoundingClientRect();
+      await expect([width >= 44, height >= 44]).toEqual([true, true]);
+    }
+    const brand = canvas.getByRole('link', { name: '[BRAND NAME]' }).getBoundingClientRect();
     const button = canvas.getByRole('link', { name: 'WhatsApp us' }).getBoundingClientRect();
+    const { left, right } = nav.getBoundingClientRect();
+    await expect(left - brand.right).toBeGreaterThanOrEqual(32);
+    await expect(button.left - right).toBeGreaterThanOrEqual(32);
     await expect(button.right).toBeLessThanOrEqual(header.getBoundingClientRect().right);
   },
 };
+
+export const HeaderBreakpointOnLight: Story = { ...HeaderBreakpoint, globals: { surface: 'light', viewport: { value: 'headerBreakpoint' } } };
+
+/** Below 960px (here 820, a tablet held upright) six items don't fit: the icon buttons take over, as on phones. */
+export const BelowHeaderBreakpoint: Story = { ...Phone, globals: { viewport: { value: 'navBreakpoint' } } };
 
 /** Keyboard focus shows the 2px ring on the nav links and "WhatsApp us" (real key presses). */
 export const FocusRing: Story = {
@@ -134,8 +152,8 @@ export const FocusRing: Story = {
       await expect([outlineStyle, outlineWidth]).toEqual(['solid', '2px']);
     };
     await keys.keyboard('{Tab}{Tab}');
-    await expectRing(canvas.getByRole('link', { name: 'Tours' }));
-    await keys.keyboard('{Tab}{Tab}{Tab}{Tab}{Tab}');
+    await expectRing(canvas.getByRole('link', { name: 'Home' }));
+    await keys.keyboard('{Tab}{Tab}{Tab}{Tab}{Tab}{Tab}');
     const whatsapp = canvas.getByRole('link', { name: 'WhatsApp us' });
     await expectRing(whatsapp);
     await expect(whatsapp.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
@@ -155,13 +173,13 @@ export const FocusRingPhone: Story = {
   },
 };
 
-/** On the Homepage no item is marked, wherever the page is scrolled. */
+/** On the Homepage, Home is the current item, wherever the page is scrolled (ADR-0027). */
 export const OnHomepage: Story = {
   parameters: { ...onPath('/'), fullBleed: true },
   decorators: [roomBelow],
   play: async ({ canvas }) => {
     const nav = canvas.getByRole('navigation', { name: 'Main' });
-    await scrollThrough(async () => expect(markedLinks(nav)).toEqual([]));
+    await scrollThrough(async () => expect(markedLinks(nav)).toEqual(['Home (page)']));
   },
 };
 

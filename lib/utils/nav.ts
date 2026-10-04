@@ -1,6 +1,6 @@
 import { routes } from '../routes.ts';
 
-export type NavItemId = 'tours' | 'destinations' | 'plan' | 'about' | 'contact';
+export type NavItemId = 'home' | 'tours' | 'destinations' | 'plan' | 'about' | 'contact';
 
 type NavItem = {
   id: NavItemId;
@@ -11,8 +11,9 @@ type NavItem = {
   below?: string;
 };
 
-/** The main nav (ADR-0026), shared by the header, the mobile menu and the footer's large links. */
+/** The main nav (ADR-0026, ADR-0027), shared by the header, the mobile menu and the footer's large links. */
 export const mainNav: readonly NavItem[] = [
+  { id: 'home', label: 'Home', href: routes.home },
   // A route built with an empty slug is the prefix every page of that kind shares: "/tours/".
   { id: 'tours', label: 'Tours', href: routes.tours, below: routes.tour('') },
   { id: 'destinations', label: 'Destinations', href: routes.destinations, below: routes.destination('') },
@@ -22,9 +23,9 @@ export const mainNav: readonly NavItem[] = [
 ];
 
 /**
- * The nav item for the page at `pathname`, shown gold with aria-current="page", or null. Tours
- * also covers every tour page, and Destinations every destination page. The Homepage, Help, the
- * legal pages and Photo credits have none.
+ * The nav item for the page at `pathname`, shown gold with aria-current="page", or null. Home
+ * marks the Homepage only; Tours also covers every tour page, and Destinations every destination
+ * page. Help, the legal pages and Photo credits have none.
  */
 export function activeNavItem(pathname: string): NavItemId | null {
   const path = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
