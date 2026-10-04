@@ -3,10 +3,13 @@
   "name": "Swat",
   "region": "Khyber Pakhtunkhwa",
   "description": "Pine forests, rivers and meadows from Malam Jabba to Kalam, an easy first trip north for families.",
+  "lead": "Pine forests, rivers and old Buddhist sites, an easy first trip north for families",
   "bestSeason": {
     "from": "Apr",
     "to": "Oct"
   },
+  "altitude": 984,
+  "fromLahore": "7–9 hrs by road",
   "image": {
     "src": "/images/swat/kalam-river.jpg",
     "alt": "The green Swat River at Kalam, between pine-covered slopes and a snow-capped peak",

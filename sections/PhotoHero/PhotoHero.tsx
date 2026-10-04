@@ -1,16 +1,19 @@
+import type { CSSProperties } from 'react';
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
 import { TextLink } from '@/components/ui/TextLink/TextLink';
 import type { PhotoHeroProps } from './PhotoHero.types';
 import styles from './PhotoHero.module.css';
 
 /**
- * A page's photo hero (Tour Detail; Destination later), sliding under the sticky header: the
- * photo full-bleed under the legibility scrim, a back link at the top, and at the bottom a short
- * line, the page's only <h1> and its facts.
+ * A page's photo hero (Tour Detail, Destination), sliding under the sticky header: the photo
+ * full-bleed under the legibility scrim, a back link at the top, and at the bottom a short line,
+ * the page's only <h1> and its facts. Destination: the name at display size, sized from its
+ * length so it stays on one line, with the destination's lead under it.
  */
-export function PhotoHero({ image, back, kicker, title, children }: PhotoHeroProps) {
+export function PhotoHero({ variant = 'tour', image, back, kicker, title, lead, children }: PhotoHeroProps) {
+  const destination = variant === 'destination';
   return (
-    <section className={styles.hero} data-surface="dark">
+    <section className={`${styles.hero} ${destination ? styles.destination : ''}`} data-surface="dark">
       <div className={styles.media}>
         <MediaFrame image={image} ratio="fill" sizes="100vw" priority />
       </div>
@@ -22,7 +25,14 @@ export function PhotoHero({ image, back, kicker, title, children }: PhotoHeroPro
       </div>
       <div className={styles.foot}>
         <p className={styles.kicker}>{kicker}</p>
-        <h1 className={styles.title}>{title}</h1>
+        {destination ? (
+          <h1 className={styles.name} style={{ '--name-length': title.length } as CSSProperties}>
+            {title}
+          </h1>
+        ) : (
+          <h1 className={styles.title}>{title}</h1>
+        )}
+        {lead && <p className={styles.lead}>{lead}</p>}
         {children}
       </div>
     </section>

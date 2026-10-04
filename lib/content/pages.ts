@@ -330,3 +330,38 @@ export function getToursCopy(): ToursCopy {
   cachedTours ??= requireValid(loadToursCopy());
   return cachedTours;
 }
+
+/** The destination page's wording (PRD #63); each destination fills in its name. */
+const destinationCopySchema = z.strictObject({
+  /** The <title> part: "Hunza tours from Lahore". */
+  title: copyWith('destination'),
+  hero: z.strictObject({
+    /** "← All destinations", to the Homepage's destinations (there's no index page). */
+    backLabel: copy,
+  }),
+  /** The facts under the hero's lead. */
+  facts: z.strictObject({
+    bestSeason: copy,
+    altitude: copy,
+    fromLahore: copy,
+    /** How many tours visit; left out when none do. */
+    tours: copy,
+  }),
+});
+
+export type DestinationCopy = z.infer<typeof destinationCopySchema>;
+
+export function destinationCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'destination.json');
+}
+
+export function loadDestinationCopy(dir = CONTENT_DIR) {
+  return parseFile(destinationCopySchema, destinationCopyFile(dir));
+}
+
+let cachedDestination: DestinationCopy | undefined;
+
+export function getDestinationCopy(): DestinationCopy {
+  cachedDestination ??= requireValid(loadDestinationCopy());
+  return cachedDestination;
+}

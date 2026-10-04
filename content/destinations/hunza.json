@@ -3,10 +3,13 @@
   "name": "Hunza",
   "region": "Gilgit-Baltistan",
   "description": "A long, green valley under some of the highest mountains on earth: terraced orchards, the old forts of Baltit and Altit, and the turquoise of Attabad Lake.",
+  "lead": "Forts, orchards and the Karakoram, three days up the highway from Lahore",
   "bestSeason": {
     "from": "Apr",
     "to": "Oct"
   },
+  "altitude": 2438,
+  "fromLahore": "3 days by road",
   "image": {
     "src": "/images/hunza/rakaposhi-village.jpg",
     "alt": "Rakaposhi’s snowy face above a Hunza village and terraced fields lined with yellow autumn poplars",

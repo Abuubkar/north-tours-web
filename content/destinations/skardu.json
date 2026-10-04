@@ -3,10 +3,13 @@
   "name": "Skardu",
   "region": "Gilgit-Baltistan",
   "description": "The gateway to Baltistan: cold desert, glacial lakes like Upper Kachura and Shangrila, and the high Deosai plains by jeep.",
+  "lead": "Cold desert, glacial lakes and the high Deosai plains, two days north of Lahore",
   "bestSeason": {
     "from": "May",
     "to": "Oct"
   },
+  "altitude": 2228,
+  "fromLahore": "2 days by road",
   "image": {
     "src": "/images/skardu/upper-kachura.jpg",
     "alt": "Still water of Upper Kachura Lake at dawn, reflecting a sunlit rocky peak and tall poplars",

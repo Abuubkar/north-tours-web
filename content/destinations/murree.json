@@ -3,10 +3,13 @@
   "name": "Murree",
   "region": "Punjab",
   "description": "Cool pine ridges of the Galiyat, close enough to Lahore for a long weekend away.",
+  "lead": "Pine ridges and cool air, a long weekend from Lahore",
   "bestSeason": {
     "from": "May",
     "to": "Oct"
   },
+  "altitude": 2291,
+  "fromLahore": "5–7 hrs by road",
   "image": {
     "src": "/images/murree/galiyat-clouds.jpg",
     "alt": "Pine-covered ridges of the Galiyat at dusk, with monsoon cloud filling the valleys below",

@@ -3,10 +3,13 @@
   "name": "Naran-Kaghan",
   "region": "Khyber Pakhtunkhwa",
   "description": "A cool summer valley along the Kunhar River, with Lake Saiful Muluk and the road over Babusar Top.",
+  "lead": "Lakes, glaciers and the road over Babusar Top, a cool escape from the summer heat",
   "bestSeason": {
     "from": "Jun",
     "to": "Sep"
   },
+  "altitude": 2409,
+  "fromLahore": "9–10 hrs by road",
   "image": {
     "src": "/images/naran-kaghan/saiful-muluk.jpg",
     "alt": "Lake Saiful Muluk lying still, mirroring green slopes and the snowy peaks above it",
