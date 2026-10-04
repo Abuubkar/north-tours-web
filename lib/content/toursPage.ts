@@ -32,7 +32,7 @@ export function getToursPage() {
       tripTypes: t.tripTypes,
       departures: t.departures,
     })),
-    /** In the loader's order: the Destination options. */
-    destinations: getDestinations().map((d) => ({ slug: d.slug, name: d.name })),
+    /** Destination slugs in the loader's order: the Destination options. */
+    destinations: getDestinations().map((d) => d.slug),
   };
 }

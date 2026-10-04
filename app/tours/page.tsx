@@ -27,7 +27,7 @@ export default function ToursPage() {
       {/* Before the results are painted: a linked view keeps them hidden until it's applied. */}
       <script dangerouslySetInnerHTML={{ __html: PENDING_SCRIPT }} />
       <PageHeader headline={copy.header.headline} lead={copy.header.lead} />
-      <TourFiltersProvider tours={tours} destinations={destinations.map((d) => d.slug)} builtOn={builtOn}>
+      <TourFiltersProvider tours={tours} destinations={destinations} builtOn={builtOn}>
         <TourResults copy={{ results: copy.results, sorts: copy.sorts, empty: copy.empty }} settings={whatsapp} />
       </TourFiltersProvider>
     </PageMain>

@@ -145,12 +145,14 @@ export const Empty: Story = {
   },
 };
 
-export const EmptyOnLight: Story = {
+/** The empty state on its own, for the light surface and the phone. */
+const EmptyLinked: Story = {
   beforeEach: atQuery('?dest=murree&dur=8plus'),
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 2, name: 'No trips match these filters yet.' })).toBeVisible();
   },
 };
 
-export const EmptyPhone: Story = { ...EmptyOnLight, globals: { viewport: { value: 'phone' } } };
+export const EmptyOnLight: Story = { ...EmptyLinked, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const EmptyPhone: Story = { ...EmptyLinked, globals: { viewport: { value: 'phone' } } };

@@ -26,6 +26,10 @@ describe('toursSearch', () => {
     expect(toursSearch(filters)).toBe('?dest=hunza,skardu&dur=5-7&budget=under-50k&type=family&month=2027-06&sort=price-asc');
   });
 
+  it('puts the fixed groups’ values in option order, whatever order they come in', () => {
+    expect(toursSearch(view({ type: ['corporate', 'family'], dur: ['8plus', '2-4'] }))).toBe('?dur=2-4,8plus&type=family,corporate');
+  });
+
   it('leaves out empty groups and the default sort', () => {
     expect(toursSearch(view({ type: ['family'], sort: 'soonest' }))).toBe('?type=family');
   });

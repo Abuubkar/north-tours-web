@@ -8,17 +8,15 @@ import {
   tourResults,
   type FacetCounts,
   type FilterOptions,
+  type ListedTour,
   type TourFilters,
   type TourResult,
 } from '@/lib/utils/tourFilters';
 import { parseToursSearch, RESULTS_PENDING, toursSearch } from '@/lib/utils/toursSearch';
 import { useToday } from './useToday';
 
-/** A tour as the list shows and filters it. */
-export type FilterTour = Pick<
-  Tour,
-  'slug' | 'title' | 'route' | 'days' | 'nights' | 'prices' | 'rating' | 'image' | 'destinations' | 'tripTypes' | 'departures'
->;
+/** A tour as the list filters it (`ListedTour`), with what its card shows. */
+export type FilterTour = ListedTour & Pick<Tour, 'slug' | 'route' | 'nights' | 'rating' | 'image'>;
 
 /** The Tours page's one view, shared by the filter bar, the sheets, the chips and the results. */
 export type TourFiltersState = {
@@ -56,8 +54,9 @@ function writeUrl(filters: TourFilters) {
 /**
  * The view for the Tours page (PRD #56). The page is built with every tour in the default
  * order; after hydration the browser re-checks the departures with its own date, reads the link
- * (rewriting a messy one to its clean form) and shows the view it asks for. Each change is
- * written back to the address bar with `replaceState`. It doesn't use Next's
+ * (rewriting a messy one to its clean form) and shows the view it asks for. From the visitor's
+ * first change the view is theirs and the link is no longer read; each change is written back
+ * to the address bar with `replaceState`. It doesn't use Next's
  * `useSearchParams`, which under static export would leave the results out of the built HTML.
  */
 export function useTourFiltersState(tours: FilterTour[], destinations: readonly string[], builtOn: string): TourFiltersState {

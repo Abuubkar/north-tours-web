@@ -33,7 +33,7 @@ export const sampleToursCopy: ToursCopy = {
 };
 
 /** The sample destinations, in the loader's order (by slug). */
-export const sampleDestinations = ['fairy-meadows', 'hunza', 'murree', 'naran-kaghan', 'skardu', 'swat'];
+export const sampleDestinationSlugs = ['fairy-meadows', 'hunza', 'murree', 'naran-kaghan', 'skardu', 'swat'];
 
 type Sample = Pick<Tour, 'destinations' | 'tripTypes' | 'days'> & { twin: number; departures: [string, number][] };
 
@@ -88,7 +88,7 @@ export const sampleSoonestOrder = [
 export function withTourFilters(tours: FilterTour[] = sampleListTours): Decorator {
   return function WithTourFilters(Story) {
     return (
-      <TourFiltersProvider tours={tours} destinations={sampleDestinations} builtOn="2020-01-01">
+      <TourFiltersProvider tours={tours} destinations={sampleDestinationSlugs} builtOn="2020-01-01">
         <Story />
       </TourFiltersProvider>
     );
