@@ -20,8 +20,20 @@
     "count": 96
   },
   "image": {
-    "placeholder": "Kalam valley, pine forest road beside the Swat River",
-    "alt": "A pine forest road beside the Swat River in the Kalam valley"
+    "src": "/images/swat/kalam-river.jpg",
+    "alt": "The green Swat River at Kalam, between pine-covered slopes and a snow-capped peak",
+    "width": 1200,
+    "height": 795,
+    "focus": {
+      "x": 50,
+      "y": 50
+    },
+    "credit": {
+      "source": "wikimedia",
+      "author": "Muhammad Akram Attari",
+      "licence": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kalam,_Swat_(Pakistan).jpg"
+    }
   },
   "departures": [
     {

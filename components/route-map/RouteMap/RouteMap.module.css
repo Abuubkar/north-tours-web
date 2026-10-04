@@ -1,0 +1,191 @@
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border: var(--hairline-width) solid var(--hairline);
+  background: var(--map-surface);
+}
+
+.drawing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Strokes keep their width at any map size. */
+.grid,
+.mainRoad,
+.valleyRoad {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.grid {
+  stroke: var(--map-grid);
+  stroke-width: var(--hairline-width);
+}
+
+.mainRoad {
+  stroke: var(--fg);
+  stroke-width: var(--map-route-width);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.valleyRoad {
+  stroke: var(--fg-3);
+  stroke-width: var(--map-road-width);
+  stroke-dasharray: var(--map-road-dash);
+}
+
+/* Overlays sit at --x/--y, a point in the drawing given in percent. */
+.parallel,
+.meridian,
+.stop {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+}
+
+.parallel,
+.meridian {
+  color: var(--fg-3);
+  font-size: var(--fs-map-grid);
+}
+
+.parallel {
+  left: var(--space-8);
+  transform: translateY(calc(-100% - var(--space-4)));
+}
+
+.meridian {
+  top: var(--space-8);
+  transform: translateX(var(--space-4));
+}
+
+/* Each marker is centred on its point; its label sits beside or below it. */
+.marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+
+.right .label {
+  left: var(--map-label-offset);
+}
+
+.left .label {
+  right: var(--map-label-offset);
+}
+
+.below .label {
+  top: var(--map-label-offset);
+  left: 0;
+  transform: translateX(-50%);
+}
+
+.startMarker {
+  width: var(--map-start-size);
+  height: var(--map-start-size);
+  background: var(--fg);
+}
+
+.startLabel {
+  composes: ui from '../../../styles/typography.module.css';
+  font-weight: var(--fw-semibold);
+}
+
+.startNote {
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+}
+
+.waypointMarker {
+  width: var(--map-ring-size);
+  height: var(--map-ring-size);
+  border: var(--map-ring-width) solid var(--fg);
+  border-radius: var(--radius-chip);
+  background: var(--map-surface);
+}
+
+.waypointLabel {
+  composes: waypoint from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+/* A gold dot with a soft halo (DESIGN.md §9). */
+.destinationMarker {
+  width: var(--map-dot-size);
+  height: var(--map-dot-size);
+  border-radius: var(--radius-chip);
+  background: var(--accent);
+}
+
+.destinationMarker::before {
+  position: absolute;
+  inset: calc(-1 * var(--map-halo-spread));
+  border-radius: var(--radius-chip);
+  background: var(--map-halo);
+  content: '';
+}
+
+.destinationLabel {
+  composes: ui from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+.caption {
+  composes: label from '../../../styles/typography.module.css';
+  position: absolute;
+  bottom: var(--space-16);
+  left: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}
+
+.captionTitle {
+  color: var(--fg-2);
+  font-weight: var(--fw-medium);
+}
+
+.legend {
+  composes: label from '../../../styles/typography.module.css';
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8) var(--space-24);
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.swatch {
+  width: var(--legend-swatch-w);
+  height: var(--map-route-width);
+  overflow: visible;
+}
+
+.dotSwatch {
+  width: var(--map-dot-size);
+  height: var(--map-dot-size);
+  border-radius: var(--radius-chip);
+  background: var(--accent);
+}

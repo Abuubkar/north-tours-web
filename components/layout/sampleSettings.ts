@@ -7,6 +7,7 @@ import type { Settings } from '@/lib/content/settings';
 
 export const placeholderSettings: Settings = {
   brand: { name: '[BRAND NAME]' },
+  site: { url: '[Site URL]' },
   contact: {
     whatsapp: '[+92 3XX XXX XXXX]',
     phone: '[+92 42 XXXX XXXX]',
@@ -19,10 +20,20 @@ export const placeholderSettings: Settings = {
   payments: { methods: ['Cash', 'Bank transfer'] },
   legal: { dtsLicence: '[DTS licence number]', companyRegistration: '[SECP or NTN number]' },
   social: { instagram: '[Instagram URL]', facebook: '[Facebook URL]', youtube: '[YouTube URL]' },
+  trust: {
+    operatingSince: 2014,
+    tripsCompleted: '1,200+',
+    licence: { label: 'DTS licence', value: 'No. {licence}', note: 'Department of Tourist Services, Punjab' },
+    operating: { label: 'Operating', value: '{years} years', note: 'From our office in Lahore' },
+    trips: { label: 'Trips completed', note: 'Group and private' },
+    payments: { label: 'We accept' },
+  },
   whatsapp: {
     generalMessage: 'Hi, I’d like to plan a trip north.',
     footerIntro:
       'Most of our trips are planned on WhatsApp. Send your dates and group size and we’ll take it from there.',
+    tourMessage: 'Hi, I’m interested in {tour} on {date}.',
+    waitlistMessage: 'Hi, please add me to the waitlist for {tour} on {date} in case a seat opens up.',
   },
 };
 
@@ -37,6 +48,7 @@ export const realSettings: Settings = {
     officeAddress: '12 Main Boulevard, Gulberg, Lahore',
     officeHours: 'Mon–Sat, 10 am – 7 pm',
   },
+  site: { url: 'https://example.pk' },
   legal: { ...placeholderSettings.legal, dtsLicence: '1234' },
   social: {
     instagram: 'https://instagram.com/example',

@@ -141,6 +141,12 @@ Folders are created only when the first file for them is needed (section 3).
   guides, reviews, FAQs, policies, images.
 - **Global values live only in `content/settings.json`** and are never duplicated: WhatsApp
   number, phone, office hours, DTS licence, advance %, reply time, payment methods.
+- **Page copy lives in `content/pages`**, one file per page (`home.json`…): headlines, leads,
+  labels, the page's `<title>` part and meta description. Components never hard-code page
+  wording. Copy may use named `{tokens}` filled from settings (e.g. `{advancePercent}`); the
+  schema rejects a token a field doesn't allow.
+- **Photos:** source files live in `content/images`; `pnpm images` writes their sizes and
+  formats to `public/images` (ADR-0015). Commit both. The build fails if they're missing.
 - Every content type has a schema. **The build must fail on invalid content:**
   - `seatsLeft` greater than `seatsTotal`;
   - missing image alt text;

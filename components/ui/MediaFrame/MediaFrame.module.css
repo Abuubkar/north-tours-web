@@ -1,0 +1,52 @@
+.frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--placeholder-stripe-b);
+}
+
+/* Full-bleed media is never rounded (DESIGN.md §7). */
+.fill {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.ratio4x3 {
+  aspect-ratio: 4 / 3;
+}
+
+.ratio3x4 {
+  aspect-ratio: 3 / 4;
+}
+
+.ratio4x5 {
+  aspect-ratio: 4 / 5;
+}
+
+/* Fills the frame; the focus point (from content) stays in view when the ratio crops it. */
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus);
+}
+
+/* DESIGN.md §9 image placeholder. */
+.placeholder {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--placeholder-stripe-a) 0 var(--space-12),
+    var(--placeholder-stripe-b) var(--space-12) var(--space-24)
+  );
+}
+
+.caption {
+  position: absolute;
+  right: var(--space-16);
+  bottom: var(--space-12);
+  left: var(--space-16);
+  composes: placeholderCaption from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}

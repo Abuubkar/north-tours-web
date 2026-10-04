@@ -1,0 +1,169 @@
+import type { RouteMap } from '@/lib/content/routeMap';
+
+/* A sample route map for stories, which can't read content files (matches content/route-map.json). */
+export const sampleRouteMap: RouteMap = {
+  description: 'Schematic map of the road from Lahore to Hunza and Skardu, with the valley roads to Swat, Naran-Kaghan, Fairy Meadows and Deosai',
+  caption: {
+    title: 'Northern Pakistan',
+    note: 'Schematic · roads simplified'
+  },
+  startLabel: 'start',
+  legend: {
+    mainRoute: 'Motorway + Karakoram Highway',
+    valleyRoads: 'Valley roads',
+    destinations: 'Destinations'
+  },
+  stops: [
+    {
+      name: 'Lahore',
+      lat: 31.55,
+      lon: 74.34,
+      kind: 'start',
+      label: 'right'
+    },
+    {
+      name: 'Islamabad',
+      lat: 33.69,
+      lon: 73.05,
+      kind: 'waypoint',
+      label: 'left'
+    },
+    {
+      name: 'Swat',
+      lat: 34.78,
+      lon: 72.36,
+      kind: 'destination',
+      label: 'below'
+    },
+    {
+      name: 'Naran-Kaghan',
+      lat: 34.91,
+      lon: 73.65,
+      kind: 'destination',
+      label: 'below'
+    },
+    {
+      name: 'Chilas',
+      lat: 35.42,
+      lon: 74.1,
+      kind: 'waypoint',
+      label: 'left'
+    },
+    {
+      name: 'Fairy Meadows',
+      lat: 35.39,
+      lon: 74.58,
+      kind: 'destination',
+      label: 'below'
+    },
+    {
+      name: 'Gilgit',
+      lat: 35.92,
+      lon: 74.31,
+      kind: 'waypoint',
+      label: 'left'
+    },
+    {
+      name: 'Hunza',
+      lat: 36.32,
+      lon: 74.66,
+      kind: 'destination',
+      label: 'right'
+    },
+    {
+      name: 'Skardu',
+      lat: 35.3,
+      lon: 75.63,
+      kind: 'destination',
+      label: 'right'
+    },
+    {
+      name: 'Deosai',
+      lat: 35.03,
+      lon: 75.45,
+      kind: 'destination',
+      label: 'below'
+    }
+  ],
+  roads: {
+    main: [
+      [
+        'Lahore',
+        'Islamabad',
+        {
+          lat: 34.93,
+          lon: 72.87
+        },
+        'Chilas',
+        'Gilgit',
+        'Hunza'
+      ],
+      [
+        'Gilgit',
+        {
+          lat: 35.77,
+          lon: 74.6
+        },
+        'Skardu'
+      ]
+    ],
+    valley: [
+      [
+        'Islamabad',
+        'Swat'
+      ],
+      [
+        'Islamabad',
+        {
+          lat: 34.33,
+          lon: 73.2
+        },
+        'Naran-Kaghan'
+      ],
+      [
+        'Chilas',
+        'Fairy Meadows'
+      ],
+      [
+        'Skardu',
+        'Deosai'
+      ]
+    ]
+  },
+  list: {
+    heading: 'Main route · elevation',
+    destinationLabel: 'Destination',
+    stops: [
+      {
+        stop: 'Lahore',
+        elevation: 217,
+        note: 'Start · M-2 motorway north'
+      },
+      {
+        stop: 'Islamabad',
+        elevation: 540,
+        note: 'Onto the Karakoram Highway'
+      },
+      {
+        stop: 'Chilas',
+        elevation: 1265,
+        note: 'Along the Indus'
+      },
+      {
+        stop: 'Gilgit',
+        elevation: 1500,
+        note: 'Gateway to the north'
+      },
+      {
+        stop: 'Hunza',
+        elevation: 2438,
+        note: 'Karimabad, under Rakaposhi'
+      },
+      {
+        stop: 'Skardu',
+        elevation: 2228,
+        note: 'East along the Skardu Road'
+      }
+    ]
+  }
+};

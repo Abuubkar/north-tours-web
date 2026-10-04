@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { PLACEHOLDER } from '../utils/placeholder.ts';
+import { tokensIn } from '../utils/tokens.ts';
 
 /** Accepts a real value that passes `schema`, or a `[placeholder]`. `expected` names the value. */
 function orPlaceholder<T extends z.ZodType>(schema: T, expected: string) {
@@ -26,3 +27,21 @@ export const isoDate = z.iso.date('Use a real date as YYYY-MM-DD');
 
 /** A month, YYYY-MM. */
 export const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM, e.g. 2026-05');
+
+/**
+ * Page copy or a message: text that may use only the given `{tokens}`, filled from settings
+ * or the page (lib/utils/tokens.ts). Any other token is rejected, so a typo fails the build.
+ */
+export function copyWith(...allowed: string[]) {
+  return nonEmpty.superRefine((text, ctx) => {
+    for (const token of tokensIn(text)) {
+      if (!allowed.includes(token)) {
+        const expected = allowed.length > 0 ? `Use only ${allowed.map((t) => `{${t}}`).join(', ')}` : 'Takes no tokens';
+        ctx.addIssue({ code: 'custom', message: `Unknown token {${token}}. ${expected}` });
+      }
+    }
+  });
+}
+
+/** Page copy with no tokens. */
+export const copy = copyWith();

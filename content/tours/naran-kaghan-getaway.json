@@ -22,8 +22,20 @@
     "count": 214
   },
   "image": {
-    "placeholder": "Lake Saiful Muluk, Malika Parbat behind, early morning mist",
-    "alt": "Lake Saiful Muluk in morning mist with Malika Parbat behind"
+    "src": "/images/naran-kaghan/saiful-muluk.jpg",
+    "alt": "Lake Saiful Muluk lying still, mirroring green slopes and the snowy peaks above it",
+    "width": 1020,
+    "height": 800,
+    "focus": {
+      "x": 30,
+      "y": 40
+    },
+    "credit": {
+      "source": "wikimedia",
+      "author": "Nusrat Ashfaq",
+      "licence": "CC BY-SA 3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saif_ul_Malook_4.JPG"
+    }
   },
   "departures": [
     {

@@ -1,0 +1,29 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.header {
+  composes: sectionHeader from '../../styles/layout.module.css';
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-8);
+  max-width: var(--measure-note);
+}
+
+.note {
+  composes: small from '../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+.cards {
+  margin-top: var(--space-48);
+}

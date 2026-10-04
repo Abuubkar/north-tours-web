@@ -20,8 +20,20 @@
     "count": 41
   },
   "image": {
-    "placeholder": "Karimabad from Eagle’s Nest at sunset",
-    "alt": "Karimabad and the Hunza valley at sunset from Eagle’s Nest"
+    "src": "/images/hunza/eagles-nest.jpg",
+    "alt": "The Hunza valley from Eagle’s Nest, the river winding between villages and poplars under snow peaks",
+    "width": 1200,
+    "height": 772,
+    "focus": {
+      "x": 50,
+      "y": 55
+    },
+    "credit": {
+      "source": "wikimedia",
+      "author": "Alllexxxis",
+      "licence": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hunza_Valley,_view_from_Eagle%27s_Nest.jpg"
+    }
   },
   "departures": [
     {

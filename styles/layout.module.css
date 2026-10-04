@@ -1,0 +1,58 @@
+/*
+ * Shared layout patterns (docs/components.md §4), reused with
+ *   composes: statementSection from '../../styles/layout.module.css';
+ */
+
+/* The brand statement's shell: it follows the hero directly, with more room around it. */
+.statementSection {
+  padding: var(--section-y-statement) var(--margin);
+}
+
+/* Section shell: every section after the hero opens with a hairline. */
+.section {
+  padding: var(--section-y) var(--margin);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/* Section header row: the headline, with optional meta aligned bottom-right; wraps on phones. */
+.sectionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--row-gap) var(--gutter);
+}
+
+/*
+ * Capped auto-fill hairline grid (DESIGN.md §5): at most --grid-cols columns, each at least
+ * --grid-min wide, no media queries. The 1px gap over the hairline colour draws the lines.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(max(var(--grid-min), calc((100% - (var(--grid-cols) - 1) * var(--hairline-width)) / var(--grid-cols))), 1fr)
+  );
+  gap: var(--hairline-width);
+  padding: 0;
+  border-block: var(--hairline-width) solid var(--hairline);
+  background: var(--hairline);
+  list-style: none;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/*
+ * Text-grid bleed (DESIGN.md §5): cells are padded on both sides, and the grid reaches out by
+ * that padding and is clipped back, so the first and last column's text lines up with the page
+ * margins at any column count.
+ */
+.textGrid {
+  composes: grid;
+  margin-inline: calc(-1 * var(--cell-pad));
+  clip-path: inset(0 var(--cell-pad));
+}

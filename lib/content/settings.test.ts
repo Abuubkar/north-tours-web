@@ -16,6 +16,7 @@ const real: Settings = {
     email: 'hello@example.pk',
     travelSupport: '+92 321 7654321',
   },
+  site: { url: 'https://example.pk' },
   social: {
     instagram: 'https://instagram.com/example',
     facebook: 'https://facebook.com/example',
@@ -48,6 +49,7 @@ describe('settings', () => {
       Object.assign(s.contact, { whatsapp: '[+92 3XX XXX XXXX]', email: '[hello@brand.pk]' });
       Object.assign(s.legal, { dtsLicence: '[DTS licence number]' });
       Object.assign(s.social, { instagram: '[Instagram URL]' });
+      Object.assign(s.site, { url: '[Site URL]' });
     });
     expect(result.problems).toEqual([]);
   });
@@ -66,6 +68,31 @@ describe('settings', () => {
     ]);
   });
 
+  it.each(['tourMessage', 'waitlistMessage'] as const)('rejects a missing or empty %s', (key) => {
+    expect(fields(withChange((s) => delete (s.whatsapp as Partial<Settings['whatsapp']>)[key]))).toEqual([`whatsapp.${key}`]);
+    expect(fields(withChange((s) => Object.assign(s.whatsapp, { [key]: '' })))).toEqual([`whatsapp.${key}`]);
+  });
+
+  it('rejects a message token other than {tour} and {date}', () => {
+    const result = withChange((s) => Object.assign(s.whatsapp, { tourMessage: 'Hi, {tour} for {people}?' }));
+    expect(fields(result)).toEqual(['whatsapp.tourMessage']);
+    expect(result.problems[0].message).toBe('Unknown token {people}. Use only {tour}, {date}');
+  });
+
+  it('rejects a missing trust section', () => {
+    expect(fields(withChange((s) => delete (s as Partial<Settings>).trust))).toEqual(['trust']);
+  });
+
+  it.each([1800, 2014.5, new Date().getFullYear() + 1])('rejects %s as the year operating since', (year) => {
+    expect(fields(withChange((s) => Object.assign(s.trust, { operatingSince: year })))).toEqual(['trust.operatingSince']);
+  });
+
+  it('rejects a trust value token other than its own', () => {
+    expect(fields(withChange((s) => Object.assign(s.trust.operating, { value: '{licence} years' })))).toEqual([
+      'trust.operating.value',
+    ]);
+  });
+
   it('rejects a malformed email and names the file and field', () => {
     const result = withChange((s) => Object.assign(s.contact, { email: 'not-an-email' }));
     expect(result.problems).toEqual([
@@ -75,6 +102,10 @@ describe('settings', () => {
       }),
     ]);
     expect(result.problems[0].file).toMatch(/settings\.json$/);
+  });
+
+  it('rejects a site URL that is not a link or a placeholder', () => {
+    expect(fields(withChange((s) => Object.assign(s.site, { url: 'example.pk' })))).toEqual(['site.url']);
   });
 
   it('rejects a phone number not in +92 form', () => {

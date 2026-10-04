@@ -1,0 +1,39 @@
+/* A section with a top hairline and no vertical padding: the cells carry it. */
+.strip {
+  padding: 0 var(--margin);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/* No outer lines: the section's hairline is above, the footer's below. */
+.grid {
+  composes: textGrid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-trust-min);
+  --grid-cols: var(--grid-trust-cols);
+  border-block: none;
+}
+
+.cell {
+  composes: cell from '../../styles/layout.module.css';
+  gap: var(--space-8);
+  padding: var(--space-32) var(--cell-pad);
+}
+
+.label {
+  composes: label from '../../styles/typography.module.css';
+  color: var(--fg-3);
+}
+
+.value {
+  composes: trustValue from '../../styles/typography.module.css';
+}
+
+/* "Cash · Bank transfer" is a list, not a figure: the smaller size (DESIGN.md §9). */
+.listValue {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+.note {
+  composes: ui from '../../styles/typography.module.css';
+  color: var(--fg-2);
+}
