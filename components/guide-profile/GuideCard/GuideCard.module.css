@@ -13,6 +13,11 @@
   transition: background-color var(--dur-200) var(--ease-out);
 }
 
+/* About: the portrait's frame, shown as a block inside the button. */
+.portrait {
+  display: block;
+}
+
 /* While its profile is shown (docs/components.md §2.1). */
 .selected {
   background: var(--bg-raised);

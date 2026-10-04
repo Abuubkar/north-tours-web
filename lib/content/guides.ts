@@ -34,11 +34,11 @@ const guideSchema = z.strictObject({
 export type Guide = z.infer<typeof guideSchema>;
 
 /**
- * Loads guides and checks each one joined no earlier than the company started. Pass
- * `operatingSince` when settings are already loaded; with invalid settings the check is skipped
- * (settings report their own problems).
+ * Loads guides and checks each one joined no earlier than the company started. With invalid
+ * settings that check is skipped (settings report their own problems).
  */
-export function loadGuides(dir = CONTENT_DIR, operatingSince = loadSettings(dir).data?.trust.operatingSince) {
+export function loadGuides(dir = CONTENT_DIR) {
+  const operatingSince = loadSettings(dir).data?.trust.operatingSince;
   const guides = loadCollection(guideSchema, path.join(dir, 'guides'));
   const years = operatingSince === undefined ? [] : checkGuideYears(guides.items, guides.files, operatingSince);
   return { ...guides, problems: [...guides.problems, ...years] };

@@ -58,16 +58,17 @@ export const PhotoDesktop: Story = { ...Photo, globals: { viewport: { value: 'de
 const onOpen = fn();
 
 /**
- * About: a button that opens the guide's profile, named by the guide with the role as its
- * description, carrying the guide's anchor as its id, and "View profile" underlined.
+ * About: a button that opens the guide's profile, carrying the guide's anchor as its id, with
+ * "View profile" underlined. It's named by its own words, the guide's name first; the portrait,
+ * which repeats the name, stays out of it.
  */
 export const OnAbout: Story = {
   render: () => <GuideCard variant="button" guide={karim} viewLabel="View profile" selected={false} onOpen={onOpen} />,
   play: async ({ canvas, userEvent }) => {
-    const card = canvas.getByRole('button', { name: 'Karim Baig' });
+    const card = canvas.getByRole('button');
+    await expect(card).toHaveAccessibleName('Karim Baig Lead guide · Hunza View profile');
     await expect(card).toHaveAttribute('aria-haspopup', 'dialog');
     await expect(card).toHaveAttribute('id', 'guide-karim-baig');
-    await expect(card).toHaveAccessibleDescription('Lead guide · Hunza');
     await expect(getComputedStyle(canvas.getByText('View profile')).textDecorationLine).toBe('underline');
     // Its name is plain text: a button can't hold a heading.
     await expect(canvas.queryByRole('heading')).toBeNull();
@@ -81,7 +82,11 @@ export const OnAboutOnLight: Story = { ...OnAbout, globals: { surface: 'light' }
 
 export const OnAboutPhone: Story = { ...OnAbout, globals: { viewport: { value: 'phone' } } };
 
+export const OnAboutPhoneOnLight: Story = { ...OnAbout, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 export const OnAboutDesktop: Story = { ...OnAbout, globals: { viewport: { value: 'desktop' } } };
+
+export const OnAboutDesktopOnLight: Story = { ...OnAbout, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** While its profile is shown, the card takes the raised surface. */
 export const OnAboutSelected: Story = {
@@ -92,8 +97,8 @@ export const OnAboutSelected: Story = {
     </div>
   ),
   play: async ({ canvas }) => {
-    const selected = getComputedStyle(canvas.getByRole('button', { name: 'Karim Baig' })).backgroundColor;
-    const other = getComputedStyle(canvas.getByRole('button', { name: 'Ghulam Nabi' })).backgroundColor;
+    const selected = getComputedStyle(canvas.getByRole('button', { name: /^Karim Baig / })).backgroundColor;
+    const other = getComputedStyle(canvas.getByRole('button', { name: /^Ghulam Nabi / })).backgroundColor;
     await expect(selected).not.toBe(other);
   },
 };

@@ -51,7 +51,7 @@ export const About: StoryObj = {
     const intro = canvas.getByText(sampleAbout.guides.intro);
     await expect(intro.getBoundingClientRect().width).toBeLessThanOrEqual(520);
     await expect(canvas.getAllByRole('button', { name: /./ })).toHaveLength(6);
-    await expect(canvas.getByRole('button', { name: 'Sana Qureshi' })).toHaveAttribute('aria-haspopup', 'dialog');
+    await expect(canvas.getByRole('button', { name: /^Sana Qureshi / })).toHaveAttribute('aria-haspopup', 'dialog');
     await expect(columns(canvas)).toBe(4);
   },
 };

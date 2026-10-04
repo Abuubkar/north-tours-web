@@ -22,9 +22,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 type Canvas = ReturnType<typeof within>;
 
+/** A guide's card: named by its words, the guide's name first ("Ali Raza Guide · Skardu & Deosai View profile"). */
+const cardName = (name: string) => new RegExp(`^${name} `);
+
 /** Opens a guide's profile from their card with a real key press (Enter or Space), as a keyboard user would. */
 async function openWithKey(canvas: Canvas, name: string, key: '{Enter}' | ' ' = '{Enter}') {
-  const card = canvas.getByRole('button', { name });
+  const card = canvas.getByRole('button', { name: cardName(name) });
   card.focus();
   const keys = await realUser();
   if (keys) await keys.keyboard(key);
@@ -77,7 +80,7 @@ export const OpensDrawer: Story = {
     await expect(Math.round(dialog.getBoundingClientRect().width)).toBe(460);
     await expect(dialog.matches(':modal')).toBe(true);
     // The page behind is inert: another card can't take focus.
-    const other = canvas.getByRole('button', { name: 'Karim Baig', hidden: true });
+    const other = canvas.getByRole('button', { name: cardName('Karim Baig'), hidden: true });
     other.focus();
     await expect(other).not.toHaveFocus();
     await expect(getComputedStyle(card).backgroundColor).not.toBe(getComputedStyle(other).backgroundColor);
@@ -153,8 +156,8 @@ export const PreviousAndNext: Story = {
     await expect(dialog).toHaveAccessibleName('Ghulam Nabi');
     await expect(counter(dialog, '2 of 6')).toBeVisible();
     await expect(rows(dialog)[1]).toBe('With us: Since 2014');
-    const shown = canvas.getByRole('button', { name: 'Ghulam Nabi', hidden: true });
-    const opened = canvas.getByRole('button', { name: 'Karim Baig', hidden: true });
+    const shown = canvas.getByRole('button', { name: cardName('Ghulam Nabi'), hidden: true });
+    const opened = canvas.getByRole('button', { name: cardName('Karim Baig'), hidden: true });
     await expect(getComputedStyle(shown).backgroundColor).not.toBe(getComputedStyle(opened).backgroundColor);
   },
 };
@@ -176,23 +179,28 @@ export const EscapeReturnsFocus: Story = {
   },
 };
 
-/** Close closes it and returns focus to the card. */
+/** Close closes it and returns focus to the card that opened it, after moving to another guide. */
 export const CloseButton: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, userEvent }) => {
     const { card, dialog } = await openWithKey(canvas, 'Ghulam Nabi');
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Previous profile' }));
+    await expect(dialog).toHaveAccessibleName('Karim Baig');
     await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
     await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
     await expect(card).toHaveFocus();
   },
 };
 
-/** A tap on the backdrop closes it. */
+/** A tap on the backdrop closes it, and focus returns to the card that opened it, after moving to another guide. */
 export const Backdrop: Story = {
   play: async ({ canvas, userEvent }) => {
-    const { dialog } = await openWithKey(canvas, 'Imran Khattak');
+    const { card, dialog } = await openWithKey(canvas, 'Imran Khattak');
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Next profile' }));
+    await expect(dialog).toHaveAccessibleName('Karim Baig');
     await userEvent.click(dialog);
     await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
+    await expect(card).toHaveFocus();
   },
 };
 
@@ -203,11 +211,19 @@ export const RisesIntoView: Story = {
   play: async ({ canvas }) => {
     const cell = canvas.getAllByRole('listitem')[0];
     await waitFor(() => expect(cell).toHaveAttribute('data-rise', 'below'));
-    await expect(opacityUpTo(within(cell).getByRole('img'), cell)).toBe(0);
+    // The portrait is hidden from screen readers (the card's words name the guide), so it's found by its role attribute.
+    await expect(opacityUpTo(cell.querySelector('[role="img"]')!, cell)).toBe(0);
     await expect(opacityUpTo(within(cell).getByText('Karim Baig'), cell)).toBe(1);
     cell.scrollIntoView({ block: 'center' });
     await waitFor(() => expect(cell).toHaveAttribute('data-rise', 'in'));
     await waitFor(() => expect(getComputedStyle(cell).transform).toBe('none'), { timeout: 3000 });
+    // Once only: scrolled away and back, it stays in place.
+    window.scrollTo({ top: 0 });
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    cell.scrollIntoView({ block: 'center' });
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    await expect(cell).toHaveAttribute('data-rise', 'in');
+    await expect(getComputedStyle(cell).transform).toBe('none');
   },
 };
 

@@ -3,13 +3,16 @@ import { routes } from '../routes.ts';
 import { fillTokens } from './tokens.ts';
 import { whatsappShareLink } from './whatsapp.ts';
 
+/** From this width the profile opens in the side drawer; below it, the bottom sheet. */
+export const PROFILE_DRAWER_QUERY = '(width >= 820px)';
+
 /*
  * A guide's profile on the About page (PRD #78): its rows, the share link, and moving through
  * the team in grid order. The page shapes each profile at build time; the profile sheet steps
  * through them in the browser.
  */
 
-/** The profile's words: each row's label, "Since {year}", and the share message from settings. */
+/** The profile's words: each row's label, and "Since {year}". */
 export type ProfileWords = {
   rows: { home: string; joined: string; languages: string; leads: string; licence: string };
   /** "With us": "Since {year}". */

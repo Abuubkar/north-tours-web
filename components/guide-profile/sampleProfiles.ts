@@ -1,3 +1,4 @@
+import { placeholderSettings } from '@/components/layout/sampleSettings';
 import { guideProfile, type GuideProfile } from '@/lib/utils/guideProfile';
 import { sampleAbout } from '@/sections/sampleAbout';
 import { sampleGuides } from './sampleGuides';
@@ -18,7 +19,7 @@ export const sampleProfiles: GuideProfile[] = sampleGuides.map((guide) => {
   return guideProfile(
     { ...guide, home, leads: [...leads], joined, languages: [...languages], bio: `${guide.name} plans each day around the weather and your family’s pace.`, consent: true },
     sampleAbout.guides.profile,
-    'Meet {name}, our {role}: {url}',
-    '[Site URL]',
+    placeholderSettings.whatsapp.guideShareMessage,
+    placeholderSettings.site.url,
   );
 });

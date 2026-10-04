@@ -9,10 +9,7 @@
       "alt": "The Karakoram Highway curves past a guard rail and a stone wall towards snowy peaks half hidden in cloud",
       "width": 2560,
       "height": 1707,
-      "focus": {
-        "x": 60,
-        "y": 62
-      },
+      "focus": { "x": 60, "y": 62 },
       "credit": {
         "source": "wikimedia",
         "author": "Shahid Mehmood",
