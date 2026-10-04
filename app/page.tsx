@@ -11,6 +11,7 @@ import { getReviews } from '@/lib/content/reviews';
 import { getRouteMap } from '@/lib/content/routeMap';
 import { getSettings } from '@/lib/content/settings';
 import { routes } from '@/lib/routes';
+import { cardTour } from '@/lib/utils/cardTour';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { ratingSummary } from '@/lib/utils/rating';
@@ -55,7 +56,7 @@ export default function HomePage() {
       <BrandStatement copy={copy.statement} />
       <TourCardsSection id="departures" copy={copy.departures}>
         <UpcomingDepartures
-          tours={tours}
+          tours={tours.map(cardTour)}
           builtOn={todayInKarachi(new Date())}
           limit={DEPARTURE_CARDS}
           settings={{ contact: settings.contact, whatsapp: settings.whatsapp }}

@@ -3,6 +3,7 @@ import { todayInKarachi } from '../utils/departures.ts';
 import { paymentMethodsLabel } from '../utils/payments.ts';
 import { faqPage, touristTrip } from '../utils/structuredData.ts';
 import { fillTokens, settingsTokens, textTokens } from '../utils/tokens.ts';
+import { cardTour } from '../utils/cardTour.ts';
 import { getTour, getTours } from './catalog.ts';
 import { getFaqs, tourPageFaqs } from './faqs.ts';
 import { isPhoto } from './images.ts';
@@ -65,17 +66,6 @@ export function getTourPage(slug: string) {
       faqs: faqPage(questions),
     },
     /** Every tour as its card needs it (this one too; the rule leaves it out), for the related trips. */
-    relatedCandidates: getTours().map((t) => ({
-      slug: t.slug,
-      title: t.title,
-      route: t.route,
-      days: t.days,
-      nights: t.nights,
-      prices: t.prices,
-      rating: t.rating,
-      image: t.image,
-      destinations: t.destinations,
-      departures: t.departures,
-    })),
+    relatedCandidates: getTours().map(cardTour),
   };
 }
