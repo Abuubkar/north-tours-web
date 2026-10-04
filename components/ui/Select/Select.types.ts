@@ -12,4 +12,10 @@ export type SelectProps = {
   value: string | null;
   onChange: (value: string) => void;
   ref?: Ref<HTMLSelectElement>;
+  /** Its id, so a form can focus it; one is made up otherwise. */
+  id?: string;
+  /** Draws the error border and sets `aria-invalid`. */
+  invalid?: boolean;
+  /** The ids of what describes it, e.g. a group's error message. */
+  describedBy?: string;
 };

@@ -34,6 +34,10 @@
   border-color: var(--fg);
 }
 
+.select[aria-invalid='true'] {
+  border-color: var(--error);
+}
+
 .caret {
   position: absolute;
   top: 50%;

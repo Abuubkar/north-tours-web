@@ -29,6 +29,12 @@ export function whereWhenErrors(answers: TripAnswers, today: string, messages: E
   return errors;
 }
 
+/** Step 2, Who's coming: every child needs an age ("Under 2" counts). The first child without one is focused. */
+export function whosComingErrors(answers: TripAnswers, messages: ErrorMessages): FieldProblem[] {
+  const missing = answers.ages.flatMap((age, i) => (age === null ? [`age-${i}`] : []));
+  return missing.length > 0 ? [{ group: 'ages', fields: missing, message: messages.ages }] : [];
+}
+
 function datesError(answers: TripAnswers, today: string, messages: ErrorMessages): FieldProblem | null {
   const problem = (fields: string[], message: string) => ({ group: 'dates', fields, message });
   if (answers.dateMode === 'flexible') {

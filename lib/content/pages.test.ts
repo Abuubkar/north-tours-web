@@ -228,6 +228,12 @@ describe('planner page copy', () => {
     expect(problems(load((c) => delete (c.whereWhen.dates.modes as Partial<PlannerCopy['whereWhen']['dates']['modes']>).exact))).toEqual([
       'whereWhen.dates.modes.exact',
     ]);
+    expect(problems(load((c) => delete (c.whosComing.budget.options as Partial<PlannerCopy['whosComing']['budget']['options']>)['not-sure']))).toEqual([
+      'whosComing.budget.options.not-sure',
+    ]);
+    expect(problems(load((c) => delete (c.whosComing.departingFrom.options as Partial<PlannerCopy['whosComing']['departingFrom']['options']>).other))).toEqual([
+      'whosComing.departingFrom.options.other',
+    ]);
   });
 
   it('takes {replyTime} in the lead and {step} and {title} in the progress, and no other token', () => {
@@ -237,5 +243,7 @@ describe('planner page copy', () => {
     expect(result.problems[0].message).toBe('Unknown token {replyHours}. Use only {replyTime}');
     expect(problems(load((c) => Object.assign(c.progress, { step: 'Step {step} of {total}' })))).toEqual(['progress.step']);
     expect(problems(load((c) => Object.assign(c.errors, { month: 'Pick a month by {replyTime}.' })))).toEqual(['errors.month']);
+    expect(load((c) => Object.assign(c.whosComing.ages, { child: 'Kid {count}' })).problems).toEqual([]);
+    expect(problems(load((c) => Object.assign(c.whosComing.ages, { child: 'Child {number}' })))).toEqual(['whosComing.ages.child']);
   });
 });

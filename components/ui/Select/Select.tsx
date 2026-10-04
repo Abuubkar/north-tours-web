@@ -7,10 +7,11 @@ const CARET_SIZE = 16;
 
 /**
  * A native <select> with its label: the phone's own picker, keyboard and screen reader support.
- * The border strengthens on hover and once a value is chosen.
+ * The border strengthens on hover and once a value is chosen, and takes the error colour while invalid.
  */
-export function Select({ label, placeholder, options, value, onChange, ref }: SelectProps) {
-  const id = useId();
+export function Select({ label, placeholder, options, value, onChange, ref, id: givenId, invalid = false, describedBy }: SelectProps) {
+  const madeId = useId();
+  const id = givenId ?? madeId;
   return (
     <div className={styles.field}>
       <label htmlFor={id} className={styles.label}>
@@ -20,6 +21,8 @@ export function Select({ label, placeholder, options, value, onChange, ref }: Se
         <select
           ref={ref}
           id={id}
+          aria-invalid={invalid || undefined}
+          aria-describedby={describedBy}
           value={value ?? ''}
           onChange={(event) => onChange(event.target.value)}
           className={`${styles.select} ${value ? styles.chosen : ''}`}

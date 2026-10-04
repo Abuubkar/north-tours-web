@@ -7,7 +7,7 @@ import { photoSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
-import { DATE_MODES, TRIP_LENGTHS } from '../utils/plannerOptions.ts';
+import { DATE_MODES, DEPARTING_FROM, GROUP_TYPES, HOTELS, PLANNER_BUDGETS, TRANSPORT, TRIP_LENGTHS } from '../utils/plannerOptions.ts';
 
 /*
  * Page copy (CLAUDE.md §7): each page's wording lives in content/pages, so components never
@@ -421,6 +421,13 @@ export function getDestinationCopy(): DestinationCopy {
   return cachedDestination;
 }
 
+/** A planner question answered with one chip: its label, hint and a label for every option. */
+const chipQuestion = <T extends readonly [string, ...string[]]>(ids: T) =>
+  z.strictObject({ label: copy, hint: copy, options: z.record(z.enum(ids), copy) });
+
+/** A counter in "Group size": "Adults", "18 and over", and the stepper's buttons. */
+const counterRow = z.strictObject({ label: copy, hint: copy, fewer: copy, more: copy });
+
 /** The Trip Planner's wording (PRD #71): the header, the steps' labels, option words and messages. */
 const plannerCopySchema = z.strictObject({
   /** The <title> part: "Plan a private trip from Lahore". */
@@ -464,6 +471,18 @@ const plannerCopySchema = z.strictObject({
       options: z.record(z.enum(TRIP_LENGTHS), copy),
     }),
   }),
+  whosComing: z.strictObject({
+    /** "Group size": a row for adults and one for children, each a label, a hint and a stepper. */
+    group: z.strictObject({ label: copy, hint: copy, adults: counterRow, children: counterRow }),
+    /** One select per child: "Child {count}", first option "Age", then "Under 2" and 2 to 17. */
+    ages: z.strictObject({ label: copy, child: copyWith('count'), placeholder: copy, underTwo: copy }),
+    groupType: chipQuestion(GROUP_TYPES),
+    hotels: chipQuestion(HOTELS),
+    transport: chipQuestion(TRANSPORT),
+    /** Always answered (Lahore by default); "Other city" shows a field for the city. */
+    departingFrom: chipQuestion(DEPARTING_FROM).extend({ otherCity: copy, otherCityPlaceholder: copy }),
+    budget: chipQuestion(PLANNER_BUDGETS),
+  }),
   /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
   errors: z.strictObject({
     destinations: copy,
@@ -471,6 +490,7 @@ const plannerCopySchema = z.strictObject({
     dates: copy,
     pastDate: copy,
     endBeforeStart: copy,
+    ages: copy,
   }),
 });
 

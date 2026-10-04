@@ -161,6 +161,9 @@
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */
   --grid-choices-min: 150px; /* the planner's destination cards (gaps, not hairlines) */
   --date-field-min: 200px; /* a date field beside another (From and To) before they stack */
+  --age-select-w: 110px; /* each child's age select, in a row */
+  --measure-counters: 440px; /* the planner's group size rows */
+  --measure-field-short: 360px; /* a short text field: the planner's other city */
 
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */

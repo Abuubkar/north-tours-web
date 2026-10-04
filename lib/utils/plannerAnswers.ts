@@ -1,4 +1,16 @@
-import { DAYS, lengthForDays, type DateMode, type TripLength } from './plannerOptions.ts';
+import {
+  ADULTS,
+  CHILDREN,
+  DAYS,
+  lengthForDays,
+  type DateMode,
+  type DepartingFrom,
+  type GroupType,
+  type Hotels,
+  type PlannerBudget,
+  type Transport,
+  type TripLength,
+} from './plannerOptions.ts';
 
 /*
  * The Trip Planner's answers about the trip (PRD #71), and the changes the steps make to them.
@@ -20,7 +32,25 @@ export type TripAnswers = {
   length: TripLength | null;
   /** True until the visitor picks (or clears) a length: until then it follows the flexible days. */
   lengthAuto: boolean;
+  adults: number;
+  children: number;
+  /** One per child: 0 for "Under 2", or 2 to 17; null until given. */
+  ages: (number | null)[];
+  groupType: GroupType | null;
+  hotels: Hotels | null;
+  transport: Transport | null;
+  /** Always set: Lahore by default. */
+  departingFrom: DepartingFrom;
+  /** The city typed for "Other city". */
+  otherCity: string;
+  budget: PlannerBudget | null;
 };
+
+/** The optional questions answered with one chip, which a second press clears. */
+export type ChipQuestion = 'groupType' | 'hotels' | 'transport' | 'budget';
+
+/** An option of one of those questions, e.g. "family" for the group type. */
+export type ChipValue<K extends ChipQuestion> = NonNullable<TripAnswers[K]>;
 
 export const DEFAULT_ANSWERS: TripAnswers = {
   destinations: [],
@@ -31,6 +61,15 @@ export const DEFAULT_ANSWERS: TripAnswers = {
   days: DAYS.default,
   length: null,
   lengthAuto: true,
+  adults: ADULTS.default,
+  children: CHILDREN.default,
+  ages: [],
+  groupType: null,
+  hotels: null,
+  transport: null,
+  departingFrom: 'lahore',
+  otherCity: '',
+  budget: null,
 };
 
 /** Ticks or unticks a destination, keeping the choices' order (`choices`). */
@@ -75,4 +114,30 @@ export function tripLength(answers: TripAnswers): TripLength | null {
 /** Whether the trip length is being filled from the flexible days (its hint says so). */
 export function lengthIsAutoFilled(answers: TripAnswers): boolean {
   return answers.lengthAuto && tripLength(answers) !== null;
+}
+
+/** A new number of children: an age slot each, keeping the ages already given and dropping the extra ones. */
+export function setChildren(answers: TripAnswers, children: number): TripAnswers {
+  const count = Math.min(CHILDREN.max, Math.max(CHILDREN.min, children));
+  return { ...answers, children: count, ages: Array.from({ length: count }, (_, i) => answers.ages[i] ?? null) };
+}
+
+/** A new number of adults, kept from 1 to 40. */
+export function setAdults(answers: TripAnswers, adults: number): TripAnswers {
+  return { ...answers, adults: Math.min(ADULTS.max, Math.max(ADULTS.min, adults)) };
+}
+
+/** One child's age. */
+export function setAge(answers: TripAnswers, child: number, age: number): TripAnswers {
+  return { ...answers, ages: answers.ages.map((given, i) => (i === child ? age : given)) };
+}
+
+/** An optional chip question: picking the chosen option again clears it. */
+export function pickOption<K extends ChipQuestion>(answers: TripAnswers, question: K, id: ChipValue<K>): TripAnswers {
+  return { ...answers, [question]: answers[question] === id ? null : id };
+}
+
+/** Where the trip starts: always one city, so pressing the chosen one keeps it. */
+export function pickDeparture(answers: TripAnswers, from: DepartingFrom): TripAnswers {
+  return { ...answers, departingFrom: from };
 }

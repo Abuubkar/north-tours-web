@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { plannerCopyFile, type PlannerCopy } from '../content/pages.ts';
 import { DEFAULT_ANSWERS, type TripAnswers } from './plannerAnswers.ts';
-import { whereWhenErrors } from './plannerValidation.ts';
+import { whereWhenErrors, whosComingErrors } from './plannerValidation.ts';
 
 const { errors: messages }: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
 const today = '2026-10-04';
@@ -49,5 +49,23 @@ describe('step 1, Where and when', () => {
       { group: 'dates', fields: ['to'], message: 'The end date is before the start date.' },
     ]);
     expect(check(exact('2027-06-12', '2027-06-12'))).toEqual([]);
+  });
+});
+
+describe('step 2, Who’s coming', () => {
+  const step2 = (ages: (number | null)[]) => whosComingErrors({ ...valid, children: ages.length, ages }, messages);
+
+  it('passes with no children', () => {
+    expect(step2([])).toEqual([]);
+  });
+
+  it('needs an age for each child, naming every child without one', () => {
+    expect(step2([6, null])).toEqual([{ group: 'ages', fields: ['age-1'], message: 'Add an age for each child.' }]);
+    expect(step2([null, 9, null])[0].fields).toEqual(['age-0', 'age-2']);
+  });
+
+  it('passes with every age given; “Under 2” counts', () => {
+    expect(step2([6, 9])).toEqual([]);
+    expect(step2([0])).toEqual([]);
   });
 });

@@ -45,3 +45,24 @@ export function lengthForDays(days: number): TripLength {
   if (days <= 10) return '8-10';
   return '10plus';
 }
+
+/** Who's coming: adults (18 and over) and children (under 18). */
+export const ADULTS = { min: 1, max: 40, default: 2 } as const;
+export const CHILDREN = { min: 0, max: 20, default: 0 } as const;
+
+/** A child's age: 0 is "Under 2", then 2 to 17. */
+export const AGES: readonly number[] = [0, ...Array.from({ length: 16 }, (_, i) => i + 2)];
+
+export const GROUP_TYPES = ['family', 'couple', 'friends', 'corporate'] as const;
+export const HOTELS = ['comfortable', 'upgraded', 'best'] as const;
+export const TRANSPORT = ['car', 'coaster', 'suggest'] as const;
+/** Where the trip starts: Lahore by default; "other" asks which city. */
+export const DEPARTING_FROM = ['lahore', 'islamabad', 'other'] as const;
+/** Budget per person, as the Tours budget filter splits it, and "Not sure yet". */
+export const PLANNER_BUDGETS = ['under-50k', '50-100k', '100k-plus', 'not-sure'] as const;
+
+export type GroupType = (typeof GROUP_TYPES)[number];
+export type Hotels = (typeof HOTELS)[number];
+export type Transport = (typeof TRANSPORT)[number];
+export type DepartingFrom = (typeof DEPARTING_FROM)[number];
+export type PlannerBudget = (typeof PLANNER_BUDGETS)[number];

@@ -39,12 +39,37 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
       options: { '2-4': '2–4 days', '5-7': '5–7 days', '8-10': '8–10 days', '10plus': '10+ days' },
     },
   },
+  whosComing: {
+    group: {
+      label: 'Group size',
+      hint: 'Required',
+      adults: { label: 'Adults', hint: '18 and over', fewer: 'Fewer adults', more: 'More adults' },
+      children: { label: 'Children', hint: 'Under 18', fewer: 'Fewer children', more: 'More children' },
+    },
+    ages: { label: 'Children’s ages (helps us plan rooms and stops)', child: 'Child {count}', placeholder: 'Age', underTwo: 'Under 2' },
+    groupType: { label: 'Group type', hint: 'Optional', options: { family: 'Family', couple: 'Couple', friends: 'Friends', corporate: 'Corporate team' } },
+    hotels: { label: 'Hotels', hint: 'Optional', options: { comfortable: 'Comfortable', upgraded: 'Upgraded', best: 'Best available' } },
+    transport: { label: 'Transport', hint: 'Optional', options: { car: 'Car', coaster: 'Coaster', suggest: 'Let us suggest' } },
+    departingFrom: {
+      label: 'Departing from',
+      hint: 'Lahore by default',
+      options: { lahore: 'Lahore', islamabad: 'Islamabad', other: 'Other city' },
+      otherCity: 'Other city',
+      otherCityPlaceholder: 'Which city?',
+    },
+    budget: {
+      label: 'Budget per person',
+      hint: 'Optional',
+      options: { 'under-50k': 'Under PKR 50k', '50-100k': 'PKR 50–100k', '100k-plus': 'PKR 100k+', 'not-sure': 'Not sure yet' },
+    },
+  },
   errors: {
     destinations: 'Choose at least one destination, or “Not sure, suggest something”.',
     month: 'Pick a month, or switch to exact dates.',
     dates: 'Add a start and an end date.',
     pastDate: 'That date has passed. Choose today or later.',
     endBeforeStart: 'The end date is before the start date.',
+    ages: 'Add an age for each child.',
   },
 };
 

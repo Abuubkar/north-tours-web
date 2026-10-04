@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type ChoiceChipsProps<T extends string = string> = {
   id: string;
   label: string;
@@ -8,4 +10,6 @@ export type ChoiceChipsProps<T extends string = string> = {
   value: T | null;
   /** Called with the pressed option; the caller decides whether pressing the chosen one clears it. */
   onPick: (id: T) => void;
+  /** Shown under the chips, e.g. the field for another city. */
+  children?: ReactNode;
 };

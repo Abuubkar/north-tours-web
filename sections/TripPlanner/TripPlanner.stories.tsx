@@ -237,3 +237,44 @@ export const StepSwapsReduced: Story = {
     await expect(body.getAnimations()).toHaveLength(0);
   },
 };
+
+/** Step 2: Next with a child's age missing shows the message, focuses that select below the bar; an age clears it. */
+export const MissingAge: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await toStep2(canvas, userEvent);
+    await userEvent.click(button(canvas, 'More children'));
+    await userEvent.click(button(canvas, 'More children'));
+    await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Child 1' }), '6');
+    await userEvent.click(button(canvas, /^Next: Your details/));
+    const second = canvas.getByRole('combobox', { name: 'Child 2' });
+    await waitFor(() => expect(second).toHaveFocus());
+    await expect(second).toHaveAttribute('aria-invalid', 'true');
+    await expect(canvas.getByRole('combobox', { name: 'Child 1' })).not.toHaveAttribute('aria-invalid');
+    await expect(second).toHaveAccessibleDescription('Add an age for each child.');
+    await expect(second.getBoundingClientRect().top).toBeGreaterThanOrEqual(bar(canvas).getBoundingClientRect().bottom);
+    await userEvent.selectOptions(second, 'Under 2');
+    await expect(canvas.queryByText('Add an age for each child.')).toBeNull();
+    await expect(second).not.toHaveAttribute('aria-invalid');
+  },
+};
+
+export const MissingAgePhone: Story = { ...MissingAge, globals: { viewport: { value: 'phone' } } };
+
+/** Back to step 1 and Next again keep every step 2 answer. */
+export const Step2Kept: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await toStep2(canvas, userEvent);
+    await userEvent.click(button(canvas, 'More adults'));
+    await userEvent.click(button(canvas, 'More children'));
+    await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Child 1' }), '9');
+    await userEvent.click(button(canvas, 'Couple'));
+    await userEvent.click(button(canvas, 'Other city'));
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Other city' }), 'Multan');
+    await userEvent.click(button(canvas, 'Back'));
+    await userEvent.click(button(canvas, /^Next: Who’s coming/));
+    await expect(canvas.getByRole('group', { name: 'Adults' })).toHaveTextContent('3');
+    await expect(canvas.getByRole('combobox', { name: 'Child 1' })).toHaveDisplayValue('9');
+    await expect(button(canvas, 'Couple')).toHaveAttribute('aria-pressed', 'true');
+    await expect(canvas.getByRole('textbox', { name: 'Other city' })).toHaveValue('Multan');
+  },
+};

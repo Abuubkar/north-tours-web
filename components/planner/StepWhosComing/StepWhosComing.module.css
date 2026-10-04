@@ -1,0 +1,10 @@
+/* Adults, children and the ages, at most 440px wide. */
+.counters {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--measure-counters);
+}
+
+.otherCity {
+  max-width: var(--measure-field-short);
+}

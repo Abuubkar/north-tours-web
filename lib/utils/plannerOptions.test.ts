@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { destinationChoices, lengthForDays, monthChoices, UNSURE } from './plannerOptions.ts';
+import {
+  AGES,
+  DEPARTING_FROM,
+  destinationChoices,
+  GROUP_TYPES,
+  HOTELS,
+  lengthForDays,
+  monthChoices,
+  PLANNER_BUDGETS,
+  TRANSPORT,
+  UNSURE,
+} from './plannerOptions.ts';
 
 describe('destination choices', () => {
   it('lists the destinations in the loader’s order, then “Not sure”', () => {
@@ -35,5 +46,20 @@ describe('trip length from flexible days', () => {
     [21, '10plus'],
   ])('%i days → %s', (days, length) => {
     expect(lengthForDays(days)).toBe(length);
+  });
+});
+
+describe('step 2 options', () => {
+  it('list each question’s ids in order', () => {
+    expect(GROUP_TYPES).toEqual(['family', 'couple', 'friends', 'corporate']);
+    expect(HOTELS).toEqual(['comfortable', 'upgraded', 'best']);
+    expect(TRANSPORT).toEqual(['car', 'coaster', 'suggest']);
+    expect(DEPARTING_FROM).toEqual(['lahore', 'islamabad', 'other']);
+    expect(PLANNER_BUDGETS).toEqual(['under-50k', '50-100k', '100k-plus', 'not-sure']);
+  });
+
+  it('offer ages “Under 2” (0), then 2 to 17', () => {
+    expect(AGES[0]).toBe(0);
+    expect(AGES.slice(1)).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]);
   });
 });
