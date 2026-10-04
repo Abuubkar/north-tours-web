@@ -45,7 +45,7 @@ export const PlaceholderOnLight: Story = { ...Placeholder, globals: { surface: '
 
 export const PlaceholderLaptop: Story = { ...Placeholder, globals: { viewport: { value: 'laptop' } } };
 
-/** 900 (from 820px, below about 960px): the map wraps under the words, centred, still whole. */
+/** 900 (from 820px, below about 980px): the map wraps under the words, centred, still whole. */
 export const PlaceholderTablet: Story = {
   globals: { viewport: { value: 'tablet' } },
   play: async ({ canvas, canvasElement }) => {
