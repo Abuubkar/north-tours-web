@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, within } from 'storybook/test';
+import { expect, fn, within } from 'storybook/test';
 import { realUser } from '../../../.storybook/realUser';
 import { sampleHelpCategories, sampleHelpCopy } from '@/sections/sampleHelp';
 import { FaqCategory } from './FaqCategory';
@@ -9,7 +9,7 @@ const cancellations = sampleHelpCategories[1];
 const meta = {
   title: 'Help/FaqCategory',
   component: FaqCategory,
-  args: { ...cancellations, linkLabel: sampleHelpCopy.linkToAnswer, group: 'help-faqs' },
+  args: { ...cancellations, linkLabel: sampleHelpCopy.linkToAnswer, group: 'help-faqs', openIds: new Set(), onToggle: fn(), onAnswerLink: fn() },
   globals: { surface: 'light', viewport: { value: 'desktop' } },
 } satisfies Meta<typeof FaqCategory>;
 
@@ -44,20 +44,34 @@ export const Desktop: Story = {
 
 export const DesktopOnDark: Story = { ...Desktop, globals: { surface: 'dark', viewport: { value: 'desktop' } } };
 
-/** Each answer ends with "Link to this answer · /help#refunds", a link to it, in Geist rather than Geist Mono. */
+/**
+ * Each answer ends with "Link to this answer · /help#refunds", a link to it, in Geist rather than
+ * Geist Mono. Following it hands the answer to the page, with no navigation.
+ */
 export const AnswerLink: Story = {
-  play: async ({ canvas }) => {
+  args: { openIds: new Set(['refunds']) },
+  play: async ({ args, canvas, userEvent }) => {
     const link = canvas.getByRole('link', { name: 'Link to this answer · /help#refunds' });
     await expect(link).toHaveAttribute('href', '/help#refunds');
     await expect(getComputedStyle(link).fontFamily).not.toMatch(/mono/i);
     await expect(getComputedStyle(link).fontFamily).toBe(getComputedStyle(document.body).fontFamily);
+    await userEvent.click(link);
+    await expect(args.onAnswerLink).toHaveBeenCalledWith('refunds');
+  },
+};
+
+/** Opening an answer tells the page which one, from the native toggle event. */
+export const ToggleCallback: Story = {
+  play: async ({ args, canvas, userEvent }) => {
+    await userEvent.click(canvas.getByText(cancellations.questions[2].question));
+    await expect(args.onToggle).toHaveBeenCalledWith(cancellations.questions[2].id, true);
   },
 };
 
 /** Open, on the light page and on dark (axe checks the answer and its link). */
 export const OpenOnLight: Story = {
+  args: { openIds: new Set([cancellations.questions[0].id]) },
   play: async ({ canvas }) => {
-    details(canvas, cancellations.questions[0].question).open = true;
     await expect(canvas.getByRole('link', { name: 'Link to this answer · /help#refunds' })).toBeVisible();
   },
 };

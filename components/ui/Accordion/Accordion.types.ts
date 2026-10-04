@@ -7,7 +7,10 @@ export type AccordionItem = {
   anchor?: string;
   summary: ReactNode;
   content: ReactNode;
+  /** Open at first; the visitor opens and closes it from there. */
   defaultOpen?: boolean;
+  /** Opened and closed by the page (Help's answer links): keep it in step with `onToggle`. */
+  open?: boolean;
 };
 
 export type AccordionProps = {
@@ -21,4 +24,6 @@ export type AccordionProps = {
   name?: string;
   /** default: FAQs, the step title role with room around it. compact: a 52px row at 15/500 with no list lines (the planner's summary bar). */
   size?: 'default' | 'compact';
+  /** An item opened or closed, by the visitor, the page, or its group closing it (the native `toggle` event). */
+  onToggle?: (id: string, open: boolean) => void;
 };

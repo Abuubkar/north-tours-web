@@ -26,3 +26,13 @@ export function categoryLinks(categories: readonly HelpCategory[], words: Answer
     name: optionName(title, questions.length, words),
   }));
 }
+
+/**
+ * The answer a URL hash links to: "#refunds" gives "refunds" when it's one of `ids`. Anything
+ * else gives null: no hash, an unknown id, a category's heading ("#cat-booking") or the
+ * policies ("#policies"), which stay plain anchors.
+ */
+export function answerForHash(hash: string, ids: readonly string[]): string | null {
+  const id = hash.startsWith('#') ? hash.slice(1) : '';
+  return ids.includes(id) ? id : null;
+}
