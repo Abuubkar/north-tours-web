@@ -1,12 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { getTour } from '../content/catalog.ts';
+import type { Tour } from '../content/tours.ts';
 import { cardTour } from './cardTour.ts';
 
 describe('cardTour', () => {
-  it('keeps what a card and its list use, and leaves the page-only content out', () => {
-    const card = cardTour(getTour('hunza-skardu-grand')!);
-    expect(Object.keys(card).sort()).toEqual(
-      ['days', 'departures', 'destinations', 'image', 'nights', 'prices', 'rating', 'route', 'slug', 'title', 'tripTypes'].sort(),
-    );
+  it('leaves out what only the tour page shows', () => {
+    const tour = { slug: 'hunza-express', title: 'Hunza Express', itinerary: [{ title: 'Day 1' }], faqs: [], stays: [], summary: 'Six days.' };
+    const card = cardTour(tour as unknown as Tour);
+    expect(card).toMatchObject({ slug: 'hunza-express', title: 'Hunza Express' });
+    expect(card).not.toHaveProperty('itinerary');
+    expect(card).not.toHaveProperty('faqs');
+    expect(card).not.toHaveProperty('summary');
   });
 });

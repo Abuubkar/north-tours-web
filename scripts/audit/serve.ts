@@ -4,6 +4,7 @@
 // models a page loaded over HTTP/1.1 with up to six connections, each with its own slow start,
 // which reads LCP up to a second slower than the same page from a real host.
 import { execFileSync } from 'node:child_process';
+import { createHash, X509Certificate } from 'node:crypto';
 import { existsSync, mkdtempSync, readFileSync, rmSync, statSync } from 'node:fs';
 import { createSecureServer } from 'node:http2';
 import type { AddressInfo } from 'node:net';
@@ -49,30 +50,42 @@ function fileFor(root: string, pathname: string): string | null {
 /** Each file's body, gzipped once for every request that accepts it. */
 const gzipped = new Map<string, Buffer>();
 
-/**
- * A throwaway certificate for localhost, made with the system's `openssl` (no dependency). The
- * browsers that load the site are started to accept it.
- */
+/** The address the server listens on, and the only name its throwaway certificate covers. */
+const HOST = '127.0.0.1';
+
+/** A throwaway certificate for this address, made with the system's `openssl` (no npm dependency). */
 function localCertificate(): { key: Buffer; cert: Buffer } {
   const dir = mkdtempSync(path.join(tmpdir(), 'audit-tls-'));
   const key = path.join(dir, 'key.pem');
   const cert = path.join(dir, 'cert.pem');
+  const args = ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-keyout', key, '-out', cert, '-days', '1', '-subj', `/CN=${HOST}`, '-addext', `subjectAltName=IP:${HOST}`];
   try {
-    const args = ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-keyout', key, '-out', cert, '-days', '1', '-subj', '/CN=localhost'];
-    execFileSync('openssl', args, { stdio: 'ignore' });
+    execFileSync('openssl', args, { stdio: 'pipe' });
     return { key: readFileSync(key), cert: readFileSync(cert) };
+  } catch (error) {
+    throw new Error(`pnpm audit:site serves the site over HTTPS and needs openssl to make a local certificate: ${(error as Error).message}`);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
 }
 
-/** Chromium flag for the throwaway certificate; only ever passed to the audit's own browsers. */
-export const ACCEPT_LOCAL_CERTIFICATE = '--ignore-certificate-errors';
+/**
+ * The Chromium flag that trusts this one certificate, by its public key, and nothing else. Only
+ * the audit's own browsers get it.
+ */
+function trustFlag(cert: Buffer): string {
+  const spki = new X509Certificate(cert).publicKey.export({ type: 'spki', format: 'der' });
+  return `--ignore-certificate-errors-spki-list=${createHash('sha256').update(spki).digest('base64')}`;
+}
 
-/** Serves the export in `root` on a free localhost port, over HTTP/2 with TLS. */
-export async function serveExport(root: string): Promise<{ origin: string; close: () => Promise<void> }> {
-  const server = createSecureServer({ ...localCertificate(), allowHTTP1: true }, (request, response) => {
-    const { pathname } = new URL(request.url ?? '/', 'http://localhost');
+/**
+ * Serves the export in `root` on a free local port, over HTTP/2 with TLS. `browserArgs` are the
+ * Chromium flags a browser needs to load it.
+ */
+export async function serveExport(root: string): Promise<{ origin: string; browserArgs: string[]; close: () => Promise<void> }> {
+  const certificate = localCertificate();
+  const server = createSecureServer(certificate, (request, response) => {
+    const { pathname } = new URL(request.url ?? '/', `https://${HOST}`);
     const file = fileFor(root, pathname);
     const served = file ?? path.join(root, '404.html');
     const type = TYPES[path.extname(served)] ?? 'application/octet-stream';
@@ -87,10 +100,11 @@ export async function serveExport(root: string): Promise<{ origin: string; close
     if (request.method === 'HEAD') response.end();
     else response.end(body);
   });
-  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  await new Promise<void>((resolve) => server.listen(0, HOST, resolve));
   const { port } = server.address() as AddressInfo;
   return {
-    origin: `https://localhost:${port}`,
+    origin: `https://${HOST}:${port}`,
+    browserArgs: [trustFlag(certificate.cert)],
     close: () => new Promise((resolve) => server.close(() => resolve())),
   };
 }

@@ -10,7 +10,7 @@ import { auditReport, builtPages, judgeSite, medianVitals, overLimit, sitemapFai
 import { getSettings } from '../lib/content/settings.ts';
 import { inspectPage, WIDTHS } from './audit/inspect.ts';
 import { startLighthouse } from './audit/lighthouse.ts';
-import { ACCEPT_LOCAL_CERTIFICATE, serveExport } from './audit/serve.ts';
+import { serveExport } from './audit/serve.ts';
 
 /** Runs for a page over a limit: it's measured this many times and judged on the median. */
 const RUNS_OVER_LIMIT = 3;
@@ -33,11 +33,11 @@ const audits: PageAudit[] = [];
 const server = await serveExport(OUT);
 const urlFor = (page: string) => `${server.origin}${page}`;
 // The story tests' Chromium (ADR-0012), in the same full browser Lighthouse uses.
-const browser = await chromium.launch({ channel: 'chromium', args: [ACCEPT_LOCAL_CERTIFICATE] }).catch(async (error) => {
+const browser = await chromium.launch({ channel: 'chromium', args: server.browserArgs }).catch(async (error) => {
   await server.close();
   throw error;
 });
-const lighthouse = await startLighthouse().catch(async (error) => {
+const lighthouse = await startLighthouse(server.browserArgs).catch(async (error) => {
   await Promise.allSettled([browser.close(), server.close()]);
   throw error;
 });

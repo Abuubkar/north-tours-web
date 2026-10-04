@@ -38,5 +38,5 @@ It builds the site, serves the static export on a free localhost port (as a stat
 
 **Its limits:**
 - **INP needs real taps,** and Lighthouse only loads pages. The audit reports TBT (Total Blocking Time) as the lab stand-in and warns above 200 ms without failing. INP is checked by hand on the interactive flows.
-- Lab numbers are estimates for a mid-range phone on slow mobile data, not what real visitors measure. They depend on how the site is served: Lighthouse reads LCP up to a second slower from a plain HTTP/1.1 server than from HTTP/2, which every host uses, so the audit serves HTTP/2.
+- Lab numbers are estimates for a mid-range phone on slow mobile data, not what real visitors measure. They depend on how the site is served: Lighthouse reads LCP up to a second slower from a plain HTTP/1.1 server than from HTTP/2, which every host uses, so the audit serves HTTP/2 (ADR-0025).
 - Fix a failure where it starts (the component, section, content or image), never by switching off an axe rule, raising a limit or skipping a page.
