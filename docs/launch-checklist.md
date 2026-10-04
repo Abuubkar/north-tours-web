@@ -2,6 +2,12 @@
 
 What must be true before the site goes live. Hosting itself is out of scope (ADR-0007, CLAUDE.md §11): the owner sets it up by hand once this list is clear.
 
+**Before launch:**
+1. `pnpm launch:check` passes ("Nothing left to replace.").
+2. `pnpm audit:site` passes on every page.
+3. The manual pass (section 3) is walked, and walked again after any large change.
+4. The owner's own sign-offs (section 4) are done.
+
 ## 1. Everything real: `pnpm launch:check`
 
 ```sh
@@ -40,3 +46,50 @@ It builds the site, serves the static export on a free localhost port (as a stat
 - **INP needs real taps,** and Lighthouse only loads pages. The audit reports TBT (Total Blocking Time) as the lab stand-in and warns above 200 ms without failing. INP is checked by hand on the interactive flows.
 - Lab numbers are estimates for a mid-range phone on slow mobile data, not what real visitors measure. They depend on how the site is served: Lighthouse reads LCP up to a second slower from a plain HTTP/1.1 server than from HTTP/2, which every host uses, so the audit serves HTTP/2 (ADR-0025).
 - Fix a failure where it starts (the component, section, content or image), never by switching off an axe rule, raising a limit or skipping a page.
+
+## 3. The manual pass
+
+What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm build`, then serve `out/` with compression on), first with the keyboard alone, then with a screen reader.
+
+**Keyboard only**
+- The skip link is the first Tab stop and moves focus into the page.
+- Focus is always visible and follows the visual order. Enter and Space work every control.
+- Escape closes every sheet, drawer, dropdown and dialog and returns focus to what opened it. Nothing traps focus.
+- Anchors land below the sticky header. Tap targets are at least 44px.
+- **Flows:**
+  - the header, and the mobile menu below 820px;
+  - Tours: the filter dropdowns and sort from 820px, the filter and sort sheets below it, the results count;
+  - a tour page: choosing a date, the booking panel from 1100px, the sticky bar and the booking sheet below it, the itinerary, the FAQs;
+  - the planner, from the first step to "Send on WhatsApp" with the trip in the message;
+  - Help: search (Escape clears it), and an answer link (`/help#refunds` opens it);
+  - the legal pages' contents (the disclosure below 820px closes when a link is followed);
+  - Contact's "On a trip right now?" banner below 820px;
+  - About: a guide's profile, Previous and Next, Escape back to the card;
+  - the 404.
+
+**Screen reader** (VoiceOver with Safari on macOS or iOS; TalkBack with Chrome on Android)
+- One `<h1>`, and headings in order with no skipped level.
+- Landmarks named: the banner, main, the footer and each navigation.
+- Links and buttons named. Images have alt text; photo placeholders are named by their shot.
+- Live regions read once: Help's answer count, Tours' results count, the planner's step heading and errors.
+- Dialogs are announced with their names.
+- Prices and dates read sensibly ("PKR 145,000 per person", "2–7 Jun"). Decorative parts stay silent ("NORTH" on the Homepage, the arrows on link rows, the mini maps).
+
+**Reduced motion and no JavaScript**
+- With reduced motion on, nothing moves and nothing waits to appear.
+- With JavaScript off, every page's content shows and its links work. (The Homepage's brand statement still reveals word by word as it scrolls into view, in CSS; it ends fully shown.)
+
+**INP** (Interaction to Next Paint, each ≤ 200 ms)
+- In Chrome's performance panel with a 4x CPU slowdown, after the page has settled: open the menu, open and toggle a filter, choose a date and open the booking sheet, the planner's steps and typing, typing in Help's search, opening a profile and Next, opening the legal contents and the Contact banner. Record the numbers.
+
+**Structured data**
+- Paste the built Homepage, a tour page and `/help` into the Schema.org validator (validator.schema.org). Expect `TravelAgency`, `TouristTrip` with its offers, and `FAQPage`. Once a tour's rating or reviews are real, check how the validator treats `aggregateRating` and `review` on `TouristTrip`, which schema.org doesn't list for that type.
+
+## 4. The owner's sign-offs
+
+`launch:check` lists each of these until it's done:
+- **Real values:** the brand name, the site URL, contact details, office hours, the pickup point, the DTS licence, the company registration, social links and memberships.
+- **Legal review:** the Privacy Policy, the Terms and the Help policies are sample text (ADR-0020) until a lawyer has reviewed them.
+- **Photos of people:** guides, drivers, the founder and the office are the owner's own photos only (ADR-0009). Stock photos of vehicles stand in for the fleet until then (ADR-0019).
+- **Survey of Pakistan vetting:** the route map, the itinerary maps and the places maps, then set `maps.surveyOfPakistanVetted` to `true`.
+- **Hosting** is set up by the owner by hand (ADR-0007): HTTP/2 or HTTP/3 with compression, `404.html` for unknown paths, and no other change to the site.

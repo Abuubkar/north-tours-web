@@ -237,8 +237,10 @@ Folders are created only when the first file for them is needed (section 3).
     are visual only: a role named "H1" or "Display" does not make an element a heading.
 - Every page has its own `<title>`, meta description and social share image.
 - **`pnpm audit:site`** checks the bar against the built site: Lighthouse (LCP, CLS, TBT) and axe on
-  every page, with the page checks above (ADR-0021). It's slow, so it runs on demand, not in
-  `pnpm test` or the pre-commit hook.
+  every page, with the page checks above (ADR-0021, ADR-0025). It's slow, so it runs on demand, not
+  in `pnpm test` or the pre-commit hook.
+- **Before launch,** run `pnpm launch:check` and `pnpm audit:site`, and walk the manual keyboard,
+  screen-reader and INP pass in `docs/launch-checklist.md`.
 - No console errors. Type-check, lint and `pnpm test` pass.
 - **Components have stories** covering their variants and states. Behaviour is tested in story
   `play` functions only; no separate component `.test.tsx` files (ADR-0012).
