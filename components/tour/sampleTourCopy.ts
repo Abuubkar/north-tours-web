@@ -36,7 +36,7 @@ export const sampleTourCopy: TourCopy = {
   },
   hotels: {
     headline: 'Where you’ll stay each night',
-    sharing: 'twin sharing',
+    description: '{description} · twin sharing',
     note: 'All rooms are twin sharing as standard. Triple and quad rooms cost less per person (see below).',
   },
   dates: {

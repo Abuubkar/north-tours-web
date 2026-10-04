@@ -38,7 +38,7 @@ const suitabilityLines = z.array(nonEmpty).min(2, 'List at least 2').max(5, 'Lis
 const highlightSchema = z.strictObject({ title: nonEmpty, text: nonEmpty, image: imageSchema });
 
 /** The design's nine inclusion icons. */
-export const INCLUSION_ICONS = ['hotel', 'meals', 'transport', 'guide', 'jeep', 'lunch', 'personal', 'tickets', 'flights'] as const;
+const INCLUSION_ICONS = ['hotel', 'meals', 'transport', 'guide', 'jeep', 'lunch', 'personal', 'tickets', 'flights'] as const;
 
 /** A row in "What the price includes": "Hotels · 8 nights in 3-star hotels, twin sharing". */
 const inclusionSchema = z.strictObject({ icon: z.enum(INCLUSION_ICONS), title: nonEmpty, text: nonEmpty });

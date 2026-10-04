@@ -7,7 +7,7 @@ import styles from '../../ui/stories.module.css';
 const meta = {
   title: 'Hotels/HotelCard',
   component: HotelCard,
-  args: { stay: sampleTour.stays[1], sharing: 'twin sharing' },
+  args: { stay: sampleTour.stays[1], descriptionTemplate: '{description} · twin sharing' },
   decorators: [
     (Story) => (
       <div className={styles.card}>

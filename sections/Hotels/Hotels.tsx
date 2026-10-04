@@ -14,7 +14,7 @@ export function Hotels({ copy, stays }: HotelsProps) {
       <ul className={styles.grid} style={{ '--stay-count': stays.length } as CSSProperties}>
         {stays.map((stay) => (
           <li key={stay.nights.from} className={styles.cell}>
-            <HotelCard stay={stay} sharing={copy.sharing} />
+            <HotelCard stay={stay} descriptionTemplate={copy.description} />
           </li>
         ))}
       </ul>

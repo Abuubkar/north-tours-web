@@ -1,7 +1,5 @@
 .card {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+  composes: imageCard from '../../../styles/layout.module.css';
 }
 
 .text {

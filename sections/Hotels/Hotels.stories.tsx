@@ -43,7 +43,8 @@ export const OneStay: Story = {
   args: { stays: [sampleTour.stays[1]] },
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('listitem').getBoundingClientRect().width).toBeLessThanOrEqual(320);
+    const max = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hotel-card-max'));
+    await expect(canvas.getByRole('listitem').getBoundingClientRect().width).toBeLessThanOrEqual(max);
   },
 };
 

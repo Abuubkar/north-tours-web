@@ -400,6 +400,7 @@ A caret-style show/hide (▾ rotates 180°), distinct from the `+` accordion:
 
 #### `HotelCard` (TD "07 Hotels")
 - `MediaFrame` 4:3 (caption inset 12/10), then "Night 1 · Islamabad" 13 `text-3`, "[Hotel name]" 17/500, "[Category] · twin sharing" 14 `text-2`. Grid is **5 equal columns ≥ 1100, otherwise 1 column**, fixed (not capped auto-fill). A note sits below. Static.
+- *(Built in PRD #47: hotels are never named; the title is generic, "Hotel in Karimabad", over a photo of the town or valley. The grid is capped auto-fill, MIN 160 so five fit beside the aside, never more columns than stays and at most 320px per stay, drawn as an open hairline grid so a wrapped row leaves no filled empty cells.)*
 
 #### `InclusionList` (TD "06 Included", light)
 - A two-column hairline grid "Included" / "Not included" (20/500). Rows have a 22px icon, title 15/500 and desc 14 `ink-text-2`, separated by hairlines. Static.
@@ -593,7 +594,7 @@ The shared header, mobile menu and footer live in `components/layout` instead (P
 | **Section shell** | `border-top: 1px line` (or `line-light` on light), padding `var(--section-y) var(--margin)` = `clamp(72px,9cqi,144px) clamp(20px,3.4cqi,48px)`; brand statement and closing CTAs `clamp(88px,10cqi,160px)` | every page |
 | **Section header row** | `display:flex; flex-wrap:wrap; gap:24px 48px`; optional label `flex:0 0 240px`; content `flex:999 1 600px; min-width:0`. Most sections render **only** the content column (no label). Optional right-aligned meta via an inner `flex-wrap; justify-content:space-between; align-items:flex-end` (Home Departures, all Reviews, Help Policies) | all |
 | **H2 sizes** | standard `clamp(34px,4.6cqi,66px)`/1/−.04em, max-width 720–820; long (> ~44 chars) `clamp(32px,3.9cqi,56px)`/1.08/−.03em; closing CTA uses H1 `clamp(40px,6.4cqi,92px)`/.98/−.045em | all |
-| **Hairline grid, capped auto-fill** | `display:grid; gap:1px; background: line; border-top/bottom: 1px line; grid-template-columns: repeat(auto-fill, minmax(max(MIN, calc((100% - (N-1)px)/N)), 1fr))`. Cells `ink-900` (or `mist-50` on light with `line-light` background) | see table below |
+| **Hairline grid, capped auto-fill** | `display:grid; gap:1px; background: line; border-top/bottom: 1px line; grid-template-columns: repeat(auto-fill, minmax(max(MIN, calc((100% - (N-1)px)/N)), 1fr))`. Cells `ink-900` (or `mist-50` on light with `line-light` background). **Open variant** (TD highlights and hotels): each cell's 1px outline draws the lines, so a part-filled last row ends cleanly | see table below |
 | **Text-grid bleed** | `margin-left/right: calc(-1 * P); clip-path: inset(0 P)` with `P = clamp(16px,1.7cqi,24px)`; cells `padding: Y P` | steps, reviews, trust strip, facts, notes, policies, seasons, principles, stats, suitability, inclusions, Contact ways |
 | **Image-card cells** | photo full-bleed in the square cell with an 8px frame; text block `padding: Y P` | destinations, guides, highlights, hotels, vehicles, other destinations |
 | **List rows** | `padding:14px 0` (12–20 seen); `border-bottom: 1px line`; top border on the list. Justified pair, or fixed label column (100/110/120/200px) | footer, Visit us, Credentials, Getting there, summaries, profile, itinerary `<dl>` |
@@ -625,7 +626,7 @@ Hairline grid MIN/N values found:
 | Principles | 240 | 4 | About |
 | Vehicles | 200 | 2 | About |
 | Policies | 280 | 2 | Help |
-| Hotels | fixed 5 / 1 | — | TD |
+| Hotels | fixed 5 / 1 (built: 160, max 5, never more than the stays) | — | TD |
 | Months | fixed 12 / 6 | — | Dest |
 | Contact ways | fixed `2fr 1fr 1fr` / 1 | — | Contact |
 | Planner destination cards | 150, `auto-fill`, gap 8 (not hairline) | — | Planner |

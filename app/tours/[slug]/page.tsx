@@ -94,7 +94,7 @@ export default async function TourPage(props: TourPageProps) {
         >
           <TripOverview overview={tour.overview} copy={copy.overview} />
           <Highlights headline={copy.highlights.headline} highlights={tour.highlights} />
-          <Included copy={copy.included} tour={tour} />
+          <Included copy={copy.included} included={tour.included} notIncluded={tour.notIncluded} />
           <Hotels copy={copy.hotels} stays={tour.stays} />
           <DatesAndPrices
             tour={{ title, days, nights, prices }}

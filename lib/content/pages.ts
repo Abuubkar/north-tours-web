@@ -134,8 +134,8 @@ const tourCopySchema = z.strictObject({
   included: z.strictObject({ headline: copy, included: copy, notIncluded: copy }),
   hotels: z.strictObject({
     headline: copy,
-    /** After each stay's description: "3-star · valley view · twin sharing". */
-    sharing: copy,
+    /** Each stay's line: {description} is the stay's own, e.g. "3-star · valley view · twin sharing". */
+    description: copyWith('description'),
     /** Under the stays. */
     note: copy,
   }),

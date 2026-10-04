@@ -8,7 +8,7 @@ import { Included } from './Included';
 const meta = {
   title: 'Sections/Included',
   component: Included,
-  args: { copy: sampleTourCopy.included, tour: sampleTour },
+  args: { copy: sampleTourCopy.included, included: sampleTour.included, notIncluded: sampleTour.notIncluded },
   decorators: [
     (Story) => (
       <BookingLayout label="Book this tour" aside={<p>Booking panel</p>}>

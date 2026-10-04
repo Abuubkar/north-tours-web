@@ -173,6 +173,7 @@ The header row is a flex row with `flex-wrap: wrap; gap: 24px 48px`. Label: `fle
 ## 5. Grid & hairline rules
 
 - **Hairline grids:** build card/cell grids as `display:grid; gap:1px; background:#253038;` with each cell on `#0C1216`. Add `border-top` and `border-bottom: 1px solid #253038` to the grid. The gap *is* the line.
+- **Open hairline grids:** where the last row is often part-filled (Tour Detail highlights and hotels), each cell draws its own lines instead (a 1px outline meeting its neighbours' in the gap, the outer left and right edges clipped off), so the last row simply ends rather than leaving filled empty cells. In code: `openGrid`/`openCell` in `styles/layout.module.css`.
 - **Capped auto-fill columns:** `grid-template-columns: repeat(auto-fill, minmax(max(MIN, calc((100% - (N-1)px) / N)), 1fr))`. This gives at most N columns and wraps down to MIN widths without media queries.
 
 | Grid | MIN | N (max cols) | Result @390 | Result @1440 |
