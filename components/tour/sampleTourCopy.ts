@@ -50,6 +50,7 @@ export const sampleTourCopy: TourCopy = {
     label: 'Book this tour',
     priceNote: 'per person · twin sharing',
     dateLabel: 'Departure date',
+    choosePlaceholder: 'Choose a departure',
     travellersLabel: 'Travellers',
     travellersHint: 'Adults and children {childFromAge}+',
     fewerTravellers: 'Fewer travellers',
@@ -70,5 +71,18 @@ export const sampleTourCopy: TourCopy = {
     waitlistLabel: 'Join waitlist',
     askLabel: 'Ask on WhatsApp',
     cancelNote: 'Cancel {fullRefundDays} or more days before departure for a full refund of your advance.',
+  },
+  bar: {
+    dateNote: 'per person · {date}',
+    soldOutNote: 'per person · {date} · sold out',
+    reserveLabel: 'Reserve',
+    askLabel: 'Ask about {tour} on WhatsApp',
+  },
+  sheet: {
+    subtitle: '{tripLength} · from Lahore',
+  },
+  cta: {
+    headline: 'Hold your seats with a {advancePercent}% advance',
+    lead: 'Or message us first. Most families plan this trip with us on WhatsApp.',
   },
 };

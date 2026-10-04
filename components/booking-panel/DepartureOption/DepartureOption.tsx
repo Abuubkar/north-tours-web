@@ -7,11 +7,12 @@ import styles from './DepartureOption.module.css';
  * One departure as a radio in the panel's date group: its dates and seats, read together as its
  * name ("12–20 May, 3 of 16 seats left"). Arrow keys move between dates, as in any radio group.
  */
-export function DepartureOption({ name, departure, checked, onChoose }: DepartureOptionProps) {
+export function DepartureOption({ name, departure, checked, onChoose, ref }: DepartureOptionProps) {
   const status = seatStatus(departure);
   return (
     <label className={`${styles.option} ${status === 'soldout' ? styles.full : ''}`}>
       <input
+        ref={ref}
         type="radio"
         name={name}
         value={departure.start}

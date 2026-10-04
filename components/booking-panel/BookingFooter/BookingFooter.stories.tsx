@@ -23,6 +23,10 @@ const booking = (chosen: Booking['chosen'], travellers = 2): Booking => ({
   choose: () => {},
   setTravellers: () => {},
   setRoom: () => {},
+  sheetOpen: false,
+  openSheet: () => {},
+  closeSheet: () => {},
+  dateControlRef: { current: null },
 });
 
 const meta = {

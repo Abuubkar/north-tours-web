@@ -56,3 +56,18 @@ export const RealLicence: Story = {
     await expect(canvas.getByText('No. 1234')).toBeVisible();
   },
 };
+
+/** Mini, in Tour Detail's final call to action: licence, pickup point and payments. */
+export const Mini: Story = {
+  args: { variant: 'mini' },
+  play: async ({ canvas }) => {
+    await expect(canvas.getAllByRole('term').map((t) => t.textContent)).toEqual(['DTS licence', 'Departs from', 'We accept']);
+    await expect(canvas.getByText('No. [DTS licence number]')).toBeVisible();
+    await expect(canvas.getByText('[Pickup point], Lahore')).toBeVisible();
+    await expect(canvas.getByText('Cash · Bank transfer')).toBeVisible();
+  },
+};
+
+export const MiniOnLight: Story = { ...Mini, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const MiniPhone: Story = { ...Mini, globals: { viewport: { value: 'phone' } } };

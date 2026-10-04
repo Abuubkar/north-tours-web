@@ -1,0 +1,6 @@
+.subtitle {
+  composes: label from '../../../styles/typography.module.css';
+  margin-bottom: var(--space-20);
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+}

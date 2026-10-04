@@ -1,4 +1,4 @@
-import { createContext, use, useState } from 'react';
+import { createContext, use, useRef, useState, type RefObject } from 'react';
 import type { Departure } from '@/lib/content/tours';
 import { clampTravellers, DEFAULT_TRAVELLERS, maxTravellers, type RoomType } from '@/lib/utils/booking';
 import { upcomingDepartures } from '@/lib/utils/departures';
@@ -19,6 +19,12 @@ export type Booking = {
   choose: (start: string) => void;
   setTravellers: (travellers: number) => void;
   setRoom: (room: RoomType) => void;
+  /** The booking sheet (below 1100px). */
+  sheetOpen: boolean;
+  openSheet: () => void;
+  closeSheet: () => void;
+  /** The aside panel's first date control, which the final call to action focuses. */
+  dateControlRef: RefObject<HTMLElement | null>;
 };
 
 export const BookingContext = createContext<Booking | null>(null);
@@ -40,6 +46,8 @@ export function useBookingState(departures: Departure[], builtOn: string): Booki
   const [chosenStart, setChosenStart] = useState<string | null>(null);
   const [wanted, setWanted] = useState(DEFAULT_TRAVELLERS);
   const [room, setRoom] = useState<RoomType>('twin');
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const dateControlRef = useRef<HTMLElement>(null);
 
   const chosen = upcoming.find((departure) => departure.start === chosenStart);
   const max = maxTravellers(chosen, upcoming);
@@ -57,5 +65,9 @@ export function useBookingState(departures: Departure[], builtOn: string): Booki
     choose: setChosenStart,
     setTravellers: (value) => setWanted(clampTravellers(value, max)),
     setRoom,
+    sheetOpen,
+    openSheet: () => setSheetOpen(true),
+    closeSheet: () => setSheetOpen(false),
+    dateControlRef,
   };
 }

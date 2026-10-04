@@ -82,6 +82,8 @@ const settingsSchema = z.strictObject({
     licence: z.strictObject({ label: nonEmpty, value: copyWith('licence'), note: nonEmpty }),
     operating: z.strictObject({ label: nonEmpty, value: copyWith('years'), note: nonEmpty }),
     trips: z.strictObject({ label: nonEmpty, note: nonEmpty }),
+    /** The pickup point, in the Tour Detail strip. */
+    departs: z.strictObject({ label: nonEmpty }),
     payments: z.strictObject({ label: nonEmpty }),
   }),
   /** WhatsApp wording, editable without touching code. */

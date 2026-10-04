@@ -1,16 +1,16 @@
 'use client';
 
-import { useId } from 'react';
+import { useCallback, useId } from 'react';
 import { RatingInline } from '@/components/ui/RatingInline/RatingInline';
 import { Stepper } from '@/components/ui/Stepper/Stepper';
 import { useBooking } from '@/hooks/useBooking';
-import { ROOM_TYPES } from '@/lib/utils/booking';
-import { NO_UPCOMING_DATES } from '@/lib/utils/departures';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { COMPACT_PANEL_QUERY, ROOM_TYPES } from '@/lib/utils/booking';
 import { departurePrices, fromPrice } from '@/lib/utils/price';
 import { fillTokens } from '@/lib/utils/tokens';
 import { PriceBlock } from '../../tour/PriceBlock/PriceBlock';
 import { BookingFooter } from '../BookingFooter/BookingFooter';
-import { DepartureOption } from '../DepartureOption/DepartureOption';
+import { DepartureField } from '../DepartureField/DepartureField';
 import { RoomOption } from '../RoomOption/RoomOption';
 import type { BookingPanelProps } from './BookingPanel.types';
 import styles from './BookingPanel.module.css';
@@ -18,12 +18,17 @@ import styles from './BookingPanel.module.css';
 /**
  * The booking panel: pick a departure, the travellers and the room sharing; the footer shows the
  * total and the advance and opens WhatsApp. The price reads "from" until a date is chosen, then
- * that date's twin price. The body scrolls inside its box; the footer stays in view.
+ * that date's twin price. In the aside the body scrolls inside its box so the footer stays in
+ * view, and on short screens the dates become a select; in the sheet it's always the full list.
  */
-export function BookingPanel({ tour, copy, tokens, settings, paymentMethods }: BookingPanelProps) {
+export function BookingPanel({ variant, tour, copy, tokens, settings, paymentMethods }: BookingPanelProps) {
   const booking = useBooking();
-  const { chosen } = booking;
+  const { chosen, dateControlRef } = booking;
   const name = useId();
+  const compact = useMediaQuery(COMPACT_PANEL_QUERY) && variant === 'aside';
+  const setDateControl = useCallback((element: HTMLElement | null) => {
+    dateControlRef.current = element;
+  }, [dateControlRef]);
   const prices = chosen ? departurePrices(tour, chosen) : tour.prices;
   const price = chosen ? prices.twin : fromPrice({ prices: tour.prices, departures: booking.departures }, booking.today);
 
@@ -34,21 +39,9 @@ export function BookingPanel({ tour, copy, tokens, settings, paymentMethods }: B
           <PriceBlock amount={price} size="panel" from={!chosen} note={copy.priceNote} />
           <RatingInline score={tour.rating.score} count={tour.rating.count} />
         </div>
-        <fieldset className={styles.field}>
-          <legend className={styles.legend}>{copy.dateLabel}</legend>
-          <div className={styles.dates}>
-            {booking.departures.map((departure) => (
-              <DepartureOption
-                key={departure.start}
-                name={`${name}-date`}
-                departure={departure}
-                checked={departure === chosen}
-                onChoose={booking.choose}
-              />
-            ))}
-            {booking.departures.length === 0 && <p className={styles.hint}>{NO_UPCOMING_DATES}</p>}
-          </div>
-        </fieldset>
+        <div className={styles.dateField}>
+          <DepartureField copy={copy} compact={compact} controlRef={variant === 'aside' ? setDateControl : undefined} />
+        </div>
         <div className={styles.travellers}>
           <div>
             <p className={styles.fieldLabel}>{copy.travellersLabel}</p>

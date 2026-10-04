@@ -17,7 +17,9 @@ import { BookingPanel } from './BookingPanel';
 const meta = {
   title: 'Booking panel/BookingPanel',
   component: BookingPanel,
+  // The list form; the aside's panel shows it only on screens 920px or taller (see Compact).
   args: {
+    variant: 'sheet',
     tour: sampleBookingTour,
     copy: sampleBookingCopy.booking,
     tokens: sampleBookingTokens,
@@ -173,9 +175,43 @@ export const SoldOutDateOnLight: Story = { ...SoldOutDate, globals: { surface: '
 export const StaleBuild: Story = {
   decorators: [withBooking([{ start: '2020-06-01', end: '2020-06-09', seatsTotal: 16, seatsLeft: 4 }])],
   play: async ({ canvas }) => {
-    const dates = canvas.getByRole('group', { name: 'Departure date' });
-    await waitFor(() => expect(within(dates).queryAllByRole('radio')).toHaveLength(0));
-    await expect(canvas.getByText('No upcoming dates · ask on WhatsApp')).toBeVisible();
+    await waitFor(() => expect(canvas.getByText('No upcoming dates · ask on WhatsApp')).toBeVisible());
+    await expect(canvas.queryByRole('radio', { name: /^1–9 Jun/ })).toBeNull();
     await expect(messageOf(canvas.getByRole('link', { name: 'Ask on WhatsApp' }))).toBe('Hi, I’d like to plan a trip north.');
+  },
+};
+
+/**
+ * At 1366×768 (shorter than 920px) the aside's panel picks its date from a select named by its
+ * label, with each date's seats; the footer stays on screen.
+ */
+export const Compact: Story = {
+  args: { variant: 'aside' },
+  globals: { viewport: { value: 'laptop' } },
+  play: async ({ canvas, userEvent }) => {
+    const select = await canvas.findByRole('combobox', { name: 'Departure date' });
+    await expect(canvas.queryByRole('radio', { name: /May/ })).toBeNull();
+    await expect(canvas.getAllByRole('option').map((o) => o.textContent)).toEqual([
+      'Choose a departure',
+      '12–20 May · 3 of 16 seats left',
+      '26 May – 3 Jun · 9 of 16 seats left',
+      '9–17 Jun · Sold out · waitlist open',
+      '23 Jun – 1 Jul · 14 of 16 seats left',
+    ]);
+    await userEvent.selectOptions(select, '26 May – 3 Jun · 9 of 16 seats left');
+    await expect(canvas.getByText('PKR 290,000')).toBeVisible();
+    const reserve = canvas.getByRole('link', { name: 'Reserve with 30% advance' });
+    await expect(reserve.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight);
+  },
+};
+
+export const CompactOnLight: Story = { ...Compact, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+
+/** In the sheet the panel always lists its dates, whatever the screen's height. */
+export const InSheet: Story = {
+  globals: { viewport: { value: 'laptop' } },
+  play: async ({ canvas }) => {
+    await expect(canvas.queryByRole('combobox')).toBeNull();
+    await expect(dateRadio(canvas, '12–20 May')).toBeVisible();
   },
 };

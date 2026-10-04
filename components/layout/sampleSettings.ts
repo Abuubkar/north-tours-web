@@ -35,6 +35,7 @@ export const placeholderSettings: Settings = {
     licence: { label: 'DTS licence', value: 'No. {licence}', note: 'Department of Tourist Services, Punjab' },
     operating: { label: 'Operating', value: '{years} years', note: 'From our office in Lahore' },
     trips: { label: 'Trips completed', note: 'Group and private' },
+    departs: { label: 'Departs from' },
     payments: { label: 'We accept' },
   },
   whatsapp: {

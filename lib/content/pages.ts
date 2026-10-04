@@ -154,6 +154,8 @@ const tourCopySchema = z.strictObject({
     /** Under the price. */
     priceNote: copy,
     dateLabel: copy,
+    /** The compact form's select (short screens), until a date is chosen. */
+    choosePlaceholder: copy,
     travellersLabel: copy,
     travellersHint: copyWith(...SETTINGS_TOKENS),
     fewerTravellers: copy,
@@ -176,6 +178,20 @@ const tourCopySchema = z.strictObject({
     askLabel: copy,
     cancelNote: copyWith(...SETTINGS_TOKENS),
   }),
+  /** The sticky bar on phones and tablets (below 1100px). */
+  bar: z.strictObject({
+    /** Under the price once a date is chosen: {date} is its dates, e.g. "12–20 May". */
+    dateNote: copyWith('date'),
+    soldOutNote: copyWith('date'),
+    /** Opens the booking sheet. */
+    reserveLabel: copy,
+    /** The WhatsApp button's accessible name. */
+    askLabel: copyWith('tour'),
+  }),
+  /** The booking sheet: under its title (the tour), e.g. "9 days, 8 nights · from Lahore". */
+  sheet: z.strictObject({ subtitle: copyWith('tripLength') }),
+  /** The final call to action, "Hold your seats with a 30% advance". */
+  cta: z.strictObject({ headline: copyWith(...SETTINGS_TOKENS), lead: copy }),
 });
 
 export type TourCopy = z.infer<typeof tourCopySchema>;

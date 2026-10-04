@@ -1,3 +1,4 @@
+import type { Ref } from 'react';
 import type { Departure } from '@/lib/content/tours';
 
 export type DepartureOptionProps = {
@@ -7,4 +8,5 @@ export type DepartureOptionProps = {
   checked: boolean;
   /** Called when the visitor picks this date. */
   onChoose: (start: string) => void;
+  ref?: Ref<HTMLInputElement>;
 };

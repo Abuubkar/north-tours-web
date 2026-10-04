@@ -56,6 +56,9 @@
       "label": "Trips completed",
       "note": "Group and private"
     },
+    "departs": {
+      "label": "Departs from"
+    },
     "payments": {
       "label": "We accept"
     }

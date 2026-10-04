@@ -1,0 +1,26 @@
+/* More room than other sections, as the brand statement has (DESIGN.md §4). */
+.section {
+  padding: var(--section-y-statement) var(--margin);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/* The statement size: a closing CTA's H2 at the large headline size. */
+.headline {
+  composes: statement from '../../styles/typography.module.css';
+  max-width: var(--measure-statement);
+}
+
+.lead {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  max-width: var(--measure-cta-actions);
+  margin-top: var(--space-32);
+  color: var(--fg-2);
+}
+
+.actions {
+  margin-top: var(--space-32);
+}
+
+.after {
+  margin-top: var(--space-48);
+}

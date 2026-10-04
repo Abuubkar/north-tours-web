@@ -1,0 +1,44 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.label {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+.control {
+  position: relative;
+}
+
+/* 2px radius (DESIGN.md §7); --control-border, and --fg on hover or once a value is chosen. */
+.select {
+  composes: small from '../../../styles/typography.module.css';
+  width: 100%;
+  height: var(--control-48);
+  padding: 0 var(--space-48) 0 var(--space-12);
+  border: var(--hairline-width) solid var(--control-border);
+  border-radius: var(--radius-input);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: inherit;
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  appearance: none;
+}
+
+.select:hover,
+.chosen {
+  border-color: var(--fg);
+}
+
+.caret {
+  position: absolute;
+  top: 50%;
+  right: var(--space-16);
+  color: var(--fg-2);
+  transform: translateY(-50%);
+  pointer-events: none;
+}

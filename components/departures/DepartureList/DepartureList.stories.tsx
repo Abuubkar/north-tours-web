@@ -51,6 +51,7 @@ export const SelectsInPanel: Story = {
       <DepartureList {...args} />
       <div className={styles.aside} data-surface="dark">
         <BookingPanel
+          variant="sheet"
           tour={sampleBookingTour}
           copy={sampleBookingCopy.booking}
           tokens={sampleBookingTokens}

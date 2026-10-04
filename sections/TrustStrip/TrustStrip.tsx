@@ -5,18 +5,41 @@ import type { TrustStripProps } from './TrustStrip.types';
 import styles from './TrustStrip.module.css';
 
 /**
- * Four facts that show the company is genuine: DTS licence, years operating (up to the build
- * year), trips completed and accepted payments. Read from settings, so it's the same on every page.
+ * Facts that show the company is genuine, read from settings so they're the same on every page:
+ * DTS licence, years operating (up to the build year), trips completed and accepted payments.
+ * The mini strip, inside Tour Detail's final call to action, has the licence, the pickup point
+ * and the payments.
  */
-export function TrustStrip({ settings, year }: TrustStripProps) {
+export function TrustStrip({ variant = 'full', settings, year }: TrustStripProps) {
   const { trust } = settings;
+  const licence = { ...trust.licence, value: fillTokens(trust.licence.value, { licence: settings.legal.dtsLicence }), figure: true };
+  const payments = { ...trust.payments, value: paymentMethodsLabel(settings), note: undefined, figure: false };
+
+  if (variant === 'mini') {
+    const cells = [
+      licence,
+      { ...trust.departs, value: settings.booking.pickupPoint },
+      payments,
+    ];
+    return (
+      <dl className={styles.miniGrid}>
+        {cells.map(({ label, value }) => (
+          <div key={label} className={styles.miniCell}>
+            <dt className={styles.label}>{label}</dt>
+            <dd className={styles.miniValue}>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    );
+  }
+
   const years = yearsSince(trust.operatingSince, year);
   // The first three values are figures; "We accept" is a list, so it's set smaller.
   const cells = [
-    { ...trust.licence, value: fillTokens(trust.licence.value, { licence: settings.legal.dtsLicence }), figure: true },
+    licence,
     { ...trust.operating, value: fillTokens(trust.operating.value, { years: String(years) }), figure: true },
     { ...trust.trips, value: trust.tripsCompleted, figure: true },
-    { ...trust.payments, value: paymentMethodsLabel(settings), note: undefined, figure: false },
+    payments,
   ];
 
   return (

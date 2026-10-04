@@ -16,6 +16,12 @@ export const ROOM_TYPES = ['twin', 'triple', 'quad'] as const satisfies readonly
 
 export type RoomType = (typeof ROOM_TYPES)[number];
 
+/** From this width the booking panel sits beside the page (an aside); below it, a bar and sheet. */
+export const SIDE_PANEL_QUERY = '(width >= 1100px)';
+
+/** On screens shorter than this the aside's panel picks its date from a select (the compact form). */
+export const COMPACT_PANEL_QUERY = '(height < 920px)';
+
 /** Travellers before the visitor changes it. */
 export const DEFAULT_TRAVELLERS = 2;
 

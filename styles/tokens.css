@@ -107,6 +107,7 @@
   --photo-hero-scrim-stretch: 160%; /* its scrim on phones, drawn taller so the text sits on the dark end */
   --hero-row-pad: clamp(var(--space-24), 2.4cqi, var(--space-32)); /* under the hero's lead and buttons */
   --hero-actions-w: 420px; /* the hero's button pair, before it wraps */
+  --measure-cta-actions: 520px; /* a closing CTA's lead and its 56px button pair */
   --measure-statement: 1040px; /* brand statement headline */
   --measure-statement-body: 500px; /* brand statement paragraph */
   --underline-offset: 6px; /* underlined text links */
@@ -152,6 +153,8 @@
   --grid-reviews-cols: 3;
   --grid-trust-min: 165px;
   --grid-trust-cols: 4;
+  --grid-trust-mini-min: 200px; /* the trust strip inside Tour Detail's final call to action */
+  --grid-trust-mini-cols: 3;
   --grid-destinations-min: 160px;
   --grid-destinations-cols: 6;
   --grid-guides-min: 150px;
