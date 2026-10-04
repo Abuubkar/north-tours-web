@@ -6,7 +6,7 @@ import { execSync } from 'node:child_process';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
-import { auditReport, builtPages, judgeSite, medianVitals, overLimit, type PageAudit } from '../lib/utils/audit.ts';
+import { auditReport, builtPages, judgeSite, medianVitals, overLimit, sitemapFailures, type PageAudit } from '../lib/utils/audit.ts';
 import { inspectPage, WIDTHS } from './audit/inspect.ts';
 import { startLighthouse } from './audit/lighthouse.ts';
 import { serveExport } from './audit/serve.ts';
@@ -25,7 +25,8 @@ const files = readdirSync(OUT, { recursive: true, encoding: 'utf8' }).map((file)
 const buildFiles = new Set(files.map((file) => `/${file}`));
 const pages = builtPages(files);
 
-const siteFailures: string[] = [];
+const sitemap = readFileSync(path.join(OUT, 'sitemap.xml'), 'utf8');
+const siteFailures = sitemapFailures([...sitemap.matchAll(/<loc>([^<]*)<\/loc>/g)].map((match) => match[1]), pages);
 const audits: PageAudit[] = [];
 const server = await serveExport(OUT);
 const urlFor = (page: string) => `${server.origin}${page}`;

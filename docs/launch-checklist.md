@@ -13,7 +13,7 @@ It validates content first (as `pnpm content:check`), then reads every JSON file
 | Kind | Where it lives | How to clear it |
 |---|---|---|
 | **Brand name** | `content/settings.json › brand.name` | Write the real name. Page titles and the footer use it. |
-| **Site URL** | `content/settings.json › site.url` | Write the live address, e.g. `https://example.pk`. |
+| **Site URL** | `content/settings.json › site.url` | Write the live address, e.g. `https://example.pk`. Until then canonical URLs, `og:url`, share images, the sitemap and JSON-LD are root-relative, and robots.txt has no `Sitemap:` line; once it's real they're absolute and robots.txt names the sitemap. |
 | **Placeholders** | Any text with a `[bracketed]` part, whole or partial ("[Office address], Lahore, Punjab"): contact details, office hours, the pickup point, the DTS licence, the company registration, social links, memberships | Replace the bracketed part with the real value. A value with no real counterpart (say, no YouTube channel) still has to be supplied for now; making it optional is a content-model change. |
 | **Sample content** | Every object with `"sample": true`: invented claims about the company (ADR-0019), sample legal and policy text (ADR-0020), and each sample tour, tour rating, destination, guide, review and the `booking`, `trust` and `policies` settings figures (ADR-0022) | Make the item real, or have it reviewed (the lawyer for the Privacy Policy, the Terms and the Help policies), then remove the `sample` field. Delete a sample tour, guide or review the company doesn't have. |
 | **Placeholder photos** | Every image still `{ "placeholder", "alt" }`: guide portraits, the founder, the office, any place without a photo yet | Add the photo (ADR-0009): people and the office are the owner's own photos only, never stock. Run `pnpm images` and commit both folders. |
@@ -33,7 +33,8 @@ It builds the site, serves the static export on a free localhost port (as a stat
 
 - **Lighthouse**, with its default mobile settings (a mid-range phone screen, simulated slow 4G, 4x CPU slowdown): fails on LCP over 2.5 s or CLS over 0.1. A page over a limit is run twice more and judged on the median of three, so one noisy run doesn't fail it.
 - **Axe** (axe-core's default rules) at 390 and 1440, with reduced motion so everything is in its final state: any violation fails, listed with page, width, rule and element.
-- **Page checks:** exactly one `<h1>` at each width; a `<title>` no other page shares; a meta description; `og:image` and `twitter:image` pointing to a file in the build.
+- **Page checks:** exactly one `<h1>` at each width; a `<title>` no other page shares; a meta description; `og:image` and `twitter:image` pointing to a file in the build; a canonical URL to the page itself (not on the 404).
+- **Sitemap:** `sitemap.xml` lists exactly the built pages, minus the 404.
 
 **Its limits:**
 - **INP needs real taps,** and Lighthouse only loads pages. The audit reports TBT (Total Blocking Time) as the lab stand-in and warns above 200 ms without failing. INP is checked by hand on the interactive flows.

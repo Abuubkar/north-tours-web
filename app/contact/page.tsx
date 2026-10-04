@@ -2,9 +2,11 @@ import type { Metadata } from 'next';
 import { OnTripMobileBanner } from '@/components/contact/OnTripMobileBanner/OnTripMobileBanner';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
 import { getContactPage } from '@/lib/content/contactPage';
 import { getContactCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
+import { routes } from '@/lib/routes';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { OnTripNow } from '@/sections/OnTripNow/OnTripNow';
 import { PageHeader } from '@/sections/PageHeader/PageHeader';
@@ -27,6 +29,7 @@ export default function ContactPage() {
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
+      <CanonicalMeta path={routes.contact} siteUrl={settings.site.url} />
       <OnTripMobileBanner text={copy.banner} />
       <PageHeader variant="contact" label={copy.header.label} headline={copy.header.headline} lead={copy.header.lead} />
       <WaysToReachUs copy={copy.ways} channels={channels} />

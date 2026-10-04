@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
 import { getLegalPage } from '@/lib/content/legalPage';
 import { getLegalCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
+import { routes } from '@/lib/routes';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { LegalBody } from '@/sections/LegalBody/LegalBody';
 import { PageHeader } from '@/sections/PageHeader/PageHeader';
@@ -18,6 +20,7 @@ export default function TermsPage() {
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
+      <CanonicalMeta path={routes.terms} siteUrl={settings.site.url} />
       <PageHeader variant="legal" headline={legal.headline} updated={{ template: labels.lastUpdated, date: legal.lastUpdated }} />
       <LegalBody
         contents={{ label: labels.contents, countLabel: labels.contentsCount }}

@@ -3,6 +3,7 @@ import { DestinationFacts } from '@/components/facts/DestinationFacts/Destinatio
 import { DestinationTours } from '@/components/tour-card/DestinationTours/DestinationTours';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
 import { getDestination, getDestinations } from '@/lib/content/catalog';
 import { destinationPageTitle, getDestinationPage } from '@/lib/content/destinationPage';
 import { getSettings } from '@/lib/content/settings';
@@ -44,6 +45,7 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
   return (
     <PageMain>
       <ShareImageMeta photo={page.sharePhoto} siteUrl={settings.site.url} />
+      <CanonicalMeta path={routes.destination(destination.slug)} siteUrl={settings.site.url} />
       <PhotoHero
         variant="destination"
         image={destination.image}

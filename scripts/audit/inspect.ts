@@ -27,6 +27,7 @@ export async function inspectPage(browser: Browser, url: string, width: number):
         description: content('meta[name="description"]'),
         ogImage: content('meta[property="og:image"]'),
         twitterImage: content('meta[name="twitter:image"]'),
+        canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href') ?? '',
       };
     }, width);
     const results = await page.evaluate(() => (window as unknown as { axe: typeof import('axe-core') }).axe.run(document));

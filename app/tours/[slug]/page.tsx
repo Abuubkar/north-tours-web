@@ -7,6 +7,7 @@ import { BookingStickyBar } from '@/components/booking-panel/BookingStickyBar/Bo
 import { HeroFacts } from '@/components/facts/HeroFacts/HeroFacts';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
 import { JsonLd } from '@/components/seo/JsonLd/JsonLd';
 import { RelatedTours } from '@/components/tour-card/RelatedTours/RelatedTours';
 import { getTour, getTours } from '@/lib/content/catalog';
@@ -62,6 +63,7 @@ export default async function TourPage({ params }: TourPageProps) {
   return (
     <PageMain>
       <ShareImageMeta photo={page.sharePhoto} siteUrl={settings.site.url} />
+      <CanonicalMeta path={routes.tour(tour.slug)} siteUrl={settings.site.url} />
       <JsonLd data={page.structuredData.trip} />
       <JsonLd data={page.structuredData.faqs} />
       <PhotoHero

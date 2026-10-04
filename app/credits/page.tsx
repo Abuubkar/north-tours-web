@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
 import { getDestinations, getTours } from '@/lib/content/catalog';
 import { getGuides } from '@/lib/content/guides';
 import { getAboutCopy, getCreditsCopy, getHomeCopy, getToursCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
+import { routes } from '@/lib/routes';
 import { photoCredits } from '@/lib/utils/credits';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { PhotoCredits } from '@/sections/PhotoCredits/PhotoCredits';
@@ -34,6 +36,7 @@ export default function CreditsPage() {
   return (
     <PageMain>
       <ShareImageMeta photo={hero} siteUrl={getSettings().site.url} />
+      <CanonicalMeta path={routes.credits} siteUrl={getSettings().site.url} />
       <PhotoCredits copy={copy} credits={credits} />
     </PageMain>
   );
