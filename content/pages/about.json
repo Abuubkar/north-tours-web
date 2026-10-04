@@ -104,16 +104,15 @@
         "name": "4x4 jeep",
         "summary": "6 seats · for Deosai, Fairy Meadows and mountain tracks",
         "image": {
-          "src": "/images/vehicles/4x4-jeep.jpg",
-          "alt": "A red Toyota Land Cruiser 4x4 with a white roof",
-          "width": 1600,
-          "height": 1079,
-          "focus": { "x": 55, "y": 55 },
+          "src": "/images/vehicles/fairy-meadows-jeep.jpg",
+          "alt": "A green jeep on the narrow Fairy Meadows track, cut into a sheer cliff",
+          "width": 1200,
+          "height": 900,
           "credit": {
             "source": "wikimedia",
-            "author": "Mr.choppers",
-            "licence": "CC BY-SA 3.0",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:1982_Toyota_Land_Cruiser_FJ40_in_Freeborn_Red,_front_right.jpg"
+            "author": "Shahbaz Aslam",
+            "licence": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jeeps_track_of_fairy_meadows.jpg"
           }
         },
         "sample": true
