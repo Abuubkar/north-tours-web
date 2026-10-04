@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { JsonLd } from '@/components/seo/JsonLd/JsonLd';
 import { UpcomingDepartures } from '@/components/tour-card/UpcomingDepartures/UpcomingDepartures';
 import { getDestinations, getTour, getTours } from '@/lib/content/catalog';
 import { getGuides } from '@/lib/content/guides';
@@ -11,6 +12,7 @@ import { getSettings } from '@/lib/content/settings';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { ratingSummary } from '@/lib/utils/rating';
+import { travelAgency } from '@/lib/utils/structuredData';
 import { fillTokens, settingsTokens } from '@/lib/utils/tokens';
 import { BrandStatement } from '@/sections/BrandStatement/BrandStatement';
 import { DestinationsGrid } from '@/sections/DestinationsGrid/DestinationsGrid';
@@ -45,6 +47,7 @@ export default function HomePage() {
   return (
     <PageMain>
       <ShareImageMeta photo={copy.hero.image} siteUrl={settings.site.url} />
+      <JsonLd data={travelAgency(settings, { description: copy.description, image: copy.hero.image.src })} />
       <HomeHero copy={copy.hero} settings={settings} />
       <BrandStatement copy={copy.statement} />
       <TourCardsSection id="departures" copy={copy.departures}>
