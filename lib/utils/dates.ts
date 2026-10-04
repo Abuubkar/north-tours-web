@@ -1,4 +1,4 @@
-import type { Destination } from '../content/destinations.ts';
+import type { Season } from '../content/destinations.ts';
 
 /*
  * Date wording for cards and messages. Content dates are YYYY-MM-DD with no time zone, so
@@ -21,6 +21,11 @@ export function dateRange(start: string, end: string): string {
 }
 
 const plural = (count: number, noun: string) => `${count} ${noun}${count === 1 ? '' : 's'}`;
+
+/** A trip's length in days alone, as in its page title: "9 days", "1 day". */
+export function dayCount(days: number): string {
+  return plural(days, 'day');
+}
 
 /** "9 days, 8 nights"; a day trip is "1 day". */
 export function tripLength(days: number, nights: number): string {
@@ -59,8 +64,8 @@ export function yearsSince(since: number, currentYear: number): number {
   return currentYear - since;
 }
 
-/** A destination's best season, Apr to Oct → "April – October". */
-export function seasonRange({ from, to }: Destination['bestSeason']): string {
+/** A best season, Apr to Oct → "April – October". */
+export function seasonRange({ from, to }: Season): string {
   const long = (month: string) => LONG_MONTHS[SHORT_MONTHS.indexOf(month)];
   return `${long(from)} – ${long(to)}`;
 }

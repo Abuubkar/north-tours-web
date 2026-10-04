@@ -1,6 +1,7 @@
 {
   "slug": "fairy-meadows-trek",
   "title": "Fairy Meadows Trek",
+  "summary": "Five days from Lahore to Fairy Meadows: the jeep track from Raikot, two nights below Nanga Parbat and a walk towards its base camp.",
   "route": [
     "Lahore",
     "Raikot",
@@ -16,6 +17,12 @@
   "days": 5,
   "nights": 4,
   "priceFrom": 68000,
+  "difficulty": "Moderate: 3–4 hours of uphill walking",
+  "transport": "Coaster, with jeeps from Raikot",
+  "bestSeason": {
+    "from": "Jun",
+    "to": "Sep"
+  },
   "rating": {
     "score": 4.9,
     "count": 73

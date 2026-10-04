@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dateRange, messageDate, monthYear, seasonRange, tripLength, yearsSince } from './dates.ts';
+import { dateRange, dayCount, messageDate, monthYear, seasonRange, tripLength, yearsSince } from './dates.ts';
 
 describe('dateRange', () => {
   it('names the month once when both dates share it', () => {
@@ -23,6 +23,13 @@ describe('tripLength', () => {
 
   it('leaves nights out of a day trip', () => {
     expect(tripLength(1, 0)).toBe('1 day');
+  });
+});
+
+describe('dayCount', () => {
+  it('counts days alone, in the singular for one', () => {
+    expect(dayCount(9)).toBe('9 days');
+    expect(dayCount(1)).toBe('1 day');
   });
 });
 

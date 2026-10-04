@@ -55,6 +55,7 @@
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
+  --hero-rule: color-mix(in srgb, var(--text) 18%, transparent); /* the line over a photo hero's facts */
   --hero-scrim: linear-gradient(
     180deg,
     color-mix(in srgb, var(--ink-900) 60%, transparent) 0%,
@@ -102,6 +103,8 @@
   --list-row-y: 14px; /* label and value rows, DESIGN.md §5 */
   --footer-contact-w: 380px; /* footer contact column */
   --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
+  --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero */
+  --photo-hero-scrim-stretch: 160%; /* its scrim on phones, drawn taller so the text sits on the dark end */
   --hero-row-pad: clamp(var(--space-24), 2.4cqi, var(--space-32)); /* under the hero's lead and buttons */
   --hero-actions-w: 420px; /* the hero's button pair, before it wraps */
   --measure-statement: 1040px; /* brand statement headline */
@@ -141,6 +144,10 @@
   --grid-destinations-cols: 6;
   --grid-guides-min: 150px;
   --grid-guides-cols: 4;
+  --grid-hero-facts-min: 150px; /* a photo hero's facts (gaps, not hairlines) */
+  --grid-hero-facts-cols: 4;
+  --grid-quick-facts-min: 160px;
+  --grid-quick-facts-cols: 5;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

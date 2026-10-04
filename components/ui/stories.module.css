@@ -37,3 +37,8 @@
 .scrollRoom {
   height: calc(1.5 * var(--hero-h));
 }
+
+/* Room for the sticky header a photo hero slides under. */
+.underHeader {
+  padding-top: var(--header-h);
+}

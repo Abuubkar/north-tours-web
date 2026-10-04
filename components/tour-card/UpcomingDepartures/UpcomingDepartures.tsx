@@ -1,16 +1,14 @@
 'use client';
 
-import { useRef, useSyncExternalStore } from 'react';
+import { useRef } from 'react';
 import { useRiseOnView } from '@/hooks/useRiseOnView';
+import { useToday } from '@/hooks/useToday';
 import { TextLink } from '@/components/ui/TextLink/TextLink';
-import { NO_UPCOMING_DATES, soonestDepartures, todayInKarachi } from '@/lib/utils/departures';
+import { NO_UPCOMING_DATES, soonestDepartures } from '@/lib/utils/departures';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import { TourCard } from '../TourCard/TourCard';
 import type { UpcomingDeparturesProps } from './UpcomingDepartures.types';
 import styles from './UpcomingDepartures.module.css';
-
-/** Today's date isn't watched: a page left open past midnight keeps the day it was opened. */
-const noUpdates = () => () => {};
 
 /**
  * The soonest departures as tour cards, one per tour. It renders as built, then checks again
@@ -19,13 +17,7 @@ const noUpdates = () => () => {};
  * Cards below the fold rise into place the first time they're seen (M4).
  */
 export function UpcomingDepartures({ tours, builtOn, limit, settings }: UpcomingDeparturesProps) {
-  // The build's date while hydrating, so the first render matches the built HTML; the browser's after.
-  const today = useSyncExternalStore(
-    noUpdates,
-    () => todayInKarachi(new Date()),
-    () => builtOn,
-  );
-
+  const today = useToday(builtOn);
   const cards = soonestDepartures(tours, today, limit);
   const listRef = useRef<HTMLUListElement>(null);
   useRiseOnView(listRef);

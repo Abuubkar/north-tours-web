@@ -1,0 +1,22 @@
+/* Straight under the hero: no section padding, the grid's own lines frame it. */
+.strip {
+  padding: 0 var(--margin);
+}
+
+.grid {
+  composes: textGrid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-quick-facts-min);
+  --grid-cols: var(--grid-quick-facts-cols);
+}
+
+.cell {
+  composes: cell from '../../styles/layout.module.css';
+  padding: var(--space-24) var(--cell-pad) var(--space-32);
+}
+
+/* On phones an odd last fact takes the whole row rather than leave an empty cell beside it. */
+@media (width < 820px) {
+  .cell:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}

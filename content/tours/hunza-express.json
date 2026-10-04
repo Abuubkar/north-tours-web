@@ -1,6 +1,7 @@
 {
   "slug": "hunza-express",
   "title": "Hunza Express",
+  "summary": "Six days from Lahore to Hunza over Babusar Top: Karimabad, its forts, Attabad Lake and the Passu Cones, with three nights in the valley.",
   "route": [
     "Lahore",
     "Hunza"
@@ -15,6 +16,12 @@
   "days": 6,
   "nights": 5,
   "priceFrom": 98000,
+  "difficulty": "Easy walking, long road days",
+  "transport": "Coaster",
+  "bestSeason": {
+    "from": "Jun",
+    "to": "Sep"
+  },
   "rating": {
     "score": 4.7,
     "count": 41

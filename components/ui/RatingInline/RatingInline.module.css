@@ -18,3 +18,17 @@
 .count {
   color: var(--fg-3);
 }
+
+/* The hero facts: the score at the facts' value size, the count beside it in secondary text. */
+.factRating {
+  gap: var(--space-8);
+}
+
+.factScore {
+  composes: stepTitle from '../../../styles/typography.module.css';
+  font-variant-numeric: tabular-nums;
+}
+
+.factCount {
+  color: var(--fg-2);
+}

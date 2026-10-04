@@ -1,6 +1,7 @@
 {
   "slug": "hunza-skardu-grand",
   "title": "Hunza & Skardu Grand",
+  "summary": "Nine days by road from Lahore up the Karakoram Highway: three nights in Hunza, then Skardu, its lakes and the Deosai plains.",
   "route": [
     "Lahore",
     "Hunza",
@@ -18,6 +19,12 @@
   "days": 9,
   "nights": 8,
   "priceFrom": 145000,
+  "difficulty": "Easy walking, long road days",
+  "transport": "Coaster, with jeeps for Deosai",
+  "bestSeason": {
+    "from": "Apr",
+    "to": "Oct"
+  },
   "rating": {
     "score": 4.9,
     "count": 128

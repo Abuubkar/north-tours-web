@@ -1,6 +1,7 @@
 {
   "slug": "swat-kalam-summer",
   "title": "Swat & Kalam Summer",
+  "summary": "Four days from Lahore up the Swat valley to Kalam: Ushu forest, Mahodand Lake and the river at Bahrain, out of the summer heat.",
   "route": [
     "Lahore",
     "Swat",
@@ -16,6 +17,12 @@
   "days": 4,
   "nights": 3,
   "priceFrom": 45000,
+  "difficulty": "Easy, short walks",
+  "transport": "Coaster, with jeeps to Mahodand",
+  "bestSeason": {
+    "from": "May",
+    "to": "Sep"
+  },
   "rating": {
     "score": 4.7,
     "count": 52

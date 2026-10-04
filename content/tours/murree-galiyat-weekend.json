@@ -1,6 +1,7 @@
 {
   "slug": "murree-galiyat-weekend",
   "title": "Murree & Galiyat Weekend",
+  "summary": "A long weekend from Lahore in the pine hills of the Galiyat: forest walks at Nathia Gali and Ayubia, and cool evenings above the clouds.",
   "route": [
     "Lahore",
     "Murree"
@@ -15,6 +16,12 @@
   "days": 3,
   "nights": 2,
   "priceFrom": 28000,
+  "difficulty": "Easy, gentle forest walks",
+  "transport": "Coaster",
+  "bestSeason": {
+    "from": "May",
+    "to": "Oct"
+  },
   "rating": {
     "score": 4.6,
     "count": 58

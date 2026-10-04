@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  groupSize,
   seatsLeftText,
   seatStatus,
   shownDeparture,
@@ -138,5 +139,16 @@ describe('soonestDepartures', () => {
   it('keeps a tour whose upcoming dates are all sold out, at its next date', () => {
     const tours = [tour('Fairy Meadows', departure('2027-06-14', 0), departure('2027-07-12', 0))];
     expect(pick(tours)).toEqual(['Fairy Meadows 2027-06-14']);
+  });
+});
+
+describe('groupSize', () => {
+  it('is the most seats on any departure', () => {
+    expect(groupSize([{ seatsTotal: 12 }, { seatsTotal: 16 }, { seatsTotal: 14 }])).toBe(16);
+    expect(groupSize([{ seatsTotal: 20 }])).toBe(20);
+  });
+
+  it('is undefined with no departures', () => {
+    expect(groupSize([])).toBeUndefined();
   });
 });

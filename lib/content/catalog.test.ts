@@ -132,6 +132,17 @@ describe('catalog: tours and destinations', () => {
     expect(fields(load((_, d) => Object.assign(d.bestSeason, { from: 'April' })))).toEqual(['bestSeason.from']);
   });
 
+  it('needs a summary of at most 160 characters', () => {
+    expect(fields(load((t) => delete (t as Partial<Tour>).summary))).toEqual(['summary']);
+    expect(fields(load((t) => Object.assign(t, { summary: 'x'.repeat(160) })))).toEqual([]);
+    expect(fields(load((t) => Object.assign(t, { summary: 'x'.repeat(161) })))).toEqual(['summary']);
+  });
+
+  it('rejects a tour’s best season with an unknown month', () => {
+    expect(fields(load((t) => Object.assign(t.bestSeason, { to: 'October' })))).toEqual(['bestSeason.to']);
+    expect(fields(load((t) => delete (t as Partial<Tour>).bestSeason))).toEqual(['bestSeason']);
+  });
+
   it('reports every problem at once', () => {
     const result = load((t, d) => {
       Object.assign(firstDeparture(t), { seatsLeft: 99 });

@@ -19,3 +19,13 @@ export const Default: Story = {
 };
 
 export const OnLight: Story = { ...Default, globals: { surface: 'light' } };
+
+/** In the hero facts: a label above says "from", so the block shows the amount and its note. */
+export const Fact: Story = {
+  args: { size: 'fact', from: false, note: 'per person, twin sharing' },
+  play: async ({ canvasElement }) => {
+    await expect(canvasElement.querySelector('p')).toHaveTextContent(/^PKR 145,000per person, twin sharing$/);
+  },
+};
+
+export const FactOnLight: Story = { ...Fact, globals: { surface: 'light' } };

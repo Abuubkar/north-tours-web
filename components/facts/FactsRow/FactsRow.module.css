@@ -1,0 +1,15 @@
+/* Capped auto-fill (DESIGN.md §5) with gaps instead of hairlines: it sits on the hero's photo. */
+.row {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(
+      max(var(--grid-hero-facts-min), calc((100% - (var(--grid-hero-facts-cols) - 1) * var(--space-24)) / var(--grid-hero-facts-cols))),
+      1fr
+    )
+  );
+  gap: var(--space-16) var(--space-24);
+  margin-top: var(--space-12);
+  padding-top: var(--space-20);
+  border-top: var(--hairline-width) solid var(--hero-rule);
+}

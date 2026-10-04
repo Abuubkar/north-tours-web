@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
 import { realUser } from '../../../.storybook/realUser';
+import { routes } from '@/lib/routes';
 import { SkipLink } from './SkipLink';
 
 /** The skip link, a header link to skip past, and the page's main content. */
@@ -8,7 +9,7 @@ function Page() {
   return (
     <>
       <SkipLink />
-      <a href="/tours">Tours</a>
+      <a href={routes.tours}>Tours</a>
       <main id="main" tabIndex={-1}>
         <h1>Main content</h1>
       </main>

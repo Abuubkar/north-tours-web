@@ -7,13 +7,18 @@ import { imageSchema } from './images.ts';
 
 const month = z.enum(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
 
+/** The best months to go, e.g. Apr to Oct. Destinations and tours both have one. */
+export const seasonSchema = z.strictObject({ from: month, to: month });
+
+export type Season = z.infer<typeof seasonSchema>;
+
 export const destinationSchema = z.strictObject({
   slug: slugSchema,
   name: nonEmpty,
   region: z.enum(['Gilgit-Baltistan', 'Khyber Pakhtunkhwa', 'Punjab']),
   description: nonEmpty,
   /** Best months to visit, e.g. Apr to Oct. */
-  bestSeason: z.strictObject({ from: month, to: month }),
+  bestSeason: seasonSchema,
   image: imageSchema,
 });
 

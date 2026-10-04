@@ -1,6 +1,7 @@
 {
   "slug": "naran-kaghan-getaway",
   "title": "Naran-Kaghan Getaway",
+  "summary": "Four days from Lahore in the Kaghan valley: Lake Saiful Muluk by jeep, Lulusar Lake and the view from Babusar Top.",
   "route": [
     "Lahore",
     "Naran",
@@ -17,6 +18,12 @@
   "days": 4,
   "nights": 3,
   "priceFrom": 38000,
+  "difficulty": "Easy, short walks",
+  "transport": "Coaster, with jeeps to Saiful Muluk",
+  "bestSeason": {
+    "from": "Jun",
+    "to": "Sep"
+  },
   "rating": {
     "score": 4.8,
     "count": 214

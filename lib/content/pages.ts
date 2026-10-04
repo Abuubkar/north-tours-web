@@ -98,3 +98,48 @@ export function getCreditsCopy(): CreditsCopy {
   cachedCredits ??= requireValid(loadCreditsCopy());
   return cachedCredits;
 }
+
+/** The tour page's wording; each tour fills it in (the meta description is the tour's own summary). */
+const tourSchema = z.strictObject({
+  /** The <title> part: "Hunza & Skardu Grand, 9 days from Lahore". */
+  title: copyWith('tour', 'duration'),
+  hero: z.strictObject({
+    /** "← All tours", to the Tours page. */
+    backLabel: copy,
+  }),
+  /** The facts under the hero's title. */
+  facts: z.strictObject({
+    duration: copy,
+    rating: copy,
+    from: copy,
+    /** Under the "from" price. */
+    fromNote: copy,
+    nextDeparture: copy,
+  }),
+  quickFacts: z.strictObject({
+    difficulty: copy,
+    groupSize: copy,
+    /** {count} is the largest group on any of the tour's departures. */
+    groupSizeValue: copyWith('count'),
+    departsFrom: copy,
+    bestSeason: copy,
+    transport: copy,
+  }),
+});
+
+export type TourCopy = z.infer<typeof tourSchema>;
+
+export function tourCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'tour.json');
+}
+
+export function loadTourCopy(dir = CONTENT_DIR) {
+  return parseFile(tourSchema, tourCopyFile(dir));
+}
+
+let cachedTour: TourCopy | undefined;
+
+export function getTourCopy(): TourCopy {
+  cachedTour ??= requireValid(loadTourCopy());
+  return cachedTour;
+}

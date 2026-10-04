@@ -36,3 +36,13 @@ export const OneReview: Story = {
 };
 
 export const OnLight: Story = { globals: { surface: 'light' } };
+
+/** The Tour Detail hero facts: larger, with "(128 reviews)" spelled out, read the same way. */
+export const Fact: Story = {
+  args: { size: 'fact' },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('img', { name: '4.9 out of 5, 128 reviews' })).toHaveTextContent('4.9(128 reviews)');
+  },
+};
+
+export const FactOnLight: Story = { ...Fact, globals: { surface: 'light' } };

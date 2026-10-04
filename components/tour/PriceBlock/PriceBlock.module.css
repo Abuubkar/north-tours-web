@@ -14,3 +14,10 @@
 .amount {
   composes: price from '../../../styles/typography.module.css';
 }
+
+/* DESIGN.md §3 has no 18px role; the facts use the nearest, the step title (docs/components.md §5 item 30). */
+.factAmount {
+  composes: stepTitle from '../../../styles/typography.module.css';
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
