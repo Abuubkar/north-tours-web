@@ -2,7 +2,7 @@ import { createContext, use, useCallback, useId, useMemo, useRef, useState, type
 import type { PlannerCopy } from '@/lib/content/pages';
 import { DEFAULT_ANSWERS, type TripAnswers } from '@/lib/utils/plannerAnswers';
 import { destinationChoices, monthChoices } from '@/lib/utils/plannerOptions';
-import { whereWhenErrors, whosComingErrors, type FieldProblem } from '@/lib/utils/plannerValidation';
+import { stepErrors, type FieldProblem } from '@/lib/utils/plannerValidation';
 import { usePlannerFocus, type FocusRequest } from './usePlannerFocus';
 import { useToday } from './useToday';
 
@@ -38,13 +38,6 @@ export type Planner = {
   barRef: RefObject<HTMLDivElement | null>;
 };
 
-/** What Next checks on each step. */
-function stepProblems(step: PlannerStep, answers: TripAnswers, today: string, messages: PlannerCopy['errors']): FieldProblem[] {
-  if (step === 1) return whereWhenErrors(answers, today, messages);
-  if (step === 2) return whosComingErrors(answers, messages);
-  return [];
-}
-
 export const PlannerContext = createContext<Planner | null>(null);
 
 /** The planner from the nearest `PlannerProvider`. */
@@ -79,7 +72,7 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
     () => ({ destinations: destinationChoices(destinations), months: monthChoices(today) }),
     [destinations, today],
   );
-  const problems = stepProblems(step, answers, today, messages);
+  const problems = stepErrors(step, answers, today, messages);
 
   function go(to: PlannerStep, way: 'forward' | 'back') {
     setStep(to);

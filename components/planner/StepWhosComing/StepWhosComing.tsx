@@ -3,8 +3,8 @@
 import { FormField } from '@/components/ui/FormField/FormField';
 import { Input } from '@/components/ui/Input/Input';
 import { usePlanner } from '@/hooks/usePlanner';
-import { pickDeparture, pickOption, setAdults, setChildren, type ChipQuestion, type ChipValue } from '@/lib/utils/plannerAnswers';
-import { ADULTS, CHILDREN, DEPARTING_FROM, GROUP_TYPES, HOTELS, PLANNER_BUDGETS, TRANSPORT } from '@/lib/utils/plannerOptions';
+import { pickDeparture, pickOption, setAdults, setChildren, setOtherCity, type ChipQuestion, type ChipValue } from '@/lib/utils/plannerAnswers';
+import { ADULTS, CHILDREN, DEPARTING_FROM, GROUP_TYPES, HOTELS, labelled, PLANNER_BUDGETS, TRANSPORT } from '@/lib/utils/plannerOptions';
 import { ChildAgeSelects } from '../ChildAgeSelects/ChildAgeSelects';
 import { ChoiceChips } from '../ChoiceChips/ChoiceChips';
 import { CounterRow } from '../CounterRow/CounterRow';
@@ -18,15 +18,13 @@ import styles from './StepWhosComing.module.css';
 export function StepWhosComing({ copy }: StepWhosComingProps) {
   const { answers, update, fieldId } = usePlanner();
   const { group } = copy;
-  const options = <T extends string>(ids: readonly T[], labels: Record<T, string>) => ids.map((id) => ({ id, label: labels[id] }));
   const chips = <K extends ChipQuestion>(question: K, ids: readonly ChipValue<K>[]) => {
-    const labels: Record<string, string> = copy[question].options;
     return (
       <ChoiceChips
         id={fieldId(question)}
         label={copy[question].label}
         hint={copy[question].hint}
-        options={ids.map((id) => ({ id, label: labels[id] }))}
+        options={labelled<ChipValue<K>>(ids, copy[question].options as Record<ChipValue<K>, string>)}
         // TypeScript can't narrow `answers[question]` for a generic question; it holds that question's options.
         value={answers[question] as ChipValue<K> | null}
         onPick={(id) => update((a) => pickOption(a, question, id))}
@@ -70,7 +68,7 @@ export function StepWhosComing({ copy }: StepWhosComingProps) {
         id={fieldId('departingFrom')}
         label={copy.departingFrom.label}
         hint={copy.departingFrom.hint}
-        options={options(DEPARTING_FROM, copy.departingFrom.options)}
+        options={labelled(DEPARTING_FROM, copy.departingFrom.options)}
         value={answers.departingFrom}
         onPick={(id) => update((a) => pickDeparture(a, id))}
       >
@@ -79,7 +77,7 @@ export function StepWhosComing({ copy }: StepWhosComingProps) {
             aria-label={copy.departingFrom.otherCity}
             placeholder={copy.departingFrom.otherCityPlaceholder}
             value={answers.otherCity}
-            onChange={(event) => update((a) => ({ ...a, otherCity: event.target.value }))}
+            onChange={(event) => update((a) => setOtherCity(a, event.target.value))}
             className={styles.otherCity}
           />
         )}

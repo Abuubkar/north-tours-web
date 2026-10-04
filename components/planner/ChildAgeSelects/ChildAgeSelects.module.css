@@ -20,6 +20,6 @@
   gap: var(--space-8);
 }
 
-.select {
+.ageSelect {
   width: var(--age-select-w);
 }

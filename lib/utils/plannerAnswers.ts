@@ -116,15 +116,18 @@ export function lengthIsAutoFilled(answers: TripAnswers): boolean {
   return answers.lengthAuto && tripLength(answers) !== null;
 }
 
+/** A number kept within its limits. */
+const within = (value: number, { min, max }: { min: number; max: number }) => Math.min(max, Math.max(min, value));
+
 /** A new number of children: an age slot each, keeping the ages already given and dropping the extra ones. */
 export function setChildren(answers: TripAnswers, children: number): TripAnswers {
-  const count = Math.min(CHILDREN.max, Math.max(CHILDREN.min, children));
+  const count = within(children, CHILDREN);
   return { ...answers, children: count, ages: Array.from({ length: count }, (_, i) => answers.ages[i] ?? null) };
 }
 
 /** A new number of adults, kept from 1 to 40. */
 export function setAdults(answers: TripAnswers, adults: number): TripAnswers {
-  return { ...answers, adults: Math.min(ADULTS.max, Math.max(ADULTS.min, adults)) };
+  return { ...answers, adults: within(adults, ADULTS) };
 }
 
 /** One child's age. */
@@ -135,6 +138,11 @@ export function setAge(answers: TripAnswers, child: number, age: number): TripAn
 /** An optional chip question: picking the chosen option again clears it. */
 export function pickOption<K extends ChipQuestion>(answers: TripAnswers, question: K, id: ChipValue<K>): TripAnswers {
   return { ...answers, [question]: answers[question] === id ? null : id };
+}
+
+/** The city typed for "Other city". */
+export function setOtherCity(answers: TripAnswers, otherCity: string): TripAnswers {
+  return { ...answers, otherCity };
 }
 
 /** Where the trip starts: always one city, so pressing the chosen one keeps it. */

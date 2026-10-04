@@ -5,7 +5,7 @@ import { FieldError } from '@/components/ui/FieldError/FieldError';
 import { Select } from '@/components/ui/Select/Select';
 import { usePlanner } from '@/hooks/usePlanner';
 import { setAge } from '@/lib/utils/plannerAnswers';
-import { AGES } from '@/lib/utils/plannerOptions';
+import { ageLabel, AGES } from '@/lib/utils/plannerOptions';
 import { fieldInvalid, groupError } from '@/lib/utils/plannerValidation';
 import { fillTokens } from '@/lib/utils/tokens';
 import type { ChildAgeSelectsProps } from './ChildAgeSelects.types';
@@ -21,7 +21,7 @@ export function ChildAgeSelects({ copy }: ChildAgeSelectsProps) {
   const labelId = useId();
   const errorId = useId();
   const message = groupError(errors, 'ages');
-  const options = AGES.map((age) => ({ value: String(age), label: age === 0 ? copy.underTwo : String(age) }));
+  const options = AGES.map((age) => ({ value: String(age), label: ageLabel(age, copy.underTwo) }));
 
   return (
     <div role="group" aria-labelledby={labelId} className={styles.ages} data-form-field>
@@ -32,7 +32,7 @@ export function ChildAgeSelects({ copy }: ChildAgeSelectsProps) {
         {answers.ages.map((age, i) => {
           const invalid = fieldInvalid(errors, `age-${i}`);
           return (
-            <div key={i} className={styles.select}>
+            <div key={i} className={styles.ageSelect}>
               <Select
                 id={fieldId(`age-${i}`)}
                 label={fillTokens(copy.child, { count: String(i + 1) })}

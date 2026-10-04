@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
+  ageLabel,
   AGES,
   DEPARTING_FROM,
   destinationChoices,
   GROUP_TYPES,
   HOTELS,
+  labelled,
   lengthForDays,
   monthChoices,
   PLANNER_BUDGETS,
@@ -61,5 +63,19 @@ describe('step 2 options', () => {
   it('offer ages “Under 2” (0), then 2 to 17', () => {
     expect(AGES[0]).toBe(0);
     expect(AGES.slice(1)).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]);
+  });
+});
+
+describe('option words', () => {
+  it('“Under 2” for 0, the number otherwise', () => {
+    expect(ageLabel(0, 'Under 2')).toBe('Under 2');
+    expect(ageLabel(9, 'Under 2')).toBe('9');
+  });
+
+  it('pairs each id with its words, in order', () => {
+    expect(labelled(['car', 'coaster'] as const, { car: 'Car', coaster: 'Coaster' })).toEqual([
+      { id: 'car', label: 'Car' },
+      { id: 'coaster', label: 'Coaster' },
+    ]);
   });
 });

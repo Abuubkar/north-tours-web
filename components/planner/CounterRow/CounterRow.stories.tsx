@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
+import { samplePlannerCopy } from '../samplePlanner';
 import { CounterRow } from './CounterRow';
 import styles from '../../ui/stories.module.css';
+
+const { adults } = samplePlannerCopy.whosComing.group;
 
 function Adults() {
   const [value, setValue] = useState(2);
   return (
     <div className={styles.aside}>
-      <CounterRow label="Adults" hint="18 and over" value={value} min={1} max={40} onChange={setValue} decreaseLabel="Fewer adults" increaseLabel="More adults" />
+      <CounterRow label={adults.label} hint={adults.hint} value={value} min={1} max={40} onChange={setValue} decreaseLabel={adults.fewer} increaseLabel={adults.more} />
     </div>
   );
 }

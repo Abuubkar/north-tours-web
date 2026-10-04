@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { plannerCopyFile, type PlannerCopy } from '../content/pages.ts';
 import { DEFAULT_ANSWERS, type TripAnswers } from './plannerAnswers.ts';
-import { whereWhenErrors, whosComingErrors } from './plannerValidation.ts';
+import { stepErrors, whereWhenErrors, whosComingErrors } from './plannerValidation.ts';
 
 const { errors: messages }: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
 const today = '2026-10-04';
@@ -67,5 +67,13 @@ describe('step 2, Who’s coming', () => {
   it('passes with every age given; “Under 2” counts', () => {
     expect(step2([6, 9])).toEqual([]);
     expect(step2([0])).toEqual([]);
+  });
+});
+
+describe('each step’s checks', () => {
+  it('step 1 checks where and when, step 2 the ages', () => {
+    expect(stepErrors(1, DEFAULT_ANSWERS, today, messages).map((e) => e.group)).toEqual(['destinations', 'dates']);
+    expect(stepErrors(2, { ...valid, children: 1, ages: [null] }, today, messages).map((e) => e.group)).toEqual(['ages']);
+    expect(stepErrors(2, DEFAULT_ANSWERS, today, messages)).toEqual([]);
   });
 });

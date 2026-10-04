@@ -3,6 +3,8 @@
  * the words for each come from page copy, destinations' names from content.
  */
 
+import { BUDGETS } from './tourFilters.ts';
+
 /** "Not sure, suggest something": the destination choice that asks for advice instead. */
 export const UNSURE = 'unsure';
 
@@ -50,8 +52,24 @@ export function lengthForDays(days: number): TripLength {
 export const ADULTS = { min: 1, max: 40, default: 2 } as const;
 export const CHILDREN = { min: 0, max: 20, default: 0 } as const;
 
-/** A child's age: 0 is "Under 2", then 2 to 17. */
-export const AGES: readonly number[] = [0, ...Array.from({ length: 16 }, (_, i) => i + 2)];
+/** "Under 2": a child's age before the years count. */
+export const UNDER_TWO = 0;
+
+/** The oldest a child can be (18 and over is an adult). */
+const OLDEST_CHILD = 17;
+
+/** A child's age: "Under 2", then 2 to 17. */
+export const AGES: readonly number[] = [UNDER_TWO, ...Array.from({ length: OLDEST_CHILD - 1 }, (_, i) => i + 2)];
+
+/** An age's words: "Under 2" (the page's), or the number. */
+export function ageLabel(age: number, underTwo: string): string {
+  return age === UNDER_TWO ? underTwo : String(age);
+}
+
+/** Each option's id with its words, in the ids' order, as the chip groups list them. */
+export function labelled<T extends string>(ids: readonly T[], labels: Readonly<Record<T, string>>): { id: T; label: string }[] {
+  return ids.map((id) => ({ id, label: labels[id] }));
+}
 
 export const GROUP_TYPES = ['family', 'couple', 'friends', 'corporate'] as const;
 export const HOTELS = ['comfortable', 'upgraded', 'best'] as const;
@@ -59,7 +77,7 @@ export const TRANSPORT = ['car', 'coaster', 'suggest'] as const;
 /** Where the trip starts: Lahore by default; "other" asks which city. */
 export const DEPARTING_FROM = ['lahore', 'islamabad', 'other'] as const;
 /** Budget per person, as the Tours budget filter splits it, and "Not sure yet". */
-export const PLANNER_BUDGETS = ['under-50k', '50-100k', '100k-plus', 'not-sure'] as const;
+export const PLANNER_BUDGETS = [...BUDGETS, 'not-sure'] as const;
 
 export type GroupType = (typeof GROUP_TYPES)[number];
 export type Hotels = (typeof HOTELS)[number];

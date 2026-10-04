@@ -35,18 +35,21 @@ export const Laptop: Story = { ...Desktop, globals: { surface: 'light', viewport
 
 export const Phone: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
-/** "More children" twice shows Child 1 and Child 2, side by side; "Fewer children" removes Child 2 and its age. */
+/** Real keys: "More children" twice shows Child 1 and Child 2, side by side; "Fewer children" removes Child 2 and its age. */
 export const ChildrenAges: Story = {
   play: async ({ canvas, userEvent }) => {
+    const user = await realUser();
+    if (!user) return;
     await expect(canvas.queryByRole('combobox')).toBeNull();
-    await userEvent.click(button(canvas, 'More children'));
-    await userEvent.click(button(canvas, 'More children'));
+    button(canvas, 'More children').focus();
+    await user.keyboard('{Enter}{Enter}');
     const first = canvas.getByRole('combobox', { name: 'Child 1' });
     const second = canvas.getByRole('combobox', { name: 'Child 2' });
     await expect(first.getBoundingClientRect().top).toBe(second.getBoundingClientRect().top);
     await userEvent.selectOptions(first, 'Under 2');
     await userEvent.selectOptions(second, '9');
-    await userEvent.click(button(canvas, 'Fewer children'));
+    button(canvas, 'Fewer children').focus();
+    await user.keyboard(' ');
     await expect(canvas.queryByRole('combobox', { name: 'Child 2' })).toBeNull();
     await expect(canvas.getByRole('combobox', { name: 'Child 1' })).toHaveDisplayValue('Under 2');
     await userEvent.click(button(canvas, 'More children'));
@@ -77,9 +80,15 @@ export const AdultLimits: Story = {
   },
 };
 
-/** Each optional group takes one chip and clears on a second press; Departing from always keeps one. */
+/** Real keys: each optional group takes one chip and clears on a second press; Departing from always keeps one. */
 export const Chips: Story = {
-  play: async ({ canvas, userEvent }) => {
+  play: async ({ canvas }) => {
+    const user = await realUser();
+    if (!user) return;
+    const press = async (chip: HTMLElement) => {
+      chip.focus();
+      await user.keyboard(' ');
+    };
     for (const [group, a, b] of [
       ['Group type', 'Family', 'Couple'],
       ['Hotels', 'Comfortable', 'Best available'],
@@ -87,14 +96,14 @@ export const Chips: Story = {
       ['Budget per person', 'Under PKR 50k', 'Not sure yet'],
     ]) {
       const chips = within(canvas.getByRole('group', { name: group }));
-      await userEvent.click(chips.getByRole('button', { name: a }));
-      await userEvent.click(chips.getByRole('button', { name: b }));
+      await press(chips.getByRole('button', { name: a }));
+      await press(chips.getByRole('button', { name: b }));
       await expect(chips.getByRole('button', { name: a })).toHaveAttribute('aria-pressed', 'false');
       await expect(chips.getByRole('button', { name: b })).toHaveAttribute('aria-pressed', 'true');
-      await userEvent.click(chips.getByRole('button', { name: b }));
+      await press(chips.getByRole('button', { name: b }));
       await expect(chips.queryAllByRole('button', { pressed: true })).toHaveLength(0);
     }
-    await userEvent.click(button(canvas, 'Lahore'));
+    await press(button(canvas, 'Lahore'));
     await expect(button(canvas, 'Lahore')).toHaveAttribute('aria-pressed', 'true');
   },
 };

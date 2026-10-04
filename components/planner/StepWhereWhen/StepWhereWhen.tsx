@@ -2,7 +2,7 @@
 
 import { usePlanner } from '@/hooks/usePlanner';
 import { lengthIsAutoFilled, pickLength, tripLength } from '@/lib/utils/plannerAnswers';
-import { TRIP_LENGTHS } from '@/lib/utils/plannerOptions';
+import { labelled, TRIP_LENGTHS } from '@/lib/utils/plannerOptions';
 import { ChoiceChips } from '../ChoiceChips/ChoiceChips';
 import { DatesField } from '../DatesField/DatesField';
 import { DestinationChoices } from '../DestinationChoices/DestinationChoices';
@@ -22,7 +22,7 @@ export function StepWhereWhen({ destinations, copy }: StepWhereWhenProps) {
         id={fieldId('length')}
         label={copy.length.label}
         hint={lengthIsAutoFilled(answers) ? copy.length.autoHint : copy.length.hint}
-        options={TRIP_LENGTHS.map((id) => ({ id, label: copy.length.options[id] }))}
+        options={labelled(TRIP_LENGTHS, copy.length.options)}
         value={tripLength(answers)}
         onPick={(id) => update((a) => pickLength(a, id))}
       />

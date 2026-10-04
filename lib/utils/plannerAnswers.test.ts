@@ -10,6 +10,7 @@ import {
   setAdults,
   setAge,
   setChildren,
+  setOtherCity,
   setDate,
   toggleDestination,
   tripLength,
@@ -129,5 +130,9 @@ describe('departing from', () => {
   it('always has one: pressing the chosen city keeps it', () => {
     expect(pickDeparture(DEFAULT_ANSWERS, 'lahore').departingFrom).toBe('lahore');
     expect(pickDeparture(DEFAULT_ANSWERS, 'other').departingFrom).toBe('other');
+  });
+
+  it('keeps the city typed for “Other city”', () => {
+    expect(setOtherCity(DEFAULT_ANSWERS, 'Multan').otherCity).toBe('Multan');
   });
 });

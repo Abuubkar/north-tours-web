@@ -47,6 +47,13 @@ function datesError(answers: TripAnswers, today: string, messages: ErrorMessages
   return null;
 }
 
+/** What Next checks on a step (1 Where and when, 2 Who's coming); a step with no rules yet passes. */
+export function stepErrors(step: number, answers: TripAnswers, today: string, messages: ErrorMessages): FieldProblem[] {
+  if (step === 1) return whereWhenErrors(answers, today, messages);
+  if (step === 2) return whosComingErrors(answers, messages);
+  return [];
+}
+
 /** The message a group shows, if it has a problem. */
 export function groupError(errors: readonly FieldProblem[], group: string): string | undefined {
   return errors.find((error) => error.group === group)?.message;
