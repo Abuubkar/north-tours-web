@@ -5,8 +5,6 @@
  */
 .page {
   composes: plannerPending from '../../styles/layout.module.css';
-  display: flex;
-  flex-direction: column;
   overflow-x: clip;
 }
 

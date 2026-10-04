@@ -1,3 +1,4 @@
+import type { BarWords } from './plannerBar.ts';
 import type { TripAnswers } from './plannerAnswers.ts';
 import { UNSURE } from './plannerOptions.ts';
 
@@ -6,11 +7,8 @@ import { UNSURE } from './plannerOptions.ts';
  * one's photo, and the road to them from the departing city.
  */
 
-/** The postcard's words: "Your trip" before a place is chosen, and the destinations' names by slug. */
-export type PostcardWords = {
-  yourTrip: string;
-  destinations: Readonly<Record<string, string>>;
-};
+/** The postcard's words, the summary bar's: "Your trip" before a place is chosen, and the destinations' names by slug. */
+export type PostcardWords = Pick<BarWords, 'yourTrip' | 'destinations'>;
 
 export type Postcard = {
   /** Over the photo: "Hunza", "Hunza + Skardu", or "Your trip" with none chosen (or only "Not sure"). */

@@ -104,7 +104,7 @@
   --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
   --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero */
   --destination-hero-h: clamp(620px, 52cqi, 780px); /* Destination photo hero */
-  --photo-hero-scrim-stretch: 160%; /* its scrim on phones, drawn taller so the text sits on the dark end */
+  --photo-hero-scrim-stretch: 160%; /* its scrim on phones (and the planner's photo band at every width), drawn taller so the text sits on the dark end */
   --hero-row-pad: clamp(var(--space-24), 2.4cqi, var(--space-32)); /* under the hero's lead and buttons */
   --hero-actions-w: 420px; /* the hero's button pair, before it wraps */
   --measure-cta-actions: 520px; /* a closing CTA's lead and its 56px button pair */

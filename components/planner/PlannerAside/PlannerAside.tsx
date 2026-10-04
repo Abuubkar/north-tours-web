@@ -28,7 +28,7 @@ export function PlannerAside({ copy, next, destinations, barWords }: PlannerAsid
     // Focusable, so a keyboard can scroll it when it's taller than the screen (a 768px-high laptop).
     <aside aria-label={copy.label} tabIndex={0} className={styles.aside}>
       <section className={styles.postcard}>
-        <div className={styles.photo}>
+        <div data-surface="dark" className={styles.photo}>
           <MediaFrame key={card.photo ?? ''} image={photo} ratio="fill" sizes={PHOTO_SIZES} />
           <div className={styles.scrim} />
           <p className={styles.place}>{card.title}</p>

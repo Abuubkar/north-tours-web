@@ -571,7 +571,6 @@ const plannerCopySchema = z.strictObject({
     explore: copy,
     again: copy,
   }),
-  /** "Your trip so far": the nine rows beside the form (from 1100px), and how many are answered. */
   /** "Your trip so far": the postcard beside the form from 1100px, and the summary bar's rows below. */
   aside: z.strictObject({
     label: copy,

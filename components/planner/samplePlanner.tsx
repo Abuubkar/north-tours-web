@@ -168,8 +168,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
   },
 };
 
-/** The six destinations in the loader's order (by slug). */
-/** Each with the sample photo, its alt naming the place, so a story can tell which one shows. */
+/** The six destinations in the loader's order (by slug), each with the sample photo, its alt naming the place, so a story can tell which one shows. */
 export const samplePlannerDestinations: PlannerPage['destinations'] = [
   ['fairy-meadows', 'Fairy Meadows'],
   ['hunza', 'Hunza'],
