@@ -11,8 +11,8 @@ export type PhotoHeroProps = {
   image: ContentImage;
   /** The back link at the top, e.g. "← All tours". */
   back: { href: string; label: string };
-  /** The line above the title: the route "Lahore → Hunza → Skardu", or the region "Gilgit-Baltistan". */
-  kicker: string;
+  /** The line above the title: the route (`RouteText`), or the region "Gilgit-Baltistan". */
+  kicker: ReactNode;
   /** The page's <h1>. */
   title: string;
   /** A line under the title (Destination: its lead). */

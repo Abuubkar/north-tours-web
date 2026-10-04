@@ -3,10 +3,9 @@
 What must be true before the site goes live. Hosting itself is out of scope (ADR-0007, CLAUDE.md §11): the owner sets it up by hand once this list is clear.
 
 **Before launch:**
-1. `pnpm launch:check` passes ("Nothing left to replace.").
+1. `pnpm launch:check` passes ("Nothing left to replace."), which needs the owner's sign-offs in section 4.
 2. `pnpm audit:site` passes on every page.
-3. The manual pass (section 3) is walked, and walked again after any large change.
-4. The owner's own sign-offs (section 4) are done.
+3. The manual pass (section 3) is walked with a real screen reader, and walked again after a change to a shared component, a page's layout or an interactive flow.
 
 ## 1. Everything real: `pnpm launch:check`
 
@@ -49,13 +48,13 @@ It builds the site, serves the static export on a free localhost port (as a stat
 
 ## 3. The manual pass
 
-What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm build`, then serve `out/` with compression on), first with the keyboard alone, then with a screen reader.
+What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm build`, then any static server with compression on, e.g. `npx serve out`), first with the keyboard alone, then with a screen reader.
 
 **Keyboard only**
 - The skip link is the first Tab stop and moves focus into the page.
 - Focus is always visible and follows the visual order. Enter and Space work every control.
 - Escape closes every sheet, drawer, dropdown and dialog and returns focus to what opened it. Nothing traps focus.
-- Anchors land below the sticky header. Tap targets are at least 44px.
+- Anchors land below the sticky header.
 - **Flows:**
   - the header, and the mobile menu below 820px;
   - Tours: the filter dropdowns and sort from 820px, the filter and sort sheets below it, the results count;
@@ -67,11 +66,13 @@ What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm bui
   - About: a guide's profile, Previous and Next, Escape back to the card;
   - the 404.
 
+**Touch:** every tap target is at least 44px.
+
 **Screen reader** (VoiceOver with Safari on macOS or iOS; TalkBack with Chrome on Android)
 - One `<h1>`, and headings in order with no skipped level.
 - Landmarks named: the banner, main, the footer and each navigation.
 - Links and buttons named. Images have alt text; photo placeholders are named by their shot.
-- Live regions read once: Help's answer count, Tours' results count, the planner's step heading and errors.
+- Live regions read once: Help's answer count, Tours' results count, the booking total, the travellers count, the guide profile's "2 of 6", the planner's errors.
 - Dialogs are announced with their names.
 - Prices and dates read sensibly ("PKR 145,000 per person", "2–7 Jun"). Decorative parts stay silent ("NORTH" on the Homepage, the arrows on link rows, the mini maps).
 
@@ -87,9 +88,12 @@ What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm bui
 
 ## 4. The owner's sign-offs
 
-`launch:check` lists each of these until it's done:
+`launch:check` lists these until they're done:
 - **Real values:** the brand name, the site URL, contact details, office hours, the pickup point, the DTS licence, the company registration, social links and memberships.
 - **Legal review:** the Privacy Policy, the Terms and the Help policies are sample text (ADR-0020) until a lawyer has reviewed them.
-- **Photos of people:** guides, drivers, the founder and the office are the owner's own photos only (ADR-0009). Stock photos of vehicles stand in for the fleet until then (ADR-0019).
+- **Photos of people:** guides, drivers, the founder and the office are the owner's own photos only (ADR-0009).
+- **The fleet:** stock photos of each vehicle type stand in for it (ADR-0019). Each vehicle is listed as sample content until the owner's photo and details replace it.
 - **Survey of Pakistan vetting:** the route map, the itinerary maps and the places maps, then set `maps.surveyOfPakistanVetted` to `true`.
-- **Hosting** is set up by the owner by hand (ADR-0007): HTTP/2 or HTTP/3 with compression, `404.html` for unknown paths, and no other change to the site.
+
+Not listed by `launch:check`:
+- **Hosting** is out of scope here (ADR-0007, CLAUDE.md §11): the owner sets it up by hand once this list is clear.

@@ -9,6 +9,7 @@ import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
 import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
 import { JsonLd } from '@/components/seo/JsonLd/JsonLd';
+import { RouteText } from '@/components/tour/RouteText/RouteText';
 import { RelatedTours } from '@/components/tour-card/RelatedTours/RelatedTours';
 import { getTour, getTours } from '@/lib/content/catalog';
 import { getSettings } from '@/lib/content/settings';
@@ -16,7 +17,6 @@ import { getTourPage, tourPageTitle } from '@/lib/content/tourPage';
 import { routes } from '@/lib/routes';
 import { tripLength } from '@/lib/utils/dates';
 import { pageMetadata } from '@/lib/utils/metadata';
-import { routeLine } from '@/lib/utils/route';
 import { fillTokens } from '@/lib/utils/tokens';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import { BookingLayout } from '@/sections/BookingLayout/BookingLayout';
@@ -69,7 +69,7 @@ export default async function TourPage({ params }: TourPageProps) {
       <PhotoHero
         image={tour.image}
         back={{ href: routes.tours, label: copy.hero.backLabel }}
-        kicker={routeLine(tour.route)}
+        kicker={<RouteText stops={tour.route} />}
         title={tour.title}
       >
         <HeroFacts

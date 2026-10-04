@@ -3,11 +3,11 @@ import { IconButton } from '@/components/ui/IconButton/IconButton';
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
 import { RatingInline } from '@/components/ui/RatingInline/RatingInline';
 import { Tag } from '@/components/ui/Tag/Tag';
+import { RouteText } from '@/components/tour/RouteText/RouteText';
 import { routes } from '@/lib/routes';
 import { dateRange, tripLength } from '@/lib/utils/dates';
 import { NO_UPCOMING_DATES, seatStatus, urgencyText } from '@/lib/utils/departures';
 import { cardPrice } from '@/lib/utils/price';
-import { routeLine } from '@/lib/utils/route';
 import { cardMessage, whatsappLink } from '@/lib/utils/whatsapp';
 import { PriceBlock } from '../../tour/PriceBlock/PriceBlock';
 import { SeatsStatus } from '../../tour/SeatsStatus/SeatsStatus';
@@ -48,7 +48,9 @@ export function TourCard({ tour, departure, priority = false, photoSizes = PHOTO
         )}
       </div>
       <div className={styles.body}>
-        <p className={styles.route}>{routeLine(tour.route)}</p>
+        <p className={styles.route}>
+          <RouteText stops={tour.route} />
+        </p>
         <h3 className={styles.title}>{tour.title}</h3>
         <p className={styles.dates}>
           {departure ? `${dateRange(departure.start, departure.end)} · ${tripLength(tour.days, tour.nights)}` : NO_UPCOMING_DATES}
