@@ -23,7 +23,8 @@
       "source": "wikimedia",
       "author": "Wasif Mehmood Arain",
       "licence": "CC BY-SA 4.0",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Rakaposhi_from_Hunza_valley.jpg"
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Rakaposhi_from_Hunza_valley.jpg",
+      "changes": "Cropped; signature removed"
     }
   },
   "overview": {
@@ -73,7 +74,8 @@
           "source": "wikimedia",
           "author": "Fassifarooq",
           "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg",
+          "changes": "Cropped"
         }
       }
     },

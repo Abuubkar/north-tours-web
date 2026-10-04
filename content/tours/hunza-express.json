@@ -120,7 +120,8 @@
           "source": "wikimedia",
           "author": "Fassifarooq",
           "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg",
+          "changes": "Cropped"
         }
       }
     },
@@ -370,7 +371,8 @@
           "source": "wikimedia",
           "author": "Mustafa Amin",
           "licence": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG",
+          "changes": "Cropped"
         }
       }
     },
@@ -420,7 +422,8 @@
           "source": "wikimedia",
           "author": "Mustafa Amin",
           "licence": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG",
+          "changes": "Cropped"
         }
       }
     }

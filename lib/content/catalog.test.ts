@@ -109,6 +109,28 @@ describe('catalog: tours and destinations', () => {
     expect(result.problems).toEqual([]);
   });
 
+  it('accepts a note of the changes made to a credited photo, but not an empty one', () => {
+    const withChanges = (changes: string) =>
+      load((t) => {
+        t.image = {
+          src: '/images/hunza/attabad.jpg',
+          alt: 'Boats on Attabad Lake',
+          width: 1600,
+          height: 1200,
+          credit: {
+            source: 'wikimedia',
+            author: 'Example Author',
+            licence: 'CC BY-SA 4.0',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Example.jpg',
+            changes,
+          },
+        };
+      });
+    expect(withChanges('Cropped; number plate pixelated').problems).toEqual([]);
+    expect(fields(withChanges(''))).toEqual(['image.credit.changes']);
+    expect(fields(withChanges('  '))).toEqual(['image.credit.changes']);
+  });
+
   it('rejects a slug that does not match its file name, naming the file', () => {
     const result = load((t) => Object.assign(t, { slug: 'hunza-grand' }));
     expect(result.problems).toEqual([

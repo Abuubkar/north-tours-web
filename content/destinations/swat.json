@@ -97,7 +97,8 @@
           "source": "wikimedia",
           "author": "Ihsan Farid",
           "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:White_palace_Swat.JPG"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:White_palace_Swat.JPG",
+          "changes": "Cropped"
         }
       }
     },
@@ -121,7 +122,8 @@
           "source": "wikimedia",
           "author": "Hamzamian1",
           "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Malam_Jabba_in_Summer.jpg"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Malam_Jabba_in_Summer.jpg",
+          "changes": "Cropped"
         }
       }
     },

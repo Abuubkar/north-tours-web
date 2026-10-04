@@ -95,7 +95,8 @@
             "source": "wikimedia",
             "author": "Captainmorlypogi1959",
             "licence": "CC BY-SA 4.0",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Toyota_Coaster_2020.jpg"
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Toyota_Coaster_2020.jpg",
+            "changes": "Cropped"
           }
         },
         "sample": true
@@ -112,7 +113,8 @@
             "source": "wikimedia",
             "author": "Sadiqrizwan",
             "licence": "CC BY-SA 4.0",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Way_To_Deosai.jpg"
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Way_To_Deosai.jpg",
+            "changes": "Cropped; number plate pixelated, windscreen softened"
           }
         },
         "sample": true

@@ -46,7 +46,8 @@
       "source": "wikimedia",
       "author": "Nusrat Ashfaq",
       "licence": "CC BY-SA 3.0",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saif_ul_Malook_4.JPG"
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saif_ul_Malook_4.JPG",
+      "changes": "Cropped"
     }
   },
   "departures": [
@@ -295,7 +296,8 @@
           "source": "wikimedia",
           "author": "Mustafa Amin",
           "licence": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG",
+          "changes": "Cropped"
         }
       }
     }
