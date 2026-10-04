@@ -31,6 +31,8 @@ export function loadReviews(dir = CONTENT_DIR, tourFiles = loadTours(dir).files)
   const reviews = loadCollection(reviewSchema, path.join(dir, 'reviews'));
   return {
     items: reviews.items,
+    /** Each review's file as shown in errors, by slug (invalid files included), for checking links to them. */
+    files: reviews.files,
     problems: [...reviews.problems, ...checkReviewLinks(reviews.items, reviews.files, tourFiles)],
   };
 }

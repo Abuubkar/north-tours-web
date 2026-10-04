@@ -205,6 +205,21 @@
   }
 }
 
+/*
+ * A closing CTA's 56px button pair (DESIGN.md §7): at most 520px, each button growing to share
+ * the row, wrapping to full width on phones (Tour Detail's and About's).
+ */
+.buttonPair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  max-width: var(--measure-cta-actions);
+}
+
+.buttonPairItem {
+  flex: 1 1 auto;
+}
+
 /* Read out by screen readers, never seen, and taking no room, e.g. a status message or a heading the design leaves out. */
 .visuallyHidden {
   position: absolute;

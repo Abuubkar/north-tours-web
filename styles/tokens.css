@@ -186,6 +186,11 @@
   --page-header-media-top: clamp(40px, 5cqi, 72px); /* above the About header's wide photo */
   --measure-about: 560px; /* About's header lead and story paragraphs */
   --measure-guides-intro: 520px; /* the line under About's guides headline */
+  --fleet-min: 440px; /* About's vehicles beside the safety list, before it wraps under them */
+  --safety-min: 360px; /* the safety list */
+  --credentials-key-w: 200px; /* the Credentials rows' label column */
+  --measure-credentials: 820px; /* the Credentials rows */
+  --office-text-min: 360px; /* the office's rows and its photo side by side, before the photo wraps under */
   --story-text-min: 380px; /* the story's text beside the founder, before it wraps above */
   --founder-w: 320px; /* the founder's portrait and name */
   --founder-min: 240px; /* narrowest it gets beside the text */
@@ -265,6 +270,8 @@
   --grid-notes-cols: 3;
   --grid-principles-min: 240px; /* About's "How we run every trip" */
   --grid-principles-cols: 4;
+  --grid-vehicles-min: 200px; /* About's vehicles */
+  --grid-vehicles-cols: 2;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

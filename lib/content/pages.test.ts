@@ -1,4 +1,6 @@
 import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { CONTENT_DIR } from './files.ts';
 import { describe, expect, it } from 'vitest';
 import {
   aboutCopyFile,
@@ -260,10 +262,14 @@ describe('planner page copy', () => {
 
 describe('about page copy', () => {
   const about: AboutCopy = JSON.parse(readFileSync(aboutCopyFile(), 'utf8'));
+  /** The chosen reviews' files, so a fixture's choices have something to point at. */
+  const reviews = Object.fromEntries(
+    about.reviews.chosen.map((slug) => [`reviews/${slug}.json`, readFileSync(path.join(CONTENT_DIR, 'reviews', `${slug}.json`), 'utf8')]),
+  );
   const load = (change: (copy: AboutCopy) => void) => {
     const copy = structuredClone(about);
     change(copy);
-    return loadAboutCopy(contentFixture({ 'pages/about.json': copy }));
+    return loadAboutCopy(contentFixture({ 'pages/about.json': copy, ...reviews }));
   };
   const problems = (result: ReturnType<typeof loadAboutCopy>) => result.problems.map((p) => p.field);
 
@@ -300,6 +306,43 @@ describe('about page copy', () => {
     expect(load((c) => Object.assign(c.guides.profile, { counter: '{index}/{total}' })).problems).toEqual([]);
     expect(problems(load((c) => Object.assign(c.guides.profile, { since: 'Since {joined}' })))).toEqual(['guides.profile.since']);
     expect(problems(load((c) => Object.assign(c.guides, { intro: 'Meet {name}' })))).toEqual(['guides.intro']);
+  });
+
+  it('needs a photo with alt text for each vehicle, and the fleet age', () => {
+    expect(problems(load((c) => delete (c.vehicles.items[0] as Partial<AboutCopy['vehicles']['items'][0]>).image))).toEqual(['vehicles.items.0.image']);
+    expect(problems(load((c) => Object.assign(c.vehicles.items[1].image, { alt: '' })))).toEqual(['vehicles.items.1.image.alt']);
+    expect(problems(load((c) => Object.assign(c.vehicles.items[0], { image: { placeholder: 'A coaster', alt: 'A coaster' } })))).toContain(
+      'vehicles.items.0.image.src',
+    );
+    expect(problems(load((c) => delete (c.vehicles as Partial<AboutCopy['vehicles']>).fleetAge))).toEqual(['vehicles.fleetAge']);
+  });
+
+  it('takes {dtsLicence} in the licence, and no other token', () => {
+    expect(load((c) => Object.assign(c.credentials.licence, { value: 'Licence {dtsLicence}' })).problems).toEqual([]);
+    const result = load((c) => Object.assign(c.credentials.licence, { value: 'DTS licence No. {licence}' }));
+    expect(problems(result)).toEqual(['credentials.licence.value']);
+    expect(result.problems[0].message).toBe('Unknown token {licence}. Use only {dtsLicence}');
+    expect(problems(load((c) => Object.assign(c.numbers.travellers, { value: '{trips}' })))).toEqual(['numbers.travellers.value']);
+  });
+
+  it('accepts no memberships, and flags the sample one', () => {
+    expect(load((c) => Object.assign(c.credentials.memberships, { items: [] })).problems).toEqual([]);
+    expect(problems(load((c) => Object.assign(c.credentials.memberships.items[0], { sample: 'yes' })))).toEqual([
+      'credentials.memberships.items.0.sample',
+    ]);
+  });
+
+  it('needs one to three chosen reviews, each with a file', () => {
+    expect(problems(load((c) => Object.assign(c.reviews, { chosen: [] })))).toEqual(['reviews.chosen']);
+    const four = [...about.reviews.chosen, 'hunza-2026-05-ayesha'];
+    expect(problems(load((c) => Object.assign(c.reviews, { chosen: four })))).toEqual(['reviews.chosen']);
+    const twice = load((c) => Object.assign(c.reviews, { chosen: [about.reviews.chosen[0], about.reviews.chosen[0]] }));
+    expect(problems(twice)).toEqual(['reviews.chosen']);
+    expect(twice.problems[0].message).toBe('Choose each review only once');
+    const result = load((c) => Object.assign(c.reviews, { chosen: [about.reviews.chosen[0], 'hunza-2026-13-nobody'] }));
+    expect(problems(result)).toEqual(['reviews.chosen.1']);
+    expect(result.problems[0].message).toBe('No review "hunza-2026-13-nobody" (expected a file in content/reviews)');
+    expect(result.problems[0].file).toMatch(/pages\/about\.json$/);
   });
 
   it('keeps the founder’s portrait the owner’s: never a stock photo of a person (ADR-0009)', () => {

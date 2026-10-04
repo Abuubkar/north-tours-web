@@ -1,5 +1,6 @@
 import type { AboutCopy } from '@/lib/content/pages';
 import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
+import type { ReviewWithTour } from './ReviewsSection/ReviewsSection.types';
 
 /* Sample About copy for the section stories, which can't read content files. */
 export const sampleAbout: AboutCopy = {
@@ -47,4 +48,115 @@ export const sampleAbout: AboutCopy = {
       share: 'Share this profile on WhatsApp',
     },
   },
+  vehicles: {
+    headline: 'Our vehicles, and how we keep you safe',
+    items: [
+      {
+        name: 'Toyota Coaster',
+        summary: '22 seats · air-conditioned · group departures',
+        image: {
+          src: '/images/vehicles/toyota-coaster.jpg',
+          alt: 'A white Toyota Coaster minibus, seen from the front',
+          width: 1600,
+          height: 1200,
+          credit: {
+            source: 'wikimedia',
+            author: 'Captainmorlypogi1959',
+            licence: 'CC BY-SA 4.0',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Toyota_Coaster_2020.jpg',
+          },
+        },
+        sample: true,
+      },
+      {
+        name: '4x4 jeep',
+        summary: '6 seats · for Deosai, Fairy Meadows and mountain tracks',
+        image: {
+          src: '/images/vehicles/4x4-jeep.jpg',
+          alt: 'A red Toyota Land Cruiser 4x4 with a white roof',
+          width: 1600,
+          height: 1079,
+          focus: { x: 55, y: 55 },
+          credit: {
+            source: 'wikimedia',
+            author: 'Mr.choppers',
+            licence: 'CC BY-SA 3.0',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:1982_Toyota_Land_Cruiser_FJ40_in_Freeborn_Red,_front_right.jpg',
+          },
+        },
+        sample: true,
+      },
+    ],
+    fleetAge: { label: 'Average age of our fleet:', value: '4 years', sample: true },
+    safety: {
+      title: 'How we keep you safe',
+      items: [
+        'Every vehicle is checked before each departure',
+        'Driver rest rules: set hours at the wheel, and no night driving on mountain roads',
+        'A first-aid kit in every vehicle, and a first-aid trained guide on every trip',
+        'When a landslide closes the road, we wait or take the safe way round, never a risky shortcut',
+        'Where there’s no signal, check-in times agreed with our Lahore office before you set off',
+      ],
+      sample: true,
+    },
+  },
+  numbers: {
+    headline: 'The company in numbers',
+    labels: { years: 'years running trips', trips: 'trips completed', travellers: 'travellers', guides: 'guides and drivers' },
+    travellers: { value: '9,000+', sample: true },
+  },
+  credentials: {
+    label: 'Credentials',
+    licence: { label: 'Tour operator licence', value: 'DTS licence No. {dtsLicence}' },
+    company: { label: 'Company' },
+    memberships: { label: 'Memberships', items: [{ name: '[Tour operators’ association]', sample: true }] },
+  },
+  reviews: {
+    headline: 'What travellers say about our guides and drivers',
+    chosen: ['hunza-2026-05-faisal', 'hunza-2026-06-maryam', 'swat-2026-07-nadia'],
+  },
+  cta: { headline: 'Start planning your trip north', exploreLabel: 'Explore tours', planLabel: 'Plan a private trip' },
 };
+
+/** About's three chosen reviews, as the page shapes them (the content files' words). */
+export const sampleAboutReviews: ReviewWithTour[] = [
+  {
+    review: {
+      slug: 'hunza-2026-05-faisal',
+      tour: 'hunza-skardu-grand',
+      name: 'Faisal Ahmed & family',
+      place: 'Lahore',
+      month: '2026-05',
+      rating: 5,
+      quote: 'Our driver knew which bends worried my mother and slowed down before she had to ask. Nine days, and nothing for us to sort out.',
+      consent: true,
+    },
+    tourTitle: 'Hunza & Skardu Grand',
+  },
+  {
+    review: {
+      slug: 'hunza-2026-06-maryam',
+      tour: 'hunza-skardu-grand',
+      name: 'Maryam Shah',
+      place: 'Lahore',
+      month: '2026-06',
+      rating: 5,
+      quote: 'Our guide in Skardu knew every lake by name and timed Deosai so we had it almost to ourselves.',
+      consent: true,
+    },
+    tourTitle: 'Hunza & Skardu Grand',
+  },
+  {
+    review: {
+      slug: 'swat-2026-07-nadia',
+      tour: 'swat-family-escape',
+      name: 'Nadia Hussain',
+      place: 'Islamabad',
+      month: '2026-07',
+      rating: 5,
+      quote: 'The tour host messaged us before sunrise on the day we left, and kept checking in the whole way. My parents felt looked after.',
+      consent: true,
+    },
+    tourTitle: 'Swat Family Escape',
+  },
+];

@@ -1,9 +1,12 @@
 import path from 'node:path';
 import { z } from 'zod';
-import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
+import { slugSchema } from './collection.ts';
+import { CONTENT_DIR, displayPath, parseFile, requireValid } from './files.ts';
+import { checkChosenReviews } from './links.ts';
+import { loadReviews } from './reviews.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith, nonEmpty, sample } from './fields.ts';
-import { photoSchema, portraitSchema } from './images.ts';
+import { photoSchema, ownerImageSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
@@ -611,7 +614,7 @@ const aboutCopySchema = z.strictObject({
       /** Under the name: "Founder". */
       role: copy,
       /** The owner's photo only (ADR-0009); a placeholder until then. */
-      portrait: portraitSchema,
+      portrait: ownerImageSchema,
     }),
     sample,
   }),
@@ -640,6 +643,50 @@ const aboutCopySchema = z.strictObject({
       share: copy,
     }),
   }),
+  /** "Our vehicles, and how we keep you safe": the fleet, its age and the safety practices (all sample, ADR-0019). */
+  vehicles: z.strictObject({
+    headline: copy,
+    /**
+     * Each vehicle: its name, what it's for ("22 seats · air-conditioned · group departures") and,
+     * until the owner's photos of the real fleet, a stock photo of the type: no people, no other
+     * company's name (ADR-0019).
+     */
+    items: z
+      .array(z.strictObject({ name: copy, summary: copy, image: photoSchema, sample }))
+      .min(1, 'List at least one vehicle'),
+    /** "Average age of our fleet:" and "4 years". */
+    fleetAge: z.strictObject({ label: copy, value: copy, sample }),
+    /** "How we keep you safe" and the practices, one per row. */
+    safety: z.strictObject({ title: copy, items: z.array(copy).min(1, 'List at least one practice'), sample }),
+  }),
+  /** The company in numbers: a heading only read out, each stat's label, and the travellers figure (sample). */
+  numbers: z.strictObject({
+    headline: copy,
+    labels: z.strictObject({ years: copy, trips: copy, travellers: copy, guides: copy }),
+    /** As shown, e.g. "9,000+". Years and trips come from the trust settings; guides are counted. */
+    travellers: z.strictObject({ value: copy, sample }),
+  }),
+  /** "Credentials": the only section with a label instead of a headline (DESIGN.md §6). */
+  credentials: z.strictObject({
+    label: copy,
+    /** "DTS licence No. {dtsLicence}", the licence from settings, over the trust strip's note. */
+    licence: z.strictObject({ label: copy, value: copyWith('dtsLicence') }),
+    /** The company registration, from settings. */
+    company: z.strictObject({ label: copy }),
+    /** Associations the company belongs to; the row is left out with none. Never a real organisation until confirmed. */
+    memberships: z.strictObject({ label: copy, items: z.array(z.strictObject({ name: copy, sample })) }),
+  }),
+  /** "What travellers say about our guides and drivers": the reviews to show, by slug, in order (no rating summary). */
+  reviews: z.strictObject({
+    headline: copy,
+    chosen: z
+      .array(slugSchema)
+      .min(1, 'Choose at least one review')
+      .max(3, 'Choose at most three reviews')
+      .refine((slugs) => new Set(slugs).size === slugs.length, 'Choose each review only once'),
+  }),
+  /** The closing call to action: "Start planning your trip north", to the tours and the planner. */
+  cta: z.strictObject({ headline: copy, exploreLabel: copy, planLabel: copy }),
 });
 
 export type AboutCopy = z.infer<typeof aboutCopySchema>;
@@ -648,8 +695,12 @@ export function aboutCopyFile(dir = CONTENT_DIR): string {
   return path.join(dir, 'pages', 'about.json');
 }
 
+/** Reads About's copy and checks each chosen review has a file. */
 export function loadAboutCopy(dir = CONTENT_DIR) {
-  return parseFile(aboutCopySchema, aboutCopyFile(dir));
+  const result = parseFile(aboutCopySchema, aboutCopyFile(dir));
+  if (!result.data) return result;
+  const missing = checkChosenReviews(result.data.reviews.chosen, displayPath(aboutCopyFile(dir)), loadReviews(dir).files);
+  return missing.length > 0 ? { data: null, problems: missing } : result;
 }
 
 let cachedAbout: AboutCopy | undefined;

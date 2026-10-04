@@ -1,0 +1,45 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+/* Media and text split (docs/components.md §4): the photo beside the text, under it on phones. */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gutter);
+}
+
+.text {
+  display: flex;
+  flex: 1 1 var(--office-text-min);
+  flex-direction: column;
+  gap: var(--space-24);
+  min-width: 0;
+}
+
+/* The long size: the headline runs past ~44 characters (DESIGN.md §6). */
+.headline {
+  composes: sectionLong from '../../styles/typography.module.css';
+}
+
+/* A 44px tap target that keeps the row at its text height (as the footer's rows). */
+.rowLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin-block: calc((1lh - var(--tap)) / 2);
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.photo {
+  flex: 1 1 var(--office-text-min);
+  min-width: 0;
+}

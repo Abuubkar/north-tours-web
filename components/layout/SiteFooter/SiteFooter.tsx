@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/Button/Button';
 import { KeyValueRow } from '@/components/ui/KeyValueRow/KeyValueRow';
 import { SectionLabel } from '@/components/ui/SectionLabel/SectionLabel';
+import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
 import { routes } from '@/lib/routes';
 import { emailHref, phoneHref, webHref } from '@/lib/utils/contact';
 import { whatsappLink } from '@/lib/utils/whatsapp';
-import type { SiteFooterProps, TextOrLinkProps } from './SiteFooter.types';
+import type { SiteFooterProps } from './SiteFooter.types';
 import styles from './SiteFooter.module.css';
 
 const footerNav = [
@@ -23,20 +24,10 @@ const legalLinks = [
   { label: 'Photo credits', href: routes.credits },
 ];
 
-function TextOrLink({ href, className, children }: TextOrLinkProps) {
-  return href ? (
-    <a href={href} className={className}>
-      {children}
-    </a>
-  ) : (
-    children
-  );
-}
-
 /** The footer on every page, built from settings. Placeholders show as written, unlinked. */
 export function SiteFooter({ settings }: SiteFooterProps) {
   const { brand, contact, legal, social, whatsapp } = settings;
-  const whatsappHref = whatsappLink(contact.whatsapp, whatsapp.generalMessage);
+  const chatHref = whatsappLink(contact.whatsapp, whatsapp.generalMessage);
   const socialLinks = [
     { label: 'Instagram', href: webHref(social.instagram) },
     { label: 'Facebook', href: webHref(social.facebook) },
@@ -63,12 +54,12 @@ export function SiteFooter({ settings }: SiteFooterProps) {
           </nav>
           <div className={styles.contact}>
             <p className={styles.intro}>{whatsapp.footerIntro}</p>
-            <Button href={whatsappHref} size={56} icon="whatsapp">
+            <Button href={chatHref} size={56} icon="whatsapp">
               Chat on WhatsApp
             </Button>
             <dl>
               <KeyValueRow label="WhatsApp">
-                <TextOrLink href={whatsappHref} className={styles.rowLink}>
+                <TextOrLink href={chatHref} className={styles.rowLink}>
                   {contact.whatsapp}
                 </TextOrLink>
               </KeyValueRow>

@@ -20,3 +20,14 @@ export const Default: Story = {
 };
 
 export const OnLight: Story = { ...Default, globals: { surface: 'light' } };
+
+/** As a section's heading (About's "Credentials"): an <h2> with the label's look. */
+export const AsHeading: Story = {
+  args: { children: 'Credentials', as: 'h2' },
+  play: async ({ canvas }) => {
+    const heading = canvas.getByRole('heading', { level: 2, name: 'Credentials' });
+    await expect(getComputedStyle(heading).fontSize).toBe('13px');
+  },
+};
+
+export const AsHeadingOnLight: Story = { ...AsHeading, globals: { surface: 'light' } };

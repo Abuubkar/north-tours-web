@@ -1,7 +1,10 @@
+import { companyStats } from '../utils/companyStats.ts';
 import { guideProfile } from '../utils/guideProfile.ts';
 import { fillTokens } from '../utils/tokens.ts';
+import { getTour } from './catalog.ts';
 import { getGuides } from './guides.ts';
 import { getAboutCopy } from './pages.ts';
+import { getReviews } from './reviews.ts';
 import { getSettings } from './settings.ts';
 
 /**
@@ -11,6 +14,7 @@ import { getSettings } from './settings.ts';
 export function getAboutPage() {
   const settings = getSettings();
   const copy = getAboutCopy();
+  const guides = getGuides();
   return {
     copy: {
       ...copy,
@@ -19,10 +23,37 @@ export function getAboutPage() {
     },
     settings,
     /** Every guide in the loader's order, with their profile's rows and share link. */
-    profiles: getGuides().map((guide) =>
+    profiles: guides.map((guide) =>
       guideProfile(guide, copy.guides.profile, settings.whatsapp.guideShareMessage, settings.site.url),
     ),
+    /** "The company in numbers": years and trips as the trust strip shows them, up to the build year. */
+    stats: companyStats({
+      trust: settings.trust,
+      travellers: copy.numbers.travellers.value,
+      guideCount: guides.length,
+      year: new Date().getFullYear(),
+      labels: copy.numbers.labels,
+    }),
+    /** Credentials: the licence and registration from settings (placeholders as written), and the memberships. */
+    credentials: {
+      label: copy.credentials.label,
+      licence: {
+        label: copy.credentials.licence.label,
+        value: fillTokens(copy.credentials.licence.value, { dtsLicence: settings.legal.dtsLicence }),
+        // The trust strip's line under the licence.
+        note: settings.trust.licence.note,
+      },
+      company: { label: copy.credentials.company.label, value: settings.legal.companyRegistration },
+      memberships: { label: copy.credentials.memberships.label, names: copy.credentials.memberships.items.map((item) => item.name) },
+    },
+    /** The reviews page copy chooses, in its order (content:check makes sure each one exists). */
+    reviews: copy.reviews.chosen.map((slug) => {
+      const review = getReviews().find((r) => r.slug === slug)!;
+      return { review, tourTitle: getTour(review.tour)!.title };
+    }),
     /** The header's place photo is also the page's share image. */
     sharePhoto: copy.header.image,
   };
 }
+
+export type AboutPage = ReturnType<typeof getAboutPage>;

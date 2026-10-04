@@ -2,6 +2,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { copy, copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder } from './fields.ts';
+import { ownerImageSchema } from './images.ts';
 
 /**
  * How much of the advance is refunded, by days before departure: each row applies from
@@ -85,6 +86,20 @@ const settingsSchema = z.strictObject({
     /** The pickup point, in the Tour Detail strip. */
     departs: z.strictObject({ label: nonEmpty }),
     payments: z.strictObject({ label: nonEmpty }),
+  }),
+  /**
+   * "Plan your trip over chai at our Lahore office": the same block on About and Contact (as the
+   * trust strip). The address, hours and numbers stay in `contact`.
+   */
+  visitOffice: z.strictObject({
+    headline: nonEmpty,
+    rows: z.strictObject({ office: nonEmpty, open: nonEmpty, phone: nonEmpty, whatsapp: nonEmpty }),
+    /** To Google Maps, only once the address is real. */
+    directionsLabel: nonEmpty,
+    /** Opens WhatsApp with the general message. */
+    whatsappLabel: nonEmpty,
+    /** The owner's photo of the office only, never a stock one; a placeholder until then. */
+    image: ownerImageSchema,
   }),
   /** WhatsApp wording, editable without touching code. */
   whatsapp: z.strictObject({
