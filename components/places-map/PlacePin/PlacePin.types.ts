@@ -1,8 +1,11 @@
 import type { CSSProperties } from 'react';
 
-/** What a place does when it's pointed at (hover or focus; null when that ends) or clicked. */
+/** How a place is pointed at: the mouse over it, or keyboard focus on it. */
+export type Pointer = 'hover' | 'focus';
+
+/** What a place does when it's pointed at (null when that ends) or clicked. */
 export type PlaceHandlers = {
-  onPoint: (id: string | null) => void;
+  onPoint: (id: string | null, by: Pointer) => void;
   onPick: (id: string) => void;
 };
 

@@ -27,7 +27,7 @@ export const Hunza: Story = {
     const pins = canvas.getAllByRole('button');
     await expect(pins.map((pin) => pin.getAttribute('aria-label'))).toEqual(args.places.map((place) => place.name));
     for (const pin of pins) await expect(pin).toHaveAttribute('aria-pressed', 'false');
-    for (const text of ['36.3°N', '74.7°E', 'Karimabad', '↓ Gilgit', '→ Khunjerab', 'Schematic · positions approximate']) {
+    for (const text of ['36.3°N', '74.7°E', 'Karimabad', '↓ Gilgit', '↑ Khunjerab', 'Schematic · positions approximate']) {
       await expect(canvas.getByText(text).closest('[aria-hidden="true"]')).not.toBeNull();
     }
   },
@@ -70,6 +70,8 @@ export const BaltitLit: Story = {
     await nameClearOfPins(canvasElement, 'Baltit Fort');
   },
 };
+
+export const BaltitLitOnLight: Story = { ...BaltitLit, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const BaltitLitPhone: Story = { ...BaltitLit, globals: { viewport: { value: 'phone' } } };
 

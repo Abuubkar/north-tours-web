@@ -15,10 +15,10 @@ export function PlacePin({ id, name, number, position, lit, pressed, onPoint, on
       aria-label={name}
       aria-pressed={pressed}
       data-pin={id}
-      onMouseEnter={() => onPoint(id)}
-      onMouseLeave={() => onPoint(null)}
-      onFocus={() => onPoint(id)}
-      onBlur={() => onPoint(null)}
+      onMouseEnter={() => onPoint(id, 'hover')}
+      onMouseLeave={() => onPoint(null, 'hover')}
+      onFocus={() => onPoint(id, 'focus')}
+      onBlur={() => onPoint(null, 'focus')}
       onClick={() => onPick(id)}
     >
       <span className={styles.halo} aria-hidden="true" />

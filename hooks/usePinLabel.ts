@@ -1,19 +1,17 @@
 import { useLayoutEffect, type RefObject } from 'react';
-import { placePinLabel, type Box } from '@/lib/utils/placesMap';
+import { coveredLabels, placePinLabel, type Box } from '@/lib/utils/pinLabel';
 
 const box = (element: Element): Box => {
   const { left, top, width, height } = element.getBoundingClientRect();
   return { x: left, y: top, width, height };
 };
 
-const overlaps = (a: Box, b: Box) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
-
 /**
- * Keeps the places map's names clear (lib/utils/placesMap `placePinLabel`): the lit pin's name
- * takes the first spot that stays in the map and clears the other pins, as the design does, and
- * any context label it covers, or that a pin covers at this size, is hidden. It measures after
- * each change and on resize, before paint, then sets the name's `data-spot` and marks hidden
- * context labels `data-covered`. The map marks its parts: `data-pin` (each pin),
+ * Keeps the places map's names clear (lib/utils/pinLabel): the lit pin's name takes the first
+ * spot that stays in the map and clears the other pins, as the design does, and any context
+ * label it covers, or that a pin covers at this size, is hidden. It measures after each change
+ * and on resize, before paint, then sets the name's `data-spot` and marks hidden context labels
+ * `data-covered`. PlacesMap and PlacePin mark the parts it measures: `data-pin` (each pin),
  * `data-pin-circle`, `data-pin-label` and `data-context-label`.
  */
 export function usePinLabel(mapRef: RefObject<HTMLElement | null>, lit: string | null) {
@@ -24,7 +22,7 @@ export function usePinLabel(mapRef: RefObject<HTMLElement | null>, lit: string |
     function place(map: HTMLElement) {
       const context = [...map.querySelectorAll('[data-context-label]')];
       const circles = [...map.querySelectorAll('[data-pin-circle]')];
-      const covered = new Set(context.flatMap((label, i) => (circles.some((circle) => overlaps(box(label), box(circle))) ? [i] : [])));
+      const covered = new Set(coveredLabels(context.map(box), circles.map(box)));
 
       const name = map.querySelector<HTMLElement>('[data-pin-label]');
       const own = name?.closest('[data-pin]')?.querySelector('[data-pin-circle]');

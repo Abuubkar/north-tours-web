@@ -2,18 +2,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import type { Destination } from '../content/destinations.ts';
-import {
-  contextLabel,
-  drawPlacesMap,
-  fittedBounds,
-  graticuleStep,
-  labelBox,
-  PIN_SPACING,
-  PLACES_MAP_FRAME,
-  placePinLabel,
-  spreadPins,
-  type Box,
-} from './placesMap.ts';
+import { contextLabel, drawPlacesMap, fittedBounds, graticuleStep, PIN_SPACING, PLACES_MAP_FRAME, spreadPins } from './placesMap.ts';
 
 const hunza: Destination = JSON.parse(readFileSync(path.join(process.cwd(), 'content/destinations/hunza.json'), 'utf8'));
 const { width, height, padding } = PLACES_MAP_FRAME;
@@ -58,13 +47,20 @@ describe('drawPlacesMap', () => {
     expect(drawing.labels.map((l) => [l.text, l.edge])).toEqual([
       ['Karimabad', null],
       ['↓ Gilgit', 'bottom'],
-      ['→ Khunjerab', 'right'],
+      ['↑ Khunjerab', 'top'],
     ]);
   });
 
+  it('labels a finer graticule at its precision (Fairy Meadows, every 0.05°)', () => {
+    const fairy: Destination = JSON.parse(readFileSync(path.join(process.cwd(), 'content/destinations/fairy-meadows.json'), 'utf8'));
+    const { parallels, meridians } = drawPlacesMap(fairy.places!);
+    expect(parallels.map((p) => p.label)).toContain('35.40°N');
+    expect(meridians.map((m) => m.label)).toContain('74.60°E');
+  });
+
   it('centres one place alone, at a sensible span rather than street scale', () => {
-    const lone = drawPlacesMap([{ id: 'baltit-fort', lat: 36.3275, lon: 74.6696 }]);
-    expect(lone.pins[0]).toEqual({ id: 'baltit-fort', x: width / 2, y: height / 2 });
+    const lone = drawPlacesMap([{ id: 'baltit-fort', name: 'Baltit Fort', lat: 36.3275, lon: 74.6696 }]);
+    expect(lone.pins[0]).toEqual({ id: 'baltit-fort', name: 'Baltit Fort', x: width / 2, y: height / 2 });
     expect(lone.parallels.length).toBeGreaterThan(0);
     expect(lone.meridians.length).toBeGreaterThan(0);
   });
@@ -111,36 +107,9 @@ describe('contextLabel', () => {
     expect(contextLabel('Khunjerab', { x: 470, y: 100 }, frame).align).toBe('end');
   });
 
-  it('pins a place beyond the frame to the nearest edge, with an arrow', () => {
+  it('pins a place beyond the frame to its edge, with an arrow: top or bottom first, as designed', () => {
     expect(contextLabel('Gilgit', { x: 40, y: 600 }, frame)).toEqual({ text: '↓ Gilgit', x: 40, y: height - 8, edge: 'bottom', align: 'start' });
-    expect(contextLabel('Khunjerab', { x: 520, y: -300 }, frame)).toMatchObject({ text: '↑ Khunjerab', y: 8, edge: 'top', align: 'end' });
+    expect(contextLabel('Khunjerab', { x: 700, y: -30 }, frame)).toMatchObject({ text: '↑ Khunjerab', x: width - 8, y: 8, edge: 'top', align: 'end' });
     expect(contextLabel('Chilas', { x: -200, y: 300 }, frame)).toMatchObject({ text: '← Chilas', x: 8, y: 300, edge: 'left' });
-  });
-});
-
-describe('placePinLabel', () => {
-  const frame: Box = { x: 0, y: 0, width: 484, height: 420 };
-  const size = { width: 80, height: 18 };
-  const pin = (x: number, y: number): Box => ({ x: x - 13, y: y - 13, width: 26, height: 26 });
-
-  it('puts the name above the pin when that spot is clear', () => {
-    expect(placePinLabel(pin(240, 200), size, frame, { pins: [], labels: [] }, 8)).toEqual({ spot: 'above', hidden: [] });
-  });
-
-  it('skips a spot that leaves the frame (a pin at the top goes below)', () => {
-    expect(placePinLabel(pin(240, 20), size, frame, { pins: [], labels: [] }, 8).spot).toBe('below');
-  });
-
-  it('takes the first spot that clears the other pins', () => {
-    const above = pin(240, 165);
-    const below = pin(240, 235);
-    expect(placePinLabel(pin(240, 200), size, frame, { pins: [above, below], labels: [] }, 8).spot).toBe('right');
-  });
-
-  it('hides the context labels its name would cover', () => {
-    const lit = pin(240, 200);
-    const covered = labelBox(lit, size, 'above', 8);
-    const clear: Box = { x: 10, y: 10, width: 40, height: 16 };
-    expect(placePinLabel(lit, size, frame, { pins: [], labels: [clear, covered] }, 8).hidden).toEqual([1]);
   });
 });

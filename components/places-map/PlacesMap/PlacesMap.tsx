@@ -60,7 +60,7 @@ export function PlacesMap({ places, labels, caption, lit, picked, mapRef, onPoin
           <PlacePin
             key={pin.id}
             id={pin.id}
-            name={places[i].name}
+            name={pin.name}
             number={i + 1}
             position={placeAt(pin.x, pin.y)}
             lit={lit === pin.id}

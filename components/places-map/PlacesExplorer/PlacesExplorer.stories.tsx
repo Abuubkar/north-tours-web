@@ -57,6 +57,11 @@ export const Keyboard: Story = {
     await expect(rows[0]).toHaveFocus();
     await expect(nameOnMap(canvasElement, 'Baltit Fort')).toBeVisible();
 
+    // The mouse passing over another place and away again leaves the focused place lit.
+    await user.hover(pins[4]);
+    await user.unhover(pins[4]);
+    await expect(nameOnMap(canvasElement, 'Baltit Fort')).toBeVisible();
+
     await user.keyboard('{Enter}');
     await expect(rows[0]).toHaveAttribute('aria-pressed', 'true');
     await expect(pins[0]).toHaveAttribute('aria-pressed', 'true');
@@ -65,6 +70,8 @@ export const Keyboard: Story = {
     await expect(pins[0]).toHaveAttribute('aria-pressed', 'false');
   },
 };
+
+export const KeyboardOnLight: Story = { ...Keyboard, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** Hovering a row lights its pin, and hovering a pin lights its row; a hover elsewhere shows over a pick. */
 export const Hover: Story = {
@@ -157,6 +164,8 @@ export const FairyMeadows: Story = {
     await expect(nameOnMap(canvasElement, 'Raikot Glacier')).toBeVisible();
   },
 };
+
+export const FairyMeadowsOnLight: Story = { ...FairyMeadows, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const FairyMeadowsLaptop: Story = { ...FairyMeadows, globals: { viewport: { value: 'laptop' } } };
 

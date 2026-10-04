@@ -13,7 +13,7 @@ export const MAP_FRAME = { width: 560, height: 700, padding: 64 } as const;
 /** A drawing's size and the margin kept clear around what it shows. */
 export type MapFrame = { width: number; height: number; padding: number };
 
-type LatLon = { lat: number; lon: number };
+export type LatLon = { lat: number; lon: number };
 export type MapPoint = { x: number; y: number };
 type GridLine = { value: number; at: number; label: string };
 

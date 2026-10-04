@@ -20,10 +20,10 @@ export function PlaceRow({ place, number, kind, lit, pressed, onPoint, onPick }:
       aria-labelledby={`${id}-name`}
       aria-describedby={`${id}-text ${id}-kind`}
       aria-pressed={pressed}
-      onMouseEnter={() => onPoint(place.id)}
-      onMouseLeave={() => onPoint(null)}
-      onFocus={() => onPoint(place.id)}
-      onBlur={() => onPoint(null)}
+      onMouseEnter={() => onPoint(place.id, 'hover')}
+      onMouseLeave={() => onPoint(null, 'hover')}
+      onFocus={() => onPoint(place.id, 'focus')}
+      onBlur={() => onPoint(null, 'focus')}
       onClick={() => onPick(place.id)}
     >
       <MediaFrame image={place.image} ratio="4:3" sizes={PHOTO_SIZES} className={styles.photo} />

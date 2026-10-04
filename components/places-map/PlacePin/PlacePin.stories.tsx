@@ -37,7 +37,7 @@ export const Off: Story = {
     await expect(pin.getBoundingClientRect().width).toBeGreaterThanOrEqual(44);
     await expect(pin).toHaveTextContent('4');
     await userEvent.hover(pin);
-    await expect(args.onPoint).toHaveBeenLastCalledWith('attabad-lake');
+    await expect(args.onPoint).toHaveBeenLastCalledWith('attabad-lake', 'hover');
     await userEvent.click(pin);
     await expect(args.onPick).toHaveBeenCalledWith('attabad-lake');
   },

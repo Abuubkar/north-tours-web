@@ -20,7 +20,7 @@ export const Default: Story = {
     await expect(row).toHaveAttribute('aria-pressed', 'false');
     await expect(row.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
     await userEvent.hover(row);
-    await expect(args.onPoint).toHaveBeenLastCalledWith('baltit-fort');
+    await expect(args.onPoint).toHaveBeenLastCalledWith('baltit-fort', 'hover');
     await userEvent.click(row);
     await expect(args.onPick).toHaveBeenCalledWith('baltit-fort');
   },

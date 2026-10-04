@@ -1,4 +1,4 @@
-import { mapProjection, type MapFrame, type MapPoint } from './projection.ts';
+import { mapProjection, type LatLon, type MapFrame, type MapPoint } from './projection.ts';
 
 /*
  * A destination's places map (PRD #63): its places drawn with the route map's projection
@@ -6,10 +6,11 @@ import { mapProjection, type MapFrame, type MapPoint } from './projection.ts';
  * pins and a few context labels; no roads, borders or basemap (CLAUDE.md §8).
  */
 
+/** From this width the map sits beside the list, sticky; below it, above the list. */
+export const SIDE_BY_SIDE_QUERY = '(width >= 820px)';
+
 /** The drawing: 484×420, with room around the places for their pins and labels. */
 export const PLACES_MAP_FRAME = { width: 484, height: 420, padding: 56 } as const;
-
-type LatLon = { lat: number; lon: number };
 
 /** One place alone, or a tight cluster, still spans this many degrees, so it isn't drawn at street scale. */
 const MIN_SPAN = 0.05;
@@ -58,10 +59,10 @@ export function graticuleStep(span: number): number {
 }
 
 /**
- * Pins eased apart until none is closer than `spacing` to another (a schematic, so a pin may
+ * Pins eased apart until none is closer than `PIN_SPACING` to another (a schematic, so a pin may
  * move a little from its true spot), then kept inside the frame's padding. Same input, same result.
  */
-export function spreadPins(points: readonly MapPoint[], frame: MapFrame, spacing = PIN_SPACING): MapPoint[] {
+export function spreadPins(points: readonly MapPoint[], frame: MapFrame): MapPoint[] {
   const pins = points.map((p) => ({ ...p }));
   for (let pass = 0; pass < 50; pass++) {
     let moved = false;
@@ -70,10 +71,10 @@ export function spreadPins(points: readonly MapPoint[], frame: MapFrame, spacing
         const dx = pins[j].x - pins[i].x;
         const dy = pins[j].y - pins[i].y;
         const distance = Math.hypot(dx, dy);
-        if (distance >= spacing) continue;
+        if (distance >= PIN_SPACING) continue;
         // Coincident pins part sideways.
         const [ux, uy] = distance === 0 ? [1, 0] : [dx / distance, dy / distance];
-        const push = (spacing - distance) / 2 + 0.01;
+        const push = (PIN_SPACING - distance) / 2 + 0.01;
         pins[i].x -= ux * push;
         pins[i].y -= uy * push;
         pins[j].x += ux * push;
@@ -120,8 +121,8 @@ function clash(name: string, { x, y }: MapPoint, align: ContextLabel['align'], p
 
 /**
  * A context label for a named point: inside the frame, beside its point on whichever side keeps
- * it off the pins; outside it, at the nearest edge, on the side the place lies beyond (top or
- * bottom when it's further out that way), with an arrow.
+ * it off the pins; outside it, at the top or bottom edge when it lies beyond that edge (as the
+ * design puts "↑ Khunjerab" and "↓ Gilgit"), otherwise at the left or right, with an arrow.
  */
 export function contextLabel(
   name: string,
@@ -139,7 +140,7 @@ export function contextLabel(
     const side = clash(name, { x, y }, other, pins, frame.width) < clash(name, { x, y }, align, pins, frame.width) ? other : align;
     return { text: name, x, y, edge: null, align: side };
   }
-  if (beyondY >= beyondX) {
+  if (beyondY > 0) {
     const edge = y < 0 ? 'top' : 'bottom';
     return { text: `${ARROWS[edge]} ${name}`, x: clampX, y: edge === 'top' ? EDGE_INSET : frame.height - EDGE_INSET, edge, align };
   }
@@ -155,65 +156,23 @@ export function contextLabel(
 
 /** Everything the places map draws, in the frame's coordinates: the pins in list order, the graticule and the context labels. */
 export function drawPlacesMap(
-  places: readonly (LatLon & { id: string })[],
+  places: readonly (LatLon & { id: string; name: string })[],
   labels: readonly (LatLon & { name: string })[] = [],
-  frame: MapFrame = PLACES_MAP_FRAME,
 ) {
+  const frame = PLACES_MAP_FRAME;
   const bounds = fittedBounds(places);
   const { project } = mapProjection(bounds, frame);
-  // The degrees the frame spans across its longer side sets the graticule's step.
-  const perDegree = project({ lat: 0, lon: 0 }).y - project({ lat: 1, lon: 0 }).y;
-  const step = graticuleStep(Math.max(frame.height, frame.width) / perDegree);
+  // How many degrees the frame spans each way sets the graticule's step.
+  const origin = project({ lat: 0, lon: 0 });
+  const north = project({ lat: 1, lon: 0 });
+  const east = project({ lat: 0, lon: 1 });
+  const step = graticuleStep(Math.max(frame.height / (origin.y - north.y), frame.width / (east.x - origin.x)));
   const projection = mapProjection(bounds, frame, step);
   const pins = spreadPins(places.map((place) => projection.project(place)), frame);
   return {
-    pins: places.map((place, i) => ({ id: place.id, ...pins[i] })),
+    pins: places.map((place, i) => ({ id: place.id, name: place.name, ...pins[i] })),
     parallels: projection.parallels,
     meridians: projection.meridians,
     labels: labels.map((label) => contextLabel(label.name, projection.project(label), frame, pins)),
   };
-}
-
-/** A box in the map, in pixels: a pin's circle, a label. */
-export type Box = { x: number; y: number; width: number; height: number };
-
-/** The four spots a lit pin's name can take, in the order they're tried. */
-export const LABEL_SPOTS = ['above', 'below', 'right', 'left'] as const;
-
-export type LabelSpot = (typeof LABEL_SPOTS)[number];
-
-const overlaps = (a: Box, b: Box) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
-
-const inside = (a: Box, frame: Box) =>
-  a.x >= frame.x && a.y >= frame.y && a.x + a.width <= frame.x + frame.width && a.y + a.height <= frame.y + frame.height;
-
-/** The box a label of `size` takes at `spot` beside `pin`, `gap` away. */
-export function labelBox(pin: Box, size: Pick<Box, 'width' | 'height'>, spot: LabelSpot, gap: number): Box {
-  const centreX = pin.x + pin.width / 2 - size.width / 2;
-  const centreY = pin.y + pin.height / 2 - size.height / 2;
-  const at = {
-    above: { x: centreX, y: pin.y - gap - size.height },
-    below: { x: centreX, y: pin.y + pin.height + gap },
-    right: { x: pin.x + pin.width + gap, y: centreY },
-    left: { x: pin.x - gap - size.width, y: centreY },
-  };
-  return { ...at[spot], ...size };
-}
-
-/**
- * Where a lit pin's name goes (as designed): the first of above, below, right and left that stays
- * inside the frame and clears the other pins; failing that, the first inside the frame. Context
- * labels it would cover are hidden. The browser measures the boxes; this decides.
- */
-export function placePinLabel(
-  pin: Box,
-  size: Pick<Box, 'width' | 'height'>,
-  frame: Box,
-  others: { pins: readonly Box[]; labels: readonly Box[] },
-  gap: number,
-): { spot: LabelSpot; hidden: number[] } {
-  const boxes = LABEL_SPOTS.map((spot) => ({ spot, box: labelBox(pin, size, spot, gap) }));
-  const fits = boxes.filter(({ box }) => inside(box, frame));
-  const { spot, box } = fits.find(({ box }) => !others.pins.some((p) => overlaps(box, p))) ?? fits[0] ?? boxes[0];
-  return { spot, hidden: others.labels.flatMap((label, i) => (overlaps(box, label) ? [i] : [])) };
 }
