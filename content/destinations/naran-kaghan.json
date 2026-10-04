@@ -51,5 +51,123 @@
       "season": "winter",
       "text": "Heavy snow closes the valley above Kaghan, and Naran shuts until spring."
     }
+  ],
+  "places": [
+    {
+      "id": "siri-paye",
+      "name": "Siri Paye",
+      "kind": "meadow",
+      "text": "High meadows above Shogran, facing Makra Peak, reached by jeep.",
+      "lat": 34.62,
+      "lon": 73.5,
+      "image": {
+        "src": "/images/naran-kaghan/siri-paye.jpg",
+        "alt": "Bright green meadows and pines at Siri Paye, with a snowy peak mirrored in a small pool",
+        "width": 1280,
+        "height": 960,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Syedaleyali",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lake_of_Siri_Paye_Meadow_and_Makra_Peak_1.jpg"
+        }
+      }
+    },
+    {
+      "id": "kunhar-river",
+      "name": "Kunhar River",
+      "kind": "viewpoint",
+      "text": "The fast, green river the valley follows, with riverside walks below Naran.",
+      "lat": 34.83,
+      "lon": 73.57,
+      "image": {
+        "src": "/images/naran-kaghan/kunhar-river.jpg",
+        "alt": "The broad Kunhar River flows past gravel bars between steep pine-covered slopes toward a distant peak.",
+        "width": 1600,
+        "height": 1200,
+        "credit": {
+          "source": "wikimedia",
+          "author": "Almazi",
+          "licence": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kunhar_river_in_Naran_valley_of_Pakistan.jpg"
+        }
+      }
+    },
+    {
+      "id": "saiful-muluk",
+      "name": "Lake Saiful Muluk",
+      "kind": "lake",
+      "text": "The valley’s famous lake under Malika Parbat, a short jeep ride above Naran.",
+      "lat": 34.877,
+      "lon": 73.694,
+      "image": {
+        "src": "/images/naran-kaghan/saiful-muluk-shore.jpg",
+        "alt": "Lake Saiful Muluk lying still under snow-streaked mountains, with a stony path along its shore",
+        "width": 1280,
+        "height": 859,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Waqar Rasheed",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saiful_Muluk_Lake_Scene_01.JPG"
+        }
+      }
+    },
+    {
+      "id": "lulusar-lake",
+      "name": "Lulusar Lake",
+      "kind": "lake",
+      "text": "A long, blue lake at the head of the valley, the source of the Kunhar.",
+      "lat": 35.08,
+      "lon": 73.93,
+      "image": {
+        "src": "/images/naran-kaghan/lulusar-north.jpg",
+        "alt": "Green Lulusar Lake between steep slopes with snow patches, under a blue sky",
+        "width": 1280,
+        "height": 848,
+        "focus": {
+          "x": 50,
+          "y": 65
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Shahzaib Damn Cruze",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lulusar_Lake_4.jpg"
+        }
+      }
+    },
+    {
+      "id": "babusar-top",
+      "name": "Babusar Top",
+      "kind": "viewpoint",
+      "text": "The pass at 4,173 m between Kaghan and Gilgit-Baltistan, open in summer.",
+      "lat": 35.147,
+      "lon": 74.045,
+      "image": {
+        "src": "/images/naran-kaghan/babusar-top.jpg",
+        "alt": "The Babusar road snakes down a green valley in tight hairpins from the pass, between grassy slopes and distant ridges.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "MazharHusayn",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Babusar_Top,_Way_to_Chilas,_Gilgit-Baltistan.jpg"
+        }
+      }
+    }
   ]
 }

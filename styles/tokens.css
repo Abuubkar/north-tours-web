@@ -164,6 +164,10 @@
   --month-cell-min-h: 76px;
   --calendar-swatch-size: 14px;
 
+  /* Destination places to see (PRD #63): each row's photo and number. */
+  --place-photo-w: 96px;
+  --place-number: 22px;
+
   /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
   --itinerary-node: 11px;
   --measure-day: 520px; /* a day's text */

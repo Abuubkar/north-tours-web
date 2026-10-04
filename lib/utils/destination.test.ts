@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { toursVisiting } from './destination.ts';
+import { destinationSections, toursVisiting } from './destination.ts';
 
 const tour = (title: string, destinations: string[]) => ({ title, destinations });
 const grand = tour('Hunza & Skardu Grand', ['hunza', 'skardu']);
@@ -18,5 +18,18 @@ describe('toursVisiting', () => {
 
   it('is empty when no tour visits', () => {
     expect(toursVisiting('murree', [grand, express, swat])).toEqual([]);
+  });
+});
+
+describe('destinationSections', () => {
+  const place = { id: 'baltit-fort' };
+
+  it('shows places to see when there are places (Hunza)', () => {
+    expect(destinationSections({ places: [place as never] })).toEqual(['hero', 'overview', 'calendar', 'places']);
+  });
+
+  it('leaves places out with none (Murree), keeping the sections every page has', () => {
+    expect(destinationSections({})).toEqual(['hero', 'overview', 'calendar']);
+    expect(destinationSections({ places: [] })).toEqual(['hero', 'overview', 'calendar']);
   });
 });

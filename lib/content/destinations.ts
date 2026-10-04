@@ -2,9 +2,23 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
-import { nonEmpty, seasonSchema } from './fields.ts';
+import { latitude, longitude, nonEmpty, seasonSchema } from './fields.ts';
 import { imageSchema } from './images.ts';
+import { PLACE_KINDS } from '../utils/destination.ts';
 import { bestSeasonProblems, MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
+
+/** A place to see: a kind, one line, where it is (for the places map) and a place photo, never people (ADR-0009). */
+const placeSchema = z.strictObject({
+  /** Unique within the destination, e.g. "baltit-fort". */
+  id: slugSchema,
+  name: nonEmpty,
+  kind: z.enum(PLACE_KINDS),
+  /** One line, e.g. "The centuries-old fort above Karimabad, restored and open to visitors." */
+  text: nonEmpty,
+  lat: latitude,
+  lon: longitude,
+  image: imageSchema,
+});
 
 export const destinationSchema = z
   .strictObject({
@@ -34,11 +48,18 @@ export const destinationSchema = z
     months: z.array(z.enum(MONTH_LEVELS)).length(12, 'List all twelve months, January to December'),
     /** A note on each season, spring to winter, one or two sentences each. */
     seasons: z.array(z.strictObject({ season: z.enum(SEASONS), text: nonEmpty })).length(4, 'Write a note for each of the four seasons'),
+    /** What to see, 1 to 8 places, numbered in this order. Leave it out to hide the section. */
+    places: z.array(placeSchema).min(1, 'List at least one place, or leave places out').max(8, 'List at most 8 places').optional(),
   })
   .superRefine((destination, ctx) => {
     for (const { month, message } of bestSeasonProblems(destination.months, destination.bestSeason)) {
       ctx.addIssue({ code: 'custom', message, path: ['months', month] });
     }
+    const ids = new Set<string>();
+    destination.places?.forEach(({ id }, i) => {
+      if (ids.has(id)) ctx.addIssue({ code: 'custom', message: `"${id}" is used twice`, path: ['places', i, 'id'] });
+      ids.add(id);
+    });
     destination.seasons.forEach(({ season }, i) => {
       if (season !== SEASONS[i]) {
         ctx.addIssue({ code: 'custom', message: `List the seasons in order: ${SEASONS[i]} comes here`, path: ['seasons', i, 'season'] });
@@ -47,6 +68,7 @@ export const destinationSchema = z
   });
 
 export type Destination = z.infer<typeof destinationSchema>;
+export type Place = z.infer<typeof placeSchema>;
 
 export function loadDestinations(dir = CONTENT_DIR) {
   return loadCollection(destinationSchema, path.join(dir, 'destinations'));

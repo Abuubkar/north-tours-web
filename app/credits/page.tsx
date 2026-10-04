@@ -24,7 +24,7 @@ export default function CreditsPage() {
       ...tour.highlights.map((highlight) => highlight.image),
       ...tour.stays.map((stay) => stay.image),
     ]),
-    ...getDestinations().map((destination) => destination.image),
+    ...getDestinations().flatMap((destination) => [destination.image, ...(destination.places ?? []).map((place) => place.image)]),
     getToursCopy().banner.image,
     ...getGuides().map((guide) => guide.portrait),
   ]);

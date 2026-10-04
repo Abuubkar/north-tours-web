@@ -6,9 +6,12 @@ import { getDestination, getDestinations } from '@/lib/content/catalog';
 import { destinationPageTitle, getDestinationPage } from '@/lib/content/destinationPage';
 import { getSettings } from '@/lib/content/settings';
 import { routes } from '@/lib/routes';
+import { destinationSections } from '@/lib/utils/destination';
 import { pageMetadata } from '@/lib/utils/metadata';
+import { fillTokens } from '@/lib/utils/tokens';
 import { DestinationOverview } from '@/sections/DestinationOverview/DestinationOverview';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
+import { PlacesToSee } from '@/sections/PlacesToSee/PlacesToSee';
 import { SeasonCalendarSection } from '@/sections/SeasonCalendarSection/SeasonCalendarSection';
 
 type DestinationPageProps = { params: Promise<{ slug: string }> };
@@ -28,6 +31,8 @@ export async function generateMetadata({ params }: DestinationPageProps): Promis
 export default async function DestinationPage({ params }: DestinationPageProps) {
   const page = getDestinationPage((await params).slug);
   const { destination, copy, settings } = page;
+  const shows = new Set(destinationSections(destination));
+  const tokens = { destination: destination.name };
 
   return (
     <PageMain>
@@ -44,6 +49,9 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
       </PhotoHero>
       <DestinationOverview overview={destination.overview} />
       <SeasonCalendarSection destination={destination} copy={copy.calendar} />
+      {shows.has('places') && (
+        <PlacesToSee headline={fillTokens(copy.places.headline, tokens)} places={destination.places ?? []} kinds={copy.places.kinds} />
+      )}
     </PageMain>
   );
 }

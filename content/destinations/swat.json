@@ -51,5 +51,127 @@
       "season": "winter",
       "text": "Snow at Malam Jabba from December, for the north’s easiest skiing. Kalam is very cold, and the road above it closes."
     }
+  ],
+  "places": [
+    {
+      "id": "butkara-stupa",
+      "name": "Butkara Stupa",
+      "kind": "heritage",
+      "text": "The ruins of a great Buddhist stupa and its shrines, on the edge of Mingora.",
+      "lat": 34.76,
+      "lon": 72.372,
+      "image": {
+        "src": "/images/swat/butkara-stupa.jpg",
+        "alt": "The stone base of the great stupa at Butkara, with rows of small votive stupas around it under tall trees",
+        "width": 1280,
+        "height": 960,
+        "focus": {
+          "x": 55,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Zainul Abideen",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Butkara_1_Stupa_Swat.jpg"
+        }
+      }
+    },
+    {
+      "id": "white-palace",
+      "name": "White Palace",
+      "kind": "heritage",
+      "text": "The marble summer palace of the last Wali of Swat, at Marghazar.",
+      "lat": 34.683,
+      "lon": 72.357,
+      "image": {
+        "src": "/images/swat/white-palace.jpg",
+        "alt": "The white columned facade of the 1941 White Palace at Marghazar, with rose beds and a lawn in front of wooded hills.",
+        "width": 1600,
+        "height": 1000,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Ihsan Farid",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:White_palace_Swat.JPG"
+        }
+      }
+    },
+    {
+      "id": "malam-jabba",
+      "name": "Malam Jabba",
+      "kind": "adventure",
+      "text": "A chairlift over the pine forest, and ski slopes in winter.",
+      "lat": 34.799,
+      "lon": 72.572,
+      "image": {
+        "src": "/images/swat/malam-jabba.jpg",
+        "alt": "Fir trees frame a view across forested ridges and hazy mountains from a green hillside at Malam Jabba.",
+        "width": 1480,
+        "height": 900,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Hamzamian1",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Malam_Jabba_in_Summer.jpg"
+        }
+      }
+    },
+    {
+      "id": "kundol-lake",
+      "name": "Kundol Lake",
+      "kind": "lake",
+      "text": "A turquoise lake above the Utror valley, a jeep ride and a hike from Kalam.",
+      "lat": 35.61,
+      "lon": 72.43,
+      "image": {
+        "src": "/images/swat/kundol-lake.jpg",
+        "alt": "Turquoise Kundol Lake in a high valley of pine-dotted slopes, seen from the hillside above",
+        "width": 1280,
+        "height": 960,
+        "focus": {
+          "x": 55,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Kmbilall",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kundol_Lake,_Utror_Valley.jpg"
+        }
+      }
+    },
+    {
+      "id": "mahodand-lake",
+      "name": "Mahodand Lake",
+      "kind": "lake",
+      "text": "A wide lake in the meadows above Kalam, reached by jeep.",
+      "lat": 35.75,
+      "lon": 72.66,
+      "image": {
+        "src": "/images/swat/mahodand-lake.jpg",
+        "alt": "Turquoise Mahodand Lake curves through golden meadow grass toward a rocky valley under storm clouds, with pines along the shore.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muh.Ashar",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mahodand_Lake,_Swat.JPG"
+        }
+      }
+    }
   ]
 }

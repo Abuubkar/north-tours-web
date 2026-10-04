@@ -16,4 +16,8 @@ export const sampleDestinationCopy: DestinationCopy = {
       winter: { name: 'Winter', months: 'Dec – Feb' },
     },
   },
+  places: {
+    headline: 'What to see in {destination}',
+    kinds: { heritage: 'Heritage', viewpoint: 'Viewpoint', lake: 'Lake', adventure: 'Adventure', meadow: 'Meadow' },
+  },
 };

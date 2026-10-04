@@ -1,0 +1,12 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.places {
+  margin-top: var(--space-48);
+}

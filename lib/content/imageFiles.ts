@@ -28,6 +28,7 @@ export function contentPhotos(dir = CONTENT_DIR): PhotoUse[] {
     ...catalog.tours.flatMap((t) => t.stays.map((s, i) => ({ file: catalog.tourFiles[t.slug], field: `stays.${i}.image`, image: s.image }))),
     // A destination's photo is its page's hero and share image.
     ...catalog.destinations.map((d) => ({ file: catalog.destinationFiles[d.slug], field: 'image', image: d.image, share: true })),
+    ...catalog.destinations.flatMap((d) => (d.places ?? []).map((p, i) => ({ file: catalog.destinationFiles[d.slug], field: `places.${i}.image`, image: p.image }))),
     ...guides.items.map((g) => ({ file: guides.files[g.slug], field: 'portrait', image: g.portrait })),
   ];
   return uses.flatMap(({ image, share = false, ...use }) => (isPhoto(image) ? [{ ...use, photo: image, share }] : []));

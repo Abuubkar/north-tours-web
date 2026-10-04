@@ -51,5 +51,171 @@
       "season": "winter",
       "text": "Snow on the Karakoram Highway, and many hotels close. Days around 5°C, nights down to −10°C."
     }
+  ],
+  "places": [
+    {
+      "id": "baltit-fort",
+      "name": "Baltit Fort",
+      "kind": "heritage",
+      "text": "The centuries-old fort above Karimabad, restored and open to visitors.",
+      "lat": 36.3275,
+      "lon": 74.6696,
+      "image": {
+        "src": "/images/hunza/baltit-fort.jpg",
+        "alt": "Whitewashed walls and carved red wooden balconies of Baltit Fort rise above a stone terrace under a deep blue sky.",
+        "width": 1600,
+        "height": 992,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fassifarooq",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "id": "altit-fort",
+      "name": "Altit Fort",
+      "kind": "heritage",
+      "text": "Older still, on a cliff above the river, with a royal garden below.",
+      "lat": 36.3168,
+      "lon": 74.6825,
+      "image": {
+        "src": "/images/hunza/altit-fort.jpg",
+        "alt": "The stone tower of Altit Fort rises from a granite outcrop against a deep blue sky, beside poplar-covered mountain slopes.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 62,
+          "y": 40
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Vasiq Eqbal",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Altit_Fort_-_Hunza.jpg"
+        }
+      }
+    },
+    {
+      "id": "eagles-nest",
+      "name": "Eagle’s Nest",
+      "kind": "viewpoint",
+      "text": "Sunset over Rakaposhi, Ultar and Lady Finger from the ridge at Duikar.",
+      "lat": 36.3394,
+      "lon": 74.7005,
+      "image": {
+        "src": "/images/hunza/eagles-nest-view.jpg",
+        "alt": "The green Hunza valley seen from the ridge at Eagle’s Nest, with poplars in front and snowy peaks along the skyline",
+        "width": 1280,
+        "height": 823,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Alllexxxis",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hunza_Valley,_view_from_Eagle%27s_Nest.jpg"
+        }
+      }
+    },
+    {
+      "id": "attabad-lake",
+      "name": "Attabad Lake",
+      "kind": "lake",
+      "text": "Turquoise lake formed by the 2010 landslide; boats leave from the jetty.",
+      "lat": 36.326,
+      "lon": 74.85,
+      "image": {
+        "src": "/images/hunza/attabad-gojal.jpg",
+        "alt": "Turquoise water of Attabad Lake filling the gorge below grey scree slopes and a blue sky",
+        "width": 1280,
+        "height": 925,
+        "focus": {
+          "x": 50,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "M. Ali Alam",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Attabad_Lake(Gojal_Lake).jpg"
+        }
+      }
+    },
+    {
+      "id": "passu-cones",
+      "name": "Passu Cones",
+      "kind": "viewpoint",
+      "text": "Jagged spires above the highway in upper Hunza.",
+      "lat": 36.479,
+      "lon": 74.865,
+      "image": {
+        "src": "/images/hunza/passu-cones.jpg",
+        "alt": "The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.",
+        "width": 1600,
+        "height": 1068,
+        "credit": {
+          "source": "wikimedia",
+          "author": "Saadsiddique001",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Passu_cones.jpg"
+        }
+      }
+    },
+    {
+      "id": "hussaini-bridge",
+      "name": "Hussaini Bridge",
+      "kind": "adventure",
+      "text": "A swaying suspension bridge over the Hunza River. Not for everyone.",
+      "lat": 36.421,
+      "lon": 74.883,
+      "image": {
+        "src": "/images/hunza/hussaini-bridge.jpg",
+        "alt": "The empty Hussaini suspension bridge stretches over the grey Hunza River toward a sheer rock cliff and jagged peaks.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Areeb Adnan Khan",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hussaini_Bridge_1.jpg"
+        }
+      }
+    },
+    {
+      "id": "rakaposhi-viewpoint",
+      "name": "Rakaposhi viewpoint",
+      "kind": "viewpoint",
+      "text": "A roadside tea stop facing one of the world’s great mountain faces.",
+      "lat": 36.213,
+      "lon": 74.433,
+      "image": {
+        "src": "/images/hunza/rakaposhi-autumn.jpg",
+        "alt": "Snow-covered Rakaposhi above the Hunza valley at sunset, with golden autumn poplars below",
+        "width": 2560,
+        "height": 1707,
+        "focus": {
+          "x": 47,
+          "y": 22
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Ashar",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_at_Rackaposhi_Peak.jpg"
+        }
+      }
+    }
   ]
 }

@@ -4,6 +4,7 @@ import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith } from './fields.ts';
 import { photoSchema } from './images.ts';
+import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
 
@@ -357,6 +358,11 @@ const destinationCopySchema = z.strictObject({
     levels: z.record(z.enum(MONTH_LEVELS), copy),
     /** Each season's name and its months, e.g. "Spring", "Mar – May". */
     seasons: z.record(z.enum(SEASONS), z.strictObject({ name: copy, months: copy })),
+  }),
+  /** "What to see in {destination}" (#places) and each kind's tag. */
+  places: z.strictObject({
+    headline: copyWith('destination'),
+    kinds: z.record(z.enum(PLACE_KINDS), copy),
   }),
 });
 

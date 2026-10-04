@@ -68,3 +68,31 @@ describe('season calendar', () => {
     expect(fields((d) => Object.assign(d.seasons[0], { season: 'monsoon' }))).toEqual(['seasons.0.season']);
   });
 });
+
+describe('places to see', () => {
+  const place = (d: Destination) => d.places![0];
+
+  it('takes 1 to 8 places, or none at all', () => {
+    expect(fields((d) => delete d.places)).toEqual([]);
+    expect(fields((d) => Object.assign(d, { places: [] }))).toEqual(['places']);
+    expect(fields((d) => d.places!.push({ ...place(d), id: 'eighth' }))).toEqual([]);
+    expect(fields((d) => d.places!.push({ ...place(d), id: 'eighth' }, { ...place(d), id: 'ninth' }))).toEqual(['places']);
+  });
+
+  it('needs each place’s id once', () => {
+    expect(fields((d) => Object.assign(d.places![1], { id: place(d).id }))).toEqual(['places.1.id']);
+  });
+
+  it('takes the five kinds only', () => {
+    expect(fields((d) => Object.assign(place(d), { kind: 'museum' }))).toEqual(['places.0.kind']);
+  });
+
+  it('needs coordinates in range', () => {
+    expect(fields((d) => Object.assign(place(d), { lat: 91 }))).toEqual(['places.0.lat']);
+    expect(fields((d) => Object.assign(place(d), { lon: -181 }))).toEqual(['places.0.lon']);
+  });
+
+  it('needs alt text on every place photo', () => {
+    expect(fields((d) => Object.assign(place(d).image, { alt: '' }))).toEqual(['places.0.image.alt']);
+  });
+});
