@@ -53,6 +53,9 @@
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
   --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars, frosted like the header */
+  --light-bar-bg: color-mix(in srgb, var(--mist-50) 92%, transparent); /* the planner's progress, frosted on the light page */
+  --placeholder-stripe-light-a: #dce2e7; /* the planner's "Not sure" card: the placeholder stripes on light */
+  --placeholder-stripe-light-b: #e6eaee;
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
@@ -150,6 +153,14 @@
   --empty-y: clamp(48px, 6cqi, 96px); /* above and below "No trips match these filters yet." */
   --hidden-size: 1px; /* a visually hidden element's box: read out by screen readers, never seen */
 
+  /* Forms (PRD #71): inputs, their errors and field widths. */
+  --error-badge: 20px; /* the round "!" beside an error message */
+  --measure-planner-lead: 600px; /* the Trip Planner's lead line */
+  --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
+  --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */
+  --grid-choices-min: 150px; /* the planner's destination cards (gaps, not hairlines) */
+  --date-field-min: 200px; /* a date field beside another (From and To) before they stack */
+
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */
   --map-road-width: 1.5px; /* valley roads */
@@ -229,6 +240,7 @@
   --z-skip-link: 20; /* above the header when focused */
   --z-sticky-bar: 10; /* Tour Detail's booking bar at the bottom of the screen, like the header at the top */
   --z-filter-bar: 9; /* the Tours filter bars: just under the header, so they slide up behind it */
+  --z-planner-bar: 9; /* the planner's sticky progress, under the header */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
@@ -261,6 +273,8 @@
   --rise-distance: 40px; /* M4: a card's offset before it rises */
   --rise-stagger: 90ms; /* between cards in a row */
   --results-pending-max: 3s; /* Tours: a linked view's results show after this even if the page's script never runs */
+  --step-slide: 28px; /* the planner's step body slides in from this far */
+  --dur-350: 0.35s; /* and takes this long */
 
   /* Type (DESIGN.md §3). Roles live in typography.module.css. */
   --font: var(--font-geist), system-ui, sans-serif;

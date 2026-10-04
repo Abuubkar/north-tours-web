@@ -10,6 +10,9 @@ import {
   loadHomeCopy,
   loadTourCopy,
   loadToursCopy,
+  loadPlannerCopy,
+  plannerCopyFile,
+  type PlannerCopy,
   tourCopyFile,
   toursCopyFile,
   type HomeCopy,
@@ -203,5 +206,36 @@ describe('destination calendar copy', () => {
   it('needs a label for every level and every season', () => {
     expect(load((c) => delete (c.calendar.levels as Partial<DestinationCopy['calendar']['levels']>).good)).toEqual(['calendar.levels.good']);
     expect(load((c) => delete (c.calendar.seasons as Partial<DestinationCopy['calendar']['seasons']>).winter)).toEqual(['calendar.seasons.winter']);
+  });
+});
+
+describe('planner page copy', () => {
+  const planner: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
+  const load = (change: (copy: PlannerCopy) => void) => {
+    const copy = structuredClone(planner);
+    change(copy);
+    return loadPlannerCopy(contentFixture({ 'pages/planner.json': copy }));
+  };
+  const problems = (result: ReturnType<typeof loadPlannerCopy>) => result.problems.map((p) => p.field);
+
+  it('accepts the live file', () => {
+    expect(loadPlannerCopy().problems).toEqual([]);
+  });
+
+  it('needs a label for every option', () => {
+    const result = load((c) => delete (c.whereWhen.length.options as Partial<PlannerCopy['whereWhen']['length']['options']>)['8-10']);
+    expect(problems(result)).toEqual(['whereWhen.length.options.8-10']);
+    expect(problems(load((c) => delete (c.whereWhen.dates.modes as Partial<PlannerCopy['whereWhen']['dates']['modes']>).exact))).toEqual([
+      'whereWhen.dates.modes.exact',
+    ]);
+  });
+
+  it('takes {replyTime} in the lead and {step} and {title} in the progress, and no other token', () => {
+    expect(load((c) => Object.assign(c.header, { lead: 'We reply {replyTime}.' })).problems).toEqual([]);
+    const result = load((c) => Object.assign(c.header, { lead: 'We reply in {replyHours}.' }));
+    expect(problems(result)).toEqual(['header.lead']);
+    expect(result.problems[0].message).toBe('Unknown token {replyHours}. Use only {replyTime}');
+    expect(problems(load((c) => Object.assign(c.progress, { step: 'Step {step} of {total}' })))).toEqual(['progress.step']);
+    expect(problems(load((c) => Object.assign(c.errors, { month: 'Pick a month by {replyTime}.' })))).toEqual(['errors.month']);
   });
 });

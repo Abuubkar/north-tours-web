@@ -1,0 +1,24 @@
+/* 14/500 beside a 20px round badge; a long message wraps beside the badge. */
+.error {
+  composes: ui from '../../../styles/typography.module.css';
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  color: var(--fg);
+  font-weight: var(--fw-medium);
+}
+
+.badge {
+  composes: label from '../../../styles/typography.module.css';
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--error-badge);
+  height: var(--error-badge);
+  border-radius: var(--radius-chip);
+  background: var(--error);
+  color: var(--bg);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+}

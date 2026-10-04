@@ -1,0 +1,64 @@
+{
+  "title": "Plan a private trip from Lahore",
+  "description": "Tell us where and when, who’s coming and what matters to you. We’ll plan a private trip north from Lahore and reply on WhatsApp.",
+  "header": {
+    "headline": "Your dates, your group",
+    "lead": "Tell us what you have in mind. We’ll plan it and reply on WhatsApp, usually {replyTime}.",
+    "slim": "Planning your private trip"
+  },
+  "progress": {
+    "step": "Step {step} of 3 · {title}",
+    "review": "Review · Check and send"
+  },
+  "steps": {
+    "whereWhen": "Where and when",
+    "whosComing": "Who’s coming",
+    "details": "Your details"
+  },
+  "nav": {
+    "back": "Back",
+    "next": "Next: {title}"
+  },
+  "whereWhen": {
+    "destinations": {
+      "label": "Destinations",
+      "hint": "Required · choose one or more",
+      "unsure": "Not sure, suggest something"
+    },
+    "dates": {
+      "label": "Dates",
+      "hint": "Required",
+      "modeLabel": "Date type",
+      "modes": {
+        "exact": "Exact dates",
+        "flexible": "Flexible"
+      },
+      "from": "From",
+      "to": "To",
+      "month": "Month",
+      "roughly": "Roughly",
+      "days": "days",
+      "daysLabel": "Roughly how many days",
+      "fewerDays": "Fewer days",
+      "moreDays": "More days"
+    },
+    "length": {
+      "label": "Trip length",
+      "hint": "Optional",
+      "autoHint": "Optional · filled from your flexible dates",
+      "options": {
+        "2-4": "2–4 days",
+        "5-7": "5–7 days",
+        "8-10": "8–10 days",
+        "10plus": "10+ days"
+      }
+    }
+  },
+  "errors": {
+    "destinations": "Choose at least one destination, or “Not sure, suggest something”.",
+    "month": "Pick a month, or switch to exact dates.",
+    "dates": "Add a start and an end date.",
+    "pastDate": "That date has passed. Choose today or later.",
+    "endBeforeStart": "The end date is before the start date."
+  }
+}

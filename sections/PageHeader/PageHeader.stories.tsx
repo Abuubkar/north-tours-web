@@ -38,3 +38,45 @@ export const Phone: Story = {
     await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
   },
 };
+
+const plannerLead = 'Tell us what you have in mind. We’ll plan it and reply on WhatsApp, usually within 2 hours.';
+
+/** The planner's first step on the light page: the <h1> at the statement size, the lead at most 600px wide. */
+export const Planner: Story = {
+  args: { variant: 'planner', headline: 'Your dates, your group', lead: plannerLead },
+  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  play: async ({ canvas, canvasElement }) => {
+    const h1 = canvas.getByRole('heading', { level: 1, name: 'Your dates, your group' });
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    // The statement size: clamp(40px, 6.4cqi, 92px).
+    await expect(parseFloat(getComputedStyle(h1).fontSize)).toBeGreaterThanOrEqual(40);
+    await expect(canvas.getByText(plannerLead).getBoundingClientRect().width).toBeLessThanOrEqual(600);
+  },
+};
+
+export const PlannerLaptop: Story = { ...Planner, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+
+export const PlannerPhone: Story = {
+  ...Planner,
+  globals: { surface: 'light', viewport: { value: 'phone' } },
+  play: async (context) => {
+    await Planner.play!(context);
+    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
+  },
+};
+
+/** Later steps: the same, only <h1> reads as a slim 15px line with no lead. */
+export const PlannerSlim: Story = {
+  args: { variant: 'plannerSlim', headline: 'Planning your private trip', lead: undefined },
+  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  play: async ({ canvas, canvasElement }) => {
+    const h1 = canvas.getByRole('heading', { level: 1, name: 'Planning your private trip' });
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await expect(getComputedStyle(h1).fontSize).toBe('15px');
+    await expect(canvasElement.querySelector('p')).toBeNull();
+  },
+};
+
+export const PlannerSlimPhone: Story = { ...PlannerSlim, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+export const PlannerSlimLaptop: Story = { ...PlannerSlim, globals: { surface: 'light', viewport: { value: 'laptop' } } };

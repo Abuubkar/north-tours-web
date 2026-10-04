@@ -1,0 +1,48 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  min-width: 0;
+}
+
+/* A fieldset with no box of its own. */
+.group {
+  display: block;
+  padding: 0;
+  border: 0;
+}
+
+/* The label and its hint on one line, on a shared baseline, wrapping on narrow screens. */
+.head,
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-4) var(--space-12);
+}
+
+/* Floated across the fieldset, so the legend lays out like the label line of a single field. */
+.legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+}
+
+.body {
+  clear: both;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding-top: var(--space-16);
+}
+
+.label {
+  composes: stepTitle from '../../../styles/typography.module.css';
+  color: var(--fg);
+}
+
+.hint {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}

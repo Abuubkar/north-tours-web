@@ -7,6 +7,7 @@ import { photoSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
+import { DATE_MODES, TRIP_LENGTHS } from '../utils/plannerOptions.ts';
 
 /*
  * Page copy (CLAUDE.md §7): each page's wording lives in content/pages, so components never
@@ -418,4 +419,74 @@ let cachedDestination: DestinationCopy | undefined;
 export function getDestinationCopy(): DestinationCopy {
   cachedDestination ??= requireValid(loadDestinationCopy());
   return cachedDestination;
+}
+
+/** The Trip Planner's wording (PRD #71): the header, the steps' labels, option words and messages. */
+const plannerCopySchema = z.strictObject({
+  /** The <title> part: "Plan a private trip from Lahore". */
+  title: copy,
+  description: copy,
+  /** The page's one <h1>: in full on step 1, then the slim line on every later step. */
+  header: z.strictObject({
+    headline: copy,
+    lead: copyWith('replyTime'),
+    slim: copy,
+  }),
+  /** The progress heading: "Step 1 of 3 · Where and when", then "Review · Check and send". */
+  progress: z.strictObject({ step: copyWith('step', 'title'), review: copy }),
+  /** Each step's title, in the progress heading and the Next button. */
+  steps: z.strictObject({ whereWhen: copy, whosComing: copy, details: copy }),
+  /** Next names the step it goes to: "Next: Who’s coming". */
+  nav: z.strictObject({ back: copy, next: copyWith('title') }),
+  whereWhen: z.strictObject({
+    destinations: z.strictObject({ label: copy, hint: copy, unsure: copy }),
+    dates: z.strictObject({
+      label: copy,
+      hint: copy,
+      /** Names the "Exact dates" and "Flexible" pair. */
+      modeLabel: copy,
+      modes: z.record(z.enum(DATE_MODES), copy),
+      from: copy,
+      to: copy,
+      month: copy,
+      /** "Roughly [−  6  +] days": the words either side, and the stepper's name and buttons. */
+      roughly: copy,
+      days: copy,
+      daysLabel: copy,
+      fewerDays: copy,
+      moreDays: copy,
+    }),
+    length: z.strictObject({
+      label: copy,
+      hint: copy,
+      /** The hint while the length follows the flexible days. */
+      autoHint: copy,
+      options: z.record(z.enum(TRIP_LENGTHS), copy),
+    }),
+  }),
+  /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
+  errors: z.strictObject({
+    destinations: copy,
+    month: copy,
+    dates: copy,
+    pastDate: copy,
+    endBeforeStart: copy,
+  }),
+});
+
+export type PlannerCopy = z.infer<typeof plannerCopySchema>;
+
+export function plannerCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'planner.json');
+}
+
+export function loadPlannerCopy(dir = CONTENT_DIR) {
+  return parseFile(plannerCopySchema, plannerCopyFile(dir));
+}
+
+let cachedPlanner: PlannerCopy | undefined;
+
+export function getPlannerCopy(): PlannerCopy {
+  cachedPlanner ??= requireValid(loadPlannerCopy());
+  return cachedPlanner;
 }

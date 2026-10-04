@@ -1,0 +1,67 @@
+/*
+ * The whole planner sits on the light surface (docs/components.md §3.3). It clips sideways, so a
+ * step body sliding in from the side never widens the page.
+ */
+.page {
+  overflow-x: clip;
+}
+
+.layout {
+  padding: 0 var(--margin) var(--section-y);
+}
+
+.form {
+  min-width: 0;
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/* The progress sticks under the site header, on the light frosted bar (the header's blur). */
+.bar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: var(--z-planner-bar);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+  background: var(--light-bar-bg);
+  backdrop-filter: var(--header-backdrop);
+}
+
+@supports not (backdrop-filter: blur(0)) {
+  .bar {
+    background: var(--bg);
+  }
+}
+
+/* Each question in a step is a section, divided from the next by a hairline. */
+.body > * {
+  padding-block: var(--space-32);
+}
+
+.body > * + * {
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/*
+ * Only the step body slides in, from the right going forward and the left going back (ADR-0016):
+ * transform only, so nothing is ever hidden or faded. With reduced motion steps simply swap.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .body[data-direction='forward'] {
+    animation: step-forward var(--dur-350) var(--ease-out);
+  }
+
+  .body[data-direction='back'] {
+    animation: step-back var(--dur-350) var(--ease-out);
+  }
+}
+
+@keyframes step-forward {
+  from {
+    transform: translateX(var(--step-slide));
+  }
+}
+
+@keyframes step-back {
+  from {
+    transform: translateX(calc(-1 * var(--step-slide)));
+  }
+}
