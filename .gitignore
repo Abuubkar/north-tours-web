@@ -7,3 +7,6 @@ next-env.d.ts
 
 # Storybook debug logs
 *storybook.log
+
+# Browser-check screenshots belong in the scratchpad, never the repo
+/*.png
