@@ -104,15 +104,15 @@
         "name": "4x4 jeep",
         "summary": "6 seats · for Deosai, Fairy Meadows and mountain tracks",
         "image": {
-          "src": "/images/vehicles/fairy-meadows-jeep.jpg",
-          "alt": "A green jeep on the narrow Fairy Meadows track, cut into a sheer cliff",
-          "width": 1200,
-          "height": 900,
+          "src": "/images/vehicles/deosai-land-cruiser.jpg",
+          "alt": "A red Land Cruiser jeep with a white roof on the gravel road to Deosai, a still lake and bare hills behind it",
+          "width": 1600,
+          "height": 1200,
           "credit": {
             "source": "wikimedia",
-            "author": "Shahbaz Aslam",
+            "author": "Sadiqrizwan",
             "licence": "CC BY-SA 4.0",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jeeps_track_of_fairy_meadows.jpg"
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Way_To_Deosai.jpg"
           }
         },
         "sample": true
