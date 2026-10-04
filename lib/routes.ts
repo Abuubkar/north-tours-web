@@ -4,6 +4,9 @@ import { toursSearch } from './utils/toursSearch.ts';
 /** A guide's card on the About page carries this id, so `/about#guide-karim-baig` lands on it. */
 export const guideAnchor = (slug: string) => `guide-${slug}`;
 
+/** The hash of a guide's profile: "#guide-karim-baig". */
+export const guideHash = (slug: string) => `#${guideAnchor(slug)}`;
+
 /**
  * Every URL on the site. Links use these, never hard-coded paths. Most pages are built by
  * their own PRDs; links point to them already.
@@ -25,7 +28,7 @@ export const routes = {
   terms: '/terms',
   credits: '/credits',
   /** One guide's profile on the About page. */
-  guide: (slug: string) => `/about#${guideAnchor(slug)}`,
+  guide: (slug: string) => `/about${guideHash(slug)}`,
 
   /* Sections the nav jumps to. */
   how: '/#how',

@@ -1,5 +1,5 @@
 import type { Guide } from '../content/guides.ts';
-import { guideAnchor, routes } from '../routes.ts';
+import { guideHash, routes } from '../routes.ts';
 import { fillTokens } from './tokens.ts';
 import { whatsappShareLink } from './whatsapp.ts';
 
@@ -84,9 +84,10 @@ export function profileCounter(template: string, index: number, total: number): 
 }
 
 /**
- * The guide a URL hash links to: "#guide-karim-baig" gives "karim-baig" when that guide is in
- * `slugs`. Any other hash gives null: none, "#guides", an unknown guide, other case or extra text.
+ * The guide a URL hash links to, by their place in `slugs`: "#guide-karim-baig" gives Karim
+ * Baig's. Any other hash gives null: none, "#guides", an unknown guide, other case or extra text.
  */
-export function guideForHash(hash: string, slugs: readonly string[]): string | null {
-  return slugs.find((slug) => hash === `#${guideAnchor(slug)}`) ?? null;
+export function guideForHash(hash: string, slugs: readonly string[]): number | null {
+  const index = slugs.findIndex((slug) => hash === guideHash(slug));
+  return index === -1 ? null : index;
 }

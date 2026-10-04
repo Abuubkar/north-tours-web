@@ -91,8 +91,8 @@ describe('guideForHash', () => {
   const slugs = ['ali-raza', 'karim-baig'];
 
   it('gives the guide a known #guide-{slug} links to', () => {
-    expect(guideForHash('#guide-ali-raza', slugs)).toBe('ali-raza');
-    expect(guideForHash('#guide-karim-baig', slugs)).toBe('karim-baig');
+    expect(guideForHash('#guide-ali-raza', slugs)).toBe(0);
+    expect(guideForHash('#guide-karim-baig', slugs)).toBe(1);
   });
 
   it.each(['', '#', '#guides', '#guide-', '#guide-sana-qureshi', '#Guide-Ali-Raza', '#guide-ali-raza-2', '#guide-ali-raza?x', 'guide-ali-raza', '#reviews'])(

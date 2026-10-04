@@ -17,6 +17,7 @@ const meta = {
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
   // Opening a profile writes its anchor into the URL; each story starts with none and puts the URL back after.
+  // (In a list, a beforeEach's return value is taken as its cleanup, so the motion setting's is dropped.)
   beforeEach: [
     async () => {
       await emulateReducedMotion();
@@ -244,12 +245,6 @@ export const ReducedMotion: Story = {
   },
 };
 
-/** Within the viewport. */
-const inView = (element: HTMLElement) => {
-  const { top, bottom } = element.getBoundingClientRect();
-  return top >= 0 && bottom <= window.innerHeight;
-};
-
 /**
  * Arriving on `/about#guide-ali-raza`: Ali Raza's profile opens after load, his card in view.
  * Escape closes it; with no card behind a link, focus moves to his card, and the hash is cleared.
@@ -259,16 +254,15 @@ export const OpensFromLink: Story = {
   play: async ({ canvas }) => {
     const dialog = await canvas.findByRole('dialog', { name: 'Ali Raza' });
     const card = canvas.getByRole('button', { name: cardName('Ali Raza'), hidden: true });
-    // The card carries the anchor, so the browser scrolls to it on arrival (a story's URL changes without a load, so it's done here).
+    // The card carries the anchor, so the browser scrolls to it on arrival (a story's URL changes
+    // without a load, so that scroll is checked on the built site instead).
     await expect(document.getElementById('guide-ali-raza')).toBe(card);
-    card.scrollIntoView();
-    await expect(inView(card)).toBe(true);
     await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Close' })).toHaveFocus());
     const keys = await realUser();
     if (!keys) return;
     await keys.keyboard('{Escape}');
     await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
-    await expect(card).toHaveFocus();
+    await waitFor(() => expect(card).toHaveFocus());
     await waitFor(() => expect(window.location.hash).toBe(''));
   },
 };
@@ -276,6 +270,8 @@ export const OpensFromLink: Story = {
 export const OpensFromLinkOnLight: Story = { ...OpensFromLink, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const OpensFromLinkPhone: Story = { ...OpensFromLink, globals: { viewport: { value: 'phone' } } };
+
+export const OpensFromLinkPhoneOnLight: Story = { ...OpensFromLink, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
 /**
  * Next and previous write the shown guide's anchor with replaceState: after Next twice the hash
@@ -293,11 +289,15 @@ export const HashFollowsProfile: Story = {
     await expect(window.history.length).toBe(entries);
     await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
     await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
-    await expect(canvas.getByRole('button', { name: cardName('Ali Raza') })).toHaveFocus();
+    // The close event, which moves focus to the card, follows the dialog's closing.
+    await waitFor(() => expect(canvas.getByRole('button', { name: cardName('Ali Raza') })).toHaveFocus());
     await waitFor(() => expect(window.location.hash).toBe(''));
+    // The search is kept (Storybook's iframe has one).
     await expect(window.location.search).not.toBe('');
   },
 };
+
+export const HashFollowsProfileOnLight: Story = { ...HashFollowsProfile, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** Opening from a card writes its anchor; closing clears it and focus returns to the card. */
 export const CardWritesHash: Story = {
@@ -313,6 +313,8 @@ export const CardWritesHash: Story = {
   },
 };
 
+export const CardWritesHashOnLight: Story = { ...CardWritesHash, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
 /** An unknown guide's anchor opens nothing. */
 export const UnknownGuide: Story = {
   beforeEach: atHash('#guide-nobody'),
@@ -322,6 +324,8 @@ export const UnknownGuide: Story = {
     await expect(window.location.hash).toBe('#guide-nobody');
   },
 };
+
+export const UnknownGuideOnLight: Story = { ...UnknownGuide, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** A later hash change to a guide's anchor opens that profile, and another switches to it. */
 export const HashChange: Story = {
@@ -333,3 +337,5 @@ export const HashChange: Story = {
     await waitFor(() => expect(canvas.getByRole('dialog')).toHaveAccessibleName('Ghulam Nabi'));
   },
 };
+
+export const HashChangeOnLight: Story = { ...HashChange, globals: { surface: 'light', viewport: { value: 'desktop' } } };

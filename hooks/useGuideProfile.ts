@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { guideAnchor } from '@/lib/routes';
+import { guideAnchor, guideHash } from '@/lib/routes';
 import { guideForHash, steppedIndex } from '@/lib/utils/guideProfile';
 
 /**
@@ -9,7 +9,7 @@ import { guideForHash, steppedIndex } from '@/lib/utils/guideProfile';
  */
 function writeHash(slug: string | null) {
   const { pathname, search } = window.location;
-  const hash = slug === null ? '' : `#${guideAnchor(slug)}`;
+  const hash = slug === null ? '' : guideHash(slug);
   window.history.replaceState(window.history.state, '', `${pathname}${search}${hash}`);
 }
 
@@ -28,6 +28,7 @@ export function useGuideProfile(slugs: readonly string[]) {
   const [shown, setShown] = useState<number | null>(null);
   const [stepped, setStepped] = useState(false);
   const fromLink = useRef(false);
+  const arrived = useRef(false);
 
   const show = useCallback(
     (index: number, byLink: boolean) => {
@@ -41,10 +42,12 @@ export function useGuideProfile(slugs: readonly string[]) {
 
   useEffect(() => {
     function showLinked() {
-      const slug = guideForHash(window.location.hash, slugs);
-      if (slug !== null) show(slugs.indexOf(slug), true);
+      const index = guideForHash(window.location.hash, slugs);
+      if (index !== null) show(index, true);
     }
-    showLinked();
+    // On arrival once only: later, the hash only ever holds the profile already shown.
+    if (!arrived.current) showLinked();
+    arrived.current = true;
     window.addEventListener('hashchange', showLinked);
     return () => window.removeEventListener('hashchange', showLinked);
   }, [slugs, show]);
