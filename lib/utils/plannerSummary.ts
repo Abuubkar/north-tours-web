@@ -107,10 +107,43 @@ export function tripSummary(answers: TripAnswers, words: SummaryWords): TripSumm
   };
 }
 
+
+
 /** Your details' four rows, in order. */
 export const DETAIL_ROWS = ['name', 'phone', 'bestTime', 'notes'] as const;
 
-export type DetailsSummary = Record<(typeof DETAIL_ROWS)[number], string | null>;
+export type DetailRow = (typeof DETAIL_ROWS)[number];
+
+export type DetailsSummary = Record<DetailRow, string | null>;
+
+/** A review section: its step, title, the Edit button's name and its rows (label and value, or null for "Not given"). */
+export type ReviewSection = { step: 1 | 2 | 3; title: string; editLabel: string; rows: { label: string; value: string | null }[] };
+
+/** The rows each review section shows, in order. */
+const REVIEW_ROWS: readonly (readonly (SummaryRow | DetailRow)[])[] = [
+  ['destinations', 'dates', 'length'],
+  ['group', 'groupType', 'hotels', 'transport', 'from', 'budget'],
+  DETAIL_ROWS,
+];
+
+/**
+ * The review's three sections (Where and when, Who's coming, Your details), with the page's row
+ * labels and the Edit button's name: "Edit {section}" with the step's title in lower case.
+ */
+export function reviewSections(
+  trip: TripSummary,
+  contact: DetailsSummary,
+  titles: readonly [string, string, string],
+  copy: { rows: Readonly<Record<SummaryRow | DetailRow, string>>; editLabel: string },
+): ReviewSection[] {
+  const values: Record<SummaryRow | DetailRow, string | null> = { ...trip, ...contact };
+  return REVIEW_ROWS.map((rows, i) => ({
+    step: (i + 1) as ReviewSection['step'],
+    title: titles[i],
+    editLabel: fillTokens(copy.editLabel, { section: titles[i].toLowerCase() }),
+    rows: rows.map((row) => ({ label: copy.rows[row], value: values[row] })),
+  }));
+}
 
 /** Your details in words: the number in international form once one is typed. */
 export function detailsSummary(details: Details, words: SummaryWords): DetailsSummary {

@@ -35,9 +35,11 @@ export function PlannerSuccess({ copy }: PlannerSuccessProps) {
           {copy.explore}
         </Button>
       </div>
-      <TextLink variant="button" onClick={restart}>
-        {copy.again}
-      </TextLink>
+      <span className={styles.again}>
+        <TextLink variant="button" onClick={restart}>
+          {copy.again}
+        </TextLink>
+      </span>
     </div>
   );
 }

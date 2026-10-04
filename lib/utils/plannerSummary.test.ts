@@ -4,7 +4,7 @@ import { DEFAULT_ANSWERS, type TripAnswers } from './plannerAnswers.ts';
 import { EMPTY_DETAILS } from './plannerDetails.ts';
 import { readFileSync } from 'node:fs';
 import { plannerCopyFile, type PlannerCopy } from '../content/pages.ts';
-import { detailsSummary, summaryWords, tripSummary } from './plannerSummary.ts';
+import { detailsSummary, reviewSections, summaryWords, tripSummary } from './plannerSummary.ts';
 
 const copy: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
 const sampleWords = summaryWords(copy, [
@@ -43,6 +43,7 @@ describe('trip summary', () => {
 
   it('writes the group with and without children and ages', () => {
     expect(trip({ adults: 1 }).group).toBe('1 adult');
+    expect(trip({ adults: 1, children: 1, ages: [6] }).group).toBe('1 adult, 1 child (age 6)');
     expect(trip({ children: 1, ages: [6] }).group).toBe('2 adults, 1 child (age 6)');
     expect(trip({ children: 2, ages: [6, 9] }).group).toBe('2 adults, 2 children (ages 6, 9)');
     expect(trip({ children: 2, ages: [0, null] }).group).toBe('2 adults, 2 children (age under 2)');
@@ -75,5 +76,28 @@ describe('details summary', () => {
     const pk = detailsSummary({ ...EMPTY_DETAILS, name: ' Ayesha Khan ', phone: { ...EMPTY_PHONE, pk: '0300 1234567' }, bestTime: 'evening', notes: 'Hi' }, sampleWords);
     expect(pk).toEqual({ name: 'Ayesha Khan', phone: '+92 300 1234567', bestTime: 'Evening', notes: 'Hi' });
     expect(detailsSummary({ ...EMPTY_DETAILS, phone: { mode: 'intl', pk: '', code: '44', number: '7700 900123' } }, sampleWords).phone).toBe('+44 7700 900123');
+  });
+});
+
+describe('review sections', () => {
+  it('group the rows by step, with the page’s labels and an Edit named for its section', () => {
+    const sections = reviewSections(
+      trip({ destinations: ['hunza'] }),
+      detailsSummary(EMPTY_DETAILS, sampleWords),
+      ['Where and when', 'Who’s coming', 'Your details'],
+      copy.review,
+    );
+    expect(sections.map((s) => [s.step, s.editLabel])).toEqual([
+      [1, 'Edit where and when'],
+      [2, 'Edit who’s coming'],
+      [3, 'Edit your details'],
+    ]);
+    expect(sections[0].rows).toEqual([
+      { label: 'Destinations', value: 'Hunza' },
+      { label: 'Dates', value: null },
+      { label: 'Trip length', value: null },
+    ]);
+    expect(sections[1].rows.map((r) => r.label)).toEqual(['Group', 'Group type', 'Hotels', 'Transport', 'Departing from', 'Budget']);
+    expect(sections[2].rows.map((r) => r.label)).toEqual(['Name', 'WhatsApp', 'Best time', 'Anything else']);
   });
 });

@@ -470,6 +470,11 @@ export const SendAndAgain: Story = {
     await expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when');
     await expect(canvas.getByRole('heading', { level: 1, name: 'Your dates, your group' })).toBeVisible();
     await expect(canvas.queryAllByRole('button', { pressed: true }).map((b) => b.textContent)).toEqual(['Flexible']);
+    // The details are cleared too.
+    await toStep3(canvas, userEvent);
+    await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('');
+    await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('');
+    await expect(button(canvas, 'Evening')).toHaveAttribute('aria-pressed', 'false');
   },
 };
 

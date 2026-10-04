@@ -10,7 +10,8 @@ import styles from './StepReview.module.css';
 /**
  * Review · Check and send: every answer, the exact message, then Back (quiet, as navigation),
  * "Send on WhatsApp" and "Request a call back" (secondary, as an action). Both WhatsApp actions
- * open `wa.me` in a new tab with their message, and following either shows the thank-you.
+ * open `wa.me` in a new tab with their message, and following either (a click, or a middle
+ * click) shows the thank-you.
  * Nothing is sent anywhere else.
  */
 export function StepReview({ copy, steps, backLabel }: StepReviewProps) {
@@ -26,10 +27,10 @@ export function StepReview({ copy, steps, backLabel }: StepReviewProps) {
         <Button variant="quiet" onClick={back}>
           {backLabel}
         </Button>
-        <Button href={sendHref} target="_blank" rel="noopener" icon="whatsapp" onClick={sent}>
+        <Button href={sendHref} target="_blank" rel="noopener" icon="whatsapp" onClick={sent} onAuxClick={sent}>
           {copy.send}
         </Button>
-        <Button href={callBackHref} target="_blank" rel="noopener" variant="secondary" onClick={sent}>
+        <Button href={callBackHref} target="_blank" rel="noopener" variant="secondary" onClick={sent} onAuxClick={sent}>
           {copy.callBack}
         </Button>
       </div>

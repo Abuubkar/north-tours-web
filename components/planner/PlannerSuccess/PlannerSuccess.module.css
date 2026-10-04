@@ -33,6 +33,11 @@
   color: var(--fg-2);
 }
 
+/* "Plan another trip": the text button in the secondary text colour. */
+.again {
+  --link: var(--fg-2);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

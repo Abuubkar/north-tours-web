@@ -17,7 +17,6 @@
   composes: ui from '../../../styles/typography.module.css';
   max-width: var(--measure-message);
   padding: var(--space-16) var(--cell-pad);
-  border: var(--hairline-width) solid var(--hairline);
   border-radius: var(--radius-card);
   background: var(--bg-raised);
   line-height: var(--lh-body-large);
