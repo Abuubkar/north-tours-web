@@ -1,0 +1,120 @@
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-48);
+}
+
+.legend {
+  composes: label from '../../../styles/typography.module.css';
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12) var(--space-24);
+  padding: 0;
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+  list-style: none;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* Decorative swatches: each level is also named in words. */
+.swatch {
+  flex: none;
+  width: var(--legend-swatch-size);
+  height: var(--legend-swatch-size);
+  border: var(--hairline-width) solid var(--hairline);
+}
+
+.bestSwatch {
+  composes: swatch;
+  border-color: var(--fg);
+  background: var(--fg);
+}
+
+.goodSwatch {
+  composes: swatch;
+  border-color: var(--control-border);
+  background: var(--bg-raised);
+}
+
+.avoidSwatch {
+  composes: swatch;
+  background: var(--bg);
+}
+
+/* A hairline grid with fixed columns, as designed: six on phones, twelve from 820px. */
+.months {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--hairline-width);
+  padding: 0;
+  border-block: var(--hairline-width) solid var(--hairline);
+  background: var(--hairline);
+  list-style: none;
+}
+
+@media (width >= 820px) {
+  .months {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+.month {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-8);
+  min-height: var(--month-cell-min-h);
+  padding: var(--space-12) var(--space-8) var(--space-16);
+}
+
+.best {
+  composes: month;
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.good {
+  composes: month;
+  background: var(--bg-raised);
+  color: var(--fg);
+}
+
+.avoid {
+  composes: month;
+  background: var(--bg);
+  color: var(--fg-2);
+}
+
+.name {
+  composes: small from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+/* Read out ("January: "), never seen: the cell shows "Jan". */
+.fullName {
+  composes: visuallyHidden from '../../../styles/layout.module.css';
+}
+
+.levelLabel {
+  composes: label from '../../../styles/typography.module.css';
+}
+
+.bestLabel {
+  composes: levelLabel;
+  color: var(--bg);
+}
+
+.goodLabel {
+  composes: levelLabel;
+  color: var(--fg-2);
+}
+
+.avoidLabel {
+  composes: levelLabel;
+  color: var(--fg-3);
+}

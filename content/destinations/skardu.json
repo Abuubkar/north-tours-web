@@ -25,5 +25,31 @@
       "licence": "CC BY-SA 4.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Upper_Kachura_Lake_in_Morning.jpg"
     }
-  }
+  },
+  "overview": {
+    "headline": "Cold desert and glacial lakes at the end of the Indus road",
+    "paragraphs": [
+      "Skardu sits in a wide bowl of the Indus, ringed by bare mountains: sand dunes on the valley floor, poplar villages along the river, and clear lakes tucked into the hills at Kachura.",
+      "It is also the way up to Deosai, one of the highest plateaus on earth, where the road crosses open grassland and wildflowers in summer. Up the Shigar valley, a restored fort marks the old route towards K2."
+    ]
+  },
+  "months": ["avoid", "avoid", "avoid", "good", "best", "best", "best", "best", "best", "best", "good", "avoid"],
+  "seasons": [
+    {
+      "season": "spring",
+      "text": "Apricot blossom in April, though Deosai is still under snow. Days 12–20°C."
+    },
+    {
+      "season": "summer",
+      "text": "Warm and dry, 25–32°C in the valley. The road over Deosai opens from late June."
+    },
+    {
+      "season": "autumn",
+      "text": "Gold poplars and clear skies in October. Days 10–20°C, nights near freezing."
+    },
+    {
+      "season": "winter",
+      "text": "Very cold, down to −15°C at night. Deosai and the high roads close."
+    }
+  ]
 }

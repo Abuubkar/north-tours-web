@@ -25,5 +25,31 @@
       "licence": "CC BY-SA 4.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Rakaposhi_from_Hunza_valley.jpg"
     }
-  }
+  },
+  "overview": {
+    "headline": "A green valley under the highest peaks",
+    "paragraphs": [
+      "Hunza is a long, green valley under some of the highest mountains on earth. Terraced fields and apricot orchards climb towards Rakaposhi and Ultar, and the old forts of Baltit and Altit still watch over the villages.",
+      "People come for the views and stay for the pace: short walks between orchards, chai facing the glaciers, and the turquoise of Attabad Lake further up the highway. For many first-timers, it is where they fall for the north."
+    ]
+  },
+  "months": ["avoid", "avoid", "good", "best", "best", "best", "best", "best", "best", "best", "good", "avoid"],
+  "seasons": [
+    {
+      "season": "spring",
+      "text": "Apricot and cherry blossom from early April. Days 15–22°C, nights near freezing early in the season."
+    },
+    {
+      "season": "summer",
+      "text": "Warm days, 25–30°C, and the busiest months. Book four to six weeks ahead."
+    },
+    {
+      "season": "autumn",
+      "text": "The poplars turn gold in late October. Days 10–20°C, cold nights."
+    },
+    {
+      "season": "winter",
+      "text": "Snow on the Karakoram Highway, and many hotels close. Days around 5°C, nights down to −10°C."
+    }
+  ]
 }

@@ -25,5 +25,31 @@
       "licence": "CC BY-SA 4.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kalam,_Swat_(Pakistan).jpg"
     }
-  }
+  },
+  "overview": {
+    "headline": "Rivers, forests and the old Buddhist valley",
+    "paragraphs": [
+      "Swat runs from the plains at Mingora up to Kalam and beyond, along a river that stays green and cold all summer. Pine forests, orchards and meadows line the way, with the slopes of Malam Jabba above.",
+      "It is also one of the oldest Buddhist landscapes in South Asia, with stupas and monasteries around Mingora. Good roads and short drives make it an easy first trip north for families."
+    ]
+  },
+  "months": ["good", "good", "good", "best", "best", "best", "best", "best", "best", "best", "good", "good"],
+  "seasons": [
+    {
+      "season": "spring",
+      "text": "Blossom in the lower valley from March. Days 18–25°C in Mingora, cooler in Kalam."
+    },
+    {
+      "season": "summer",
+      "text": "The best time for Kalam and Mahodand Lake. Days 25–32°C lower down, 15–22°C up the valley."
+    },
+    {
+      "season": "autumn",
+      "text": "Clear skies and the orchard harvest. Days 15–25°C."
+    },
+    {
+      "season": "winter",
+      "text": "Snow at Malam Jabba from December, for the north’s easiest skiing. Kalam is very cold, and the road above it closes."
+    }
+  ]
 }

@@ -7,7 +7,9 @@ import { destinationPageTitle, getDestinationPage } from '@/lib/content/destinat
 import { getSettings } from '@/lib/content/settings';
 import { routes } from '@/lib/routes';
 import { pageMetadata } from '@/lib/utils/metadata';
+import { DestinationOverview } from '@/sections/DestinationOverview/DestinationOverview';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
+import { SeasonCalendarSection } from '@/sections/SeasonCalendarSection/SeasonCalendarSection';
 
 type DestinationPageProps = { params: Promise<{ slug: string }> };
 
@@ -40,6 +42,8 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
       >
         <DestinationFacts destination={destination} tourCount={page.tours.length} copy={copy.facts} />
       </PhotoHero>
+      <DestinationOverview overview={destination.overview} />
+      <SeasonCalendarSection destination={destination} copy={copy.calendar} />
     </PageMain>
   );
 }

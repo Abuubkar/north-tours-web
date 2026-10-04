@@ -160,6 +160,10 @@
   --map-label-offset: 14px; /* label from the marker's centre */
   --legend-swatch-w: 20px; /* a road sample in the legend */
 
+  /* Destination season calendar (PRD #63): twelve month cells and the legend's swatches. */
+  --month-cell-min-h: 76px;
+  --legend-swatch-size: 14px;
+
   /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
   --itinerary-node: 11px;
   --measure-day: 520px; /* a day's text */
@@ -199,6 +203,8 @@
   --grid-pairs-cols: 2;
   --grid-quick-facts-min: 160px;
   --grid-quick-facts-cols: 5;
+  --grid-seasons-min: 240px; /* a destination's season notes */
+  --grid-seasons-cols: 4;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;

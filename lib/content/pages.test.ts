@@ -185,3 +185,17 @@ describe('destination page copy', () => {
     expect(problems(load((c) => Object.assign(c.hero, { backLabel: 'All {destination}' })))).toEqual(['hero.backLabel']);
   });
 });
+
+describe('destination calendar copy', () => {
+  const destination: DestinationCopy = JSON.parse(readFileSync(destinationCopyFile(), 'utf8'));
+  const load = (change: (copy: DestinationCopy) => void) => {
+    const copy = structuredClone(destination);
+    change(copy);
+    return loadDestinationCopy(contentFixture({ 'pages/destination.json': copy })).problems.map((p) => p.field);
+  };
+
+  it('needs a label for every level and every season', () => {
+    expect(load((c) => delete (c.calendar.levels as Partial<DestinationCopy['calendar']['levels']>).good)).toEqual(['calendar.levels.good']);
+    expect(load((c) => delete (c.calendar.seasons as Partial<DestinationCopy['calendar']['seasons']>).winter)).toEqual(['calendar.seasons.winter']);
+  });
+});

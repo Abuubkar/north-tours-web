@@ -1,0 +1,16 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.calendar {
+  margin-top: var(--space-32);
+}
+
+.notes {
+  margin-top: var(--space-48);
+}

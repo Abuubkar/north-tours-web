@@ -4,6 +4,7 @@ import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith } from './fields.ts';
 import { photoSchema } from './images.ts';
+import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
 
 /*
@@ -346,6 +347,16 @@ const destinationCopySchema = z.strictObject({
     fromLahore: copy,
     /** How many tours visit; left out when none do. */
     tours: copy,
+  }),
+  /** "The best months to visit": the legend, each month's label, and each season's name and months. */
+  calendar: z.strictObject({
+    headline: copy,
+    /** The legend's words for each level, e.g. "Avoid · closed or not recommended". */
+    legend: z.record(z.enum(MONTH_LEVELS), copy),
+    /** Each month's label, e.g. "Best". */
+    levels: z.record(z.enum(MONTH_LEVELS), copy),
+    /** Each season's name and its months, e.g. "Spring", "Mar – May". */
+    seasons: z.record(z.enum(SEASONS), z.strictObject({ name: copy, months: copy })),
   }),
 });
 

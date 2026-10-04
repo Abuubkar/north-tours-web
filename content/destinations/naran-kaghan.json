@@ -25,5 +25,31 @@
       "licence": "CC BY-SA 3.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saif_ul_Malook_4.JPG"
     }
-  }
+  },
+  "overview": {
+    "headline": "A cool green valley on the road to Babusar",
+    "paragraphs": [
+      "The Kaghan Valley follows the Kunhar River north from Balakot, climbing through pine forest to Naran, the valley’s main town and the base for its lakes.",
+      "Above it lie Lake Saiful Muluk under Malika Parbat, the long blue water of Lulusar, and the road over Babusar Top into Gilgit-Baltistan. It is a summer valley: the road above Naran opens only once the snow clears."
+    ]
+  },
+  "months": ["avoid", "avoid", "avoid", "avoid", "good", "best", "best", "best", "best", "good", "avoid", "avoid"],
+  "seasons": [
+    {
+      "season": "spring",
+      "text": "The road reaches Naran in May, but the lakes are still frozen. Days 10–18°C."
+    },
+    {
+      "season": "summer",
+      "text": "The season proper: Babusar Top opens in June and the lakes thaw. Days 18–25°C, cool nights."
+    },
+    {
+      "season": "autumn",
+      "text": "Clear, quiet days in September and early October. Most hotels close by November."
+    },
+    {
+      "season": "winter",
+      "text": "Heavy snow closes the valley above Kaghan, and Naran shuts until spring."
+    }
+  ]
 }

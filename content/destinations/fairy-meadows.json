@@ -25,5 +25,31 @@
       "licence": "CC BY-SA 4.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Golden_hour_-_Sunrise_at_the_Killer_Mountain,_the_mighty_Nanga_Parbat.jpg"
     }
-  }
+  },
+  "overview": {
+    "headline": "A high meadow facing the north face of Nanga Parbat",
+    "paragraphs": [
+      "Fairy Meadows is a grassy clearing in the pines at about 3,300 m, looking straight across the Raikot Glacier at Nanga Parbat, the ninth-highest mountain on earth.",
+      "Getting there is half the story: a narrow jeep track from Raikot Bridge on the Karakoram Highway, then a walk of two to three hours. There are no roads at the top, only wooden cabins, a few camps and the mountain."
+    ]
+  },
+  "months": ["avoid", "avoid", "avoid", "avoid", "good", "best", "best", "best", "best", "good", "avoid", "avoid"],
+  "seasons": [
+    {
+      "season": "spring",
+      "text": "Snow lingers on the trail into May, and the cabins open late in the month."
+    },
+    {
+      "season": "summer",
+      "text": "Green meadows and the clearest views of the mountain. Days 15–20°C, nights near freezing."
+    },
+    {
+      "season": "autumn",
+      "text": "Crisp, clear days in September. The cabins close in October as the cold sets in."
+    },
+    {
+      "season": "winter",
+      "text": "The meadow lies under deep snow, and the jeep track is closed."
+    }
+  ]
 }

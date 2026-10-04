@@ -41,3 +41,30 @@ describe('destinations', () => {
     expect(fields((d) => Object.assign(d, { description: 'a'.repeat(161) }))).toEqual(['description']);
   });
 });
+
+describe('destination overview', () => {
+  it('needs a headline and one or two paragraphs', () => {
+    expect(fields((d) => delete (d.overview as Partial<Destination['overview']>).headline)).toEqual(['overview.headline']);
+    expect(fields((d) => d.overview.paragraphs.splice(0))).toEqual(['overview.paragraphs']);
+    expect(fields((d) => d.overview.paragraphs.push('A third paragraph.'))).toEqual(['overview.paragraphs']);
+  });
+});
+
+describe('season calendar', () => {
+  it('needs all twelve months, each best, good or avoid', () => {
+    expect(fields((d) => d.months.pop())).toEqual(['months']);
+    expect(fields((d) => Object.assign(d.months, { 2: 'shoulder' }))).toEqual(['months.2']);
+  });
+
+  it('must agree with the best season: its ends best, nothing best outside it', () => {
+    expect(fields((d) => Object.assign(d.months, { 10: 'best' }))).toEqual(['months.10']);
+    expect(fields((d) => Object.assign(d.months, { 3: 'good' }))).toEqual(['months.3']);
+    expect(fields((d) => Object.assign(d, { bestSeason: { from: 'May', to: 'Oct' } }))).toEqual(['months.3']);
+  });
+
+  it('needs the four seasons, spring to winter, in order', () => {
+    expect(fields((d) => d.seasons.pop())).toEqual(['seasons']);
+    expect(fields((d) => d.seasons.reverse())).toEqual(['seasons.0.season', 'seasons.1.season', 'seasons.2.season', 'seasons.3.season']);
+    expect(fields((d) => Object.assign(d.seasons[0], { season: 'monsoon' }))).toEqual(['seasons.0.season']);
+  });
+});
