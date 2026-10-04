@@ -85,3 +85,5 @@ export const Toggles: RenderStory = {
     await expect(row).toHaveAttribute('aria-pressed', 'false');
   },
 };
+
+export const SheetRowOnLight: Story = { ...SheetRow, globals: { surface: 'light' } };

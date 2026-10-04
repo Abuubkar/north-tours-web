@@ -130,6 +130,19 @@ export const Escape: Story = {
   },
 };
 
+/** The sheet's Close button closes it and returns focus to "Filters" too. */
+export const CloseButton: Story = {
+  play: async ({ canvas }) => {
+    const user = await realUser();
+    if (!user) return;
+    await user.click(filtersButton(canvas));
+    const sheet = await canvas.findByRole('dialog', { name: 'Filters' });
+    await user.click(within(sheet).getByRole('button', { name: 'Close' }));
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
+    await expect(filtersButton(canvas)).toHaveFocus();
+  },
+};
+
 /** "Sort" opens "Sort by"; picking "Shortest first" closes it, sorts the cards, writes the sort and returns to "Sort". */
 export const SortSheetPick: Story = {
   play: async ({ canvas }) => {
@@ -179,11 +192,14 @@ export const ClearFromEmpty: Story = {
   },
 };
 
-/** Scrolling down past 320px hides the bar; scrolling up brings it back. */
+/** Scrolling down stays put until past 320px, then hides the bar; scrolling up brings it back. */
 export const HidesOnScroll: Story = {
   beforeEach: emulateFullMotion,
   play: async ({ canvas }) => {
     scrollTo(100);
+    scrollTo(300);
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    await expect(getComputedStyle(barOf(canvas)).transform).toBe('none');
     scrollTo(800);
     await waitFor(() => expect(getComputedStyle(barOf(canvas)).transform).not.toBe('none'));
     scrollTo(500);

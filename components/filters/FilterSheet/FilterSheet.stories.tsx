@@ -22,13 +22,9 @@ type Story = StoryObj<typeof meta>;
 export const Open: Story = {
   play: async ({ canvas, userEvent }) => {
     const sheet = canvas.getByRole('dialog', { name: 'Filters' });
-    await expect(within(sheet).getAllByRole('group').map((g) => g.getAttribute('aria-labelledby') && g.querySelector('p')!.textContent)).toEqual([
-      'Destination',
-      'Duration',
-      'Budget',
-      'Trip type',
-      'Month',
-    ]);
+    for (const name of ['Destination', 'Duration', 'Budget', 'Trip type', 'Month']) {
+      await expect(within(sheet).getByRole('group', { name })).toBeVisible();
+    }
     await expect(within(sheet).getByRole('button', { name: 'Hunza, 2 trips' })).toHaveAttribute('aria-pressed', 'true');
     // The footer stays in view at the bottom of the screen (once the sheet has slid up) while the groups scroll.
     const show = within(sheet).getByRole('button', { name: 'Show 2 trips' });

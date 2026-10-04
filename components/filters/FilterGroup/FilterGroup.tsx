@@ -2,7 +2,8 @@
 
 import { Dropdown } from '@/components/ui/Dropdown/Dropdown';
 import { useTourFilters } from '@/hooks/useTourFilters';
-import { optionLabel, tripsCount } from '@/lib/utils/resultsText';
+import { optionLabel, optionName } from '@/lib/utils/resultsText';
+import { pickedOptions } from '@/lib/utils/tourFilters';
 import { OptionRow } from '../OptionRow/OptionRow';
 import type { FilterGroupProps } from './FilterGroup.types';
 import styles from './FilterGroup.module.css';
@@ -14,7 +15,7 @@ import styles from './FilterGroup.module.css';
  */
 export function FilterGroup({ group, label, labels, countWords, ref }: FilterGroupProps) {
   const { filters, options, counts, toggle } = useTourFilters();
-  const picked: readonly string[] = group === 'month' ? (filters.month ? [filters.month] : []) : filters[group];
+  const picked = pickedOptions(filters, group);
 
   return (
     <Dropdown ref={ref} label={label} active={picked.length > 0} count={picked.length || undefined}>
@@ -27,7 +28,7 @@ export function FilterGroup({ group, label, labels, countWords, ref }: FilterGro
               <OptionRow
                 label={option}
                 count={count}
-                name={`${option}, ${tripsCount(count, countWords)}`}
+                name={optionName(option, count, countWords)}
                 pressed={picked.includes(id)}
                 indicator={group === 'month' ? 'radio' : 'check'}
                 onClick={() => toggle(group, id)}

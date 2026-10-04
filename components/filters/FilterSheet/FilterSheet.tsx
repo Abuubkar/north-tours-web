@@ -6,12 +6,10 @@ import { Chip } from '@/components/ui/Chip/Chip';
 import { Sheet } from '@/components/ui/Sheet/Sheet';
 import { TextLink } from '@/components/ui/TextLink/TextLink';
 import { useTourFilters } from '@/hooks/useTourFilters';
-import { optionLabel, showTripsLabel, tripsCount } from '@/lib/utils/resultsText';
-import { LIST_GROUPS, type FilterGroupId } from '@/lib/utils/tourFilters';
+import { optionLabel, optionName, showTripsLabel } from '@/lib/utils/resultsText';
+import { FILTER_GROUPS, pickedOptions } from '@/lib/utils/tourFilters';
 import type { FilterSheetProps } from './FilterSheet.types';
 import styles from './FilterSheet.module.css';
-
-const GROUPS: FilterGroupId[] = [...LIST_GROUPS, 'month'];
 
 /**
  * Below 820px, the filters in a bottom sheet. Each tap applies at once: the results, the address
@@ -21,8 +19,6 @@ const GROUPS: FilterGroupId[] = [...LIST_GROUPS, 'month'];
 export function FilterSheet({ open, onClose, copy, labels }: FilterSheetProps) {
   const { filters, options, counts, results, toggle, clearAll } = useTourFilters();
   const id = useId();
-  const picked = (group: FilterGroupId): readonly string[] =>
-    group === 'month' ? (filters.month ? [filters.month] : []) : filters[group];
 
   const footer = (
     <>
@@ -35,7 +31,7 @@ export function FilterSheet({ open, onClose, copy, labels }: FilterSheetProps) {
 
   return (
     <Sheet open={open} onClose={onClose} title={copy.mobile.filtersTitle} handle footer={footer}>
-      {GROUPS.map((group) => (
+      {FILTER_GROUPS.map((group) => (
         <div key={group} role="group" aria-labelledby={`${id}-${group}`} className={styles.group}>
           <p id={`${id}-${group}`} className={styles.label}>
             {copy.filters.groups[group]}
@@ -48,9 +44,9 @@ export function FilterSheet({ open, onClose, copy, labels }: FilterSheetProps) {
                 <Chip
                   key={option}
                   variant="toggle"
-                  pressed={picked(group).includes(option)}
+                  pressed={pickedOptions(filters, group).includes(option)}
                   count={count}
-                  aria-label={`${label}, ${tripsCount(count, copy.results.count)}`}
+                  aria-label={optionName(label, count, copy.results.count)}
                   onClick={() => toggle(group, option)}
                 >
                   {label}

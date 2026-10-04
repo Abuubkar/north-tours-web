@@ -37,6 +37,9 @@ export type ListGroup = (typeof LIST_GROUPS)[number];
 /** Every filter group: the list groups, then Month. */
 export type FilterGroupId = ListGroup | 'month';
 
+/** Every filter group, in the order the bar and the sheet show them. */
+export const FILTER_GROUPS: readonly FilterGroupId[] = [...LIST_GROUPS, 'month'];
+
 /** What the visitor asked for: options picked in each group (in option order), one month or none, and the sort. */
 export type TourFilters = {
   dest: string[];
@@ -196,6 +199,12 @@ export function toggleFilter(filters: TourFilters, options: FilterOptions, group
   const picked: readonly string[] = filters[group];
   const next = picked.includes(id) ? picked.filter((p) => p !== id) : [...picked, id];
   return { ...filters, [group]: (options[group] as readonly string[]).filter((option) => next.includes(option)) };
+}
+
+/** The options picked in a group (Month: the one month, if any). */
+export function pickedOptions(filters: TourFilters, group: FilterGroupId): readonly string[] {
+  if (group !== 'month') return filters[group];
+  return filters.month ? [filters.month] : [];
 }
 
 /** The picked options as chips, in group order and then option order: "Hunza", "Family", "June 2027". */
