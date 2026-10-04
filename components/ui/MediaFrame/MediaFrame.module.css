@@ -30,6 +30,13 @@
   aspect-ratio: 16 / 10;
 }
 
+/* From 820px, a frame can change shape: the About header widens to 21:9 (after the ratios, so it wins). */
+@media (width >= 820px) {
+  .wide21x9 {
+    aspect-ratio: 21 / 9;
+  }
+}
+
 /* Fills the frame; the focus point (from content) stays in view when the ratio crops it. */
 .img {
   width: 100%;

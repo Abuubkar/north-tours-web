@@ -55,3 +55,11 @@ export function copyWith(...allowed: string[]) {
 
 /** Page copy with no tokens. */
 export const copy = copyWith();
+
+/**
+ * Marks an object holding an invented claim about the company (ADR-0019): only `true`. The
+ * owner confirms the claim by removing the field. Never shown on the site.
+ */
+export const sample = z
+  .literal(true, { error: 'Use sample: true for an invented claim, or remove the field once it’s confirmed (ADR-0019)' })
+  .optional();

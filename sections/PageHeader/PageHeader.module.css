@@ -36,3 +36,20 @@
   color: var(--fg-2);
   font-weight: var(--fw-medium);
 }
+
+/* About: the <h1> at the long size (type roles are visual only), a shorter lead, then the wide photo. */
+.aboutHeadline {
+  composes: sectionLong from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.aboutLead {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  max-width: var(--measure-about);
+  margin-top: var(--space-24);
+  color: var(--fg-2);
+}
+
+.photo {
+  margin-top: var(--page-header-media-top);
+}

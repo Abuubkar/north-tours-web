@@ -182,6 +182,13 @@
   --measure-counters: 440px; /* the planner's group size rows */
   --measure-field-short: 360px; /* a short text field: the planner's other city */
 
+  /* About (PRD #78): the page header's photo, the story and the founder beside it. */
+  --page-header-media-top: clamp(40px, 5cqi, 72px); /* above the About header's wide photo */
+  --measure-about: 560px; /* About's header lead and story paragraphs */
+  --story-text-min: 380px; /* the story's text beside the founder, before it wraps above */
+  --founder-w: 320px; /* the founder's portrait and name */
+  --founder-min: 240px; /* narrowest it gets beside the text */
+
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */
   --map-road-width: 1.5px; /* valley roads */
@@ -255,6 +262,8 @@
   --grid-seasons-cols: 4;
   --grid-notes-min: 260px; /* a destination's good to know notes */
   --grid-notes-cols: 3;
+  --grid-principles-min: 240px; /* About's "How we run every trip" */
+  --grid-principles-cols: 4;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;
