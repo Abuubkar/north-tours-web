@@ -4,14 +4,12 @@ import { useEffect, useRef } from 'react';
 import type { DropdownHandle } from '@/components/ui/Dropdown/Dropdown.types';
 import { useHideOnScroll } from '@/hooks/useHideOnScroll';
 import { useTourFilters } from '@/hooks/useTourFilters';
-import { activeFilters, LIST_GROUPS, type FilterGroupId } from '@/lib/utils/tourFilters';
+import { activeFilters, FILTER_GROUPS } from '@/lib/utils/tourFilters';
 import { ActiveFilterChips } from '../ActiveFilterChips/ActiveFilterChips';
 import { FilterGroup } from '../FilterGroup/FilterGroup';
 import { SortMenu } from '../SortMenu/SortMenu';
 import type { FilterBarProps } from './FilterBar.types';
 import styles from './FilterBar.module.css';
-
-const GROUPS: FilterGroupId[] = [...LIST_GROUPS, 'month'];
 
 /**
  * From 820px: the five filters, the picked ones as chips, and the sort, in a frosted bar that
@@ -37,7 +35,7 @@ export function FilterBar({ copy, labels }: FilterBarProps) {
       className={`${styles.bar} ${hidden ? styles.hidden : ''}`}
     >
       <div className={styles.row}>
-        {GROUPS.map((group) => (
+        {FILTER_GROUPS.map((group) => (
           <FilterGroup
             key={group}
             ref={(dropdown) => {

@@ -10,7 +10,7 @@ const results = sampleListTours.slice(0, 4).map((tour) => ({ tour, departure: to
 const meta = {
   title: 'Filters/ResultsGrid',
   component: ResultsGrid,
-  args: { results, settings: placeholderSettings },
+  args: { results, ready: true, changes: 0, settings: placeholderSettings },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof ResultsGrid>;

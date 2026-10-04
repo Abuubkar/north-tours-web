@@ -278,10 +278,31 @@ const toursCopySchema = z.strictObject({
     /** Removes every filter (the sort stays). */
     clearAll: copy,
   }),
+  /** Below 820px: the bar's buttons and the two sheets. */
+  mobile: z.strictObject({
+    filters: copy,
+    sort: copy,
+    filtersTitle: copy,
+    sortTitle: copy,
+    /** The filter sheet's button: "Show 2 trips"; with none, `noMatch`. */
+    show: countWords,
+    noMatch: copy,
+  }),
   /** Before the current sort on its menu: "Sort:". */
   sortLabel: copy,
   /** Each sort's label by its id, e.g. "Soonest departure"; every sort needs one. */
   sorts: z.record(z.enum(SORTS), copy),
+  /** After the first row of results: a private trip, to the planner or on WhatsApp. */
+  banner: z.strictObject({
+    headline: copy,
+    lead: copy,
+    planLabel: copy,
+    askLabel: copy,
+    /** A place photo until the owner supplies one of a family with their guide (ADR-0009). */
+    image: photoSchema,
+  }),
+  /** The reviews' headline: read out, not shown. */
+  reviews: z.strictObject({ headline: copy }),
   /** When no trip matches. The headline's wording is fixed (DESIGN.md §6). */
   empty: z.strictObject({
     headline: copy,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { optionLabel, optionLabels, sortedByText, tripsCount, type OptionLabels } from './resultsText.ts';
+import { optionLabel, optionLabels, optionName, showTripsLabel, sortedByText, tripsCount, type OptionLabels } from './resultsText.ts';
 
 const words = { one: '{count} trip', other: '{count} trips' };
 
@@ -49,5 +49,24 @@ describe('optionLabels', () => {
     const labels = optionLabels([{ slug: 'hunza', name: 'Hunza' }, { slug: 'swat', name: 'Swat' }], options);
     expect(labels.dest).toEqual({ hunza: 'Hunza', swat: 'Swat' });
     expect(optionLabel(labels, 'type', 'family')).toBe('g');
+  });
+});
+
+describe('showTripsLabel', () => {
+  const show = { one: 'Show {count} trip', other: 'Show {count} trips' };
+
+  it.each([
+    [0, 'No trips match'],
+    [1, 'Show 1 trip'],
+    [2, 'Show 2 trips'],
+  ])('%i is "%s"', (count, label) => {
+    expect(showTripsLabel(count, show, 'No trips match')).toBe(label);
+  });
+});
+
+describe('optionName', () => {
+  it('names an option with its count', () => {
+    expect(optionName('Hunza', 3, words)).toBe('Hunza, 3 trips');
+    expect(optionName('Murree', 1, words)).toBe('Murree, 1 trip');
   });
 });

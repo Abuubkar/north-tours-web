@@ -6,9 +6,9 @@ import { Button } from '../Button/Button';
 import { Sheet } from './Sheet';
 import type { SheetProps } from './Sheet.types';
 
-type DemoProps = { title: string; variant?: SheetProps['variant']; handle?: boolean; startOpen?: boolean };
+type DemoProps = { title: string; variant?: SheetProps['variant']; handle?: boolean; startOpen?: boolean; withFooter?: boolean };
 
-function SheetDemo({ variant, handle, title, startOpen = false }: DemoProps) {
+function SheetDemo({ variant, handle, title, startOpen = false, withFooter = false }: DemoProps) {
   const [open, setOpen] = useState(startOpen);
   return (
     <>
@@ -20,14 +20,25 @@ function SheetDemo({ variant, handle, title, startOpen = false }: DemoProps) {
           <p>Lead guide, Hunza. Speaks Burushaski, Urdu and English.</p>
         </Sheet>
       ) : (
-        <Sheet open={open} onClose={() => setOpen(false)} title={title} handle={handle}>
-          <p>Choose the dates that suit your family. Prices are per person, twin sharing.</p>
-          <Button>Show 8 trips</Button>
+        <Sheet
+          open={open}
+          onClose={() => setOpen(false)}
+          title={title}
+          handle={handle}
+          footer={withFooter ? <Button onClick={() => setOpen(false)}>Show 8 trips</Button> : undefined}
+        >
+          {(withFooter ? REPEATS : [0]).map((n) => (
+            <p key={n}>Choose the dates that suit your family. Prices are per person, twin sharing.</p>
+          ))}
+          {withFooter ? <Button variant="secondary">Any dates</Button> : <Button>Show 8 trips</Button>}
         </Sheet>
       )}
     </>
   );
 }
+
+/** Enough paragraphs to make the body scroll. */
+const REPEATS = Array.from({ length: 30 }, (_, n) => n);
 
 const meta = { title: 'Base/Sheet', component: Sheet } satisfies Meta<typeof Sheet>;
 
@@ -111,3 +122,19 @@ export const Escape: RenderStory = {
     await expect(trigger).toHaveFocus();
   },
 };
+
+/** A pinned footer stays in view under the body, which scrolls on its own. */
+export const WithFooter: RenderStory = {
+  render: () => <SheetDemo title="Filters" handle startOpen withFooter />,
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas }) => {
+    const dialog = canvas.getByRole('dialog', { name: 'Filters' });
+    const button = canvas.getByRole('button', { name: 'Show 8 trips' });
+    // Once it has slid up into place.
+    await waitFor(() => expect(button.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight));
+    const body = dialog.querySelector('p')!.parentElement!;
+    await expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+  },
+};
+
+export const WithFooterOnLight: RenderStory = { ...WithFooter, globals: { surface: 'light', viewport: { value: 'phone' } } };

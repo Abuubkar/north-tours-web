@@ -26,6 +26,12 @@ export type Sort = (typeof SORTS)[number];
 
 export const DEFAULT_SORT: Sort = 'soonest';
 
+/** From this width the desktop filter bar shows; below it, the mobile bar and its sheets. */
+export const FILTER_BAR_QUERY = '(width >= 820px)';
+
+/** Below this width the results have one or two columns, and the private trip banner follows two cards. */
+export const NARROW_RESULTS_QUERY = '(width < 1100px)';
+
 /** The groups where several options can be picked, in URL and chip order. Month (one at a time) follows. */
 export const LIST_GROUPS = ['dest', 'dur', 'budget', 'type'] as const;
 
@@ -33,6 +39,9 @@ export type ListGroup = (typeof LIST_GROUPS)[number];
 
 /** Every filter group: the list groups, then Month. */
 export type FilterGroupId = ListGroup | 'month';
+
+/** Every filter group, in the order the bar and the sheet show them. */
+export const FILTER_GROUPS: readonly FilterGroupId[] = [...LIST_GROUPS, 'month'];
 
 /** What the visitor asked for: options picked in each group (in option order), one month or none, and the sort. */
 export type TourFilters = {
@@ -193,6 +202,12 @@ export function toggleFilter(filters: TourFilters, options: FilterOptions, group
   const picked: readonly string[] = filters[group];
   const next = picked.includes(id) ? picked.filter((p) => p !== id) : [...picked, id];
   return { ...filters, [group]: (options[group] as readonly string[]).filter((option) => next.includes(option)) };
+}
+
+/** The options picked in a group (Month: the one month, if any). */
+export function pickedOptions(filters: TourFilters, group: FilterGroupId): readonly string[] {
+  if (group !== 'month') return filters[group];
+  return filters.month ? [filters.month] : [];
 }
 
 /** The picked options as chips, in group order and then option order: "Hunza", "Family", "June 2027". */

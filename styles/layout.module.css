@@ -69,10 +69,11 @@
 /*
  * Text-grid bleed (DESIGN.md §5): cells are padded on both sides, and the grid reaches out by
  * that padding and is clipped back, so the first and last column's text lines up with the page
- * margins at any column count.
+ * margins at any column count. It names `gridColumns` as well as `grid`: the production build
+ * passes on only one level of composition to modules that compose this class.
  */
 .textGrid {
-  composes: grid;
+  composes: grid gridColumns;
   margin-inline: calc(-1 * var(--cell-pad));
   clip-path: inset(0 var(--cell-pad));
 }
@@ -171,4 +172,53 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/*
+ * Frosted sticky bar under the header (docs/components.md §4), always on the dark surface: the
+ * Tours filter bars. It can step out of the way (`frostedBarHidden`, hooks/useHideOnScroll),
+ * sliding up behind the header, with no transition under reduced motion.
+ */
+.frostedBar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: var(--z-filter-bar);
+  padding: var(--space-12) var(--margin);
+  border-block: var(--hairline-width) solid var(--hairline);
+  background: var(--filter-bar-bg);
+  backdrop-filter: var(--header-backdrop);
+  transition: transform var(--dur-300) var(--ease-out);
+}
+
+@supports not (backdrop-filter: blur(0)) {
+  .frostedBar {
+    background: var(--bg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frostedBar {
+    transition: none;
+  }
+}
+
+.frostedBarHidden {
+  transform: translateY(calc(-100% - var(--header-h)));
+}
+
+/*
+ * Tours: a linked view (e.g. /tours?dest=hunza) is applied after hydration. Until then the
+ * page's inline script marks it pending, and what the view changes (the results, and the filter
+ * bars' controls, whose counts and chips change width) is hidden with its space kept, so nothing
+ * jumps. If the app's script never runs, it shows anyway after `--results-pending-max`.
+ */
+:global(html[data-results-pending]) .pendingHidden {
+  visibility: hidden;
+  animation: pending-reveal 0s var(--results-pending-max) forwards;
+}
+
+@keyframes pending-reveal {
+  to {
+    visibility: visible;
+  }
 }

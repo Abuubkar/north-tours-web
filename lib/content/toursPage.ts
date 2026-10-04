@@ -1,8 +1,14 @@
 import { todayInKarachi } from '../utils/departures.ts';
 import { optionLabels } from '../utils/resultsText.ts';
-import { getDestinations, getTours } from './catalog.ts';
+import { getDestinations, getTour, getTours } from './catalog.ts';
 import { getHomeCopy, getToursCopy } from './pages.ts';
+import { getReviews } from './reviews.ts';
+import { ratingSummary } from '../utils/rating.ts';
+import { whatsappLink } from '../utils/whatsapp.ts';
 import { getSettings } from './settings.ts';
+
+/** The most recent reviews the page shows. */
+const REVIEW_CARDS = 3;
 
 /**
  * Everything the Tours page shows, read through the loaders and shaped for its sections, so the
@@ -22,6 +28,13 @@ export function getToursPage() {
     sharePhoto: getHomeCopy().hero.image,
     /** The WhatsApp number and messages. */
     whatsapp: { contact: settings.contact, whatsapp: settings.whatsapp },
+    /** "Ask on WhatsApp" with the general message (the private trip banner). */
+    askHref: whatsappLink(settings.contact.whatsapp, settings.whatsapp.generalMessage),
+    /** The three most recent reviews, and the rating across every tour. */
+    reviews: getReviews()
+      .slice(0, REVIEW_CARDS)
+      .map((review) => ({ review, tourTitle: getTour(review.tour)!.title })),
+    ratingSummary: ratingSummary(getTours().map((tour) => tour.rating)),
     tours: getTours().map((t) => ({
       slug: t.slug,
       title: t.title,

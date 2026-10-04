@@ -95,9 +95,21 @@
 
 /* Scrolling inside the sheet never scrolls the page behind it. */
 .body {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   padding: var(--space-24) var(--margin);
   overscroll-behavior: contain;
+}
+
+/* Stays in view under the body, above the safe area on phones with a home bar. */
+.footer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--margin) calc(var(--space-16) + env(safe-area-inset-bottom));
+  border-top: var(--hairline-width) solid var(--hairline);
 }
 
 /* The page behind doesn't scroll while a sheet is open as a modal. */

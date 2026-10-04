@@ -1,7 +1,7 @@
 import type { ContentImage } from '@/lib/content/images';
 
 /** Frame shape: `fill` takes its parent's box (the full-bleed hero, never rounded); the rest are fixed ratios. */
-export type MediaFrameRatio = 'fill' | '4:3' | '3:4' | '4:5';
+export type MediaFrameRatio = 'fill' | '4:3' | '3:4' | '4:5' | '16:10';
 
 export type MediaFrameProps = {
   /** A photo from content, or a placeholder naming the shot it should be. */

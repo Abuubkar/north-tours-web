@@ -1,5 +1,6 @@
 import type { Decorator } from '@storybook/nextjs-vite';
 import { tourWith } from '@/components/tour-card/sampleTours';
+import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
 import type { FilterTour } from '@/hooks/useTourFilters';
 import type { ToursCopy } from '@/lib/content/pages';
 import type { Tour } from '@/lib/content/tours';
@@ -29,6 +30,14 @@ export const sampleToursCopy: ToursCopy = {
     },
     clearAll: 'Clear all',
   },
+  mobile: {
+    filters: 'Filters',
+    sort: 'Sort',
+    filtersTitle: 'Filters',
+    sortTitle: 'Sort by',
+    show: { one: 'Show {count} trip', other: 'Show {count} trips' },
+    noMatch: 'No trips match',
+  },
   sortLabel: 'Sort:',
   sorts: {
     soonest: 'Soonest departure',
@@ -36,6 +45,14 @@ export const sampleToursCopy: ToursCopy = {
     'price-desc': 'Price: high to low',
     shortest: 'Shortest first',
   },
+  banner: {
+    headline: 'Plan a private trip for your family or team',
+    lead: 'We plan private tours for families and teams, from 2 days to 2 weeks.',
+    planLabel: 'Plan a private trip',
+    askLabel: 'Ask on WhatsApp',
+    image: samplePhoto,
+  },
+  reviews: { headline: 'Reviews from travellers' },
   empty: {
     headline: 'No trips match these filters yet.',
     lead: 'Tell us what you’re looking for and we’ll plan it. Most private trips start with a WhatsApp message.',

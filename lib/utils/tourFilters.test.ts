@@ -8,6 +8,7 @@ import {
   filterOptions,
   matches,
   NO_FILTERS,
+  pickedOptions,
   tourPrice,
   toggleFilter,
   tourResults,
@@ -280,5 +281,14 @@ describe('activeFilters', () => {
       { group: 'month', id: '2027-06' },
     ]);
     expect(activeFilters(NO_FILTERS)).toEqual([]);
+  });
+});
+
+describe('pickedOptions', () => {
+  it('lists a group’s picks, or the one month', () => {
+    const filters = view({ dest: ['hunza', 'swat'], month: '2027-06' });
+    expect(pickedOptions(filters, 'dest')).toEqual(['hunza', 'swat']);
+    expect(pickedOptions(filters, 'month')).toEqual(['2027-06']);
+    expect(pickedOptions(NO_FILTERS, 'month')).toEqual([]);
   });
 });

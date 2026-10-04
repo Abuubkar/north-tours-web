@@ -1,0 +1,42 @@
+/* Media and text side by side, wrapping on narrow screens (docs/components.md §4). */
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-32) var(--gutter);
+  padding-block: var(--banner-y);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+}
+
+.media {
+  flex: 1 1 var(--banner-media-min);
+  max-width: var(--banner-media-max);
+}
+
+.text {
+  display: flex;
+  flex: 1 1 var(--banner-text-min);
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-20);
+  min-width: 0;
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+}
+
+.lead {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  max-width: var(--measure-lead);
+  color: var(--fg-2);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.action {
+  flex: 1 1 auto;
+}

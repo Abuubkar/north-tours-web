@@ -25,6 +25,11 @@
   aspect-ratio: 4 / 5;
 }
 
+/* The private trip banner (Tours). */
+.ratio16x10 {
+  aspect-ratio: 16 / 10;
+}
+
 /* Fills the frame; the focus point (from content) stays in view when the ratio crops it. */
 .img {
   width: 100%;

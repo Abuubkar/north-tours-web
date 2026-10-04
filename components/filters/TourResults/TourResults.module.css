@@ -1,23 +1,20 @@
+/* Hidden while a linked view is applied (layout.module.css `pendingHidden`). */
 .results {
+  composes: pendingHidden from '../../../styles/layout.module.css';
   padding: var(--results-top) var(--margin) var(--section-y);
+}
+
+/* Below 820px the picked filters sit above the results; from 820px they're in the desktop bar. */
+.chips:not(:empty) {
+  margin-bottom: var(--space-20);
+}
+
+@media (width >= 820px) {
+  .chips {
+    display: none;
+  }
 }
 
 .status {
   composes: visuallyHidden from '../../../styles/layout.module.css';
-}
-
-/*
- * A linked view (e.g. /tours?dest=hunza) is applied after hydration; until then the page's
- * inline script marks the results as pending and they're hidden with their space kept. If the
- * app's script never runs, they show anyway after a short delay.
- */
-:global(html[data-results-pending]) .results {
-  visibility: hidden;
-  animation: show-results 0s var(--results-pending-max) forwards;
-}
-
-@keyframes show-results {
-  to {
-    visibility: visible;
-  }
 }

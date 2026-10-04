@@ -17,6 +17,11 @@
   max-width: var(--measure-headline);
 }
 
+/* Tours: read out, not shown (docs/components.md §3.2). */
+.hiddenHeadline {
+  composes: visuallyHidden from '../../styles/layout.module.css';
+}
+
 .summary {
   composes: small from '../../styles/typography.module.css';
   display: flex;
