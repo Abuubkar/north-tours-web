@@ -22,10 +22,18 @@ describe('toursVisiting', () => {
 });
 
 describe('destinationSections', () => {
-  const place = { id: 'baltit-fort' };
+  const place = {
+    id: 'baltit-fort',
+    name: 'Baltit Fort',
+    kind: 'heritage' as const,
+    text: 'The centuries-old fort above Karimabad.',
+    lat: 36.3275,
+    lon: 74.6696,
+    image: { placeholder: 'Baltit Fort', alt: 'Baltit Fort' },
+  };
 
   it('shows places to see when there are places (Hunza)', () => {
-    expect(destinationSections({ places: [place as never] })).toEqual(['hero', 'overview', 'calendar', 'places']);
+    expect(destinationSections({ places: [place] })).toEqual(['hero', 'overview', 'calendar', 'places']);
   });
 
   it('leaves places out with none (Murree), keeping the sections every page has', () => {

@@ -78,46 +78,6 @@ export const hunzaPlaces: Place[] = [
   },
 ];
 
-/** Fairy Meadows' four places: close together, so the map zooms in. */
-export const fairyMeadowsPlaces: Place[] = [
-  {
-    id: 'raikot-jeep-track',
-    name: 'Raikot jeep track',
-    kind: 'adventure',
-    text: 'The narrow track from Raikot Bridge to Tato, an hour by jeep along the gorge.',
-    lat: 35.44,
-    lon: 74.56,
-    image: photo('/images/fairy-meadows/raikot-road.jpg', 'A narrow jeep track built on dry-stone walls clings to a barren mountainside on the route between Raikot and Fairy Meadows.', 1600, 867),
-  },
-  {
-    id: 'fairy-meadows',
-    name: 'Fairy Meadows',
-    kind: 'meadow',
-    text: 'The grassy clearing in the pines, facing the north face of Nanga Parbat.',
-    lat: 35.388,
-    lon: 74.58,
-    image: photo('/images/fairy-meadows/fairy-meadows.jpg', 'Wooden huts dot the green meadow and pine forest of Fairy Meadows, with a stream in front and cloud-wrapped Nanga Parbat behind.', 1600, 1067),
-  },
-  {
-    id: 'raikot-glacier',
-    name: 'Raikot Glacier',
-    kind: 'viewpoint',
-    text: 'The great glacier below Nanga Parbat, seen from the trail beyond the meadow.',
-    lat: 35.378,
-    lon: 74.62,
-    image: photo('/images/fairy-meadows/raikot-glacier.jpg', 'The grey Raikot Glacier running down between pine forests, with snowy peaks behind', 1280, 853),
-  },
-  {
-    id: 'beyal-camp',
-    name: 'Beyal Camp',
-    kind: 'meadow',
-    text: 'A cluster of huts an hour’s walk on, the start of the base camp trail.',
-    lat: 35.36,
-    lon: 74.61,
-    image: photo('/images/fairy-meadows/beyal-camp.jpg', 'Wooden huts of Beyal Camp stand beside a rushing stream, with snowy peaks and green slopes under a blue sky.', 1600, 1068),
-  },
-];
-
 /** Until photos are chosen, each place's photo is a placeholder naming the shot. */
 export const placeholderPlaces: Place[] = hunzaPlaces.slice(0, 3).map((place) => ({
   ...place,

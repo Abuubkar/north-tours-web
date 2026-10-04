@@ -31,3 +31,5 @@ export const LongLine: Story = {
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };
+
+export const LongLineOnLight: Story = { ...LongLine, globals: { surface: 'light', viewport: { value: 'phone' } } };

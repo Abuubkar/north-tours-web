@@ -7,6 +7,16 @@
   max-width: var(--measure-headline);
 }
 
-.places {
+/* Media + text split (docs/components.md §4): the list's column. */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-48);
   margin-top: var(--space-48);
+}
+
+.list {
+  flex: 1 1 var(--places-list-min);
+  min-width: 0;
 }

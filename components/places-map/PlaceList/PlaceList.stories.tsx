@@ -47,3 +47,5 @@ export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', view
 export const Placeholders: Story = { ...Desktop, args: { places: placeholderPlaces } };
 
 export const PlaceholdersPhone: Story = { ...Phone, args: { places: placeholderPlaces } };
+
+export const PlaceholdersOnLight: Story = { ...Placeholders, globals: { surface: 'light', viewport: { value: 'desktop' } } };
