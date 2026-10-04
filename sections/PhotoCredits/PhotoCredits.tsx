@@ -2,7 +2,7 @@ import { licenceUrl, SOURCE_NAMES } from '@/lib/utils/credits';
 import type { PhotoCreditsProps } from './PhotoCredits.types';
 import styles from './PhotoCredits.module.css';
 
-/** The credits page: its <h1>, the intro, then a row per photo with its author, licence and source. */
+/** The credits page: its <h1>, the intro, then a row per photo with its author, licence, any changes we made and source. */
 export function PhotoCredits({ copy, credits }: PhotoCreditsProps) {
   return (
     <section className={styles.section}>
@@ -24,6 +24,7 @@ export function PhotoCredits({ copy, credits }: PhotoCreditsProps) {
                   credit.licence
                 )}{' '}
                 ·{' '}
+                {credit.changes && <>{credit.changes} · </>}
                 <a href={credit.sourceUrl} className={styles.link}>
                   {SOURCE_NAMES[credit.source]}
                 </a>

@@ -203,6 +203,9 @@ Folders are created only when the first file for them is needed (section 3).
   - places: real photos from Unsplash or Wikimedia Commons are allowed, downloaded into the
     repo, with `source`, `author`, `licence` and `sourceUrl` recorded; credit shown where the
     licence requires it;
+  - note every edit to such a photo (cropping, or removing, blurring or retouching anything) in
+    its credit's `changes`, e.g. "Cropped; number plate pixelated", in the same PR (ADR-0028).
+    Resizing and format conversion by `pnpm images` don't count;
   - people: no stock photos of people, ever. The owner supplies all photos of guides,
     drivers, team and travellers; keep the placeholder until then;
   - no AI-generated images of real destinations, guides or customers. AI-generated media is

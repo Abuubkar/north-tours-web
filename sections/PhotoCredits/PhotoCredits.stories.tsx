@@ -12,6 +12,18 @@ const credits = photoCredits([
     alt: 'Turquoise Attabad Lake below a sunlit mountain',
     credit: { source: 'unsplash', author: 'A. Photographer', licence: 'Unsplash License', sourceUrl: 'https://unsplash.com/photos/x' },
   },
+  {
+    ...samplePhoto,
+    src: '/images/vehicles/deosai-land-cruiser.jpg',
+    alt: 'A red Land Cruiser jeep on the gravel road to Deosai',
+    credit: {
+      source: 'wikimedia',
+      author: 'Sadiqrizwan',
+      licence: 'CC BY-SA 4.0',
+      sourceUrl: 'https://commons.wikimedia.org/wiki/File:Way_To_Deosai.jpg',
+      changes: 'Cropped; number plate pixelated, windscreen softened',
+    },
+  },
 ]);
 
 const meta = {
@@ -28,12 +40,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** The page's <h1>, then a row per photo: what it shows, author, licence (linked when it's Creative Commons) and source. */
+/**
+ * The page's <h1>, then a row per photo: what it shows, author, licence (linked when it's Creative
+ * Commons), the changes we made if any, and source.
+ */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 1, name: 'Photo credits' })).toBeVisible();
-    const [first, second] = canvas.getAllByRole('listitem');
+    const [first, second, edited] = canvas.getAllByRole('listitem');
     await expect(first).toHaveTextContent(samplePhoto.alt);
+    await expect(first).toHaveTextContent('Muhammad Ashar · CC BY-SA 4.0 · Wikimedia Commons');
     await expect(within(first).getByRole('link', { name: 'CC BY-SA 4.0' })).toHaveAttribute(
       'href',
       'https://creativecommons.org/licenses/by-sa/4.0/',
@@ -44,6 +60,9 @@ export const Desktop: Story = {
     );
     await expect(second).toHaveTextContent('A. Photographer · Unsplash License · Unsplash');
     await expect(within(second).queryByRole('link', { name: 'Unsplash License' })).toBeNull();
+    await expect(edited).toHaveTextContent(
+      'Sadiqrizwan · CC BY-SA 4.0 · Cropped; number plate pixelated, windscreen softened · Wikimedia Commons',
+    );
   },
 };
 
