@@ -1,0 +1,56 @@
+/* A 44px row; hovered and selected rows take the shared raised surface (docs/components.md, PRD #8). */
+.row {
+  composes: small from '../../../styles/typography.module.css';
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 var(--space-12);
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  text-align: left;
+  cursor: pointer;
+}
+
+.row:hover,
+.row[aria-pressed='true'] {
+  background: var(--bg-raised);
+}
+
+.indicator {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--indicator-size);
+  height: var(--indicator-size);
+  border: var(--radio-ring-width) solid var(--control-border);
+  color: var(--bg);
+}
+
+/* A checkbox at the input radius (2px, docs/components.md §5 item 11). */
+.check {
+  border-radius: var(--radius-input);
+}
+
+.radio {
+  border-radius: var(--radius-chip);
+}
+
+.row[aria-pressed='true'] .indicator {
+  border-color: var(--fg);
+  background: var(--fg);
+}
+
+.label {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.count {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,23 @@
+.results {
+  padding: var(--results-top) var(--margin) var(--section-y);
+}
+
+.status {
+  composes: visuallyHidden from '../../../styles/layout.module.css';
+}
+
+/*
+ * A linked view (e.g. /tours?dest=hunza) is applied after hydration; until then the page's
+ * inline script marks the results as pending and they're hidden with their space kept. If the
+ * app's script never runs, they show anyway after a short delay.
+ */
+:global(html[data-results-pending]) .results {
+  visibility: hidden;
+  animation: show-results 0s var(--results-pending-max) forwards;
+}
+
+@keyframes show-results {
+  to {
+    visibility: visible;
+  }
+}

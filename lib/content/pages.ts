@@ -4,6 +4,7 @@ import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith } from './fields.ts';
 import { photoSchema } from './images.ts';
+import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
 
 /*
  * Page copy (CLAUDE.md §7): each page's wording lives in content/pages, so components never
@@ -246,4 +247,65 @@ let cachedTour: TourCopy | undefined;
 export function getTourCopy(): TourCopy {
   cachedTour ??= requireValid(loadTourCopy());
   return cachedTour;
+}
+
+/** "{count} trip" and "{count} trips": a count of trips in the page's words. */
+const countWords = z.strictObject({ one: copyWith('count'), other: copyWith('count') });
+
+/** The Tours page's wording (PRD #56). */
+const toursCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The page header: the <h1> and the line under it. */
+  header: z.strictObject({ headline: copy, lead: copy }),
+  results: z.strictObject({
+    /** The results heading, "8 trips". */
+    count: countWords,
+    /** Beside it from 820px: {sort} is the sort's label, in lower case. */
+    sortedBy: copyWith('sort'),
+  }),
+  /** The filters: the bar's name, each group's label, and the fixed groups' options by id. */
+  filters: z.strictObject({
+    /** Names the desktop bar for screen readers: "Filter trips". */
+    label: copy,
+    groups: z.strictObject({ dest: copy, dur: copy, budget: copy, type: copy, month: copy }),
+    /** Every option needs a label (destinations use their names, months their dates). */
+    options: z.strictObject({
+      dur: z.record(z.enum(DURATIONS), copy),
+      budget: z.record(z.enum(BUDGETS), copy),
+      type: z.record(z.enum(TRIP_TYPES), copy),
+    }),
+    /** Removes every filter (the sort stays). */
+    clearAll: copy,
+  }),
+  /** Before the current sort on its menu: "Sort:". */
+  sortLabel: copy,
+  /** Each sort's label by its id, e.g. "Soonest departure"; every sort needs one. */
+  sorts: z.record(z.enum(SORTS), copy),
+  /** When no trip matches. The headline's wording is fixed (DESIGN.md §6). */
+  empty: z.strictObject({
+    headline: copy,
+    lead: copy,
+    /** Removes every filter (the sort stays). */
+    clearLabel: copy,
+    /** To the Trip Planner. */
+    planLabel: copy,
+  }),
+});
+
+export type ToursCopy = z.infer<typeof toursCopySchema>;
+
+export function toursCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'tours.json');
+}
+
+export function loadToursCopy(dir = CONTENT_DIR) {
+  return parseFile(toursCopySchema, toursCopyFile(dir));
+}
+
+let cachedTours: ToursCopy | undefined;
+
+export function getToursCopy(): ToursCopy {
+  cachedTours ??= requireValid(loadToursCopy());
+  return cachedTours;
 }

@@ -52,6 +52,7 @@
   --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent);
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
+  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars, frosted like the header */
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
@@ -131,7 +132,15 @@
   --departure-price-w: 140px;
   --radio-size: 16px; /* the booking panel's date radio ring */
   --radio-dot: 8px;
-  --radio-ring-width: 1.5px;
+  --radio-ring-width: 1.5px; /* also a filter or sort option's checkbox or radio border */
+  --indicator-size: 18px; /* a filter or sort option's checkbox or radio (Tours) */
+
+  /* Tours (PRD #56): a page header with a text <h1>, and the results under it. */
+  --page-header-top: clamp(64px, 8cqi, 128px);
+  --page-header-bottom: clamp(48px, 5cqi, 80px);
+  --results-top: clamp(28px, 3cqi, 40px); /* above the results heading */
+  --empty-y: clamp(48px, 6cqi, 96px); /* above and below "No trips match these filters yet." */
+  --hidden-size: 1px; /* a visually hidden element's box: read out by screen readers, never seen */
 
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */
@@ -189,13 +198,14 @@
   --z-header: 10;
   --z-skip-link: 20; /* above the header when focused */
   --z-sticky-bar: 10; /* Tour Detail's booking bar at the bottom of the screen, like the header at the top */
+  --z-filter-bar: 9; /* the Tours filter bars: just under the header, so they slide up behind it */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
-   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns
-   *   1100px Tour Detail and Trip Planner side columns appear
+   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns; Tours results go to two columns
+   *   1100px Tour Detail and Trip Planner side columns appear; Tours results go to three columns
    *   1280px Tour Detail side map appears
    *   viewport height 920px  compact booking panel below this
    */
@@ -219,6 +229,7 @@
   --reveal-span: 45vh; /* and is fully lit 45% of the screen later */
   --rise-distance: 40px; /* M4: a card's offset before it rises */
   --rise-stagger: 90ms; /* between cards in a row */
+  --results-pending-max: 3s; /* Tours: a linked view's results show after this even if the page's script never runs */
 
   /* Type (DESIGN.md §3). Roles live in typography.module.css. */
   --font: var(--font-geist), system-ui, sans-serif;

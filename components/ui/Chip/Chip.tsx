@@ -4,8 +4,9 @@ import styles from './Chip.module.css';
 
 const ICON_SIZE = 16;
 
-function Count({ value }: CountProps) {
-  return value === undefined ? null : <span className={styles.count}>{value}</span>;
+function Count({ value, inParens = false }: CountProps) {
+  if (value === undefined) return null;
+  return <span className={styles.count}>{inParens ? `(${value})` : value}</span>;
 }
 
 export function Chip(props: ChipProps) {
@@ -35,7 +36,7 @@ export function Chip(props: ChipProps) {
       return (
         <button {...rest} type={type} aria-expanded={expanded} className={classes}>
           {children}
-          <Count value={count} />
+          <Count value={count} inParens />
           <Icon name="caret" size={ICON_SIZE} className={styles.caret} />
         </button>
       );

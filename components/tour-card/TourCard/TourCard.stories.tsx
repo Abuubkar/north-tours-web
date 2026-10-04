@@ -148,3 +148,44 @@ export const OwnPrices: Story = {
 };
 
 export const OwnPricesOnLight: Story = { ...OwnPrices, globals: { surface: 'light' } };
+
+const GENERAL_MESSAGE = encodeURIComponent('Hi, I’d like to plan a trip north.');
+
+/**
+ * No dates left (Tours lists such a tour last): no tag and no seats line, "No upcoming dates · ask
+ * on WhatsApp" in place of the dates, the tour's own twin price, View Trip, and WhatsApp with the
+ * general message.
+ */
+export const NoUpcomingDates: Story = {
+  args: { departure: undefined },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText('No upcoming dates · ask on WhatsApp')).toBeVisible();
+    await expect(canvas.getByText('PKR 145,000')).toBeVisible();
+    await expect(canvas.queryByText(/seats? left|Sold out/)).toBeNull();
+    await expect(canvas.queryByText(/waitlist/)).toBeNull();
+    await expect(canvas.getByRole('link', { name: 'View Trip, Hunza & Skardu Grand' })).toHaveAttribute(
+      'href',
+      '/tours/hunza-skardu-grand',
+    );
+    await expect(canvas.getByRole('link', { name: 'Ask about Hunza & Skardu Grand on WhatsApp' })).toHaveAttribute(
+      'href',
+      `https://wa.me/?text=${GENERAL_MESSAGE}`,
+    );
+  },
+};
+
+export const NoUpcomingDatesOnLight: Story = { ...NoUpcomingDates, globals: { surface: 'light' } };
+
+export const NoUpcomingDatesPhone: Story = { ...NoUpcomingDates, globals: { viewport: { value: 'phone' } } };
+
+export const NoUpcomingDatesDesktop: Story = { ...NoUpcomingDates, globals: { viewport: { value: 'desktop' } } };
+
+/** First in a list at the top of a page: the photo loads straight away, with high priority. */
+export const Priority: Story = {
+  args: { priority: true },
+  play: async ({ canvas }) => {
+    const photo = canvas.getByRole('img', { name: sampleTour.image.alt });
+    await expect(photo).toHaveAttribute('loading', 'eager');
+    await expect(photo).toHaveAttribute('fetchpriority', 'high');
+  },
+};

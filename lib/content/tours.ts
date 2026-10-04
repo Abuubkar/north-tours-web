@@ -4,6 +4,7 @@ import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
 import { isoDate, latitude, longitude, nonEmpty, seasonSchema } from './fields.ts';
 import { imageSchema } from './images.ts';
+import { TRIP_TYPES } from '../utils/tourFilters.ts';
 
 const pkr = z.int('Use whole rupees').positive();
 
@@ -88,7 +89,7 @@ export const tourSchema = z
     /** Stops in order, e.g. ["Lahore", "Hunza", "Skardu"]. */
     route: z.array(nonEmpty).min(2, 'A route needs at least two stops'),
     destinations: z.array(slugSchema).min(1),
-    tripTypes: z.array(z.enum(['family', 'couples', 'friends', 'corporate'])).min(1),
+    tripTypes: z.array(z.enum(TRIP_TYPES)).min(1),
     days: z.int().positive(),
     nights: z.int().min(0),
     /** Per person, by room sharing (ADR-0017). "From" is worked out from these, never stored. */

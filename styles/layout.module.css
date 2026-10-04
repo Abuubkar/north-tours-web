@@ -162,3 +162,13 @@
     padding-right: var(--aside-gap);
   }
 }
+
+/* Read out by screen readers, never seen, and taking no room, e.g. a status message or a heading the design leaves out. */
+.visuallyHidden {
+  position: absolute;
+  width: var(--hidden-size);
+  height: var(--hidden-size);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

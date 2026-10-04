@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 
 export type DropdownProps = {
   /** Text on the trigger chip, e.g. "Destination" or "Sort: Soonest departure". */
@@ -9,4 +9,11 @@ export type DropdownProps = {
   active?: boolean;
   /** The option rows; supplied by the caller (Tours filters, sort). */
   children: ReactNode;
+  ref?: Ref<DropdownHandle>;
+};
+
+/** What a caller can do to an open dropdown. */
+export type DropdownHandle = {
+  /** Closes the panel (nothing happens if it's closed); focus inside it goes back to the chip. */
+  close: () => void;
 };
