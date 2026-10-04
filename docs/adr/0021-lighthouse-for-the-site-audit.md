@@ -27,6 +27,7 @@ Hosting is deferred (ADR-0007), so there's no public URL to measure.
 
 ## Consequences
 - The whole built site is checked against the bar in one command, and its table goes into PRs.
-- A full run takes several minutes, so it stays out of commits and tests.
+- A full run takes about 7 minutes, so it stays out of commits and tests.
+- Size: Lighthouse 13.5.0 is about 21 MB unpacked and adds about 100 dev packages (the lockfile's growth); `axe-core` 4.13.0 was already installed through `@storybook/addon-a11y`. Neither reaches the client bundle.
 - Lab numbers aren't field numbers: simulated throttling estimates a mid-range phone, and TBT only hints at INP.
 - Revisit when the site has a public URL and real-user data (analytics are out of scope, CLAUDE.md §11), or if Lighthouse drops its programmatic API.

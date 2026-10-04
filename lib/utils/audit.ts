@@ -4,7 +4,7 @@
  */
 
 /** The quality bar (CLAUDE.md §10): LCP and CLS fail over these; TBT, the lab stand-in for INP, only warns. */
-export const LIMITS = { lcp: 2500, cls: 0.1, tbt: 200 } as const;
+const LIMITS = { lcp: 2500, cls: 0.1, tbt: 200 } as const;
 
 /** Lighthouse's numbers for one page: LCP and TBT in milliseconds, CLS unitless. */
 export type Vitals = { lcp: number; cls: number; tbt: number };
@@ -22,10 +22,14 @@ export type PageFacts = {
 
 export type AxeViolation = { width: number; rule: string; targets: string[] };
 
-/** Everything measured on one page. `runs` is how many Lighthouse runs `vitals` is the median of. */
-export type PageAudit = { page: string; vitals: Vitals; runs: number; facts: PageFacts[]; violations: AxeViolation[] };
+/**
+ * Everything measured on one page. `runs` is how many Lighthouse runs `vitals` is the median of;
+ * `vitals` is null when Lighthouse couldn't measure the page.
+ */
+export type PageAudit = { page: string; vitals: Vitals | null; runs: number; facts: PageFacts[]; violations: AxeViolation[] };
 
-export type PageVerdict = { audit: PageAudit; failures: string[]; warnings: string[] };
+/** A page's failures and warnings; `checks` counts the failures that are page checks (not vitals or axe). */
+type PageVerdict = { audit: PageAudit; failures: string[]; checks: number; warnings: string[] };
 
 /** The page a built file serves, or null for Next's internal files: "tours/hunza-express.html" → "/tours/hunza-express". */
 function pageFor(file: string): string | null {
@@ -79,6 +83,19 @@ function factFailures(facts: PageFacts, buildFiles: ReadonlySet<string>): string
   return failures;
 }
 
+/** A page's titles, once each (they're the same at every width unless something is wrong). */
+const titlesOf = (facts: PageFacts[]) => new Set(facts.map((f) => f.title).filter(Boolean));
+
+/** LCP over 2.5 s and CLS over 0.1 fail; TBT over 200 ms only warns. */
+function vitalsVerdict(vitals: Vitals | null): { failures: string[]; warnings: string[] } {
+  if (!vitals) return { failures: ['Lighthouse couldn’t measure the page'], warnings: [] };
+  const failures: string[] = [];
+  if (vitals.lcp > LIMITS.lcp) failures.push(`LCP ${seconds(vitals.lcp)} is over ${seconds(LIMITS.lcp)}`);
+  if (vitals.cls > LIMITS.cls) failures.push(`CLS ${shift(vitals.cls)} is over ${LIMITS.cls}`);
+  const warnings = vitals.tbt > LIMITS.tbt ? [`TBT ${Math.round(vitals.tbt)} ms is over ${LIMITS.tbt} ms (the lab stand-in for INP)`] : [];
+  return { failures, warnings };
+}
+
 /**
  * Judges every page: LCP over 2.5 s or CLS over 0.1, any axe violation, and any page check
  * failing (exactly one `<h1>`, a `<title>` no other page shares, a meta description, `og:image`
@@ -88,39 +105,30 @@ function factFailures(facts: PageFacts, buildFiles: ReadonlySet<string>): string
 export function judgeSite(audits: PageAudit[], buildFiles: ReadonlySet<string>): PageVerdict[] {
   const pagesByTitle = new Map<string, string[]>();
   for (const { page, facts } of audits) {
-    for (const title of new Set(facts.map((f) => f.title).filter(Boolean))) {
-      pagesByTitle.set(title, [...(pagesByTitle.get(title) ?? []), page]);
-    }
+    for (const title of titlesOf(facts)) pagesByTitle.set(title, [...(pagesByTitle.get(title) ?? []), page]);
   }
 
   return audits.map((audit) => {
     const { vitals, facts, violations, page } = audit;
-    const failures: string[] = [];
-    if (vitals.lcp > LIMITS.lcp) failures.push(`LCP ${seconds(vitals.lcp)} is over ${seconds(LIMITS.lcp)}`);
-    if (vitals.cls > LIMITS.cls) failures.push(`CLS ${shift(vitals.cls)} is over ${LIMITS.cls}`);
-    for (const { width, rule, targets } of violations) failures.push(`${width}px: axe ${rule} on ${targets.join(', ')}`);
-    failures.push(...new Set(facts.flatMap((f) => factFailures(f, buildFiles))));
-    for (const title of new Set(facts.map((f) => f.title).filter(Boolean))) {
+    const checks = [...new Set(facts.flatMap((f) => factFailures(f, buildFiles)))];
+    for (const title of titlesOf(facts)) {
       const others = (pagesByTitle.get(title) ?? []).filter((other) => other !== page);
-      if (others.length > 0) failures.push(`<title> “${title}” is shared with ${others.join(', ')}`);
+      if (others.length > 0) checks.push(`<title> “${title}” is shared with ${others.join(', ')}`);
     }
-    const warnings = vitals.tbt > LIMITS.tbt ? [`TBT ${Math.round(vitals.tbt)} ms is over ${LIMITS.tbt} ms (the lab stand-in for INP)`] : [];
-    return { audit, failures, warnings };
+    const axe = violations.map(({ width, rule, targets }) => `${width}px: axe ${rule} on ${targets.join(', ')}`);
+    const measured = vitalsVerdict(vitals);
+    return { audit, failures: [...measured.failures, ...axe, ...checks], checks: checks.length, warnings: measured.warnings };
   });
 }
 
-/** How many page checks (not vitals or axe) failed. */
-const checkFailures = (verdict: PageVerdict) =>
-  verdict.failures.filter((f) => !/^(LCP|CLS) /.test(f) && !/^\d+px: axe /.test(f)).length;
-
 /** One Markdown table row per page, then each failure and warning in detail. */
 export function auditReport(verdicts: PageVerdict[]): string {
-  const rows = verdicts.map((verdict) => {
-    const { page, vitals, runs, violations } = verdict.audit;
-    const median = runs > 1 ? ` (median of ${runs})` : '';
-    const checks = checkFailures(verdict);
-    const result = verdict.failures.length > 0 ? 'fail' : verdict.warnings.length > 0 ? 'pass, TBT warning' : 'pass';
-    return `| ${page} | ${seconds(vitals.lcp)}${median} | ${shift(vitals.cls)} | ${Math.round(vitals.tbt)} ms | ${violations.length} | ${checks === 0 ? 'pass' : `${checks} failed`} | ${result} |`;
+  const rows = verdicts.map(({ audit, failures, checks, warnings }) => {
+    const { page, vitals, runs, violations } = audit;
+    const medianNote = runs > 1 ? ` (median of ${runs})` : '';
+    const numbers = vitals ? [`${seconds(vitals.lcp)}${medianNote}`, shift(vitals.cls), `${Math.round(vitals.tbt)} ms`] : ['–', '–', '–'];
+    const result = failures.length > 0 ? 'fail' : warnings.length > 0 ? 'pass, TBT warning' : 'pass';
+    return `| ${[page, ...numbers, violations.length, checks === 0 ? 'pass' : `${checks} failed`, result].join(' | ')} |`;
   });
   const table = ['| Page | LCP | CLS | TBT | Axe violations | Page checks | Result |', '|---|---|---|---|---|---|---|', ...rows].join('\n');
   const list = (title: string, pick: (v: PageVerdict) => string[]) => {

@@ -28,15 +28,22 @@ const COMPRESSED = /^(text\/|application\/(json|xml)|image\/svg)/;
 
 const isFile = (file: string) => existsSync(file) && statSync(file).isFile();
 
-/** The file a request path serves, or null for the 404 page. */
+/** The file a request path serves, or null for the 404 page: `/path` is `path.html`, a folder its `index.html`. */
 function fileFor(root: string, pathname: string): string | null {
-  const wanted = path.normalize(path.join(root, decodeURIComponent(pathname)));
-  if (!wanted.startsWith(root)) return null;
-  for (const candidate of [wanted, `${wanted.replace(/\/$/, '')}.html`, path.join(wanted, 'index.html')]) {
-    if (isFile(candidate)) return candidate;
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(pathname);
+  } catch {
+    return null;
   }
-  return null;
+  const wanted = path.join(root, decoded);
+  const inside = (file: string) => !path.relative(root, file).startsWith('..');
+  const candidates = decoded.endsWith('/') ? [path.join(wanted, 'index.html')] : [wanted, `${wanted}.html`];
+  return candidates.find((file) => inside(file) && isFile(file)) ?? null;
 }
+
+/** Each file's body, gzipped once for every request that accepts it. */
+const gzipped = new Map<string, Buffer>();
 
 /** Serves the export in `root` on a free localhost port. */
 export async function serveExport(root: string): Promise<{ origin: string; close: () => Promise<void> }> {
@@ -45,10 +52,11 @@ export async function serveExport(root: string): Promise<{ origin: string; close
     const file = fileFor(root, pathname);
     const served = file ?? path.join(root, '404.html');
     const type = TYPES[path.extname(served)] ?? 'application/octet-stream';
-    let body = readFileSync(served);
+    let body: Buffer = readFileSync(served);
     const headers: Record<string, string> = { 'Content-Type': type };
     if (COMPRESSED.test(type) && /\bgzip\b/.test(request.headers['accept-encoding'] ?? '')) {
-      body = gzipSync(body);
+      if (!gzipped.has(served)) gzipped.set(served, gzipSync(body));
+      body = gzipped.get(served)!;
       headers['Content-Encoding'] = 'gzip';
     }
     response.writeHead(file ? 200 : 404, { ...headers, 'Content-Length': String(body.length) });

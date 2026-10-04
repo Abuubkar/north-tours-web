@@ -21,7 +21,8 @@ export async function inspectPage(browser: Browser, url: string, width: number):
       const content = (selector: string) => document.querySelector(selector)?.getAttribute('content') ?? '';
       return {
         width: w,
-        h1s: document.querySelectorAll('h1').length,
+        // Only the <h1>s shown at this width: one hidden with display: none isn't read out either.
+        h1s: [...document.querySelectorAll('h1')].filter((h1) => h1.checkVisibility()).length,
         title: document.title.trim(),
         description: content('meta[name="description"]'),
         ogImage: content('meta[property="og:image"]'),

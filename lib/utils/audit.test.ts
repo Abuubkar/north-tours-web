@@ -78,6 +78,10 @@ describe('the audit’s judgement', () => {
     });
   });
 
+  it('fails a page Lighthouse couldn’t measure', () => {
+    expect(judge({ vitals: null }).failures).toEqual(['Lighthouse couldn’t measure the page']);
+  });
+
   it('fails on any axe violation, naming the width, rule and elements', () => {
     const violations = [{ width: 390, rule: 'color-contrast', targets: ['.price', '.seats'] }];
     expect(judge({ violations }).failures).toEqual(['390px: axe color-contrast on .price, .seats']);
@@ -123,6 +127,7 @@ describe('the audit’s table', () => {
           runs: 3,
           violations: [{ width: 1440, rule: 'region', targets: ['footer'] }],
         }),
+        audit({ page: '/help', facts: [facts(1440, { title: 'Help | North' })], vitals: null }),
       ],
       buildFiles,
     );
@@ -133,8 +138,9 @@ describe('the audit’s table', () => {
           '|---|---|---|---|---|---|---|',
           '| / | 2.40 s | 0.004 | 250 ms | 0 | pass | pass, TBT warning |',
           '| /tours | 2.70 s (median of 3) | 0.000 | 120 ms | 1 | 1 failed | fail |',
+          '| /help | – | – | – | 0 | pass | fail |',
         ].join('\n'),
-        'Failures (3)\n- /tours: LCP 2.70 s is over 2.50 s\n- /tours: 1440px: axe region on footer\n- /tours: 390px: 2 <h1>s',
+        'Failures (4)\n- /tours: LCP 2.70 s is over 2.50 s\n- /tours: 1440px: axe region on footer\n- /tours: 390px: 2 <h1>s\n- /help: Lighthouse couldn’t measure the page',
         'Warnings (1)\n- /: TBT 250 ms is over 200 ms (the lab stand-in for INP)',
       ].join('\n\n'),
     );

@@ -29,7 +29,7 @@ Reviews and guides added with `/add-review` and `/add-guide` are real and never 
 pnpm audit:site
 ```
 
-It builds the site, serves the static export on a free localhost port (as a static host would: `/path` serves `path.html`, an unknown path the 404 page with status 404, text gzipped) and checks every built page: each route, all eight tours, all six destinations and the 404. It prints one Markdown table (page, LCP, CLS, TBT, axe violations, page checks, result) for the PR, then each failure and warning in detail, and exits 1 on any failure. A full run takes about 10 minutes. It isn't part of `pnpm test`, the pre-commit hook or the build (ADR-0021).
+It builds the site, serves the static export on a free localhost port (as a static host would: `/path` serves `path.html`, an unknown path the 404 page with status 404, text gzipped) and checks every built page: each route, all eight tours, all six destinations and the 404. It prints one Markdown table (page, LCP, CLS, TBT, axe violations, page checks, result) for the PR, then each failure and warning in detail, and exits 1 on any failure. A full run takes about 7 minutes. It isn't part of `pnpm test`, the pre-commit hook or the build (ADR-0021).
 
 - **Lighthouse**, with its default mobile settings (a mid-range phone screen, simulated slow 4G, 4x CPU slowdown): fails on LCP over 2.5 s or CLS over 0.1. A page over a limit is run twice more and judged on the median of three, so one noisy run doesn't fail it.
 - **Axe** (axe-core's default rules) at 390 and 1440, with reduced motion so everything is in its final state: any violation fails, listed with page, width, rule and element.
