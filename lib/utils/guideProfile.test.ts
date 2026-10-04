@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Guide } from '../content/guides.ts';
-import { guideProfile, guideShareMessage, profileCounter, profileRows, steppedIndex } from './guideProfile.ts';
+import { guideForHash, guideProfile, guideShareMessage, profileCounter, profileRows, steppedIndex } from './guideProfile.ts';
 
 const words = {
   rows: { home: 'Home valley', joined: 'With us', languages: 'Languages', leads: 'Leads', licence: 'Licence' },
@@ -85,4 +85,20 @@ describe('profileCounter', () => {
     expect(profileCounter('{index} of {total}', 0, 6)).toBe('1 of 6');
     expect(profileCounter('{index} of {total}', 5, 6)).toBe('6 of 6');
   });
+});
+
+describe('guideForHash', () => {
+  const slugs = ['ali-raza', 'karim-baig'];
+
+  it('gives the guide a known #guide-{slug} links to', () => {
+    expect(guideForHash('#guide-ali-raza', slugs)).toBe('ali-raza');
+    expect(guideForHash('#guide-karim-baig', slugs)).toBe('karim-baig');
+  });
+
+  it.each(['', '#', '#guides', '#guide-', '#guide-sana-qureshi', '#Guide-Ali-Raza', '#guide-ali-raza-2', '#guide-ali-raza?x', 'guide-ali-raza', '#reviews'])(
+    'gives none for %j',
+    (hash) => {
+      expect(guideForHash(hash, slugs)).toBeNull();
+    },
+  );
 });

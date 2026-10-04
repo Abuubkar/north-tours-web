@@ -5,6 +5,7 @@ import { opacityUpTo } from '../../../.storybook/opacity';
 import { realUser } from '../../../.storybook/realUser';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
 import { roomAbove } from '../../../.storybook/scrollRoom';
+import { atHash } from '../../../.storybook/storyUrl';
 import { sampleAbout } from '@/sections/sampleAbout';
 import { sampleProfiles } from '../sampleProfiles';
 import { GuideTeam } from './GuideTeam';
@@ -15,7 +16,13 @@ const meta = {
   args: { profiles: sampleProfiles, copy: sampleAbout.guides },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
-  beforeEach: emulateReducedMotion,
+  // Opening a profile writes its anchor into the URL; each story starts with none and puts the URL back after.
+  beforeEach: [
+    async () => {
+      await emulateReducedMotion();
+    },
+    atHash(''),
+  ],
 } satisfies Meta<typeof GuideTeam>;
 
 export default meta;
@@ -234,5 +241,95 @@ export const ReducedMotion: Story = {
   play: async ({ canvas }) => {
     await new Promise((resolve) => setTimeout(resolve, 100));
     for (const cell of canvas.getAllByRole('listitem')) await expect(cell).not.toHaveAttribute('data-rise');
+  },
+};
+
+/** Within the viewport. */
+const inView = (element: HTMLElement) => {
+  const { top, bottom } = element.getBoundingClientRect();
+  return top >= 0 && bottom <= window.innerHeight;
+};
+
+/**
+ * Arriving on `/about#guide-ali-raza`: Ali Raza's profile opens after load, his card in view.
+ * Escape closes it; with no card behind a link, focus moves to his card, and the hash is cleared.
+ */
+export const OpensFromLink: Story = {
+  beforeEach: atHash('#guide-ali-raza'),
+  play: async ({ canvas }) => {
+    const dialog = await canvas.findByRole('dialog', { name: 'Ali Raza' });
+    const card = canvas.getByRole('button', { name: cardName('Ali Raza'), hidden: true });
+    // The card carries the anchor, so the browser scrolls to it on arrival (a story's URL changes without a load, so it's done here).
+    await expect(document.getElementById('guide-ali-raza')).toBe(card);
+    card.scrollIntoView();
+    await expect(inView(card)).toBe(true);
+    await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Close' })).toHaveFocus());
+    const keys = await realUser();
+    if (!keys) return;
+    await keys.keyboard('{Escape}');
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
+    await expect(card).toHaveFocus();
+    await waitFor(() => expect(window.location.hash).toBe(''));
+  },
+};
+
+export const OpensFromLinkOnLight: Story = { ...OpensFromLink, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const OpensFromLinkPhone: Story = { ...OpensFromLink, globals: { viewport: { value: 'phone' } } };
+
+/**
+ * Next and previous write the shown guide's anchor with replaceState: after Next twice the hash
+ * is the third guide's, with no new history entry. Closing focuses the shown guide's card.
+ */
+export const HashFollowsProfile: Story = {
+  beforeEach: atHash('#guide-karim-baig'),
+  play: async ({ canvas, userEvent }) => {
+    const dialog = await canvas.findByRole('dialog', { name: 'Karim Baig' });
+    const entries = window.history.length;
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Next profile' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Next profile' }));
+    await expect(dialog).toHaveAccessibleName('Ali Raza');
+    await expect(window.location.hash).toBe('#guide-ali-raza');
+    await expect(window.history.length).toBe(entries);
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
+    await expect(canvas.getByRole('button', { name: cardName('Ali Raza') })).toHaveFocus();
+    await waitFor(() => expect(window.location.hash).toBe(''));
+    await expect(window.location.search).not.toBe('');
+  },
+};
+
+/** Opening from a card writes its anchor; closing clears it and focus returns to the card. */
+export const CardWritesHash: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const entries = window.history.length;
+    const { card, dialog } = await openWithKey(canvas, 'Sajjad Hussain');
+    await expect(window.location.hash).toBe('#guide-sajjad-hussain');
+    await expect(window.history.length).toBe(entries);
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
+    await waitFor(() => expect(window.location.hash).toBe(''));
+    await expect(card).toHaveFocus();
+  },
+};
+
+/** An unknown guide's anchor opens nothing. */
+export const UnknownGuide: Story = {
+  beforeEach: atHash('#guide-nobody'),
+  play: async ({ canvas }) => {
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    await expect(canvas.queryByRole('dialog')).toBeNull();
+    await expect(window.location.hash).toBe('#guide-nobody');
+  },
+};
+
+/** A later hash change to a guide's anchor opens that profile, and another switches to it. */
+export const HashChange: Story = {
+  play: async ({ canvas }) => {
+    await expect(canvas.queryByRole('dialog')).toBeNull();
+    window.location.hash = '#guide-sana-qureshi';
+    await expect(await canvas.findByRole('dialog', { name: 'Sana Qureshi' })).toBeVisible();
+    window.location.hash = '#guide-ghulam-nabi';
+    await waitFor(() => expect(canvas.getByRole('dialog')).toHaveAccessibleName('Ghulam Nabi'));
   },
 };

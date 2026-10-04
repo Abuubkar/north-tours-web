@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useGuideProfile } from '@/hooks/useGuideProfile';
 import { useRiseOnView } from '@/hooks/useRiseOnView';
 import { GuideCard } from '../GuideCard/GuideCard';
@@ -9,14 +9,16 @@ import type { GuideTeamProps } from './GuideTeam.types';
 import styles from './GuideTeam.module.css';
 
 /**
- * About's guides and drivers: a card per guide, each opening their profile in the sheet. The
- * cards rise once (M4), the page's one entrance animation. Closing returns focus to the card
- * that opened the profile (the dialog does that), even after moving through other guides.
+ * About's guides and drivers: a card per guide, each opening their profile in the sheet, and
+ * `/about#guide-{slug}` opening it on arrival. The cards rise once (M4), the page's one entrance
+ * animation. Closing returns focus to the card that opened the profile, even after moving
+ * through other guides.
  */
 export function GuideTeam({ profiles, copy }: GuideTeamProps) {
   const list = useRef<HTMLUListElement>(null);
   useRiseOnView(list);
-  const { shown, stepped, open, step, close } = useGuideProfile(profiles.length);
+  const slugs = useMemo(() => profiles.map((profile) => profile.slug), [profiles]);
+  const { shown, stepped, open, step, close } = useGuideProfile(slugs);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import type { Guide } from '../content/guides.ts';
-import { routes } from '../routes.ts';
+import { guideAnchor, routes } from '../routes.ts';
 import { fillTokens } from './tokens.ts';
 import { whatsappShareLink } from './whatsapp.ts';
 
@@ -81,4 +81,12 @@ export function steppedIndex(index: number, step: 1 | -1, total: number): number
 /** "2 of 6": where a guide sits in the team, from a "{index} of {total}" template; `index` counts from 0. */
 export function profileCounter(template: string, index: number, total: number): string {
   return fillTokens(template, { index: String(index + 1), total: String(total) });
+}
+
+/**
+ * The guide a URL hash links to: "#guide-karim-baig" gives "karim-baig" when that guide is in
+ * `slugs`. Any other hash gives null: none, "#guides", an unknown guide, other case or extra text.
+ */
+export function guideForHash(hash: string, slugs: readonly string[]): string | null {
+  return slugs.find((slug) => hash === `#${guideAnchor(slug)}`) ?? null;
 }
