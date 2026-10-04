@@ -61,11 +61,13 @@ export function copyWith(...allowed: string[]) {
 export const copy = copyWith();
 
 /**
- * Marks an object holding an invented claim about the company (ADR-0019): only `true`. The
- * owner confirms the claim by removing the field. Never shown on the site.
+ * Marks sample content: an invented claim about the company (ADR-0019), sample legal text
+ * (ADR-0020), or a sample tour, rating, destination, guide, review or settings figure
+ * (ADR-0022). Only `true`; the owner confirms the item by removing the field. Never shown on the
+ * site; `pnpm launch:check` lists it.
  */
 export const sample = z
-  .literal(true, { error: 'Use sample: true for an invented claim, or remove the field once it’s confirmed (ADR-0019)' })
+  .literal(true, { error: 'Use sample: true for sample content, or remove the field once it’s real (ADR-0019, ADR-0022)' })
   .optional();
 
 /**

@@ -23,7 +23,7 @@ This is a content-only task (CLAUDE.md §7). Create one file in `content/guides/
    If any required field is missing, ask.
 4. **Portrait:** always a placeholder for now: `{ "placeholder": "<role in lower case> in <base>", "alt": "<name>, <role in lower case>" }`, e.g. `"guide in Swat"`. Photos of people come only from the owner (ADR-0009) and are added once the image pipeline exists; if the owner offers a photo, say so and keep the placeholder. Never use a stock photo.
 5. **Slug and file name:** from the name in lower case with hyphens, e.g. `karim-baig`, saved as `content/guides/<slug>.json`. If the file already exists, ask rather than overwrite it.
-6. **Write the file** in the same shape as the existing guides, with `"consent": true`.
+6. **Write the file** in the same shape as the existing guides, with `"consent": true`. A guide added here is real: never add `"sample": true`, even though the existing sample guides carry it (ADR-0022).
 7. **Check:** run `pnpm content:check`. If it fails, delete the new file and report the problem.
 8. **Show the change:** run `git status --short content/` and show the new file's contents (`cat <file>`); `git diff` doesn't show new files. Then summarise it in one line.
 9. Don't commit or push unless asked. The change goes live after the next build (ADR-0003).

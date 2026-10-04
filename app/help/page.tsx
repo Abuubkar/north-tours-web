@@ -4,9 +4,12 @@ import { HelpProvider } from '@/components/help/HelpProvider/HelpProvider';
 import { HelpSearch } from '@/components/help/HelpSearch/HelpSearch';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
+import { JsonLd } from '@/components/seo/JsonLd/JsonLd';
 import { getHelpPage } from '@/lib/content/helpPage';
 import { getHelpCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
+import { routes } from '@/lib/routes';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { ClosingCta } from '@/sections/ClosingCta/ClosingCta';
 import { HelpFaqs } from '@/sections/HelpFaqs/HelpFaqs';
@@ -24,10 +27,12 @@ export function generateMetadata(): Metadata {
  * one state in the browser; the rest is static.
  */
 export default function HelpPage() {
-  const { copy, settings, categories, policies, askHref, callHref, sharePhoto } = getHelpPage();
+  const { copy, settings, categories, structuredData, policies, askHref, callHref, sharePhoto } = getHelpPage();
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
+      <CanonicalMeta path={routes.help} siteUrl={settings.site.url} />
+      <JsonLd data={structuredData.faqs} />
       <HelpProvider categories={categories}>
         <PageHeader variant="help" headline={copy.header.headline} search={<HelpSearch copy={copy.search} />} />
         <HelpFaqs copy={copy} askHref={askHref} />

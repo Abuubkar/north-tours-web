@@ -5,6 +5,7 @@ import { TourFiltersProvider } from '@/components/filters/TourFiltersProvider/To
 import { TourResults } from '@/components/filters/TourResults/TourResults';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
 import { getToursCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
 import { getToursPage } from '@/lib/content/toursPage';
@@ -32,6 +33,7 @@ export default function ToursPage() {
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
+      <CanonicalMeta path={routes.tours} siteUrl={settings.site.url} />
       {/* Before the results are painted: a linked view keeps them hidden until it's applied. */}
       <script dangerouslySetInnerHTML={{ __html: PENDING_SCRIPT }} />
       <PageHeader headline={copy.header.headline} lead={copy.header.lead} />

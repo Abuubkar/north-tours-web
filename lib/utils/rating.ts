@@ -1,4 +1,10 @@
+import type { Review } from '../content/reviews.ts';
+import type { Tour } from '../content/tours.ts';
+
 const countFormat = new Intl.NumberFormat('en-PK');
+
+/** Ratings are out of this many stars. */
+export const BEST_RATING = 5;
 
 /** Average score shown with one decimal, as in the design: 4.9, 5.0. */
 export function formatScore(score: number): string {
@@ -17,12 +23,12 @@ export function reviewsText(count: number): string {
 
 /** What a screen reader hears for an inline rating: "4.9 out of 5, 128 reviews". */
 export function ratingLabel(score: number, count: number): string {
-  return `${formatScore(score)} out of 5, ${reviewsText(count)}`;
+  return `${formatScore(score)} out of ${BEST_RATING}, ${reviewsText(count)}`;
 }
 
 /** What a screen reader hears for a row of stars: "4 out of 5 stars". */
 export function starsLabel(rating: number): string {
-  return `${rating} out of 5 stars`;
+  return `${rating} out of ${BEST_RATING} stars`;
 }
 
 /**
@@ -40,4 +46,14 @@ export function ratingSummary(ratings: readonly RatingSummary[]): RatingSummary 
 /** The words after the score in a rating summary: "average · 699 reviews" ("1 review" in the singular). */
 export function summaryText(count: number): string {
   return `average · ${reviewsText(count)}`;
+}
+
+/** A tour's rating is real once neither the tour nor its rating is flagged sample (ADR-0022), and it counts reviews. */
+export function hasRealRating(tour: Pick<Tour, 'rating' | 'sample'>): boolean {
+  return !tour.sample && !tour.rating.sample && tour.rating.count > 0;
+}
+
+/** The reviews that aren't flagged sample (ADR-0022). */
+export function realReviews<T extends Pick<Review, 'sample'>>(reviews: readonly T[]): T[] {
+  return reviews.filter((review) => !review.sample);
 }

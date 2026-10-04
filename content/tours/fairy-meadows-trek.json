@@ -29,7 +29,8 @@
   },
   "rating": {
     "score": 4.9,
-    "count": 73
+    "count": 73,
+    "sample": true
   },
   "image": {
     "src": "/images/fairy-meadows/nanga-parbat.jpg",
@@ -372,5 +373,6 @@
       "question": "Will the altitude affect me?",
       "answer": "Fairy Meadows is about 3,300 m. Most travellers feel only a little breathless on the walk up. Drink water, take it slowly, and tell us about any heart or breathing conditions before you book."
     }
-  ]
+  ],
+  "sample": true
 }

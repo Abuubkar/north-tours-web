@@ -46,6 +46,7 @@ export const placeholderSettings: Settings = {
     whatsappLabel: 'WhatsApp first',
     image: { placeholder: 'The office front from the street, sign visible', alt: 'Our office in Lahore' },
   },
+  maps: { surveyOfPakistanVetted: false },
   whatsapp: {
     generalMessage: 'Hi, I’d like to plan a trip north.',
     footerIntro:

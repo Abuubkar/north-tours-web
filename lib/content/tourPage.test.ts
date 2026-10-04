@@ -20,4 +20,11 @@ describe('getTourPage', () => {
     for (const { tourTitle } of reviews) expect(tourTitle).toBe('Hunza & Skardu Grand');
     expect(getTourPage('hunza-express').reviews).toEqual([]);
   });
+
+  it('marks up the questions it shows, as shown, and no rating or review while they’re sample', () => {
+    const { questions, structuredData } = getTourPage('hunza-skardu-grand');
+    const marked = structuredData.faqs.mainEntity as { name: string; acceptedAnswer: { text: string } }[];
+    expect(marked.map((q) => [q.name, q.acceptedAnswer.text])).toEqual(questions.map((q) => [q.question, q.answer]));
+    expect(structuredData.trip).toMatchObject({ '@type': 'TouristTrip', aggregateRating: undefined, review: undefined });
+  });
 });

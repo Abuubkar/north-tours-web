@@ -1,5 +1,6 @@
 import type { HelpCategory } from '../utils/helpAnswers.ts';
 import { phoneHref } from '../utils/contact.ts';
+import { faqPage } from '../utils/structuredData.ts';
 import { refundTableRows } from '../utils/refundTable.ts';
 import { fillTokens, textTokens } from '../utils/tokens.ts';
 import { whatsappLink } from '../utils/whatsapp.ts';
@@ -45,6 +46,7 @@ export function helpCtaLead(copy: HelpCopy, settings: Settings): string {
 export function getHelpPage() {
   const settings = getSettings();
   const copy = getHelpCopy();
+  const categories = helpCategories(getFaqs(), settings);
   return {
     copy: {
       ...copy,
@@ -56,7 +58,9 @@ export function getHelpPage() {
     askHref: whatsappLink(settings.contact.whatsapp, settings.whatsapp.generalMessage),
     /** "Call us": only once the phone number is real. */
     callHref: phoneHref(settings.contact.phone),
-    categories: helpCategories(getFaqs(), settings),
+    categories,
+    /** For search engines: every question, in page order. */
+    structuredData: { faqs: faqPage(categories.flatMap((category) => category.questions)) },
     policies: helpPolicies(copy, settings),
     /** The page has no photo of its own, so it shares the Homepage's. */
     sharePhoto: getHomeCopy().hero.image,

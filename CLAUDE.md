@@ -177,6 +177,15 @@ Folders are created only when the first file for them is needed (section 3).
   Privacy Policy and the Terms, until the owner's lawyer has reviewed them. Settings figures appear in
   them only as `{tokens}`. The Privacy Policy describes the site as built: a change that adds a
   cookie, analytics, a form that sends data or a request to another host updates it in the same PR.
+- **Sample tours, destinations, guides and reviews carry the same `sample: true` (ADR-0022)**, at
+  the top of each file, and so does each tour's `rating` on its own and the settings sections with
+  invented figures (`booking`, `trust`, `policies`). Reviews and guides added with `/add-review` and
+  `/add-guide` are real and never get it.
+- **`pnpm launch:check`** lists everything that must be real before launch, by file and field: the
+  brand name, the site URL, every `[placeholder]` (whole or partial), every `sample: true`, every
+  placeholder photo and the maps' Survey of Pakistan vetting (`maps.surveyOfPakistanVetted`). It fails
+  until nothing is left; it isn't part of the build, `pnpm test` or the pre-commit hook. See
+  `docs/launch-checklist.md`.
 
 ## 8. Design rules
 
@@ -227,6 +236,9 @@ Folders are created only when the first file for them is needed (section 3).
   - exactly one `<h1>` per page, and correct heading order (no skipped levels). Type roles
     are visual only: a role named "H1" or "Display" does not make an element a heading.
 - Every page has its own `<title>`, meta description and social share image.
+- **`pnpm audit:site`** checks the bar against the built site: Lighthouse (LCP, CLS, TBT) and axe on
+  every page, with the page checks above (ADR-0021). It's slow, so it runs on demand, not in
+  `pnpm test` or the pre-commit hook.
 - No console errors. Type-check, lint and `pnpm test` pass.
 - **Components have stories** covering their variants and states. Behaviour is tested in story
   `play` functions only; no separate component `.test.tsx` files (ADR-0012).

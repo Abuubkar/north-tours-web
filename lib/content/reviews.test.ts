@@ -53,4 +53,9 @@ describe('reviews', () => {
   it('rejects a slug that does not match the file name', () => {
     expect(fields(loadReview((r) => Object.assign(r, { slug: 'another-review' })))).toEqual(['slug']);
   });
+
+  it('flags a sample review only with true (ADR-0022)', () => {
+    expect(fields(loadReview((r) => Object.assign(r, { sample: true })))).toEqual([]);
+    expect(fields(loadReview((r) => Object.assign(r, { sample: false })))).toEqual(['sample']);
+  });
 });

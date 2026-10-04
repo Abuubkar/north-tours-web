@@ -20,5 +20,6 @@
     "placeholder": "driver with the Prado in Swat",
     "alt": "Imran Khattak, driver"
   },
-  "consent": true
+  "consent": true,
+  "sample": true
 }

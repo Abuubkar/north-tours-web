@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import type { Settings } from '../content/settings.ts';
 import { shareSrc } from './images.ts';
-import { isPlaceholder } from './placeholder.ts';
+import { siteUrlFor } from './siteUrl.ts';
 
 /** "{page title} | {brand}": page copy holds only the page's part. */
 export function pageTitle(title: string, brand: string): string {
@@ -28,9 +28,8 @@ export function pageMetadata(
 
 /**
  * The share image's URL. Open Graph wants an absolute URL, but the domain isn't known yet
- * (ADR-0007): while the site URL is a `[placeholder]` it's root-relative.
+ * (ADR-0007): while the site URL is a `[placeholder]` it's root-relative (`siteUrlFor`).
  */
 export function shareImageUrl(src: string, siteUrl: string): string {
-  const path = shareSrc(src);
-  return isPlaceholder(siteUrl) ? path : new URL(path, siteUrl).href;
+  return siteUrlFor(shareSrc(src), siteUrl);
 }

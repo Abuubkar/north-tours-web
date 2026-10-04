@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { consent } from './consent.ts';
 import { CONTENT_DIR, requireItems } from './files.ts';
-import { nonEmpty, yearMonth } from './fields.ts';
+import { nonEmpty, sample, yearMonth } from './fields.ts';
 import { checkReviewLinks } from './links.ts';
 import { loadTours } from './tours.ts';
 
@@ -19,6 +19,8 @@ const reviewSchema = z.strictObject({
   rating: z.literal([1, 2, 3, 4, 5], 'Use a whole number of stars, 1 to 5'),
   quote: nonEmpty,
   consent,
+  /** A sample review (ADR-0022). `/add-review` writes real reviews, never flagged. */
+  sample,
 });
 
 export type Review = z.infer<typeof reviewSchema>;

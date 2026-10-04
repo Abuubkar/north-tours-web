@@ -28,7 +28,8 @@
   },
   "rating": {
     "score": 4.7,
-    "count": 41
+    "count": 41,
+    "sample": true
   },
   "image": {
     "src": "/images/hunza/eagles-nest.jpg",
@@ -437,5 +438,6 @@
       "question": "What are the roads like? What if the weather delays us?",
       "answer": "The Karakoram Highway is paved but mountainous, and landslides can close sections, especially in spring. Your driver adjusts the plan and we keep you updated on WhatsApp. If a closure adds a night, we arrange the hotel and agree the cost with you before you decide."
     }
-  ]
+  ],
+  "sample": true
 }

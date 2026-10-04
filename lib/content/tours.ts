@@ -2,7 +2,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
-import { isoDate, latitude, longitude, nonEmpty, seasonSchema } from './fields.ts';
+import { isoDate, latitude, longitude, nonEmpty, sample, seasonSchema } from './fields.ts';
 import { imageSchema } from './images.ts';
 import { TRIP_TYPES } from '../utils/tourFilters.ts';
 
@@ -100,9 +100,11 @@ export const tourSchema = z
     transport: nonEmpty,
     /** The best months for this trip. */
     bestSeason: seasonSchema,
+    /** Flagged on its own (ADR-0022), so a real tour can still carry a sample rating. */
     rating: z.strictObject({
       score: z.number().min(1).max(5).multipleOf(0.1),
       count: z.int().min(0),
+      sample,
     }),
     image: imageSchema,
     departures: z.array(departureSchema),
@@ -128,6 +130,8 @@ export const tourSchema = z
       .array(z.strictObject({ question: nonEmpty, answer: nonEmpty }))
       .min(2, 'List at least 2 questions')
       .max(4, 'List at most 4 questions'),
+    /** A sample tour (ADR-0022), until the owner confirms it. */
+    sample,
   })
   .refine((t) => t.nights <= t.days, { message: 'Can’t have more nights than days', path: ['nights'] })
   .superRefine((tour, ctx) => {

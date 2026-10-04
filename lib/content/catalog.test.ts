@@ -276,4 +276,15 @@ describe('catalogAsOf', () => {
     });
     expect(() => catalogAsOf('2027-01-01', dir)).toThrow(/destinations\/hunza\.json › region/);
   });
+
+  it('flags a sample tour and its rating only with true (ADR-0022)', () => {
+    expect(fields(load((t) => Object.assign(t, { sample: true }, { rating: { ...t.rating, sample: true } })))).toEqual([]);
+    expect(fields(load((t) => Object.assign(t, { sample: false })))).toEqual(['sample']);
+    expect(fields(load((t) => Object.assign(t.rating, { sample: 'yes' })))).toEqual(['rating.sample']);
+  });
+
+  it('flags a sample destination only with true (ADR-0022)', () => {
+    expect(fields(load((_, d) => Object.assign(d, { sample: true })))).toEqual([]);
+    expect(fields(load((_, d) => Object.assign(d, { sample: false })))).toEqual(['sample']);
+  });
 });

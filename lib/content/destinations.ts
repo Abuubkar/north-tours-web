@@ -2,7 +2,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
-import { latitude, longitude, nonEmpty, seasonSchema } from './fields.ts';
+import { latitude, longitude, nonEmpty, sample, seasonSchema } from './fields.ts';
 import { imageSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { bestSeasonProblems, MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
@@ -66,6 +66,8 @@ export const destinationSchema = z
     notes: z.array(z.strictObject({ title: nonEmpty, text: nonEmpty })).max(6, 'List at most 6 notes').optional(),
     /** Names on the places map for context, e.g. "Karimabad"; one beyond the map shows at its edge ("↓ Gilgit"). */
     mapLabels: z.array(z.strictObject({ name: nonEmpty, lat: latitude, lon: longitude })).optional(),
+    /** A sample destination (ADR-0022), until the owner confirms it. */
+    sample,
   })
   .superRefine((destination, ctx) => {
     for (const { month, message } of bestSeasonProblems(destination.months, destination.bestSeason)) {

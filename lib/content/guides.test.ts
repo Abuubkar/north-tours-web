@@ -96,4 +96,9 @@ describe('guide profiles', () => {
   it('checks the live guides against the live settings', () => {
     expect(loadGuides().problems).toEqual([]);
   });
+
+  it('flags a sample guide only with true (ADR-0022)', () => {
+    expect(fields(loadGuide((g) => Object.assign(g, { sample: true })))).toEqual([]);
+    expect(fields(loadGuide((g) => Object.assign(g, { sample: false })))).toEqual(['sample']);
+  });
 });
