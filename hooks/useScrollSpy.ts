@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { sectionInView, SPY_LINE } from '@/lib/utils/nav';
+import { sectionInView } from '@/lib/utils/scrollSpy';
 
 /**
- * Which of the sections with these ids is in view (lib/utils/nav `sectionInView`), updated as
- * the page scrolls. An IntersectionObserver watches the band above the line (40% of the
- * viewport unless given), so the work happens only when a section crosses it, not on every
- * scroll event. Null with no ids. `ids` must be a stable array (a constant, or memoised).
+ * Which of the sections with these ids is in view (lib/utils/scrollSpy `sectionInView`), updated
+ * as the page scrolls. An IntersectionObserver watches the band above the line (a fraction of
+ * the viewport's height), so the work happens only when a section crosses it, not on every
+ * scroll event. `ids` must be a stable array (a constant, or memoised).
  */
-export function useScrollSpy<T extends string>(ids: readonly T[], line: number = SPY_LINE): T | null {
+export function useScrollSpy<T extends string>(ids: readonly T[], line: number): T | null {
   const [active, setActive] = useState<T | null>(null);
 
   useEffect(() => {
@@ -27,5 +27,5 @@ export function useScrollSpy<T extends string>(ids: readonly T[], line: number =
     return () => observer.disconnect();
   }, [ids, line]);
 
-  return ids.length === 0 ? null : active;
+  return active;
 }

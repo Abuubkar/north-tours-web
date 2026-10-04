@@ -11,7 +11,7 @@ const variantClass = { results: styles.inResults, section: styles.ownSection };
 /**
  * The offer of a private trip: a photo, the headline and lead, then the planner and WhatsApp.
  * Tours shows it inside the results after the first row, with a hairline below; a destination
- * page as its own section, with a hairline above.
+ * page and the destinations page as its own section, with a hairline above.
  */
 export function PrivateTripBanner({ copy, planHref, whatsappHref, variant = 'results' }: PrivateTripBannerProps) {
   return (

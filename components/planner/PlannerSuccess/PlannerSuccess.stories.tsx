@@ -22,7 +22,7 @@ export const Desktop: Story = {
     await expect(thanks).toHaveAttribute('tabindex', '-1');
     await expect(canvas.getByText(/Check WhatsApp, we’ll reply within 2 hours/)).toBeVisible();
     await expect(canvas.getByRole('link', { name: 'Browse tours' })).toHaveAttribute('href', '/tours');
-    await expect(canvas.getByRole('link', { name: 'Explore destinations' })).toHaveAttribute('href', '/#destinations');
+    await expect(canvas.getByRole('link', { name: 'Explore destinations' })).toHaveAttribute('href', '/destinations');
     await expect(canvas.getByRole('button', { name: 'Plan another trip' })).toBeVisible();
   },
 };

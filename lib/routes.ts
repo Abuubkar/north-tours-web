@@ -34,6 +34,8 @@ export const routes = {
   /** The Tours page filtered, e.g. "See all Hunza trips": /tours?dest=hunza (lib/utils/toursSearch). */
   toursWith: (filters: Partial<TourFilters>) => `/tours${toursSearch(filters)}`,
   tour: (slug: string) => `/tours/${slug}`,
+  /** Every destination on one page (PRD #118). */
+  destinations: '/destinations',
   destination: (slug: string) => `/destinations/${slug}`,
   plan: '/plan',
   /** The Trip Planner with a destination chosen: /plan?dest=hunza (the Planner pre-selects it). */
@@ -50,15 +52,11 @@ export const routes = {
   credits: '/credits',
   /** One guide's profile on the About page. */
   guide: (slug: string) => `/about${guideHash(slug)}`,
-
-  /* Sections the nav jumps to. */
-  how: '/#how',
-  destinations: '/#destinations',
-  reviews: '/#reviews',
+  /** About's guides, for the Homepage's "Meet the team". */
   guides: '/about#guides',
 } as const;
 
-/** A page in the route map by name, for copy that links to one: "plan" is /plan, "destinations" /#destinations. */
+/** A page in the route map by name, for copy that links to one: "plan" is /plan, "policies" /help#policies. */
 export type PageName = { [K in keyof typeof routes]: (typeof routes)[K] extends string ? K : never }[keyof typeof routes];
 
 /** Every name whose route is a fixed path, not a function of a slug or filters. */

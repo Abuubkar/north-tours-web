@@ -17,7 +17,7 @@ const PHOTO = {
  * A destination with its photo and best season. The whole card is one link to the destination's
  * page, named by the destination; the season (and, on a destination page, its tours) describes it.
  */
-export function DestinationCard({ destination, variant = 'home', seasonLabel, details }: DestinationCardProps) {
+export function DestinationCard({ destination, variant = 'home', seasonLabel, priority, details }: DestinationCardProps) {
   const id = `destination-${destination.slug}`;
   return (
     <a
@@ -26,7 +26,7 @@ export function DestinationCard({ destination, variant = 'home', seasonLabel, de
       aria-labelledby={`${id}-name`}
       aria-describedby={`${id}-season`}
     >
-      <MediaFrame image={destination.image} ratio={PHOTO[variant].ratio} sizes={PHOTO[variant].sizes} />
+      <MediaFrame image={destination.image} ratio={PHOTO[variant].ratio} sizes={PHOTO[variant].sizes} priority={priority} />
       <div className={styles.text}>
         <h3 id={`${id}-name`} className={styles.name}>
           {destination.name}

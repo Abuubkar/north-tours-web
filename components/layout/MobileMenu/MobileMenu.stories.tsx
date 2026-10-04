@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import { markedLinks, scrollToSection, SpySections } from '../../../.storybook/spySections';
+import { markedLinks, onPath } from '../../../.storybook/markedLinks';
 import { realUser } from '../../../.storybook/realUser';
+import { roomBelow, scrollThrough } from '../../../.storybook/scrollRoom';
 import { MobileMenu } from './MobileMenu';
 
 const WHATSAPP = 'https://wa.me/?text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
@@ -10,7 +11,7 @@ const meta = {
   title: 'Layout/MobileMenu',
   component: MobileMenu,
   args: { whatsappHref: WHATSAPP },
-  parameters: { nextjs: { appDirectory: true, navigation: { pathname: '/tours' } } },
+  parameters: onPath('/tours'),
   globals: { viewport: { value: 'phone' } },
 } satisfies Meta<typeof MobileMenu>;
 
@@ -38,23 +39,25 @@ export const Opens: Story = {
 
 export const OpensOnLight: Story = { ...Opens, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
-/** The five nav links, the current page's in gold, then "Plan on WhatsApp". */
+/** The five pages, the current page's in gold, then "Plan on WhatsApp". */
 export const Contents: Story = {
   play: async ({ canvas, userEvent }) => {
     const menu = within(await openMenu(canvas, userEvent));
     const links = within(menu.getByRole('navigation', { name: 'Main' })).getAllByRole('link');
-    await expect(links.map((link) => link.textContent)).toEqual([
-      'Tours',
-      'How it works',
-      'Destinations',
-      'Guides',
-      'Reviews',
+    await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual([
+      ['Tours', '/tours'],
+      ['Destinations', '/destinations'],
+      ['Private trips', '/plan'],
+      ['About', '/about'],
+      ['Contact', '/contact'],
     ]);
     await expect(links.filter((link) => link.getAttribute('aria-current') === 'page')).toEqual([links[0]]);
     for (const link of links) await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
     await expect(menu.getByRole('link', { name: 'Plan on WhatsApp' })).toHaveAttribute('href', WHATSAPP);
   },
 };
+
+export const ContentsOnLight: Story = { ...Contents, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
 /** Escape closes it and focus returns to the menu button (real key press). */
 export const Escape: Story = {
@@ -84,7 +87,7 @@ export const LinkCloses: Story = {
     const menu = within(await openMenu(canvas, userEvent));
     // Leaving the page would end the test run, so the navigation itself is cancelled.
     canvasElement.addEventListener('click', (event) => event.preventDefault(), { once: true });
-    await userEvent.click(menu.getByRole('link', { name: 'Reviews' }));
+    await userEvent.click(menu.getByRole('link', { name: 'Contact' }));
     await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
   },
 };
@@ -97,22 +100,29 @@ export const HiddenOnDesktop: Story = {
   },
 };
 
-/** On the Homepage at 390, the menu marks the section in view, as the header does. */
-export const ScrollSpy: Story = {
-  parameters: { nextjs: { appDirectory: true, navigation: { pathname: '/' } } },
-  render: (args) => (
-    <>
-      <MobileMenu {...args} />
-      <SpySections />
-    </>
-  ),
-  play: async ({ canvas }) => {
-    scrollToSection('destinations');
-    // A DOM click, so the page isn't scrolled back up to the menu button first.
-    canvas.getByRole('button', { name: 'Menu' }).click();
-    const menu = within(await canvas.findByRole('dialog', { name: 'Menu' }));
-    await waitFor(() => expect(markedLinks(menu.getByRole('navigation', { name: 'Main' }))).toEqual(['Destinations (location)']));
+/** On the Contact page, Contact is the current item. */
+export const OnContactPage: Story = {
+  parameters: onPath('/contact'),
+  play: async ({ canvas, userEvent }) => {
+    const menu = within(await openMenu(canvas, userEvent));
+    await expect(markedLinks(menu.getByRole('navigation', { name: 'Main' }))).toEqual(['Contact (page)']);
   },
 };
 
-export const ScrollSpyOnLight: Story = { ...ScrollSpy, globals: { surface: 'light', viewport: { value: 'phone' } } };
+/** On the Homepage at 390, the menu marks no item, wherever the page is scrolled. */
+export const OnHomepage: Story = {
+  parameters: onPath('/'),
+  decorators: [roomBelow],
+  play: async ({ canvas }) => {
+    await scrollThrough(async () => {
+      // A DOM click, so the page isn't scrolled back up to the menu button first.
+      canvas.getByRole('button', { name: 'Menu' }).click();
+      const menu = within(await canvas.findByRole('dialog', { name: 'Menu' }));
+      await expect(markedLinks(menu.getByRole('navigation', { name: 'Main' }))).toEqual([]);
+      menu.getByRole('button', { name: 'Close' }).click();
+      await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
+    }, 2);
+  },
+};
+
+export const OnHomepageOnLight: Story = { ...OnHomepage, globals: { surface: 'light', viewport: { value: 'phone' } } };

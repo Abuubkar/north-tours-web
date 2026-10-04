@@ -8,6 +8,7 @@ describe('sitemapUrls', () => {
     expect(sitemapUrls(slugs, '[Site URL]')).toEqual([
       '/',
       '/tours',
+      '/destinations',
       '/plan',
       '/about',
       '/help',

@@ -18,7 +18,7 @@ export function ReviewsSection({ copy, variant = 'default', headlineSize = 'long
   // A tour with no reviews yet has no section; its rating still shows in the hero.
   if (reviews.length === 0) return null;
   return (
-    <section id="reviews" className={styles.section}>
+    <section className={styles.section}>
       <div className={styles.header}>
         <h2 className={compact ? styles.hiddenHeadline : headlineClass[headlineSize]}>{copy.headline}</h2>
         {summary && (

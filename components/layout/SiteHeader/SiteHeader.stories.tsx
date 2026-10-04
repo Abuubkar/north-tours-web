@@ -1,16 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, waitFor, within } from 'storybook/test';
-import { markedLinks, scrollToSection, SpySections } from '../../../.storybook/spySections';
+import { expect, within } from 'storybook/test';
+import { markedLinks, onPath } from '../../../.storybook/markedLinks';
 import { realUser } from '../../../.storybook/realUser';
+import { roomBelow, scrollThrough } from '../../../.storybook/scrollRoom';
 import { placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteHeader } from './SiteHeader';
 
-const NAV = ['Tours', 'How it works', 'Destinations', 'Guides', 'Reviews'];
+const NAV = [
+  ['Tours', '/tours'],
+  ['Destinations', '/destinations'],
+  ['Private trips', '/plan'],
+  ['About', '/about'],
+  ['Contact', '/contact'],
+];
 const MESSAGE = 'text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
 
 type Canvas = ReturnType<typeof within>;
-
-const onPath = (pathname: string) => ({ nextjs: { appDirectory: true, navigation: { pathname } } });
 
 const meta = {
   title: 'Layout/SiteHeader',
@@ -23,14 +28,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** From 820px: brand, the five nav links and "WhatsApp us"; the icon buttons are hidden. */
+/** From 820px: brand, the five pages (none a section of a page) and "WhatsApp us"; the icon buttons are hidden. */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('banner')).toHaveAttribute('data-surface', 'dark');
     await expect(canvas.getByRole('link', { name: '[BRAND NAME]' })).toHaveAttribute('href', '/');
     const nav = canvas.getByRole('navigation', { name: 'Main' });
     const links = within(nav).getAllByRole('link');
-    await expect(links.map((link) => link.textContent)).toEqual(NAV);
+    await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual(NAV);
     for (const link of links) await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
     await expect(canvas.getByRole('link', { name: 'WhatsApp us' })).toBeVisible();
     await expect(canvas.queryByRole('link', { name: 'Chat on WhatsApp' })).toBeNull();
@@ -62,13 +67,19 @@ export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', view
 export const OnTourPage: Story = {
   parameters: onPath('/tours/hunza-skardu-grand'),
   play: async ({ canvas }) => {
-    const nav = canvas.getByRole('navigation', { name: 'Main' });
-    const current = within(nav)
-      .getAllByRole('link')
-      .filter((link) => link.getAttribute('aria-current') === 'page');
-    await expect(current.map((link) => link.textContent)).toEqual(['Tours']);
+    await expect(markedLinks(canvas.getByRole('navigation', { name: 'Main' }))).toEqual(['Tours (page)']);
   },
 };
+
+/** On the Trip Planner, Private trips is the current item. */
+export const OnPlanner: Story = {
+  parameters: onPath('/plan'),
+  play: async ({ canvas }) => {
+    await expect(markedLinks(canvas.getByRole('navigation', { name: 'Main' }))).toEqual(['Private trips (page)']);
+  },
+};
+
+export const OnPlannerOnLight: Story = { ...OnPlanner, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** On a page outside the nav, no item is current. */
 export const NoCurrentItem: Story = {
@@ -144,32 +155,14 @@ export const FocusRingPhone: Story = {
   },
 };
 
-/** On the Homepage the header marks the section in view, with aria-current="location", and nothing above it. */
-export const HomepageScrollSpy: Story = {
+/** On the Homepage no item is marked, wherever the page is scrolled. */
+export const OnHomepage: Story = {
   parameters: { ...onPath('/'), fullBleed: true },
-  render: (args) => (
-    <>
-      <SiteHeader {...args} />
-      <SpySections />
-    </>
-  ),
+  decorators: [roomBelow],
   play: async ({ canvas }) => {
     const nav = canvas.getByRole('navigation', { name: 'Main' });
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    await waitFor(() => expect(markedLinks(nav)).toEqual([]));
-    for (const [id, label] of [
-      ['how', 'How it works'],
-      ['destinations', 'Destinations'],
-      ['reviews', 'Reviews'],
-    ]) {
-      scrollToSection(id);
-      await waitFor(() => expect(markedLinks(nav)).toEqual([`${label} (location)`]));
-    }
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    await scrollThrough(async () => expect(markedLinks(nav)).toEqual([]));
   },
 };
 
-export const HomepageScrollSpyOnLight: Story = {
-  ...HomepageScrollSpy,
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
-};
+export const OnHomepageOnLight: Story = { ...OnHomepage, globals: { surface: 'light', viewport: { value: 'desktop' } } };

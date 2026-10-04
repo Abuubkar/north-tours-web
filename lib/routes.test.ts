@@ -6,6 +6,7 @@ describe('routes', () => {
     expect([
       routes.home,
       routes.tours,
+      routes.destinations,
       routes.plan,
       routes.about,
       routes.help,
@@ -13,7 +14,7 @@ describe('routes', () => {
       routes.privacy,
       routes.terms,
       routes.credits,
-    ]).toEqual(['/', '/tours', '/plan', '/about', '/help', '/contact', '/privacy', '/terms', '/credits']);
+    ]).toEqual(['/', '/tours', '/destinations', '/plan', '/about', '/help', '/contact', '/privacy', '/terms', '/credits']);
   });
 
   it('builds tour and destination URLs from a slug', () => {
@@ -40,13 +41,8 @@ describe('routes', () => {
     expect(helpCategoryAnchor('safety')).toBe('cat-safety');
   });
 
-  it('has the four nav anchors', () => {
-    expect([routes.how, routes.destinations, routes.reviews, routes.guides]).toEqual([
-      '/#how',
-      '/#destinations',
-      '/#reviews',
-      '/about#guides',
-    ]);
+  it('links to About’s guides', () => {
+    expect(routes.guides).toBe('/about#guides');
   });
 
   it('names every fixed page, not the ones built from a slug or filters', () => {

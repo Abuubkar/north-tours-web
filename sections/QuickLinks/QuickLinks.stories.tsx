@@ -85,7 +85,7 @@ export const RealSocialPhoneOnLight: Story = { ...RealSocial, globals: { surface
 /** The not-found page's rows (PRD #94): the same section, with its own four links to the main pages. */
 const notFoundLinks = [
   { label: 'Plan a private trip', href: '/plan' },
-  { label: 'Destinations', href: '/#destinations' },
+  { label: 'Destinations', href: '/destinations' },
   { label: 'About us and our guides', href: '/about' },
   { label: 'Help & FAQs', href: '/help' },
 ];

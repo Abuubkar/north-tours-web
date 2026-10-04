@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
+import { onPath } from '../../../.storybook/markedLinks';
 import { placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteFooter } from './SiteFooter';
 
@@ -9,7 +10,7 @@ const meta = {
   title: 'Layout/SiteFooter',
   component: SiteFooter,
   args: { settings: realSettings },
-  parameters: { fullBleed: true },
+  parameters: { fullBleed: true, ...onPath('/help') },
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof SiteFooter>;
 
@@ -69,7 +70,7 @@ export const PlaceholdersPhoneOnLight: Story = {
   globals: { surface: 'light', viewport: { value: 'phone' } },
 };
 
-/** The footer's nav is its own landmark, with the large links from the route map. */
+/** The footer's nav is its own landmark, with the main nav's five pages as large links; Contact isn't a small link too. */
 export const FooterNav: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('contentinfo')).toHaveAttribute('data-surface', 'dark');
@@ -77,17 +78,32 @@ export const FooterNav: Story = {
     const links = within(nav).getAllByRole('link');
     await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual([
       ['Tours', '/tours'],
-      ['Destinations', '/#destinations'],
+      ['Destinations', '/destinations'],
       ['Private trips', '/plan'],
-      ['About us', '/about'],
-      ['Reviews', '/#reviews'],
+      ['About', '/about'],
+      ['Contact', '/contact'],
     ]);
-    for (const name of ['Help', 'Contact', 'Privacy', 'Terms']) {
-      await expect(canvas.getByRole('link', { name })).toBeVisible();
-    }
+    // On Help, a page outside the main nav, no large link is current.
+    for (const link of links) await expect(link).not.toHaveAttribute('aria-current');
+    const small = canvas.getAllByRole('listitem').filter((item) => !nav.contains(item));
+    await expect(small.map((item) => item.textContent)).toEqual(['Instagram', 'Facebook', 'YouTube', 'Help', 'Privacy', 'Terms', 'Photo credits']);
     await expect(canvas.getByRole('link', { name: 'Photo credits' })).toHaveAttribute('href', '/credits');
   },
 };
+
+/** On a destination page, Destinations is the current large link, gold, as in the header. */
+export const CurrentPage: Story = {
+  parameters: onPath('/destinations/hunza'),
+  play: async ({ canvas }) => {
+    const nav = canvas.getByRole('navigation', { name: 'Footer' });
+    const current = within(nav)
+      .getAllByRole('link')
+      .filter((link) => link.hasAttribute('aria-current'));
+    await expect(current.map((link) => [link.textContent, link.getAttribute('aria-current')])).toEqual([['Destinations', 'page']]);
+  },
+};
+
+export const CurrentPageOnLight: Story = { ...CurrentPage, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** Every link in the footer is at least the 44px tap target. */
 export const TapTargets: Story = {

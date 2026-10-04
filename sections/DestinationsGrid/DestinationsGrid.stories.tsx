@@ -40,6 +40,20 @@ export const Phone: Story = {
   },
 };
 
+/** The destinations page: the phone's first row loads its photos straight away, the rest lazily. */
+export const DestinationsPage: Story = {
+  args: { priorityCards: 2 },
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas }) => {
+    const images = canvas.getAllByRole('img').filter((i) => i.tagName === 'IMG');
+    // One sample destination is still a placeholder, with no <img>.
+    await expect(images.map((img) => img.getAttribute('loading'))).toEqual(['eager', 'eager', 'lazy', 'lazy', 'lazy']);
+    await expect(images[0]).toHaveAttribute('fetchpriority', 'high');
+  },
+};
+
+export const DestinationsPageOnLight: Story = { ...DestinationsPage, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
 /** The other valleys on Hunza's page: Hunza left out, the rest in order, each with its season and tours. */

@@ -42,7 +42,7 @@ describe('notFoundPage', () => {
     const contact = getContactCopy();
     const { quickLinks } = notFoundPage({ ...copy, quickLinks: rows }, contact, getSettings());
     expect(quickLinks.links).toEqual([
-      { label: 'Where to go', href: '/#destinations' },
+      { label: 'Where to go', href: '/destinations' },
       { label: 'Ask a question', href: '/help' },
     ]);
     expect([quickLinks.label, quickLinks.follow]).toEqual([contact.quickLinks.label, contact.quickLinks.follow]);

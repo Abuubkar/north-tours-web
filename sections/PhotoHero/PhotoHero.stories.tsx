@@ -136,7 +136,7 @@ export const Destination: Story = {
   args: {
     variant: 'destination',
     image: sampleDestination.image,
-    back: { href: '/#destinations', label: 'All destinations' },
+    back: { href: '/destinations', label: 'All destinations' },
     kicker: sampleDestination.region,
     title: sampleDestination.name,
     lead: sampleDestination.lead,
@@ -146,7 +146,7 @@ export const Destination: Story = {
     await expect(canvas.getByRole('heading', { level: 1, name: 'Hunza' })).toBeVisible();
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
     await nameFitsOnOneLine(canvasElement);
-    await expect(canvas.getByRole('link', { name: 'All destinations' })).toHaveAttribute('href', '/#destinations');
+    await expect(canvas.getByRole('link', { name: 'All destinations' })).toHaveAttribute('href', '/destinations');
     await expect(canvas.getByText('Gilgit-Baltistan')).toBeVisible();
     await expect(canvas.getByText(sampleDestination.lead)).toBeVisible();
     for (const [label, value] of [['Best season', 'April – October'], ['Altitude', '2,438 m'], ['From Lahore', '3 days by road'], ['Tours', '2']]) {

@@ -9,6 +9,8 @@ export type DestinationCardProps = {
   variant?: 'home' | 'other';
   /** Home: introduces the months, e.g. "Best season". */
   seasonLabel?: string;
+  /** The photo loads straight away with high priority, as the page's main image (LCP). Others load lazily. */
+  priority?: boolean;
   /** Other: the two lines under the name, e.g. "Best · Apr – Oct" and "2 tours". */
   details?: { season: string; tours: string };
 };

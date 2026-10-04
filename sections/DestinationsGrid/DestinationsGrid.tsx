@@ -4,12 +4,13 @@ import styles from './DestinationsGrid.module.css';
 
 /**
  * A card per destination, each linking to its page: "Where we go, and when to go there" on the
- * Homepage (#destinations), or "Other valleys we travel to" at the end of a destination page.
+ * Homepage, every destination on the destinations page, or "Other valleys we travel to" at the
+ * end of a destination page.
  */
 export function DestinationsGrid(props: DestinationsGridProps) {
   const other = props.variant === 'other';
   return (
-    <section id={other ? undefined : 'destinations'} className={styles.section}>
+    <section className={styles.section}>
       <h2 className={styles.headline}>{props.copy.headline}</h2>
       <ul className={other ? styles.otherGrid : styles.grid}>
         {props.variant === 'other'
@@ -18,9 +19,9 @@ export function DestinationsGrid(props: DestinationsGridProps) {
                 <DestinationCard destination={destination} variant="other" details={details} />
               </li>
             ))
-          : props.destinations.map((destination) => (
+          : props.destinations.map((destination, i) => (
               <li key={destination.slug} className={styles.cell}>
-                <DestinationCard destination={destination} seasonLabel={props.copy.seasonLabel} />
+                <DestinationCard destination={destination} seasonLabel={props.copy.seasonLabel} priority={i < (props.priorityCards ?? 0)} />
               </li>
             ))}
       </ul>
