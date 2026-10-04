@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { markedLinks, onPath } from '../../../.storybook/markedLinks';
+import { realUser } from '../../../.storybook/realUser';
 import { roomBelow, scrollThrough } from '../../../.storybook/scrollRoom';
 import { NavLinks } from './NavLinks';
 
@@ -33,6 +34,17 @@ function accent(element: HTMLElement) {
   return color;
 }
 
+/** Moves the real pointer onto a small target at the bottom-right corner, away from every link. */
+async function parkPointer(canvasElement: HTMLElement) {
+  const user = await realUser();
+  if (!user) return;
+  const spot = document.createElement('div');
+  spot.style.cssText = 'position:fixed;right:0;bottom:0;width:8px;height:8px';
+  canvasElement.append(spot);
+  await user.hover(spot);
+  spot.remove();
+}
+
 /** The five pages in order, none a section of a page; on the About page, About is the current item (gold). */
 export const OnAboutPage: Story = {
   play: async ({ canvas, canvasElement, args }) => {
@@ -40,6 +52,9 @@ export const OnAboutPage: Story = {
     const links = within(nav).getAllByRole('link');
     await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual(PAGES);
     await expect(markedLinks(canvasElement)).toEqual(['About (page)']);
+    // A hovered link is gold too (`a:hover`), and the pointer stays where the previous story left
+    // it, possibly over one of these links: park it on a spot clear of the nav before reading colours.
+    await parkPointer(canvasElement);
     const gold = accent(nav);
     for (const link of links) await expect(getComputedStyle(link).color === gold).toBe(link.textContent === 'About');
     for (const link of links) await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
