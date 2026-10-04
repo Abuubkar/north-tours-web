@@ -8,7 +8,7 @@ import { monthOf } from './plannerOptions.ts';
  * order, so the page can show every message and take the visitor to the first.
  */
 
-export type FieldError = {
+export type FieldProblem = {
   /** Where the message shows: one per field or group of controls. */
   group: string;
   /** The controls marked invalid, in page order; the page focuses the first. */
@@ -16,11 +16,11 @@ export type FieldError = {
   message: string;
 };
 
-export type ErrorMessages = PlannerCopy['errors'];
+type ErrorMessages = PlannerCopy['errors'];
 
 /** Step 1, Where and when. `today` is YYYY-MM-DD in Karachi: no date or month before it. */
-export function whereWhenErrors(answers: TripAnswers, today: string, messages: ErrorMessages): FieldError[] {
-  const errors: FieldError[] = [];
+export function whereWhenErrors(answers: TripAnswers, today: string, messages: ErrorMessages): FieldProblem[] {
+  const errors: FieldProblem[] = [];
   if (answers.destinations.length === 0) {
     errors.push({ group: 'destinations', fields: ['destinations'], message: messages.destinations });
   }
@@ -29,7 +29,7 @@ export function whereWhenErrors(answers: TripAnswers, today: string, messages: E
   return errors;
 }
 
-function datesError(answers: TripAnswers, today: string, messages: ErrorMessages): FieldError | null {
+function datesError(answers: TripAnswers, today: string, messages: ErrorMessages): FieldProblem | null {
   const problem = (fields: string[], message: string) => ({ group: 'dates', fields, message });
   if (answers.dateMode === 'flexible') {
     return answers.month && answers.month >= monthOf(today) ? null : problem(['month'], messages.month);
@@ -42,11 +42,11 @@ function datesError(answers: TripAnswers, today: string, messages: ErrorMessages
 }
 
 /** The message a group shows, if it has a problem. */
-export function groupError(errors: readonly FieldError[], group: string): string | undefined {
+export function groupError(errors: readonly FieldProblem[], group: string): string | undefined {
   return errors.find((error) => error.group === group)?.message;
 }
 
 /** Whether a control is marked invalid. */
-export function fieldInvalid(errors: readonly FieldError[], field: string): boolean {
+export function fieldInvalid(errors: readonly FieldProblem[], field: string): boolean {
   return errors.some((error) => error.fields.includes(field));
 }

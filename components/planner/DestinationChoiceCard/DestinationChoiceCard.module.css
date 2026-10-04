@@ -24,7 +24,9 @@
   background: var(--bg-raised);
 }
 
-.invalid {
+/* The error border holds on hover too, until a destination is chosen. */
+.invalid,
+.invalid:hover {
   border-color: var(--error);
 }
 

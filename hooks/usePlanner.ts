@@ -2,7 +2,7 @@ import { createContext, use, useCallback, useId, useMemo, useRef, useState, type
 import type { PlannerCopy } from '@/lib/content/pages';
 import { DEFAULT_ANSWERS, type TripAnswers } from '@/lib/utils/plannerAnswers';
 import { destinationChoices, monthChoices } from '@/lib/utils/plannerOptions';
-import { whereWhenErrors, type FieldError } from '@/lib/utils/plannerValidation';
+import { whereWhenErrors, type FieldProblem } from '@/lib/utils/plannerValidation';
 import { usePlannerFocus, type FocusRequest } from './usePlannerFocus';
 import { useToday } from './useToday';
 
@@ -22,7 +22,7 @@ export type Planner = {
   /** Which way the last step change went, so the new step slides in from that side; null on arrival. */
   direction: 'forward' | 'back' | null;
   /** The step's problems once the visitor has tried to leave it; they update as the answers change. */
-  errors: FieldError[];
+  errors: FieldProblem[];
   update: (change: (answers: TripAnswers) => TripAnswers) => void;
   /** Checks the step: moves on, or shows its problems and takes the visitor to the first. */
   next: () => void;

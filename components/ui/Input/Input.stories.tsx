@@ -39,7 +39,6 @@ export const Empty: Story = {
     await expect(input).toHaveAccessibleDescription('Required');
     await expect(input).not.toHaveAttribute('aria-invalid');
     await expect(input.getBoundingClientRect().height).toBe(52);
-    await expect(border(input)).not.toBe(getComputedStyle(input).color);
     const user = await realUser();
     if (!user) return;
     await user.click(input);

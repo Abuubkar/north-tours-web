@@ -6,6 +6,8 @@ export type FieldControl = {
   id: string;
   /** The hint and the error, for the control's `aria-describedby`. */
   describedBy: string | undefined;
+  /** The hint's id, so a group's controls can point to it. */
+  hintId: string | undefined;
   /** The error message's id, while there is one: a group's controls point to it. */
   errorId: string | undefined;
   invalid: boolean;

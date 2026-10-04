@@ -155,6 +155,7 @@
 
   /* Forms (PRD #71): inputs, their errors and field widths. */
   --error-badge: 20px; /* the round "!" beside an error message */
+  --progress-h: 2px; /* the planner's progress segments */
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */

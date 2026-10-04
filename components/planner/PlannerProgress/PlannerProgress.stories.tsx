@@ -5,7 +5,7 @@ import { PlannerProgress } from './PlannerProgress';
 const meta = {
   title: 'Planner/PlannerProgress',
   component: PlannerProgress,
-  args: { text: 'Step 1 of 3 · Where and when', filled: 1 },
+  args: { text: 'Step 1 of 3 · Where and when', total: 3, filled: 1 },
   globals: { surface: 'light' },
 } satisfies Meta<typeof PlannerProgress>;
 
@@ -32,7 +32,7 @@ export const Step1OnDark: Story = { ...Step1, globals: { surface: 'dark' } };
 
 /** Step 2: two segments lit. */
 export const Step2: Story = {
-  args: { text: 'Step 2 of 3 · Who’s coming', filled: 2 },
+  args: { text: 'Step 2 of 3 · Who’s coming', total: 3, filled: 2 },
   play: async ({ canvasElement }) => {
     const colours = lit(canvasElement);
     await expect(colours[1]).toBe(colours[0]);

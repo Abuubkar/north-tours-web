@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { destinationChoices, lengthForDays, monthChoices, monthLabel, UNSURE } from './plannerOptions.ts';
+import { destinationChoices, lengthForDays, monthChoices, UNSURE } from './plannerOptions.ts';
 
 describe('destination choices', () => {
   it('lists the destinations in the loader’s order, then “Not sure”', () => {
@@ -20,11 +20,6 @@ describe('month choices', () => {
     expect(months).toHaveLength(12);
     expect(months.slice(0, 4)).toEqual(['2026-10', '2026-11', '2026-12', '2027-01']);
     expect(months.at(-1)).toBe('2027-09');
-  });
-
-  it('read as a short month and year', () => {
-    expect(monthLabel('2027-06')).toBe('Jun 2027');
-    expect(monthLabel('2026-12')).toBe('Dec 2026');
   });
 });
 

@@ -23,7 +23,7 @@
 /* 2px: --fg when done or current, the hairline otherwise. */
 .segment {
   flex: 1;
-  height: var(--focus-width);
+  height: var(--progress-h);
   background: var(--hairline);
 }
 

@@ -29,19 +29,22 @@ export function TripPlanner({ copy, destinations }: TripPlannerProps) {
       <div className={styles.layout}>
         <div ref={formRef} className={styles.form}>
           <div ref={barRef} className={styles.bar}>
-            <PlannerProgress ref={progressRef} text={fillTokens(copy.progress.step, { step: String(step), title: titles[step - 1] })} filled={step} />
+            <PlannerProgress
+              ref={progressRef}
+              text={fillTokens(copy.progress.step, { step: String(step), title: titles[step - 1] })}
+              total={STEP_COUNT}
+              filled={step}
+            />
           </div>
           <div key={step} className={styles.body} data-direction={direction ?? undefined}>
             {step === 1 && <StepWhereWhen destinations={destinations} copy={copy.whereWhen} />}
           </div>
-          {step < STEP_COUNT && (
-            <StepNav
-              backLabel={first ? undefined : copy.nav.back}
-              nextLabel={fillTokens(copy.nav.next, { title: titles[step] })}
-              onBack={back}
-              onNext={next}
-            />
-          )}
+          <StepNav
+            backLabel={first ? undefined : copy.nav.back}
+            nextLabel={step < STEP_COUNT ? fillTokens(copy.nav.next, { title: titles[step] }) : undefined}
+            onBack={back}
+            onNext={next}
+          />
         </div>
       </div>
     </div>

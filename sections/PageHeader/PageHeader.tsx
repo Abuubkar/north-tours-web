@@ -11,7 +11,7 @@ export function PageHeader({ headline, lead, variant = 'default' }: PageHeaderPr
   return (
     <header className={classes}>
       <h1 className={variant === 'plannerSlim' ? styles.slimHeadline : styles.headline}>{headline}</h1>
-      {lead && <p className={styles.lead}>{lead}</p>}
+      {lead && <p className={variant === 'planner' ? styles.plannerLead : styles.lead}>{lead}</p>}
     </header>
   );
 }

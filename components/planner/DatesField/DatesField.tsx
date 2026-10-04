@@ -6,8 +6,9 @@ import { FormField } from '@/components/ui/FormField/FormField';
 import { Input } from '@/components/ui/Input/Input';
 import { Stepper } from '@/components/ui/Stepper/Stepper';
 import { usePlanner } from '@/hooks/usePlanner';
-import { pickMonth } from '@/lib/utils/plannerAnswers';
-import { DATE_MODES, DAYS, monthLabel } from '@/lib/utils/plannerOptions';
+import { shortMonthYear } from '@/lib/utils/dates';
+import { dateMin, pickMonth, setDate } from '@/lib/utils/plannerAnswers';
+import { DATE_MODES, DAYS } from '@/lib/utils/plannerOptions';
 import { fieldInvalid, groupError } from '@/lib/utils/plannerValidation';
 import type { DatesFieldProps } from './DatesField.types';
 import styles from './DatesField.module.css';
@@ -23,7 +24,7 @@ export function DatesField({ copy }: DatesFieldProps) {
 
   return (
     <FormField id={fieldId('dates-group')} kind="group" label={copy.label} hint={copy.hint} error={groupError(errors, 'dates')}>
-      {({ errorId }) => (
+      {({ hintId, errorId }) => (
         <>
           <div role="group" aria-label={copy.modeLabel} className={styles.chips}>
             {DATE_MODES.map((mode) => (
@@ -42,11 +43,11 @@ export function DatesField({ copy }: DatesFieldProps) {
                   <Input
                     id={fieldId(end)}
                     type="date"
-                    min={end === 'to' && answers.from && answers.from > today ? answers.from : today}
+                    min={dateMin(answers, end, today)}
                     value={answers[end] ?? ''}
                     invalid={fieldInvalid(errors, end)}
-                    aria-describedby={fieldInvalid(errors, end) ? errorId : undefined}
-                    onChange={(event) => update((a) => ({ ...a, [end]: event.target.value || null }))}
+                    aria-describedby={[hintId, fieldInvalid(errors, end) && errorId].filter(Boolean).join(' ') || undefined}
+                    onChange={(event) => update((a) => setDate(a, end, event.target.value))}
                   />
                 </div>
               ))}
@@ -66,7 +67,7 @@ export function DatesField({ copy }: DatesFieldProps) {
                     aria-describedby={fieldInvalid(errors, 'month') ? errorId : undefined}
                     onClick={() => update((a) => pickMonth(a, month))}
                   >
-                    {monthLabel(month)}
+                    {shortMonthYear(month)}
                   </Chip>
                 ))}
               </div>

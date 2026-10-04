@@ -1,5 +1,3 @@
-import { SHORT_MONTHS } from './dates.ts';
-
 /*
  * The Trip Planner's choices (PRD #71). Ids are stable (they're saved and appear in page copy);
  * the words for each come from page copy, destinations' names from content.
@@ -38,12 +36,6 @@ export function monthChoices(today: string): string[] {
     const m = (index % 12) + 1;
     return `${y}-${String(m).padStart(2, '0')}`;
   });
-}
-
-/** A month chip's words: "2027-06" → "Jun 2027". */
-export function monthLabel(id: string): string {
-  const [year, month] = id.split('-').map(Number);
-  return `${SHORT_MONTHS[month - 1]} ${year}`;
 }
 
 /** The trip length that fits a number of flexible days: up to 4, up to 7, up to 10, then more. */

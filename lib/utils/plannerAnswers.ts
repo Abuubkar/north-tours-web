@@ -44,9 +44,23 @@ export function pickMonth(answers: TripAnswers, month: string): TripAnswers {
   return { ...answers, month: answers.month === month ? null : month };
 }
 
-/** Picking a length stops the auto-fill; picking the shown length again clears it. */
+/**
+ * Picking a length stops the auto-fill and keeps that length (pressing the filled-in one keeps
+ * it too); pressing a length the visitor picked again clears it.
+ */
 export function pickLength(answers: TripAnswers, length: TripLength): TripAnswers {
-  return { ...answers, length: tripLength(answers) === length ? null : length, lengthAuto: false };
+  const clear = !answers.lengthAuto && answers.length === length;
+  return { ...answers, length: clear ? null : length, lengthAuto: false };
+}
+
+/** An exact date typed or picked; an emptied field is no date. */
+export function setDate(answers: TripAnswers, end: 'from' | 'to', date: string): TripAnswers {
+  return { ...answers, [end]: date || null };
+}
+
+/** The earliest date a field offers: today in Karachi, and for "To", the start once it's set. */
+export function dateMin(answers: TripAnswers, end: 'from' | 'to', today: string): string {
+  return end === 'to' && answers.from && answers.from > today ? answers.from : today;
 }
 
 /**

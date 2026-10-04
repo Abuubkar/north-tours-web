@@ -12,7 +12,7 @@ export function FormField({ id, label, hint, error, kind = 'field', errorAt = 'e
   const hintId = hint ? `${id}-hint` : undefined;
   const errorId = error ? `${id}-error` : undefined;
   const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
-  const control = children({ id, describedBy, errorId, invalid: Boolean(error) });
+  const control = children({ id, describedBy, hintId, errorId, invalid: Boolean(error) });
   const message = errorId && error ? <FieldError id={errorId} message={error} /> : null;
   const body = (
     <>

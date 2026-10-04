@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { todayInKarachi } from '@/lib/utils/departures';
-import { monthLabel } from '@/lib/utils/plannerOptions';
+import { shortMonthYear } from '@/lib/utils/dates';
 import { samplePlannerCopy, withPlanner } from '../samplePlanner';
 import { DatesField } from './DatesField';
 
@@ -21,7 +21,7 @@ export const Flexible: Story = {
   play: async ({ canvas }) => {
     const months = within(canvas.getByRole('group', { name: 'Month' })).getAllByRole('button');
     await expect(months).toHaveLength(12);
-    await expect(months[0]).toHaveTextContent(monthLabel(todayInKarachi(new Date()).slice(0, 7)));
+    await expect(months[0]).toHaveTextContent(shortMonthYear(todayInKarachi(new Date()).slice(0, 7)));
     await expect(canvas.getByRole('group', { name: 'Roughly how many days' })).toHaveTextContent('6');
   },
 };

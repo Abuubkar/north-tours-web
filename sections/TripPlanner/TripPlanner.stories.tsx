@@ -123,6 +123,12 @@ export const LengthFollowsDays: Story = {
     await userEvent.click(button(canvas, 'More days'));
     await userEvent.click(button(canvas, 'More days'));
     await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
+    // Pressing the filled-in length keeps it, and it stops following the days.
+    await userEvent.click(button(canvas, '8–10 days'));
+    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
+    await expect(length).toHaveAccessibleDescription('Optional');
+    await userEvent.click(button(canvas, 'Fewer days'));
+    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
     await userEvent.click(button(canvas, '2–4 days'));
     await expect(length).toHaveAccessibleDescription('Optional');
     await userEvent.click(button(canvas, 'More days'));

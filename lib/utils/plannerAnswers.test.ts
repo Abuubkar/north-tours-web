@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_ANSWERS, lengthIsAutoFilled, pickLength, pickMonth, toggleDestination, tripLength, type TripAnswers } from './plannerAnswers.ts';
+import { dateMin, DEFAULT_ANSWERS, lengthIsAutoFilled, pickLength, pickMonth, setDate, toggleDestination, tripLength, type TripAnswers } from './plannerAnswers.ts';
 
 const choices = ['hunza', 'skardu', 'swat', 'unsure'];
 const flexible = (change: Partial<TripAnswers> = {}): TripAnswers => ({ ...DEFAULT_ANSWERS, month: '2027-06', ...change });
@@ -53,9 +53,29 @@ describe('trip length auto-fill', () => {
     expect(lengthIsAutoFilled(picked)).toBe(false);
   });
 
-  it('picking the shown length again clears it, and it stays cleared', () => {
-    const cleared = pickLength(flexible({ days: 6 }), '5-7');
+  it('pressing the filled-in length keeps it, and stops the auto-fill', () => {
+    const kept = pickLength(flexible({ days: 6 }), '5-7');
+    expect(tripLength(kept)).toBe('5-7');
+    expect(tripLength({ ...kept, days: 9 })).toBe('5-7');
+  });
+
+  it('pressing a picked length again clears it, and it stays cleared', () => {
+    const cleared = pickLength(pickLength(flexible({ days: 6 }), '8-10'), '8-10');
     expect(tripLength(cleared)).toBeNull();
     expect(tripLength({ ...cleared, days: 9 })).toBeNull();
+  });
+});
+
+describe('exact dates', () => {
+  it('an emptied field is no date', () => {
+    expect(setDate(DEFAULT_ANSWERS, 'from', '2027-06-12').from).toBe('2027-06-12');
+    expect(setDate({ ...DEFAULT_ANSWERS, to: '2027-06-18' }, 'to', '').to).toBeNull();
+  });
+
+  it('offer nothing before today, and To nothing before From', () => {
+    expect(dateMin(DEFAULT_ANSWERS, 'from', '2026-10-04')).toBe('2026-10-04');
+    expect(dateMin({ ...DEFAULT_ANSWERS, from: '2027-06-12' }, 'to', '2026-10-04')).toBe('2027-06-12');
+    expect(dateMin({ ...DEFAULT_ANSWERS, from: '2027-06-12' }, 'from', '2026-10-04')).toBe('2026-10-04');
+    expect(dateMin({ ...DEFAULT_ANSWERS, from: '2026-01-01' }, 'to', '2026-10-04')).toBe('2026-10-04');
   });
 });

@@ -4,7 +4,7 @@ import type { ChoiceChipsProps } from './ChoiceChips.types';
 import styles from './ChoiceChips.module.css';
 
 /**
- * A planner question answered with one chip (Trip length, Group type, Best time…): a named group
+ * A planner question answered with one chip (Trip length): a named group
  * of toggle chips, the chosen one pressed, with the shared selected state.
  */
 export function ChoiceChips<T extends string>({ id, label, hint, options, value, onPick }: ChoiceChipsProps<T>) {
