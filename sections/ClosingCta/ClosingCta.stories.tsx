@@ -73,4 +73,3 @@ export const AboutOnLight: Story = { ...About, globals: { surface: 'light', view
 export const AboutPhone: Story = { ...About, globals: { viewport: { value: 'phone' } } };
 
 export const AboutPhoneOnLight: Story = { ...About, globals: { surface: 'light', viewport: { value: 'phone' } } };
-

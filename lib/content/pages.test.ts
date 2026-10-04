@@ -334,8 +334,11 @@ describe('about page copy', () => {
 
   it('needs one to three chosen reviews, each with a file', () => {
     expect(problems(load((c) => Object.assign(c.reviews, { chosen: [] })))).toEqual(['reviews.chosen']);
-    const four = [...about.reviews.chosen, about.reviews.chosen[0]];
+    const four = [...about.reviews.chosen, 'hunza-2026-05-ayesha'];
     expect(problems(load((c) => Object.assign(c.reviews, { chosen: four })))).toEqual(['reviews.chosen']);
+    const twice = load((c) => Object.assign(c.reviews, { chosen: [about.reviews.chosen[0], about.reviews.chosen[0]] }));
+    expect(problems(twice)).toEqual(['reviews.chosen']);
+    expect(twice.problems[0].message).toBe('Choose each review only once');
     const result = load((c) => Object.assign(c.reviews, { chosen: [about.reviews.chosen[0], 'hunza-2026-13-nobody'] }));
     expect(problems(result)).toEqual(['reviews.chosen.1']);
     expect(result.problems[0].message).toBe('No review "hunza-2026-13-nobody" (expected a file in content/reviews)');

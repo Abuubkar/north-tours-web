@@ -55,9 +55,11 @@ export function checkGuideYears(guides: Guide[], guideFiles: Record<string, stri
   );
 }
 
-/** Every review a page chooses must have a file. `field` names the list, e.g. "reviews.chosen". */
-export function checkChosenReviews(chosen: string[], file: string, field: string, reviewFiles: Record<string, string>): ContentProblem[] {
+/** Every review About's copy chooses (`reviews.chosen` in `aboutFile`) must have a file. */
+export function checkChosenReviews(chosen: string[], aboutFile: string, reviewFiles: Record<string, string>): ContentProblem[] {
   return chosen.flatMap((slug, i) =>
-    slug in reviewFiles ? [] : [{ file, field: `${field}.${i}`, message: `No review "${slug}" (expected a file in content/reviews)` }],
+    slug in reviewFiles
+      ? []
+      : [{ file: aboutFile, field: `reviews.chosen.${i}`, message: `No review "${slug}" (expected a file in content/reviews)` }],
   );
 }

@@ -679,7 +679,11 @@ const aboutCopySchema = z.strictObject({
   /** "What travellers say about our guides and drivers": the reviews to show, by slug, in order (no rating summary). */
   reviews: z.strictObject({
     headline: copy,
-    chosen: z.array(slugSchema).min(1, 'Choose at least one review').max(3, 'Choose at most three reviews'),
+    chosen: z
+      .array(slugSchema)
+      .min(1, 'Choose at least one review')
+      .max(3, 'Choose at most three reviews')
+      .refine((slugs) => new Set(slugs).size === slugs.length, 'Choose each review only once'),
   }),
   /** The closing call to action: "Start planning your trip north", to the tours and the planner. */
   cta: z.strictObject({ headline: copy, exploreLabel: copy, planLabel: copy }),
@@ -695,7 +699,7 @@ export function aboutCopyFile(dir = CONTENT_DIR): string {
 export function loadAboutCopy(dir = CONTENT_DIR) {
   const result = parseFile(aboutCopySchema, aboutCopyFile(dir));
   if (!result.data) return result;
-  const missing = checkChosenReviews(result.data.reviews.chosen, displayPath(aboutCopyFile(dir)), 'reviews.chosen', loadReviews(dir).files);
+  const missing = checkChosenReviews(result.data.reviews.chosen, displayPath(aboutCopyFile(dir)), loadReviews(dir).files);
   return missing.length > 0 ? { data: null, problems: missing } : result;
 }
 

@@ -1,11 +1,8 @@
 /* A 56px pair (DESIGN.md §7, closing CTAs), at most 520px, that wraps to full width on phones. */
 .actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-12);
-  max-width: var(--measure-cta-actions);
+  composes: buttonPair from '../../../styles/layout.module.css';
 }
 
 .action {
-  flex: 1 1 auto;
+  composes: buttonPairItem from '../../../styles/layout.module.css';
 }
