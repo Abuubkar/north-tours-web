@@ -1,0 +1,35 @@
+/* A light panel (8px, a standalone block) in the dark page; the button wraps under the words on phones. */
+.panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--row-gap) var(--gutter);
+  padding: var(--on-trip-pad-y) var(--margin);
+  border-radius: var(--radius-card);
+}
+
+.text {
+  display: flex;
+  flex: 1 1 var(--on-trip-text-min);
+  flex-direction: column;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+/* The design's 13/600 eyebrow look; it is the section's heading. */
+.heading {
+  composes: label from '../../../styles/typography.module.css';
+  font-weight: var(--fw-semibold);
+}
+
+/* The trust value role: the design's clamp(26px, 3cqi, 40px) is off the scale (§5 item 33). */
+.line {
+  composes: trustValue from '../../../styles/typography.module.css';
+}
+
+/* The card title role, tabular: the design's clamp(22px, 2.4cqi, 32px)/600. */
+.number {
+  composes: cardTitle from '../../../styles/typography.module.css';
+  font-variant-numeric: tabular-nums;
+}

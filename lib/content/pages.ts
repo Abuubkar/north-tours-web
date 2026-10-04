@@ -809,6 +809,42 @@ export function getHelpCopy(): HelpCopy {
   return cachedHelp;
 }
 
+/** The Contact page's wording (PRD #86); the numbers, email and hours come from settings. */
+const contactCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The header: the "Contact" label beside the <h1> (an owner-approved exception to DESIGN.md §6), and the lead. */
+  header: z.strictObject({ label: copy, headline: copy, lead: copyWith('replyTime', 'officeHours') }),
+  /** "Ways to reach us" (a heading read out, not shown) and each channel's words. */
+  ways: z.strictObject({
+    headline: copy,
+    whatsapp: z.strictObject({ label: copy, line: copyWith('replyTime'), chatLabel: copy }),
+    phone: z.strictObject({ label: copy }),
+    email: z.strictObject({ label: copy, line: copy }),
+  }),
+  /** "On a trip right now?": the travel support line, and its button once the number is real. */
+  onTrip: z.strictObject({ heading: copy, line: copy, callLabel: copy }),
+  /** The phones' banner at the top of the page, to the on-trip panel. */
+  banner: copy,
+});
+
+export type ContactCopy = z.infer<typeof contactCopySchema>;
+
+export function contactCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'contact.json');
+}
+
+export function loadContactCopy(dir = CONTENT_DIR) {
+  return parseFile(contactCopySchema, contactCopyFile(dir));
+}
+
+let cachedContact: ContactCopy | undefined;
+
+export function getContactCopy(): ContactCopy {
+  cachedContact ??= requireValid(loadContactCopy());
+  return cachedContact;
+}
+
 /**
  * The tokens the Privacy Policy and the Terms may use: the company's details and the booking
  * policies, so no figure from settings is ever typed into them.

@@ -79,6 +79,26 @@
 }
 
 /*
+ * Section anatomy with a label (DESIGN.md §4): the label in its 240px column, the content beside
+ * it, the label wrapping above it on phones with no media query (About's Credentials, the
+ * footer, the Contact header and its quick links).
+ */
+.labelRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--row-gap) var(--gutter);
+}
+
+.labelColumn {
+  flex: 0 0 var(--label-col);
+}
+
+.labelContent {
+  flex: 999 1 var(--content-col-min);
+  min-width: 0;
+}
+
+/*
  * A text page's body under its header (Help's questions, a legal document): a hairline, less
  * room above than a section, the usual room below.
  */

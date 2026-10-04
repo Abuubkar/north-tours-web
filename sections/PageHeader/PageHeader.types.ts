@@ -13,6 +13,7 @@ type WithoutPhoto = {
   image?: never;
   updated?: never;
   search?: never;
+  label?: never;
 };
 
 /** About: the <h1> at the long size, the lead, then a wide photo (the page's LCP image). */
@@ -22,6 +23,7 @@ type About = {
   image: Photo;
   updated?: never;
   search?: never;
+  label?: never;
 };
 
 /** Help (light): the <h1> at the statement size, then the search. */
@@ -31,6 +33,7 @@ type Help = {
   search: ReactNode;
   image?: never;
   updated?: never;
+  label?: never;
 };
 
 /** The legal pages (light): the document's title as the <h1>, then when it was last updated. */
@@ -40,9 +43,23 @@ type Legal = {
   updated: Omit<LastUpdatedProps, 'className'>;
   image?: never;
   search?: never;
+  label?: never;
 };
 
-export type PageHeaderProps = (WithoutPhoto | About | Help | Legal) & {
+/**
+ * Contact (dark): the "Contact" label in the 240px label column beside the <h1>, then the lead.
+ * An owner-approved exception to DESIGN.md §6, which keeps labels for sections without a headline.
+ */
+type Contact = {
+  variant: 'contact';
+  /** "Contact": plain text, not a heading. */
+  label: string;
+  image?: never;
+  updated?: never;
+  search?: never;
+};
+
+export type PageHeaderProps = (WithoutPhoto | About | Help | Legal | Contact) & {
   /** The page's <h1>. */
   headline: string;
   /** The line under it; the slim planner header has none. */

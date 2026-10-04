@@ -65,3 +65,23 @@
   margin-top: var(--space-20);
   color: var(--fg-2);
 }
+
+/* Contact: the label in its column beside the <h1>, above it on phones (DESIGN.md §4). */
+.labelRow {
+  composes: labelRow from '../../styles/layout.module.css';
+}
+
+.labelColumn {
+  composes: labelColumn from '../../styles/layout.module.css';
+}
+
+.labelContent {
+  composes: labelContent from '../../styles/layout.module.css';
+}
+
+.contactLead {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  max-width: var(--measure-contact-lead);
+  margin-top: var(--space-24);
+  color: var(--fg-2);
+}

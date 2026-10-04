@@ -21,6 +21,9 @@ export const POLICIES_ANCHOR = 'policies';
 /** The Help page's other anchors, which an answer can't take: every page's <main> and the policies. */
 export const HELP_PAGE_ANCHORS: readonly string[] = ['main', POLICIES_ANCHOR];
 
+/** The Contact page's "On a trip right now?" panel carries this id: `/contact#on-trip`. */
+export const ON_TRIP_ANCHOR = 'on-trip';
+
 /**
  * Every URL on the site. Links use these, never hard-coded paths. Most pages are built by
  * their own PRDs; links point to them already.

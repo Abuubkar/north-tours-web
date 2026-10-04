@@ -180,3 +180,38 @@ export const HelpPhone: Story = {
     await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
   },
 };
+
+const contactLead = 'Most trips are planned on WhatsApp. We reply within 2 hours, [Mon–Sat, X am – X pm].';
+
+/**
+ * Contact (dark): the "Contact" label beside the only <h1> from 820px, not a heading; the lead at
+ * most 600px wide.
+ */
+export const Contact: Story = {
+  args: { variant: 'contact', label: 'Contact', headline: 'Talk to a person', lead: contactLead },
+  play: async ({ canvas, canvasElement }) => {
+    const h1 = canvas.getByRole('heading', { level: 1, name: 'Talk to a person' });
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await expect(canvas.getAllByRole('heading')).toHaveLength(1);
+    const label = canvas.getByText('Contact');
+    await expect(label.getBoundingClientRect().right).toBeLessThanOrEqual(h1.getBoundingClientRect().left);
+    await expect(canvas.getByText(contactLead).getBoundingClientRect().width).toBeLessThanOrEqual(600);
+  },
+};
+
+export const ContactOnLight: Story = { ...Contact, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const ContactLaptop: Story = { ...Contact, globals: { viewport: { value: 'laptop' } } };
+
+/** At 390 the label sits above the <h1>, and nothing scrolls sideways. */
+export const ContactPhone: Story = {
+  ...Contact,
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, canvasElement }) => {
+    const h1 = canvas.getByRole('heading', { level: 1, name: 'Talk to a person' });
+    await expect(canvas.getByText('Contact').getBoundingClientRect().bottom).toBeLessThanOrEqual(h1.getBoundingClientRect().top);
+    await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
+  },
+};
+
+export const ContactPhoneOnLight: Story = { ...ContactPhone, globals: { surface: 'light', viewport: { value: 'phone' } } };

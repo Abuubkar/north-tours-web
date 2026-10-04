@@ -1,0 +1,4 @@
+/* Under the ways to reach us, inside the same run of the page, so no hairline above. */
+.section {
+  padding: 0 var(--margin) var(--section-y);
+}
