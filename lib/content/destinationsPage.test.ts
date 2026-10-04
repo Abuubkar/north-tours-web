@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { getDestinations } from './catalog.ts';
-import { destinationsSharePhoto, getDestinationsPage } from './destinationsPage.ts';
-import { destinationsCopyFile, getHomeCopy, loadDestinationsCopy, type DestinationsCopy } from './pages.ts';
+import { getDestinationsPage } from './destinationsPage.ts';
+import { destinationsCopyFile, loadDestinationsCopy, type DestinationsCopy } from './pages.ts';
 import { contentFixture } from './testing.ts';
 
 const copy: DestinationsCopy = JSON.parse(readFileSync(destinationsCopyFile(), 'utf8'));
@@ -39,25 +39,11 @@ describe('destinations page copy', () => {
   });
 });
 
-describe('destinationsSharePhoto', () => {
-  const home = getHomeCopy().hero.image;
-  const [first, second] = getDestinations().map((d) => d.image);
-  const placeholder = { placeholder: 'Hunza at dawn', alt: 'Hunza' };
-
-  it('is the first destination’s photo', () => {
-    expect(destinationsSharePhoto([{ image: first }, { image: second }], home)).toBe(first);
-  });
-
-  it('skips a destination still waiting for its photo, and falls back to the Homepage’s', () => {
-    expect(destinationsSharePhoto([{ image: placeholder }, { image: second }], home)).toBe(second);
-    expect(destinationsSharePhoto([{ image: placeholder }], home)).toBe(home);
-  });
-});
-
 describe('getDestinationsPage', () => {
-  it('has every destination in content order, picked down to what a card shows', () => {
-    const { destinations } = getDestinationsPage();
-    expect(destinations.map((d) => d.slug)).toEqual(getDestinations().map((d) => d.slug));
-    expect(Object.keys(destinations[0]).sort()).toEqual(['bestSeason', 'image', 'name', 'slug']);
+  it('has every destination in content order, and shares the first one’s photo', () => {
+    const page = getDestinationsPage();
+    const destinations = getDestinations();
+    expect(page.destinations.map((d) => d.slug)).toEqual(destinations.map((d) => d.slug));
+    expect(page.sharePhoto).toBe(destinations[0].image);
   });
 });

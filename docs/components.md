@@ -167,7 +167,8 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 
 **Decided in the page-only navigation PRD (#118, 2026-10-04):**
 
-- **Destinations page** (`app/destinations/page.tsx`, `content/pages/destinations.json`, `lib/content/destinationsPage.ts`): every destination on one page, built only from existing parts: the dark `PageHeader` (Tours' variant, the `<h1>` and lead), `DestinationsGrid`'s home variant (its `<h2>`, then the six cards in content order, each an `<h3>` linking to `/destinations/{slug}`), then `PrivateTripBanner` as its own section (the Tours banner's photo, `/plan` and WhatsApp with the general message). Its own title and description; the share image is the first destination's 1200×630 crop (the Homepage's while none has a photo). `routes.destinations` is now this page, so "← All destinations", the Planner's "Explore destinations", the 404's quick link, the sitemap and the canonical URL all use it.
+- **Destinations page** (`app/destinations/page.tsx`, `content/pages/destinations.json`, `lib/content/destinationsPage.ts`): every destination on one page, built only from existing parts: the dark `PageHeader` (Tours' variant, the `<h1>` and lead), `DestinationsGrid`'s home variant (its `<h2>`, then the six cards in content order, each an `<h3>` linking to `/destinations/{slug}`), then `PrivateTripBanner` as its own section (the Tours banner's photo, `/plan` and WhatsApp with the general message). Its own title and description; the share image is the first destination's 1200×630 crop (the Homepage's while it has no photo). `routes.destinations` is now this page, so "← All destinations", the Planner's "Explore destinations", the 404's quick link, the sitemap and the canonical URL all use it.
+- Built here: the destinations page; `getDestinationsPage` (`lib/content`).
 
 Open questions are in §6, grouped by the PRD that settles them.
 

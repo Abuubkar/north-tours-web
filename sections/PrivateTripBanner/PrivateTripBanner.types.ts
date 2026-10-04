@@ -7,6 +7,6 @@ export type PrivateTripBannerProps = {
   planHref: string;
   /** "Ask on WhatsApp": the general message, or one about the destination. */
   whatsappHref: string;
-  /** results (Tours): inside the results, a hairline below. section (Destination): its own section, a hairline above. */
+  /** results (Tours): inside the results, a hairline below. section (Destination, Destinations): its own section, a hairline above. */
   variant?: 'results' | 'section';
 };
