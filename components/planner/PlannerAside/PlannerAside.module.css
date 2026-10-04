@@ -1,0 +1,43 @@
+/* Shown from 1100px only: 380px beside the form, sticky under the header, scrolling inside if taller than the screen. */
+.aside {
+  display: none;
+}
+
+@media (width >= 1100px) {
+  .aside {
+    position: sticky;
+    top: var(--planner-aside-top);
+    display: flex;
+    flex: 0 0 var(--aside-w);
+    flex-direction: column;
+    gap: var(--space-16);
+    max-height: var(--planner-aside-max-h);
+    overflow-y: auto;
+  }
+}
+
+/* A panel: 8px, a hairline border; its rows at a 100px label column. */
+.panel {
+  --key-col-w: var(--summary-key-w);
+  padding: var(--space-20) var(--cell-pad);
+  border: var(--hairline-width) solid var(--hairline);
+  border-radius: var(--radius-card);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding-bottom: var(--space-12);
+}
+
+.title {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+.count {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}

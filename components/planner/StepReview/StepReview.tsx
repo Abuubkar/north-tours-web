@@ -11,7 +11,8 @@ import styles from './StepReview.module.css';
  * Review · Check and send: every answer, the exact message, then Back (quiet, as navigation),
  * "Send on WhatsApp" and "Request a call back" (secondary, as an action). Both WhatsApp actions
  * open `wa.me` in a new tab with their message, and following either (a click, or a middle
- * click) shows the thank-you.
+ * click) shows the thank-you. Below 1100px Back and Send live in the bottom bar; the call back
+ * stays here.
  * Nothing is sent anywhere else.
  */
 export function StepReview({ copy, steps, backLabel }: StepReviewProps) {
@@ -24,10 +25,10 @@ export function StepReview({ copy, steps, backLabel }: StepReviewProps) {
       </div>
       <WhatsAppMessagePreview title={copy.previewTitle} message={message} note={copy.previewNote} />
       <div className={styles.actions}>
-        <Button variant="quiet" onClick={back}>
+        <Button variant="quiet" onClick={back} className={styles.wideOnly}>
           {backLabel}
         </Button>
-        <Button href={sendHref} target="_blank" rel="noopener" icon="whatsapp" onClick={sent} onAuxClick={sent}>
+        <Button href={sendHref} target="_blank" rel="noopener" icon="whatsapp" onClick={sent} onAuxClick={sent} className={styles.wideOnly}>
           {copy.send}
         </Button>
         <Button href={callBackHref} target="_blank" rel="noopener" variant="secondary" onClick={sent} onAuxClick={sent}>

@@ -30,4 +30,12 @@ export const Desktop: Story = {
 
 export const Laptop: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'laptop' } } };
 
-export const Phone: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
+/** Below 1100px only the call back stays inline; Back and Send are in the bottom bar. */
+export const Phone: Story = {
+  globals: { surface: 'light', viewport: { value: 'phone' } },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('link', { name: 'Request a call back' })).toBeVisible();
+    await expect(canvas.queryByRole('link', { name: 'Send on WhatsApp' })).toBeNull();
+    await expect(canvas.queryByRole('button', { name: 'Back' })).toBeNull();
+  },
+};

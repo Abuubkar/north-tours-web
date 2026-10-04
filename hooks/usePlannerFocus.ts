@@ -32,9 +32,13 @@ function stuckEdges(bar: HTMLElement | null) {
 
 const pageTop = (element: Element) => element.getBoundingClientRect().top + window.scrollY;
 
+/** The first of these that's on the page and shown (the progress and its bar live in one of two places, by width). */
+const shown = <T extends HTMLElement>(refs: readonly RefObject<T | null>[]) =>
+  refs.map((ref) => ref.current).find((element) => element !== null && element.getClientRects().length > 0) ?? null;
+
 /**
  * Scrolling and focus after a step change, a failed Next or an Edit (PRD #71), so components only
- * render. A field's section lands just below the header and the sticky bar (`barRef`) and the
+ * render. A field's section lands just below the header and the sticky bar (whichever is shown) and the
  * field takes focus. After a step change the form's top comes back into view if the visitor had
  * scrolled past it, and the progress heading (or the thank-you) takes focus. Smooth, or at once
  * with reduced motion. Each new request object runs once.
@@ -43,17 +47,20 @@ export function usePlannerFocus(
   request: FocusRequest | null,
   refs: {
     fieldId: (field: string) => string;
-    progressRef: RefObject<HTMLElement | null>;
+    /** The progress heading: in the form column from 1100px, in the summary bar below it. */
+    progressRefs: readonly RefObject<HTMLElement | null>[];
     formRef: RefObject<HTMLElement | null>;
-    barRef: RefObject<HTMLElement | null>;
+    /** The sticky bar: the progress bar from 1100px, the summary bar below it. */
+    barRefs: readonly RefObject<HTMLElement | null>[];
     bodyRef: RefObject<HTMLElement | null>;
     successRef: RefObject<HTMLElement | null>;
   },
 ) {
-  const { fieldId, progressRef, formRef, barRef, bodyRef, successRef } = refs;
+  const { fieldId, progressRefs, formRef, barRefs, bodyRef, successRef } = refs;
   useEffect(() => {
     if (!request) return;
-    const edges = stuckEdges(barRef.current);
+    const bar = shown(barRefs);
+    const edges = stuckEdges(bar);
     const behavior = scrollBehavior();
 
     if (request.target === 'field' || request.target === 'first') {
@@ -67,10 +74,13 @@ export function usePlannerFocus(
       return;
     }
 
+    // The form's top lands under the bar: at the bar's top when the bar sticks inside the form
+    // (from 1100px), below it when the bar sits above the form (the summary bar).
     const form = formRef.current;
-    if (form && form.getBoundingClientRect().top < edges.top) {
-      window.scrollTo({ top: pageTop(form) - edges.top, behavior });
+    const under = form && bar && !form.contains(bar) ? edges.bottom : edges.top;
+    if (form && form.getBoundingClientRect().top < under) {
+      window.scrollTo({ top: pageTop(form) - under, behavior });
     }
-    (request.target === 'success' ? successRef : progressRef).current?.focus({ preventScroll: true });
-  }, [request, fieldId, progressRef, formRef, barRef, bodyRef, successRef]);
+    (request.target === 'success' ? successRef.current : shown(progressRefs))?.focus({ preventScroll: true });
+  }, [request, fieldId, progressRefs, formRef, barRefs, bodyRef, successRef]);
 }

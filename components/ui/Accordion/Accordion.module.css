@@ -59,6 +59,37 @@
   color: var(--fg-2);
 }
 
+/* Compact: one 52px row at 15/500, no lines of its own (the planner's summary bar draws them). */
+.compactItem {
+  display: block;
+}
+
+.compactSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  min-height: var(--control-52);
+  cursor: pointer;
+  list-style: none;
+}
+
+.compactSummary::-webkit-details-marker {
+  display: none;
+}
+
+.compactText {
+  composes: small from '../../../styles/typography.module.css';
+  overflow: hidden;
+  font-weight: var(--fw-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compactItem[open] .caret .glyph {
+  transform: rotate(180deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glyph {
     transition: none;

@@ -122,3 +122,27 @@ export const CaretOpenOnLight: Story = {
   },
   globals: { surface: 'light' },
 };
+
+/** Compact: one 52px row at 15/500 with a caret and no lines; Enter opens and closes it (the planner's summary bar). */
+export const Compact: Story = {
+  args: {
+    size: 'compact',
+    marker: 'caret',
+    items: [{ id: 'trip', summary: 'Hunza · Jun · 4 people', content: <p>Destinations: Hunza</p> }],
+  },
+  play: async ({ canvasElement }) => {
+    const summary = canvasElement.querySelector('summary')!;
+    const details = canvasElement.querySelector('details')!;
+    await expect(summary.getBoundingClientRect().height).toBeGreaterThanOrEqual(52);
+    await expect(summary).toHaveTextContent('Hunza · Jun · 4 people');
+    const user = await realUser();
+    if (!user) return;
+    summary.focus();
+    await user.keyboard('{Enter}');
+    await expect(details.open).toBe(true);
+    await user.keyboard('{Enter}');
+    await expect(details.open).toBe(false);
+  },
+};
+
+export const CompactOnLight: Story = { ...Compact, globals: { surface: 'light' } };

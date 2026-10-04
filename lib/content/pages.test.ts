@@ -245,5 +245,12 @@ describe('planner page copy', () => {
     expect(problems(load((c) => Object.assign(c.errors, { month: 'Pick a month by {replyTime}.' })))).toEqual(['errors.month']);
     expect(load((c) => Object.assign(c.whosComing.ages, { child: 'Kid {count}' })).problems).toEqual([]);
     expect(problems(load((c) => Object.assign(c.whosComing.ages, { child: 'Child {number}' })))).toEqual(['whosComing.ages.child']);
+    expect(load((c) => Object.assign(c.next, { steps: ['Reply {replyTime}.', 'A plan.', 'A {advancePercent}% advance.'] })).problems).toEqual([]);
+    expect(problems(load((c) => Object.assign(c.next, { licence: 'Licence {licence}' })))).toEqual(['next.licence']);
+  });
+
+  it('needs exactly three next steps and a label for every row', () => {
+    expect(problems(load((c) => c.next.steps.pop()))).toEqual(['next.steps']);
+    expect(problems(load((c) => delete (c.aside.rows as Partial<PlannerCopy['aside']['rows']>).budget))).toEqual(['aside.rows.budget']);
   });
 });

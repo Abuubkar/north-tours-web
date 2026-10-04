@@ -19,14 +19,14 @@ export function generateMetadata(): Metadata {
  * It has no photo of its own, so it shares the Homepage's image.
  */
 export default function PlanPage() {
-  const { copy, settings, sharePhoto, destinations, config } = getPlannerPage();
+  const { copy, settings, sharePhoto, destinations, barWords, config } = getPlannerPage();
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
       {/* Before the planner is painted: saved answers or a ?dest= link keep it hidden until applied. */}
       <script dangerouslySetInnerHTML={{ __html: PLANNER_PENDING_SCRIPT }} />
       <PlannerProvider {...config}>
-        <TripPlanner copy={copy} destinations={destinations} />
+        <TripPlanner copy={copy} destinations={destinations} barWords={barWords} />
       </PlannerProvider>
     </PageMain>
   );

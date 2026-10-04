@@ -50,12 +50,16 @@
   white-space: nowrap;
 }
 
-/* Column layout: the label in a fixed column, the value as reading text beside it, wrapping under it on narrow screens. */
+/*
+ * Column layout: the label in a fixed column, the value as reading text beside it, wrapping under
+ * it on narrow screens. A parent can set the column (--key-col-w), the value's width before it
+ * wraps (--key-value-min) and, for a dense summary, the row padding (--key-row-y).
+ */
 .columnRow {
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: var(--space-4) var(--space-24);
-  padding-block: var(--space-16);
+  padding-block: var(--key-row-y, var(--space-16));
 }
 
 .columnLabel {

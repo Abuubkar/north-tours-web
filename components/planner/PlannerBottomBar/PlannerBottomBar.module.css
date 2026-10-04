@@ -1,0 +1,45 @@
+/* Frosted like the Tours filter bars (Ink 900 at 92%), above the safe area on phones with a home bar. */
+.bar {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky-bar);
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--margin) calc(var(--space-12) + env(safe-area-inset-bottom));
+  border-top: var(--hairline-width) solid var(--hairline);
+  background: var(--filter-bar-bg);
+  backdrop-filter: var(--header-backdrop);
+}
+
+@supports not (backdrop-filter: blur(0)) {
+  .bar {
+    background: var(--bg);
+  }
+}
+
+@media (width >= 1100px) {
+  .bar {
+    display: none;
+  }
+}
+
+/* Next takes the rest of the row. */
+.next {
+  flex: 1;
+}
+
+/* "Next" below 820px, "Next: Who’s coming" from 820px; only one is shown, and so only one is read out. */
+.long {
+  display: none;
+}
+
+@media (width >= 820px) {
+  .short {
+    display: none;
+  }
+
+  .long {
+    display: inline;
+  }
+}

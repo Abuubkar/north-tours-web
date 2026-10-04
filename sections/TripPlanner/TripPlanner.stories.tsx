@@ -3,7 +3,7 @@ import { expect, waitFor, within } from 'storybook/test';
 import { opacityUpTo } from '../../.storybook/opacity';
 import { realUser } from '../../.storybook/realUser';
 import { emulateFullMotion, emulateReducedMotion } from '../../.storybook/reducedMotion';
-import { noSavedPlanner, sampleAnswers, samplePlannerCopy, samplePlannerDestinations, savedPlanner, withPlanner } from '@/components/planner/samplePlanner';
+import { noSavedPlanner, sampleAnswers, sampleBarWords, samplePlannerCopy, samplePlannerDestinations, savedPlanner, withPlanner } from '@/components/planner/samplePlanner';
 import { atQuery } from '../../.storybook/storyUrl';
 import type { TripAnswers } from '@/lib/utils/plannerAnswers';
 import { monthChoices } from '@/lib/utils/plannerOptions';
@@ -14,7 +14,7 @@ import { TripPlanner } from './TripPlanner';
 const meta = {
   title: 'Sections/TripPlanner',
   component: TripPlanner,
-  args: { copy: samplePlannerCopy, destinations: samplePlannerDestinations },
+  args: { copy: samplePlannerCopy, destinations: samplePlannerDestinations, barWords: sampleBarWords },
   decorators: [withPlanner],
   beforeEach: async () => {
     await emulateReducedMotion();
@@ -30,10 +30,19 @@ type Story = StoryObj<typeof meta>;
 type Canvas = ReturnType<typeof within>;
 
 const button = (canvas: Canvas, name: string | RegExp) => canvas.getByRole('button', { name });
-const progress = (canvas: Canvas) => canvas.getByRole('heading', { level: 2 });
+/** The progress heading: the one <h2> announced politely (in the form from 1100px, in the summary bar below). */
+const progress = (canvas: Canvas) => {
+  const headings = canvas.getAllByRole('heading', { level: 2 }).filter((h: HTMLElement) => h.getAttribute('aria-live') === 'polite');
+  if (headings.length !== 1) throw new Error(`Expected one progress heading, found ${headings.length}`);
+  return headings[0];
+};
 const monthChips = (canvas: Canvas) => within(canvas.getByRole('group', { name: 'Month' })).getAllByRole('button');
-/** The sticky bar holding the progress. */
-const bar = (canvas: Canvas) => progress(canvas).parentElement!.parentElement!;
+/** The sticky bar holding the progress: the progress bar from 1100px, the summary bar below. */
+const bar = (canvas: Canvas) => {
+  let element: HTMLElement | null = progress(canvas);
+  while (element && getComputedStyle(element).position !== 'sticky') element = element.parentElement;
+  return element!;
+};
 
 /** Waits for the page to stop scrolling (a smooth scroll takes a few frames). */
 async function settled() {
@@ -60,7 +69,7 @@ export const Step1: Story = {
     await expect(canvas.getAllByRole('button', { pressed: false }).length).toBeGreaterThan(7);
     await expect(button(canvas, 'Not sure, suggest something')).toBeVisible();
     await expect(monthChips(canvas)).toHaveLength(12);
-    await expect(button(canvas, /^Next: Who’s coming/)).toBeVisible();
+    await expect(button(canvas, /^Next/)).toBeVisible();
     await expect(canvas.queryByRole('button', { name: 'Back' })).toBeNull();
     await expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
   },
@@ -221,7 +230,7 @@ export const StepSlides: Story = {
   beforeEach: emulateFullMotion,
   play: async ({ canvas, canvasElement, userEvent }) => {
     await toStep2(canvas, userEvent);
-    const body = progress(canvas).parentElement!.parentElement!.nextElementSibling as HTMLElement;
+    const body = canvasElement.querySelector<HTMLElement>('[data-direction]')!;
     const animations = body.getAnimations();
     await expect(animations).toHaveLength(1);
     const keyframes = (animations[0].effect as KeyframeEffect).getKeyframes();
@@ -236,9 +245,9 @@ export const StepSlides: Story = {
 
 /** Reduced motion: steps simply swap. */
 export const StepSwapsReduced: Story = {
-  play: async ({ canvas, userEvent }) => {
+  play: async ({ canvas, canvasElement, userEvent }) => {
     await toStep2(canvas, userEvent);
-    const body = progress(canvas).parentElement!.parentElement!.nextElementSibling as HTMLElement;
+    const body = canvasElement.querySelector<HTMLElement>('[data-direction]')!;
     await expect(body.getAnimations()).toHaveLength(0);
   },
 };
@@ -250,7 +259,7 @@ export const MissingAge: Story = {
     await userEvent.click(button(canvas, 'More children'));
     await userEvent.click(button(canvas, 'More children'));
     await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Child 1' }), '6');
-    await userEvent.click(button(canvas, /^Next: Your details/));
+    await userEvent.click(button(canvas, /^Next/));
     const second = canvas.getByRole('combobox', { name: 'Child 2' });
     await waitFor(() => expect(second).toHaveFocus());
     await expect(second).toHaveAttribute('aria-invalid', 'true');
@@ -276,7 +285,7 @@ export const Step2Kept: Story = {
     await userEvent.click(button(canvas, 'Other city'));
     await userEvent.type(canvas.getByRole('textbox', { name: 'Other city' }), 'Multan');
     await userEvent.click(button(canvas, 'Back'));
-    await userEvent.click(button(canvas, /^Next: Who’s coming/));
+    await userEvent.click(button(canvas, /^Next/));
     await expect(canvas.getByRole('group', { name: 'Adults' })).toHaveTextContent('3');
     await expect(canvas.getByRole('combobox', { name: 'Child 1' })).toHaveDisplayValue('9');
     await expect(button(canvas, 'Couple')).toHaveAttribute('aria-pressed', 'true');
@@ -286,7 +295,7 @@ export const Step2Kept: Story = {
 
 const toStep3 = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void> }) => {
   await toStep2(canvas, userEvent);
-  await userEvent.click(button(canvas, /^Next: Your details/));
+  await userEvent.click(button(canvas, /^Next/));
 };
 
 /** Step 3: Next with nothing filled shows the name and number messages, focuses the name; each input is invalid and described. */
@@ -360,7 +369,7 @@ export const DetailsKept: Story = {
     await userEvent.click(button(canvas, 'Evening'));
     await userEvent.type(canvas.getByRole('textbox', { name: 'Anything else?' }), 'Travelling with my mother.');
     await userEvent.click(button(canvas, 'Back'));
-    await userEvent.click(button(canvas, /^Next: Your details/));
+    await userEvent.click(button(canvas, /^Next/));
     await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('Ayesha Khan');
     await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('300 123 4567');
     await expect(button(canvas, 'Evening')).toHaveAttribute('aria-pressed', 'true');
@@ -433,7 +442,7 @@ export const Edit: Story = {
     await userEvent.click(button(canvas, 'Edit who’s coming'));
     await waitFor(() => expect(button(canvas, 'Fewer adults')).toHaveFocus());
     await expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming');
-    await userEvent.click(button(canvas, /^Next: Your details/));
+    await userEvent.click(button(canvas, /^Next/));
     await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('Ayesha Khan');
     await userEvent.click(button(canvas, /^Review/));
     await userEvent.click(button(canvas, 'Edit your details'));
@@ -642,5 +651,107 @@ export const StorageThrows: Story = {
     await waitFor(() => expect(canvas.getByRole('heading', { level: 2, name: 'Thanks, Ayesha.' })).toHaveFocus());
     await userEvent.click(button(canvas, 'Plan another trip'));
     await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when'));
+  },
+};
+
+/* The wide and compact layouts (#77). */
+
+/** 1440: "Your trip so far" beside the form, nine rows, the count following the answers, empty rows read "Not answered"; gone on success. */
+export const Aside: Story = {
+  beforeEach: stayOnPage,
+  play: async ({ canvas, userEvent }) => {
+    const aside = canvas.getByRole('complementary', { name: 'Your trip so far' });
+    const rows = within(aside);
+    await expect(rows.getAllByRole('term')).toHaveLength(9);
+    await expect(aside).toHaveTextContent('2 of 9 answered');
+    await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Not answered');
+    await userEvent.click(button(canvas, 'Hunza'));
+    await userEvent.click(monthChips(canvas)[3]);
+    await expect(aside).toHaveTextContent('5 of 9 answered');
+    await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Hunza');
+    await expect(rows.getByRole('heading', { level: 2, name: 'What happens next' })).toBeVisible();
+    await expect(rows.getAllByRole('listitem')).toHaveLength(3);
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+    await userEvent.click(button(canvas, /^Review/));
+    await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await waitFor(() => expect(canvas.queryByRole('complementary', { name: 'Your trip so far' })).toBeNull());
+  },
+};
+
+export const AsideLaptop: Story = { ...Aside, globals: { viewport: { value: 'laptop' } } };
+
+/** 390: the summary bar reads the trip in one line, and Enter opens and closes it; only one progress heading exists. */
+export const SummaryBar: Story = {
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await expect(canvas.queryByRole('complementary')).toBeNull();
+    await userEvent.click(button(canvas, 'Hunza'));
+    const month = monthChips(canvas)[3];
+    await userEvent.click(month);
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.click(button(canvas, 'More children'));
+    await userEvent.click(button(canvas, 'More children'));
+    const summary = canvasElement.querySelector('summary')!;
+    await expect(summary).toHaveTextContent(`Hunza · ${month.textContent!.split(' ')[0]} · 4 people`);
+    await expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming');
+    const user = await realUser();
+    if (!user) return;
+    summary.focus();
+    await user.keyboard('{Enter}');
+    await expect(summary.closest('details')!.open).toBe(true);
+    await expect(within(summary.closest('details')!).getAllByRole('term')).toHaveLength(9);
+    await user.keyboard('{Enter}');
+    await expect(summary.closest('details')!.open).toBe(false);
+  },
+};
+
+/**
+ * 390: Back and Next live in the dark bottom bar; Next checks the step, Back appears from step 2,
+ * and on review it becomes "Send on WhatsApp" with the trip request; "Request a call back" stays
+ * inline, and the inline step buttons aren't shown.
+ */
+export const BottomBar: Story = {
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, userEvent }) => {
+    await expect(canvas.getAllByRole('button', { name: /^Next/ })).toHaveLength(1);
+    await expect(button(canvas, /^Next/)).toHaveAccessibleName('Next');
+    await expect(button(canvas, /^Next/).closest('[data-surface]')).toHaveAttribute('data-surface', 'dark');
+    await expect(canvas.queryByRole('button', { name: 'Back' })).toBeNull();
+    await userEvent.click(button(canvas, /^Next/));
+    await expect(canvas.getByText(/Choose at least one destination/)).toBeVisible();
+    await toReview(canvas, userEvent);
+    await expect(canvas.getAllByRole('button', { name: 'Back' })).toHaveLength(1);
+    const sends = canvas.getAllByRole('link', { name: 'Send on WhatsApp' });
+    await expect(sends).toHaveLength(1);
+    await expect(sends[0].closest('[data-surface]')).toHaveAttribute('data-surface', 'dark');
+    await expect(linkText(sends[0])).toContain('Assalam o Alaikum');
+    await expect(canvas.getByRole('link', { name: 'Request a call back' }).closest('[data-surface]')).toHaveAttribute('data-surface', 'light');
+  },
+};
+
+/** 900 (below 1100px, from 820px): the bottom bar's Next names the step it goes to. */
+export const Tablet: Story = {
+  globals: { viewport: { value: 'tablet' } },
+  play: async ({ canvas }) => {
+    await expect(canvas.getAllByRole('button', { name: /^Next/ })).toHaveLength(1);
+    await expect(button(canvas, /^Next/)).toHaveAccessibleName('Next: Who’s coming');
+    await expect(canvas.queryByRole('complementary')).toBeNull();
+    await expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
+  },
+};
+
+/** 390, the summary bar open: a failed Next still lands the first card below the bar. */
+export const EmptyNextBarOpen: Story = {
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await userEvent.click(canvasElement.querySelector('summary')!);
+    await expect(canvasElement.querySelector('details')!.open).toBe(true);
+    await userEvent.click(button(canvas, /^Next/));
+    const first = button(canvas, 'Fairy Meadows');
+    await waitFor(() => expect(first).toHaveFocus());
+    await expect(first.getBoundingClientRect().top).toBeGreaterThanOrEqual(bar(canvas).getBoundingClientRect().bottom);
   },
 };

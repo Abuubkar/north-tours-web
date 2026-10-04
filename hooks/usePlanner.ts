@@ -82,12 +82,16 @@ export type Planner = {
   restart: () => void;
   /** A control's id from its field's name ("from", "age-0"), so the first problem can be focused. */
   fieldId: (field: string) => string;
-  /** The progress heading, which takes focus after a step change. */
+  /** The progress heading, which takes focus after a step change: in the form column from 1100px… */
   progressRef: RefObject<HTMLHeadingElement | null>;
+  /** …and in the summary bar below 1100px. */
+  barProgressRef: RefObject<HTMLHeadingElement | null>;
   /** The form column, brought back into view after a step change. */
   formRef: RefObject<HTMLDivElement | null>;
-  /** The sticky bar holding the progress: fields scroll to just below it. */
+  /** The sticky bar holding the progress (from 1100px): fields scroll to just below it… */
   barRef: RefObject<HTMLDivElement | null>;
+  /** …or the summary bar (below 1100px), open or closed. */
+  summaryBarRef: RefObject<HTMLDivElement | null>;
   /** The step's body, whose first field takes focus after Edit. */
   bodyRef: RefObject<HTMLDivElement | null>;
   /** "Thanks, Ayesha.", which takes focus on arrival. */
@@ -174,11 +178,15 @@ export function usePlannerState({ destinations, builtOn, messages, words, templa
   const progressRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const barProgressRef = useRef<HTMLHeadingElement>(null);
+  const summaryBarRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
   const base = useId();
   const fieldId = useCallback((field: string) => `${base}-${field}`, [base]);
-  usePlannerFocus(focus, { fieldId, progressRef, formRef, barRef, bodyRef, successRef });
+  const progressRefs = useMemo(() => [progressRef, barProgressRef], []);
+  const barRefs = useMemo(() => [barRef, summaryBarRef], []);
+  usePlannerFocus(focus, { fieldId, progressRefs, formRef, barRefs, bodyRef, successRef });
   const update = useCallback(
     (change: (answers: TripAnswers) => TripAnswers) => {
       setAnswers((was) => change(was ?? start));
@@ -269,8 +277,10 @@ export function usePlannerState({ destinations, builtOn, messages, words, templa
     },
     fieldId,
     progressRef,
+    barProgressRef,
     formRef,
     barRef,
+    summaryBarRef,
     bodyRef,
     successRef,
   };

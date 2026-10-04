@@ -23,7 +23,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
   },
   progress: { step: 'Step {step} of 3 · {title}', review: 'Review · Check and send' },
   steps: { whereWhen: 'Where and when', whosComing: 'Who’s coming', details: 'Your details' },
-  nav: { back: 'Back', next: 'Next: {title}', review: 'Review' },
+  nav: { back: 'Back', next: 'Next: {title}', nextShort: 'Next', review: 'Review' },
   whereWhen: {
     destinations: { label: 'Destinations', hint: 'Required · choose one or more', unsure: 'Not sure, suggest something' },
     dates: {
@@ -127,6 +127,29 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     explore: 'Explore destinations',
     again: 'Plan another trip',
   },
+  aside: {
+    label: 'Your trip so far',
+    answered: '{count} of 9 answered',
+    notAnswered: 'Not answered',
+    rows: {
+      destinations: 'Destinations',
+      dates: 'Dates',
+      length: 'Trip length',
+      group: 'Group',
+      groupType: 'Group type',
+      hotels: 'Hotels',
+      transport: 'Transport',
+      from: 'From',
+      budget: 'Budget',
+    },
+  },
+  bar: { yourTrip: 'Your trip', suggestions: 'Suggestions', noDates: 'Dates?', more: '+{count}', people: { one: '{count} person', other: '{count} people' } },
+  next: {
+    title: 'What happens next',
+    steps: ['We reply on WhatsApp within 2 hours.', 'We send a day-by-day plan and price.', 'You confirm with a 30% advance.'],
+    licence: 'DTS licence No. [DTS licence number]',
+    office: 'Office in Lahore',
+  },
   errors: {
     destinations: 'Choose at least one destination, or “Not sure, suggest something”.',
     month: 'Pick a month, or switch to exact dates.',
@@ -152,6 +175,12 @@ export const samplePlannerDestinations: PlannerPage['destinations'] = [
   { slug: 'skardu', name: 'Skardu', image: samplePhoto },
   { slug: 'swat', name: 'Swat', image: samplePhoto },
 ];
+
+/** The summary bar's words, with the sample destinations' names. */
+export const sampleBarWords: PlannerPage['barWords'] = {
+  ...samplePlannerCopy.bar,
+  destinations: Object.fromEntries(samplePlannerDestinations.map((d) => [d.slug, d.name])),
+};
 
 /** A build date long past, so the browser's own date (today) is what the planner uses. */
 export const sampleBuiltOn = '2026-01-01';

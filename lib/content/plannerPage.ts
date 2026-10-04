@@ -21,6 +21,11 @@ export function getPlannerPage() {
       ...copy,
       header: { ...copy.header, lead: fillTokens(copy.header.lead, replyTime) },
       success: { ...copy.success, line: fillTokens(copy.success.line, replyTime) },
+      next: {
+        ...copy.next,
+        steps: copy.next.steps.map((step) => fillTokens(step, { ...replyTime, advancePercent: String(settings.booking.advancePercent) })),
+        licence: fillTokens(copy.next.licence, { dtsLicence: settings.legal.dtsLicence }),
+      },
     },
     settings,
     /** The build's date (Asia/Karachi): the months and the earliest date until the browser has its own. */
@@ -28,6 +33,8 @@ export function getPlannerPage() {
     sharePhoto: getHomeCopy().hero.image,
     /** The destination cards, in the loader's order. */
     destinations,
+    /** The summary bar's words, with the destinations' names. */
+    barWords: { ...copy.bar, destinations: Object.fromEntries(destinations.map((d) => [d.slug, d.name])) },
     /** What the planner's state needs: the choices, the words for its summary, and the WhatsApp messages. */
     config: {
       destinations: destinations.map((d) => d.slug),

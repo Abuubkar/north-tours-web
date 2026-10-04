@@ -166,6 +166,9 @@
   --review-key-w-wide: 180px; /* and from 1100px */
   --measure-message: 560px; /* the WhatsApp message preview */
   --planner-success-y: clamp(40px, 5cqi, 72px); /* above and below the planner's thank-you */
+  --summary-key-w: 100px; /* the label column of "Your trip so far" */
+  --planner-aside-top: calc(var(--header-h) + var(--space-24)); /* where the planner's side column stops, under the header */
+  --planner-aside-max-h: calc(100vh - var(--planner-aside-top) - var(--space-16)); /* its height before it scrolls inside */
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */

@@ -18,6 +18,7 @@
   "nav": {
     "back": "Back",
     "next": "Next: {title}",
+    "nextShort": "Next",
     "review": "Review"
   },
   "whereWhen": {
@@ -211,6 +212,42 @@
     "browse": "Browse tours",
     "explore": "Explore destinations",
     "again": "Plan another trip"
+  },
+  "aside": {
+    "label": "Your trip so far",
+    "answered": "{count} of 9 answered",
+    "notAnswered": "Not answered",
+    "rows": {
+      "destinations": "Destinations",
+      "dates": "Dates",
+      "length": "Trip length",
+      "group": "Group",
+      "groupType": "Group type",
+      "hotels": "Hotels",
+      "transport": "Transport",
+      "from": "From",
+      "budget": "Budget"
+    }
+  },
+  "bar": {
+    "yourTrip": "Your trip",
+    "suggestions": "Suggestions",
+    "noDates": "Dates?",
+    "more": "+{count}",
+    "people": {
+      "one": "{count} person",
+      "other": "{count} people"
+    }
+  },
+  "next": {
+    "title": "What happens next",
+    "steps": [
+      "We reply on WhatsApp {replyTime}.",
+      "We send a day-by-day plan and price.",
+      "You confirm with a {advancePercent}% advance."
+    ],
+    "licence": "DTS licence No. {dtsLicence}",
+    "office": "Office in Lahore"
   },
   "errors": {
     "destinations": "Choose at least one destination, or “Not sure, suggest something”.",

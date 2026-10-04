@@ -445,7 +445,8 @@ const plannerCopySchema = z.strictObject({
   /** Each step's title, in the progress heading and the Next button. */
   steps: z.strictObject({ whereWhen: copy, whosComing: copy, details: copy }),
   /** Next names the step it goes to: "Next: Who’s coming". */
-  nav: z.strictObject({ back: copy, next: copyWith('title'), review: copy }),
+  /** Next names the step it goes to; on phones (below 820px) the bottom bar's Next is short. */
+  nav: z.strictObject({ back: copy, next: copyWith('title'), nextShort: copy, review: copy }),
   whereWhen: z.strictObject({
     destinations: z.strictObject({ label: copy, hint: copy, unsure: copy }),
     dates: z.strictObject({
@@ -534,6 +535,29 @@ const plannerCopySchema = z.strictObject({
     browse: copy,
     explore: copy,
     again: copy,
+  }),
+  /** "Your trip so far": the nine rows beside the form (from 1100px), and how many are answered. */
+  aside: z.strictObject({
+    label: copy,
+    answered: copyWith('count'),
+    /** Read out for an empty row, which shows "—". */
+    notAnswered: copy,
+    rows: z.record(z.enum(SUMMARY_ROWS), copy),
+  }),
+  /** The summary bar's label on phones: "Hunza · Jun · 4 people". */
+  bar: z.strictObject({
+    yourTrip: copy,
+    suggestions: copy,
+    noDates: copy,
+    more: copyWith('count'),
+    people: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
+  }),
+  /** "What happens next": three steps in order, then the licence line. */
+  next: z.strictObject({
+    title: copy,
+    steps: z.array(copyWith('replyTime', 'advancePercent')).length(3, 'List exactly three steps'),
+    licence: copyWith('dtsLicence'),
+    office: copy,
   }),
   /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
   errors: z.strictObject({
