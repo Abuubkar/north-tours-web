@@ -24,6 +24,8 @@
 .headerLink {
   composes: link;
   composes: ui from '../../../styles/typography.module.css';
+  justify-content: center;
+  min-width: var(--tap); /* short words like "Tours" still get a 44px-wide target */
   font-weight: var(--fw-medium);
   white-space: nowrap;
 }
