@@ -1,12 +1,13 @@
 import type { CSSProperties } from 'react';
 import { MINI_MAP_FRAME } from '@/lib/utils/itinerary';
+import { overlayPosition } from '@/lib/utils/projection';
 import type { DayMiniMapProps } from './DayMiniMap.types';
 import styles from './DayMiniMap.module.css';
 
 const { width, height } = MINI_MAP_FRAME;
 
-/** Places an overlay at a point in the drawing, in percent. */
-const placeAt = (x: number, y: number) => ({ '--x': `${(x / width) * 100}%`, '--y': `${(y / height) * 100}%` }) as CSSProperties;
+/** Places an overlay at a point in the drawing, in percent, so it stays put at any size. */
+const placeAt = (x: number, y: number) => overlayPosition({ x, y }, MINI_MAP_FRAME) as CSSProperties;
 
 /**
  * A thumbnail beside a day (below 1280px): the route, the progress up to that day, the start

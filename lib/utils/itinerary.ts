@@ -1,5 +1,5 @@
 import type { Tour } from '../content/tours.ts';
-import { mapProjection, type MapFrame } from './projection.ts';
+import { mapProjection, svgPath, type MapFrame, type MapPoint } from './projection.ts';
 
 /*
  * The itinerary's route and progress (PRD #47): the path the trip takes, how far along it each
@@ -8,8 +8,14 @@ import { mapProjection, type MapFrame } from './projection.ts';
 
 type Day = Pick<Tour['itinerary'][number], 'stops'>;
 
-/** A day's place on the map: index -1 is before the first day (the start, Lahore). */
+/** A stop's or a day's state on the day being read: where you are, been, or still to go. */
 export type StopState = 'current' | 'visited' | 'upcoming';
+
+/** A day's state when `active` is the day being read (0-based; -1 before the first). */
+export function dayState(day: number, active: number): StopState {
+  if (day === active) return 'current';
+  return day < active ? 'visited' : 'upcoming';
+}
 
 /**
  * The route as stop names: the start, then each day's stops in order, a stop repeated straight
@@ -24,13 +30,11 @@ export function routePath(start: string, days: readonly Day[]): { route: string[
   return { route, dayEnds };
 }
 
-type Point = { x: number; y: number };
-
 /**
  * How far along the route each day ends, as a share of its whole length (0 to 1), measured
  * along the drawn points. The last day ends at 1. A route with no length counts every day as done.
  */
-export function routeProgress(points: readonly Point[], dayEnds: readonly number[]): number[] {
+export function routeProgress(points: readonly MapPoint[], dayEnds: readonly number[]): number[] {
   const upTo = [0];
   for (let i = 1; i < points.length; i++) {
     upTo.push(upTo[i - 1] + Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y));
@@ -76,7 +80,10 @@ export function drawItinerary(stops: readonly Stop[], days: readonly Day[], fram
   const path = route.map((name) => points.get(name)!);
   return {
     stops: stops.map((stop) => ({ ...stop, ...points.get(stop.name)! })),
-    d: path.map(({ x, y }, i) => `${i === 0 ? 'M' : 'L'}${x} ${y}`).join(' '),
+    d: svgPath(path),
     progress: routeProgress(path, dayEnds),
   };
 }
+
+/** An itinerary drawn in a frame (`drawItinerary`). */
+export type ItineraryDrawing = ReturnType<typeof drawItinerary>;

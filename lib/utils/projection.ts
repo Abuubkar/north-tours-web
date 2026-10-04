@@ -13,7 +13,7 @@ export const MAP_FRAME = { width: 560, height: 700, padding: 64 } as const;
 export type MapFrame = { width: number; height: number; padding: number };
 
 type LatLon = { lat: number; lon: number };
-type MapPoint = { x: number; y: number };
+export type MapPoint = { x: number; y: number };
 type GridLine = { value: number; at: number; label: string };
 
 type MapProjection = {
@@ -52,6 +52,19 @@ export function mapProjection(places: readonly LatLon[], frame: MapFrame = MAP_F
   };
 }
 
+/** Points joined into an SVG path: "M10 20 L30 40 …". */
+export function svgPath(points: readonly MapPoint[]): string {
+  return points.map(({ x, y }, i) => `${i === 0 ? 'M' : 'L'}${x} ${y}`).join(' ');
+}
+
+/**
+ * Where a point sits in a frame, in percent, as the CSS variables a map's HTML overlays (labels,
+ * markers) are placed with, so they stay put at any size: { '--x': '25%', '--y': '40%' }.
+ */
+export function overlayPosition({ x, y }: MapPoint, frame: Pick<MapFrame, 'width' | 'height'>): Record<'--x' | '--y', string> {
+  return { '--x': `${(x / frame.width) * 100}%`, '--y': `${(y / frame.height) * 100}%` };
+}
+
 type DrawableMap = Pick<RouteMap, 'stops' | 'roads'>;
 
 /**
@@ -64,11 +77,7 @@ export function drawRouteMap({ stops, roads }: DrawableMap) {
     typeof point === 'string' ? byName.get(point)! : point;
   const bends = [...roads.main, ...roads.valley].flat().filter((p) => typeof p !== 'string');
   const { project, parallels, meridians } = mapProjection([...stops, ...bends]);
-  const path = (road: RouteMap['roads']['main'][number]) =>
-    road.map((point, i) => {
-      const { x, y } = project(place(point));
-      return `${i === 0 ? 'M' : 'L'}${x} ${y}`;
-    }).join(' ');
+  const path = (road: RouteMap['roads']['main'][number]) => svgPath(road.map((point) => project(place(point))));
 
   return {
     stops: stops.map((stop) => ({ ...stop, ...project(stop) })),

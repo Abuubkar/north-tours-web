@@ -153,6 +153,9 @@
   --map-side-top: calc(var(--header-h) + var(--space-32)); /* where the sticky side map stops */
   --mini-map-w: 112px;
   --mini-map-h: 156px;
+  /* Drawing units per pixel (the frames in lib/utils/itinerary are 560 wide), for stroke widths. */
+  --map-side-units: calc(560 / 340);
+  --mini-map-units: calc(560 / 112);
 
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;

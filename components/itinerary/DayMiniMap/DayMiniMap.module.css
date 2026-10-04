@@ -12,23 +12,26 @@
   height: 100%;
 }
 
+/*
+ * Strokes are in the drawing's units (scaled from the px tokens), not non-scaling: the progress
+ * line's dashes rely on pathLength, which non-scaling strokes would measure in screen pixels.
+ */
 .route,
 .progress {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
 }
 
 .route {
   stroke: var(--control-border);
-  stroke-width: var(--map-road-width);
+  stroke-width: calc(var(--map-road-width) * var(--mini-map-units));
 }
 
 /* Drawn up to the day: the path's length is 1, so the offset is the share still to come. */
 .progress {
   stroke: var(--fg);
-  stroke-width: var(--map-route-width);
+  stroke-width: calc(var(--map-route-width) * var(--mini-map-units));
   stroke-dasharray: 1;
 }
 

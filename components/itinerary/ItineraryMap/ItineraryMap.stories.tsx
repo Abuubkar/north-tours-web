@@ -57,3 +57,9 @@ export const LastDay: Story = {
 };
 
 export const LastDayOnLight: Story = { ...LastDay, globals: { surface: 'light' } };
+
+export const OnADayLaptop: Story = { ...OnADay, globals: { viewport: { value: 'laptop' } } };
+
+export const OnADayPhone: Story = { ...OnADay, globals: { viewport: { value: 'phone' } } };
+
+export const BeforeDay1OnLight: Story = { ...BeforeDay1, globals: { surface: 'light' } };

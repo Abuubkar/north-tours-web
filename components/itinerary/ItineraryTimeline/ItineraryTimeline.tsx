@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-import { ITINERARY_LINE } from '@/lib/utils/itinerary';
+import { dayState, ITINERARY_LINE } from '@/lib/utils/itinerary';
 import { ItineraryDay } from '../ItineraryDay/ItineraryDay';
 import { ItineraryMap } from '../ItineraryMap/ItineraryMap';
 import type { ItineraryTimelineProps } from './ItineraryTimeline.types';
@@ -26,7 +26,7 @@ export function ItineraryTimeline({ days, copy, drawing, miniMaps }: ItineraryTi
             key={ids[i]}
             day={day}
             number={i + 1}
-            state={i === active ? 'current' : i < active ? 'visited' : 'upcoming'}
+            state={dayState(i, active)}
             copy={copy}
             miniMap={miniMaps[i]}
           />

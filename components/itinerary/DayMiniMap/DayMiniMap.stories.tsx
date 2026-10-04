@@ -34,3 +34,7 @@ export const OnePlace: Story = {
 export const OnePlacePhone: Story = { ...OnePlace, globals: { viewport: { value: 'phone' } } };
 
 export const OnePlaceOnLight: Story = { ...OnePlace, globals: { surface: 'light' } };
+
+export const MiddleDayLaptop: Story = { ...MiddleDay, globals: { viewport: { value: 'laptop' } } };
+
+export const MiddleDayDesktop: Story = { ...MiddleDay, globals: { viewport: { value: 'desktop' } } };

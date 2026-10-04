@@ -99,3 +99,11 @@ export const ReducedMotion: Story = {
     await expect(getComputedStyle(map.querySelectorAll('path')[1]).transitionDuration).toBe('0s');
   },
 };
+
+export const LaptopOnLight: Story = { ...Laptop, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+
+export const TabletOnLight: Story = { ...Tablet, globals: { surface: 'light', viewport: { value: 'navBreakpoint' } } };
+
+export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+export const ReducedMotionOnLight: Story = { ...ReducedMotion, globals: { surface: 'light', viewport: { value: 'desktop' } } };

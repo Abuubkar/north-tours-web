@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { ITINERARY_MAP_FRAME, stopStates } from '@/lib/utils/itinerary';
+import { overlayPosition } from '@/lib/utils/projection';
 import { sequenceNumber } from '@/lib/utils/sequence';
 import { fillTokens } from '@/lib/utils/tokens';
 import type { ItineraryMapProps } from './ItineraryMap.types';
@@ -8,7 +9,7 @@ import styles from './ItineraryMap.module.css';
 const { width, height } = ITINERARY_MAP_FRAME;
 
 /** Places an overlay at a point in the drawing, in percent, so it stays put at any size. */
-const placeAt = (x: number, y: number) => ({ '--x': `${(x / width) * 100}%`, '--y': `${(y / height) * 100}%` }) as CSSProperties;
+const placeAt = (x: number, y: number) => overlayPosition({ x, y }, ITINERARY_MAP_FRAME) as CSSProperties;
 
 /**
  * The side map (from 1280px): the route, a line drawn up to the day being read, and each stop

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { loadTours } from '../content/tours.ts';
 import { sectionInView } from './nav.ts';
-import { drawItinerary, ITINERARY_LINE, ITINERARY_MAP_FRAME, MINI_MAP_FRAME, routePath, routeProgress, stopStates } from './itinerary.ts';
+import { dayState, drawItinerary, ITINERARY_LINE, ITINERARY_MAP_FRAME, MINI_MAP_FRAME, routePath, routeProgress, stopStates } from './itinerary.ts';
 
 /** A short version of the Grand: up to Hunza, out to Attabad and back, then home. */
 const days = [
@@ -55,6 +55,16 @@ describe('the active day (sectionInView at the itinerary’s line)', () => {
   it('is the last day past the line, and the last day at the end', () => {
     expect(sectionInView(at(-200), viewport, ITINERARY_LINE)).toBe('day-2');
     expect(sectionInView(at(-2000), viewport, ITINERARY_LINE)).toBe('day-3');
+  });
+});
+
+describe('dayState', () => {
+  it('marks the day being read current, earlier days visited and later ones upcoming', () => {
+    expect([0, 1, 2, 3].map((day) => dayState(day, 1))).toEqual(['visited', 'current', 'upcoming', 'upcoming']);
+  });
+
+  it('marks every day upcoming before day 1', () => {
+    expect([0, 1].map((day) => dayState(day, -1))).toEqual(['upcoming', 'upcoming']);
   });
 });
 
