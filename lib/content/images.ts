@@ -53,3 +53,6 @@ export const portraitSchema = z.union([z.strictObject({ ...photoFields, credit: 
 
 export type Photo = z.infer<typeof photoSchema>;
 export type ContentImage = z.infer<typeof imageSchema>;
+
+/** True for a real photo, false for a placeholder still waiting for one. */
+export const isPhoto = (image: ContentImage): image is Photo => 'src' in image;

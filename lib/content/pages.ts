@@ -98,3 +98,115 @@ export function getCreditsCopy(): CreditsCopy {
   cachedCredits ??= requireValid(loadCreditsCopy());
   return cachedCredits;
 }
+
+const roomRow = z.strictObject({ label: copy, note: copy });
+
+/** The tour page's wording; each tour fills it in (the meta description is the tour's own summary). */
+const tourCopySchema = z.strictObject({
+  /** The <title> part: "Hunza & Skardu Grand, 9 days from Lahore". */
+  title: copyWith('tour', 'duration'),
+  hero: z.strictObject({
+    /** "← All tours", to the Tours page. */
+    backLabel: copy,
+  }),
+  /** The facts under the hero's title. */
+  facts: z.strictObject({
+    duration: copy,
+    rating: copy,
+    from: copy,
+    /** Under the "from" price. */
+    fromNote: copy,
+    nextDeparture: copy,
+  }),
+  quickFacts: z.strictObject({
+    difficulty: copy,
+    groupSize: copy,
+    /** {count} is the largest group on any of the tour's departures. */
+    groupSizeValue: copyWith('count'),
+    departsFrom: copy,
+    bestSeason: copy,
+    transport: copy,
+  }),
+  /** "Upcoming departures and prices" (#dates). */
+  dates: z.strictObject({
+    headline: copy,
+    /** Under each row's dates: {tripLength} is "9 days, 8 nights". */
+    rowMeta: copyWith('tripLength'),
+    /** Under each row's twin price. */
+    priceNote: copy,
+    selectLabel: copy,
+    /** The chosen row's button. */
+    selectedLabel: copy,
+    waitlistLabel: copy,
+    /** "Room sharing": a row per room, its name and a note, beside the tour's price. */
+    rooms: z.strictObject({
+      heading: copy,
+      twin: roomRow,
+      triple: roomRow,
+      quad: roomRow,
+      note: copyWith(...SETTINGS_TOKENS),
+    }),
+  }),
+  /** The booking panel (aside, and the sheet on phones). */
+  booking: z.strictObject({
+    /** Names the aside: "Book this tour". */
+    label: copy,
+    /** Under the price. */
+    priceNote: copy,
+    dateLabel: copy,
+    /** The compact form's select (short screens), until a date is chosen. */
+    choosePlaceholder: copy,
+    travellersLabel: copy,
+    travellersHint: copyWith(...SETTINGS_TOKENS),
+    fewerTravellers: copy,
+    moreTravellers: copy,
+    roomLabel: copy,
+    /** Each room's short name on its option, e.g. "Twin"; the WhatsApp message says "twin sharing". */
+    rooms: z.strictObject({ twin: copy, triple: copy, quad: copy }),
+    /** The trust line: "DTS licence No. {licence}" (from settings) · "Departs from {pickupPoint}". */
+    trustLicence: copyWith('licence'),
+    trustDeparts: copyWith(...SETTINGS_TOKENS),
+    totalLabel: copy,
+    /** In place of the total until a date is chosen. */
+    chooseDate: copy,
+    /** {advance} is the amount, e.g. "PKR 87,000". */
+    advance: copyWith('advance', ...SETTINGS_TOKENS),
+    reserveLabel: copyWith(...SETTINGS_TOKENS),
+    /** A sold-out date chosen: {date} is its dates, e.g. "9–17 Jun". */
+    soldOut: copyWith('date'),
+    waitlistLabel: copy,
+    askLabel: copy,
+    cancelNote: copyWith(...SETTINGS_TOKENS),
+  }),
+  /** The sticky bar on phones and tablets (below 1100px). */
+  bar: z.strictObject({
+    /** Under the price once a date is chosen: {date} is its dates, e.g. "12–20 May". */
+    dateNote: copyWith('date'),
+    soldOutNote: copyWith('date'),
+    /** Opens the booking sheet. */
+    reserveLabel: copy,
+    /** The WhatsApp button's accessible name. */
+    askLabel: copyWith('tour'),
+  }),
+  /** The booking sheet: under its title (the tour), e.g. "9 days, 8 nights · from Lahore". */
+  sheet: z.strictObject({ subtitle: copyWith('tripLength') }),
+  /** The final call to action, "Hold your seats with a 30% advance". */
+  cta: z.strictObject({ headline: copyWith(...SETTINGS_TOKENS), lead: copy }),
+});
+
+export type TourCopy = z.infer<typeof tourCopySchema>;
+
+export function tourCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'tour.json');
+}
+
+export function loadTourCopy(dir = CONTENT_DIR) {
+  return parseFile(tourCopySchema, tourCopyFile(dir));
+}
+
+let cachedTour: TourCopy | undefined;
+
+export function getTourCopy(): TourCopy {
+  cachedTour ??= requireValid(loadTourCopy());
+  return cachedTour;
+}

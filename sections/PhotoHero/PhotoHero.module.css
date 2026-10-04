@@ -1,0 +1,55 @@
+/* Slides under the sticky header, like the Homepage hero; its text sits on the scrim. */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-48);
+  min-height: var(--photo-hero-h);
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: var(--space-96);
+  overflow: hidden;
+}
+
+.media,
+.scrim {
+  position: absolute;
+  inset: 0;
+}
+
+/*
+ * On phones the title and facts fill most of the hero, so the scrim is stretched down to put its
+ * dark end behind all of them (the same gradient, drawn taller and anchored at the bottom).
+ */
+.scrim {
+  background: var(--hero-scrim) bottom / 100% var(--photo-hero-scrim-stretch);
+}
+
+@media (width >= 820px) {
+  .scrim {
+    background-size: 100% 100%;
+  }
+}
+
+.top,
+.foot {
+  position: relative;
+  padding: 0 var(--margin);
+}
+
+.foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding-bottom: var(--hero-row-pad);
+}
+
+.kicker {
+  composes: small from '../../styles/typography.module.css';
+  color: var(--fg-2);
+  font-weight: var(--fw-medium);
+}
+
+.title {
+  composes: tourHero from '../../styles/typography.module.css';
+}

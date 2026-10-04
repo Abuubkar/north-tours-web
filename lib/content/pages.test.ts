@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { creditsCopyFile, homeCopyFile, loadCreditsCopy, loadHomeCopy, type HomeCopy } from './pages.ts';
+import { creditsCopyFile, homeCopyFile, loadCreditsCopy, loadHomeCopy, loadTourCopy, tourCopyFile, type HomeCopy, type TourCopy } from './pages.ts';
 import { contentFixture } from './testing.ts';
 
 const home: HomeCopy = JSON.parse(readFileSync(homeCopyFile(), 'utf8'));
@@ -47,7 +47,9 @@ describe('booking steps', () => {
     expect(withChange((c) => Object.assign(c.how.steps[0], { text: 'From {pickupPoint}, {advancePercent}%' })).problems).toEqual([]);
     const result = withChange((c) => Object.assign(c.how.steps[2], { text: 'Pay by {paymentMethod}.' }));
     expect(fields(result)).toEqual(['how.steps.2.text']);
-    expect(result.problems[0].message).toBe('Unknown token {paymentMethod}. Use only {advancePercent}, {paymentMethods}, {pickupPoint}');
+    expect(result.problems[0].message).toBe(
+      'Unknown token {paymentMethod}. Use only {advancePercent}, {paymentMethods}, {pickupPoint}, {fullRefundDays}, {childFromAge}',
+    );
   });
 });
 
@@ -77,5 +79,30 @@ describe('credits page copy', () => {
     const { headline, ...rest } = JSON.parse(readFileSync(creditsCopyFile(), 'utf8'));
     expect(headline).toBeTruthy();
     expect(loadCreditsCopy(contentFixture({ 'pages/credits.json': rest })).problems.map((p) => p.field)).toEqual(['headline']);
+  });
+});
+
+describe('tour page copy', () => {
+  const tour: TourCopy = JSON.parse(readFileSync(tourCopyFile(), 'utf8'));
+  const withTourChange = (change: (copy: TourCopy) => void) => {
+    const copy = structuredClone(tour);
+    change(copy);
+    return loadTourCopy(contentFixture({ 'pages/tour.json': copy }));
+  };
+
+  it('accepts the live file', () => {
+    expect(loadTourCopy().problems).toEqual([]);
+  });
+
+  it('rejects a missing field, naming the file', () => {
+    const result = withTourChange((c) => delete (c.facts as Partial<TourCopy['facts']>).nextDeparture);
+    expect(result.problems.map((p) => p.field)).toEqual(['facts.nextDeparture']);
+    expect(result.problems[0].file).toMatch(/pages\/tour\.json$/);
+  });
+
+  it('rejects a token the field does not take', () => {
+    const result = withTourChange((c) => Object.assign(c, { title: '{tour}, {days} from Lahore' }));
+    expect(result.problems.map((p) => p.field)).toEqual(['title']);
+    expect(result.problems[0].message).toBe('Unknown token {days}. Use only {tour}, {duration}');
   });
 });

@@ -4,16 +4,14 @@ import { IMAGE_FORMATS, shareSrc, variantSrc, variantWidths } from '../utils/ima
 import { loadCatalog } from './catalog.ts';
 import { CONTENT_DIR, displayPath, type ContentProblem } from './files.ts';
 import { loadGuides } from './guides.ts';
-import type { ContentImage, Photo } from './images.ts';
+import { isPhoto, type ContentImage, type Photo } from './images.ts';
 import { homeCopyFile, loadHomeCopy } from './pages.ts';
 
 /** Where the site's static files live; `pnpm images` writes the variants here (ADR-0015). */
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
-/** One photo used in content: where it's set, and whether it's a page hero (it gets a share crop). */
+/** One photo used in content: where it's set, and whether it's a page's share image (it gets a share crop). */
 export type PhotoUse = { file: string; field: string; photo: Photo; share: boolean };
-
-const isPhoto = (image: ContentImage): image is Photo => 'src' in image;
 
 /** Every photo in content (placeholders aren't files yet), with the file and field it's set in. */
 export function contentPhotos(dir = CONTENT_DIR): PhotoUse[] {
@@ -22,7 +20,8 @@ export function contentPhotos(dir = CONTENT_DIR): PhotoUse[] {
   const home = loadHomeCopy(dir);
   const uses: { file: string; field: string; image: ContentImage; share?: boolean }[] = [
     ...(home.data ? [{ file: displayPath(homeCopyFile(dir)), field: 'hero.image', image: home.data.hero.image, share: true }] : []),
-    ...catalog.tours.map((t) => ({ file: catalog.tourFiles[t.slug], field: 'image', image: t.image })),
+    // A tour's photo is its page's hero and share image.
+    ...catalog.tours.map((t) => ({ file: catalog.tourFiles[t.slug], field: 'image', image: t.image, share: true })),
     ...catalog.destinations.map((d) => ({ file: catalog.destinationFiles[d.slug], field: 'image', image: d.image })),
     ...guides.items.map((g) => ({ file: guides.files[g.slug], field: 'portrait', image: g.portrait })),
   ];

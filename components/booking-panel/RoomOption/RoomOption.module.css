@@ -1,0 +1,35 @@
+.option {
+  composes: optionTile from '../../../styles/layout.module.css';
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  min-width: 0;
+  min-height: var(--control-56);
+  padding: var(--space-4);
+}
+
+/* The radio covers the tile, unseen: the tile's border and fill show the choice. */
+.radio {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.label {
+  composes: ui from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+.price {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

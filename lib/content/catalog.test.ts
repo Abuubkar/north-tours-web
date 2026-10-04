@@ -5,7 +5,7 @@ import { catalogAsOf, loadCatalog } from './catalog.ts';
 import type { Destination } from './destinations.ts';
 import { CONTENT_DIR } from './files.ts';
 import { contentFixture } from './testing.ts';
-import type { Tour } from './tours.ts';
+import type { RoomPrices, Tour } from './tours.ts';
 
 const read = <T>(file: string): T => JSON.parse(readFileSync(path.join(CONTENT_DIR, file), 'utf8'));
 const hunza = read<Destination>('destinations/hunza.json');
@@ -130,6 +130,49 @@ describe('catalog: tours and destinations', () => {
   it('rejects an unknown region or month on a destination', () => {
     expect(fields(load((_, d) => Object.assign(d, { region: 'Sindh' })))).toEqual(['region']);
     expect(fields(load((_, d) => Object.assign(d.bestSeason, { from: 'April' })))).toEqual(['bestSeason.from']);
+  });
+
+  it('needs a twin, triple and quad price in whole rupees', () => {
+    expect(fields(load((t) => delete (t.prices as Partial<RoomPrices>).quad))).toEqual(['prices.quad']);
+    expect(fields(load((t) => Object.assign(t.prices, { triple: 135000.5 })))).toEqual(['prices.triple']);
+  });
+
+  it('rejects room prices out of order: sharing never costs more per person', () => {
+    expect(fields(load((t) => Object.assign(t.prices, { quad: 136000 })))).toEqual(['prices.quad']);
+    expect(fields(load((t) => Object.assign(t.prices, { triple: 150000 })))).toEqual(['prices.triple']);
+    expect(fields(load((t) => Object.assign(t.prices, { triple: 145000, quad: 145000 })))).toEqual([]);
+  });
+
+  it('checks a departure’s own room prices the same way', () => {
+    const eid = { twin: 160000, triple: 150000, quad: 140000 };
+    expect(fields(load((t) => Object.assign(firstDeparture(t), { prices: eid })))).toEqual([]);
+    expect(fields(load((t) => Object.assign(firstDeparture(t), { prices: { ...eid, quad: 155000 } })))).toEqual([
+      'departures.0.prices.quad',
+    ]);
+    expect(fields(load((t) => Object.assign(firstDeparture(t), { prices: { twin: 160000 } })))).toEqual([
+      'departures.0.prices.triple',
+      'departures.0.prices.quad',
+    ]);
+  });
+
+  it('rejects the old single prices (ADR-0017)', () => {
+    const tourPrice = load((t) => Object.assign(t, { priceFrom: 145000 }));
+    expect(fields(tourPrice)).toEqual(['']);
+    expect(tourPrice.problems[0].message).toMatch(/"priceFrom"/);
+    const departurePrice = load((t) => Object.assign(firstDeparture(t), { price: 150000 }));
+    expect(fields(departurePrice)).toEqual(['departures.0']);
+    expect(departurePrice.problems[0].message).toMatch(/"price"/);
+  });
+
+  it('needs a summary of at most 160 characters', () => {
+    expect(fields(load((t) => delete (t as Partial<Tour>).summary))).toEqual(['summary']);
+    expect(fields(load((t) => Object.assign(t, { summary: 'x'.repeat(160) })))).toEqual([]);
+    expect(fields(load((t) => Object.assign(t, { summary: 'x'.repeat(161) })))).toEqual(['summary']);
+  });
+
+  it('rejects a tour’s best season with an unknown month', () => {
+    expect(fields(load((t) => Object.assign(t.bestSeason, { to: 'October' })))).toEqual(['bestSeason.to']);
+    expect(fields(load((t) => delete (t as Partial<Tour>).bestSeason))).toEqual(['bestSeason']);
   });
 
   it('reports every problem at once', () => {

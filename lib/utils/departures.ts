@@ -23,6 +23,11 @@ export function urgencyText({ seatsLeft }: Pick<Departure, 'seatsLeft'>): string
   return `Only ${seatsLeft} ${seatsLeft === 1 ? 'seat' : 'seats'} left`;
 }
 
+/** The largest group on any of these departures (its seats in total), or undefined with none. */
+export function groupSize(departures: readonly Pick<Departure, 'seatsTotal'>[]): number | undefined {
+  return departures.length > 0 ? Math.max(...departures.map((d) => d.seatsTotal)) : undefined;
+}
+
 /** Shown in place of dates when a tour has no departures left. */
 export const NO_UPCOMING_DATES = 'No upcoming dates · ask on WhatsApp';
 

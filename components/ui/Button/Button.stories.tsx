@@ -86,6 +86,31 @@ export const Disabled: Story = {
   },
 };
 
+/** aria-disabled: the disabled look, but it stays focusable, so keyboard focus isn't lost (e.g. Reserve before a date). */
+export const AriaDisabled: Story = {
+  args: { children: 'Reserve with 30% advance', 'aria-disabled': true, size: 48 },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole('button', { name: 'Reserve with 30% advance' });
+    await expect(button).toHaveAttribute('aria-disabled', 'true');
+    button.focus();
+    await expect(button).toHaveFocus();
+    await expect(getComputedStyle(button).cursor).toBe('not-allowed');
+  },
+};
+
+export const AriaDisabledOnLight: Story = { ...AriaDisabled, globals: { surface: 'light' } };
+
+/** A toggle that's on (aria-pressed) takes the shared selected state: the raised surface. */
+export const Pressed: Story = {
+  args: { variant: 'secondary', size: 48, children: 'Selected', 'aria-pressed': true },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole('button', { name: 'Selected', pressed: true });
+    await expect(getComputedStyle(button).backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
+  },
+};
+
+export const PressedOnLight: Story = { ...Pressed, globals: { surface: 'light' } };
+
 /** Every button is at least the 44px tap target. */
 export const TapTarget: Story = {
   args: { size: 44, variant: 'quiet', children: 'Instagram' },

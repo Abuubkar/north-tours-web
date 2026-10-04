@@ -6,11 +6,12 @@
 
 import type { Settings } from '../content/settings.ts';
 import { paymentMethodsSentence } from './payments.ts';
+import { fullRefundDays } from './policies.ts';
 
 const TOKEN = /\{(\w+)\}/g;
 
 /** Tokens filled from settings, e.g. "{advancePercent}% advance" → "30% advance". */
-export const SETTINGS_TOKENS = ['advancePercent', 'paymentMethods', 'pickupPoint'] as const;
+export const SETTINGS_TOKENS = ['advancePercent', 'paymentMethods', 'pickupPoint', 'fullRefundDays', 'childFromAge'] as const;
 
 export type SettingsToken = (typeof SETTINGS_TOKENS)[number];
 
@@ -28,10 +29,12 @@ export function fillTokens(template: string, values: Record<string, string>): st
 }
 
 /** The `{tokens}` page copy may take from settings, filled with their current values. */
-export function settingsTokens(settings: Pick<Settings, 'booking' | 'payments'>): Record<SettingsToken, string> {
+export function settingsTokens(settings: Pick<Settings, 'booking' | 'payments' | 'policies'>): Record<SettingsToken, string> {
   return {
     advancePercent: String(settings.booking.advancePercent),
     paymentMethods: paymentMethodsSentence(settings),
     pickupPoint: settings.booking.pickupPoint,
+    fullRefundDays: String(fullRefundDays(settings.policies)),
+    childFromAge: String(settings.policies.childFromAge),
   };
 }

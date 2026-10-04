@@ -41,3 +41,26 @@ export const WithLink: Story = {
 };
 
 export const WithLinkOnLight: Story = { ...WithLink, globals: { surface: 'light' } };
+
+/** With a note: room-price rows, the room and its note beside the price. */
+export const RoomPrices: Story = {
+  render: () => (
+    <dl>
+      <KeyValueRow label="Twin sharing" note="Base price · 2 per room">
+        PKR 145,000
+      </KeyValueRow>
+      <KeyValueRow label="Triple sharing" note="3 per room">
+        PKR 135,000
+      </KeyValueRow>
+      <KeyValueRow label="Quad sharing" note="4 per room · good for families">
+        PKR 127,000
+      </KeyValueRow>
+    </dl>
+  ),
+  play: async ({ canvas }) => {
+    await expect(canvas.getAllByRole('term')[0]).toHaveTextContent('Twin sharingBase price · 2 per room');
+    await expect(canvas.getAllByRole('definition').map((d) => d.textContent)).toEqual(['PKR 145,000', 'PKR 135,000', 'PKR 127,000']);
+  },
+};
+
+export const RoomPricesOnLight: Story = { ...RoomPrices, globals: { surface: 'light' } };

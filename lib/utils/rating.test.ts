@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatReviewCount, formatScore, ratingLabel, ratingSummary, starsLabel, summaryText } from './rating.ts';
+import { formatReviewCount, formatScore, ratingLabel, ratingSummary, reviewsText, starsLabel, summaryText } from './rating.ts';
 
 describe('formatScore', () => {
   it('always shows one decimal', () => {
@@ -13,6 +13,14 @@ describe('formatReviewCount', () => {
   it('groups thousands', () => {
     expect(formatReviewCount(128)).toBe('128');
     expect(formatReviewCount(1240)).toBe('1,240');
+  });
+});
+
+describe('reviewsText', () => {
+  it('counts reviews, in the singular for one', () => {
+    expect(reviewsText(128)).toBe('128 reviews');
+    expect(reviewsText(1240)).toBe('1,240 reviews');
+    expect(reviewsText(1)).toBe('1 review');
   });
 });
 

@@ -25,6 +25,12 @@ export const linkOrPlaceholder = orPlaceholder(z.url(), 'a link');
 /** A real calendar date, YYYY-MM-DD. */
 export const isoDate = z.iso.date('Use a real date as YYYY-MM-DD');
 
+/** The best months to go, e.g. Apr to Oct. Destinations and tours both have one. */
+const month = z.enum(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+export const seasonSchema = z.strictObject({ from: month, to: month });
+
+export type Season = z.infer<typeof seasonSchema>;
+
 /** A month, YYYY-MM. */
 export const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM, e.g. 2026-05');
 

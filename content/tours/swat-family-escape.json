@@ -1,6 +1,7 @@
 {
   "slug": "swat-family-escape",
   "title": "Swat Family Escape",
+  "summary": "Five easy days from Lahore in Swat for families: the chairlift at Malam Jabba, the forests of Kalam and a jeep ride to Mahodand Lake.",
   "route": [
     "Lahore",
     "Malam Jabba",
@@ -14,7 +15,17 @@
   ],
   "days": 5,
   "nights": 4,
-  "priceFrom": 52000,
+  "prices": {
+    "twin": 52000,
+    "triple": 48500,
+    "quad": 46000
+  },
+  "difficulty": "Easy, suits young children",
+  "transport": "Coaster, with jeeps to Mahodand",
+  "bestSeason": {
+    "from": "Apr",
+    "to": "Oct"
+  },
   "rating": {
     "score": 4.8,
     "count": 96

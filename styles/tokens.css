@@ -55,6 +55,7 @@
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
+  --hero-rule: color-mix(in srgb, var(--text) 18%, transparent); /* the line over a photo hero's facts */
   --hero-scrim: linear-gradient(
     180deg,
     color-mix(in srgb, var(--ink-900) 60%, transparent) 0%,
@@ -102,8 +103,11 @@
   --list-row-y: 14px; /* label and value rows, DESIGN.md §5 */
   --footer-contact-w: 380px; /* footer contact column */
   --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
+  --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero */
+  --photo-hero-scrim-stretch: 160%; /* its scrim on phones, drawn taller so the text sits on the dark end */
   --hero-row-pad: clamp(var(--space-24), 2.4cqi, var(--space-32)); /* under the hero's lead and buttons */
   --hero-actions-w: 420px; /* the hero's button pair, before it wraps */
+  --measure-cta-actions: 520px; /* a closing CTA's lead and its 56px button pair */
   --measure-statement: 1040px; /* brand statement headline */
   --measure-statement-body: 500px; /* brand statement paragraph */
   --underline-offset: 6px; /* underlined text links */
@@ -115,6 +119,18 @@
   --map-max-w: 620px; /* to */
   --map-list-min: 320px; /* the stop list before it wraps under the map */
   --stop-number-col: 36px; /* the route stop list's number column */
+  --aside-w: 380px; /* Tour Detail booking aside, from 1100px */
+  --aside-gap: var(--space-64); /* between the main column and the aside */
+  --aside-top: calc(var(--header-h) + var(--space-16)); /* where the sticky aside stops, under the header */
+  /* Its panel's height: the screen less the aside's top, its padding and a gap below. */
+  --aside-panel-max-h: calc(100vh - var(--aside-top) - 2 * var(--space-24) - var(--space-20));
+  --focus-reach: calc(var(--focus-width) + var(--focus-offset)); /* how far a focus ring reaches outside its element */
+  --departure-when-min: 200px; /* a departure row: dates, then seats and price before they wrap */
+  --departure-seats-min: 160px;
+  --departure-price-w: 140px;
+  --radio-size: 16px; /* the booking panel's date radio ring */
+  --radio-dot: 8px;
+  --radio-ring-width: 1.5px;
 
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */
@@ -137,18 +153,26 @@
   --grid-reviews-cols: 3;
   --grid-trust-min: 165px;
   --grid-trust-cols: 4;
+  --grid-trust-mini-min: 200px; /* the trust strip inside Tour Detail's final call to action */
+  --grid-trust-mini-cols: 3;
   --grid-destinations-min: 160px;
   --grid-destinations-cols: 6;
   --grid-guides-min: 150px;
   --grid-guides-cols: 4;
+  --grid-hero-facts-min: 150px; /* a photo hero's facts (gaps, not hairlines) */
+  --grid-hero-facts-cols: 4;
+  --grid-quick-facts-min: 160px;
+  --grid-quick-facts-cols: 5;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;
   --z-skip-link: 20; /* above the header when focused */
+  --z-sticky-bar: 10; /* Tour Detail's booking bar at the bottom of the screen, like the header at the top */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
+   *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
    *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns
    *   1100px Tour Detail and Trip Planner side columns appear
    *   1280px Tour Detail side map appears

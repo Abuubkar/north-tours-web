@@ -10,10 +10,14 @@ export function formatReviewCount(count: number): string {
   return countFormat.format(count);
 }
 
+/** "128 reviews", "1,240 reviews", "1 review". */
+export function reviewsText(count: number): string {
+  return `${formatReviewCount(count)} ${count === 1 ? 'review' : 'reviews'}`;
+}
+
 /** What a screen reader hears for an inline rating: "4.9 out of 5, 128 reviews". */
 export function ratingLabel(score: number, count: number): string {
-  const noun = count === 1 ? 'review' : 'reviews';
-  return `${formatScore(score)} out of 5, ${formatReviewCount(count)} ${noun}`;
+  return `${formatScore(score)} out of 5, ${reviewsText(count)}`;
 }
 
 /** What a screen reader hears for a row of stars: "4 out of 5 stars". */
@@ -35,5 +39,5 @@ export function ratingSummary(ratings: readonly RatingSummary[]): RatingSummary 
 
 /** The words after the score in a rating summary: "average · 699 reviews" ("1 review" in the singular). */
 export function summaryText(count: number): string {
-  return `average · ${formatReviewCount(count)} ${count === 1 ? 'review' : 'reviews'}`;
+  return `average · ${reviewsText(count)}`;
 }

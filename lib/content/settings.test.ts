@@ -79,6 +79,47 @@ describe('settings', () => {
     expect(result.problems[0].message).toBe('Unknown token {people}. Use only {tour}, {date}');
   });
 
+  it('rejects an empty reserve message or one with an unknown token', () => {
+    expect(fields(withChange((s) => Object.assign(s.whatsapp, { reserveMessage: '' })))).toEqual(['whatsapp.reserveMessage']);
+    const result = withChange((s) => Object.assign(s.whatsapp, { reserveMessage: 'Reserve {seats} on {tour}' }));
+    expect(fields(result)).toEqual(['whatsapp.reserveMessage']);
+    expect(result.problems[0].message).toMatch(/^Unknown token \{seats\}/);
+  });
+
+  it('rejects a missing child age, or one that isn’t a child’s', () => {
+    expect(fields(withChange((s) => delete (s.policies as Partial<Settings['policies']>).childFromAge))).toEqual([
+      'policies.childFromAge',
+    ]);
+    expect(fields(withChange((s) => Object.assign(s.policies, { childFromAge: 18 })))).toEqual(['policies.childFromAge']);
+  });
+
+  describe('refund schedule', () => {
+    const schedule = (rows: [number, number][]) =>
+      withChange((s) => Object.assign(s.policies, { refundSchedule: rows.map(([daysBefore, refundPercent]) => ({ daysBefore, refundPercent })) }));
+
+    it('accepts a schedule from a full refund down to 0 days', () => {
+      expect(schedule([[14, 100], [7, 50], [0, 0]]).problems).toEqual([]);
+      expect(schedule([[30, 100], [0, 25]]).problems).toEqual([]);
+    });
+
+    it('must start with a full refund', () => {
+      expect(fields(schedule([[14, 90], [0, 0]]))).toEqual(['policies.refundSchedule.0.refundPercent']);
+    });
+
+    it('must end at 0 days', () => {
+      expect(fields(schedule([[14, 100], [7, 50]]))).toEqual(['policies.refundSchedule.1.daysBefore']);
+    });
+
+    it('must run from most days to fewest, never refunding more later', () => {
+      expect(fields(schedule([[7, 100], [14, 50], [0, 0]]))).toEqual(['policies.refundSchedule.1.daysBefore']);
+      expect(fields(schedule([[14, 100], [7, 50], [0, 60]]))).toEqual(['policies.refundSchedule.2.refundPercent']);
+    });
+
+    it('needs at least two rows', () => {
+      expect(fields(schedule([[0, 100]]))).toEqual(['policies.refundSchedule']);
+    });
+  });
+
   it('rejects a missing trust section', () => {
     expect(fields(withChange((s) => delete (s as Partial<Settings>).trust))).toEqual(['trust']);
   });

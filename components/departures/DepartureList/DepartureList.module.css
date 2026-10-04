@@ -1,0 +1,10 @@
+.list {
+  padding: 0;
+  border-top: var(--hairline-width) solid var(--hairline);
+  list-style: none;
+}
+
+.empty {
+  padding-block: var(--space-24);
+  border-block: var(--hairline-width) solid var(--hairline);
+}

@@ -2,10 +2,19 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
-import { isoDate, nonEmpty } from './fields.ts';
+import { isoDate, nonEmpty, seasonSchema } from './fields.ts';
 import { imageSchema } from './images.ts';
 
 const pkr = z.int('Use whole rupees').positive();
+
+/**
+ * Room prices per person (ADR-0017). Sharing a room never costs more per person, so the set
+ * runs twin ≥ triple ≥ quad.
+ */
+const roomPricesSchema = z
+  .strictObject({ twin: pkr, triple: pkr, quad: pkr })
+  .refine((p) => p.triple <= p.twin, { message: 'Triple sharing can’t cost more than twin', path: ['triple'] })
+  .refine((p) => p.quad <= p.triple, { message: 'Quad sharing can’t cost more than triple', path: ['quad'] });
 
 export const departureSchema = z
   .strictObject({
@@ -13,8 +22,8 @@ export const departureSchema = z
     end: isoDate,
     seatsTotal: z.int().positive(),
     seatsLeft: z.int().min(0, 'Seats left can’t be negative'),
-    /** Only when this departure costs something other than the tour's price. */
-    price: pkr.optional(),
+    /** Only when this date costs something else (e.g. Eid): replaces the tour's whole set. */
+    prices: roomPricesSchema.optional(),
   })
   .refine((d) => d.end >= d.start, { message: 'Must end on or after its start', path: ['end'] })
   .refine((d) => d.seatsLeft <= d.seatsTotal, {
@@ -26,13 +35,22 @@ export const tourSchema = z
   .strictObject({
     slug: slugSchema,
     title: nonEmpty,
+    /** One sentence, the page's meta description (search results and share previews show about 160 characters). */
+    summary: nonEmpty.max(160, 'Keep it to 160 characters or fewer'),
     /** Stops in order, e.g. ["Lahore", "Hunza", "Skardu"]. */
     route: z.array(nonEmpty).min(2, 'A route needs at least two stops'),
     destinations: z.array(slugSchema).min(1),
     tripTypes: z.array(z.enum(['family', 'couples', 'friends', 'corporate'])).min(1),
     days: z.int().positive(),
     nights: z.int().min(0),
-    priceFrom: pkr,
+    /** Per person, by room sharing (ADR-0017). "From" is worked out from these, never stored. */
+    prices: roomPricesSchema,
+    /** Quick facts, as shown, e.g. "Easy walking, long road days". */
+    difficulty: nonEmpty,
+    /** As shown, e.g. "Coaster and jeeps". */
+    transport: nonEmpty,
+    /** The best months for this trip. */
+    bestSeason: seasonSchema,
     rating: z.strictObject({
       score: z.number().min(1).max(5).multipleOf(0.1),
       count: z.int().min(0),
@@ -61,6 +79,7 @@ export const tourSchema = z
 
 export type Tour = z.infer<typeof tourSchema>;
 export type Departure = z.infer<typeof departureSchema>;
+export type RoomPrices = z.infer<typeof roomPricesSchema>;
 
 function daysBetween(start: string, end: string): number {
   return Math.round((Date.parse(end) - Date.parse(start)) / 86_400_000);

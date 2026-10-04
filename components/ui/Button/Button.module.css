@@ -80,7 +80,17 @@
   border-color: var(--control-border);
 }
 
-.button:disabled {
+/*
+ * The shared selected state (docs/components.md, PRD #8): a toggle that's on, e.g. a chosen
+ * departure's "Selected". Never gold.
+ */
+.secondary[aria-pressed='true'] {
+  background: var(--bg-raised);
+}
+
+/* Disabled, or aria-disabled where it must stay focusable (e.g. Reserve before a date is chosen). */
+.button:disabled,
+.button[aria-disabled='true'] {
   border-color: transparent;
   background: var(--hairline);
   color: var(--fg-3);
@@ -95,7 +105,8 @@
   transform: translateX(var(--nudge));
 }
 
-.button:disabled .arrow {
+.button:disabled .arrow,
+.button[aria-disabled='true'] .arrow {
   transform: none;
 }
 

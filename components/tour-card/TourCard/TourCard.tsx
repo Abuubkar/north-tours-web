@@ -6,6 +6,8 @@ import { Tag } from '@/components/ui/Tag/Tag';
 import { routes } from '@/lib/routes';
 import { dateRange, tripLength } from '@/lib/utils/dates';
 import { seatStatus, urgencyText } from '@/lib/utils/departures';
+import { departurePrices } from '@/lib/utils/price';
+import { routeLine } from '@/lib/utils/route';
 import { departureMessage, whatsappLink } from '@/lib/utils/whatsapp';
 import { PriceBlock } from '../../tour/PriceBlock/PriceBlock';
 import { SeatsStatus } from '../../tour/SeatsStatus/SeatsStatus';
@@ -19,8 +21,8 @@ import styles from './TourCard.module.css';
 const PHOTO_SIZES = '(width >= 1200px) 25vw, (width >= 600px) 50vw, 100vw';
 
 /**
- * One tour and the departure it shows (DESIGN.md §8). Urgent at 3 seats or fewer; sold out
- * swaps View Trip for the waitlist. Each link names the tour for screen readers.
+ * One tour and the departure it shows (DESIGN.md §8), with that date's twin price. Urgent at 3
+ * seats or fewer; sold out swaps View Trip for the waitlist. Each link names the tour for screen readers.
  */
 export function TourCard({ tour, departure, settings }: TourCardProps) {
   const status = seatStatus(departure);
@@ -53,14 +55,14 @@ export function TourCard({ tour, departure, settings }: TourCardProps) {
         )}
       </div>
       <div className={styles.body}>
-        <p className={styles.route}>{tour.route.join(' → ')}</p>
+        <p className={styles.route}>{routeLine(tour.route)}</p>
         <h3 className={styles.title}>{tour.title}</h3>
         <p className={styles.dates}>
           {dateRange(departure.start, departure.end)} · {tripLength(tour.days, tour.nights)}
         </p>
         <div className={styles.priceRow}>
           <div className={styles.price}>
-            <PriceBlock amount={departure.price ?? tour.priceFrom} />
+            <PriceBlock amount={departurePrices(tour, departure).twin} />
           </div>
           <RatingInline score={tour.rating.score} count={tour.rating.count} />
         </div>

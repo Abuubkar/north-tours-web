@@ -1,0 +1,39 @@
+.layout {
+  padding: 0 var(--margin);
+}
+
+/* The quick facts strip above already draws a line under itself. */
+.main > :first-child {
+  border-top: 0;
+}
+
+.aside {
+  display: none;
+}
+
+@media (width >= 1100px) {
+  .layout {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--aside-gap);
+  }
+
+  .main {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* Its panel scrolls inside it, so the panel's footer is always on screen. */
+  .aside {
+    --panel-max-h: var(--aside-panel-max-h);
+    position: sticky;
+    top: var(--aside-top);
+    display: block;
+    flex: 0 0 var(--aside-w);
+    margin-block: var(--space-48);
+    padding: var(--space-24);
+    border: var(--hairline-width) solid var(--hairline);
+    border-radius: var(--radius-card);
+    background: var(--bg);
+  }
+}

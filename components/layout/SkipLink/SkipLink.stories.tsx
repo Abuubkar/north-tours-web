@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
+import { routes } from '@/lib/routes';
 import { realUser } from '../../../.storybook/realUser';
 import { SkipLink } from './SkipLink';
 
@@ -8,7 +9,7 @@ function Page() {
   return (
     <>
       <SkipLink />
-      <a href="/tours">Tours</a>
+      <a href={routes.tours}>Tours</a>
       <main id="main" tabIndex={-1}>
         <h1>Main content</h1>
       </main>

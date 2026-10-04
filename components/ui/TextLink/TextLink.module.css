@@ -10,6 +10,17 @@
   text-underline-offset: var(--underline-offset);
 }
 
+/* Back link (docs/components.md §1.2 item 3): 14/500, no underline. */
+.backLink {
+  composes: ui from '../../../styles/typography.module.css';
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--tap);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+}
+
 .arrow {
   flex: none;
   transition: transform var(--dur-300) var(--ease-out);
@@ -17,6 +28,10 @@
 
 .textLink:hover .arrow {
   transform: translateX(var(--nudge));
+}
+
+.backLink:hover .arrow {
+  transform: translateX(calc(-1 * var(--nudge)));
 }
 
 @media (prefers-reduced-motion: reduce) {

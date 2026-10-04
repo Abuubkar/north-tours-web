@@ -1,6 +1,7 @@
 {
   "slug": "skardu-deosai",
   "title": "Skardu & Deosai",
+  "summary": "Six days from Lahore to Skardu over Babusar Top: Shangrila, Upper Kachura Lake, the cold desert and a full day on the Deosai plains.",
   "route": [
     "Lahore",
     "Skardu",
@@ -15,7 +16,17 @@
   ],
   "days": 6,
   "nights": 5,
-  "priceFrom": 110000,
+  "prices": {
+    "twin": 110000,
+    "triple": 103000,
+    "quad": 97000
+  },
+  "difficulty": "Easy walking, long road days",
+  "transport": "Coaster, with jeeps for Deosai",
+  "bestSeason": {
+    "from": "Jun",
+    "to": "Sep"
+  },
   "rating": {
     "score": 4.8,
     "count": 37

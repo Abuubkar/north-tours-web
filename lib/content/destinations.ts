@@ -2,10 +2,9 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { CONTENT_DIR } from './files.ts';
-import { nonEmpty } from './fields.ts';
+import { nonEmpty, seasonSchema } from './fields.ts';
 import { imageSchema } from './images.ts';
 
-const month = z.enum(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
 
 export const destinationSchema = z.strictObject({
   slug: slugSchema,
@@ -13,7 +12,7 @@ export const destinationSchema = z.strictObject({
   region: z.enum(['Gilgit-Baltistan', 'Khyber Pakhtunkhwa', 'Punjab']),
   description: nonEmpty,
   /** Best months to visit, e.g. Apr to Oct. */
-  bestSeason: z.strictObject({ from: month, to: month }),
+  bestSeason: seasonSchema,
   image: imageSchema,
 });
 

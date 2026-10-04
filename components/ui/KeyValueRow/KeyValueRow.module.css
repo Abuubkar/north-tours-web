@@ -22,3 +22,30 @@
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
+
+/* Room-price rows: "Twin sharing" (16/500) over its note, the price beside it at 16/500. */
+.noted {
+  align-items: baseline;
+  padding-block: var(--space-16);
+}
+
+.notedLabel {
+  composes: body from '../../../styles/typography.module.css';
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  font-weight: var(--fw-medium);
+}
+
+.note {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}
+
+.notedValue {
+  composes: body from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

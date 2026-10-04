@@ -60,6 +60,12 @@ describe('photo files', () => {
   it('lists the photos in the live content', () => {
     expect(contentPhotos().map((use) => use.field)).toContain('hero.image');
   });
+
+  it('gives each tour’s photo a share crop: it’s the tour page’s share image', () => {
+    const tourPhotos = contentPhotos().filter((use) => /tours\/[a-z-]+\.json$/.test(use.file));
+    expect(tourPhotos.length).toBeGreaterThan(0);
+    for (const use of tourPhotos) expect(use.share).toBe(true);
+  });
 });
 
 describe('checkContent', () => {

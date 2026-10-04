@@ -1,4 +1,4 @@
-import type { Destination } from '../content/destinations.ts';
+import type { Season } from '../content/fields.ts';
 
 /*
  * Date wording for cards and messages. Content dates are YYYY-MM-DD with no time zone, so
@@ -22,9 +22,22 @@ export function dateRange(start: string, end: string): string {
 
 const plural = (count: number, noun: string) => `${count} ${noun}${count === 1 ? '' : 's'}`;
 
+/** A trip's length in days alone, as in its page title: "9 days", "1 day". */
+export function dayCount(days: number): string {
+  return plural(days, 'day');
+}
+
 /** "9 days, 8 nights"; a day trip is "1 day". */
 export function tripLength(days: number, nights: number): string {
   return nights > 0 ? `${plural(days, 'day')}, ${plural(nights, 'night')}` : plural(days, 'day');
+}
+
+/** A departure's dates in a WhatsApp message, with the year: "12–20 May 2027", "26 May – 3 Jun 2027". */
+export function messageDateRange(start: string, end: string): string {
+  const from = parts(start);
+  const to = parts(end);
+  if (from.year !== to.year) return `${messageDate(start)} – ${messageDate(end)}`;
+  return `${dateRange(start, end)} ${to.year}`;
 }
 
 /** The date in a WhatsApp message, with the year: "12 May 2027". */
@@ -59,8 +72,8 @@ export function yearsSince(since: number, currentYear: number): number {
   return currentYear - since;
 }
 
-/** A destination's best season, Apr to Oct → "April – October". */
-export function seasonRange({ from, to }: Destination['bestSeason']): string {
+/** A best season, Apr to Oct → "April – October". */
+export function seasonRange({ from, to }: Season): string {
   const long = (month: string) => LONG_MONTHS[SHORT_MONTHS.indexOf(month)];
   return `${long(from)} – ${long(to)}`;
 }
