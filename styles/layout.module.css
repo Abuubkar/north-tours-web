@@ -77,6 +77,27 @@
 }
 
 /*
+ * A selectable option tile wrapping a radio (the booking panel's dates and rooms): 8px, and the
+ * shared selected state once its radio is checked (docs/components.md, PRD #8). The tile shows
+ * the focus ring for the radio inside it.
+ */
+.optionTile {
+  border: var(--hairline-width) solid var(--hairline);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+}
+
+.optionTile:has(:checked) {
+  border-color: var(--fg);
+  background: var(--bg-raised);
+}
+
+.optionTile:has(:focus-visible) {
+  outline: var(--focus-width) solid var(--fg);
+  outline-offset: var(--focus-offset);
+}
+
+/*
  * A section in the Tour Detail main column (beside the booking aside from 1100px): the column
  * carries the page margin, so the section only pads top and bottom.
  */

@@ -3,6 +3,7 @@ import { placeholderSettings } from '@/components/layout/sampleSettings';
 import { departureOn, sampleTour } from '@/components/tour-card/sampleTours';
 import { sampleTourCopy } from '@/components/tour/sampleTourCopy';
 import type { Departure } from '@/lib/content/tours';
+import { paymentMethodsLabel } from '@/lib/utils/payments';
 import { settingsTokens } from '@/lib/utils/tokens';
 import { BookingProvider } from './BookingProvider/BookingProvider';
 import styles from '../ui/stories.module.css';
@@ -32,6 +33,8 @@ export const sampleBookingSettings = placeholderSettings;
 export const sampleBookingTokens = { ...settingsTokens(placeholderSettings), licence: placeholderSettings.legal.dtsLicence };
 
 export const sampleBookingCopy = sampleTourCopy;
+
+export const samplePaymentMethods = paymentMethodsLabel(placeholderSettings);
 
 /** Wraps a story in a booking for these departures, built in 2020. */
 export function withBooking(departures: Departure[] = sampleDepartures): Decorator {

@@ -8,6 +8,8 @@ import {
   sampleBookingSettings,
   sampleBookingTokens,
   sampleBookingTour,
+  sampleDepartures,
+  samplePaymentMethods,
   withBooking,
 } from '../sampleBooking';
 import { BookingPanel } from './BookingPanel';
@@ -20,6 +22,7 @@ const meta = {
     copy: sampleBookingCopy.booking,
     tokens: sampleBookingTokens,
     settings: sampleBookingSettings,
+    paymentMethods: samplePaymentMethods,
   },
   decorators: [asideWidth, withBooking()],
 } satisfies Meta<typeof BookingPanel>;
@@ -123,10 +126,27 @@ export const Travellers: Story = {
     await expect(more).toHaveAttribute('aria-disabled', 'true');
     await userEvent.click(more);
     await expect(travellers(canvas)).toHaveTextContent('3');
-    // Back on a bigger date, the travellers stay where they were brought down to.
+    // Through a sold-out date (one traveller, for its waitlist) and on to a bigger one, the
+    // number asked for comes back.
+    await userEvent.click(dateRadio(canvas, '9–17 Jun'));
+    await expect(travellers(canvas)).toHaveTextContent('1');
     await userEvent.click(dateRadio(canvas, '23 Jun – 1 Jul'));
-    await expect(travellers(canvas)).toHaveTextContent('3');
-    await expect(canvas.getByText('3 × PKR 145,000')).toBeVisible();
+    await expect(travellers(canvas)).toHaveTextContent('4');
+    await expect(canvas.getByText('4 × PKR 145,000')).toBeVisible();
+  },
+};
+
+/** A date with its own room prices (e.g. Eid): the panel's price, rooms and total use them. */
+export const OwnPrices: Story = {
+  decorators: [
+    withBooking([{ ...sampleDepartures[1], prices: { twin: 160000, triple: 150000, quad: 140000 } }, sampleDepartures[3]]),
+  ],
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(dateRadio(canvas, '26 May – 3 Jun'));
+    await expect(canvas.getByRole('radio', { name: 'Triple PKR 150,000' })).toBeInTheDocument();
+    await expect(canvas.getByText('2 × PKR 160,000')).toBeVisible();
+    await expect(canvas.getByText('PKR 320,000')).toBeVisible();
+    await expect(canvas.getByText('Advance to reserve: PKR 96,000 (30% of total)')).toBeVisible();
   },
 };
 

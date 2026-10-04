@@ -10,7 +10,7 @@ import styles from './DepartureOption.module.css';
 export function DepartureOption({ name, departure, checked, onChoose }: DepartureOptionProps) {
   const status = seatStatus(departure);
   return (
-    <label className={`${styles.option} ${status === 'soldout' ? styles.soldOut : ''}`}>
+    <label className={`${styles.option} ${status === 'soldout' ? styles.full : ''}`}>
       <input
         type="radio"
         name={name}

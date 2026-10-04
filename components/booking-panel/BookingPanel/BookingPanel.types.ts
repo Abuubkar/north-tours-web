@@ -7,6 +7,8 @@ export type BookingPanelProps = {
   copy: TourCopy['booking'];
   /** Values for the copy's {tokens}: the settings tokens and the DTS licence. */
   tokens: Record<string, string>;
-  /** The WhatsApp number and messages, the advance and the payment methods. */
-  settings: Pick<Settings, 'contact' | 'whatsapp' | 'booking' | 'payments'>;
+  /** The WhatsApp number and messages, and the advance. */
+  settings: Pick<Settings, 'contact' | 'whatsapp' | 'booking'>;
+  /** As shown in the trust line, e.g. "Cash · Bank transfer". */
+  paymentMethods: string;
 };

@@ -52,12 +52,9 @@ export function useBookingState(departures: Departure[], builtOn: string): Booki
     travellers,
     maxTravellers: max,
     room,
-    choose(start) {
-      setChosenStart(start);
-      // A date with fewer seats brings the travellers down to fit, and they stay there.
-      const next = upcoming.find((departure) => departure.start === start);
-      setWanted(clampTravellers(travellers, maxTravellers(next, upcoming)));
-    },
+    // A date with fewer seats shows fewer travellers; the number asked for is kept, so passing
+    // over a sold-out date (one seat, for its waitlist) doesn't lose it.
+    choose: setChosenStart,
     setTravellers: (value) => setWanted(clampTravellers(value, max)),
     setRoom,
   };

@@ -121,7 +121,9 @@
   --aside-w: 380px; /* Tour Detail booking aside, from 1100px */
   --aside-gap: var(--space-64); /* between the main column and the aside */
   --aside-top: calc(var(--header-h) + var(--space-16)); /* where the sticky aside stops, under the header */
-  --aside-panel-max-h: calc(100vh - 156px); /* its panel's height; the body scrolls, the footer stays in view */
+  /* Its panel's height: the screen less the aside's top, its padding and a gap below. */
+  --aside-panel-max-h: calc(100vh - var(--aside-top) - 2 * var(--space-24) - var(--space-20));
+  --focus-reach: calc(var(--focus-width) + var(--focus-offset)); /* how far a focus ring reaches outside its element */
   --departure-when-min: 200px; /* a departure row: dates, then seats and price before they wrap */
   --departure-seats-min: 160px;
   --departure-price-w: 140px;

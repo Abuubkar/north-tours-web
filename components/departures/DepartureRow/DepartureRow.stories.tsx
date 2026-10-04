@@ -39,7 +39,7 @@ export const OpenOnDark: Story = { ...Open, globals: { surface: 'dark' } };
 export const Selected: Story = {
   args: { selected: true },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('button', { name: 'Select date, 26 May – 3 Jun', pressed: true })).toHaveTextContent('Selected');
+    await expect(canvas.getByRole('button', { name: 'Selected, 26 May – 3 Jun', pressed: true })).toBeVisible();
   },
 };
 

@@ -15,6 +15,7 @@ import styles from './DepartureRow.module.css';
 export function DepartureRow({ departure, tour, copy, selected, onSelect, waitlistHref }: DepartureRowProps) {
   const dates = dateRange(departure.start, departure.end);
   const soldOut = seatStatus(departure) === 'soldout';
+  const label = soldOut ? copy.waitlistLabel : selected ? copy.selectedLabel : copy.selectLabel;
 
   return (
     <li className={`${styles.row} ${soldOut ? styles.soldOut : ''}`}>
@@ -28,14 +29,14 @@ export function DepartureRow({ departure, tour, copy, selected, onSelect, waitli
       <div className={styles.price}>
         <PriceBlock amount={departurePrices(tour, departure).twin} size="fact" from={false} note={copy.priceNote} />
       </div>
+      {/* Each action is named by its visible words, then its date for screen readers. */}
       {soldOut ? (
-        <Button href={waitlistHref} variant="quiet" size={48} aria-label={`${copy.waitlistLabel}, ${dates}`}>
-          {copy.waitlistLabel}
+        <Button href={waitlistHref} variant="quiet" size={48} aria-label={`${label}, ${dates}`}>
+          {label}
         </Button>
       ) : (
-        // A toggle keeps one name; aria-pressed says it's the chosen date.
-        <Button variant="secondary" size={48} aria-pressed={selected} aria-label={`${copy.selectLabel}, ${dates}`} onClick={onSelect}>
-          {selected ? copy.selectedLabel : copy.selectLabel}
+        <Button variant="secondary" size={48} aria-pressed={selected} aria-label={`${label}, ${dates}`} onClick={onSelect}>
+          {label}
         </Button>
       )}
     </li>

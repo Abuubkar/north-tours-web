@@ -8,6 +8,7 @@ import {
   sampleBookingTokens,
   sampleBookingTour,
   sampleDepartures,
+  samplePaymentMethods,
   withBooking,
 } from '@/components/booking-panel/sampleBooking';
 import { DepartureList } from './DepartureList';
@@ -43,13 +44,19 @@ export const RowsPhone: Story = { ...Rows, globals: { surface: 'light', viewport
 
 export const RowsDesktop: Story = { ...Rows, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-/** "Select date" chooses that date in the booking panel and is marked pressed, reading "Selected". */
+/** "Select date" chooses that date in the booking panel and is marked pressed, reading (and named) "Selected". */
 export const SelectsInPanel: Story = {
   render: (args) => (
     <div className={styles.stack}>
       <DepartureList {...args} />
       <div className={styles.aside} data-surface="dark">
-        <BookingPanel tour={sampleBookingTour} copy={sampleBookingCopy.booking} tokens={sampleBookingTokens} settings={sampleBookingSettings} />
+        <BookingPanel
+          tour={sampleBookingTour}
+          copy={sampleBookingCopy.booking}
+          tokens={sampleBookingTokens}
+          settings={sampleBookingSettings}
+          paymentMethods={samplePaymentMethods}
+        />
       </div>
     </div>
   ),
@@ -57,13 +64,13 @@ export const SelectsInPanel: Story = {
     const select = canvas.getByRole('button', { name: 'Select date, 26 May – 3 Jun' });
     await userEvent.click(select);
     await expect(select).toHaveAttribute('aria-pressed', 'true');
-    await expect(select).toHaveTextContent('Selected');
+    await expect(select).toHaveAccessibleName('Selected, 26 May – 3 Jun');
     await expect(canvas.getByRole('radio', { name: /^26 May – 3 Jun/ })).toBeChecked();
     await expect(canvas.getByText('PKR 290,000')).toBeVisible();
 
     // Choosing in the panel marks the row too.
     await userEvent.click(canvas.getByRole('radio', { name: /^23 Jun – 1 Jul/ }));
-    await expect(canvas.getByRole('button', { name: 'Select date, 23 Jun – 1 Jul' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(canvas.getByRole('button', { name: 'Selected, 23 Jun – 1 Jul' })).toHaveAttribute('aria-pressed', 'true');
     await expect(select).toHaveAttribute('aria-pressed', 'false');
   },
 };

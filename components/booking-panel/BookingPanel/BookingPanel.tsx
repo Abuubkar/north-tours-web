@@ -6,7 +6,6 @@ import { Stepper } from '@/components/ui/Stepper/Stepper';
 import { useBooking } from '@/hooks/useBooking';
 import { ROOM_TYPES } from '@/lib/utils/booking';
 import { NO_UPCOMING_DATES } from '@/lib/utils/departures';
-import { paymentMethodsLabel } from '@/lib/utils/payments';
 import { departurePrices, fromPrice } from '@/lib/utils/price';
 import { fillTokens } from '@/lib/utils/tokens';
 import { PriceBlock } from '../../tour/PriceBlock/PriceBlock';
@@ -21,7 +20,7 @@ import styles from './BookingPanel.module.css';
  * total and the advance and opens WhatsApp. The price reads "from" until a date is chosen, then
  * that date's twin price. The body scrolls inside its box; the footer stays in view.
  */
-export function BookingPanel({ tour, copy, tokens, settings }: BookingPanelProps) {
+export function BookingPanel({ tour, copy, tokens, settings, paymentMethods }: BookingPanelProps) {
   const booking = useBooking();
   const { chosen } = booking;
   const name = useId();
@@ -85,7 +84,7 @@ export function BookingPanel({ tour, copy, tokens, settings }: BookingPanelProps
           <p>
             <span className={styles.licence}>{fillTokens(copy.trustLicence, tokens)}</span> · {fillTokens(copy.trustDeparts, tokens)}
           </p>
-          <p>{paymentMethodsLabel(settings)}</p>
+          <p>{paymentMethods}</p>
         </div>
       </div>
       <BookingFooter tour={tour} copy={copy} tokens={tokens} settings={settings} />

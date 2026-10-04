@@ -1,5 +1,5 @@
-/* An option tile (8px, the shared selected state; docs/components.md, PRD #8). */
 .option {
+  composes: optionTile from '../../../styles/layout.module.css';
   position: relative;
   display: flex;
   flex: 1 1 0;
@@ -10,19 +10,6 @@
   min-width: 0;
   min-height: var(--control-56);
   padding: var(--space-4);
-  border: var(--hairline-width) solid var(--hairline);
-  border-radius: var(--radius-card);
-  cursor: pointer;
-}
-
-.option:has(:checked) {
-  border-color: var(--fg);
-  background: var(--bg-raised);
-}
-
-.option:has(:focus-visible) {
-  outline: var(--focus-width) solid var(--fg);
-  outline-offset: var(--focus-offset);
 }
 
 /* The radio covers the tile, unseen: the tile's border and fill show the choice. */

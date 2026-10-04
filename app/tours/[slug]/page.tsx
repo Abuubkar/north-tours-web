@@ -13,6 +13,7 @@ import { routes } from '@/lib/routes';
 import { dayCount } from '@/lib/utils/dates';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { pageMetadata } from '@/lib/utils/metadata';
+import { paymentMethodsLabel } from '@/lib/utils/payments';
 import { routeLine } from '@/lib/utils/route';
 import { fillTokens, settingsTokens } from '@/lib/utils/tokens';
 import { whatsappLink } from '@/lib/utils/whatsapp';
@@ -51,7 +52,7 @@ export default async function TourPage(props: TourPageProps) {
   const tokens = { ...settingsTokens(settings), licence: settings.legal.dtsLicence };
   // Client components get only what they use; everything passed to them is sent to the browser.
   const { title, days, nights, rating, prices, departures } = tour;
-  const messages = { contact: settings.contact, whatsapp: settings.whatsapp };
+  const whatsapp = { contact: settings.contact, whatsapp: settings.whatsapp };
 
   return (
     <PageMain>
@@ -78,14 +79,15 @@ export default async function TourPage(props: TourPageProps) {
               tour={{ title, rating, prices }}
               copy={copy.booking}
               tokens={tokens}
-              settings={{ ...messages, booking: settings.booking, payments: settings.payments }}
+              settings={{ ...whatsapp, booking: settings.booking }}
+              paymentMethods={paymentMethodsLabel(settings)}
             />
           }
         >
           <DatesAndPrices
             tour={{ title, days, nights, prices }}
             copy={copy.dates}
-            settings={messages}
+            settings={whatsapp}
             roomsNote={fillTokens(copy.dates.rooms.note, tokens)}
           />
         </BookingLayout>

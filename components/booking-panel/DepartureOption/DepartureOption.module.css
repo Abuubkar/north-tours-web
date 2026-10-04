@@ -1,24 +1,10 @@
-/* An option tile (8px, the shared selected state; docs/components.md, PRD #8). */
 .option {
+  composes: optionTile from '../../../styles/layout.module.css';
   display: flex;
   align-items: center;
   gap: var(--space-12);
   min-height: var(--control-48);
   padding: 0 var(--space-12);
-  border: var(--hairline-width) solid var(--hairline);
-  border-radius: var(--radius-card);
-  cursor: pointer;
-}
-
-.option:has(:checked) {
-  border-color: var(--fg);
-  background: var(--bg-raised);
-}
-
-/* The tile shows the focus ring for the radio inside it. */
-.option:has(:focus-visible) {
-  outline: var(--focus-width) solid var(--fg);
-  outline-offset: var(--focus-offset);
 }
 
 /* The design's ring: hollow, then filled with a dot once chosen. */
@@ -56,7 +42,7 @@
   font-weight: var(--fw-medium);
 }
 
-.soldOut .dates {
+.full .dates {
   color: var(--fg-2);
 }
 
