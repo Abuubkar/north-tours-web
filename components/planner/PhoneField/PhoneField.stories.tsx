@@ -39,21 +39,6 @@ export const PakistaniPhone: Story = { ...Pakistani, globals: { surface: 'light'
 
 export const PakistaniOnDark: Story = { ...Pakistani, globals: { surface: 'dark', viewport: { value: 'desktop' } } };
 
-/** The message wraps under the field, linked to the input, and nothing scrolls sideways at 390. */
-export const Invalid: Story = {
-  args: {
-    error: 'This number looks incomplete (5 of 10 digits). Pakistani mobile numbers have 10 digits after +92, for example 3XX XXX XXXX.',
-  },
-  globals: { surface: 'light', viewport: { value: 'phone' } },
-  play: async ({ canvas, canvasElement }) => {
-    const input = canvas.getByRole('textbox', { name: 'WhatsApp number' });
-    const message = canvas.getByText(/looks incomplete/);
-    await expect(message.getBoundingClientRect().top).toBeGreaterThan(input.getBoundingClientRect().bottom);
-    await expect(message.getBoundingClientRect().height).toBeGreaterThan(40);
-    await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
-  },
-};
-
 /** "Outside Pakistan?" switches to a country code and a number, focusing the code; "Pakistani number?" switches back. */
 export const Abroad: Story = {
   play: async ({ canvas, userEvent }) => {

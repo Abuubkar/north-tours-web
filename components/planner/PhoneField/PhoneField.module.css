@@ -13,6 +13,7 @@
 /* The prefix box and the input read as one field: the box has no right border of its own. */
 .joined {
   display: flex;
+  max-width: var(--measure-field);
 }
 
 /* "+92" or "+": 52px, the raised fill, 16/500 tabular. */
@@ -31,7 +32,8 @@
   font-variant-numeric: tabular-nums;
 }
 
-.invalid .prefix {
+/* Beside the prefix class (one level of `composes` only), the error border. */
+.prefixInvalid {
   border-color: var(--error);
 }
 

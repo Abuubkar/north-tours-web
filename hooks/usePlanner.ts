@@ -29,7 +29,7 @@ export type Planner = {
   details: Details;
   updateDetails: (change: (details: Details) => Details) => void;
   /** "Outside Pakistan?" / "Pakistani number?": focus moves to the new field, whose message waits for the next Next. */
-  switchPhoneMode: () => void;
+  togglePhoneMode: () => void;
   /** Checks the step: moves on, or shows its problems and takes the visitor to the first. */
   next: () => void;
   /** The step before, every answer kept. */
@@ -64,7 +64,7 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS);
   const [details, setDetails] = useState<Details>(EMPTY_DETAILS);
   /** After switching the phone's mode, its message hides until the next Next. */
-  const [phoneQuiet, setPhoneQuiet] = useState(false);
+  const [hidePhoneError, setHidePhoneError] = useState(false);
   const [step, setStep] = useState<PlannerStep>(1);
   const [direction, setDirection] = useState<Planner['direction']>(null);
   const [tried, setTried] = useState<Partial<Record<PlannerStep, boolean>>>({});
@@ -83,7 +83,7 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
     [destinations, today],
   );
   const problems = stepErrors(step, answers, details, today, messages);
-  const shown = phoneQuiet ? problems.filter((problem) => problem.group !== 'phone') : problems;
+  const shown = hidePhoneError ? problems.filter((problem) => problem.group !== 'phone') : problems;
 
   function go(to: PlannerStep, way: 'forward' | 'back') {
     setStep(to);
@@ -101,13 +101,13 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
     update,
     details,
     updateDetails,
-    switchPhoneMode() {
+    togglePhoneMode() {
       setDetails(switchPhoneMode);
-      setPhoneQuiet(true);
+      setHidePhoneError(true);
       setFocus({ target: 'field', field: details.phone.mode === 'pk' ? 'countryCode' : 'phone', scroll: false });
     },
     next() {
-      setPhoneQuiet(false);
+      setHidePhoneError(false);
       if (problems.length > 0) {
         setTried((was) => ({ ...was, [step]: true }));
         setFocus({ target: 'field', field: problems[0].fields[0] });

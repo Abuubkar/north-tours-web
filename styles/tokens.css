@@ -118,6 +118,7 @@
   --measure-statement: 1040px; /* brand statement headline */
   --measure-statement-body: 500px; /* brand statement paragraph */
   --underline-offset: 6px; /* underlined text links */
+  --underline-offset-inline: 4px; /* a link inside a sentence */
   --seat-dot: 7px; /* the seats line's status dot */
   --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
   --measure-note: 320px; /* a short note beside a section headline */

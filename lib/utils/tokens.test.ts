@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fillTokens, settingsTokens, tokensIn } from './tokens.ts';
+import { fillTokens, settingsTokens, splitAtToken, tokensIn } from './tokens.ts';
 
 describe('tokensIn', () => {
   it('lists the tokens in order', () => {
@@ -42,5 +42,12 @@ describe('settingsTokens', () => {
     expect(fillTokens('Meet us at {pickupPoint}.', values)).toBe('Meet us at [Pickup point], Lahore.');
     expect(fillTokens('Cancel {fullRefundDays} or more days before', values)).toBe('Cancel 14 or more days before');
     expect(fillTokens('Adults and children {childFromAge}+', values)).toBe('Adults and children 5+');
+  });
+});
+
+describe('splitAtToken', () => {
+  it('gives the text either side of a token', () => {
+    expect(splitAtToken('We only use your details to plan this trip. {link}.', 'link')).toEqual(['We only use your details to plan this trip. ', '.']);
+    expect(splitAtToken('No token here', 'link')).toEqual(['No token here', '']);
   });
 });

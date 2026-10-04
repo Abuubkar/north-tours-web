@@ -1,4 +1,4 @@
-/* The name and number at most 520px wide, "Anything else?" 640px. */
+/* The name at most 520px wide (the number too, in PhoneField), "Anything else?" 640px; the hairlines between questions run full width. */
 .field {
   max-width: var(--measure-field);
 }

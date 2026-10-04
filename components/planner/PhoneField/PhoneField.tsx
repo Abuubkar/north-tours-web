@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/Input/Input';
 import { TextLink } from '@/components/ui/TextLink/TextLink';
 import { usePlanner } from '@/hooks/usePlanner';
 import { CODE_MAX_LENGTH, PK_MAX_LENGTH, phoneTyped, type Phone } from '@/lib/utils/phone';
-import { fieldInvalid } from '@/lib/utils/plannerValidation';
+import { fieldInvalid, groupError } from '@/lib/utils/plannerValidation';
 import type { PhoneFieldProps } from './PhoneField.types';
 import styles from './PhoneField.module.css';
 
@@ -16,8 +16,9 @@ import styles from './PhoneField.module.css';
  * "Pakistani number?" switches back. Each way keeps what was typed in it, and the message sits
  * under the field, linked to the input that's wrong.
  */
-export function PhoneField({ copy, error }: PhoneFieldProps) {
-  const { details, errors, updateDetails, switchPhoneMode, fieldId } = usePlanner();
+export function PhoneField({ copy }: PhoneFieldProps) {
+  const { details, errors, updateDetails, togglePhoneMode, fieldId } = usePlanner();
+  const error = groupError(errors, 'phone');
   const prefixId = useId();
   const { phone } = details;
   const setPhone = (change: Partial<Phone>) => updateDetails((d) => ({ ...d, phone: { ...d.phone, ...change } }));
@@ -28,8 +29,8 @@ export function PhoneField({ copy, error }: PhoneFieldProps) {
   const pakistani = (
     <FormField id={fieldId('phone')} label={copy.label} hint={copy.hint} error={error} className={styles.field}>
       {({ id, hintId, errorId, invalid }) => (
-        <div className={`${styles.joined} ${invalid ? styles.invalid : ''}`}>
-          <span id={prefixId} className={styles.prefix}>
+        <div className={styles.joined}>
+          <span id={prefixId} className={`${styles.prefix} ${invalid ? styles.prefixInvalid : ''}`}>
             {copy.prefix}
           </span>
           <Input
@@ -53,8 +54,8 @@ export function PhoneField({ copy, error }: PhoneFieldProps) {
   const abroad = (
     <FormField id={fieldId('phone-group')} kind="group" label={copy.label} hint={copy.hint} error={error} className={styles.field}>
       {({ hintId, errorId }) => (
-        <div className={`${styles.joined} ${fieldInvalid(errors, 'countryCode') ? styles.invalid : ''}`}>
-          <span className={styles.prefix} aria-hidden="true">
+        <div className={styles.joined}>
+          <span className={`${styles.prefix} ${fieldInvalid(errors, 'countryCode') ? styles.prefixInvalid : ''}`} aria-hidden="true">
             +
           </span>
           <Input
@@ -90,7 +91,7 @@ export function PhoneField({ copy, error }: PhoneFieldProps) {
   return (
     <div className={styles.phone}>
       {phone.mode === 'pk' ? pakistani : abroad}
-      <TextLink variant="button" onClick={switchPhoneMode}>
+      <TextLink variant="button" onClick={togglePhoneMode}>
         {phone.mode === 'pk' ? copy.abroad : copy.pakistani}
       </TextLink>
     </div>

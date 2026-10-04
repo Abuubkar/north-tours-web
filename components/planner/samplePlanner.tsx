@@ -77,7 +77,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     },
     bestTime: { label: 'Best time to reach you', hint: 'Optional', options: { morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening' } },
     notes: { label: 'Anything else?', hint: 'Optional', placeholder: 'Celebrating something? Travelling with elderly parents? Tell us.' },
-    privacy: { text: 'We only use your details to plan this trip.', link: 'Privacy policy' },
+    privacy: { text: 'We only use your details to plan this trip. {link}.', link: 'Privacy policy' },
   },
   errors: {
     destinations: 'Choose at least one destination, or “Not sure, suggest something”.',

@@ -498,8 +498,8 @@ const plannerCopySchema = z.strictObject({
     }),
     bestTime: chipQuestion(BEST_TIMES),
     notes: z.strictObject({ label: copy, hint: copy, placeholder: copy }),
-    /** "We only use your details to plan this trip." and its link to the privacy policy. */
-    privacy: z.strictObject({ text: copy, link: copy }),
+    /** "We only use your details to plan this trip. {link}.": {link} is the privacy policy link, named by `link`. */
+    privacy: z.strictObject({ text: copyWith('link'), link: copy }),
   }),
   /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
   errors: z.strictObject({

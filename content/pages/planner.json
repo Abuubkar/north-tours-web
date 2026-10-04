@@ -159,7 +159,7 @@
       "placeholder": "Celebrating something? Travelling with elderly parents? Tell us."
     },
     "privacy": {
-      "text": "We only use your details to plan this trip.",
+      "text": "We only use your details to plan this trip. {link}.",
       "link": "Privacy policy"
     }
   },

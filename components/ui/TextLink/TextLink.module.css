@@ -36,7 +36,7 @@
 .inline {
   text-decoration: underline;
   text-decoration-thickness: var(--hairline-width);
-  text-underline-offset: var(--space-4);
+  text-underline-offset: var(--underline-offset-inline);
 }
 
 /* Back link (docs/components.md §1.2 item 3): 14/500, no underline. */

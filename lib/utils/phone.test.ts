@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { plannerCopyFile, type PlannerCopy } from '../content/pages.ts';
-import { EMPTY_PHONE, internationalPhone, phoneProblem, phoneTyped, pkDigits, type Phone } from './phone.ts';
+import { EMPTY_PHONE, internationalPhone, PK_MAX_LENGTH, phoneProblem, phoneTyped, pkDigits, type Phone } from './phone.ts';
 
 const { errors: messages }: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
 const pk = (typed: string): Phone => ({ ...EMPTY_PHONE, pk: typed });
@@ -11,7 +11,11 @@ const problem = (phone: Phone) => phoneProblem(phone, messages);
 describe('typing a number', () => {
   it('keeps digits and spaces, up to the limit', () => {
     expect(phoneTyped('0300-123 4567x')).toBe('0300123 4567');
-    expect(phoneTyped('0300 123 45678', 13)).toBe('0300 123 4567');
+    expect(phoneTyped('92 300 123 45678', PK_MAX_LENGTH)).toBe('92 300 123 4567');
+  });
+
+  it('leaves room for the longest way of writing a number: “92 300 123 4567”', () => {
+    expect(phoneTyped('92 300 123 4567', PK_MAX_LENGTH)).toBe('92 300 123 4567');
   });
 });
 
@@ -62,6 +66,8 @@ describe('international form', () => {
     expect(internationalPhone(pk('300 123 4567'))).toBe('+92 300 123 4567');
     expect(internationalPhone(pk('0300 1234567'))).toBe('+92 300 1234567');
     expect(internationalPhone(pk('92 300 1234567'))).toBe('+92 300 1234567');
+    expect(internationalPhone(pk('923001234567'))).toBe('+92 3001234567');
+    expect(internationalPhone(pk('0 300 123 4567'))).toBe('+92 300 123 4567');
   });
 
   it('writes the country code and number', () => {

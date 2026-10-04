@@ -304,18 +304,27 @@ export const DetailsEmpty: Story = {
 export const DetailsEmptyPhone: Story = { ...DetailsEmpty, globals: { viewport: { value: 'phone' } } };
 
 /**
- * "300 12" is incomplete (5 of 10 digits) and takes focus once the name is filled. Abroad, "44"
- * and "7700 900123" pass; "Pakistani number?" brings back the number as typed.
+ * Real keys: the number keeps digits and spaces; "300 12" is incomplete (5 of 10 digits), its
+ * message wraps under the field, and it takes focus once the name is filled. Abroad, "44" and
+ * "7700 900123" pass; "Pakistani number?" brings back the number as typed.
  */
 export const DetailsPhone: Story = {
-  play: async ({ canvas, userEvent }) => {
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const user = await realUser();
+    if (!user) return;
     await toStep3(canvas, userEvent);
     await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
     const phone = canvas.getByRole('textbox', { name: 'WhatsApp number' });
-    await userEvent.type(phone, '300 12');
+    await user.click(phone);
+    await user.keyboard('0300-123 4567x');
+    await expect(phone).toHaveValue('0300123 4567');
+    await user.clear(phone);
+    await user.keyboard('300 12');
     await userEvent.click(button(canvas, /^Review/));
     await waitFor(() => expect(phone).toHaveFocus());
-    await expect(canvas.getByText(/This number looks incomplete \(5 of 10 digits\)/)).toBeVisible();
+    const message = canvas.getByText(/This number looks incomplete \(5 of 10 digits\)/);
+    await expect(message.getBoundingClientRect().top).toBeGreaterThan(phone.getBoundingClientRect().bottom);
+    await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
     await userEvent.click(button(canvas, 'Outside Pakistan?'));
     const code = canvas.getByRole('textbox', { name: 'Country code' });
     await expect(code).toHaveFocus();
@@ -329,6 +338,10 @@ export const DetailsPhone: Story = {
     await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('300 12');
   },
 };
+
+export const DetailsPhonePhone: Story = { ...DetailsPhone, globals: { viewport: { value: 'phone' } } };
+
+export const DetailsPhoneLaptop: Story = { ...DetailsPhone, globals: { viewport: { value: 'laptop' } } };
 
 /** Back to step 2 and Next again keep the name, number, best time and notes. */
 export const DetailsKept: Story = {

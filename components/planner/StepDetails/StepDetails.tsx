@@ -9,6 +9,7 @@ import { routes } from '@/lib/routes';
 import { NOTES_MAX_LENGTH, pickBestTime } from '@/lib/utils/plannerDetails';
 import { BEST_TIMES, labelled } from '@/lib/utils/plannerOptions';
 import { groupError } from '@/lib/utils/plannerValidation';
+import { splitAtToken } from '@/lib/utils/tokens';
 import { ChoiceChips } from '../ChoiceChips/ChoiceChips';
 import { PhoneField } from '../PhoneField/PhoneField';
 import type { StepDetailsProps } from './StepDetails.types';
@@ -20,12 +21,14 @@ import styles from './StepDetails.module.css';
  */
 export function StepDetails({ copy }: StepDetailsProps) {
   const { details, errors, updateDetails, fieldId } = usePlanner();
+  const [beforeLink, afterLink] = splitAtToken(copy.privacy.text, 'link');
   return (
     <>
-      <FormField id={fieldId('name')} label={copy.name.label} hint={copy.name.hint} error={groupError(errors, 'name')} className={styles.field}>
+      <FormField id={fieldId('name')} label={copy.name.label} hint={copy.name.hint} error={groupError(errors, 'name')}>
         {({ id, describedBy, invalid }) => (
           <Input
             id={id}
+            className={styles.field}
             autoComplete="name"
             placeholder={copy.name.placeholder}
             value={details.name}
@@ -35,9 +38,7 @@ export function StepDetails({ copy }: StepDetailsProps) {
           />
         )}
       </FormField>
-      <div className={styles.field}>
-        <PhoneField copy={copy.phone} error={groupError(errors, 'phone')} />
-      </div>
+      <PhoneField copy={copy.phone} />
       <ChoiceChips
         id={fieldId('bestTime')}
         label={copy.bestTime.label}
@@ -46,10 +47,11 @@ export function StepDetails({ copy }: StepDetailsProps) {
         value={details.bestTime}
         onPick={(time) => updateDetails((d) => pickBestTime(d, time))}
       />
-      <FormField id={fieldId('notes')} label={copy.notes.label} hint={copy.notes.hint} className={styles.notes}>
+      <FormField id={fieldId('notes')} label={copy.notes.label} hint={copy.notes.hint}>
         {({ id, describedBy }) => (
           <Textarea
             id={id}
+            className={styles.notes}
             maxLength={NOTES_MAX_LENGTH}
             placeholder={copy.notes.placeholder}
             value={details.notes}
@@ -59,11 +61,11 @@ export function StepDetails({ copy }: StepDetailsProps) {
         )}
       </FormField>
       <p className={styles.privacy}>
-        {copy.privacy.text}{' '}
+        {beforeLink}
         <TextLink variant="inline" href={routes.privacy}>
           {copy.privacy.link}
         </TextLink>
-        .
+        {afterLink}
       </p>
     </>
   );
