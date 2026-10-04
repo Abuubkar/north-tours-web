@@ -33,9 +33,21 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Mobile menu:** the `Sheet` **drawer** variant (from the side), not the design's panel under the header. Close button, backdrop, Escape and focus return come from the Sheet. Every page gets "Plan on WhatsApp", including the Planner (§5 item 39).
 - **Other mobile overlays** (booking, filters, sort) use the Sheet's **bottom** variant.
 - **Routes:** one route map in `lib/routes.ts`. Nav and footer links point to pages that don't exist yet.
-- **Active nav item** comes from the URL (`lib/utils/nav.ts`): Tours on `/tours` and `/tours/*`, Destinations on `/destinations/*`, Guides on `/about`. Homepage scroll-tracking belongs to the Homepage PRD.
+- **Active nav item** comes from the URL (`lib/utils/nav.ts`): Tours on `/tours` and `/tours/*`, Destinations on `/destinations/*`, Guides on `/about`. On the Homepage, scroll-spy instead (PRD #39).
 - **WhatsApp links** are built by `lib/utils/whatsapp.ts` from the number and messages in `content/settings.json`. While the number is a placeholder they go to `https://wa.me/?text=…`; placeholder phone, email and social links show as plain text.
 - **Skip link** first on every page, to `<main id="main" tabindex="-1">`. In-page anchors land below the sticky header (`scroll-padding-top: var(--header-h)`).
+
+**Decided in the Homepage PRD (#39, 2026-10-04):**
+
+- **The page's `<h1>`** is the brand statement ("Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway"), at the long-H2 size. "NORTH" in the hero is decorative and `aria-hidden`. Section headlines are `<h2>`; card titles and names are `<h3>`.
+- **Page copy** lives in `content/pages/<page>.json` (schema, loader, `content:check`): headlines, leads, labels, steps, the `<title>` part and meta description. Copy may use `{tokens}` filled from settings; a field rejects tokens it doesn't allow. Titles are "{page title} | {brand}"; every page has Open Graph and Twitter tags, and its share image is its hero photo cropped to 1200×630 (the Homepage's where a page has none).
+- **Images:** source photos in `content/images`; `pnpm images` (sharp, dev only, ADR-0015) writes AVIF, WebP and JPEG at fixed widths plus share crops to `public/images`; `content:check` fails if any are missing. `MediaFrame` (built) picks the file, lazy unless it's the page's main image. Place photos come from Wikimedia Commons (Unsplash is bot-blocked for scripted access), credited on `/credits`.
+- **Motion** is native (ADR-0016): the hero blur and brand statement reveal are CSS scroll-driven animations; cards rise with the `useRiseOnView` hook (only cards below the fold at load, only the photo fades). Story files run one at a time so reduced motion can be set per story (ADR-0017).
+- **`TourCard`** (built) shows the tour's next upcoming departure that has seats, or, when all are sold out, the next sold-out date with "Join waitlist". Lists sort by the date each card shows. WhatsApp opens a message naming the tour and date (templates in settings); sold out, the waitlist message. The seats line uses the shared wording ("Sold out · waitlist open").
+- **Card links:** destination cards link to `/destinations/{slug}`; Homepage guide cards link to the guide's profile, `/about#guide-{slug}` (replacing "not clickable" in §2 and §5 item 26). Each card is one link, named by the destination or guide.
+- **Scroll-spy** (Homepage only): the header nav and the mobile menu mark How it works, Destinations or Reviews, with `aria-current="location"`, once that section's top is above 40% of the viewport; above How booking works nothing is marked. Tours and Guides lead to other pages, so they're never marked there. Other pages keep the path rule (`aria-current="page"`).
+- **Layout patterns** from §4 are shared styles in `styles/layout.module.css`: section shell, header row, capped hairline grid, cell, text-grid bleed (which fixes §5 item 28) and image-card cell.
+- Built here: `MediaFrame`, `TextLink` (base); `TourCard`, `PriceBlock`, `SeatsStatus`, `StepCell`, `RouteMap`, `RouteStopList`, `ReviewCard`, `DestinationCard`, `GuideCard` (features); the Homepage sections and the `/credits` page.
 
 Open questions are in §6, grouped by the PRD that settles them.
 
@@ -507,7 +519,7 @@ The shared header, mobile menu and footer live in `components/layout` instead (P
 - Sticky, 72px, `rgba(12,18,22,.86)` with `backdrop-filter: blur(18px) saturate(140%)` (M3 "frosted"; solid `ink-900` when unsupported), bottom hairline, `data-surface="dark"`. Contents: `BrandMark`, then on desktop a nav (14/500, gap 32, min-height 44 per link, active item gold) and the header WhatsApp button. `SiteHeader` is server-rendered; only `NavLinks` (reads the path) and `MobileMenu` (open state) are client components.
 - **Mobile < 820:** a WhatsApp `IconButton` 44 plus the menu `IconButton` 44.
 - **MobileMenu:** the `Sheet` drawer (side), titled "Menu", with the nav links in the `footerNav` role (min-height 44, hairlines, active item gold) and a primary 56 "Plan on WhatsApp" on every page. It closes on link tap, the close button, the backdrop and Escape, returning focus to the menu button. *(The design shows a panel below the header with no Escape or focus handling and no WhatsApp button on the Planner; PRD #32 replaced it.)*
-- **Nav items:** Tours (→ `/tours`), How it works (→ `/#how`), Destinations (→ `/#destinations`), Guides (→ `/about#guides`), Reviews (→ `/#reviews`). On Home the design adds **scroll-spy** (active once a section's top is above 40% of the viewport); that belongs to the Homepage PRD.
+- **Nav items:** Tours (→ `/tours`), How it works (→ `/#how`), Destinations (→ `/#destinations`), Guides (→ `/about#guides`), Reviews (→ `/#reviews`). On Home, **scroll-spy** marks How it works, Destinations or Reviews (`aria-current="location"`) once that section's top is above 40% of the viewport (built in PRD #39; Tours and Guides aren't marked there).
 
 #### `SiteFooter` — `components/layout/SiteFooter` (static, built in PRD #32)
 - Identical on all 9 pages. `SectionLabel` "Contact" (240 column), then large nav links `clamp(40px,5.2cqi,76px)`/500 (Tours, Destinations, Private trips, About us, Reviews), then a right column (`flex:0 1 380px`) with an intro 17, primary 56 "Chat on WhatsApp" and `KeyValueRow`s (WhatsApp, Phone, Email, Office with address and hours).
@@ -658,9 +670,9 @@ Hairline grid MIN/N values found:
 **Cards and grids**
 24. **ReviewCard:** two specs. Default (15px stars, clamp 19–23 quote, 32/36 padding) vs Tours compact (13px stars, 17px quote, 24/28 padding, 14/13 caption). DESIGN §9 only describes 15px stars.
 25. **DestinationCard:** Homepage is 3:4, 22px name, "Best season" plus months. Destination "Other valleys" is 4:3, 20px name, "Best · …" plus tour count. The Planner choice card is 16:10 light.
-26. **GuideCard:** Homepage cards are non-interactive; the same people on About open profiles (with "View profile"). Homepage nav "Guides" goes to About#guides, but the Homepage cards don't link.
+26. **GuideCard:** Homepage cards are non-interactive; the same people on About open profiles (with "View profile"). Homepage nav "Guides" goes to About#guides, but the Homepage cards don't link. *(Settled in PRD #39: Homepage cards link to `/about#guide-{slug}`.)*
 27. **Hairline grid implementation:** the Tours results grid uses per-card `border-right`/`border-bottom` (computed from column count) instead of `gap:1px` on a line background (`Tours:154-156,473`). TD Hotels uses a fixed `repeat(5,…)`/`1fr` (no capped auto-fill, so nothing between 1 and 5 columns). Contact ways uses a fixed `2fr 1fr 1fr`.
-28. **Bleed bug:** the Homepage "How it works" `<ol>` sets the bleed margins and then `margin:64px 0 0`, which resets them (`Homepage:138`). The first and last step text therefore sits P inside the page margin, unlike every other text grid.
+28. **Bleed bug:** the Homepage "How it works" `<ol>` sets the bleed margins and then `margin:64px 0 0`, which resets them (`Homepage:138`). The first and last step text therefore sits P inside the page margin, unlike every other text grid. *(Fixed in PRD #39: the shared text-grid bleed holds.)*
 29. **Caption insets** on placeholders vary: 20/16, 16/14, 14/12, 12/10, 10/8, 6/5.
 30. **Price sizes:** 24 (TourCard), **30** (BookingPanel, not in the type scale), 18 (hero, sticky bar, rows), 16 (room rows).
 31. **Seats copy varies:** "3 of 16 seats left" (card), "Only 3 seats left" (tag, panel, TD hero, TD row), "14 seats left" (panel), "14 of 16 seats left" (TD row), "Sold out" (panel), "Sold out · waitlist open" (TD row), "0 of 12 seats · waitlist open" (card). Pick one formatter in `lib/utils`.
@@ -705,9 +717,7 @@ Each one is asked (grilled) at the start of its PRD. A recommendation is noted w
 - All settled (see the decisions at the top of this file).
 
 **Homepage PRD**
-- Which element is the page's single `<h1>`. The design has none. Recommended: the brand statement ("Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway") as the `<h1>`; the display word "NORTH" is decorative and hidden from screen readers.
-- Destination cards link to the Destination pages (`/destinations/{slug}`) instead of `#hunza` anchors? There is no destinations listing page; the nav's "Destinations" points to the Homepage section.
-- Guide cards: static, or link to `/about#guide-{id}` like About?
+- All settled (see the decisions at the top of this file).
 
 **Tour Detail PRD**
 - Reserve flow: does the final CTA open WhatsApp directly, or keep "choose date → panel Reserve → WhatsApp"?

@@ -1,7 +1,9 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { activeNavItem, mainNav } from '@/lib/utils/nav';
+import { useScrollSpy } from '@/hooks/useScrollSpy';
+import { routes } from '@/lib/routes';
+import { activeNavItem, mainNav, SPIED_SECTIONS } from '@/lib/utils/nav';
 import type { NavLinksProps } from './NavLinks.types';
 import styles from './NavLinks.module.css';
 
@@ -10,9 +12,19 @@ const variantClass = {
   menu: { list: styles.menuList, link: styles.menuLink },
 };
 
-/** The main nav, named "Main". The current page's item is gold and marked aria-current="page". */
+const NO_SECTIONS = [] as const;
+
+/**
+ * The main nav, named "Main". On the Homepage the item for the section in view is gold and
+ * marked aria-current="location" (scroll-spy); on other pages the current page's item is,
+ * with aria-current="page".
+ */
 export function NavLinks({ variant }: NavLinksProps) {
-  const active = activeNavItem(usePathname());
+  const pathname = usePathname();
+  const onHomepage = pathname === routes.home;
+  const sectionInView = useScrollSpy(onHomepage ? SPIED_SECTIONS : NO_SECTIONS);
+  const active = onHomepage ? sectionInView : activeNavItem(pathname);
+  const current = onHomepage ? 'location' : 'page';
   const classes = variantClass[variant];
 
   return (
@@ -20,7 +32,7 @@ export function NavLinks({ variant }: NavLinksProps) {
       <ul className={classes.list}>
         {mainNav.map(({ id, label, href }) => (
           <li key={id}>
-            <a href={href} className={classes.link} aria-current={id === active ? 'page' : undefined}>
+            <a href={href} className={classes.link} aria-current={id === active ? current : undefined}>
               {label}
             </a>
           </li>

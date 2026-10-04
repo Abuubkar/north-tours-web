@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
+import styles from '../../ui/stories.module.css';
 import { realUser } from '../../../.storybook/realUser';
 import { MobileMenu } from './MobileMenu';
 
@@ -93,5 +94,28 @@ export const HiddenOnDesktop: Story = {
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     await expect(canvas.queryByRole('button', { name: 'Menu' })).toBeNull();
+  },
+};
+
+/** On the Homepage at 390, the menu marks the section in view, as the header does. */
+export const ScrollSpy: Story = {
+  parameters: { nextjs: { appDirectory: true, navigation: { pathname: '/' } } },
+  render: (args) => (
+    <>
+      <MobileMenu {...args} />
+      <div className={styles.scrollRoom} />
+      <section id="how" className={styles.scrollRoom} />
+      <section id="destinations" className={styles.scrollRoom} />
+      <section id="reviews" className={styles.scrollRoom} />
+    </>
+  ),
+  play: async ({ canvas }) => {
+    document.getElementById('destinations')!.scrollIntoView({ block: 'start', behavior: 'instant' });
+    // A DOM click, so the page isn't scrolled back up to the menu button first.
+    canvas.getByRole('button', { name: 'Menu' }).click();
+    const menu = within(await canvas.findByRole('dialog', { name: 'Menu' }));
+    await waitFor(() => expect(menu.getByRole('link', { name: 'Destinations' })).toHaveAttribute('aria-current', 'location'));
+    const marked = menu.getAllByRole('link').filter((link) => link.hasAttribute('aria-current'));
+    await expect(marked.map((link) => link.textContent)).toEqual(['Destinations']);
   },
 };

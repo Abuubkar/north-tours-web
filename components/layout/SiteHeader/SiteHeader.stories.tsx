@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, within } from 'storybook/test';
+import { expect, waitFor, within } from 'storybook/test';
+import styles from '../../ui/stories.module.css';
 import { realUser } from '../../../.storybook/realUser';
 import { placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteHeader } from './SiteHeader';
@@ -140,5 +141,26 @@ export const FocusRingPhone: Story = {
     const whatsapp = canvas.getByRole('link', { name: 'Chat on WhatsApp' });
     await expect(whatsapp).toHaveFocus();
     await expect(getComputedStyle(whatsapp).outlineStyle).toBe('solid');
+  },
+};
+
+/** On the Homepage the header marks the section in view: Reviews, with aria-current="location". */
+export const HomepageScrollSpy: Story = {
+  parameters: { ...onPath('/'), fullBleed: true },
+  render: (args) => (
+    <>
+      <SiteHeader {...args} />
+      <div className={styles.scrollRoom} />
+      <section id="how" className={styles.scrollRoom} />
+      <section id="destinations" className={styles.scrollRoom} />
+      <section id="reviews" className={styles.scrollRoom} />
+    </>
+  ),
+  play: async ({ canvas }) => {
+    document.getElementById('reviews')!.scrollIntoView({ block: 'start', behavior: 'instant' });
+    const nav = canvas.getByRole('navigation', { name: 'Main' });
+    await waitFor(() => expect(within(nav).getByRole('link', { name: 'Reviews' })).toHaveAttribute('aria-current', 'location'));
+    const marked = within(nav).getAllByRole('link').filter((link) => link.hasAttribute('aria-current'));
+    await expect(marked).toHaveLength(1);
   },
 };
