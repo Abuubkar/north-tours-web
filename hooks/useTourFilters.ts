@@ -30,6 +30,8 @@ export type TourFiltersState = {
   counts: FacetCounts;
   /** The cards for the view, in order. */
   results: TourResult<FilterTour>[];
+  /** The view is in place: after hydration, once the link has been read. */
+  ready: boolean;
   /** How many times the visitor has changed the view; the results announce their count after each. */
   changes: number;
   /** Picks an option, or unpicks it (Month: one at a time). */
@@ -105,6 +107,7 @@ export function useTourFiltersState(tours: FilterTour[], destinations: readonly 
     options,
     counts: facetCounts(tours, filters, options, today),
     results: tourResults(tours, filters, today),
+    ready: linked !== null,
     changes,
     toggle: (group, id) => change(toggleFilter(filters, options, group, id)),
     setSort: (sort) => change({ ...filters, sort }),

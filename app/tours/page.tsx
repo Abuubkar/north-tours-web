@@ -11,17 +11,22 @@ import { getToursPage } from '@/lib/content/toursPage';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { PENDING_SCRIPT } from '@/lib/utils/toursSearch';
 import { PageHeader } from '@/sections/PageHeader/PageHeader';
+import { PrivateTripBanner } from '@/sections/PrivateTripBanner/PrivateTripBanner';
+import { ReviewsSection } from '@/sections/ReviewsSection/ReviewsSection';
+import { TrustStrip } from '@/sections/TrustStrip/TrustStrip';
 
 export function generateMetadata(): Metadata {
   return pageMetadata(getToursCopy(), getSettings());
 }
 
 /**
- * Every trip, soonest first, filtered and sorted in the browser from the link (PRD #56). It has
- * no photo of its own, so it shares the Homepage's image.
+ * Every trip, soonest first, filtered and sorted in the browser from the link (PRD #56), with a
+ * private trip offered after the first row, then reviews and the trust strip. It has no photo of
+ * its own, so it shares the Homepage's image.
  */
 export default function ToursPage() {
-  const { copy, settings, builtOn, sharePhoto, whatsapp, tours, destinations, optionLabels } = getToursPage();
+  const page = getToursPage();
+  const { copy, settings, builtOn, sharePhoto, whatsapp, tours, destinations, optionLabels } = page;
 
   return (
     <PageMain>
@@ -36,8 +41,11 @@ export default function ToursPage() {
           copy={{ results: copy.results, sorts: copy.sorts, empty: copy.empty, filters: copy.filters }}
           labels={optionLabels}
           settings={whatsapp}
+          banner={<PrivateTripBanner copy={copy.banner} whatsappHref={page.askHref} />}
         />
       </TourFiltersProvider>
+      <ReviewsSection variant="compact" copy={copy.reviews} reviews={page.reviews} summary={page.ratingSummary} />
+      <TrustStrip settings={settings} year={new Date().getFullYear()} />
     </PageMain>
   );
 }

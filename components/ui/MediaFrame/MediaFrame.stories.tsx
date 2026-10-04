@@ -8,7 +8,7 @@ const meta = {
   title: 'Base/MediaFrame',
   component: MediaFrame,
   args: { image: samplePhoto, ratio: '4:3', sizes: '460px' },
-  argTypes: { ratio: { control: 'inline-radio', options: ['fill', '4:3', '3:4', '4:5'] } },
+  argTypes: { ratio: { control: 'inline-radio', options: ['fill', '4:3', '3:4', '4:5', '16:10'] } },
   decorators: [
     (Story) => (
       <div className={styles.card}>
@@ -51,6 +51,15 @@ export const Ratios: Story = {
       <MediaFrame {...args} ratio="4:5" image={samplePlaceholder} sizes="200px" />
     </div>
   ),
+};
+
+/** The private trip banner's wide frame, 16:10. */
+export const Wide: Story = {
+  args: { ratio: '16:10', sizes: '460px' },
+  play: async ({ canvas }) => {
+    const frame = canvas.getByRole('img', { name: samplePhoto.alt }).closest('picture')!.getBoundingClientRect();
+    await expect(frame.width / frame.height).toBeCloseTo(1.6, 1);
+  },
 };
 
 /** The page's main image (the hero): full-bleed, unrounded, loaded straight away with high priority. */

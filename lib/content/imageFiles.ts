@@ -5,7 +5,7 @@ import { loadCatalog } from './catalog.ts';
 import { CONTENT_DIR, displayPath, type ContentProblem } from './files.ts';
 import { loadGuides } from './guides.ts';
 import { isPhoto, type ContentImage, type Photo } from './images.ts';
-import { homeCopyFile, loadHomeCopy } from './pages.ts';
+import { homeCopyFile, loadHomeCopy, loadToursCopy, toursCopyFile } from './pages.ts';
 
 /** Where the site's static files live; `pnpm images` writes the variants here (ADR-0015). */
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');
@@ -18,8 +18,10 @@ export function contentPhotos(dir = CONTENT_DIR): PhotoUse[] {
   const catalog = loadCatalog(dir);
   const guides = loadGuides(dir);
   const home = loadHomeCopy(dir);
+  const tours = loadToursCopy(dir);
   const uses: { file: string; field: string; image: ContentImage; share?: boolean }[] = [
     ...(home.data ? [{ file: displayPath(homeCopyFile(dir)), field: 'hero.image', image: home.data.hero.image, share: true }] : []),
+    ...(tours.data ? [{ file: displayPath(toursCopyFile(dir)), field: 'banner.image', image: tours.data.banner.image }] : []),
     // A tour's photo is its page's hero and share image.
     ...catalog.tours.map((t) => ({ file: catalog.tourFiles[t.slug], field: 'image', image: t.image, share: true })),
     ...catalog.tours.flatMap((t) => t.highlights.map((h, i) => ({ file: catalog.tourFiles[t.slug], field: `highlights.${i}.image`, image: h.image }))),

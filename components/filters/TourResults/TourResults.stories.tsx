@@ -1,17 +1,26 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
+import { opacityUpTo } from '../../../.storybook/opacity';
+import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
 import { gridColumns } from '../../../.storybook/gridColumns';
 import { realUser } from '../../../.storybook/realUser';
 import { atQuery } from '../../../.storybook/storyUrl';
 import { placeholderSettings } from '../../layout/sampleSettings';
 import { tourWith } from '../../tour-card/sampleTours';
+import { samplePhoto } from '../../ui/MediaFrame/samplePhotos';
 import { sampleListTours, sampleOptionLabels, sampleSoonestOrder, sampleToursCopy, withTourFilters } from '../sampleFilters';
+import { PrivateTripBanner } from '../../../sections/PrivateTripBanner/PrivateTripBanner';
 import { TourResults } from './TourResults';
 
 const meta = {
   title: 'Filters/TourResults',
   component: TourResults,
-  args: { copy: sampleToursCopy, labels: sampleOptionLabels, settings: placeholderSettings },
+  args: {
+    copy: sampleToursCopy,
+    labels: sampleOptionLabels,
+    settings: placeholderSettings,
+    banner: <PrivateTripBanner copy={sampleToursCopy.banner} whatsappHref="https://wa.me/?text=Hi" />,
+  },
   decorators: [withTourFilters()],
   // Each story starts at plain /tours (a story's own query follows), and the URL is put back after.
   beforeEach: atQuery(''),
@@ -158,3 +167,86 @@ const EmptyLinked: Story = {
 export const EmptyOnLight: Story = { ...EmptyLinked, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const EmptyPhone: Story = { ...EmptyLinked, globals: { viewport: { value: 'phone' } } };
+
+/** The banner's place: the number of cards before it in the page. */
+const cardsBeforeBanner = (canvas: ReturnType<typeof within>) => {
+  const banner = canvas.getByRole('heading', { level: 2, name: sampleToursCopy.banner.headline });
+  return canvas.getAllByRole('article').filter((card: HTMLElement) => card.compareDocumentPosition(banner) & Node.DOCUMENT_POSITION_FOLLOWING).length;
+};
+
+/** From 1100px the private trip banner follows the first row of three. */
+export const BannerAfterFirstRow: Story = {
+  play: async ({ canvas }) => {
+    await expect(cardsBeforeBanner(canvas)).toBe(3);
+  },
+};
+
+export const BannerAfterFirstRowLaptop: Story = { ...BannerAfterFirstRow, globals: { viewport: { value: 'laptop' } } };
+
+/** Below 1100px it follows the second card: one row of two on tablets, two cards on phones. */
+export const BannerAfterTwo: Story = {
+  globals: { viewport: { value: 'navBreakpoint' } },
+  play: async ({ canvas }) => {
+    await waitFor(() => expect(cardsBeforeBanner(canvas)).toBe(2));
+  },
+};
+
+export const BannerAfterTwoPhone: Story = { ...BannerAfterTwo, globals: { viewport: { value: 'phone' } } };
+
+/** With no results there's no banner. */
+export const NoBannerWhenEmpty: Story = {
+  beforeEach: atQuery('?dest=murree&dur=8plus'),
+  play: async ({ canvas }) => {
+    await expect(canvas.queryByRole('heading', { name: sampleToursCopy.banner.headline })).toBeNull();
+  },
+};
+
+/**
+ * M4 on first load: a card below the fold waits 40px lower with only its photo hidden, then rises
+ * into place when it comes into view. Its dates, price, seats and buttons are never faded.
+ */
+export const RisesOnFirstLoad: Story = {
+  globals: { viewport: { value: 'phone' } },
+  beforeEach: emulateFullMotion,
+  play: async ({ canvas }) => {
+    const card = canvas.getAllByRole('listitem').at(-1)!;
+    await waitFor(() => expect(card).toHaveAttribute('data-rise', 'below'));
+    await expect(getComputedStyle(card).transform).toBe('matrix(1, 0, 0, 1, 0, 40)');
+    await expect(opacityUpTo(within(card).getByRole('img', { name: samplePhoto.alt }), card)).toBe(0);
+    for (const essential of [
+      within(card).getByText(/^\d+–\d+ \w+ · /),
+      within(card).getByText(/^PKR /),
+      within(card).getByText(/ of \d+ seats left$/),
+      within(card).getByRole('link', { name: /^View Trip/ }),
+    ]) {
+      await expect(opacityUpTo(essential, card)).toBe(1);
+    }
+    card.scrollIntoView({ block: 'center' });
+    await waitFor(() => expect(card).toHaveAttribute('data-rise', 'in'));
+    await waitFor(() => expect(getComputedStyle(card).transform).toBe('none'), { timeout: 3000 });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  },
+};
+
+/** Changing the view (here, removing a chip) never offsets a card, not even one still waiting below. */
+export const ChangeNeverOffsets: Story = {
+  globals: { viewport: { value: 'phone' } },
+  beforeEach: [emulateFullMotion, atQuery('?type=family')],
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await waitFor(() => expect(canvasElement.querySelector('[data-rise="below"]')).not.toBeNull());
+    await userEvent.click(canvas.getByRole('button', { name: 'Remove filter Family' }));
+    await expect(titles(canvas)).toHaveLength(8);
+    await expect(canvasElement.querySelector('[data-rise="below"]')).toBeNull();
+    for (const card of canvas.getAllByRole('listitem')) await expect(getComputedStyle(card).transform).toBe('none');
+  },
+};
+
+/** With reduced motion no card is ever offset. */
+export const ReducedMotion: Story = {
+  globals: { viewport: { value: 'phone' } },
+  beforeEach: emulateReducedMotion,
+  play: async ({ canvasElement }) => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await expect(canvasElement.querySelector('[data-rise]')).toBeNull();
+  },
+};

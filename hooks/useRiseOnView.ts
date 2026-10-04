@@ -8,12 +8,13 @@ const THRESHOLD = 0.12;
  * below the fold when the page loads. Each gets `data-rise="below"` (its CSS offsets it), then
  * `data-rise="in"` the first time it comes into view, with its column in `--rise-column` for the stagger.
  * Cards in view at load are never touched, nor anything with reduced motion, so nothing is
- * hidden if the script fails.
+ * hidden if the script fails. A list that settles after hydration (Tours, from its link) passes
+ * `ready` once it has, so "below the fold" is judged on the cards it ends up showing.
  */
-export function useRiseOnView(listRef: RefObject<HTMLElement | null>) {
+export function useRiseOnView(listRef: RefObject<HTMLElement | null>, ready = true) {
   useEffect(() => {
     const list = listRef.current;
-    if (!list || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!ready || !list || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const cards = [...list.children] as HTMLElement[];
     const below = cards.filter((card) => card.getBoundingClientRect().top > window.innerHeight);
@@ -37,5 +38,5 @@ export function useRiseOnView(listRef: RefObject<HTMLElement | null>) {
       observer.observe(card);
     }
     return () => observer.disconnect();
-  }, [listRef]);
+  }, [listRef, ready]);
 }

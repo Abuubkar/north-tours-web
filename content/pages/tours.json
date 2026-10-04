@@ -64,5 +64,30 @@
     "lead": "Tell us what you’re looking for and we’ll plan it. Most private trips start with a WhatsApp message.",
     "clearLabel": "Clear all filters",
     "planLabel": "Plan a private trip"
+  },
+  "banner": {
+    "headline": "Plan a private trip for your family or team",
+    "lead": "We plan private tours for families and teams, from 2 days to 2 weeks.",
+    "planLabel": "Plan a private trip",
+    "askLabel": "Ask on WhatsApp",
+    "image": {
+      "src": "/images/naran-kaghan/lulusar-lake.jpg",
+      "alt": "Jade-green Lulusar Lake sits between grassy mountain slopes under billowing clouds, with pink wildflowers on the rocky shore.",
+      "width": 1600,
+      "height": 972,
+      "focus": {
+        "x": 50,
+        "y": 55
+      },
+      "credit": {
+        "source": "wikimedia",
+        "author": "Shahbaz Aslam",
+        "licence": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lulusar_lake_kaghan_valley.jpg"
+      }
+    }
+  },
+  "reviews": {
+    "headline": "Reviews from travellers"
   }
 }

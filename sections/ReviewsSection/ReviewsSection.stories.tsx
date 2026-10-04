@@ -76,3 +76,24 @@ export const NoReviews: Story = {
     await expect(canvas.queryByRole('figure')).toBeNull();
   },
 };
+
+/** Tours: no visible headline (one is read out), "★ 4.8 average · 699 reviews", then three compact cards. */
+export const Compact: Story = {
+  args: { variant: 'compact', copy: { headline: 'Reviews from travellers' } },
+  play: async ({ canvas }) => {
+    const heading = canvas.getByRole('heading', { level: 2, name: 'Reviews from travellers' });
+    await expect(heading.getBoundingClientRect().width).toBeLessThanOrEqual(1);
+    await expect(canvas.getByText(/average · 699 reviews$/)).toHaveTextContent('4.8 average · 699 reviews');
+    const cards = canvas.getAllByRole('figure');
+    await expect(cards).toHaveLength(3);
+    for (const card of cards) {
+      await expect(card.querySelector('[role="img"]')).toHaveAccessibleName(/out of 5 stars$/);
+      await expect(card.querySelector('blockquote')).not.toBeEmptyDOMElement();
+      await expect(card.querySelector('figcaption')!.textContent).toMatch(/, .+ · [A-Z][a-z]+ \d{4}$/);
+    }
+  },
+};
+
+export const CompactOnLight: Story = { ...Compact, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const CompactPhone: Story = { ...Compact, globals: { viewport: { value: 'phone' } } };

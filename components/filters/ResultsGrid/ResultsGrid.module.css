@@ -11,7 +11,14 @@
   list-style: none;
 }
 
+/* After the banner, whose hairline is above it. */
+.rest {
+  border-top: 0;
+}
+
+/* Rises into place once (M4, layout.module.css `riseCell`). */
 .cell {
+  composes: riseCell from '../../../styles/layout.module.css';
   display: flex;
   flex-direction: column;
   border-bottom: var(--hairline-width) solid var(--hairline);

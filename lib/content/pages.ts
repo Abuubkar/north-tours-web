@@ -292,6 +292,17 @@ const toursCopySchema = z.strictObject({
   sortLabel: copy,
   /** Each sort's label by its id, e.g. "Soonest departure"; every sort needs one. */
   sorts: z.record(z.enum(SORTS), copy),
+  /** After the first row of results: a private trip, to the planner or on WhatsApp. */
+  banner: z.strictObject({
+    headline: copy,
+    lead: copy,
+    planLabel: copy,
+    askLabel: copy,
+    /** A place photo until the owner supplies one of a family with their guide (ADR-0009). */
+    image: photoSchema,
+  }),
+  /** The reviews' headline: read out, not shown. */
+  reviews: z.strictObject({ headline: copy }),
   /** When no trip matches. The headline's wording is fixed (DESIGN.md §6). */
   empty: z.strictObject({
     headline: copy,

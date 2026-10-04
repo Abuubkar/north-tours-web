@@ -43,3 +43,19 @@ export const FourStars: Story = {
     await expect(canvas.getByRole('img', { name: '4 out of 5 stars' })).toBeVisible();
   },
 };
+
+/** Compact (Tours): 13px stars, the smaller quote, caption and padding. */
+export const Compact: Story = {
+  args: { variant: 'compact' },
+  play: async ({ canvas }) => {
+    const stars = canvas.getByRole('img', { name: '5 out of 5 stars' });
+    await expect(stars.querySelector('svg')!.getAttribute('width')).toBe('13');
+    await expect(getComputedStyle(canvas.getByText(/Three nights in Hunza/)).fontSize).toBe('17px');
+    await expect(canvas.getByText('Ayesha Malik & family, Lahore')).toBeVisible();
+    await expect(canvas.getByText('Hunza & Skardu Grand · May 2026')).toBeVisible();
+  },
+};
+
+export const CompactOnLight: Story = { ...Compact, globals: { surface: 'light' } };
+
+export const CompactPhone: Story = { ...Compact, globals: { viewport: { value: 'phone' } } };

@@ -15,8 +15,8 @@ import styles from './TourResults.module.css';
  * the new count is announced. While a linked view is being applied the results stay hidden (their
  * space kept), so the full list built into the page never flashes first.
  */
-export function TourResults({ copy, labels, settings }: TourResultsProps) {
-  const { filters, results, changes, clearAll, headingRef, focusResults } = useTourFilters();
+export function TourResults({ copy, labels, settings, banner }: TourResultsProps) {
+  const { filters, results, ready, changes, clearAll, headingRef, focusResults } = useTourFilters();
   const count = tripsCount(results.length, copy.results.count);
   // Every change is announced, even when the count stays the same (a no-break space makes the text differ).
   const announcement = changes === 0 ? '' : `${results.length === 0 ? copy.empty.headline : count}${changes % 2 ? ' ' : ''}`;
@@ -33,7 +33,7 @@ export function TourResults({ copy, labels, settings }: TourResultsProps) {
         <ActiveFilterChips labels={labels} clearLabel={copy.filters.clearAll} />
       </div>
       {results.length > 0 ? (
-        <ResultsGrid results={results} settings={settings} />
+        <ResultsGrid results={results} banner={banner} ready={ready} changes={changes} settings={settings} />
       ) : (
         <EmptyResults copy={copy.empty} onClear={clearAndFocus} />
       )}

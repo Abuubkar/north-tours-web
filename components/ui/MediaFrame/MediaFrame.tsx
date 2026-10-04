@@ -8,6 +8,7 @@ const ratioClass: Record<MediaFrameRatio, string> = {
   '4:3': styles.ratio4x3,
   '3:4': styles.ratio3x4,
   '4:5': styles.ratio4x5,
+  '16:10': styles.ratio16x10,
 };
 
 /**
