@@ -34,6 +34,12 @@ export const sampleDestinationCopy: DestinationCopy = {
     seeAll: 'See all {destination} trips',
     seeAllNote: 'Opens the Tours page, filtered to {destination}',
   },
+  reviews: { headline: 'What travellers said about {destination}' },
+  others: {
+    headline: 'Other valleys we travel to',
+    season: 'Best · {season}',
+    tourCount: { one: '{count} tour', other: '{count} tours' },
+  },
   banner: {
     headline: '{destination}, on your own dates',
     lead: 'We plan private tours for families and teams, from 2 days to 2 weeks.',

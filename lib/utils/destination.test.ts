@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Departure } from '../content/tours.ts';
-import { destinationSections, tourCards, toursVisiting } from './destination.ts';
+import { destinationReviews, destinationSections, tourCards, toursVisiting } from './destination.ts';
+import { tripsCount } from './resultsText.ts';
 
 const tour = (title: string, destinations: string[]) => ({ title, destinations });
 const grand = tour('Hunza & Skardu Grand', ['hunza', 'skardu']);
@@ -35,8 +36,9 @@ describe('destinationSections', () => {
   const note = { title: 'Cash and ATMs', text: 'Carry enough cash.' };
 
   const tour = { title: 'Hunza Express' };
-  const sections = (destination: Parameters<typeof destinationSections>[0]['destination'], tours: unknown[] = [tour]) =>
-    destinationSections({ destination, tours });
+  const review = { tour: 'hunza-express', month: '2026-05' };
+  const sections = (destination: Parameters<typeof destinationSections>[0]['destination'], tours: unknown[] = [tour], reviews: unknown[] = [review]) =>
+    destinationSections({ destination, tours, reviews });
 
   it('shows every section with places, notes and tours (Hunza)', () => {
     expect(sections({ places: [place], notes: [note] })).toEqual([
@@ -48,21 +50,25 @@ describe('destinationSections', () => {
       'goodToKnow',
       'tours',
       'banner',
+      'reviews',
+      'others',
     ]);
   });
 
   it('leaves out places and good to know with none (Murree), keeping the sections every page has', () => {
-    expect(sections({})).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'tours', 'banner']);
-    expect(sections({ places: [], notes: [] })).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'tours', 'banner']);
+    const murree = ['hero', 'overview', 'calendar', 'gettingThere', 'tours', 'banner', 'reviews', 'others'];
+    expect(sections({})).toEqual(murree);
+    expect(sections({ places: [], notes: [] })).toEqual(murree);
   });
 
-  it('leaves the tours out when no tour visits, keeping the banner', () => {
-    expect(sections({}, [])).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'banner']);
+  it('leaves the tours and reviews out with none, keeping the banner and other destinations', () => {
+    expect(sections({}, [], [])).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'banner', 'others']);
+    expect(sections({}, [tour], [])).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'tours', 'banner', 'others']);
   });
 
   it('shows each optional section on its own', () => {
-    expect(sections({ places: [place] }, [])).toEqual(['hero', 'overview', 'calendar', 'places', 'gettingThere', 'banner']);
-    expect(sections({ notes: [note] }, [])).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'goodToKnow', 'banner']);
+    expect(sections({ places: [place] }, [], [])).toEqual(['hero', 'overview', 'calendar', 'places', 'gettingThere', 'banner', 'others']);
+    expect(sections({ notes: [note] }, [], [])).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'goodToKnow', 'banner', 'others']);
   });
 });
 
@@ -99,5 +105,42 @@ describe('tourCards', () => {
 
   it('puts a tour visiting two destinations on both', () => {
     expect(tourCards(toursVisiting('skardu', [grand, express]), today).map((c) => c.tour.title)).toEqual(['Hunza & Skardu Grand']);
+  });
+});
+
+describe('destinationReviews', () => {
+  const review = (tour: string, month: string) => ({ tour, month });
+  const reviews = [
+    review('hunza-express', '2026-05'),
+    review('hunza-skardu-grand', '2026-08'),
+    review('swat-family-escape', '2026-09'),
+    review('hunza-skardu-grand', '2026-06'),
+    review('hunza-express', '2026-07'),
+  ];
+
+  it('takes reviews across the destination’s tours, most recent first, at most three', () => {
+    expect(destinationReviews(reviews, ['hunza-express', 'hunza-skardu-grand'])).toEqual([
+      review('hunza-skardu-grand', '2026-08'),
+      review('hunza-express', '2026-07'),
+      review('hunza-skardu-grand', '2026-06'),
+    ]);
+  });
+
+  it('counts a review of a two-destination tour for both', () => {
+    expect(destinationReviews(reviews, ['hunza-skardu-grand'])).toHaveLength(2);
+    expect(destinationReviews([review('hunza-skardu-grand', '2026-08')], ['skardu-deosai', 'hunza-skardu-grand'])).toHaveLength(1);
+  });
+
+  it('is empty when no tour of the destination has reviews', () => {
+    expect(destinationReviews(reviews, ['murree-galiyat-weekend'])).toEqual([]);
+  });
+});
+
+describe('tour count words', () => {
+  const words = { one: '{count} tour', other: '{count} tours' };
+
+  it('says "1 tour" and "2 tours"', () => {
+    expect(tripsCount(1, words)).toBe('1 tour');
+    expect(tripsCount(2, words)).toBe('2 tours');
   });
 });

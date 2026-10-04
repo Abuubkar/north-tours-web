@@ -384,6 +384,16 @@ const destinationCopySchema = z.strictObject({
     seeAll: copyWith('destination'),
     seeAllNote: copyWith('destination'),
   }),
+  /** "What travellers said about {destination}": its tours' reviews, with no rating summary. */
+  reviews: z.strictObject({ headline: copyWith('destination') }),
+  /** "Other valleys we travel to": a card per other destination. */
+  others: z.strictObject({
+    headline: copy,
+    /** Under each name: "Best · {season}", the short months, e.g. "Best · Apr – Oct". */
+    season: copyWith('season'),
+    /** How many tours visit: "{count} tour" and "{count} tours". */
+    tourCount: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
+  }),
   /** "{destination}, on your own dates": a private trip, in the planner or on WhatsApp (its photo is the Tours banner's). */
   banner: z.strictObject({
     headline: copyWith('destination'),

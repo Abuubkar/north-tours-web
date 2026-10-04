@@ -74,8 +74,9 @@ export function yearsSince(since: number, currentYear: number): number {
   return currentYear - since;
 }
 
-/** A best season, Apr to Oct → "April – October". */
-export function seasonRange({ from, to }: Season): string {
+/** A best season, Apr to Oct → "April – October", or in short, "Apr – Oct" (a destination's "other valleys" card). */
+export function seasonRange({ from, to }: Season, length: 'long' | 'short' = 'long'): string {
+  if (length === 'short') return `${from} – ${to}`;
   const long = (month: string) => LONG_MONTHS[SHORT_MONTHS.indexOf(month)];
   return `${long(from)} – ${long(to)}`;
 }

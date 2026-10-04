@@ -16,6 +16,20 @@ describe('destination page', () => {
     expect(decodeURIComponent(getDestinationPage('hunza').askHref)).toContain('Hi, I’d like to plan a private trip to Hunza.');
   });
 
+  it('shows the three most recent reviews of the tours that visit, and Murree its one', () => {
+    const { reviews } = getDestinationPage('hunza');
+    expect(reviews).toHaveLength(3);
+    expect(reviews.map((r) => r.review.month)).toEqual([...reviews.map((r) => r.review.month)].sort().reverse());
+    expect(getDestinationPage('murree').reviews.map((r) => r.tourTitle)).toEqual(['Murree & Galiyat Weekend']);
+  });
+
+  it('links to the other five destinations, each with its tours', () => {
+    const { others } = getDestinationPage('hunza');
+    expect(others.map((o) => o.slug)).toEqual(['fairy-meadows', 'murree', 'naran-kaghan', 'skardu', 'swat']);
+    expect(others.find((o) => o.slug === 'skardu')!.tours).toBe('2 tours');
+    expect(others.find((o) => o.slug === 'murree')!.tours).toBe('1 tour');
+  });
+
   it('shares the destination’s own photo', () => {
     const { destination, sharePhoto } = getDestinationPage('skardu');
     expect(sharePhoto).toBe(destination.image);

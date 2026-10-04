@@ -1,10 +1,12 @@
 import { todayInKarachi } from '../utils/departures.ts';
-import { toursVisiting } from '../utils/destination.ts';
+import { destinationReviews, toursVisiting } from '../utils/destination.ts';
+import { tripsCount } from '../utils/resultsText.ts';
 import { fillTokens } from '../utils/tokens.ts';
 import { destinationMessage, whatsappLink } from '../utils/whatsapp.ts';
-import { getDestination, getTours } from './catalog.ts';
+import { getDestination, getDestinations, getTour, getTours } from './catalog.ts';
 import { isPhoto } from './images.ts';
 import { getDestinationCopy, getHomeCopy, getToursCopy } from './pages.ts';
+import { getReviews } from './reviews.ts';
 import { getSettings } from './settings.ts';
 
 /** The destination page's <title>: "Hunza tours from Lahore" (the brand is added after). */
@@ -20,9 +22,11 @@ export function destinationPageTitle(slug: string): string {
 export function getDestinationPage(slug: string) {
   const destination = getDestination(slug)!;
   const settings = getSettings();
+  const copy = getDestinationCopy();
+  const tours = toursVisiting(slug, getTours());
   return {
     destination,
-    copy: getDestinationCopy(),
+    copy,
     settings,
     /** The page's words take the destination's name. */
     tokens: { destination: destination.name },
@@ -36,7 +40,22 @@ export function getDestinationPage(slug: string) {
     askHref: whatsappLink(settings.contact.whatsapp, destinationMessage(settings.whatsapp, destination.name)),
     /** The Tours banner's place photo, until the owner supplies one of a family with their guide (ADR-0009). */
     bannerImage: getToursCopy().banner.image,
-    tours: toursVisiting(slug, getTours()).map((t) => ({
+    /** The three most recent reviews of the tours that visit. */
+    reviews: destinationReviews(
+      getReviews(),
+      tours.map((t) => t.slug),
+    ).map((review) => ({ review, tourTitle: getTour(review.tour)!.title })),
+    /** Every other destination, in the loader's order, with how many tours visit it ("2 tours"). */
+    others: getDestinations()
+      .filter((other) => other.slug !== slug)
+      .map(({ slug: otherSlug, name, bestSeason, image }) => ({
+        slug: otherSlug,
+        name,
+        bestSeason,
+        image,
+        tours: tripsCount(toursVisiting(otherSlug, getTours()).length, copy.others.tourCount),
+      })),
+    tours: tours.map((t) => ({
       slug: t.slug,
       title: t.title,
       route: t.route,

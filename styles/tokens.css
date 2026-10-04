@@ -205,6 +205,7 @@
   --grid-trust-mini-cols: 3;
   --grid-destinations-min: 160px;
   --grid-destinations-cols: 6;
+  --grid-destinations-other-cols: 5; /* a destination page's other valleys */
   --grid-guides-min: 150px;
   --grid-guides-cols: 4;
   --grid-hero-facts-min: 150px; /* a photo hero's facts (gaps, not hairlines) */

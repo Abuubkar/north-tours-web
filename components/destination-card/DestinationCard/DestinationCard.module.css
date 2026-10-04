@@ -24,3 +24,9 @@
 .months {
   composes: small from '../../../styles/typography.module.css';
 }
+
+/* Other valleys: "Best · Apr – Oct" in the secondary colour, over the tour count. */
+.bestShort {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}

@@ -71,5 +71,16 @@
     "lead": "We plan private tours for families and teams, from 2 days to 2 weeks.",
     "planLabel": "Plan a private trip",
     "askLabel": "Ask on WhatsApp"
+  },
+  "reviews": {
+    "headline": "What travellers said about {destination}"
+  },
+  "others": {
+    "headline": "Other valleys we travel to",
+    "season": "Best · {season}",
+    "tourCount": {
+      "one": "{count} tour",
+      "other": "{count} tours"
+    }
   }
 }

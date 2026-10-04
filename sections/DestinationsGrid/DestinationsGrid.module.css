@@ -8,10 +8,31 @@
 }
 
 .grid {
-  composes: grid from '../../styles/layout.module.css';
+  composes: grid gridColumns from '../../styles/layout.module.css';
   --grid-min: var(--grid-destinations-min);
   --grid-cols: var(--grid-destinations-cols);
   margin-top: var(--space-64);
+}
+
+/*
+ * A destination page's other valleys: at most five across from 820px; below it two, so an odd
+ * last card can take the whole row, as designed.
+ */
+.otherGrid {
+  composes: grid gridColumns from '../../styles/layout.module.css';
+  --grid-min: var(--grid-destinations-min);
+  --grid-cols: var(--grid-destinations-other-cols);
+  margin-top: var(--space-48);
+}
+
+@media (width < 820px) {
+  .otherGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .otherGrid > .cell:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
 }
 
 .cell {
