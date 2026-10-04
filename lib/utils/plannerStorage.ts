@@ -138,7 +138,11 @@ export function searchWithoutDestination(search: string): string {
   return rest ? `?${rest}` : '';
 }
 
-/** Set on <html> while saved answers or a linked destination haven't been applied: the planner stays hidden, its space kept. */
+/**
+ * Set on <html> while saved answers or a linked destination haven't been applied, its space kept:
+ * "saved" hides the whole planner (the step, and with it the header, may change); "link" hides
+ * only the form (a link only ticks a destination on step 1), so the header paints at once.
+ */
 export const PLANNER_PENDING = 'data-planner-pending';
 
 /**
@@ -146,4 +150,4 @@ export const PLANNER_PENDING = 'data-planner-pending';
  * `?dest=` link it marks the planner as pending, so step 1's defaults never flash before the
  * restored step. Without JavaScript it never runs, and nothing is hidden.
  */
-export const PLANNER_PENDING_SCRIPT = `var s=null;try{s=localStorage.getItem('${PLANNER_STORAGE_KEY}')}catch(e){}if(s||/[?&]${DEST_PARAM}=/.test(location.search))document.documentElement.setAttribute('${PLANNER_PENDING}','')`;
+export const PLANNER_PENDING_SCRIPT = `var s=null;try{s=localStorage.getItem('${PLANNER_STORAGE_KEY}')}catch(e){}if(s||/[?&]${DEST_PARAM}=/.test(location.search))document.documentElement.setAttribute('${PLANNER_PENDING}',s?'saved':'link')`;

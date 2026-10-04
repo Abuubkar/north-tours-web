@@ -1,7 +1,7 @@
 /*
  * The whole planner sits on the light surface (docs/components.md §3.3). It clips sideways, so a
  * step body sliding in from the side never widens the page, and stays hidden while saved answers
- * are restored (`plannerPending`).
+ * are restored (`plannerPending`; for a link alone only the form waits, `plannerFormPending`).
  */
 .page {
   composes: plannerPending from '../../styles/layout.module.css';
@@ -30,6 +30,7 @@
 }
 
 .layout {
+  composes: plannerFormPending from '../../styles/layout.module.css';
   padding: 0 var(--margin) var(--section-y);
 }
 

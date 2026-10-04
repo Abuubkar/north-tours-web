@@ -118,28 +118,29 @@ describe('a ?dest= link', () => {
 });
 
 describe('the pending script', () => {
-  /** Runs the script against a page at `search` with `saved` in storage (or storage throwing); true if it marked the planner pending. */
+  /** Runs the script against a page at `search` with `saved` in storage (or storage throwing); what it marked pending, if anything. */
   const marks = (search: string, saved: string | null | Error) => {
-    const set: string[] = [];
+    const set: Record<string, string> = {};
     const localStorage = {
       getItem: () => {
         if (saved instanceof Error) throw saved;
         return saved;
       },
     };
-    const documentElement = { setAttribute: (name: string) => set.push(name) };
+    const documentElement = { setAttribute: (name: string, value: string) => (set[name] = value) };
     new Function('localStorage', 'location', 'document', PLANNER_PENDING_SCRIPT)(localStorage, { search }, { documentElement });
-    return set.includes(PLANNER_PENDING);
+    return set[PLANNER_PENDING] ?? null;
   };
 
-  it('marks the planner pending with saved answers or a ?dest= link', () => {
-    expect(marks('', '{"step":2}')).toBe(true);
-    expect(marks('?dest=hunza', null)).toBe(true);
-    expect(marks('?utm=x&dest=hunza', new Error('blocked'))).toBe(true);
+  it('marks the whole planner pending with saved answers, and only the form with a ?dest= link alone', () => {
+    expect(marks('', '{"step":2}')).toBe('saved');
+    expect(marks('?dest=hunza', '{"step":2}')).toBe('saved');
+    expect(marks('?dest=hunza', null)).toBe('link');
+    expect(marks('?utm=x&dest=hunza', new Error('blocked'))).toBe('link');
   });
 
   it('leaves it alone with neither', () => {
-    expect(marks('', null)).toBe(false);
-    expect(marks('?utm=x', new Error('blocked'))).toBe(false);
+    expect(marks('', null)).toBeNull();
+    expect(marks('?utm=x', new Error('blocked'))).toBeNull();
   });
 });
