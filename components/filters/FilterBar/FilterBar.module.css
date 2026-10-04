@@ -1,30 +1,10 @@
-/* Frosted ink like the header (always the dark surface), a little more opaque (DESIGN.md §10), sticking just under it. */
+/* The frosted bar under the header, a little more opaque than it (DESIGN.md §10). */
 .bar {
-  position: sticky;
-  top: var(--header-h);
-  z-index: var(--z-filter-bar);
-  padding: var(--space-12) var(--margin);
-  border-block: var(--hairline-width) solid var(--hairline);
-  background: var(--filter-bar-bg);
-  backdrop-filter: var(--header-backdrop);
-  transition: transform var(--dur-300) var(--ease-out);
+  composes: frostedBar from '../../../styles/layout.module.css';
 }
 
-@supports not (backdrop-filter: blur(0)) {
-  .bar {
-    background: var(--bg);
-  }
-}
-
-/* Slid up behind the header, out of view. */
 .hidden {
-  transform: translateY(calc(-100% - var(--header-h)));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bar {
-    transition: none;
-  }
+  composes: frostedBarHidden from '../../../styles/layout.module.css';
 }
 
 /* Below 820px the mobile bar takes over. */

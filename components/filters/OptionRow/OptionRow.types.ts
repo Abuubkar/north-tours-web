@@ -9,4 +9,6 @@ export type OptionRowProps = {
   /** check: one of several (a square); radio: one at a time (a circle). */
   indicator: 'check' | 'radio';
   onClick: () => void;
+  /** menu: a 44px row in a dropdown. sheet: a 56px row in a bottom sheet. */
+  size?: 'menu' | 'sheet';
 };

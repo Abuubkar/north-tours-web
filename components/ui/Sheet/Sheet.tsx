@@ -10,7 +10,7 @@ import styles from './Sheet.module.css';
  * A modal <dialog> opened with showModal(): the browser makes the page behind inert,
  * closes it on Escape and returns focus to whatever opened it.
  */
-export function Sheet({ open, onClose, title, variant = 'bottom', handle = false, children }: SheetProps) {
+export function Sheet({ open, onClose, title, variant = 'bottom', handle = false, children, footer }: SheetProps) {
   const { ref, close } = useModalDialog(open);
   const titleId = useId();
 
@@ -36,6 +36,7 @@ export function Sheet({ open, onClose, title, variant = 'bottom', handle = false
           <IconButton icon="close" label="Close" onClick={close} />
         </header>
         <div className={styles.body}>{children}</div>
+        {footer && <div className={styles.footer}>{footer}</div>}
       </div>
     </dialog>
   );

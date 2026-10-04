@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { FilterBar } from '@/components/filters/FilterBar/FilterBar';
+import { MobileFilterBar } from '@/components/filters/MobileFilterBar/MobileFilterBar';
 import { TourFiltersProvider } from '@/components/filters/TourFiltersProvider/TourFiltersProvider';
 import { TourResults } from '@/components/filters/TourResults/TourResults';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
@@ -30,7 +31,12 @@ export default function ToursPage() {
       <PageHeader headline={copy.header.headline} lead={copy.header.lead} />
       <TourFiltersProvider tours={tours} destinations={destinations} builtOn={builtOn}>
         <FilterBar copy={{ filters: copy.filters, sortLabel: copy.sortLabel, sorts: copy.sorts, results: copy.results }} labels={optionLabels} />
-        <TourResults copy={{ results: copy.results, sorts: copy.sorts, empty: copy.empty }} settings={whatsapp} />
+        <MobileFilterBar copy={{ filters: copy.filters, mobile: copy.mobile, results: copy.results, sorts: copy.sorts }} labels={optionLabels} />
+        <TourResults
+          copy={{ results: copy.results, sorts: copy.sorts, empty: copy.empty, filters: copy.filters }}
+          labels={optionLabels}
+          settings={whatsapp}
+        />
       </TourFiltersProvider>
     </PageMain>
   );

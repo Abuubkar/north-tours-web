@@ -2,6 +2,17 @@
   padding: var(--results-top) var(--margin) var(--section-y);
 }
 
+/* Below 820px the picked filters sit above the results; from 820px they're in the desktop bar. */
+.chips:not(:empty) {
+  margin-bottom: var(--space-20);
+}
+
+@media (width >= 820px) {
+  .chips {
+    display: none;
+  }
+}
+
 .status {
   composes: visuallyHidden from '../../../styles/layout.module.css';
 }

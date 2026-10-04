@@ -11,6 +11,11 @@ export function tripsCount(count: number, words: CountWords): string {
   return fillTokens(count === 1 ? words.one : words.other, { count: String(count) });
 }
 
+/** The filter sheet's button: "Show 2 trips", "Show 1 trip", or with nothing matching "No trips match". */
+export function showTripsLabel(count: number, words: CountWords, noMatch: string): string {
+  return count === 0 ? noMatch : tripsCount(count, words);
+}
+
 /** "Sorted by {sort} · sold-out trips last", with the sort's label in lower case: "soonest departure". */
 export function sortedByText(template: string, sortLabel: string): string {
   return fillTokens(template, { sort: sortLabel.charAt(0).toLowerCase() + sortLabel.slice(1) });

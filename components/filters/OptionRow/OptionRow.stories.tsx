@@ -63,6 +63,14 @@ export const Radio: Story = {
 
 export const RadioOnLight: Story = { ...Radio, globals: { surface: 'light' } };
 
+/** In the sort sheet: a 56px row at the body size. */
+export const SheetRow: Story = {
+  args: { label: 'Shortest first', count: undefined, name: undefined, indicator: 'radio', size: 'sheet' },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('button', { name: 'Shortest first' }).getBoundingClientRect().height).toBeGreaterThanOrEqual(56);
+  },
+};
+
 /** Clicking or pressing Space (a real key press) toggles it. */
 export const Toggles: RenderStory = {
   render: () => <Toggle label="Family" count={2} name="Family, 2 trips" indicator="check" />,

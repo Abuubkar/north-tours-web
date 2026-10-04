@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 
 type ButtonAttrs = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'className'>;
 
@@ -19,6 +19,8 @@ type TriggerChip = ButtonAttrs & {
   children: ReactNode;
   /** How many are applied, shown in brackets: "(2)". */
   count?: number;
+  /** The button, e.g. for focus to return to it. */
+  ref?: Ref<HTMLButtonElement>;
 };
 
 type RemovableChip = Omit<ButtonAttrs, 'onClick'> & {

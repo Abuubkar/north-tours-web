@@ -29,6 +29,14 @@ export const sampleToursCopy: ToursCopy = {
     },
     clearAll: 'Clear all',
   },
+  mobile: {
+    filters: 'Filters',
+    sort: 'Sort',
+    filtersTitle: 'Filters',
+    sortTitle: 'Sort by',
+    show: { one: 'Show {count} trip', other: 'Show {count} trips' },
+    noMatch: 'No trips match',
+  },
   sortLabel: 'Sort:',
   sorts: {
     soonest: 'Soonest departure',

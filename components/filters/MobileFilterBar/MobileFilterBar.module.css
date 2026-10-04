@@ -1,0 +1,30 @@
+.bar {
+  composes: frostedBar from '../../../styles/layout.module.css';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding-block: var(--space-8);
+}
+
+.hidden {
+  composes: frostedBarHidden from '../../../styles/layout.module.css';
+}
+
+/* From 820px the desktop bar takes over. */
+@media (width >= 820px) {
+  .bar {
+    display: none;
+  }
+}
+
+.count {
+  composes: body from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-8);
+}

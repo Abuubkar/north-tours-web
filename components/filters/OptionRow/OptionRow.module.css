@@ -5,13 +5,22 @@
   align-items: center;
   gap: var(--space-12);
   width: 100%;
-  min-height: var(--tap);
   padding: 0 var(--space-12);
   border: 0;
   background: transparent;
   color: var(--fg);
   text-align: left;
   cursor: pointer;
+}
+
+.menu {
+  min-height: var(--tap);
+}
+
+/* In the sort sheet: taller rows at the body size. */
+.sheet {
+  composes: body from '../../../styles/typography.module.css';
+  min-height: var(--control-56);
 }
 
 .row:hover,

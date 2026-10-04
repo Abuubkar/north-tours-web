@@ -278,6 +278,16 @@ const toursCopySchema = z.strictObject({
     /** Removes every filter (the sort stays). */
     clearAll: copy,
   }),
+  /** Below 820px: the bar's buttons and the two sheets. */
+  mobile: z.strictObject({
+    filters: copy,
+    sort: copy,
+    filtersTitle: copy,
+    sortTitle: copy,
+    /** The filter sheet's button: "Show 2 trips"; with none, `noMatch`. */
+    show: countWords,
+    noMatch: copy,
+  }),
   /** Before the current sort on its menu: "Sort:". */
   sortLabel: copy,
   /** Each sort's label by its id, e.g. "Soonest departure"; every sort needs one. */

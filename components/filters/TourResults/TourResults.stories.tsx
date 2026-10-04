@@ -5,13 +5,13 @@ import { realUser } from '../../../.storybook/realUser';
 import { atQuery } from '../../../.storybook/storyUrl';
 import { placeholderSettings } from '../../layout/sampleSettings';
 import { tourWith } from '../../tour-card/sampleTours';
-import { sampleListTours, sampleSoonestOrder, sampleToursCopy, withTourFilters } from '../sampleFilters';
+import { sampleListTours, sampleOptionLabels, sampleSoonestOrder, sampleToursCopy, withTourFilters } from '../sampleFilters';
 import { TourResults } from './TourResults';
 
 const meta = {
   title: 'Filters/TourResults',
   component: TourResults,
-  args: { copy: sampleToursCopy, settings: placeholderSettings },
+  args: { copy: sampleToursCopy, labels: sampleOptionLabels, settings: placeholderSettings },
   decorators: [withTourFilters()],
   // Each story starts at plain /tours (a story's own query follows), and the URL is put back after.
   beforeEach: atQuery(''),

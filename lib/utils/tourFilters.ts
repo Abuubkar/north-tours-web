@@ -26,6 +26,9 @@ export type Sort = (typeof SORTS)[number];
 
 export const DEFAULT_SORT: Sort = 'soonest';
 
+/** From this width the desktop filter bar shows; below it, the mobile bar and its sheets. */
+export const FILTER_BAR_QUERY = '(width >= 820px)';
+
 /** The groups where several options can be picked, in URL and chip order. Month (one at a time) follows. */
 export const LIST_GROUPS = ['dest', 'dur', 'budget', 'type'] as const;
 

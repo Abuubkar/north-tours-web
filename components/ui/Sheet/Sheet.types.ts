@@ -7,6 +7,8 @@ type SheetBase = {
   /** Shown in the header and used as the dialog's accessible name. */
   title: string;
   children: ReactNode;
+  /** Pinned under the scrolling body, e.g. a filter sheet's "Clear all" and "Show 8 trips". */
+  footer?: ReactNode;
 };
 
 /** On phones: booking, filters, sort. */

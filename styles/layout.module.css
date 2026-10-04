@@ -172,3 +172,35 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/*
+ * Frosted sticky bar under the header (docs/components.md §4), always on the dark surface: the
+ * Tours filter bars. It can step out of the way (`frostedBarHidden`, hooks/useHideOnScroll),
+ * sliding up behind the header, with no transition under reduced motion.
+ */
+.frostedBar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: var(--z-filter-bar);
+  padding: var(--space-12) var(--margin);
+  border-block: var(--hairline-width) solid var(--hairline);
+  background: var(--filter-bar-bg);
+  backdrop-filter: var(--header-backdrop);
+  transition: transform var(--dur-300) var(--ease-out);
+}
+
+@supports not (backdrop-filter: blur(0)) {
+  .frostedBar {
+    background: var(--bg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frostedBar {
+    transition: none;
+  }
+}
+
+.frostedBarHidden {
+  transform: translateY(calc(-100% - var(--header-h)));
+}

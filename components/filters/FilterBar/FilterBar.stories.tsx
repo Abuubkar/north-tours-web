@@ -20,7 +20,7 @@ const meta = {
   render: (args) => (
     <>
       <FilterBar {...args} />
-      <TourResults copy={sampleToursCopy} settings={placeholderSettings} />
+      <TourResults copy={sampleToursCopy} labels={sampleOptionLabels} settings={placeholderSettings} />
     </>
   ),
   parameters: { fullBleed: true },
@@ -251,7 +251,7 @@ export const TabIntoHiddenBar: Story = {
     <>
       <Button variant="secondary">Before the bar</Button>
       <FilterBar {...args} />
-      <TourResults copy={sampleToursCopy} settings={placeholderSettings} />
+      <TourResults copy={sampleToursCopy} labels={sampleOptionLabels} settings={placeholderSettings} />
     </>
   ),
   play: async ({ canvas }) => {

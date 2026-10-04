@@ -3,6 +3,7 @@ import type { Tour } from '@/lib/content/tours';
 import {
   clearFilters,
   facetCounts,
+  FILTER_BAR_QUERY,
   filterOptions,
   NO_FILTERS,
   toggleFilter,
@@ -38,6 +39,8 @@ export type TourFiltersState = {
   clearAll: () => void;
   /** The results' heading, where focus goes once the filters are cleared. */
   headingRef: RefObject<HTMLHeadingElement | null>;
+  /** The mobile bar's "Filters", where focus goes below 820px (the results heading is hidden there). */
+  filtersButtonRef: RefObject<HTMLButtonElement | null>;
   /** Moves focus to where the results start, after the last filter is removed. */
   focusResults: () => void;
 };
@@ -74,6 +77,7 @@ export function useTourFiltersState(tours: FilterTour[], destinations: readonly 
   const [chosen, setChosen] = useState<TourFilters | null>(null);
   const [changes, setChanges] = useState(0);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const filtersButtonRef = useRef<HTMLButtonElement>(null);
 
   const options = useMemo(() => filterOptions(tours, destinations, today), [tours, destinations, today]);
   const filters = chosen ?? (linked === null ? NO_FILTERS : parseToursSearch(linked, options));
@@ -106,6 +110,9 @@ export function useTourFiltersState(tours: FilterTour[], destinations: readonly 
     setSort: (sort) => change({ ...filters, sort }),
     clearAll: () => change(clearFilters(filters)),
     headingRef,
-    focusResults: () => headingRef.current?.focus(),
+    filtersButtonRef,
+    // From 820px the results heading shows; below it, the mobile bar's "Filters".
+    focusResults: () =>
+      (window.matchMedia(FILTER_BAR_QUERY).matches ? headingRef.current : filtersButtonRef.current)?.focus(),
   };
 }
