@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
 import { placeholderSettings } from '@/components/layout/sampleSettings';
 import { Button } from '@/components/ui/Button/Button';
+import { PlanningActions } from '@/components/about/PlanningActions/PlanningActions';
 import { TrustStrip } from '../TrustStrip/TrustStrip';
 import { ClosingCta } from './ClosingCta';
 
@@ -47,3 +48,29 @@ export const Phone: Story = {
 };
 
 export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** About: the headline at the statement size with no lead, then "Explore tours" and "Plan a private trip". */
+export const About: Story = {
+  args: {
+    id: undefined,
+    headline: 'Start planning your trip north',
+    lead: undefined,
+    actions: <PlanningActions exploreLabel="Explore tours" planLabel="Plan a private trip" />,
+    children: undefined,
+  },
+  globals: { viewport: { value: 'desktop' } },
+  play: async ({ canvas, canvasElement }) => {
+    const headline = canvas.getByRole('heading', { level: 2, name: 'Start planning your trip north' });
+    await expect(parseFloat(getComputedStyle(headline).fontSize)).toBeGreaterThanOrEqual(40);
+    await expect(canvasElement.querySelector('section p')).toBeNull();
+    await expect(canvas.getByRole('link', { name: /Explore tours/ })).toHaveAttribute('href', '/tours');
+    await expect(canvas.getByRole('link', { name: 'Plan a private trip' })).toHaveAttribute('href', '/plan');
+  },
+};
+
+export const AboutOnLight: Story = { ...About, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const AboutPhone: Story = { ...About, globals: { viewport: { value: 'phone' } } };
+
+export const AboutPhoneOnLight: Story = { ...About, globals: { surface: 'light', viewport: { value: 'phone' } } };
+

@@ -167,5 +167,18 @@
         }
       ]
     }
+  },
+  "reviews": {
+    "headline": "What travellers say about our guides and drivers",
+    "chosen": [
+      "hunza-2026-05-faisal",
+      "hunza-2026-06-maryam",
+      "swat-2026-07-nadia"
+    ]
+  },
+  "cta": {
+    "headline": "Start planning your trip north",
+    "exploreLabel": "Explore tours",
+    "planLabel": "Plan a private trip"
   }
 }

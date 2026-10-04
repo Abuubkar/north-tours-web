@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { sampleReviews } from '@/components/review-card/sampleReviews';
 import { monthYear } from '@/lib/utils/dates';
+import { sampleAbout, sampleAboutReviews } from '../sampleAbout';
 import { sampleHome } from '../sampleHome';
 import { ReviewsSection } from './ReviewsSection';
 
@@ -129,3 +130,31 @@ export const DestinationNoReviews: Story = {
     await expect(canvas.queryAllByRole('figure')).toHaveLength(0);
   },
 };
+
+/**
+ * About: the long headline, no rating summary, then the three chosen reviews in their order,
+ * each with its stars, quote, name and "tour · month".
+ */
+export const About: Story = {
+  args: { copy: { headline: sampleAbout.reviews.headline }, headlineSize: 'long', reviews: sampleAboutReviews, summary: null },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('heading', { level: 2, name: 'What travellers say about our guides and drivers' })).toBeVisible();
+    await expect(canvas.queryByText(/average/)).toBeNull();
+    const cards = canvas.getAllByRole('figure');
+    await expect(cards).toHaveLength(3);
+    for (const [i, card] of cards.entries()) {
+      const { review, tourTitle } = sampleAboutReviews[i];
+      await expect(within(card).getByLabelText('5 out of 5 stars')).toBeVisible();
+      await expect(card).toHaveTextContent(review.quote);
+      await expect(card).toHaveTextContent(`${review.name}, ${review.place}`);
+      await expect(card).toHaveTextContent(`${tourTitle} · ${monthYear(review.month)}`);
+    }
+  },
+};
+
+export const AboutOnLight: Story = { ...About, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const AboutPhone: Story = { ...About, globals: { viewport: { value: 'phone' } } };
+
+export const AboutPhoneOnLight: Story = { ...About, globals: { surface: 'light', viewport: { value: 'phone' } } };
+

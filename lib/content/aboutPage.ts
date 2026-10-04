@@ -1,8 +1,10 @@
 import { companyStats } from '../utils/companyStats.ts';
 import { guideProfile } from '../utils/guideProfile.ts';
 import { fillTokens } from '../utils/tokens.ts';
+import { getTour } from './catalog.ts';
 import { getGuides } from './guides.ts';
 import { getAboutCopy } from './pages.ts';
+import { getReviews } from './reviews.ts';
 import { getSettings } from './settings.ts';
 
 /**
@@ -44,6 +46,11 @@ export function getAboutPage() {
       company: { label: copy.credentials.company.label, value: settings.legal.companyRegistration },
       memberships: { label: copy.credentials.memberships.label, names: copy.credentials.memberships.items.map((item) => item.name) },
     },
+    /** The reviews page copy chooses, in its order (content:check makes sure each one exists). */
+    reviews: copy.reviews.chosen.map((slug) => {
+      const review = getReviews().find((r) => r.slug === slug)!;
+      return { review, tourTitle: getTour(review.tour)!.title };
+    }),
     /** The header's place photo is also the page's share image. */
     sharePhoto: copy.header.image,
   };

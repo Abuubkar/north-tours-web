@@ -1,5 +1,6 @@
 import type { AboutCopy } from '@/lib/content/pages';
 import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
+import type { ReviewWithTour } from './ReviewsSection/ReviewsSection.types';
 
 /* Sample About copy for the section stories, which can't read content files. */
 export const sampleAbout: AboutCopy = {
@@ -110,4 +111,52 @@ export const sampleAbout: AboutCopy = {
     company: { label: 'Company' },
     memberships: { label: 'Memberships', items: [{ name: '[Tour operators’ association]', sample: true }] },
   },
+  reviews: {
+    headline: 'What travellers say about our guides and drivers',
+    chosen: ['hunza-2026-05-faisal', 'hunza-2026-06-maryam', 'swat-2026-07-nadia'],
+  },
+  cta: { headline: 'Start planning your trip north', exploreLabel: 'Explore tours', planLabel: 'Plan a private trip' },
 };
+
+/** About's three chosen reviews, as the page shapes them (the content files' words). */
+export const sampleAboutReviews: ReviewWithTour[] = [
+  {
+    review: {
+      slug: 'hunza-2026-05-faisal',
+      tour: 'hunza-skardu-grand',
+      name: 'Faisal Ahmed & family',
+      place: 'Lahore',
+      month: '2026-05',
+      rating: 5,
+      quote: 'Our driver knew which bends worried my mother and slowed down before she had to ask. Nine days, and nothing for us to sort out.',
+      consent: true,
+    },
+    tourTitle: 'Hunza & Skardu Grand',
+  },
+  {
+    review: {
+      slug: 'hunza-2026-06-maryam',
+      tour: 'hunza-skardu-grand',
+      name: 'Maryam Shah',
+      place: 'Lahore',
+      month: '2026-06',
+      rating: 5,
+      quote: 'Our guide in Skardu knew every lake by name and timed Deosai so we had it almost to ourselves.',
+      consent: true,
+    },
+    tourTitle: 'Hunza & Skardu Grand',
+  },
+  {
+    review: {
+      slug: 'swat-2026-07-nadia',
+      tour: 'swat-family-escape',
+      name: 'Nadia Hussain',
+      place: 'Islamabad',
+      month: '2026-07',
+      rating: 5,
+      quote: 'The tour host messaged us before sunrise on the day we left, and kept checking in the whole way. My parents felt looked after.',
+      consent: true,
+    },
+    tourTitle: 'Swat Family Escape',
+  },
+];

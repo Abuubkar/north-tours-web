@@ -1,6 +1,9 @@
 import path from 'node:path';
 import { z } from 'zod';
-import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
+import { slugSchema } from './collection.ts';
+import { CONTENT_DIR, displayPath, parseFile, requireValid } from './files.ts';
+import { checkChosenReviews } from './links.ts';
+import { loadReviews } from './reviews.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith, nonEmpty, sample } from './fields.ts';
 import { photoSchema, ownerImageSchema } from './images.ts';
@@ -673,6 +676,13 @@ const aboutCopySchema = z.strictObject({
     /** Associations the company belongs to; the row is left out with none. Never a real organisation until confirmed. */
     memberships: z.strictObject({ label: copy, items: z.array(z.strictObject({ name: copy, sample })) }),
   }),
+  /** "What travellers say about our guides and drivers": the reviews to show, by slug, in order (no rating summary). */
+  reviews: z.strictObject({
+    headline: copy,
+    chosen: z.array(slugSchema).min(1, 'Choose at least one review').max(3, 'Choose at most three reviews'),
+  }),
+  /** The closing call to action: "Start planning your trip north", to the tours and the planner. */
+  cta: z.strictObject({ headline: copy, exploreLabel: copy, planLabel: copy }),
 });
 
 export type AboutCopy = z.infer<typeof aboutCopySchema>;
@@ -681,8 +691,12 @@ export function aboutCopyFile(dir = CONTENT_DIR): string {
   return path.join(dir, 'pages', 'about.json');
 }
 
+/** Reads About's copy and checks each chosen review has a file. */
 export function loadAboutCopy(dir = CONTENT_DIR) {
-  return parseFile(aboutCopySchema, aboutCopyFile(dir));
+  const result = parseFile(aboutCopySchema, aboutCopyFile(dir));
+  if (!result.data) return result;
+  const missing = checkChosenReviews(result.data.reviews.chosen, displayPath(aboutCopyFile(dir)), 'reviews.chosen', loadReviews(dir).files);
+  return missing.length > 0 ? { data: null, problems: missing } : result;
 }
 
 let cachedAbout: AboutCopy | undefined;

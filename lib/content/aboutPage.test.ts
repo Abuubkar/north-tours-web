@@ -28,6 +28,12 @@ describe('about page', () => {
     expect(stats[3].value).toBe(String(getGuides().length));
   });
 
+  it('shows the chosen reviews in the order page copy gives them, each with its tour', () => {
+    const { copy, reviews } = getAboutPage();
+    expect(reviews.map((r) => r.review.slug)).toEqual(copy.reviews.chosen);
+    for (const { tourTitle } of reviews) expect(tourTitle).toBeTruthy();
+  });
+
   it('shares the header’s photo', () => {
     const { copy, sharePhoto } = getAboutPage();
     expect(sharePhoto).toBe(copy.header.image);

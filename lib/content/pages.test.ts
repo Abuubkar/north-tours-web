@@ -1,4 +1,6 @@
 import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { CONTENT_DIR } from './files.ts';
 import { describe, expect, it } from 'vitest';
 import {
   aboutCopyFile,
@@ -260,10 +262,14 @@ describe('planner page copy', () => {
 
 describe('about page copy', () => {
   const about: AboutCopy = JSON.parse(readFileSync(aboutCopyFile(), 'utf8'));
+  /** The chosen reviews' files, so a fixture's choices have something to point at. */
+  const reviews = Object.fromEntries(
+    about.reviews.chosen.map((slug) => [`reviews/${slug}.json`, readFileSync(path.join(CONTENT_DIR, 'reviews', `${slug}.json`), 'utf8')]),
+  );
   const load = (change: (copy: AboutCopy) => void) => {
     const copy = structuredClone(about);
     change(copy);
-    return loadAboutCopy(contentFixture({ 'pages/about.json': copy }));
+    return loadAboutCopy(contentFixture({ 'pages/about.json': copy, ...reviews }));
   };
   const problems = (result: ReturnType<typeof loadAboutCopy>) => result.problems.map((p) => p.field);
 
@@ -324,6 +330,16 @@ describe('about page copy', () => {
     expect(problems(load((c) => Object.assign(c.credentials.memberships.items[0], { sample: 'yes' })))).toEqual([
       'credentials.memberships.items.0.sample',
     ]);
+  });
+
+  it('needs one to three chosen reviews, each with a file', () => {
+    expect(problems(load((c) => Object.assign(c.reviews, { chosen: [] })))).toEqual(['reviews.chosen']);
+    const four = [...about.reviews.chosen, about.reviews.chosen[0]];
+    expect(problems(load((c) => Object.assign(c.reviews, { chosen: four })))).toEqual(['reviews.chosen']);
+    const result = load((c) => Object.assign(c.reviews, { chosen: [about.reviews.chosen[0], 'hunza-2026-13-nobody'] }));
+    expect(problems(result)).toEqual(['reviews.chosen.1']);
+    expect(result.problems[0].message).toBe('No review "hunza-2026-13-nobody" (expected a file in content/reviews)');
+    expect(result.problems[0].file).toMatch(/pages\/about\.json$/);
   });
 
   it('keeps the founder’s portrait the owner’s: never a stock photo of a person (ADR-0009)', () => {

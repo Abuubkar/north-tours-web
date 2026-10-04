@@ -54,3 +54,10 @@ export function checkGuideYears(guides: Guide[], guideFiles: Record<string, stri
       : [{ file: guideFiles[guide.slug], field: 'joined', message: `Can’t be before the company started (${operatingSince})` }],
   );
 }
+
+/** Every review a page chooses must have a file. `field` names the list, e.g. "reviews.chosen". */
+export function checkChosenReviews(chosen: string[], file: string, field: string, reviewFiles: Record<string, string>): ContentProblem[] {
+  return chosen.flatMap((slug, i) =>
+    slug in reviewFiles ? [] : [{ file, field: `${field}.${i}`, message: `No review "${slug}" (expected a file in content/reviews)` }],
+  );
+}

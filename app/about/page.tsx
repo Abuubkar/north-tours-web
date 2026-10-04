@@ -1,16 +1,19 @@
 import type { Metadata } from 'next';
+import { PlanningActions } from '@/components/about/PlanningActions/PlanningActions';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
 import { getAboutPage } from '@/lib/content/aboutPage';
 import { getAboutCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
 import { pageMetadata } from '@/lib/utils/metadata';
+import { ClosingCta } from '@/sections/ClosingCta/ClosingCta';
 import { Credentials } from '@/sections/Credentials/Credentials';
 import { GuidesGrid } from '@/sections/GuidesGrid/GuidesGrid';
 import { HowWeTravel } from '@/sections/HowWeTravel/HowWeTravel';
 import { InNumbers } from '@/sections/InNumbers/InNumbers';
 import { OurStory } from '@/sections/OurStory/OurStory';
 import { PageHeader } from '@/sections/PageHeader/PageHeader';
+import { ReviewsSection } from '@/sections/ReviewsSection/ReviewsSection';
 import { VehiclesAndSafety } from '@/sections/VehiclesAndSafety/VehiclesAndSafety';
 import { VisitOffice } from '@/sections/VisitOffice/VisitOffice';
 
@@ -20,7 +23,7 @@ export function generateMetadata(): Metadata {
 
 /** Who runs the company, who guides and drives, and how every trip is run (PRD #78). */
 export default function AboutPage() {
-  const { copy, settings, sharePhoto, profiles, stats, credentials } = getAboutPage();
+  const { copy, settings, sharePhoto, profiles, stats, credentials, reviews } = getAboutPage();
 
   return (
     <PageMain>
@@ -33,6 +36,11 @@ export default function AboutPage() {
       <InNumbers headline={copy.numbers.headline} stats={stats} />
       <Credentials credentials={credentials} />
       <VisitOffice settings={settings} />
+      <ReviewsSection copy={copy.reviews} headlineSize="long" reviews={reviews} summary={null} />
+      <ClosingCta
+        headline={copy.cta.headline}
+        actions={<PlanningActions exploreLabel={copy.cta.exploreLabel} planLabel={copy.cta.planLabel} />}
+      />
     </PageMain>
   );
 }
