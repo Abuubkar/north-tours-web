@@ -32,7 +32,7 @@ describe('helpCategories', () => {
     const categories = helpCategories(getFaqs(), getSettings());
     expect(categories.map((c) => c.id)).toEqual(getFaqs().categories.map((c) => c.id));
     const answers = categories.flatMap((c) => c.questions);
-    expect(answers).toHaveLength(25);
+    expect(answers).toHaveLength(getFaqs().categories.flatMap((c) => c.questions).length);
     for (const { answer } of answers) expect(answer).not.toMatch(/\{\w+\}/);
   });
 });

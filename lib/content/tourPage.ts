@@ -28,6 +28,7 @@ export function getTourPage(slug: string) {
   const copy = getTourCopy();
   const settings = getSettings();
   const tokens = { ...settingsTokens(settings), licence: settings.legal.dtsLicence };
+  const answerTokens = textTokens(settings);
   return {
     tour,
     copy,
@@ -46,7 +47,7 @@ export function getTourPage(slug: string) {
     /** The tour's own questions, then the shared ones marked for tour pages, answers filled from settings. */
     questions: [...tour.faqs, ...tourPageFaqs(getFaqs())].map(({ question, answer }) => ({
       question,
-      answer: fillTokens(answer, textTokens(settings)),
+      answer: fillTokens(answer, answerTokens),
     })),
     /** Every tour as its card needs it (this one too; the rule leaves it out), for the related trips. */
     relatedCandidates: getTours().map((t) => ({

@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { slugSchema } from './collection.ts';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { checkUniqueIds, copy, copyWith, nonEmpty, sample } from './fields.ts';
-import { HELP_CATEGORY_PREFIX } from '../routes.ts';
+import { HELP_CATEGORY_PREFIX, HELP_PAGE_ANCHORS } from '../routes.ts';
 import type { CompanyToken, PolicyToken, SettingsToken } from '../utils/tokens.ts';
 
 /*
@@ -26,12 +26,9 @@ export const FAQ_TOKENS = [
   'travelSupport',
 ] as const satisfies readonly (SettingsToken | PolicyToken | CompanyToken)[];
 
-/** The Help page's other anchors, which an answer's id can't take: the skip link's target and the policies. */
-const HELP_ANCHORS = ['main', 'policies'];
-
 /** An answer's id is its anchor on Help (/help#refunds): a slug, and not one of the page's other anchors. */
 const answerIdSchema = slugSchema
-  .refine((id) => !HELP_ANCHORS.includes(id), 'Already an anchor on the Help page')
+  .refine((id) => !HELP_PAGE_ANCHORS.includes(id), 'Already an anchor on the Help page')
   .refine((id) => !id.startsWith(HELP_CATEGORY_PREFIX), `Can’t start with "${HELP_CATEGORY_PREFIX}", which category anchors use`);
 
 const questionSchema = z.strictObject({
