@@ -31,6 +31,10 @@ export const seasonSchema = z.strictObject({ from: month, to: month });
 
 export type Season = z.infer<typeof seasonSchema>;
 
+/** A place's latitude and longitude, in degrees (maps). */
+export const latitude = z.number().min(-90, 'Use a latitude from -90 to 90').max(90, 'Use a latitude from -90 to 90');
+export const longitude = z.number().min(-180, 'Use a longitude from -180 to 180').max(180, 'Use a longitude from -180 to 180');
+
 /** A month, YYYY-MM. */
 export const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM, e.g. 2026-05');
 

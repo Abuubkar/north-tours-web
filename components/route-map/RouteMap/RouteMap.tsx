@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { drawRouteMap, MAP_FRAME } from '@/lib/utils/projection';
+import { drawRouteMap, MAP_FRAME, overlayPosition } from '@/lib/utils/projection';
 import type { RouteMapProps } from './RouteMap.types';
 import styles from './RouteMap.module.css';
 
@@ -13,7 +13,7 @@ const kindClass = {
 };
 
 /** Places an overlay at a point in the drawing, in percent, so it stays put at any size. */
-const placeAt = (x: number, y: number) => ({ '--x': `${(x / width) * 100}%`, '--y': `${(y / height) * 100}%` }) as CSSProperties;
+const placeAt = (x: number, y: number) => overlayPosition({ x, y }, MAP_FRAME) as CSSProperties;
 
 /**
  * The schematic road map (DESIGN.md §9; CLAUDE.md §8: no borders, no basemap), drawn in full.

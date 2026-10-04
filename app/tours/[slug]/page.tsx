@@ -7,24 +7,29 @@ import { BookingStickyBar } from '@/components/booking-panel/BookingStickyBar/Bo
 import { HeroFacts } from '@/components/facts/HeroFacts/HeroFacts';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
+import { RelatedTours } from '@/components/tour-card/RelatedTours/RelatedTours';
 import { getTour, getTours } from '@/lib/content/catalog';
-import { isPhoto } from '@/lib/content/images';
-import { getHomeCopy, getTourCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
-import type { Tour } from '@/lib/content/tours';
+import { getTourPage, tourPageTitle } from '@/lib/content/tourPage';
 import { routes } from '@/lib/routes';
-import { dayCount, tripLength } from '@/lib/utils/dates';
-import { todayInKarachi } from '@/lib/utils/departures';
+import { tripLength } from '@/lib/utils/dates';
 import { pageMetadata } from '@/lib/utils/metadata';
-import { paymentMethodsLabel } from '@/lib/utils/payments';
 import { routeLine } from '@/lib/utils/route';
-import { fillTokens, settingsTokens } from '@/lib/utils/tokens';
+import { fillTokens } from '@/lib/utils/tokens';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import { BookingLayout } from '@/sections/BookingLayout/BookingLayout';
 import { ClosingCta } from '@/sections/ClosingCta/ClosingCta';
 import { DatesAndPrices } from '@/sections/DatesAndPrices/DatesAndPrices';
+import { FaqSection } from '@/sections/FaqSection/FaqSection';
+import { Highlights } from '@/sections/Highlights/Highlights';
+import { Hotels } from '@/sections/Hotels/Hotels';
+import { Included } from '@/sections/Included/Included';
+import { Itinerary } from '@/sections/Itinerary/Itinerary';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
 import { QuickFacts } from '@/sections/QuickFacts/QuickFacts';
+import { ReviewsSection } from '@/sections/ReviewsSection/ReviewsSection';
+import { TourCardsSection } from '@/sections/TourCardsSection/TourCardsSection';
+import { TripOverview } from '@/sections/TripOverview/TripOverview';
 import { TrustStrip } from '@/sections/TrustStrip/TrustStrip';
 
 type TourPageProps = { params: Promise<{ slug: string }> };
@@ -36,39 +41,26 @@ export function generateStaticParams() {
   return getTours().map((tour) => ({ slug: tour.slug }));
 }
 
-/** The tour for this page; the static params only name tours that exist. */
-async function pageTour({ params }: TourPageProps): Promise<Tour> {
-  return getTour((await params).slug)!;
+export async function generateMetadata({ params }: TourPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  return pageMetadata({ title: tourPageTitle(slug), description: getTour(slug)!.summary }, getSettings());
 }
 
-export async function generateMetadata(props: TourPageProps): Promise<Metadata> {
-  const tour = await pageTour(props);
-  const title = fillTokens(getTourCopy().title, { tour: tour.title, duration: dayCount(tour.days) });
-  return pageMetadata({ title, description: tour.summary }, getSettings());
-}
-
-export default async function TourPage(props: TourPageProps) {
-  const tour = await pageTour(props);
-  const copy = getTourCopy();
-  const settings = getSettings();
-  // The share image is the tour's photo; until it has one, the Homepage's.
-  const sharePhoto = isPhoto(tour.image) ? tour.image : getHomeCopy().hero.image;
-  const builtOn = todayInKarachi(new Date());
-  const tokens = { ...settingsTokens(settings), licence: settings.legal.dtsLicence };
-  // Client components get only what they use; everything passed to them is sent to the browser.
+export default async function TourPage({ params }: TourPageProps) {
+  const page = getTourPage((await params).slug);
+  const { tour, copy, settings, tokens, builtOn, whatsapp } = page;
   const { title, days, nights, rating, prices, departures } = tour;
-  const whatsapp = { contact: settings.contact, whatsapp: settings.whatsapp };
   const panel = {
     tour: { title, rating, prices },
     copy: copy.booking,
     tokens,
     settings: { ...whatsapp, booking: settings.booking },
-    paymentMethods: paymentMethodsLabel(settings),
+    paymentMethods: page.paymentMethods,
   };
 
   return (
     <PageMain>
-      <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
+      <ShareImageMeta photo={page.sharePhoto} siteUrl={settings.site.url} />
       <PhotoHero
         image={tour.image}
         back={{ href: routes.tours, label: copy.hero.backLabel }}
@@ -88,6 +80,11 @@ export default async function TourPage(props: TourPageProps) {
           label={copy.booking.label}
           aside={<BookingPanel variant="aside" {...panel} />}
         >
+          <TripOverview overview={tour.overview} copy={copy.overview} />
+          <Highlights headline={copy.highlights.headline} highlights={tour.highlights} />
+          <Itinerary copy={copy.itinerary} tour={tour} />
+          <Included copy={copy.included} included={tour.included} notIncluded={tour.notIncluded} />
+          <Hotels copy={copy.hotels} stays={tour.stays} />
           <DatesAndPrices
             tour={{ title, days, nights, prices }}
             copy={copy.dates}
@@ -95,6 +92,7 @@ export default async function TourPage(props: TourPageProps) {
             roomsNote={fillTokens(copy.dates.rooms.note, tokens)}
           />
         </BookingLayout>
+        <ReviewsSection copy={copy.reviews} headlineSize="standard" reviews={page.reviews} summary={rating} />
         <ClosingCta
           id="book"
           headline={fillTokens(copy.cta.headline, tokens)}
@@ -110,6 +108,10 @@ export default async function TourPage(props: TourPageProps) {
         >
           <TrustStrip variant="mini" settings={settings} year={new Date().getFullYear()} />
         </ClosingCta>
+        <FaqSection headline={copy.faqs.headline} questions={page.questions} />
+        <TourCardsSection id="related" copy={copy.related}>
+          <RelatedTours tour={{ slug: tour.slug, destinations: tour.destinations }} tours={page.relatedCandidates} builtOn={builtOn} settings={whatsapp} />
+        </TourCardsSection>
         <BookingStickyBar tour={{ title, prices }} copy={copy.bar} priceNote={copy.booking.priceNote} settings={whatsapp} />
         <BookingSheet subtitle={fillTokens(copy.sheet.subtitle, { tripLength: tripLength(days, nights) })} {...panel} />
       </BookingProvider>

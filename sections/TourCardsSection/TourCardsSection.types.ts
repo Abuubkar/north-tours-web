@@ -5,9 +5,9 @@ export type TourCardsSectionProps = {
   id: string;
   copy: {
     headline: string;
-    /** Beside the headline, e.g. what the prices mean. */
-    note: string;
-    allToursLabel: string;
+    /** Beside the headline, e.g. what the prices mean, with a link to all tours (the Homepage). */
+    note?: string;
+    allToursLabel?: string;
   };
   /** The cards. */
   children: ReactNode;

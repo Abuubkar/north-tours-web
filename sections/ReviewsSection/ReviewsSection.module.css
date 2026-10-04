@@ -12,6 +12,11 @@
   max-width: var(--measure-headline);
 }
 
+.standardHeadline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
 .summary {
   composes: small from '../../styles/typography.module.css';
   display: flex;

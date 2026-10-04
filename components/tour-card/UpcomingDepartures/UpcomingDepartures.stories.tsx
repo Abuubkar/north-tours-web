@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
+import { opacityUpTo } from '../../../.storybook/opacity';
 import { roomAbove } from '../../../.storybook/scrollRoom';
 import { placeholderSettings } from '../../layout/sampleSettings';
 import { sampleTour, tourWith } from '../sampleTours';
@@ -95,15 +96,6 @@ export const NoneLeft: Story = {
 };
 
 export const NoneLeftOnLight: Story = { ...NoneLeft, globals: { surface: 'light', viewport: { value: 'desktop' } } };
-
-/** Every ancestor's opacity, from the element up to the card's list item. */
-const opacityUpTo = (element: Element, stop: Element) => {
-  let opacity = 1;
-  for (let el: Element | null = element; el && el !== stop.parentElement; el = el.parentElement) {
-    opacity *= Number(getComputedStyle(el).opacity);
-  }
-  return opacity;
-};
 
 /**
  * M4: a card below the fold waits 40px lower with its photo hidden, then rises once into place

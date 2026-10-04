@@ -1,0 +1,9 @@
+.grid {
+  composes: openGrid from '../../../styles/layout.module.css';
+  --grid-min: var(--grid-highlights-min);
+  --grid-cols: var(--grid-highlights-cols);
+}
+
+.cell {
+  composes: openCell riseCell from '../../../styles/layout.module.css';
+}

@@ -67,5 +67,246 @@
       "seatsTotal": 20,
       "seatsLeft": 17
     }
+  ],
+  "overview": {
+    "headline": "Four days in the Kaghan valley, its lakes and its high pass",
+    "paragraphs": [
+      "We drive up the Kaghan valley along the Kunhar River to Naran, our base for three nights. From there it is a short jeep ride to Lake Saiful Muluk under Malika Parbat.",
+      "On the third day we go higher, past Lulusar Lake to Babusar Top, where the road tops out at over 4,000 metres before we come back down for dinner."
+    ],
+    "suitedTo": [
+      "Families who want mountain lakes without long drives each day",
+      "Friends and couples on a short summer break",
+      "Travellers who prefer one hotel for the whole trip"
+    ],
+    "notSuitedTo": [
+      "Anyone travelling outside June to September, when the upper valley is closed",
+      "Travellers who find jeep tracks uncomfortable; the Saiful Muluk road is rough"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Lulusar Lake",
+      "text": "A long jade lake at the head of the valley",
+      "image": {
+        "src": "/images/naran-kaghan/lulusar-lake.jpg",
+        "alt": "Jade-green Lulusar Lake sits between grassy mountain slopes under billowing clouds, with pink wildflowers on the rocky shore.",
+        "width": 1600,
+        "height": 972,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Shahbaz Aslam",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lulusar_lake_kaghan_valley.jpg"
+        }
+      }
+    },
+    {
+      "title": "Babusar Top",
+      "text": "The road tops out at over 4,000 metres",
+      "image": {
+        "src": "/images/naran-kaghan/babusar-top.jpg",
+        "alt": "The Babusar road snakes down a green valley in tight hairpins from the pass, between grassy slopes and distant ridges.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "MazharHusayn",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Babusar_Top,_Way_to_Chilas,_Gilgit-Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Kunhar River",
+      "text": "The river you follow all the way up the valley",
+      "image": {
+        "src": "/images/naran-kaghan/kunhar-river.jpg",
+        "alt": "The broad Kunhar River flows past gravel bars between steep pine-covered slopes toward a distant peak.",
+        "width": 1600,
+        "height": 1200,
+        "credit": {
+          "source": "wikimedia",
+          "author": "Almazi",
+          "licence": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kunhar_river_in_Naran_valley_of_Pakistan.jpg"
+        }
+      }
+    }
+  ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Islamabad",
+      "lat": 33.69,
+      "lon": 73.05,
+      "label": "left"
+    },
+    {
+      "name": "Naran",
+      "lat": 34.91,
+      "lon": 73.65,
+      "label": "left"
+    },
+    {
+      "name": "Saiful Muluk",
+      "lat": 34.88,
+      "lon": 73.69,
+      "label": "right"
+    },
+    {
+      "name": "Lulusar",
+      "lat": 35.08,
+      "lon": 73.93,
+      "label": "right"
+    },
+    {
+      "name": "Babusar Top",
+      "lat": 35.15,
+      "lon": 74.04,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Naran",
+      "text": "North on the motorway, then up the Kaghan valley along the Kunhar River to Naran.",
+      "stops": [
+        "Lahore",
+        "Islamabad",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Lake Saiful Muluk",
+      "text": "A short jeep ride up to the lake under Malika Parbat, with the afternoon free in Naran.",
+      "stops": [
+        "Saiful Muluk"
+      ],
+      "overnight": "Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "2 hrs incl. jeep"
+    },
+    {
+      "title": "Lulusar and Babusar Top",
+      "text": "Up the valley past Lulusar Lake to Babusar Top, at over 4,000 metres, then back down for dinner.",
+      "stops": [
+        "Naran",
+        "Lulusar",
+        "Babusar Top"
+      ],
+      "overnight": "Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "4–5 hrs"
+    },
+    {
+      "title": "Naran → Lahore",
+      "text": "Down the Kaghan valley and home on the motorway by evening.",
+      "stops": [
+        "Naran",
+        "Islamabad",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "9–10 hrs"
+    }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotel",
+      "text": "3 nights in Naran, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 4 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    },
+    {
+      "icon": "jeep",
+      "title": "Jeeps",
+      "text": "Jeeps to Lake Saiful Muluk and back"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Boating",
+      "text": "A boat on Saiful Muluk, if you’d like one"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 3
+      },
+      "place": "Naran",
+      "title": "Hotel in Naran",
+      "description": "3-star · by the river",
+      "image": {
+        "src": "/images/naran-kaghan/naran-valley.jpg",
+        "alt": "The Kunhar River curves through green meadows toward Naran town, set between steep forested mountains.",
+        "width": 1600,
+        "height": 1050,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mustafa Amin",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+        }
+      }
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Is the upper valley open on our dates?",
+      "answer": "The road above Naran to Lulusar and Babusar Top usually opens in June and closes by late September. Outside those months we change the third day to the lower valley."
+    },
+    {
+      "question": "What is the jeep ride to Saiful Muluk like?",
+      "answer": "About 45 minutes each way on a rough, steep track, in local jeeps with drivers who do it every day. It isn’t long, but it is bumpy; tell us if anyone in your group gets travel sick."
+    }
   ]
 }

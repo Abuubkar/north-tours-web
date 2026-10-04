@@ -48,3 +48,8 @@
   width: var(--aside-w);
   max-width: 100%;
 }
+
+/* The itinerary's side map column. */
+.sideMap {
+  width: var(--map-side-w);
+}

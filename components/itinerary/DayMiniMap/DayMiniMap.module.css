@@ -1,0 +1,91 @@
+.map {
+  position: relative;
+  flex: none;
+  width: var(--mini-map-w);
+  height: var(--mini-map-h);
+}
+
+.drawing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Strokes are in the drawing's units (scaled from the px tokens), not non-scaling: the progress
+ * line's dashes rely on pathLength, which non-scaling strokes would measure in screen pixels.
+ */
+.route,
+.progress {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.route {
+  stroke: var(--control-border);
+  stroke-width: calc(var(--map-road-width) * var(--mini-map-units));
+}
+
+/* Drawn up to the day: the path's length is 1, so the offset is the share still to come. */
+.progress {
+  stroke: var(--fg);
+  stroke-width: calc(var(--map-route-width) * var(--mini-map-units));
+  stroke-dasharray: 1;
+}
+
+.start,
+.current,
+.label {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+}
+
+.start {
+  width: var(--map-ring-size);
+  height: var(--map-ring-size);
+  background: var(--fg);
+}
+
+/* The day's stop: a gold dot with its halo. */
+.current {
+  width: var(--map-dot-size);
+  height: var(--map-dot-size);
+  border-radius: var(--radius-chip);
+  background: var(--accent);
+}
+
+.current::before {
+  position: absolute;
+  inset: calc(-1 * var(--map-halo-spread));
+  border-radius: var(--radius-chip);
+  background: var(--map-halo);
+  content: '';
+}
+
+.label {
+  composes: waypoint from '../../../styles/typography.module.css';
+  padding: 0 var(--space-4);
+  background: var(--bg);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+.toLabel {
+  color: var(--accent);
+}
+
+.right {
+  transform: translate(var(--space-8), -50%);
+}
+
+.left {
+  transform: translate(calc(-100% - var(--space-8)), -50%);
+}
+
+.below {
+  transform: translate(-50%, var(--space-8));
+}

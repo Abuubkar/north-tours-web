@@ -1,0 +1,21 @@
+.card {
+  composes: imageCard from '../../../styles/layout.module.css';
+}
+
+.text {
+  composes: imageCardText from '../../../styles/layout.module.css';
+}
+
+.title {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+.line {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+/* M4 (useRiseOnView on the grid): while a card waits to rise only its photo is hidden. */
+.photo {
+  composes: risePhoto from '../../../styles/layout.module.css';
+}

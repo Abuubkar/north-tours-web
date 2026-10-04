@@ -114,6 +114,7 @@
   --seat-dot: 7px; /* the seats line's status dot */
   --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
   --measure-note: 320px; /* a short note beside a section headline */
+  --measure-overview: 620px; /* a tour overview's paragraphs */
   --measure-step: 300px; /* a booking step's description */
   --map-min-w: 440px; /* the route map beside its stop list: from */
   --map-max-w: 620px; /* to */
@@ -144,9 +145,22 @@
   --map-label-offset: 14px; /* label from the marker's centre */
   --legend-swatch-w: 20px; /* a road sample in the legend */
 
+  /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
+  --itinerary-node: 11px;
+  --measure-day: 520px; /* a day's text */
+  --day-fact-min: 130px; /* Overnight, Meals, Drive */
+  --map-side-w: 340px;
+  --map-side-top: calc(var(--header-h) + var(--space-32)); /* where the sticky side map stops */
+  --mini-map-w: 112px;
+  --mini-map-h: 156px;
+  /* Drawing units per pixel (the frames in lib/utils/itinerary are 560 wide), for stroke widths. */
+  --map-side-units: calc(560 / 340);
+  --mini-map-units: calc(560 / 112);
+
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
   --grid-tours-cols: 4;
+  --grid-tours-detail-cols: 3; /* Tour Detail's related tours, and Destination */
   --grid-steps-min: 260px;
   --grid-steps-cols: 4;
   --grid-reviews-min: 290px;
@@ -161,6 +175,13 @@
   --grid-guides-cols: 4;
   --grid-hero-facts-min: 150px; /* a photo hero's facts (gaps, not hairlines) */
   --grid-hero-facts-cols: 4;
+  --grid-highlights-min: 160px;
+  --grid-highlights-cols: 3;
+  --grid-hotels-min: 160px; /* five fit beside the booking aside, as designed */
+  --grid-hotels-cols: 5; /* never more than the tour's stays */
+  --hotel-card-max: 320px; /* so one or two stays aren't stretched across the page */
+  --grid-pairs-min: 260px; /* two cells side by side: who a trip suits, what's included */
+  --grid-pairs-cols: 2;
   --grid-quick-facts-min: 160px;
   --grid-quick-facts-cols: 5;
 

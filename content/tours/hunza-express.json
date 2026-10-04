@@ -64,5 +64,378 @@
         "quad": 92000
       }
     }
+  ],
+  "overview": {
+    "headline": "Three nights in Hunza, over Babusar Top and back in six days",
+    "paragraphs": [
+      "The shortest way to see Hunza properly. We break the drive in Naran, cross Babusar Top in the morning light and reach Karimabad by evening, with three nights there to settle in.",
+      "In Hunza you see the forts at Baltit and Altit, take a boat on Attabad Lake and drive up to the Passu Cones, then come home the same way."
+    ],
+    "suitedTo": [
+      "Families and couples with a week off who want Hunza without rushing",
+      "Travellers who want summer weather; the pass is open June to September",
+      "Anyone who prefers one base for most of the trip"
+    ],
+    "notSuitedTo": [
+      "Travellers who want Skardu too (see the Hunza & Skardu Grand)",
+      "Anyone who dislikes long road days: days 2 and 5 are over 10 hours",
+      "Dates outside summer, when Babusar Top is closed"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Babusar Top",
+      "text": "The high pass between the Kaghan valley and the Indus",
+      "image": {
+        "src": "/images/naran-kaghan/babusar-top.jpg",
+        "alt": "The Babusar road snakes down a green valley in tight hairpins from the pass, between grassy slopes and distant ridges.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "MazharHusayn",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Babusar_Top,_Way_to_Chilas,_Gilgit-Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Baltit Fort",
+      "text": "The centuries-old fort above Karimabad",
+      "image": {
+        "src": "/images/hunza/baltit-fort.jpg",
+        "alt": "Whitewashed walls and carved red wooden balconies of Baltit Fort rise above a stone terrace under a deep blue sky.",
+        "width": 1600,
+        "height": 992,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fassifarooq",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Altit Fort",
+      "text": "Hunza’s oldest fort, on a cliff above the river",
+      "image": {
+        "src": "/images/hunza/altit-fort.jpg",
+        "alt": "The stone tower of Altit Fort rises from a granite outcrop against a deep blue sky, beside poplar-covered mountain slopes.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 62,
+          "y": 40
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Vasiq Eqbal",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Altit_Fort_-_Hunza.jpg"
+        }
+      }
+    },
+    {
+      "title": "Attabad Lake",
+      "text": "A boat on the turquoise lake formed in 2010",
+      "image": {
+        "src": "/images/hunza/attabad-lake.jpg",
+        "alt": "Turquoise Attabad Lake below a sunlit mountain, with boats and ferry pontoons at the jetty",
+        "width": 1200,
+        "height": 800,
+        "focus": {
+          "x": 55,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Waseem Abbas",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Attabad_Lake_-_Gilgit_Baltistan_-_Pakistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Passu Cones",
+      "text": "Jagged peaks along the upper Hunza road",
+      "image": {
+        "src": "/images/hunza/passu-cones.jpg",
+        "alt": "The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.",
+        "width": 1600,
+        "height": 1068,
+        "credit": {
+          "source": "wikimedia",
+          "author": "Saadsiddique001",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Passu_cones.jpg"
+        }
+      }
+    },
+    {
+      "title": "Hussaini Bridge",
+      "text": "A suspension bridge over the Hunza River, for the brave",
+      "image": {
+        "src": "/images/hunza/hussaini-bridge.jpg",
+        "alt": "The empty Hussaini suspension bridge stretches over the grey Hunza River toward a sheer rock cliff and jagged peaks.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Areeb Adnan Khan",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hussaini_Bridge_1.jpg"
+        }
+      }
+    }
+  ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Naran",
+      "lat": 34.91,
+      "lon": 73.65,
+      "label": "left"
+    },
+    {
+      "name": "Babusar Top",
+      "lat": 35.15,
+      "lon": 74.04,
+      "label": "right"
+    },
+    {
+      "name": "Chilas",
+      "lat": 35.42,
+      "lon": 74.1,
+      "label": "below"
+    },
+    {
+      "name": "Hunza",
+      "lat": 36.32,
+      "lon": 74.66,
+      "label": "left"
+    },
+    {
+      "name": "Passu",
+      "lat": 36.48,
+      "lon": 74.89,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Naran",
+      "text": "North on the motorway, then up the Kaghan valley along the Kunhar River to Naran.",
+      "stops": [
+        "Lahore",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Naran → Hunza",
+      "text": "Over Babusar Top in the morning light, down to the Indus at Chilas, then up the Karakoram Highway to Karimabad.",
+      "stops": [
+        "Naran",
+        "Babusar Top",
+        "Chilas",
+        "Hunza"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "10–11 hrs"
+    },
+    {
+      "title": "Hunza",
+      "text": "Baltit and Altit forts, Karimabad bazaar, and sunset from Eagle’s Nest.",
+      "stops": [
+        "Hunza"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "1–2 hrs"
+    },
+    {
+      "title": "Upper Hunza",
+      "text": "A boat on Attabad Lake, the Passu Cones and the Hussaini suspension bridge.",
+      "stops": [
+        "Passu"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "3–4 hrs"
+    },
+    {
+      "title": "Hunza → Naran",
+      "text": "Back down the Karakoram Highway and over Babusar Top to Naran.",
+      "stops": [
+        "Hunza",
+        "Chilas",
+        "Babusar Top",
+        "Naran"
+      ],
+      "overnight": "Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "10–11 hrs"
+    },
+    {
+      "title": "Naran → Lahore",
+      "text": "Down the Kaghan valley and home on the motorway by evening.",
+      "stops": [
+        "Naran",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "9–10 hrs"
+    }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotels",
+      "text": "5 nights in 3-star hotels, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 6 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Entry tickets",
+      "text": "Baltit and Altit forts, Attabad boating"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 1
+      },
+      "place": "Naran",
+      "title": "Hotel in Naran",
+      "description": "3-star · by the river",
+      "image": {
+        "src": "/images/naran-kaghan/naran-valley.jpg",
+        "alt": "The Kunhar River curves through green meadows toward Naran town, set between steep forested mountains.",
+        "width": 1600,
+        "height": 1050,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mustafa Amin",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 2,
+        "to": 4
+      },
+      "place": "Hunza",
+      "title": "Hotel in Karimabad",
+      "description": "3-star · valley view",
+      "image": {
+        "src": "/images/hunza/karimabad.jpg",
+        "alt": "Aerial view of Karimabad's autumn poplars, terraced fields and houses below a long jagged mountain ridge.",
+        "width": 1600,
+        "height": 1199,
+        "focus": {
+          "x": 50,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Ashar",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Karimabad,_Hunza.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 5,
+        "to": 5
+      },
+      "place": "Naran",
+      "title": "Hotel in Naran",
+      "description": "3-star · by the river",
+      "image": {
+        "src": "/images/naran-kaghan/naran-valley.jpg",
+        "alt": "The Kunhar River curves through green meadows toward Naran town, set between steep forested mountains.",
+        "width": 1600,
+        "height": 1050,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mustafa Amin",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+        }
+      }
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Is Babusar Top open on our dates?",
+      "answer": "The pass usually opens in June and closes by late September, which is why this trip runs only in summer. If snow closes it early, we take the longer Karakoram Highway route through Besham and tell you the new timings on WhatsApp."
+    },
+    {
+      "question": "Will the altitude affect me?",
+      "answer": "Karimabad is about 2,400 m and Babusar Top over 4,000 m, where we stop only for photos and tea. Most travellers feel fine; drink water and take it slowly."
+    },
+    {
+      "question": "What are the roads like? What if the weather delays us?",
+      "answer": "The Karakoram Highway is paved but mountainous, and landslides can close sections, especially in spring. Your driver adjusts the plan and we keep you updated on WhatsApp. If a closure adds a night, we arrange the hotel and agree the cost with you before you decide."
+    }
   ]
 }

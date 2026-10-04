@@ -164,6 +164,77 @@ describe('catalog: tours and destinations', () => {
     expect(departurePrice.problems[0].message).toMatch(/"price"/);
   });
 
+  it('needs an overview headline, and 2 to 5 lines on who the trip suits and doesn’t', () => {
+    expect(fields(load((t) => delete (t.overview as Partial<Tour['overview']>).headline))).toEqual(['overview.headline']);
+    expect(fields(load((t) => t.overview.suitedTo.splice(1)))).toEqual(['overview.suitedTo']);
+    expect(fields(load((t) => t.overview.notSuitedTo.push('a', 'b')))).toEqual(['overview.notSuitedTo']);
+    expect(fields(load((t) => Object.assign(t.overview, { paragraphs: [] })))).toEqual(['overview.paragraphs']);
+  });
+
+  it('needs 3 to 6 highlights, each image with alt text', () => {
+    expect(fields(load((t) => t.highlights.splice(2)))).toEqual(['highlights']);
+    expect(fields(load((t) => Object.assign(t, { highlights: Array.from({ length: 7 }, () => t.highlights[0]) })))).toEqual(['highlights']);
+    expect(fields(load((t) => Object.assign(t, { highlights: Array.from({ length: 6 }, () => t.highlights[0]) })))).toEqual([]);
+    expect(fields(load((t) => Object.assign(t.highlights[0].image, { alt: '' })))).toEqual(['highlights.0.image.alt']);
+  });
+
+  describe('stays', () => {
+    // The Grand's stays: nights 1, 2, 3–5, 6–7 and 8 of 8.
+    it('accepts stays covering every night once', () => {
+      expect(fields(load())).toEqual([]);
+    });
+
+    it('rejects a gap', () => {
+      const result = load((t) => Object.assign(t.stays[1].nights, { from: 3, to: 3 }));
+      expect(fields(result)).toContain('stays.1.nights.from');
+      expect(result.problems.find((p) => p.field === 'stays.1.nights.from')!.message).toBe('Night 2 has no stay');
+    });
+
+    it('rejects an overlap', () => {
+      const result = load((t) => Object.assign(t.stays[2].nights, { from: 2 }));
+      expect(result.problems).toEqual([expect.objectContaining({ field: 'stays.2.nights.from', message: 'Night 2 is already covered' })]);
+    });
+
+    it('rejects nights beyond the tour’s, or nights left without a stay', () => {
+      expect(fields(load((t) => Object.assign(t.stays[4].nights, { to: 9 })))).toEqual(['stays.4.nights.to']);
+      expect(fields(load((t) => t.stays.pop()))).toEqual(['stays']);
+    });
+
+    it('needs alt text on a stay’s photo', () => {
+      expect(fields(load((t) => Object.assign(t.stays[0].image, { alt: '' })))).toEqual(['stays.0.image.alt']);
+    });
+  });
+
+  describe('itinerary', () => {
+    it('needs exactly one day per day of the tour', () => {
+      expect(fields(load((t) => t.itinerary.pop()))).toEqual(['itinerary']);
+      expect(fields(load((t) => t.itinerary.push({ ...t.itinerary[0] })))).toEqual(['itinerary']);
+    });
+
+    it('rejects a day naming a stop that isn’t on the map', () => {
+      const result = load((t) => t.itinerary[2].stops.push('Passu'));
+      expect(result.problems).toEqual([expect.objectContaining({ field: 'itinerary.2.stops.3', message: 'No stop named "Passu"' })]);
+    });
+
+    it('rejects a stop listed twice, or a latitude out of range', () => {
+      expect(fields(load((t) => t.stops.push({ ...t.stops[1] })))).toEqual(['stops.8.name']);
+      expect(fields(load((t) => Object.assign(t.stops[1], { lat: 95 })))).toEqual(['stops.1.lat']);
+    });
+
+    it('starts the map at the trip’s start', () => {
+      expect(fields(load((t) => t.stops.reverse()))).toEqual(['stops.0.name']);
+    });
+  });
+
+  it('needs 2 to 4 of the tour’s own FAQs', () => {
+    expect(fields(load((t) => t.faqs.splice(1)))).toEqual(['faqs']);
+    expect(fields(load((t) => Object.assign(t, { faqs: Array.from({ length: 5 }, () => t.faqs[0]) })))).toEqual(['faqs']);
+  });
+
+  it('rejects an inclusion icon that isn’t one of the design’s nine', () => {
+    expect(fields(load((t) => Object.assign(t.included[0], { icon: 'spa' })))).toEqual(['included.0.icon']);
+  });
+
   it('needs a summary of at most 160 characters', () => {
     expect(fields(load((t) => delete (t as Partial<Tour>).summary))).toEqual(['summary']);
     expect(fields(load((t) => Object.assign(t, { summary: 'x'.repeat(160) })))).toEqual([]);

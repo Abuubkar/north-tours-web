@@ -59,5 +59,223 @@
       "seatsTotal": 20,
       "seatsLeft": 20
     }
+  ],
+  "overview": {
+    "headline": "A cool long weekend in the pine hills above Islamabad",
+    "paragraphs": [
+      "Three easy days for when Lahore is too hot. We stay two nights at Nathia Gali, high in the Galiyat, with gentle forest walks and evenings cool enough for a jacket.",
+      "There is time for the Mushkpuri trail and the Pipeline Track at Ayubia, and time to do nothing at all on a veranda above the clouds."
+    ],
+    "suitedTo": [
+      "Families with young children and grandparents",
+      "Couples and friends with only a long weekend",
+      "First-timers who want a taste of the hills before a longer trip"
+    ],
+    "notSuitedTo": [
+      "Anyone hoping for snow peaks and glaciers; these are forested hills",
+      "Travellers who want quiet roads on Eid and public holidays"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Nathia Gali",
+      "text": "Pine forest at 2,500 metres, our base for two nights",
+      "image": {
+        "src": "/images/murree/nathia-gali.jpg",
+        "alt": "Sunbeams slant through tall pine trees on a misty hillside above a dry grassy trail in Nathia Gali.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 55,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mohammed-Daanyaal Aziz",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nathia_Gali_Trees.jpg"
+        }
+      }
+    },
+    {
+      "title": "Mushkpuri Top",
+      "text": "A gentle trail to a meadow with views to Kashmir",
+      "image": {
+        "src": "/images/murree/mushkpuri.jpg",
+        "alt": "A green meadow ridge dotted with pine trees rises toward Mushkpuri Top, with hazy blue hills stretching away behind.",
+        "width": 1600,
+        "height": 900,
+        "focus": {
+          "x": 35,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "ZILL NIAZI",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mushkpuri_Hilltop.jpg"
+        }
+      }
+    },
+    {
+      "title": "Pipeline Track",
+      "text": "A level forest walk from Ayubia, cut into the hillside",
+      "image": {
+        "src": "/images/murree/ayubia.jpg",
+        "alt": "The railed Pipeline Track hugs a rocky cliff above a pine forest valley with patches of late snow.",
+        "width": 1600,
+        "height": 1200,
+        "focus": {
+          "x": 65,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Zunaish",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ayubia_National_Park_Pipeline_Track.jpg"
+        }
+      }
+    }
+  ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Islamabad",
+      "lat": 33.69,
+      "lon": 73.05,
+      "label": "left"
+    },
+    {
+      "name": "Murree",
+      "lat": 33.91,
+      "lon": 73.39,
+      "label": "right"
+    },
+    {
+      "name": "Nathia Gali",
+      "lat": 34.07,
+      "lon": 73.38,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Nathia Gali",
+      "text": "Up the motorway to Islamabad, then into the hills past Murree to Nathia Gali, in time for tea.",
+      "stops": [
+        "Lahore",
+        "Islamabad",
+        "Murree",
+        "Nathia Gali"
+      ],
+      "overnight": "Nathia Gali",
+      "meals": "Dinner",
+      "drive": "6–7 hrs"
+    },
+    {
+      "title": "Mushkpuri and the Pipeline Track",
+      "text": "A gentle morning walk to Mushkpuri Top, then the level Pipeline Track from Ayubia in the afternoon.",
+      "stops": [
+        "Nathia Gali"
+      ],
+      "overnight": "Nathia Gali",
+      "meals": "Breakfast, dinner",
+      "drive": "1 hr"
+    },
+    {
+      "title": "Nathia Gali → Lahore",
+      "text": "A slow morning, then back down through Murree and home by evening.",
+      "stops": [
+        "Nathia Gali",
+        "Murree",
+        "Islamabad",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "6–7 hrs"
+    }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotel",
+      "text": "2 nights at Nathia Gali, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 3 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Tickets",
+      "text": "The Ayubia chairlift, if you’d like a ride"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 2
+      },
+      "place": "Nathia Gali",
+      "title": "Hotel in Nathia Gali",
+      "description": "3-star · forest view",
+      "image": {
+        "src": "/images/murree/murree-hills.jpg",
+        "alt": "Houses scattered across a pine-covered hill near Murree, with forested ridges fading into haze beyond.",
+        "width": 1600,
+        "height": 1200,
+        "focus": {
+          "x": 40,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fraz.khalid1",
+          "licence": "CC0 1.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Murree--Category-Murree--.JPG"
+        }
+      }
+    }
+  ],
+  "faqs": [
+    {
+      "question": "How cold does it get?",
+      "answer": "Days are mild in summer, but evenings at Nathia Gali can drop to 12 °C. Bring a light jacket, and a warmer one in May and October."
+    },
+    {
+      "question": "Is it suitable for grandparents?",
+      "answer": "Yes. The walks are optional and gentle, the hotel is a short drive from everything, and there are no long road days."
+    }
   ]
 }

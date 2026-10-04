@@ -1,0 +1,16 @@
+.grid {
+  composes: grid from '../../../styles/layout.module.css';
+  --grid-min: var(--grid-tours-min);
+}
+
+.fourColumns {
+  --grid-cols: var(--grid-tours-cols);
+}
+
+.threeColumns {
+  --grid-cols: var(--grid-tours-detail-cols);
+}
+
+.cell {
+  composes: cell riseCell from '../../../styles/layout.module.css';
+}

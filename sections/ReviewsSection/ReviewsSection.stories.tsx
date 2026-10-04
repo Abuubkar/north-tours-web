@@ -56,3 +56,23 @@ export const NoRatings: Story = {
     await expect(canvas.getAllByRole('figure')).toHaveLength(3);
   },
 };
+
+/** Tour Detail: the standard headline size, the tour's own rating. */
+export const TourDetail: Story = {
+  args: { copy: { headline: 'What travellers said after this trip' }, headlineSize: 'standard', summary: { score: 4.9, count: 128 } },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('heading', { level: 2, name: 'What travellers said after this trip' })).toBeVisible();
+    await expect(canvas.getByText(/average · 128 reviews$/)).toHaveTextContent('4.9 average · 128 reviews');
+  },
+};
+
+export const TourDetailOnLight: Story = { ...TourDetail, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+/** A tour with no reviews yet: no section at all. */
+export const NoReviews: Story = {
+  args: { reviews: [] },
+  play: async ({ canvas }) => {
+    await expect(canvas.queryByRole('heading')).toBeNull();
+    await expect(canvas.queryByRole('figure')).toBeNull();
+  },
+};

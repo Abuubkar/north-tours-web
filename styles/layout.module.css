@@ -24,10 +24,10 @@
 }
 
 /*
- * Capped auto-fill hairline grid (DESIGN.md §5): at most --grid-cols columns, each at least
- * --grid-min wide, no media queries. The 1px gap over the hairline colour draws the lines.
+ * Capped auto-fill columns (DESIGN.md §5): at most --grid-cols columns, each at least
+ * --grid-min wide, no media queries, 1px apart. The two grids below draw the lines.
  */
-.grid {
+.gridColumns {
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
@@ -35,15 +35,35 @@
   );
   gap: var(--hairline-width);
   padding: 0;
+  list-style: none;
+}
+
+/* Hairline grid: the 1px gap over the hairline colour draws the lines. */
+.grid {
+  composes: gridColumns;
   border-block: var(--hairline-width) solid var(--hairline);
   background: var(--hairline);
-  list-style: none;
 }
 
 .cell {
   display: flex;
   flex-direction: column;
   background: var(--bg);
+}
+
+/*
+ * The same grid with its lines drawn by each cell's outline instead of the grid's background,
+ * so a part-filled last row simply ends rather than leaving filled empty cells. The outlines
+ * meet in the 1px gaps; the first and last columns' outer lines are clipped off.
+ */
+.openGrid {
+  composes: gridColumns;
+  clip-path: inset(calc(-1 * var(--hairline-width)) 0);
+}
+
+.openCell {
+  composes: cell;
+  outline: var(--hairline-width) solid var(--hairline);
 }
 
 /*
@@ -58,8 +78,8 @@
 }
 
 /*
- * Image-card cell (docs/components.md §4): a link filling its grid cell, the photo full-bleed
- * in its frame and the text under it padded on both sides like a text-grid cell.
+ * Image-card cell (docs/components.md §4): a card (or a link) filling its grid cell, the photo
+ * full-bleed in its frame and the text under it padded on both sides like a text-grid cell.
  */
 .imageCard {
   display: flex;
@@ -74,6 +94,27 @@
   flex-direction: column;
   gap: var(--space-4);
   padding: var(--space-16) var(--cell-pad) var(--space-24);
+}
+
+/*
+ * Cards rise (M4, useRiseOnView sets data-rise on each grid cell): a card below the fold waits
+ * lower down, then rises once into place. Only its photo fades (`risePhoto`); text, prices and
+ * buttons never do.
+ */
+.riseCell[data-rise='below'] {
+  transform: translateY(var(--rise-distance));
+}
+
+.riseCell[data-rise='in'] {
+  transition: transform var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
+}
+
+:global([data-rise='below']) .risePhoto {
+  opacity: 0;
+}
+
+:global([data-rise='in']) .risePhoto {
+  transition: opacity var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
 }
 
 /*

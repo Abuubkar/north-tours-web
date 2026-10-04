@@ -6,3 +6,24 @@ type Policies = Settings['policies'];
 export function fullRefundDays(policies: Pick<Policies, 'refundSchedule'>): number {
   return policies.refundSchedule[0].daysBefore;
 }
+
+/**
+ * The refund schedule as sentences, for FAQ answers and Help: "Cancel 14 or more days before
+ * departure for a full refund of your advance. Between 7 and 13 days, 50% is refunded. Within 7
+ * days the advance is non-refundable." The schema guarantees a full refund first and 0 days last.
+ */
+export function refundScheduleText(policies: Pick<Policies, 'refundSchedule'>): string {
+  const rows = policies.refundSchedule;
+  return rows
+    .map((row, i) => {
+      if (i === 0) return `Cancel ${row.daysBefore} or more days before departure for a full refund of your advance.`;
+      const above = rows[i - 1].daysBefore;
+      if (row.daysBefore === 0) {
+        return row.refundPercent === 0
+          ? `Within ${above} days the advance is non-refundable.`
+          : `Within ${above} days, ${row.refundPercent}% is refunded.`;
+      }
+      return `Between ${row.daysBefore} and ${above - 1} days, ${row.refundPercent}% is refunded.`;
+    })
+    .join(' ');
+}

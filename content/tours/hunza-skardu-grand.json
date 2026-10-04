@@ -74,5 +74,483 @@
       "seatsTotal": 16,
       "seatsLeft": 14
     }
+  ],
+  "overview": {
+    "headline": "Nine days up the Karakoram Highway to Hunza and Skardu",
+    "paragraphs": [
+      "We drive up from Lahore on the motorway and the Karakoram Highway. Then we spend three nights in Hunza under Rakaposhi, and cross to Skardu for its lakes and the high Deosai plains.",
+      "This is a road trip at heart. The drive between stops is part of the trip: the Indus gorge, the place where three mountain ranges meet, the turquoise of Attabad. Your driver and guide set the pace, plan around the weather and know where to stop for chai."
+    ],
+    "suitedTo": [
+      "First-time visitors who want Hunza and Skardu in one trip",
+      "Families with school-age children, and parents who like a planned pace",
+      "Couples and friends who would rather not drive the Karakoram Highway themselves",
+      "Corporate teams (private departures on request)"
+    ],
+    "notSuitedTo": [
+      "Travellers who dislike long road journeys. Days 2 and 9 are 11 hours or more",
+      "Anyone after a real trek (see the Fairy Meadows Trek)",
+      "Serious heart or breathing conditions at altitude. Check with your doctor first",
+      "Travellers who need luxury hotels every night; Chilas is simple"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Baltit Fort",
+      "text": "The centuries-old fort above Karimabad",
+      "image": {
+        "src": "/images/hunza/baltit-fort.jpg",
+        "alt": "Whitewashed walls and carved red wooden balconies of Baltit Fort rise above a stone terrace under a deep blue sky.",
+        "width": 1600,
+        "height": 992,
+        "focus": {
+          "x": 50,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fassifarooq",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baltit_Fort,_Karimabad,_Hunza,_Gilgit_Baltistan.jpg"
+        }
+      }
+    },
+    {
+      "title": "Altit Fort",
+      "text": "Hunza’s oldest fort, on a cliff above the river",
+      "image": {
+        "src": "/images/hunza/altit-fort.jpg",
+        "alt": "The stone tower of Altit Fort rises from a granite outcrop against a deep blue sky, beside poplar-covered mountain slopes.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 62,
+          "y": 40
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Vasiq Eqbal",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Altit_Fort_-_Hunza.jpg"
+        }
+      }
+    },
+    {
+      "title": "Passu Cones",
+      "text": "Jagged peaks along the upper Hunza road",
+      "image": {
+        "src": "/images/hunza/passu-cones.jpg",
+        "alt": "The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.",
+        "width": 1600,
+        "height": 1068,
+        "credit": {
+          "source": "wikimedia",
+          "author": "Saadsiddique001",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Passu_cones.jpg"
+        }
+      }
+    },
+    {
+      "title": "Rakaposhi viewpoint",
+      "text": "A huge mountain face, seen from your tea stop",
+      "image": {
+        "src": "/images/hunza/rakaposhi-village.jpg",
+        "alt": "Rakaposhi’s snowy face above a Hunza village and terraced fields lined with yellow autumn poplars",
+        "width": 1200,
+        "height": 741,
+        "focus": {
+          "x": 42,
+          "y": 40
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Wasif Mehmood Arain",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Rakaposhi_from_Hunza_valley.jpg"
+        }
+      }
+    },
+    {
+      "title": "Shangrila",
+      "text": "Lower Kachura Lake and its famous resort",
+      "image": {
+        "src": "/images/skardu/shangrila.jpg",
+        "alt": "Lower Kachura Lake mirrors a steep mountain and autumn trees, with a red pagoda roof and small cottages on the far shore.",
+        "width": 1600,
+        "height": 1046,
+        "focus": {
+          "x": 45,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Furqanlw",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heaven_on_Earth_Lower_Kachura_Lake_(Shangrila_Lake).jpg"
+        }
+      }
+    },
+    {
+      "title": "Deosai Plains",
+      "text": "One of the world’s highest plateaus, by jeep",
+      "image": {
+        "src": "/images/skardu/deosai.jpg",
+        "alt": "A clear stream winding across the green Deosai plateau towards snow-streaked mountains",
+        "width": 1200,
+        "height": 785,
+        "focus": {
+          "x": 45,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Qammer Wazir",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Land_of_Giants,_Deosai.jpg"
+        }
+      }
+    }
+  ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Islamabad",
+      "lat": 33.69,
+      "lon": 73.05,
+      "label": "left"
+    },
+    {
+      "name": "Chilas",
+      "lat": 35.42,
+      "lon": 74.1,
+      "label": "below"
+    },
+    {
+      "name": "Gilgit",
+      "lat": 35.92,
+      "lon": 74.31,
+      "label": "left"
+    },
+    {
+      "name": "Hunza",
+      "lat": 36.32,
+      "lon": 74.66,
+      "label": "left"
+    },
+    {
+      "name": "Attabad",
+      "lat": 36.33,
+      "lon": 74.86,
+      "label": "right"
+    },
+    {
+      "name": "Skardu",
+      "lat": 35.3,
+      "lon": 75.63,
+      "label": "right"
+    },
+    {
+      "name": "Deosai",
+      "lat": 35.03,
+      "lon": 75.42,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Islamabad",
+      "text": "Leave Lahore early and head north on the M-2 through the Salt Range. The evening in Islamabad is free.",
+      "stops": [
+        "Lahore",
+        "Islamabad"
+      ],
+      "overnight": "Islamabad",
+      "meals": "Dinner",
+      "drive": "4–5 hrs"
+    },
+    {
+      "title": "Islamabad → Chilas",
+      "text": "Onto the Karakoram Highway past Abbottabad and Besham, then along the Indus into the mountains. A long day, with plenty of stops for tea.",
+      "stops": [
+        "Islamabad",
+        "Chilas"
+      ],
+      "overnight": "Chilas",
+      "meals": "Breakfast, dinner",
+      "drive": "11–12 hrs"
+    },
+    {
+      "title": "Chilas → Hunza",
+      "text": "Stop at the Nanga Parbat viewpoint and the place where the Himalaya, Karakoram and Hindu Kush meet. Then on through Gilgit to Rakaposhi viewpoint and Karimabad.",
+      "stops": [
+        "Chilas",
+        "Gilgit",
+        "Hunza"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "6–7 hrs"
+    },
+    {
+      "title": "Hunza",
+      "text": "Baltit and Altit forts in the morning and Karimabad bazaar after lunch, then sunset from Eagle’s Nest above the valley.",
+      "stops": [
+        "Hunza"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "1–2 hrs"
+    },
+    {
+      "title": "Upper Hunza",
+      "text": "A boat on Attabad Lake, then the Passu Cones and the Hussaini suspension bridge for those who want to try it.",
+      "stops": [
+        "Attabad"
+      ],
+      "overnight": "Karimabad, Hunza",
+      "meals": "Breakfast, dinner",
+      "drive": "4–5 hrs"
+    },
+    {
+      "title": "Hunza → Skardu",
+      "text": "Back through Gilgit, then east on the Skardu Road, high above the Indus gorge.",
+      "stops": [
+        "Hunza",
+        "Gilgit",
+        "Skardu"
+      ],
+      "overnight": "Skardu",
+      "meals": "Breakfast, dinner",
+      "drive": "7–8 hrs"
+    },
+    {
+      "title": "Deosai & Shangrila",
+      "text": "Jeeps up to the Deosai plains and Sheosar Lake, then Shangrila and Upper Kachura on the way back down.",
+      "stops": [
+        "Deosai"
+      ],
+      "overnight": "Skardu",
+      "meals": "Breakfast, dinner",
+      "drive": "6–7 hrs incl. jeep"
+    },
+    {
+      "title": "Skardu → Chilas or Naran",
+      "text": "Back down the Skardu Road and the Karakoram Highway to Chilas, or over Babusar Top to Naran when the pass is open (usually June to September).",
+      "stops": [
+        "Skardu",
+        "Chilas"
+      ],
+      "overnight": "Chilas or Naran",
+      "meals": "Breakfast, dinner",
+      "drive": "9–10 hrs"
+    },
+    {
+      "title": "Chilas or Naran → Lahore",
+      "text": "The final stretch to the motorway, arriving in Lahore in the late evening.",
+      "stops": [
+        "Chilas",
+        "Islamabad",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "12–14 hrs"
+    }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotels",
+      "text": "8 nights in 3-star hotels, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 9 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    },
+    {
+      "icon": "jeep",
+      "title": "Jeeps",
+      "text": "Jeeps to Deosai and Shangrila"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Entry tickets",
+      "text": "Baltit and Altit forts, Attabad boating"
+    },
+    {
+      "icon": "flights",
+      "title": "Flights",
+      "text": "An optional flight home from Skardu to Islamabad"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 1
+      },
+      "place": "Islamabad",
+      "title": "Hotel in Islamabad",
+      "description": "3-star · city centre",
+      "image": {
+        "src": "/images/route/islamabad.jpg",
+        "alt": "Snow-dusted Margalla Hills rise under dark storm clouds above the rooftops and buildings of Islamabad.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 55,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Ali Mujtaba",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Snow-capped_Margalla_Hills_in_Islamabad,_Pakistan.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 2,
+        "to": 2
+      },
+      "place": "Chilas",
+      "title": "Hotel in Chilas",
+      "description": "Simple, clean rooms by the Indus",
+      "image": {
+        "src": "/images/route/chilas.jpg",
+        "alt": "The Indus River winds between dark rocks and dry tawny hills near Chilas, with snowy peaks on the horizon.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 50,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Adnan Wahab Khan",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chilas_11.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 3,
+        "to": 5
+      },
+      "place": "Hunza",
+      "title": "Hotel in Karimabad",
+      "description": "3-star · valley view",
+      "image": {
+        "src": "/images/hunza/karimabad.jpg",
+        "alt": "Aerial view of Karimabad's autumn poplars, terraced fields and houses below a long jagged mountain ridge.",
+        "width": 1600,
+        "height": 1199,
+        "focus": {
+          "x": 50,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Ashar",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Karimabad,_Hunza.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 6,
+        "to": 7
+      },
+      "place": "Skardu",
+      "title": "Hotel in Skardu",
+      "description": "3-star · garden",
+      "image": {
+        "src": "/images/skardu/skardu-valley.jpg",
+        "alt": "Skardu town sits among autumn trees beside the turquoise Indus River and its white sandbanks, below cloud-wrapped mountains.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 55,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Vasiq Eqbal",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:An_autumnal_view_of_Skardu%27s_skyline.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 8,
+        "to": 8
+      },
+      "place": "Chilas or Naran",
+      "title": "Hotel in Chilas or Naran",
+      "description": "Simple, clean rooms",
+      "image": {
+        "src": "/images/naran-kaghan/naran-valley.jpg",
+        "alt": "The Kunhar River curves through green meadows toward Naran town, set between steep forested mountains.",
+        "width": 1600,
+        "height": 1050,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mustafa Amin",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+        }
+      }
+    }
+  ],
+  "faqs": [
+    {
+      "question": "What should I pack?",
+      "answer": "Layers. Mornings and nights are cold even in summer, and Deosai can be near freezing. Bring a warm jacket, comfortable walking shoes, sunglasses, sunscreen, any personal medicines and a power bank. We send a full packing list on WhatsApp after you book."
+    },
+    {
+      "question": "Will the altitude affect me?",
+      "answer": "All overnight stops are below about 2,500 m. The highest point is the Deosai plateau, around 4,000 m, which we visit for a few hours only. Most travellers feel fine; drink water and take it slowly. Tell us about any heart or breathing conditions before you book."
+    },
+    {
+      "question": "What are the roads like? What if the weather delays us?",
+      "answer": "The Karakoram Highway is paved but mountainous, and landslides can close sections, especially in spring. Your driver adjusts the plan and we keep you updated on WhatsApp. If a closure adds a night, we arrange the hotel and agree the cost with you before you decide."
+    }
   ]
 }

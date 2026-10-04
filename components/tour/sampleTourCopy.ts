@@ -22,6 +22,36 @@ export const sampleTourCopy: TourCopy = {
     bestSeason: 'Best season',
     transport: 'Transport',
   },
+  overview: {
+    suitedTo: 'Who this trip is for',
+    notSuitedTo: 'Who it may not suit',
+  },
+  highlights: {
+    headline: 'What you’ll see along the way',
+  },
+  itinerary: {
+    headline: 'The route, day by day',
+    dayLabel: 'Day {number}',
+    overnight: 'Overnight',
+    meals: 'Meals',
+    drive: 'Drive',
+    map: {
+      day: 'Day {day} of {days}',
+      start: 'Start',
+      description: 'Schematic map of this tour’s route',
+      caption: 'Schematic · roads simplified',
+    },
+  },
+  included: {
+    headline: 'What the price includes',
+    included: 'Included',
+    notIncluded: 'Not included',
+  },
+  hotels: {
+    headline: 'Where you’ll stay each night',
+    description: '{description} · twin sharing',
+    note: 'All rooms are twin sharing as standard. Triple and quad rooms cost less per person (see below).',
+  },
   dates: {
     headline: 'Upcoming departures and prices',
     rowMeta: '{tripLength} · departs Lahore',
@@ -84,5 +114,14 @@ export const sampleTourCopy: TourCopy = {
   cta: {
     headline: 'Hold your seats with a {advancePercent}% advance',
     lead: 'Or message us first. Most families plan this trip with us on WhatsApp.',
+  },
+  reviews: {
+    headline: 'What travellers said after this trip',
+  },
+  faqs: {
+    headline: 'Questions people ask before booking',
+  },
+  related: {
+    headline: 'Other trips from Lahore',
   },
 };

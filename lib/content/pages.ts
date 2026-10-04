@@ -127,6 +127,37 @@ const tourCopySchema = z.strictObject({
     bestSeason: copy,
     transport: copy,
   }),
+  /** The headings over the tour's suitability lists (the overview's headline is the tour's own). */
+  overview: z.strictObject({ suitedTo: copy, notSuitedTo: copy }),
+  highlights: z.strictObject({ headline: copy }),
+  /** "The route, day by day" (#itinerary). */
+  itinerary: z.strictObject({
+    headline: copy,
+    /** Over each day's title: {number} is "01". */
+    dayLabel: copyWith('number'),
+    overnight: copy,
+    meals: copy,
+    drive: copy,
+    /** The side map (from 1280px). */
+    map: z.strictObject({
+      /** Its header on a day: "Day 03 of 09". */
+      day: copyWith('day', 'days'),
+      /** Its header before day 1, over the start's name. */
+      start: copy,
+      /** Read out in place of the drawing. */
+      description: copy,
+      caption: copy,
+    }),
+  }),
+  /** "What the price includes" (#included) and its two lists' headings. */
+  included: z.strictObject({ headline: copy, included: copy, notIncluded: copy }),
+  hotels: z.strictObject({
+    headline: copy,
+    /** Each stay's line: {description} is the stay's own, e.g. "3-star · valley view · twin sharing". */
+    description: copyWith('description'),
+    /** Under the stays. */
+    note: copy,
+  }),
   /** "Upcoming departures and prices" (#dates). */
   dates: z.strictObject({
     headline: copy,
@@ -192,6 +223,12 @@ const tourCopySchema = z.strictObject({
   sheet: z.strictObject({ subtitle: copyWith('tripLength') }),
   /** The final call to action, "Hold your seats with a 30% advance". */
   cta: z.strictObject({ headline: copyWith(...SETTINGS_TOKENS), lead: copy }),
+  /** The tour's reviews (#reviews), with its rating beside the headline. */
+  reviews: z.strictObject({ headline: copy }),
+  /** The tour's questions, then the shared booking ones (#faqs). */
+  faqs: z.strictObject({ headline: copy }),
+  /** Three other trips. */
+  related: z.strictObject({ headline: copy }),
 });
 
 export type TourCopy = z.infer<typeof tourCopySchema>;

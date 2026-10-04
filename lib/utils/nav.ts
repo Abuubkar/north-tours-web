@@ -20,13 +20,16 @@ export const SPIED_SECTIONS = ['how', 'destinations', 'reviews'] as const satisf
 export const SPY_LINE = 0.4;
 
 /**
- * The Homepage section in view, from each section's top (px from the top of the viewport): the
- * last one whose top is above 40% of the viewport. Null above the first, so nothing is marked
- * over the hero and departures.
+ * The section in view, from each section's top (px from the top of the viewport): the last one
+ * whose top is above the line, a fraction of the viewport's height (40% for the Homepage nav,
+ * 50% for the itinerary's days). Null above the first, so nothing is marked before it.
  */
-export function sectionInView<T extends string>(sections: readonly { id: T; top: number }[], viewportHeight: number): T | null {
-  const line = viewportHeight * SPY_LINE;
-  return sections.filter(({ top }) => top < line).at(-1)?.id ?? null;
+export function sectionInView<T extends string>(
+  sections: readonly { id: T; top: number }[],
+  viewportHeight: number,
+  line: number = SPY_LINE,
+): T | null {
+  return sections.filter(({ top }) => top < viewportHeight * line).at(-1)?.id ?? null;
 }
 
 /**

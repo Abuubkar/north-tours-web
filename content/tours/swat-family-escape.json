@@ -59,5 +59,331 @@
       "seatsTotal": 18,
       "seatsLeft": 18
     }
+  ],
+  "overview": {
+    "headline": "Five easy days in Swat, planned around young families",
+    "paragraphs": [
+      "Shorter drives, earlier evenings and hotels with gardens. We start with a night at Malam Jabba, ride the chairlift, then move up the valley to Kalam for two nights by the river.",
+      "From Kalam a jeep takes us to Mahodand Lake for the day, and on the way home we stop at the White Palace at Marghazar before a last night in Mingora."
+    ],
+    "suitedTo": [
+      "Families with young children and grandparents",
+      "First trips north, with no very long road days",
+      "Groups who want green valleys rather than high mountains"
+    ],
+    "notSuitedTo": [
+      "Travellers after high peaks and glaciers (see Hunza or Skardu)",
+      "Anyone wanting a fast pace; this trip is deliberately slow"
+    ]
+  },
+  "highlights": [
+    {
+      "title": "Malam Jabba",
+      "text": "Pine-covered slopes and a chairlift for the children",
+      "image": {
+        "src": "/images/swat/malam-jabba.jpg",
+        "alt": "Fir trees frame a view across forested ridges and hazy mountains from a green hillside at Malam Jabba.",
+        "width": 1480,
+        "height": 900,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Hamzamian1",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Malam_Jabba_in_Summer.jpg"
+        }
+      }
+    },
+    {
+      "title": "Ushu Forest",
+      "text": "Tall cedars above Kalam, and a river to paddle in",
+      "image": {
+        "src": "/images/swat/ushu-forest.jpg",
+        "alt": "A white-water stream over dark boulders through the conifers of Ushu forest near Kalam",
+        "width": 1200,
+        "height": 795,
+        "focus": {
+          "x": 55,
+          "y": 65
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Syed Basit Imran",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Route_to_mahodand_lake_from_Kalam_2.JPG"
+        }
+      }
+    },
+    {
+      "title": "Mahodand Lake",
+      "text": "A day out by jeep to the lake of fish",
+      "image": {
+        "src": "/images/swat/mahodand-lake.jpg",
+        "alt": "Turquoise Mahodand Lake curves through golden meadow grass toward a rocky valley under storm clouds, with pines along the shore.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muh.Ashar",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mahodand_Lake,_Swat.JPG"
+        }
+      }
+    },
+    {
+      "title": "White Palace",
+      "text": "The old summer palace of the Wali of Swat at Marghazar",
+      "image": {
+        "src": "/images/swat/white-palace.jpg",
+        "alt": "The white columned facade of the 1941 White Palace at Marghazar, with rose beds and a lawn in front of wooded hills.",
+        "width": 1600,
+        "height": 1000,
+        "focus": {
+          "x": 50,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Ihsan Farid",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:White_palace_Swat.JPG"
+        }
+      }
+    }
+  ],
+  "stops": [
+    {
+      "name": "Lahore",
+      "lat": 31.55,
+      "lon": 74.34,
+      "label": "right"
+    },
+    {
+      "name": "Mingora",
+      "lat": 34.78,
+      "lon": 72.36,
+      "label": "left"
+    },
+    {
+      "name": "Malam Jabba",
+      "lat": 34.8,
+      "lon": 72.57,
+      "label": "right"
+    },
+    {
+      "name": "Bahrain",
+      "lat": 35.21,
+      "lon": 72.55,
+      "label": "right"
+    },
+    {
+      "name": "Kalam",
+      "lat": 35.49,
+      "lon": 72.58,
+      "label": "left"
+    },
+    {
+      "name": "Mahodand",
+      "lat": 35.75,
+      "lon": 72.66,
+      "label": "right"
+    }
+  ],
+  "itinerary": [
+    {
+      "title": "Lahore → Malam Jabba",
+      "text": "North on the motorway and up into Swat, with a long lunch stop on the way.",
+      "stops": [
+        "Lahore",
+        "Mingora",
+        "Malam Jabba"
+      ],
+      "overnight": "Malam Jabba",
+      "meals": "Dinner",
+      "drive": "7–8 hrs"
+    },
+    {
+      "title": "Malam Jabba → Kalam",
+      "text": "The chairlift in the morning, then up the Swat valley past Bahrain to Kalam.",
+      "stops": [
+        "Malam Jabba",
+        "Bahrain",
+        "Kalam"
+      ],
+      "overnight": "Kalam",
+      "meals": "Breakfast, dinner",
+      "drive": "4–5 hrs"
+    },
+    {
+      "title": "Mahodand Lake",
+      "text": "Jeeps through the Ushu forest to Mahodand Lake, with time to paddle and picnic.",
+      "stops": [
+        "Mahodand"
+      ],
+      "overnight": "Kalam",
+      "meals": "Breakfast, dinner",
+      "drive": "3–4 hrs incl. jeep"
+    },
+    {
+      "title": "Kalam → Mingora",
+      "text": "Down the valley, with a stop at the White Palace at Marghazar.",
+      "stops": [
+        "Kalam",
+        "Bahrain",
+        "Mingora"
+      ],
+      "overnight": "Mingora",
+      "meals": "Breakfast, dinner",
+      "drive": "3–4 hrs"
+    },
+    {
+      "title": "Mingora → Lahore",
+      "text": "An easy morning, then home on the motorway.",
+      "stops": [
+        "Mingora",
+        "Lahore"
+      ],
+      "overnight": "Home",
+      "meals": "Breakfast",
+      "drive": "6–7 hrs"
+    }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotels",
+      "text": "4 nights in 3-star hotels with gardens, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 5 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    },
+    {
+      "icon": "jeep",
+      "title": "Jeeps",
+      "text": "Jeeps to Mahodand Lake and back"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Entry tickets",
+      "text": "The Malam Jabba chairlift and the White Palace"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 1
+      },
+      "place": "Malam Jabba",
+      "title": "Hotel in Malam Jabba",
+      "description": "3-star · mountain view",
+      "image": {
+        "src": "/images/swat/malam-jabba.jpg",
+        "alt": "Fir trees frame a view across forested ridges and hazy mountains from a green hillside at Malam Jabba.",
+        "width": 1480,
+        "height": 900,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Hamzamian1",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Malam_Jabba_in_Summer.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 2,
+        "to": 3
+      },
+      "place": "Kalam",
+      "title": "Hotel in Kalam",
+      "description": "3-star · by the river",
+      "image": {
+        "src": "/images/swat/kalam-river.jpg",
+        "alt": "The green Swat River at Kalam, between pine-covered slopes and a snow-capped peak",
+        "width": 1200,
+        "height": 795,
+        "focus": {
+          "x": 50,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Akram Attari",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kalam,_Swat_(Pakistan).jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 4,
+        "to": 4
+      },
+      "place": "Mingora",
+      "title": "Hotel in Mingora",
+      "description": "3-star · garden",
+      "image": {
+        "src": "/images/swat/mingora.jpg",
+        "alt": "Mingora's dense houses spread across the Swat valley floor toward layered mountains at sunset.",
+        "width": 1600,
+        "height": 883,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Imranrashid26",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_over_the_Mingora_City,_Swat_Valley,_Pakistan.jpg"
+        }
+      }
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Is it safe to travel to Swat?",
+      "answer": "Swat has been a busy family holiday valley for years. We travel the main roads, stay in established hotels and follow local advice; if anything changes before your date, we tell you on WhatsApp."
+    },
+    {
+      "question": "Is the trip suitable for toddlers?",
+      "answer": "Yes. The longest drive is the first day, with a long lunch stop. Bring what your child needs for the road, and tell us their ages so we can plan the stops."
+    }
   ]
 }

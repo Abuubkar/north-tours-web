@@ -146,6 +146,9 @@ Folders are created only when the first file for them is needed (section 3).
   labels, the page's `<title>` part and meta description. Components never hard-code page
   wording. Copy may use named `{tokens}` filled from settings (e.g. `{advancePercent}`); the
   schema rejects a token a field doesn't allow.
+- **Hotels are never named, real or invented.** A tour's stays have a generic title ("Hotel in
+  Karimabad"), a description ("3-star · valley view") and a photo of the town or valley, never
+  of a hotel.
 - **Photos:** source files live in `content/images`; `pnpm images` writes their sizes and
   formats to `public/images` (ADR-0015). Commit both. The build fails if they're missing.
 - Every content type has a schema. **The build must fail on invalid content:**

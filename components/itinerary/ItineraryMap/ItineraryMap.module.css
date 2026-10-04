@@ -1,0 +1,144 @@
+.map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.day {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--accent);
+}
+
+.title {
+  composes: small from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+/* No border and no surface fill (only the Homepage's route map has a frame). */
+.frame {
+  position: relative;
+}
+
+.drawing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Strokes are in the drawing's units (scaled from the px tokens), not non-scaling: the progress
+ * line's dashes rely on pathLength, which non-scaling strokes would measure in screen pixels.
+ */
+.route,
+.progress {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.route {
+  stroke: var(--control-border);
+  stroke-width: calc(var(--map-road-width) * var(--map-side-units));
+}
+
+/* The path's length is 1, so the offset is the share of the route still to come. */
+.progress {
+  stroke: var(--fg);
+  stroke-width: calc(var(--map-route-width) * var(--map-side-units));
+  stroke-dasharray: 1;
+  transition: stroke-dashoffset var(--dur-400) var(--ease-out);
+}
+
+.stop {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+}
+
+.marker {
+  position: absolute;
+  width: var(--map-ring-size);
+  height: var(--map-ring-size);
+  border: var(--map-ring-width) solid var(--control-border);
+  border-radius: var(--radius-chip);
+  background: var(--bg);
+  transform: translate(-50%, -50%);
+  transition:
+    background-color var(--dur-400) var(--ease-out),
+    border-color var(--dur-400) var(--ease-out);
+}
+
+.square {
+  border-radius: 0;
+}
+
+.label {
+  composes: label from '../../../styles/typography.module.css';
+  position: absolute;
+  top: 0;
+  color: var(--fg-3);
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+
+.right .label {
+  left: var(--map-label-offset);
+}
+
+.left .label {
+  right: var(--map-label-offset);
+}
+
+.below .label {
+  top: var(--map-label-offset);
+  transform: translateX(-50%);
+}
+
+.visited .marker {
+  border-color: var(--fg);
+  background: var(--fg);
+}
+
+.visited .label {
+  color: var(--fg);
+}
+
+/* The day's stop: a gold dot with a halo, and its name in gold. */
+.current .marker {
+  width: var(--map-dot-size);
+  height: var(--map-dot-size);
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.current .marker::before {
+  position: absolute;
+  inset: calc(-1 * var(--map-halo-spread) - var(--map-ring-width));
+  border-radius: var(--radius-chip);
+  background: var(--map-halo);
+  content: '';
+}
+
+.current .label {
+  color: var(--accent);
+  font-weight: var(--fw-semibold);
+}
+
+.caption {
+  composes: waypoint from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+}
+
+/* Reduced motion: the progress line and the stops jump to the day. */
+@media (prefers-reduced-motion: reduce) {
+  .progress,
+  .marker {
+    transition: none;
+  }
+}

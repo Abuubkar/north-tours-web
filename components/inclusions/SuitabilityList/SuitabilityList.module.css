@@ -1,0 +1,38 @@
+.grid {
+  composes: textGrid from '../../../styles/layout.module.css';
+  --grid-min: var(--grid-pairs-min);
+  --grid-cols: var(--grid-pairs-cols);
+}
+
+.cell {
+  composes: cell from '../../../styles/layout.module.css';
+  padding: var(--space-32) var(--cell-pad);
+}
+
+.heading {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+.list {
+  margin-top: var(--space-16);
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  composes: small from '../../../styles/typography.module.css';
+  display: flex;
+  gap: var(--space-12);
+  padding-block: var(--space-12);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+  color: var(--fg-2);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.mark {
+  flex: none;
+  color: var(--fg);
+}
