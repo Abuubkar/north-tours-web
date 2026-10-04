@@ -12,6 +12,9 @@ export const HELP_CATEGORY_PREFIX = 'cat-';
 
 export const helpCategoryAnchor = (id: string) => `${HELP_CATEGORY_PREFIX}${id}`;
 
+/** The hash of one Help answer, its id: "#refunds". */
+export const helpAnswerHash = (id: string) => `#${id}`;
+
 /** The Help page's other anchors, which an answer can't take: every page's <main> and the policies. */
 export const HELP_PAGE_ANCHORS: readonly string[] = ['main', 'policies'];
 
@@ -32,7 +35,7 @@ export const routes = {
   about: '/about',
   help: '/help',
   /** One answer on the Help page, which opens it: /help#refunds. */
-  helpAnswer: (id: string) => `/help#${id}`,
+  helpAnswer: (id: string) => `/help${helpAnswerHash(id)}`,
   contact: '/contact',
   privacy: '/privacy',
   terms: '/terms',

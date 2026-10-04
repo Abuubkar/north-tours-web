@@ -1,15 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { helpAnswerHash } from '@/lib/routes';
 import { answerForHash } from '@/lib/utils/helpAnswers';
-
-/**
- * Writes the open answer into the address bar, or clears it (path and search kept), with
- * `replaceState`: no history entries, so Back leaves the page, and a reload after closing shows
- * the plain page.
- */
-function writeHash(id: string | null) {
-  const { pathname, search } = window.location;
-  window.history.replaceState(window.history.state, '', `${pathname}${search}${id === null ? '' : `#${id}`}`);
-}
+import { replaceHash } from './replaceHash';
 
 /**
  * Which Help answer is open, by id, and the address that follows it (PRD #86): `/help#refunds`
@@ -19,13 +11,16 @@ function writeHash(id: string | null) {
  */
 export function useAnswerHash(ids: readonly string[]) {
   const [openId, setOpenId] = useState<string | null>(null);
+  const arrived = useRef(false);
 
   useEffect(() => {
     function openLinked() {
       const id = answerForHash(window.location.hash, ids);
       if (id !== null) setOpenId(id);
     }
-    openLinked();
+    // On arrival once only: later, the hash only ever names the answer already open.
+    if (!arrived.current) openLinked();
+    arrived.current = true;
     window.addEventListener('hashchange', openLinked);
     return () => window.removeEventListener('hashchange', openLinked);
   }, [ids]);
@@ -34,17 +29,17 @@ export function useAnswerHash(ids: readonly string[]) {
   const toggled = useCallback((id: string, open: boolean) => {
     if (open) {
       setOpenId(id);
-      writeHash(id);
+      replaceHash(helpAnswerHash(id));
       return;
     }
     setOpenId((current) => (current === id ? null : current));
-    if (window.location.hash === `#${id}`) writeHash(null);
+    if (window.location.hash === helpAnswerHash(id)) replaceHash('');
   }, []);
 
   /** "Link to this answer": the answer stays open and the address shows its link, with no history entry. */
   const linkTo = useCallback((id: string) => {
     setOpenId(id);
-    writeHash(id);
+    replaceHash(helpAnswerHash(id));
   }, []);
 
   return { openId, toggled, linkTo };

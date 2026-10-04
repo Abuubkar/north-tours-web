@@ -1,3 +1,4 @@
+import { helpAnswerHash } from '../routes.ts';
 import { optionName } from './resultsText.ts';
 
 /*
@@ -33,6 +34,5 @@ export function categoryLinks(categories: readonly HelpCategory[], words: Answer
  * policies ("#policies"), which stay plain anchors.
  */
 export function answerForHash(hash: string, ids: readonly string[]): string | null {
-  const id = hash.startsWith('#') ? hash.slice(1) : '';
-  return ids.includes(id) ? id : null;
+  return ids.find((id) => hash === helpAnswerHash(id)) ?? null;
 }

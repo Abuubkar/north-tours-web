@@ -1,12 +1,9 @@
-import type { MouseEvent } from 'react';
 import { Accordion } from '@/components/ui/Accordion/Accordion';
 import { helpCategoryAnchor, routes } from '@/lib/routes';
+import { isPlainClick } from '@/lib/utils/clicks';
 import { fillTokens } from '@/lib/utils/tokens';
 import type { FaqCategoryProps } from './FaqCategory.types';
 import styles from './FaqCategory.module.css';
-
-/** A plain click (or Enter): not one that opens the link in a new tab or window. */
-const plainClick = (event: MouseEvent) => event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 
 /**
  * One of Help's categories: its name as an <h2> (the category list's links land on it), then its
@@ -37,7 +34,7 @@ export function FaqCategory({ id, title, questions, linkLabel, group, openIds, o
                   href={path}
                   className={styles.link}
                   onClick={(event) => {
-                    if (!plainClick(event)) return;
+                    if (!isPlainClick(event)) return;
                     event.preventDefault();
                     onAnswerLink(faq.id);
                   }}

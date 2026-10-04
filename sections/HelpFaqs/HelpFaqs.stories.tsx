@@ -65,7 +65,7 @@ export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', view
 
 const answer = (canvasElement: HTMLElement, id: string) => canvasElement.querySelector<HTMLDetailsElement>(`#${id}`)!;
 
-const openIds = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll('details')].filter((d) => d.open).map((d) => d.id);
+const openAnswers = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll('details')].filter((d) => d.open).map((d) => d.id);
 
 /**
  * Arriving on `/help#refunds`: that answer opens after load, every other one closed. (The
@@ -75,7 +75,7 @@ const openIds = (canvasElement: HTMLElement) => [...canvasElement.querySelectorA
 export const OpensFromLink: Story = {
   beforeEach: atHash('#refunds'),
   play: async ({ canvasElement }) => {
-    await waitFor(() => expect(openIds(canvasElement)).toEqual(['refunds']));
+    await waitFor(() => expect(openAnswers(canvasElement)).toEqual(['refunds']));
     await expect(window.location.hash).toBe('#refunds');
   },
 };
@@ -84,6 +84,8 @@ export const OpensFromLinkOnLight: Story = { ...OpensFromLink, globals: { surfac
 
 export const OpensFromLinkPhone: Story = { ...OpensFromLink, globals: { viewport: { value: 'phone' } } };
 
+export const OpensFromLinkPhoneOnLight: Story = { ...OpensFromLink, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 /**
  * Opening another answer with Enter writes its link without a history entry and closes the one
  * the link opened; closing it with Enter clears the hash, keeping the path and search.
@@ -91,7 +93,7 @@ export const OpensFromLinkPhone: Story = { ...OpensFromLink, globals: { viewport
 export const HashFollowsAnswer: Story = {
   beforeEach: atHash('#refunds'),
   play: async ({ canvasElement }) => {
-    await waitFor(() => expect(openIds(canvasElement)).toEqual(['refunds']));
+    await waitFor(() => expect(openAnswers(canvasElement)).toEqual(['refunds']));
     const keys = await realUser();
     if (!keys) return;
     const entries = window.history.length;
@@ -99,11 +101,11 @@ export const HashFollowsAnswer: Story = {
     answer(canvasElement, 'altitude').querySelector('summary')!.focus();
     await keys.keyboard('{Enter}');
     await waitFor(() => expect(window.location.hash).toBe('#altitude'));
-    await expect(openIds(canvasElement)).toEqual(['altitude']);
+    await expect(openAnswers(canvasElement)).toEqual(['altitude']);
     await expect(window.history.length).toBe(entries);
     await keys.keyboard('{Enter}');
     await waitFor(() => expect(window.location.hash).toBe(''));
-    await expect(openIds(canvasElement)).toEqual([]);
+    await expect(openAnswers(canvasElement)).toEqual([]);
     await expect(window.location.search).toBe(search);
   },
 };
@@ -114,38 +116,47 @@ export const HashFollowsAnswerOnLight: Story = { ...HashFollowsAnswer, globals: 
 export const HashChangeOpens: Story = {
   beforeEach: atHash('#refunds'),
   play: async ({ canvasElement }) => {
-    await waitFor(() => expect(openIds(canvasElement)).toEqual(['refunds']));
+    await waitFor(() => expect(openAnswers(canvasElement)).toEqual(['refunds']));
     window.location.hash = '#altitude';
-    await waitFor(() => expect(openIds(canvasElement)).toEqual(['altitude']));
+    await waitFor(() => expect(openAnswers(canvasElement)).toEqual(['altitude']));
   },
 };
 
 export const HashChangeOpensOnLight: Story = { ...HashChangeOpens, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-/** An unknown answer's hash opens nothing, and stays as it is. */
+/** An unknown answer's hash, or a category's, opens nothing, and stays as it is. */
 export const UnknownHash: Story = {
   beforeEach: atHash('#visa'),
   play: async ({ canvasElement }) => {
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    await expect(openIds(canvasElement)).toEqual([]);
+    // The arrival check runs straight after hydration; give it a frame.
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await expect(openAnswers(canvasElement)).toEqual([]);
     await expect(window.location.hash).toBe('#visa');
+    window.location.hash = '#cat-safety';
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await expect(openAnswers(canvasElement)).toEqual([]);
   },
 };
 
-/** "Link to this answer" keeps its answer open and the address on its link, with no new history entry. */
+export const UnknownHashOnLight: Story = { ...UnknownHash, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+/**
+ * "Link to this answer" keeps its answer open and puts its link in the address (here replacing a
+ * category's), with no new history entry and no navigation.
+ */
 export const LinkKeepsAnswerOpen: Story = {
   beforeEach: atHash('#refunds'),
   play: async ({ canvas, canvasElement }) => {
-    await waitFor(() => expect(openIds(canvasElement)).toEqual(['refunds']));
+    await waitFor(() => expect(openAnswers(canvasElement)).toEqual(['refunds']));
+    window.history.replaceState(window.history.state, '', '#cat-cancellations');
     const entries = window.history.length;
     const link = canvas.getByRole('link', { name: 'Link to this answer · /help#refunds' });
     const keys = await realUser();
     link.focus();
     if (keys) await keys.keyboard('{Enter}');
     else link.click();
-    await new Promise((resolve) => setTimeout(resolve, 50));
-    await expect(openIds(canvasElement)).toEqual(['refunds']);
-    await expect(window.location.hash).toBe('#refunds');
+    await waitFor(() => expect(window.location.hash).toBe('#refunds'));
+    await expect(openAnswers(canvasElement)).toEqual(['refunds']);
     await expect(window.history.length).toBe(entries);
   },
 };
