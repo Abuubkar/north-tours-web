@@ -207,8 +207,8 @@ Breakpoints that recur in page scripts: **mobile < 820px** (sheets replace dropd
 | 14 | `Sheet` (bottom sheet / side drawer + backdrop) | TD, Tours (×2), About | client | 3 pages |
 | 15 | `StarRating` (5 stars) + `RatingInline` (★ score (count)) | Home, TD, Tours, Dest, About, TourCard, BookingPanel | static | 2+ pages |
 | 16 | `MediaFrame` (8px photo frame / striped placeholder + caption) | all pages except Legal | static | 2+ pages |
-| 17 | `SectionLabel` (triangle mark + 13px label) | footer (all), About, Contact | static | 2+ pages |
-| 18 | `BrandMark` (logo triangle + name) | header (all) | static | shared |
+| 17 | `SectionLabel` (13px label, text only) | footer (all), About, Contact | static | 2+ pages |
+| 18 | `BrandMark` (brand name, text only) | header (all) | static | shared |
 | 19 | `KeyValueRow` / `ListRows` | footer (all), About, Contact, TD, Dest, Planner, About profile | static | 2+ pages |
 | 20 | `FormField` (label + hint + error alert) | Planner only (+ Help's search label) | static wrapper | form primitive (see note) |
 | 21 | `Icon` set (WhatsApp light/dark, star, clock, inclusion icons, caret, arrows) | all | static | primitive |
@@ -334,11 +334,11 @@ A caret-style show/hide (▾ rotates 180°), distinct from the `+` accordion:
 - In production this is the real `<img>` with width and height. The mono caption is placeholder only. Static.
 
 #### 17 `SectionLabel` — `components/ui/SectionLabel`
-- 11×10 triangle (`clip-path` polygon) plus 13/500 `text-2`, height 28, `flex:0 0 240px`.
+- 13/500 `text-2`, height 28, `flex:0 0 240px`. *(The design's 11×10 triangle before it is removed, owner feedback 2026-10-04: text only.)*
 - Used in the footer "Contact" (all pages), About "07 Credentials", Contact "05 Quick links" and **Contact "01 Header"** (flagged). Static.
 
 #### 18 `BrandMark` — `components/ui/BrandMark`
-- 16×14 triangle plus "[BRAND NAME]" 16/600 (`-.01em`), gap 10, min-height 44, links home. Static.
+- "[BRAND NAME]" 16/600 (`-.01em`), min-height 44, links home. Static. *(The design's 16×14 triangle stand-in for a logo is removed, owner feedback 2026-10-04: the brand shows its name only until the owner supplies a logo.)*
 
 #### 19 `KeyValueRow` / `ListRows` — `components/ui/KeyValueRow`
 - **Justified pair** (label `text-3` left, value right, 15px, padding `14px 0`, bottom hairline, top border on the list): footer contact rows (all pages), About "Visit us", Contact "Visit the office".

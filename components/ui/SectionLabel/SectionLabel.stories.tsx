@@ -11,10 +11,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** A label, not a heading: it names a section that has no headline. */
+/** A label, not a heading: it names a section that has no headline. Text only, with no mark before it. */
 export const Default: Story = {
   play: async ({ canvas }) => {
-    await expect(canvas.getByText('Contact')).toBeVisible();
+    const label = canvas.getByText('Contact');
+    await expect(label).toBeVisible();
+    await expect(label.children).toHaveLength(0);
     await expect(canvas.queryByRole('heading')).toBeNull();
   },
 };
