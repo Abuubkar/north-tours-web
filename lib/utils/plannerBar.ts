@@ -1,4 +1,4 @@
-import { messageDate } from './dates.ts';
+import { shortDayMonth, shortMonthName } from './dates.ts';
 import type { TripAnswers } from './plannerAnswers.ts';
 import { UNSURE } from './plannerOptions.ts';
 import { SUMMARY_ROWS, type TripSummary } from './plannerSummary.ts';
@@ -37,13 +37,8 @@ export function barLabel(answers: TripAnswers, words: BarWords): string {
   const [first, ...others] = answers.destinations;
   const name = first === undefined ? words.yourTrip : first === UNSURE ? words.suggestions : (words.destinations[first] ?? first);
   const where = others.length > 0 ? `${name} ${fillTokens(words.more, { count: String(others.length) })}` : name;
-  const day = answers.dateMode === 'exact' ? answers.from && messageDate(answers.from).split(' ').slice(0, 2).join(' ') : answers.month && shortMonth(answers.month);
+  const day = answers.dateMode === 'exact' ? answers.from && shortDayMonth(answers.from) : answers.month && shortMonthName(answers.month);
   const people = answers.adults + answers.children;
   const count = fillTokens(people === 1 ? words.people.one : words.people.other, { count: String(people) });
   return [where, day || words.noDates, count].join(' · ');
-}
-
-/** "2027-06" → "Jun". */
-function shortMonth(month: string): string {
-  return messageDate(`${month}-01`).split(' ')[1];
 }

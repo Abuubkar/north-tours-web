@@ -75,6 +75,17 @@ export function shortMonthYear(month: string): string {
   return `${SHORT_MONTHS[number - 1]} ${year}`;
 }
 
+/** A date in short, without the year: "2027-06-12" → "12 Jun" (the planner's summary bar). */
+export function shortDayMonth(date: string): string {
+  const { month, day } = parts(date);
+  return `${day} ${month}`;
+}
+
+/** A month's short name: "2027-06" → "Jun". */
+export function shortMonthName(month: string): string {
+  return SHORT_MONTHS[Number(month.split('-')[1]) - 1];
+}
+
 /** Whole years since `since`, as of `currentYear`: operating since 2014 is 12 years in 2026. */
 export function yearsSince(since: number, currentYear: number): number {
   return currentYear - since;

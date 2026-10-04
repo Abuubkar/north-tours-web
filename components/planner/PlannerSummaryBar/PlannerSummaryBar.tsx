@@ -14,7 +14,7 @@ export function PlannerSummaryBar({ label, copy, children, ref, className }: Pla
         <Accordion
           size="compact"
           marker="caret"
-          items={[{ id: 'trip', summary: label, content: <TripSummaryRows copy={copy} /> }]}
+          items={[{ id: 'trip', summary: label, content: <div className={styles.rows}><TripSummaryRows copy={copy} /></div> }]}
         />
       </div>
       {children && <div className={styles.progress}>{children}</div>}

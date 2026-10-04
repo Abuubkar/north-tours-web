@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dateRange, dayCount, messageDate, messageDateRange, monthYear, seasonRange, shortMonthYear, tripLength, yearsSince } from './dates.ts';
+import { dateRange, dayCount, messageDate, messageDateRange, monthYear, seasonRange, shortDayMonth, shortMonthName, shortMonthYear, tripLength, yearsSince } from './dates.ts';
 
 describe('dateRange', () => {
   it('names the month once when both dates share it', () => {
@@ -80,5 +80,12 @@ describe('short month and year', () => {
   it('reads a month as the planner’s chips do', () => {
     expect(shortMonthYear('2027-06')).toBe('Jun 2027');
     expect(shortMonthYear('2026-12')).toBe('Dec 2026');
+  });
+});
+
+describe('short dates', () => {
+  it('writes a day and month, or a month alone', () => {
+    expect(shortDayMonth('2027-06-12')).toBe('12 Jun');
+    expect(shortMonthName('2027-06')).toBe('Jun');
   });
 });

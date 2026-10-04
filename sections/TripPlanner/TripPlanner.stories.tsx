@@ -16,10 +16,15 @@ const meta = {
   component: TripPlanner,
   args: { copy: samplePlannerCopy, destinations: samplePlannerDestinations, barWords: sampleBarWords },
   decorators: [withPlanner],
+  // Reduced motion by default (story files share one page, ADR-0023), put back for the next file afterwards.
   beforeEach: async () => {
     await emulateReducedMotion();
     window.scrollTo({ top: 0, behavior: 'instant' });
-    return noSavedPlanner();
+    const forget = noSavedPlanner();
+    return async () => {
+      forget();
+      await emulateFullMotion();
+    };
   },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
@@ -69,7 +74,9 @@ export const Step1: Story = {
     await expect(canvas.getAllByRole('button', { pressed: false }).length).toBeGreaterThan(7);
     await expect(button(canvas, 'Not sure, suggest something')).toBeVisible();
     await expect(monthChips(canvas)).toHaveLength(12);
-    await expect(button(canvas, /^Next/)).toBeVisible();
+    // One Next: in the form from 1100px, in the bottom bar below; short below 820px.
+    await expect(canvas.getAllByRole('button', { name: /^Next/ })).toHaveLength(1);
+    await expect(button(canvas, /^Next/)).toHaveAccessibleName(window.innerWidth >= 820 ? 'Next: Who’s coming' : 'Next');
     await expect(canvas.queryByRole('button', { name: 'Back' })).toBeNull();
     await expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
   },

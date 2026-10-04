@@ -52,7 +52,7 @@
   --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent);
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
-  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars, frosted like the header */
+  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars and the planner's bottom bar, frosted like the header */
   --light-bar-bg: color-mix(in srgb, var(--mist-50) 92%, transparent); /* the planner's progress, frosted on the light page */
   --placeholder-stripe-light-a: #dce2e7; /* the planner's "Not sure" card: the placeholder stripes on light */
   --placeholder-stripe-light-b: #e6eaee;
@@ -169,6 +169,10 @@
   --summary-key-w: 100px; /* the label column of "Your trip so far" */
   --planner-aside-top: calc(var(--header-h) + var(--space-24)); /* where the planner's side column stops, under the header */
   --planner-aside-max-h: calc(100vh - var(--planner-aside-top) - var(--space-16)); /* its height before it scrolls inside */
+  --summary-rows-max-h: 50vh; /* the planner's summary bar, open: its rows scroll inside past this */
+  --planner-top-reach: 128px; /* the planner's summary bar (closed) under the header, below 1100px */
+  --planner-progress-reach: 72px; /* its progress bar under the header, from 1100px */
+  --planner-bottom-reach: 72px; /* its bottom bar, below 1100px */
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */
@@ -255,7 +259,7 @@
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;
   --z-skip-link: 20; /* above the header when focused */
-  --z-sticky-bar: 10; /* Tour Detail's booking bar at the bottom of the screen, like the header at the top */
+  --z-sticky-bar: 10; /* Tour Detail's booking bar and the planner's bottom bar, like the header at the top */
   --z-filter-bar: 9; /* the Tours filter bars: just under the header, so they slide up behind it */
   --z-planner-bar: 9; /* the planner's sticky progress, under the header */
 

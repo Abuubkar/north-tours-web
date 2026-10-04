@@ -26,6 +26,12 @@
   padding-inline: var(--margin);
 }
 
+/* Open on a short screen, the rows scroll inside so the form keeps room. */
+.rows {
+  max-height: var(--summary-rows-max-h);
+  overflow-y: auto;
+}
+
 .progress {
   padding-inline: var(--margin);
   border-top: var(--hairline-width) solid var(--hairline);

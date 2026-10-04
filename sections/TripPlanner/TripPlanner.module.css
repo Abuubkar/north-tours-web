@@ -10,6 +10,20 @@
   overflow-x: clip;
 }
 
+/*
+ * When the browser scrolls a focused field into view (Tab), it keeps clear of the planner's
+ * sticky bars: the summary bar and the bottom bar below 1100px, the progress from 1100px.
+ */
+:global(html):has(.page) {
+  scroll-padding: calc(var(--header-h) + var(--planner-top-reach)) 0 var(--planner-bottom-reach);
+}
+
+@media (width >= 1100px) {
+  :global(html):has(.page) {
+    scroll-padding: calc(var(--header-h) + var(--planner-progress-reach)) 0 0;
+  }
+}
+
 /* The summary bar comes after the <h1> in reading order (so headings stay in order) but shows above it, under the site header. */
 .summaryBar {
   order: -1;
