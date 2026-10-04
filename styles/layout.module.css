@@ -81,7 +81,7 @@
 /*
  * Section anatomy with a label (DESIGN.md §4): the label in its 240px column, the content beside
  * it, the label wrapping above it on phones with no media query (About's Credentials, the
- * footer and the Contact header).
+ * footer, the Contact header and its quick links).
  */
 .labelRow {
   display: flex;

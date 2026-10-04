@@ -1,0 +1,73 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+/* The label in its 240px column, the links beside it (DESIGN.md §4). */
+.row {
+  composes: labelRow from '../../styles/layout.module.css';
+}
+
+.labelColumn {
+  composes: labelColumn from '../../styles/layout.module.css';
+}
+
+/* The link rows, then the social links beside them, wrapping under them on narrower screens. */
+.content {
+  composes: labelContent from '../../styles/layout.module.css';
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-48) var(--gutter);
+}
+
+.nav {
+  flex: 1 1 var(--quick-links-min);
+}
+
+.list {
+  padding: 0;
+  border-top: var(--hairline-width) solid var(--hairline);
+  list-style: none;
+}
+
+/* 64px rows at the trust value role (the design's clamp(22px, 2.4cqi, 32px), §5 item 33), the arrow decorative. */
+.link {
+  composes: trustValue from '../../styles/typography.module.css';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  min-height: var(--quick-link-h);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.follow {
+  display: flex;
+  flex: 0 1 var(--social-w);
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.followLabel {
+  composes: label from '../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  padding: 0;
+  list-style: none;
+}
+
+/* A social profile still a placeholder: its name as plain text, in the row's 44px line, lined up with the label. */
+.socialText {
+  composes: ui from '../../styles/typography.module.css';
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-44);
+  padding-inline-end: var(--space-12);
+  color: var(--fg-2);
+}

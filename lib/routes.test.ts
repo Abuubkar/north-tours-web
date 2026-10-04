@@ -31,6 +31,10 @@ describe('routes', () => {
     expect(guideHash('karim-baig')).toBe('#guide-karim-baig');
   });
 
+  it('links to Help’s booking policies', () => {
+    expect(routes.policies).toBe('/help#policies');
+  });
+
   it('links to one answer on Help, and to a category’s heading', () => {
     expect(routes.helpAnswer('refunds')).toBe('/help#refunds');
     expect(helpCategoryAnchor('safety')).toBe('cat-safety');

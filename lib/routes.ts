@@ -40,6 +40,8 @@ export const routes = {
   planFor: (destination: string) => `/plan?dest=${encodeURIComponent(destination)}`,
   about: '/about',
   help: '/help',
+  /** Help's booking policies (Contact's quick links). */
+  policies: `/help#${POLICIES_ANCHOR}`,
   /** One answer on the Help page, which opens it: /help#refunds. */
   helpAnswer: (id: string) => `/help${helpAnswerHash(id)}`,
   contact: '/contact',

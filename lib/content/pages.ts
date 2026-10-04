@@ -826,6 +826,12 @@ const contactCopySchema = z.strictObject({
   onTrip: z.strictObject({ heading: copy, line: copy, callLabel: copy }),
   /** The phones' banner at the top of the page, to the on-trip panel. */
   banner: copy,
+  /** "Quick links" (the section's label and heading), each link's words, and "Follow the trips" over the social links. */
+  quickLinks: z.strictObject({
+    label: copy,
+    links: z.strictObject({ plan: copy, tours: copy, help: copy, policies: copy }),
+    follow: copy,
+  }),
 });
 
 export type ContactCopy = z.infer<typeof contactCopySchema>;

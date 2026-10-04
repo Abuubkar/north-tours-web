@@ -1,6 +1,6 @@
 {
   "title": "Contact us",
-  "description": "Talk to a person: WhatsApp, phone or email, and the travel support line for travellers on a trip.",
+  "description": "Talk to a person: WhatsApp, phone or email, the travel support line for travellers on a trip, and our office in Lahore.",
   "header": {
     "label": "Contact",
     "headline": "Talk to a person",
@@ -21,5 +21,15 @@
     "line": "Call your guide, or our travel support line.",
     "callLabel": "Call travel support"
   },
-  "banner": "On a trip right now? Get help"
+  "banner": "On a trip right now? Get help",
+  "quickLinks": {
+    "label": "Quick links",
+    "links": {
+      "plan": "Plan a private trip",
+      "tours": "Browse tours",
+      "help": "Help & FAQs",
+      "policies": "Booking policies"
+    },
+    "follow": "Follow the trips"
+  }
 }

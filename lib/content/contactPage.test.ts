@@ -33,6 +33,12 @@ describe('contact page copy', () => {
     expect(loadContactCopy().problems).toEqual([]);
   });
 
+  it('rejects a missing quick link label', () => {
+    expect(fields(withChange((c) => delete (c.quickLinks.links as Partial<ContactCopy['quickLinks']['links']>).policies))).toEqual([
+      'quickLinks.links.policies',
+    ]);
+  });
+
   it('rejects a missing field and a token a field can’t take', () => {
     expect(fields(withChange((c) => delete (c.onTrip as Partial<ContactCopy['onTrip']>).callLabel))).toEqual(['onTrip.callLabel']);
     const result = withChange((c) => Object.assign(c.header, { lead: 'Call {phone}.' }));
@@ -62,5 +68,16 @@ describe('contactPage', () => {
     expect(channels.phone.href).toBe('tel:+924235781234');
     expect(channels.email.href).toBe('mailto:hello@example.pk');
     expect(travelSupport.href).toBe('tel:+923217654321');
+  });
+});
+
+describe('quick links', () => {
+  it('go to the planner, the tours, Help and the booking policies; social profiles link once real', () => {
+    const live = contactPage(contact, getSettings()).quickLinks;
+    expect(live.links.map((l) => l.href)).toEqual(['/plan', '/tours', '/help', '/help#policies']);
+    expect(live.social.map((s) => s.href)).toEqual([undefined, undefined, undefined]);
+    const settings = getSettings();
+    const withSocial = contactPage(contact, { ...settings, social: { instagram: 'https://instagram.com/example', facebook: 'https://facebook.com/example', youtube: 'https://youtube.com/@example' } });
+    expect(withSocial.quickLinks.social.map((s) => s.href)).toEqual(['https://instagram.com/example', 'https://facebook.com/example', 'https://youtube.com/@example']);
   });
 });
