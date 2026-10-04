@@ -25,15 +25,19 @@
 
 /*
  * Capped auto-fill columns (DESIGN.md §5): at most --grid-cols columns, each at least
- * --grid-min wide, no media queries, 1px apart. The two grids below draw the lines.
+ * --grid-min wide, no media queries, --grid-gap apart (1px unless a grid sets it, so the two
+ * grids below draw the lines in it); rows --grid-row-gap apart, or --grid-gap.
  */
 .gridColumns {
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(max(var(--grid-min), calc((100% - (var(--grid-cols) - 1) * var(--hairline-width)) / var(--grid-cols))), 1fr)
+    minmax(
+      max(var(--grid-min), calc((100% - (var(--grid-cols) - 1) * var(--grid-gap, var(--hairline-width))) / var(--grid-cols))),
+      1fr
+    )
   );
-  gap: var(--hairline-width);
+  gap: var(--grid-row-gap, var(--grid-gap, var(--hairline-width))) var(--grid-gap, var(--hairline-width));
   padding: 0;
   list-style: none;
 }
@@ -191,33 +195,27 @@
 }
 
 /*
- * Tour cards in 1, 2 or 3 columns (below 820px, below 1100px, from 1100px) with per-card
- * hairlines (PRD #56): a line under every card and one between columns, so a part-filled last
- * row leaves no empty cells in the line colour (docs/components.md §5 item 27). The column counts
- * are literals because the `:nth-child()` selectors need them. Tours' results and a destination's
- * tours.
+ * Tour cards in 1, 2 or 3 columns (below 820px, below 1100px, from 1100px), apart by the tour
+ * card gaps with no lines (owner feedback), so a part-filled last row simply ends. Tours' results
+ * and a destination's tours; the Homepage and Tour Detail use capped auto-fill columns with the
+ * same gaps (`tourGrid`).
  */
 .cardGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  gap: var(--tour-grid-row-gap) var(--tour-grid-gap);
   padding: 0;
-  border-top: var(--hairline-width) solid var(--hairline);
   list-style: none;
 }
 
 .cardCell {
   display: flex;
   flex-direction: column;
-  border-bottom: var(--hairline-width) solid var(--hairline);
 }
 
 @media (820px <= width < 1100px) {
   .cardGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .cardCell:not(:nth-child(2n)) {
-    border-right: var(--hairline-width) solid var(--hairline);
   }
 }
 
@@ -225,10 +223,14 @@
   .cardGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
 
-  .cardCell:not(:nth-child(3n)) {
-    border-right: var(--hairline-width) solid var(--hairline);
-  }
+/* Capped auto-fill tour cards (the Homepage's departures, Tour Detail's other trips), with the gaps above. */
+.tourGrid {
+  composes: gridColumns;
+  --grid-gap: var(--tour-grid-gap);
+  --grid-row-gap: var(--tour-grid-row-gap);
+  --grid-min: var(--grid-tours-min);
 }
 
 /*

@@ -45,6 +45,11 @@ export const Hunza: Story = {
     await expect(cells).toHaveLength(3);
     await expect(cells.at(-1)).toContainElement(link);
     await expect(new Set(cells.map((cell) => Math.round(cell.getBoundingClientRect().top))).size).toBe(1);
+    // Cards 24px apart with no lines; the see-all cell is an 8px block with a hairline border.
+    await expect(Math.round(cells[1].getBoundingClientRect().left - cells[0].getBoundingClientRect().right)).toBe(24);
+    for (const cell of cells.slice(0, -1)) await expect(getComputedStyle(cell).borderTopWidth).toBe('0px');
+    const seeAll = getComputedStyle(cells.at(-1)!);
+    await expect([seeAll.borderTopWidth, seeAll.borderRadius]).toEqual(['1px', '8px']);
   },
 };
 

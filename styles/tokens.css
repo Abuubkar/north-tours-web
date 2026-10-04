@@ -252,6 +252,8 @@
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
   --grid-tours-cols: 4;
+  --tour-grid-gap: var(--space-24); /* between tour cards side by side (owner feedback: no hairlines) */
+  --tour-grid-row-gap: var(--space-48); /* between rows of tour cards */
   --grid-tours-detail-cols: 3; /* Tour Detail's related tours, and Destination */
   --grid-steps-min: 260px;
   --grid-steps-cols: 4;

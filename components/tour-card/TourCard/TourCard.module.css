@@ -1,8 +1,12 @@
-/* Fills its grid cell, so price, seats and buttons line up at the bottom across a row. */
+/*
+ * Fills its grid cell, so price, seats and buttons line up at the bottom across a row. Cards sit
+ * apart with gaps, so the raised hover surface takes the card radius.
+ */
 .card {
   display: flex;
   flex: 1;
   flex-direction: column;
+  border-radius: var(--radius-card);
   background: var(--bg);
 }
 

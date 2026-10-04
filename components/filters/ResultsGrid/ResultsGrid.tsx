@@ -44,8 +44,7 @@ function CardList({ results, from, ready, changes, className, settings }: CardLi
  * The results as tour cards in one, two or three columns (below 820px, below 1100px, from
  * 1100px), with the banner after the first row: after three cards from 1100px, after two below
  * (the built page places it for the widest layout; on smaller screens it moves below the first
- * screen). Each card draws its own hairlines, so a short last row simply ends (docs/components.md
- * §5 item 27).
+ * screen). Cards sit apart with gaps and no lines, so a short last row simply ends.
  */
 export function ResultsGrid({ results, banner, ready, changes, settings }: ResultsGridProps) {
   const split = useMediaQuery(NARROW_RESULTS_QUERY) ? NARROW_FIRST_ROW : FIRST_ROW;
@@ -56,7 +55,7 @@ export function ResultsGrid({ results, banner, ready, changes, settings }: Resul
     <>
       <CardList {...list} results={results.slice(0, split)} from={0} className={styles.grid} />
       {banner}
-      {rest.length > 0 && <CardList {...list} results={rest} from={split} className={`${styles.grid} ${styles.rest}`} />}
+      {rest.length > 0 && <CardList {...list} results={rest} from={split} className={styles.grid} />}
     </>
   );
 }

@@ -1,6 +1,6 @@
+/* Capped auto-fill columns with gaps between the cards, no lines (layout.module.css `tourGrid`). */
 .grid {
-  composes: grid from '../../../styles/layout.module.css';
-  --grid-min: var(--grid-tours-min);
+  composes: tourGrid gridColumns from '../../../styles/layout.module.css';
 }
 
 .fourColumns {
@@ -12,5 +12,5 @@
 }
 
 .cell {
-  composes: cell riseCell from '../../../styles/layout.module.css';
+  composes: cardCell riseCell from '../../../styles/layout.module.css';
 }
