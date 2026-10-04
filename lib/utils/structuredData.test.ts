@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { faqPage, jsonLdText, touristTrip, travelAgency, type TripData } from './structuredData.ts';
+import { faqPage, jsonLdText, touristTrip, travelAgency, type TouristTripInput } from './structuredData.ts';
 
 const placeholderSettings = {
   brand: { name: '[BRAND NAME]' },
@@ -52,7 +52,7 @@ describe('travelAgency', () => {
 
 const day = (n: number) => ({ title: `Day ${n}`, text: `What happens on day ${n}.`, stops: ['Lahore'], overnight: 'Hunza', meals: 'B', drive: '4 hrs' });
 
-const trip = (change: Partial<TripData['tour']> = {}, data: Partial<TripData> = {}): TripData => ({
+const trip = (change: Partial<TouristTripInput['tour']> = {}, data: Partial<TouristTripInput> = {}): TouristTripInput => ({
   tour: {
     slug: 'hunza-express',
     title: 'Hunza Express',

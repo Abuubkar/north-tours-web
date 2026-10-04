@@ -47,6 +47,14 @@ describe('getHelpPage', () => {
     expect(copy.empty.lead).toContain(settings.booking.replyTime);
     expect(askHref).toBe(`https://wa.me/?text=${encodeURIComponent(settings.whatsapp.generalMessage)}`);
   });
+
+  it('marks up every question for search engines in page order, answers filled as shown', () => {
+    const { categories, structuredData } = getHelpPage();
+    const shown = categories.flatMap((category) => category.questions);
+    const marked = structuredData.faqs.mainEntity as { name: string; acceptedAnswer: { text: string } }[];
+    expect(marked.map((q) => [q.name, q.acceptedAnswer.text])).toEqual(shown.map((q) => [q.question, q.answer]));
+    for (const { acceptedAnswer } of marked) expect(acceptedAnswer.text).not.toMatch(/\{\w+\}/);
+  });
 });
 
 describe('helpPolicies', () => {

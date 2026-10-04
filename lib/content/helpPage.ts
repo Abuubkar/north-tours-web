@@ -60,7 +60,7 @@ export function getHelpPage() {
     callHref: phoneHref(settings.contact.phone),
     categories,
     /** For search engines: every question, in page order. */
-    faqData: faqPage(categories.flatMap((category) => category.questions)),
+    structuredData: { faqs: faqPage(categories.flatMap((category) => category.questions)) },
     policies: helpPolicies(copy, settings),
     /** The page has no photo of its own, so it shares the Homepage's. */
     sharePhoto: getHomeCopy().hero.image,

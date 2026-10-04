@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatReviewCount, formatScore, ratingLabel, ratingSummary, reviewsText, starsLabel, summaryText } from './rating.ts';
+import { formatReviewCount, formatScore, ratingLabel, ratingSummary, reviewsText, starsLabel, summaryText, hasRealRating, realReviews } from './rating.ts';
 
 describe('formatScore', () => {
   it('always shows one decimal', () => {
@@ -63,5 +63,20 @@ describe('summaryText', () => {
 
   it('uses the singular for one review', () => {
     expect(summaryText(1)).toBe('average · 1 review');
+  });
+});
+
+describe('hasRealRating', () => {
+  it('is real only when neither the tour nor its rating is sample, and it has reviews', () => {
+    expect(hasRealRating({ rating: { score: 4.7, count: 41 } })).toBe(true);
+    expect(hasRealRating({ rating: { score: 4.7, count: 41 }, sample: true })).toBe(false);
+    expect(hasRealRating({ rating: { score: 4.7, count: 41, sample: true } })).toBe(false);
+    expect(hasRealRating({ rating: { score: 5, count: 0 } })).toBe(false);
+  });
+});
+
+describe('realReviews', () => {
+  it('keeps only the reviews that aren’t sample', () => {
+    expect(realReviews([{ name: 'A', sample: true }, { name: 'B' }])).toEqual([{ name: 'B' }]);
   });
 });

@@ -3,8 +3,10 @@ import type { Settings } from '../content/settings.ts';
 import type { Tour } from '../content/tours.ts';
 import { seatStatus, upcomingDepartures, type SeatStatus } from './departures.ts';
 import { shareImageUrl } from './metadata.ts';
+import { socialLinks } from './contact.ts';
 import { hasPlaceholder } from './placeholder.ts';
 import { departurePrices } from './price.ts';
+import { BEST_RATING, hasRealRating, realReviews } from './rating.ts';
 import { siteUrlFor } from './siteUrl.ts';
 import type { TripType } from './tourFilters.ts';
 
@@ -19,15 +21,18 @@ export type JsonObject = { [key: string]: unknown };
 
 const CONTEXT = 'https://schema.org';
 
+/** Every price on the site is in Pakistani rupees. */
+const CURRENCY = 'PKR';
+
 /** The value, or undefined (left out of the JSON) while any part of it is a `[placeholder]`. */
-const real = (value: string) => (hasPlaceholder(value) ? undefined : value);
+const withoutPlaceholder = (value: string) => (hasPlaceholder(value) ? undefined : value);
 
 /** The company, on the Homepage. No rating: search engines ignore a business's ratings of itself. */
 export function travelAgency(
   settings: Pick<Settings, 'brand' | 'site' | 'social' | 'payments'> & { contact: Pick<Settings['contact'], 'phone' | 'email' | 'officeAddress'> },
   page: { description: string; image: string },
 ): JsonObject {
-  const sameAs = Object.values(settings.social).filter((link) => !hasPlaceholder(link));
+  const sameAs = socialLinks(settings.social).flatMap(({ href }) => (href ? [href] : []));
   return {
     '@context': CONTEXT,
     '@type': 'TravelAgency',
@@ -35,12 +40,12 @@ export function travelAgency(
     url: siteUrlFor('/', settings.site.url),
     description: page.description,
     image: shareImageUrl(page.image, settings.site.url),
-    telephone: real(settings.contact.phone),
-    email: real(settings.contact.email),
-    address: real(settings.contact.officeAddress),
+    telephone: withoutPlaceholder(settings.contact.phone),
+    email: withoutPlaceholder(settings.contact.email),
+    address: withoutPlaceholder(settings.contact.officeAddress),
     sameAs: sameAs.length > 0 ? sameAs : undefined,
     paymentAccepted: settings.payments.methods.join(', '),
-    currenciesAccepted: 'PKR',
+    currenciesAccepted: CURRENCY,
   };
 }
 
@@ -50,7 +55,7 @@ const AVAILABILITY: Record<SeatStatus, string> = {
   soldout: 'https://schema.org/SoldOut',
 };
 
-export type TripData = {
+export type TouristTripInput = {
   tour: Pick<Tour, 'slug' | 'title' | 'summary' | 'tripTypes' | 'itinerary' | 'prices' | 'departures' | 'rating' | 'sample'>;
   /** The tour page's share photo; its 1200×630 crop is the image. */
   image: string;
@@ -68,12 +73,11 @@ export type TripData = {
  * person in PKR, availability from seats, valid until it leaves), and its rating and reviews
  * only once they aren't sample (ADR-0022).
  */
-export function touristTrip({ tour, image, tripTypeLabels, reviews, today, settings }: TripData): JsonObject {
+export function touristTrip({ tour, image, tripTypeLabels, reviews, today, settings }: TouristTripInput): JsonObject {
   const url = (path: string) => siteUrlFor(path, settings.site.url);
   const page = url(`/tours/${tour.slug}`);
   const upcoming = upcomingDepartures(tour.departures, today);
-  const ratingIsReal = !tour.sample && !tour.rating.sample && tour.rating.count > 0;
-  const realReviews = reviews.filter((review) => !review.sample);
+  const shownReviews = realReviews(reviews);
   return {
     '@context': CONTEXT,
     '@type': 'TouristTrip',
@@ -92,22 +96,22 @@ export function touristTrip({ tour, image, tripTypeLabels, reviews, today, setti
         ? upcoming.map((departure) => ({
             '@type': 'Offer',
             price: departurePrices(tour, departure).twin,
-            priceCurrency: 'PKR',
+            priceCurrency: CURRENCY,
             availability: AVAILABILITY[seatStatus(departure)],
             validThrough: departure.start,
             url: `${page}#dates`,
             itemOffered: { '@type': 'Trip', name: tour.title, departureTime: departure.start, arrivalTime: departure.end },
           }))
         : undefined,
-    aggregateRating: ratingIsReal
-      ? { '@type': 'AggregateRating', ratingValue: tour.rating.score, reviewCount: tour.rating.count, bestRating: 5 }
+    aggregateRating: hasRealRating(tour)
+      ? { '@type': 'AggregateRating', ratingValue: tour.rating.score, reviewCount: tour.rating.count, bestRating: BEST_RATING }
       : undefined,
     review:
-      realReviews.length > 0
-        ? realReviews.map((review) => ({
+      shownReviews.length > 0
+        ? shownReviews.map((review) => ({
             '@type': 'Review',
             author: { '@type': 'Person', name: review.name },
-            reviewRating: { '@type': 'Rating', ratingValue: review.rating, bestRating: 5 },
+            reviewRating: { '@type': 'Rating', ratingValue: review.rating, bestRating: BEST_RATING },
             reviewBody: review.quote,
             datePublished: review.month,
           }))

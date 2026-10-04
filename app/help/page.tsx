@@ -25,11 +25,11 @@ export function generateMetadata(): Metadata {
  * one state in the browser; the rest is static.
  */
 export default function HelpPage() {
-  const { copy, settings, categories, faqData, policies, askHref, callHref, sharePhoto } = getHelpPage();
+  const { copy, settings, categories, structuredData, policies, askHref, callHref, sharePhoto } = getHelpPage();
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
-      <JsonLd data={faqData} />
+      <JsonLd data={structuredData.faqs} />
       <HelpProvider categories={categories}>
         <PageHeader variant="help" headline={copy.header.headline} search={<HelpSearch copy={copy.search} />} />
         <HelpFaqs copy={copy} askHref={askHref} />

@@ -20,13 +20,12 @@ export const Default: Story = {
   },
 };
 
-/** A value holding `</script>` can't close the script: `<` is escaped, and the data still parses back. */
+/** A value holding `</script>` can't close the script and add markup to the page (the escaping is unit-tested in lib/utils). */
 export const ScriptInAValue: Story = {
   args: { data: { '@context': 'https://schema.org', '@type': 'TouristTrip', name: 'Hunza </script><b>bold</b>' } },
   play: async ({ canvasElement, args }) => {
-    const script = canvasElement.querySelector('script[type="application/ld+json"]')!;
-    await expect(script.innerHTML).not.toContain('</script>');
     await expect(canvasElement.querySelector('b')).toBeNull();
-    await expect(JSON.parse(script.textContent ?? '')).toEqual(args.data);
+    const script = canvasElement.querySelector('script[type="application/ld+json"]');
+    await expect(JSON.parse(script?.textContent ?? '')).toEqual(args.data);
   },
 };
