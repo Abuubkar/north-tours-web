@@ -11,7 +11,7 @@ const meta = {
   args: { copy: samplePlannerCopy.whereWhen.dates },
   decorators: [withPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof DatesField>;
 
 export default meta;
@@ -27,18 +27,18 @@ export const Flexible: Story = {
   },
 };
 
-export const FlexiblePhone: Story = { ...Flexible, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const FlexiblePhone: Story = { ...Flexible, globals: { viewport: { value: 'phone' } } };
 
-/** Exact: From and To date fields, light pickers, To no earlier than From once it's set. */
+/** Exact: From and To date fields, dark pickers (the page's surface), To no earlier than From once it's set. */
 export const Exact: Story = {
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Exact dates' }));
     const from = canvas.getByLabelText('From');
-    await expect(getComputedStyle(from).colorScheme).toBe('light');
+    await expect(getComputedStyle(from).colorScheme).toBe('dark');
     const [y] = todayInKarachi(new Date()).split('-').map(Number);
     await userEvent.type(from, `${y + 1}-06-12`);
     await expect(canvas.getByLabelText('To')).toHaveAttribute('min', `${y + 1}-06-12`);
   },
 };
 
-export const ExactPhone: Story = { ...Exact, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const ExactPhone: Story = { ...Exact, globals: { viewport: { value: 'phone' } } };

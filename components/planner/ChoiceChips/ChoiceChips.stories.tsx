@@ -19,7 +19,6 @@ function Clearable() {
 const meta = {
   title: 'Planner/ChoiceChips',
   component: Clearable,
-  globals: { surface: 'light' },
 } satisfies Meta<typeof Clearable>;
 
 export default meta;
@@ -39,12 +38,12 @@ export const Default: Story = {
   },
 };
 
-export const OnDark: Story = { ...Default, globals: { surface: 'dark' } };
+export const OnLight: Story = { ...Default, globals: { surface: 'light' } };
 
 /** At 390 the chips wrap and nothing scrolls sideways. */
 export const Phone: Story = {
   ...Default,
-  globals: { surface: 'light', viewport: { value: 'phone' } },
+  globals: { viewport: { value: 'phone' } },
   play: async ({ canvasElement }) => {
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },

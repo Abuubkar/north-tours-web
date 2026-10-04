@@ -5,13 +5,24 @@ import type { Photo } from '@/lib/content/images';
 /** A text-only header: no photo. */
 type WithoutPhoto = {
   /**
-   * default: the <h1> at the statement size over the lead (Tours). planner: the same on the light
-   * page with a shorter lead and less room below (Trip Planner, step 1). plannerSlim: the planner's
+   * default: the <h1> at the statement size over the lead (Tours). plannerSlim: the Trip Planner's
    * later steps, where the same <h1> reads as a slim line ("Planning your private trip"). contact:
    * the <h1> and a lead at most 600px wide, with no label (it would repeat the headline).
    */
-  variant?: 'default' | 'planner' | 'plannerSlim' | 'contact';
+  variant?: 'default' | 'plannerSlim' | 'contact';
   image?: never;
+  updated?: never;
+  search?: never;
+};
+
+/**
+ * The Trip Planner's first step: the <h1> and a shorter lead on a photo band that slides under the
+ * site header, its text on the hero scrim (the page's LCP image).
+ */
+type Planner = {
+  variant: 'planner';
+  /** Fills the band, cropped at its focus. */
+  image: Photo;
   updated?: never;
   search?: never;
 };
@@ -43,7 +54,7 @@ type Legal = {
   search?: never;
 };
 
-export type PageHeaderProps = (WithoutPhoto | About | Help | Legal) & {
+export type PageHeaderProps = (WithoutPhoto | Planner | About | Help | Legal) & {
   /** The page's <h1>. */
   headline: string;
   /** The line under it; the slim planner header has none. */

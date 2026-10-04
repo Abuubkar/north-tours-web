@@ -9,7 +9,7 @@ const meta = {
   args: { copy: samplePlannerCopy.review, steps: samplePlannerCopy.steps },
   decorators: [withAnsweredPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof ReviewSummary>;
 
 export default meta;
@@ -29,11 +29,11 @@ export const Desktop: Story = {
   },
 };
 
-export const OnDark: Story = { ...Desktop, globals: { surface: 'dark', viewport: { value: 'desktop' } } };
+export const OnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** At 390 the label column stays beside each value, and nothing scrolls sideways. */
 export const Phone: Story = {
-  globals: { surface: 'light', viewport: { value: 'phone' } },
+  globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, canvasElement }) => {
     const value = await canvas.findByText('Ayesha Khan');
     const label = canvas.getByText('Name');

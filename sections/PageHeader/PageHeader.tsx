@@ -38,20 +38,30 @@ const leadClass: Record<PageHeaderVariant, string> = {
 const LIGHT: ReadonlySet<PageHeaderVariant> = new Set(['help', 'legal']);
 
 /**
- * A page's opening: the <h1> and a lead line under it (Tours, the planner's first step), on About
+ * A page's opening: the <h1> and a lead line under it (Tours), on the planner's first step over a
+ * photo band, on About
  * with a wide photo below, on Help with the search, on the legal pages with the date they were
  * last updated. On the planner's later steps the same <h1> becomes a
  * slim line, so the page keeps exactly one <h1> on every step; the size is visual only.
  */
 export function PageHeader({ headline, lead, variant = 'default', image, updated, search }: PageHeaderProps) {
   const classes = [styles.header, headerClass[variant]].filter(Boolean).join(' ');
+  const band = variant === 'planner';
   return (
-    <header className={classes} data-surface={LIGHT.has(variant) ? 'light' : undefined}>
+    <header className={classes} data-surface={LIGHT.has(variant) ? 'light' : band ? 'dark' : undefined}>
+      {band && image && (
+        <>
+          <div className={styles.bandMedia}>
+            <MediaFrame image={image} ratio="fill" sizes="100vw" priority />
+          </div>
+          <div className={styles.bandScrim} />
+        </>
+      )}
       <h1 className={headlineClass[variant]}>{headline}</h1>
       {lead && <p className={leadClass[variant]}>{lead}</p>}
       {search}
       {updated && <LastUpdated template={updated.template} date={updated.date} className={styles.updated} />}
-      {image && <MediaFrame image={image} ratio="4:3" wideRatio="21:9" sizes="100vw" priority className={styles.photo} />}
+      {image && !band && <MediaFrame image={image} ratio="4:3" wideRatio="21:9" sizes="100vw" priority className={styles.photo} />}
     </header>
   );
 }

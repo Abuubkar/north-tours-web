@@ -18,7 +18,7 @@ export function generateMetadata(): Metadata {
 /**
  * The Trip Planner (PRD #71): a private trip in three steps, sent as one WhatsApp message. The
  * header and footer stay server-rendered; the planner is one client tree, built showing step 1.
- * It has no photo of its own, so it shares the Homepage's image.
+ * Its photo band is also its share image.
  */
 export default function PlanPage() {
   const { copy, settings, sharePhoto, destinations, barWords, config } = getPlannerPage();

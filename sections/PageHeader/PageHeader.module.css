@@ -14,16 +14,41 @@
   color: var(--fg-2);
 }
 
-/* The planner's first step: less room above the form, and a shorter lead. */
+/*
+ * The planner's first step: a photo band, shorter than the photo heroes, that slides under the
+ * sticky header like them; the <h1> and a shorter lead sit at its foot, on the hero scrim.
+ */
 .planner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: var(--planner-band-h);
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: calc(var(--header-h) + var(--space-48));
   padding-bottom: var(--planner-header-bottom);
+  overflow: hidden;
 }
 
+.bandMedia,
+.bandScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* The hero scrim drawn taller and anchored at the foot, so the <h1> and lead sit on its dark end. */
+.bandScrim {
+  background: var(--hero-scrim) bottom / 100% var(--photo-hero-scrim-stretch);
+}
+
+/* On the photo, the lead is in the text colour, as on the heroes. */
 .plannerLead {
   composes: bodyLarge from '../../styles/typography.module.css';
   max-width: var(--measure-planner-lead);
   margin-top: var(--space-24);
-  color: var(--fg-2);
+  color: var(--fg);
 }
 
 /* Its later steps: the same <h1> as a slim line (15/500, --fg-2). */

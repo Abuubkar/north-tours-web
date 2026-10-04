@@ -9,7 +9,7 @@ const meta = {
   args: { destinations: samplePlannerDestinations, copy: samplePlannerCopy.whereWhen.destinations },
   decorators: [withPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof DestinationChoices>;
 
 export default meta;
@@ -30,7 +30,7 @@ export const Desktop: Story = {
 
 /** At 390: two cards across, nothing scrolling sideways. */
 export const Phone: Story = {
-  globals: { surface: 'light', viewport: { value: 'phone' } },
+  globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, canvasElement }) => {
     const [a, b, c] = canvas.getAllByRole('button');
     await expect(a.getBoundingClientRect().top).toBe(b.getBoundingClientRect().top);

@@ -18,7 +18,6 @@ const meta = {
   component: TwoChildren,
   decorators: [withPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light' },
 } satisfies Meta<typeof TwoChildren>;
 
 export default meta;
@@ -38,4 +37,4 @@ export const Default: Story = {
   },
 };
 
-export const OnDark: Story = { ...Default, globals: { surface: 'dark' } };
+export const OnLight: Story = { ...Default, globals: { surface: 'light' } };

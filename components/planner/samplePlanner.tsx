@@ -20,6 +20,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     headline: 'Your dates, your group',
     lead: 'Tell us what you have in mind. We’ll plan it and reply on WhatsApp, usually within 2 hours.',
     slim: 'Planning your private trip',
+    image: { ...samplePhoto, alt: 'A lake in Skardu under autumn trees' },
   },
   progress: { step: 'Step {step} of 3 · {title}', review: 'Review · Check and send' },
   steps: { whereWhen: 'Where and when', whosComing: 'Who’s coming', details: 'Your details' },
@@ -129,8 +130,9 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
   },
   aside: {
     label: 'Your trip so far',
-    answered: '{count} of 9 answered',
-    notAnswered: 'Not answered',
+    answered: '{count} of 9',
+    notYet: 'Not yet',
+    image: { ...samplePhoto, alt: 'The Karakoram Highway towards snowy peaks' },
     rows: {
       destinations: 'Destinations',
       dates: 'Dates',
@@ -167,14 +169,15 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
 };
 
 /** The six destinations in the loader's order (by slug). */
+/** Each with the sample photo, its alt naming the place, so a story can tell which one shows. */
 export const samplePlannerDestinations: PlannerPage['destinations'] = [
-  { slug: 'fairy-meadows', name: 'Fairy Meadows', image: samplePhoto },
-  { slug: 'hunza', name: 'Hunza', image: samplePhoto },
-  { slug: 'murree', name: 'Murree', image: samplePhoto },
-  { slug: 'naran-kaghan', name: 'Naran-Kaghan', image: samplePhoto },
-  { slug: 'skardu', name: 'Skardu', image: samplePhoto },
-  { slug: 'swat', name: 'Swat', image: samplePhoto },
-];
+  ['fairy-meadows', 'Fairy Meadows'],
+  ['hunza', 'Hunza'],
+  ['murree', 'Murree'],
+  ['naran-kaghan', 'Naran-Kaghan'],
+  ['skardu', 'Skardu'],
+  ['swat', 'Swat'],
+].map(([slug, name]) => ({ slug, name, image: { ...samplePhoto, alt: `A view of ${name}` } }));
 
 /** The summary bar's words, with the sample destinations' names. */
 export const sampleBarWords: PlannerPage['barWords'] = {
@@ -215,24 +218,31 @@ export const sampleAnswers: TripAnswers = {
 
 export const sampleDetails: Details = { name: 'Ayesha Khan', phone: { ...EMPTY_PHONE, pk: '300 123 4567' }, bestTime: 'evening', notes: '' };
 
-/** Fills the planner with the sample trip and details once, then shows its children. */
-function Answered({ children }: { children: ReactNode }) {
+/** Fills the planner with a trip and the sample details once, then shows its children. */
+function Answered({ answers, children }: { answers: TripAnswers; children: ReactNode }) {
   const { update, updateDetails } = usePlanner();
   useEffect(() => {
-    update(() => sampleAnswers);
+    update(() => answers);
     updateDetails(() => sampleDetails);
-  }, [update, updateDetails]);
+  }, [answers, update, updateDetails]);
   return children;
 }
 
-/** Puts the story inside a planner already answered (the review's parts). */
-export const withAnsweredPlanner: Decorator = (Story) => (
-  <PlannerProvider {...samplePlannerConfig}>
-    <Answered>
-      <Story />
-    </Answered>
-  </PlannerProvider>
-);
+/** Puts the story inside a planner already answered with `answers`. */
+export function withAnswers(answers: TripAnswers): Decorator {
+  return function WithAnswers(Story) {
+    return (
+      <PlannerProvider {...samplePlannerConfig}>
+        <Answered answers={answers}>
+          <Story />
+        </Answered>
+      </PlannerProvider>
+    );
+  };
+}
+
+/** Puts the story inside a planner already answered with the sample trip (the review's parts). */
+export const withAnsweredPlanner = withAnswers(sampleAnswers);
 
 /**
  * A story's `beforeEach`: the browser holds `saved` as the planner's saved answers (or nothing),

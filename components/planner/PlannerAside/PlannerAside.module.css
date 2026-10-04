@@ -16,12 +16,38 @@
   }
 }
 
-/* A panel: 8px, a hairline border; its rows at a 100px label column. */
-.panel {
-  --key-col-w: var(--summary-key-w);
-  padding: var(--space-20) var(--cell-pad);
+/* The postcard: an 8px raised card with a hairline border, the photo full-bleed at its top. */
+.postcard {
+  overflow: hidden;
   border: var(--hairline-width) solid var(--hairline);
   border-radius: var(--radius-card);
+  background: var(--bg-raised);
+}
+
+/* The photo, the places named on the hero scrim's dark foot. */
+.photo {
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--hero-scrim);
+}
+
+.place {
+  composes: cardTitle from '../../../styles/typography.module.css';
+  position: absolute;
+  right: var(--cell-pad);
+  bottom: var(--space-16);
+  left: var(--cell-pad);
+}
+
+/* The rows at a 100px label column. */
+.body {
+  --key-col-w: var(--summary-key-w);
+  padding: var(--space-20) var(--cell-pad);
 }
 
 .head {
@@ -29,7 +55,6 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-12);
-  padding-bottom: var(--space-12);
 }
 
 .title {
@@ -40,4 +65,14 @@
   composes: label from '../../../styles/typography.module.css';
   color: var(--fg-3);
   font-weight: var(--fw-regular);
+}
+
+/* "Lahore → Hunza", under the title. */
+.route {
+  composes: small from '../../../styles/typography.module.css';
+  margin-top: var(--space-8);
+}
+
+.rows {
+  margin-top: var(--space-12);
 }

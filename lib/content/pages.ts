@@ -472,6 +472,8 @@ const plannerCopySchema = z.strictObject({
     headline: copy,
     lead: copyWith('replyTime'),
     slim: copy,
+    /** The photo band behind step 1's <h1> and lead, also the page's share image. */
+    image: photoSchema,
   }),
   /** The progress heading: "Step 1 of 3 · Where and when", then "Review · Check and send". */
   progress: z.strictObject({ step: copyWith('step', 'title'), review: copy }),
@@ -570,11 +572,15 @@ const plannerCopySchema = z.strictObject({
     again: copy,
   }),
   /** "Your trip so far": the nine rows beside the form (from 1100px), and how many are answered. */
+  /** "Your trip so far": the postcard beside the form from 1100px, and the summary bar's rows below. */
   aside: z.strictObject({
     label: copy,
+    /** "2 of 9": how many rows are answered. */
     answered: copyWith('count'),
-    /** Read out for an empty row, which shows "—". */
-    notAnswered: copy,
+    /** An empty row: "Not yet". */
+    notYet: copy,
+    /** The postcard's photo until a destination is chosen (or with only "Not sure"). */
+    image: photoSchema,
     rows: z.record(z.enum(SUMMARY_ROWS), copy),
   }),
   /** The summary bar's label on phones: "Hunza · Jun · 4 people". */

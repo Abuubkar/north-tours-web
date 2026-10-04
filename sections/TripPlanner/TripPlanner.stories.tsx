@@ -64,11 +64,16 @@ async function settled() {
   );
 }
 
-/** Step 1: one <h1> at the statement size, the progress, the questions and Next; nothing scrolls sideways. */
+/**
+ * Step 1, all on the dark surface: one <h1> at the statement size on the photo band (the page's
+ * main image), the progress, the questions and Next; nothing scrolls sideways.
+ */
 export const Step1: Story = {
   play: async ({ canvas, canvasElement }) => {
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
     await expect(canvas.getByRole('heading', { level: 1, name: 'Your dates, your group' })).toBeVisible();
+    await expect(canvas.getByRole('img', { name: samplePlannerCopy.header.image.alt })).toHaveAttribute('fetchpriority', 'high');
+    await expect(canvasElement.querySelector('[data-surface="light"]')).toBeNull();
     await expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when');
     await expect(canvas.getByRole('group', { name: 'Destinations' })).toBeVisible();
     await expect(canvas.getAllByRole('button', { pressed: false }).length).toBeGreaterThan(7);
@@ -214,6 +219,14 @@ export const NextAndBack: Story = {
     await expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming');
     await expect(canvas.getByRole('heading', { level: 1, name: 'Planning your private trip' })).toBeVisible();
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    // From step 2 the band goes: the slim line only, so the step change stays calm.
+    await expect(canvas.queryByRole('img', { name: samplePlannerCopy.header.image.alt })).toBeNull();
+    // From 1100px the postcard shows the place chosen on step 1, on its photo, and the road from Lahore.
+    if (window.innerWidth >= 1100) {
+      const postcard = within(canvas.getByRole('complementary', { name: 'Your trip so far' }));
+      await expect(postcard.getByRole('img', { name: 'A view of Hunza' })).toBeVisible();
+      await expect(postcard.getByText('Lahore → Hunza')).toBeVisible();
+    }
     await userEvent.click(button(canvas, 'Back'));
     await waitFor(() => expect(progress(canvas)).toHaveFocus());
     await expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when');
@@ -663,19 +676,27 @@ export const StorageThrows: Story = {
 
 /* The wide and compact layouts (#77). */
 
-/** 1440: "Your trip so far" beside the form, nine rows, the count following the answers, empty rows read "Not answered"; gone on success. */
+/**
+ * 1440: the "Your trip so far" postcard beside the form: the page's photo and "Your trip" until a
+ * place is chosen, then its photo and name; nine rows, the count following the answers, empty rows
+ * reading "Not yet"; gone on success.
+ */
 export const Aside: Story = {
   beforeEach: stayOnPage,
   play: async ({ canvas, userEvent }) => {
     const aside = canvas.getByRole('complementary', { name: 'Your trip so far' });
     const rows = within(aside);
     await expect(rows.getAllByRole('term')).toHaveLength(9);
-    await expect(aside).toHaveTextContent('2 of 9 answered');
-    await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Not answered');
+    await expect(aside).toHaveTextContent('2 of 9');
+    await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Not yet');
+    await expect(rows.getByRole('img', { name: samplePlannerCopy.aside.image.alt })).toBeVisible();
+    await expect(rows.getByText('Your trip', { selector: 'p' })).toBeVisible();
     await userEvent.click(button(canvas, 'Hunza'));
     await userEvent.click(monthChips(canvas)[3]);
-    await expect(aside).toHaveTextContent('5 of 9 answered');
+    await expect(aside).toHaveTextContent('5 of 9');
     await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Hunza');
+    await expect(rows.getByRole('img', { name: 'A view of Hunza' })).toBeVisible();
+    await expect(rows.getByText('Hunza', { selector: 'p' })).toBeVisible();
     await expect(rows.getByRole('heading', { level: 2, name: 'What happens next' })).toBeVisible();
     await expect(rows.getAllByRole('listitem')).toHaveLength(3);
     await userEvent.click(button(canvas, /^Next/));
@@ -735,7 +756,7 @@ export const BottomBar: Story = {
     await expect(sends).toHaveLength(1);
     await expect(sends[0].closest('[data-surface]')).toHaveAttribute('data-surface', 'dark');
     await expect(linkText(sends[0])).toContain('Assalam o Alaikum');
-    await expect(canvas.getByRole('link', { name: 'Request a call back' }).closest('[data-surface]')).toHaveAttribute('data-surface', 'light');
+    await expect(canvas.getByRole('link', { name: 'Request a call back' }).closest('[data-surface="light"]')).toBeNull();
   },
 };
 

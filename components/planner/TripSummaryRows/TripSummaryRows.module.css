@@ -7,7 +7,3 @@
 .empty {
   color: var(--fg-3);
 }
-
-.hidden {
-  composes: visuallyHidden from '../../../styles/layout.module.css';
-}

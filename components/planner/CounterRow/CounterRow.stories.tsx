@@ -19,7 +19,6 @@ function Adults() {
 const meta = {
   title: 'Planner/CounterRow',
   component: Adults,
-  globals: { surface: 'light' },
 } satisfies Meta<typeof Adults>;
 
 export default meta;
@@ -35,4 +34,4 @@ export const Default: Story = {
   },
 };
 
-export const OnDark: Story = { ...Default, globals: { surface: 'dark' } };
+export const OnLight: Story = { ...Default, globals: { surface: 'light' } };

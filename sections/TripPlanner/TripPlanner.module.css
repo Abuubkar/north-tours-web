@@ -1,5 +1,5 @@
 /*
- * The whole planner sits on the light surface (docs/components.md §3.3). It clips sideways, so a
+ * The planner follows the dark page (owner feedback, 2026-10-04). It clips sideways, so a
  * step body sliding in from the side never widens the page, and stays hidden while saved answers
  * are restored (`plannerPending`; for a link alone only the form waits, `plannerFormPending`).
  */
@@ -22,11 +22,6 @@
   :global(html):has(.page) {
     scroll-padding: calc(var(--header-h) + var(--planner-progress-reach)) 0 0;
   }
-}
-
-/* The summary bar comes after the <h1> in reading order (so headings stay in order) but shows above it, under the site header. */
-.summaryBar {
-  order: -1;
 }
 
 .layout {
@@ -71,13 +66,13 @@
   padding: 0 var(--margin) var(--section-y);
 }
 
-/* From 1100px the progress sticks under the site header, on the light frosted bar (the header's blur). */
+/* From 1100px the progress sticks under the site header, on the dark frosted bar (the header's blur). */
 .bar {
   position: sticky;
   top: var(--header-h);
   z-index: var(--z-planner-bar);
   border-bottom: var(--hairline-width) solid var(--hairline);
-  background: var(--light-bar-bg);
+  background: var(--filter-bar-bg);
   backdrop-filter: var(--header-backdrop);
 }
 

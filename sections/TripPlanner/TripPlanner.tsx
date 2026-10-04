@@ -20,10 +20,11 @@ import type { TripPlannerProps } from './TripPlanner.types';
 import styles from './TripPlanner.module.css';
 
 /**
- * The Trip Planner (PRD #71): a light page between the dark header and footer. From 1100px the
- * form has "Your trip so far" beside it and its progress sticks in the form; below that a summary
- * bar sticks under the header (with the progress) and Back and Next sit in a dark bar at the
- * bottom. Only the step body slides when the step changes; the bars and buttons never move.
+ * The Trip Planner (PRD #71), on the dark surface like the rest of the site (owner feedback): step
+ * 1 opens on a photo band, later steps on a slim line. From 1100px the form has the "Your trip so
+ * far" postcard beside it and its progress sticks in the form; below that a summary bar sticks
+ * under the header (with the progress) and Back and Next sit in a frosted bar at the bottom. Only
+ * the step body slides when the step changes; the bars and buttons never move.
  */
 export function TripPlanner({ copy, destinations, barWords }: TripPlannerProps) {
   const { step, direction, answers, sendHref, next, back, sent, progressRef, barProgressRef, formRef, barRef, summaryBarRef, bodyRef } = usePlanner();
@@ -38,15 +39,15 @@ export function TripPlanner({ copy, destinations, barWords }: TripPlannerProps) 
   const backLabel = first ? undefined : copy.nav.back;
 
   return (
-    <div data-surface="light" className={styles.page}>
-      <PageHeader
-        variant={first ? 'planner' : 'plannerSlim'}
-        headline={first ? copy.header.headline : copy.header.slim}
-        lead={first ? copy.header.lead : undefined}
-      />
-      {/* Below 1100px: after the <h1> in reading order, shown above it. */}
+    <div className={styles.page}>
+      {first ? (
+        <PageHeader variant="planner" image={copy.header.image} headline={copy.header.headline} lead={copy.header.lead} />
+      ) : (
+        <PageHeader variant="plannerSlim" headline={copy.header.slim} />
+      )}
+      {/* Below 1100px: under the header, sticking under the site header once scrolled to. */}
       {!done && wide !== true && (
-        <PlannerSummaryBar ref={summaryBarRef} label={barLabel(answers, barWords)} copy={copy.aside} className={styles.summaryBar}>
+        <PlannerSummaryBar ref={summaryBarRef} label={barLabel(answers, barWords)} copy={copy.aside}>
           {/* Below 1100px the progress sits in the bar, which is hidden from 1100px. */}
           <PlannerProgress ref={barProgressRef} text={text} total={STEP_COUNT} filled={filled} />
         </PlannerSummaryBar>
@@ -54,7 +55,7 @@ export function TripPlanner({ copy, destinations, barWords }: TripPlannerProps) 
       <div className={styles.layout}>
         <div ref={formRef} className={styles.form}>
           {!done && wide !== false && (
-            <div ref={barRef} className={styles.bar}>
+            <div ref={barRef} data-surface="dark" className={styles.bar}>
               <PlannerProgress ref={progressRef} text={text} total={STEP_COUNT} filled={filled} />
             </div>
           )}
@@ -71,7 +72,7 @@ export function TripPlanner({ copy, destinations, barWords }: TripPlannerProps) 
             </div>
           )}
         </div>
-        {!done && <PlannerAside copy={copy.aside} next={copy.next} />}
+        {!done && <PlannerAside copy={copy.aside} next={copy.next} destinations={destinations} barWords={barWords} />}
       </div>
       {!done && (
         <>

@@ -52,10 +52,7 @@
   --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent);
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
-  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars and the planner's bottom bar, frosted like the header */
-  --light-bar-bg: color-mix(in srgb, var(--mist-50) 92%, transparent); /* the planner's progress, frosted on the light page */
-  --placeholder-stripe-light-a: #dce2e7; /* the planner's "Not sure" card: the placeholder stripes on light */
-  --placeholder-stripe-light-b: #e6eaee;
+  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars and the planner's bars, frosted like the header */
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
@@ -172,6 +169,7 @@
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */
+  --planner-band-h: clamp(360px, 30cqi, 460px); /* the planner's photo band behind that header, under the site header */
   --grid-choices-min: 150px; /* the planner's destination cards (gaps, not hairlines) */
   --date-field-min: 200px; /* a date field beside another (From and To) before they stack */
   --age-select-w: 110px; /* each child's age select, in a row */
