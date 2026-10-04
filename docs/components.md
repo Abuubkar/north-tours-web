@@ -99,6 +99,11 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Other destinations:** `DestinationsGrid`'s "other" variant, every other destination in loader order; MIN 160, max 5 from 820px, and two columns below it so an odd last card can span the row. **`DestinationCard`'s "other" variant:** a 4:3 photo, the name on the `destination` role (not the design's 20px), "Best · Apr – Oct" (`seasonRange`'s short form) and "2 tours" (page copy count words); the whole card links to the destination (settles §5 item 25).
 - Built here: `PhotoHero`'s Destination variant, `DestinationFacts`, `DestinationOverview`, `SeasonCalendarSection`, `PlacesToSee`, `GettingThere`, `GoodToKnow` (sections); `SeasonCalendar`, `SeasonNotes`, `PlacesExplorer`, `PlacesMap`, `PlacePin`, `PlaceList`, `PlaceRow`, `RouteLine`, `DestinationTours`, `SeeAllToursCell` (features); `KeyValueRow`'s column layout, `MediaFrame`'s placeholder as a `<span>`, the banner's and `DestinationsGrid`'s variants.
 
+**Decided in the Trip Planner PRD (#71, 2026-10-04):**
+
+- **Inputs** (`Input`, with `FormField` and `FieldError`, base components): 52px, 2px radius, the surface fill; `--control-border` (the strong control border, 3:1 on light, §5 item 19), `--fg` on hover and once filled, the standard focus ring, `--error` with `aria-invalid` (#51's rule for `Select`, which gains the error state; settles §5 item 23 and §6's inputs question). Date inputs keep the surface's `color-scheme`, so the picker is light on the light page (§5 item 22). A field's error is the "!" badge and a message linked with `aria-describedby`, plain text rather than an alert, since focus moves to the field (§5 item 21).
+- **Checkbox indicator** (`CheckboxIndicator`, base): the 18px square at 2px, shared by the planner's destination cards and the Tours option rows (§5 item 11).
+
 Open questions are in §6, grouped by the PRD that settles them.
 
 Token names used below: `ink-900 #0C1216`, `ink-800 #121A1F`, `line #253038`, `line-strong #5C6871`, `text #F1EEE8`, `text-2 #B7BFC5`, `text-3 #8F9AA2`, `gold #D9B44A`, `gold-hover #E3C366`, `gold-pressed #C9A43C`, `on-gold #10161A`, `mist-50 #EEF1F3`, `mist-100 #E2E7EB`, `line-light #CBD2D8`, `line-strong-light #7D8992`, `ink-text #10161A`, `ink-text-2 #46525C`, `ink-text-3 #5B6770`, `gold-deep #7A5A12`.

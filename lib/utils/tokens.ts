@@ -33,6 +33,12 @@ export function fillTokens(template: string, values: Record<string, string>): st
   });
 }
 
+/** The text either side of one `{token}`, for copy that puts an element there: "Read our {link}." → ["Read our ", "."]. */
+export function splitAtToken(template: string, token: string): [string, string] {
+  const [before, after = ''] = template.split(`{${token}}`);
+  return [before, after];
+}
+
 /** The `{tokens}` copy may take from settings, filled with their current values. */
 export function settingsTokens(
   settings: Pick<Settings, 'booking' | 'payments' | 'policies'>,

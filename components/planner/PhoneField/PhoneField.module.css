@@ -1,0 +1,55 @@
+/* The field, its message, then the switch to the other kind of number. */
+.phone {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-12);
+}
+
+.field {
+  align-self: stretch;
+}
+
+/* The prefix box and the input read as one field: the box has no right border of its own. */
+.joined {
+  display: flex;
+  max-width: var(--measure-field);
+}
+
+/* "+92" or "+": 52px, the raised fill, 16/500 tabular. */
+.prefix {
+  composes: body from '../../../styles/typography.module.css';
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: var(--control-52);
+  padding: 0 var(--space-16);
+  border: var(--hairline-width) solid var(--control-border);
+  border-right: 0;
+  border-radius: var(--radius-input) 0 0 var(--radius-input);
+  background: var(--bg-raised);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Beside the prefix class (one level of `composes` only), the error border. */
+.prefixInvalid {
+  border-color: var(--error);
+}
+
+.input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The country code: room for three digits, then the number takes the rest. */
+.code {
+  flex: none;
+  width: var(--country-code-w);
+}
+
+.number {
+  margin-left: var(--space-8);
+  font-variant-numeric: tabular-nums;
+}

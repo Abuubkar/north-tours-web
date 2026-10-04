@@ -1,0 +1,13 @@
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-12);
+  padding-top: var(--space-24);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/* Next sits at the right, with or without Back. */
+.next {
+  margin-left: auto;
+}

@@ -69,6 +69,12 @@ export function monthYear(month: string): string {
   return `${LONG_MONTHS[number - 1]} ${year}`;
 }
 
+/** A month in short, "2027-06" → "Jun 2027" (the planner's month chips). */
+export function shortMonthYear(month: string): string {
+  const [year, number] = month.split('-').map(Number);
+  return `${SHORT_MONTHS[number - 1]} ${year}`;
+}
+
 /** Whole years since `since`, as of `currentYear`: operating since 2014 is 12 years in 2026. */
 export function yearsSince(since: number, currentYear: number): number {
   return currentYear - since;

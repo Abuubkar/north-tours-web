@@ -1,0 +1,17 @@
+/* At the input radius (2px, docs/components.md §5 item 11): the control border off, --fg with a ✓ on. */
+.indicator {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--indicator-size);
+  height: var(--indicator-size);
+  border: var(--radio-ring-width) solid var(--control-border);
+  border-radius: var(--radius-input);
+  color: var(--bg);
+}
+
+.checked {
+  border-color: var(--fg);
+  background: var(--fg);
+}

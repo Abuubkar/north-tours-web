@@ -28,27 +28,16 @@
   background: var(--bg-raised);
 }
 
-.indicator {
-  display: flex;
+/* The radio: a circle in the checkbox indicator's size and border (components/ui/CheckboxIndicator). */
+.radio {
   flex: none;
-  align-items: center;
-  justify-content: center;
   width: var(--indicator-size);
   height: var(--indicator-size);
   border: var(--radio-ring-width) solid var(--control-border);
-  color: var(--bg);
-}
-
-/* A checkbox at the input radius (2px, docs/components.md §5 item 11). */
-.check {
-  border-radius: var(--radius-input);
-}
-
-.radio {
   border-radius: var(--radius-chip);
 }
 
-.row[aria-pressed='true'] .indicator {
+.row[aria-pressed='true'] .radio {
   border-color: var(--fg);
   background: var(--fg);
 }

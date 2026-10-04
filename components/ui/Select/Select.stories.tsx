@@ -65,3 +65,22 @@ export const Chosen: Story = {
 };
 
 export const ChosenOnLight: Story = { ...Chosen, globals: { surface: 'light' } };
+
+/** Invalid (a child without an age): aria-invalid, the error colour, and described by the message. */
+export const Invalid: Story = {
+  args: { label: 'Child 1', placeholder: 'Age', options: [{ value: '0', label: 'Under 2' }], invalid: true, describedBy: 'ages-error' },
+  render: (args) => (
+    <div className={styles.aside}>
+      <Controlled {...args} />
+      <p id="ages-error">Add an age for each child.</p>
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const select = canvas.getByRole('combobox', { name: 'Child 1' });
+    await expect(select).toHaveAttribute('aria-invalid', 'true');
+    await expect(select).toHaveAccessibleDescription('Add an age for each child.');
+    await expect(getComputedStyle(select).borderTopColor).not.toBe(getComputedStyle(select).color);
+  },
+};
+
+export const InvalidOnLight: Story = { ...Invalid, globals: { surface: 'light' } };

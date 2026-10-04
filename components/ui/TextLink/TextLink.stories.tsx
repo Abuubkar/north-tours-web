@@ -56,3 +56,22 @@ export const Button: Story = {
 };
 
 export const ButtonOnLight: Story = { ...Button, globals: { surface: 'light' } };
+
+/** Inline, in a sentence: the sentence's size, underlined, no arrow (inline links are exempt from the 44px target). */
+export const Inline: Story = {
+  args: { variant: 'inline', href: '/privacy', children: 'Privacy policy' },
+  render: (args) => (
+    <p>
+      We only use your details to plan this trip. <TextLink {...args} />.
+    </p>
+  ),
+  play: async ({ canvas }) => {
+    const link = canvas.getByRole('link', { name: 'Privacy policy' });
+    await expect(link).toHaveAttribute('href', '/privacy');
+    await expect(getComputedStyle(link).textDecorationLine).toBe('underline');
+    await expect(link.querySelector('svg')).toBeNull();
+    await expect(getComputedStyle(link).fontSize).toBe(getComputedStyle(link.parentElement!).fontSize);
+  },
+};
+
+export const InlineOnLight: Story = { ...Inline, globals: { surface: 'light' } };

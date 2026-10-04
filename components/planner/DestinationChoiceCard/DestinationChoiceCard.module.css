@@ -1,0 +1,62 @@
+/*
+ * A selectable option tile: 8px (docs/components.md, #8), the control border off, and the shared
+ * selected state (--fg border, raised fill) on. The error colour while nothing is chosen after Next.
+ */
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  border: var(--hairline-width) solid var(--control-border);
+  border-radius: var(--radius-card);
+  background: var(--bg);
+  color: var(--fg);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-300) var(--ease-out),
+    border-color var(--dur-300) var(--ease-out);
+}
+
+.card:hover,
+.card[aria-pressed='true'] {
+  border-color: var(--fg);
+  background: var(--bg-raised);
+}
+
+/* The error border holds on hover too, until a destination is chosen. */
+.invalid,
+.invalid:hover {
+  border-color: var(--error);
+}
+
+/* "Not sure": the placeholder stripes on light, in the photo's frame, with no caption. */
+.stripes {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-card);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--placeholder-stripe-light-a) 0 var(--space-8),
+    var(--placeholder-stripe-light-b) var(--space-8) var(--space-16)
+  );
+}
+
+.text {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16) var(--space-16);
+}
+
+.name {
+  composes: small from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}

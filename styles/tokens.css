@@ -53,6 +53,9 @@
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
   --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars, frosted like the header */
+  --light-bar-bg: color-mix(in srgb, var(--mist-50) 92%, transparent); /* the planner's progress, frosted on the light page */
+  --placeholder-stripe-light-a: #dce2e7; /* the planner's "Not sure" card: the placeholder stripes on light */
+  --placeholder-stripe-light-b: #e6eaee;
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
@@ -115,6 +118,7 @@
   --measure-statement: 1040px; /* brand statement headline */
   --measure-statement-body: 500px; /* brand statement paragraph */
   --underline-offset: 6px; /* underlined text links */
+  --underline-offset-inline: 4px; /* a link inside a sentence */
   --seat-dot: 7px; /* the seats line's status dot */
   --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
   --measure-note: 320px; /* a short note beside a section headline */
@@ -149,6 +153,23 @@
   --banner-text-min: 360px;
   --empty-y: clamp(48px, 6cqi, 96px); /* above and below "No trips match these filters yet." */
   --hidden-size: 1px; /* a visually hidden element's box: read out by screen readers, never seen */
+
+  /* Forms (PRD #71): inputs, their errors and field widths. */
+  --error-badge: 20px; /* the round "!" beside an error message */
+  --progress-h: 2px; /* the planner's progress segments */
+  --textarea-min-h: 128px; /* a textarea's height before it's resized */
+  --textarea-pad-y: 14px; /* above and below a textarea's text */
+  --measure-field: 520px; /* the planner's name and number fields */
+  --measure-notes: 640px; /* its "Anything else?" */
+  --country-code-w: 72px; /* a country code's field: three digits */
+  --measure-planner-lead: 600px; /* the Trip Planner's lead line */
+  --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
+  --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */
+  --grid-choices-min: 150px; /* the planner's destination cards (gaps, not hairlines) */
+  --date-field-min: 200px; /* a date field beside another (From and To) before they stack */
+  --age-select-w: 110px; /* each child's age select, in a row */
+  --measure-counters: 440px; /* the planner's group size rows */
+  --measure-field-short: 360px; /* a short text field: the planner's other city */
 
   /* Route map (DESIGN.md §9): sizes in px so markers keep their size on phones. */
   --map-route-width: 2px; /* main route */
@@ -229,6 +250,7 @@
   --z-skip-link: 20; /* above the header when focused */
   --z-sticky-bar: 10; /* Tour Detail's booking bar at the bottom of the screen, like the header at the top */
   --z-filter-bar: 9; /* the Tours filter bars: just under the header, so they slide up behind it */
+  --z-planner-bar: 9; /* the planner's sticky progress, under the header */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
@@ -261,6 +283,8 @@
   --rise-distance: 40px; /* M4: a card's offset before it rises */
   --rise-stagger: 90ms; /* between cards in a row */
   --results-pending-max: 3s; /* Tours: a linked view's results show after this even if the page's script never runs */
+  --step-slide: 28px; /* the planner's step body slides in from this far */
+  --dur-350: 0.35s; /* and takes this long */
 
   /* Type (DESIGN.md §3). Roles live in typography.module.css. */
   --font: var(--font-geist), system-ui, sans-serif;

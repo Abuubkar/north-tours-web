@@ -1,0 +1,27 @@
+/*
+ * Input's look (Input.module.css), repeated rather than composed: the build carries only one level
+ * of `composes`. The control border, --fg on hover and once filled. 16/1.5.
+ */
+.textarea {
+  composes: small from '../../../styles/typography.module.css';
+  font-size: var(--fs-body);
+  width: 100%;
+  min-height: var(--textarea-min-h);
+  padding: var(--textarea-pad-y) var(--space-16);
+  border: var(--hairline-width) solid var(--control-border);
+  border-radius: var(--radius-input);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.textarea::placeholder {
+  color: var(--fg-3);
+  opacity: 1;
+}
+
+.textarea:hover,
+.filled {
+  border-color: var(--fg);
+}

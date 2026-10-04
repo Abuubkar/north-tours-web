@@ -1,0 +1,30 @@
+/*
+ * 52px, 2px radius (DESIGN.md §7), the surface fill. The control border (3:1 on light, §2), then
+ * --fg on hover and once filled, and --error while invalid. Focus takes the global ring (§11).
+ */
+.input {
+  composes: body from '../../../styles/typography.module.css';
+  width: 100%;
+  min-width: 0;
+  height: var(--control-52);
+  padding: 0 var(--space-16);
+  border: var(--hairline-width) solid var(--control-border);
+  border-radius: var(--radius-input);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: var(--fg-3);
+  opacity: 1;
+}
+
+.input:hover,
+.filled {
+  border-color: var(--fg);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--error);
+}

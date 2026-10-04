@@ -1,7 +1,7 @@
 type LinkForm = {
   href: string;
-  /** arrow: underlined, "Meet the team →". back: smaller and not underlined, "← All tours". */
-  variant?: 'arrow' | 'back';
+  /** arrow: underlined, "Meet the team →". back: smaller and not underlined, "← All tours". inline: a link inside a sentence, "Privacy policy". */
+  variant?: 'arrow' | 'back' | 'inline';
   onClick?: never;
 };
 

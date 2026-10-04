@@ -1,0 +1,14 @@
+/* The name at most 520px wide (the number too, in PhoneField), "Anything else?" 640px; the hairlines between questions run full width. */
+.field {
+  max-width: var(--measure-field);
+}
+
+.notes {
+  max-width: var(--measure-notes);
+}
+
+/* 14px --fg-2, after a hairline (the step body draws it). */
+.privacy {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}

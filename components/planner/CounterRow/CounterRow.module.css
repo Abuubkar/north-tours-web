@@ -1,0 +1,30 @@
+/* Rows divided by hairlines (the list's first row has none). */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding-block: var(--space-12);
+}
+
+.row + .row {
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* 16/500 over a 13px hint. */
+.label {
+  composes: body from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+}
+
+.hint {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}

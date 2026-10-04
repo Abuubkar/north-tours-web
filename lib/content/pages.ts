@@ -7,6 +7,7 @@ import { photoSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
+import { BEST_TIMES, DATE_MODES, DEPARTING_FROM, GROUP_TYPES, HOTELS, PLANNER_BUDGETS, TRANSPORT, TRIP_LENGTHS } from '../utils/plannerOptions.ts';
 
 /*
  * Page copy (CLAUDE.md §7): each page's wording lives in content/pages, so components never
@@ -418,4 +419,118 @@ let cachedDestination: DestinationCopy | undefined;
 export function getDestinationCopy(): DestinationCopy {
   cachedDestination ??= requireValid(loadDestinationCopy());
   return cachedDestination;
+}
+
+/** A planner question answered with one chip: its label, hint and a label for every option. */
+const chipQuestion = <T extends readonly [string, ...string[]]>(ids: T) =>
+  z.strictObject({ label: copy, hint: copy, options: z.record(z.enum(ids), copy) });
+
+/** A counter in "Group size": "Adults", "18 and over", and the stepper's buttons. */
+const counterRow = z.strictObject({ label: copy, hint: copy, fewer: copy, more: copy });
+
+/** The Trip Planner's wording (PRD #71): the header, the steps' labels, option words and messages. */
+const plannerCopySchema = z.strictObject({
+  /** The <title> part: "Plan a private trip from Lahore". */
+  title: copy,
+  description: copy,
+  /** The page's one <h1>: in full on step 1, then the slim line on every later step. */
+  header: z.strictObject({
+    headline: copy,
+    lead: copyWith('replyTime'),
+    slim: copy,
+  }),
+  /** The progress heading: "Step 1 of 3 · Where and when", then "Review · Check and send". */
+  progress: z.strictObject({ step: copyWith('step', 'title'), review: copy }),
+  /** Each step's title, in the progress heading and the Next button. */
+  steps: z.strictObject({ whereWhen: copy, whosComing: copy, details: copy }),
+  /** Next names the step it goes to: "Next: Who’s coming". */
+  nav: z.strictObject({ back: copy, next: copyWith('title'), review: copy }),
+  whereWhen: z.strictObject({
+    destinations: z.strictObject({ label: copy, hint: copy, unsure: copy }),
+    dates: z.strictObject({
+      label: copy,
+      hint: copy,
+      /** Names the "Exact dates" and "Flexible" pair. */
+      modeLabel: copy,
+      modes: z.record(z.enum(DATE_MODES), copy),
+      from: copy,
+      to: copy,
+      month: copy,
+      /** "Roughly [−  6  +] days": the words either side, and the stepper's name and buttons. */
+      roughly: copy,
+      days: copy,
+      daysLabel: copy,
+      fewerDays: copy,
+      moreDays: copy,
+    }),
+    length: z.strictObject({
+      label: copy,
+      hint: copy,
+      /** The hint while the length follows the flexible days. */
+      autoHint: copy,
+      options: z.record(z.enum(TRIP_LENGTHS), copy),
+    }),
+  }),
+  whosComing: z.strictObject({
+    /** "Group size": a row for adults and one for children, each a label, a hint and a stepper. */
+    group: z.strictObject({ label: copy, hint: copy, adults: counterRow, children: counterRow }),
+    /** One select per child: "Child {count}", first option "Age", then "Under 2" and 2 to 17. */
+    ages: z.strictObject({ label: copy, child: copyWith('count'), placeholder: copy, underTwo: copy }),
+    groupType: chipQuestion(GROUP_TYPES),
+    hotels: chipQuestion(HOTELS),
+    transport: chipQuestion(TRANSPORT),
+    /** Always answered (Lahore by default); "Other city" shows a field for the city. */
+    departingFrom: chipQuestion(DEPARTING_FROM).extend({ otherCity: copy, otherCityPlaceholder: copy }),
+    budget: chipQuestion(PLANNER_BUDGETS),
+  }),
+  details: z.strictObject({
+    name: z.strictObject({ label: copy, hint: copy, placeholder: copy }),
+    /** "WhatsApp number": "+92" and a Pakistani mobile, or "Outside Pakistan?" for a country code and number. */
+    phone: z.strictObject({
+      label: copy,
+      hint: copy,
+      prefix: copy,
+      placeholder: copy,
+      abroad: copy,
+      pakistani: copy,
+      countryCode: copy,
+      number: copy,
+    }),
+    bestTime: chipQuestion(BEST_TIMES),
+    notes: z.strictObject({ label: copy, hint: copy, placeholder: copy }),
+    /** "We only use your details to plan this trip. {link}.": {link} is the privacy policy link, named by `link`. */
+    privacy: z.strictObject({ text: copyWith('link'), link: copy }),
+  }),
+  /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
+  errors: z.strictObject({
+    destinations: copy,
+    month: copy,
+    dates: copy,
+    pastDate: copy,
+    endBeforeStart: copy,
+    ages: copy,
+    name: copy,
+    phoneEmpty: copy,
+    /** {count} is how many digits there are: "(9 of 10 digits)". */
+    phoneIncomplete: copyWith('count'),
+    phoneInvalid: copy,
+    phoneIntl: copy,
+  }),
+});
+
+export type PlannerCopy = z.infer<typeof plannerCopySchema>;
+
+export function plannerCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'planner.json');
+}
+
+export function loadPlannerCopy(dir = CONTENT_DIR) {
+  return parseFile(plannerCopySchema, plannerCopyFile(dir));
+}
+
+let cachedPlanner: PlannerCopy | undefined;
+
+export function getPlannerCopy(): PlannerCopy {
+  cachedPlanner ??= requireValid(loadPlannerCopy());
+  return cachedPlanner;
 }
