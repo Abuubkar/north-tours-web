@@ -18,16 +18,17 @@ export async function inspectPage(browser: Browser, url: string, width: number):
     await page.goto(url, { waitUntil: 'networkidle' });
     await page.addScriptTag({ content: axeSource });
     const facts = await page.evaluate((w) => {
-      const content = (selector: string) => document.querySelector(selector)?.getAttribute('content') ?? '';
+      const attribute = (selector: string, name = 'content') => document.querySelector(selector)?.getAttribute(name) ?? '';
       return {
         width: w,
         // Only the <h1>s shown at this width: one hidden with display: none isn't read out either.
         h1s: [...document.querySelectorAll('h1')].filter((h1) => h1.checkVisibility()).length,
         title: document.title.trim(),
-        description: content('meta[name="description"]'),
-        ogImage: content('meta[property="og:image"]'),
-        twitterImage: content('meta[name="twitter:image"]'),
-        canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href') ?? '',
+        description: attribute('meta[name="description"]'),
+        ogImage: attribute('meta[property="og:image"]'),
+        twitterImage: attribute('meta[name="twitter:image"]'),
+        canonical: attribute('link[rel="canonical"]', 'href'),
+        ogUrl: attribute('meta[property="og:url"]'),
       };
     }, width);
     const results = await page.evaluate(() => (window as unknown as { axe: typeof import('axe-core') }).axe.run(document));

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { auditReport, builtPages, judgeSite, median, medianVitals, overLimit, sitemapFailures, type PageAudit, type PageFacts } from './audit.ts';
+import { auditReport, builtPages, judgeSite, median, medianVitals, overLimit, sitemapFailures, sitemapLocs, type PageAudit, type PageFacts } from './audit.ts';
 
-const buildFiles = new Set(['/index.html', '/images/hunza/attabad-share.jpg']);
+const site = { files: new Set(['/index.html', '/images/hunza/attabad-share.jpg']), url: '[Site URL]' };
 
 const facts = (width: number, change: Partial<PageFacts> = {}): PageFacts => ({
   width,
@@ -11,6 +11,7 @@ const facts = (width: number, change: Partial<PageFacts> = {}): PageFacts => ({
   ogImage: '/images/hunza/attabad-share.jpg',
   twitterImage: '/images/hunza/attabad-share.jpg',
   canonical: '/tours',
+  ogUrl: '/tours',
   ...change,
 });
 
@@ -25,9 +26,9 @@ const audit = (change: Partial<PageAudit> = {}): PageAudit => ({
 });
 
 /** The same page facts at another path, with its own canonical URL. */
-const at = (page: string, change: Partial<PageFacts> = {}) => ({ page, facts: [facts(1440, { canonical: page, ...change })] });
+const at = (page: string, change: Partial<PageFacts> = {}) => ({ page, facts: [facts(1440, { canonical: page, ogUrl: page, ...change })] });
 
-const judge = (change: Partial<PageAudit> = {}) => judgeSite([audit(change)], buildFiles)[0];
+const judge = (change: Partial<PageAudit> = {}) => judgeSite([audit(change)], site)[0];
 
 describe('the audit’s pages', () => {
   it('lists every page in the build, nested tours and destinations and the 404 included', () => {
@@ -102,7 +103,7 @@ describe('the audit’s judgement', () => {
   });
 
   it('fails a title another page shares, on both pages', () => {
-    const verdicts = judgeSite([audit(at('/')), audit(at('/tours')), audit(at('/help', { title: 'Help | North' }))], buildFiles);
+    const verdicts = judgeSite([audit(at('/')), audit(at('/tours')), audit(at('/help', { title: 'Help | North' }))], site);
     expect(verdicts.map((v) => v.failures)).toEqual([
       ['<title> “Tours | North” is shared with /tours'],
       ['<title> “Tours | North” is shared with /'],
@@ -120,23 +121,41 @@ describe('the audit’s judgement', () => {
 });
 
 describe('the audit’s canonical and sitemap checks', () => {
-  it('fails a page without a canonical URL, or with another page’s, but not the 404', () => {
+  it('fails a page without a canonical URL, or with another URL than its own, but not the 404', () => {
     expect(judge({ facts: [facts(1440, { canonical: '' })] }).failures).toEqual(['1440px: no canonical URL']);
-    expect(judge({ facts: [facts(1440, { canonical: 'https://example.pk/' })] }).failures).toEqual([
-      '1440px: canonical URL https://example.pk/ isn’t this page',
-    ]);
-    expect(judge({ facts: [facts(1440, { canonical: 'https://example.pk/tours' })] }).failures).toEqual([]);
-    expect(judge(at('/404', { canonical: '' })).failures).toEqual([]);
+    expect(judge({ facts: [facts(1440, { canonical: '/', ogUrl: '/' })] }).failures).toEqual(['1440px: canonical URL / isn’t /tours']);
+    expect(judge(at('/404', { canonical: '', ogUrl: '' })).failures).toEqual([]);
   });
 
-  it('fails a page missing from the sitemap and a sitemap URL that isn’t a built page, leaving out the 404', () => {
+  it('fails an og:url that isn’t the canonical URL', () => {
+    expect(judge({ facts: [facts(1440, { ogUrl: '' })] }).failures).toEqual(['1440px: og:url (none) isn’t the canonical URL']);
+  });
+
+  it('wants absolute URLs once the site URL is real', () => {
+    const real = { ...site, url: 'https://example.pk' };
+    expect(judgeSite([audit()], real)[0].failures).toEqual([
+      '390px: canonical URL /tours isn’t https://example.pk/tours',
+      '1440px: canonical URL /tours isn’t https://example.pk/tours',
+    ]);
+    const absolute = facts(1440, { canonical: 'https://example.pk/tours', ogUrl: 'https://example.pk/tours' });
+    expect(judgeSite([audit({ facts: [absolute] })], real)[0].failures).toEqual([]);
+  });
+
+  it('reads the sitemap’s URLs, and none without one', () => {
+    expect(sitemapLocs('<urlset><url><loc>/</loc></url><url><loc>/tours</loc></url></urlset>')).toEqual(['/', '/tours']);
+    expect(sitemapLocs(null)).toBeNull();
+  });
+
+  it('fails a page missing from the sitemap, a URL that isn’t a built page, or no sitemap, leaving out the 404', () => {
     const pages = ['/', '/404', '/tours', '/help'];
-    expect(sitemapFailures(['/', '/tours', '/help'], pages)).toEqual([]);
-    expect(sitemapFailures(['https://example.pk/', 'https://example.pk/tours', 'https://example.pk/help'], pages)).toEqual([]);
-    expect(sitemapFailures(['/', '/tours', '/plan'], pages)).toEqual([
+    expect(sitemapFailures(['/', '/tours', '/help'], pages, '[Site URL]')).toEqual([]);
+    expect(sitemapFailures(['https://example.pk/', 'https://example.pk/tours', 'https://example.pk/help'], pages, 'https://example.pk')).toEqual([]);
+    expect(sitemapFailures(['/', '/tours', '/plan'], pages, '[Site URL]')).toEqual([
       'The sitemap doesn’t list /help',
       'The sitemap lists /plan, which isn’t a built page',
     ]);
+    expect(sitemapFailures(['/', '/tours', '/help'], pages, 'https://example.pk')).toHaveLength(6);
+    expect(sitemapFailures(null, pages, '[Site URL]')).toEqual(['The build has no sitemap.xml']);
   });
 });
 
@@ -154,7 +173,7 @@ describe('the audit’s table', () => {
         }),
         audit({ ...at('/help', { title: 'Help | North' }), vitals: null }),
       ],
-      buildFiles,
+      site,
     );
     expect(auditReport(verdicts)).toBe(
       [

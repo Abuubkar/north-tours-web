@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { robotsTxt, sitemapUrls } from './sitemap.ts';
+import { robotsRules, sitemapUrls } from './sitemap.ts';
 
 const slugs = { tours: ['hunza-express', 'skardu-deosai'], destinations: ['hunza'] };
 
@@ -35,13 +35,13 @@ describe('sitemapUrls', () => {
   });
 });
 
-describe('robotsTxt', () => {
+describe('robotsRules', () => {
   it('allows everything and names no sitemap while the site URL is a placeholder', () => {
-    expect(robotsTxt('[Site URL]')).toEqual({ rules: { userAgent: '*', allow: '/' } });
+    expect(robotsRules('[Site URL]')).toEqual({ rules: { userAgent: '*', allow: '/' } });
   });
 
   it('names the absolute sitemap once the site URL is real', () => {
-    expect(robotsTxt('https://example.pk')).toEqual({
+    expect(robotsRules('https://example.pk')).toEqual({
       rules: { userAgent: '*', allow: '/' },
       sitemap: 'https://example.pk/sitemap.xml',
     });

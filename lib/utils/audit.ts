@@ -1,3 +1,5 @@
+import { siteUrlFor } from './siteUrl.ts';
+
 /*
  * `pnpm audit:site` (PRD #94, ADR-0021): the pure parts. The script builds and serves the site,
  * measures every page and passes the numbers here; these decide what fails and print the table.
@@ -20,7 +22,11 @@ export type PageFacts = {
   twitterImage: string;
   /** The canonical link's URL; empty when the page has none. */
   canonical: string;
+  ogUrl: string;
 };
+
+/** The built site: its files as root-relative paths ("/images/hunza/attabad-share.jpg"), and the settings site URL. */
+export type BuiltSite = { files: ReadonlySet<string>; url: string };
 
 export type AxeViolation = { width: number; rule: string; targets: string[] };
 
@@ -74,8 +80,19 @@ const NOT_FOUND = '/404';
 /** The path a URL points to, root-relative or absolute. */
 const pathOf = (url: string) => new URL(url, 'http://localhost').pathname;
 
+/** The page's canonical URL and `og:url`: its own URL by the URL rule. The 404 has neither. */
+function urlFailures(page: string, facts: PageFacts, siteUrl: string, at: string): string[] {
+  if (page === NOT_FOUND) return [];
+  const own = siteUrlFor(page, siteUrl);
+  if (!facts.canonical) return [`${at}: no canonical URL`];
+  return [
+    ...(facts.canonical === own ? [] : [`${at}: canonical URL ${facts.canonical} isn’t ${own}`]),
+    ...(facts.ogUrl === facts.canonical ? [] : [`${at}: og:url ${facts.ogUrl || '(none)'} isn’t the canonical URL`]),
+  ];
+}
+
 /** The page checks at one width: one `<h1>`, a title, a description, share images in the build and its own canonical URL. */
-function factFailures(page: string, facts: PageFacts, buildFiles: ReadonlySet<string>): string[] {
+function factFailures(page: string, facts: PageFacts, site: BuiltSite): string[] {
   const at = `${facts.width}px`;
   const failures: string[] = [];
   if (facts.h1s !== 1) failures.push(`${at}: ${facts.h1s === 0 ? 'no <h1>' : `${facts.h1s} <h1>s`}`);
@@ -83,11 +100,9 @@ function factFailures(page: string, facts: PageFacts, buildFiles: ReadonlySet<st
   if (!facts.description) failures.push(`${at}: no meta description`);
   for (const [tag, url] of [['og:image', facts.ogImage], ['twitter:image', facts.twitterImage]] as const) {
     if (!url) failures.push(`${at}: no ${tag}`);
-    else if (!buildFiles.has(pathOf(url))) failures.push(`${at}: ${tag} ${url} isn’t in the build`);
+    else if (!site.files.has(pathOf(url))) failures.push(`${at}: ${tag} ${url} isn’t in the build`);
   }
-  if (page !== NOT_FOUND && !facts.canonical) failures.push(`${at}: no canonical URL`);
-  else if (page !== NOT_FOUND && pathOf(facts.canonical) !== page) failures.push(`${at}: canonical URL ${facts.canonical} isn’t this page`);
-  return failures;
+  return [...failures, ...urlFailures(page, facts, site.url, at)];
 }
 
 /** A page's titles, once each (they're the same at every width unless something is wrong). */
@@ -106,11 +121,10 @@ function vitalsVerdict(vitals: Vitals | null): { failures: string[]; warnings: s
 /**
  * Judges every page: LCP over 2.5 s or CLS over 0.1, any axe violation, and any page check
  * failing (exactly one `<h1>`, a `<title>` no other page shares, a meta description, `og:image`
- * and `twitter:image` pointing to a file in the build, a canonical URL to the page itself, except
- * on the 404) fail it. TBT over 200 ms is a warning.
- * `buildFiles` holds the build's files as root-relative paths ("/images/hunza/attabad-share.jpg").
+ * and `twitter:image` pointing to a file in the build, a canonical URL and `og:url` that are the
+ * page's own URL by the URL rule, except on the 404) fail it. TBT over 200 ms is a warning.
  */
-export function judgeSite(audits: PageAudit[], buildFiles: ReadonlySet<string>): PageVerdict[] {
+export function judgeSite(audits: PageAudit[], site: BuiltSite): PageVerdict[] {
   const pagesByTitle = new Map<string, string[]>();
   for (const { page, facts } of audits) {
     for (const title of titlesOf(facts)) pagesByTitle.set(title, [...(pagesByTitle.get(title) ?? []), page]);
@@ -118,7 +132,7 @@ export function judgeSite(audits: PageAudit[], buildFiles: ReadonlySet<string>):
 
   return audits.map((audit) => {
     const { vitals, facts, violations, page } = audit;
-    const checks = [...new Set(facts.flatMap((f) => factFailures(page, f, buildFiles)))];
+    const checks = [...new Set(facts.flatMap((f) => factFailures(page, f, site)))];
     for (const title of titlesOf(facts)) {
       const others = (pagesByTitle.get(title) ?? []).filter((other) => other !== page);
       if (others.length > 0) checks.push(`<title> “${title}” is shared with ${others.join(', ')}`);
@@ -146,12 +160,21 @@ export function auditReport(verdicts: PageVerdict[]): string {
   return [table, ...list('Failures', (v) => v.failures), ...list('Warnings', (v) => v.warnings)].join('\n\n');
 }
 
-/** The sitemap must list exactly the built pages, minus the 404: what's missing from it and what it lists that isn't built. */
-export function sitemapFailures(sitemapUrls: string[], pages: string[]): string[] {
-  const listed = new Set(sitemapUrls.map(pathOf));
-  const built = pages.filter((page) => page !== NOT_FOUND);
+/** The URLs a sitemap lists, or null when there's no sitemap. */
+export function sitemapLocs(xml: string | null): string[] | null {
+  return xml === null ? null : [...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].map((match) => match[1]);
+}
+
+/**
+ * The sitemap must list exactly the built pages, minus the 404, each at its URL by the URL rule:
+ * what's missing from it and what it lists that isn't a built page.
+ */
+export function sitemapFailures(locs: string[] | null, pages: string[], siteUrl: string): string[] {
+  if (locs === null) return ['The build has no sitemap.xml'];
+  const listed = new Set(locs);
+  const built = pages.filter((page) => page !== NOT_FOUND).map((page) => siteUrlFor(page, siteUrl));
   return [
-    ...built.filter((page) => !listed.has(page)).map((page) => `The sitemap doesn’t list ${page}`),
-    ...[...listed].filter((page) => !built.includes(page)).map((page) => `The sitemap lists ${page}, which isn’t a built page`),
+    ...built.filter((url) => !listed.has(url)).map((url) => `The sitemap doesn’t list ${url}`),
+    ...[...listed].filter((url) => !built.includes(url)).map((url) => `The sitemap lists ${url}, which isn’t a built page`),
   ];
 }

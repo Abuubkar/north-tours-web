@@ -1,4 +1,5 @@
 import { routes } from '../routes.ts';
+import { isPlaceholder } from './placeholder.ts';
 import { siteUrlFor } from './siteUrl.ts';
 
 /*
@@ -20,7 +21,7 @@ export function sitemapUrls(slugs: { tours: string[]; destinations: string[] }, 
 }
 
 /** robots.txt: everything allowed, and the sitemap named only once its URL can be absolute. */
-export function robotsTxt(siteUrl: string): { rules: { userAgent: string; allow: string }; sitemap?: string } {
-  const sitemap = siteUrlFor('/sitemap.xml', siteUrl);
-  return { rules: { userAgent: '*', allow: '/' }, ...(sitemap.startsWith('/') ? {} : { sitemap }) };
+export function robotsRules(siteUrl: string): { rules: { userAgent: string; allow: string }; sitemap?: string } {
+  const rules = { userAgent: '*', allow: '/' };
+  return isPlaceholder(siteUrl) ? { rules } : { rules, sitemap: siteUrlFor('/sitemap.xml', siteUrl) };
 }

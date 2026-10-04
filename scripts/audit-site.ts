@@ -3,10 +3,11 @@
 // Prints one Markdown table and fails on any miss. Run on demand; never in `pnpm test` or the
 // pre-commit hook.
 import { execSync } from 'node:child_process';
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
-import { auditReport, builtPages, judgeSite, medianVitals, overLimit, sitemapFailures, type PageAudit } from '../lib/utils/audit.ts';
+import { auditReport, builtPages, judgeSite, medianVitals, overLimit, sitemapFailures, sitemapLocs, type PageAudit } from '../lib/utils/audit.ts';
+import { getSettings } from '../lib/content/settings.ts';
 import { inspectPage, WIDTHS } from './audit/inspect.ts';
 import { startLighthouse } from './audit/lighthouse.ts';
 import { serveExport } from './audit/serve.ts';
@@ -22,11 +23,12 @@ log('audit:site: building');
 execSync('pnpm build', { stdio: ['ignore', 'ignore', 'inherit'] });
 
 const files = readdirSync(OUT, { recursive: true, encoding: 'utf8' }).map((file) => file.replaceAll(path.sep, '/'));
-const buildFiles = new Set(files.map((file) => `/${file}`));
+const site = { files: new Set(files.map((file) => `/${file}`)), url: getSettings().site.url };
 const pages = builtPages(files);
 
-const sitemap = readFileSync(path.join(OUT, 'sitemap.xml'), 'utf8');
-const siteFailures = sitemapFailures([...sitemap.matchAll(/<loc>([^<]*)<\/loc>/g)].map((match) => match[1]), pages);
+const sitemapFile = path.join(OUT, 'sitemap.xml');
+const sitemap = sitemapLocs(existsSync(sitemapFile) ? readFileSync(sitemapFile, 'utf8') : null);
+const siteFailures = sitemapFailures(sitemap, pages, site.url);
 const audits: PageAudit[] = [];
 const server = await serveExport(OUT);
 const urlFor = (page: string) => `${server.origin}${page}`;
@@ -71,7 +73,7 @@ try {
   await Promise.allSettled([lighthouse.close(), browser.close(), server.close()]);
 }
 
-const verdicts = judgeSite(audits, buildFiles);
+const verdicts = judgeSite(audits, site);
 console.log(auditReport(verdicts));
 if (siteFailures.length > 0) console.log(`\nSite checks failed:\n${siteFailures.map((f) => `- ${f}`).join('\n')}`);
 

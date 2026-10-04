@@ -19,6 +19,7 @@ export function generateMetadata(): Metadata {
 export default function CreditsPage() {
   const copy = getCreditsCopy();
   const hero = getHomeCopy().hero.image;
+  const siteUrl = getSettings().site.url;
   const credits = photoCredits([
     hero,
     ...getTours().flatMap((tour) => [
@@ -35,8 +36,8 @@ export default function CreditsPage() {
 
   return (
     <PageMain>
-      <ShareImageMeta photo={hero} siteUrl={getSettings().site.url} />
-      <CanonicalMeta path={routes.credits} siteUrl={getSettings().site.url} />
+      <ShareImageMeta photo={hero} siteUrl={siteUrl} />
+      <CanonicalMeta path={routes.credits} siteUrl={siteUrl} />
       <PhotoCredits copy={copy} credits={credits} />
     </PageMain>
   );
