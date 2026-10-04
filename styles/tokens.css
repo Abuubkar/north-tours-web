@@ -156,6 +156,11 @@
   /* Forms (PRD #71): inputs, their errors and field widths. */
   --error-badge: 20px; /* the round "!" beside an error message */
   --progress-h: 2px; /* the planner's progress segments */
+  --textarea-min-h: 128px; /* a textarea's height before it's resized */
+  --textarea-pad-y: 14px; /* above and below a textarea's text */
+  --measure-field: 520px; /* the planner's name and number fields */
+  --measure-notes: 640px; /* its "Anything else?" */
+  --country-code-w: 72px; /* a country code's field: three digits */
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */

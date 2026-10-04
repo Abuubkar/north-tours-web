@@ -79,8 +79,12 @@ export const DEPARTING_FROM = ['lahore', 'islamabad', 'other'] as const;
 /** Budget per person, as the Tours budget filter splits it, and "Not sure yet". */
 export const PLANNER_BUDGETS = [...BUDGETS, 'not-sure'] as const;
 
+/** The best time to call: details, never stored. */
+export const BEST_TIMES = ['morning', 'afternoon', 'evening'] as const;
+
 export type GroupType = (typeof GROUP_TYPES)[number];
 export type Hotels = (typeof HOTELS)[number];
 export type Transport = (typeof TRANSPORT)[number];
 export type DepartingFrom = (typeof DEPARTING_FROM)[number];
 export type PlannerBudget = (typeof PLANNER_BUDGETS)[number];
+export type BestTime = (typeof BEST_TIMES)[number];

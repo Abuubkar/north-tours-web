@@ -1,5 +1,7 @@
 import type { PlannerCopy } from '../content/pages.ts';
+import { phoneProblem } from './phone.ts';
 import type { TripAnswers } from './plannerAnswers.ts';
+import type { Details } from './plannerDetails.ts';
 import { monthOf } from './plannerOptions.ts';
 
 /*
@@ -47,10 +49,20 @@ function datesError(answers: TripAnswers, today: string, messages: ErrorMessages
   return null;
 }
 
-/** What Next checks on a step (1 Where and when, 2 Who's coming); a step with no rules yet passes. */
-export function stepErrors(step: number, answers: TripAnswers, today: string, messages: ErrorMessages): FieldProblem[] {
+/** Step 3, Your details: a name (not just spaces), then the WhatsApp number's rules. */
+export function detailsErrors(details: Details, messages: ErrorMessages): FieldProblem[] {
+  const errors: FieldProblem[] = [];
+  if (details.name.trim() === '') errors.push({ group: 'name', fields: ['name'], message: messages.name });
+  const phone = phoneProblem(details.phone, messages);
+  if (phone) errors.push({ group: 'phone', ...phone });
+  return errors;
+}
+
+/** What Next checks on a step: 1 Where and when, 2 Who's coming, 3 Your details. */
+export function stepErrors(step: number, answers: TripAnswers, details: Details, today: string, messages: ErrorMessages): FieldProblem[] {
   if (step === 1) return whereWhenErrors(answers, today, messages);
   if (step === 2) return whosComingErrors(answers, messages);
+  if (step === 3) return detailsErrors(details, messages);
   return [];
 }
 

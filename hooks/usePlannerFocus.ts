@@ -1,7 +1,7 @@
 import { useEffect, type RefObject } from 'react';
 
 /** Where focus goes after Next or Back: the progress heading, or the first field with a problem. */
-export type FocusRequest = { target: 'progress' } | { target: 'field'; field: string };
+export type FocusRequest = { target: 'progress' } | { target: 'field'; field: string; scroll?: false };
 
 /** Room left between the sticky bars and a field scrolled to (the 16px step of the spacing scale). */
 const SCROLL_GAP = 16;
@@ -21,7 +21,8 @@ const pageTop = (element: Element) => element.getBoundingClientRect().top + wind
  * Scrolling and focus after a step change or a failed Next (PRD #71), so components only
  * render. A field's section lands just below the header and the sticky bar (`barRef`), and the
  * field takes focus. After a step change the form's top comes back into view if the visitor had
- * scrolled past it, and the progress heading takes focus. Smooth, or at once with reduced motion.
+ * scrolled past it, and the progress heading takes focus. A field can also take focus without
+ * scrolling (the phone field's switch, which is right beside it). Smooth, or at once with reduced motion.
  * Each new request object runs once.
  */
 export function usePlannerFocus(
@@ -35,14 +36,15 @@ export function usePlannerFocus(
 ) {
   const { fieldId, progressRef, formRef, barRef } = refs;
   useEffect(() => {
+    if (!request) return;
     const bar = barRef.current;
-    if (!request || !bar) return;
-    const edges = stuckEdges(bar);
+    const edges = bar ? stuckEdges(bar) : { top: 0, bottom: 0 };
     const behavior = scrollBehavior();
     if (request.target === 'field') {
       const field = document.getElementById(fieldId(request.field));
       if (!field) return;
       field.focus({ preventScroll: true });
+      if (request.scroll === false) return;
       const section = field.closest('[data-form-field]') ?? field;
       window.scrollTo({ top: pageTop(section) - edges.bottom - SCROLL_GAP, behavior });
       return;

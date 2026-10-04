@@ -3,6 +3,7 @@
 import { PlannerProgress } from '@/components/planner/PlannerProgress/PlannerProgress';
 import { StepNav } from '@/components/planner/StepNav/StepNav';
 import { StepWhereWhen } from '@/components/planner/StepWhereWhen/StepWhereWhen';
+import { StepDetails } from '@/components/planner/StepDetails/StepDetails';
 import { StepWhosComing } from '@/components/planner/StepWhosComing/StepWhosComing';
 import { STEP_COUNT, usePlanner } from '@/hooks/usePlanner';
 import { fillTokens } from '@/lib/utils/tokens';
@@ -40,10 +41,11 @@ export function TripPlanner({ copy, destinations }: TripPlannerProps) {
           <div key={step} className={styles.body} data-direction={direction ?? undefined}>
             {step === 1 && <StepWhereWhen destinations={destinations} copy={copy.whereWhen} />}
             {step === 2 && <StepWhosComing copy={copy.whosComing} />}
+            {step === 3 && <StepDetails copy={copy.details} />}
           </div>
           <StepNav
             backLabel={first ? undefined : copy.nav.back}
-            nextLabel={step < STEP_COUNT ? fillTokens(copy.nav.next, { title: titles[step] }) : undefined}
+            nextLabel={step < STEP_COUNT ? fillTokens(copy.nav.next, { title: titles[step] }) : copy.nav.review}
             onBack={back}
             onNext={next}
           />

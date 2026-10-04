@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { plannerCopyFile, type PlannerCopy } from '../content/pages.ts';
 import { DEFAULT_ANSWERS, type TripAnswers } from './plannerAnswers.ts';
-import { stepErrors, whereWhenErrors, whosComingErrors } from './plannerValidation.ts';
+import { EMPTY_DETAILS, type Details } from './plannerDetails.ts';
+import { detailsErrors, stepErrors, whereWhenErrors, whosComingErrors } from './plannerValidation.ts';
 
 const { errors: messages }: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
 const today = '2026-10-04';
@@ -72,8 +73,29 @@ describe('step 2, Who’s coming', () => {
 
 describe('each step’s checks', () => {
   it('step 1 checks where and when, step 2 the ages', () => {
-    expect(stepErrors(1, DEFAULT_ANSWERS, today, messages).map((e) => e.group)).toEqual(['destinations', 'dates']);
-    expect(stepErrors(2, { ...valid, children: 1, ages: [null] }, today, messages).map((e) => e.group)).toEqual(['ages']);
-    expect(stepErrors(2, DEFAULT_ANSWERS, today, messages)).toEqual([]);
+    expect(stepErrors(1, DEFAULT_ANSWERS, EMPTY_DETAILS, today, messages).map((e) => e.group)).toEqual(['destinations', 'dates']);
+    expect(stepErrors(2, { ...valid, children: 1, ages: [null] }, EMPTY_DETAILS, today, messages).map((e) => e.group)).toEqual(['ages']);
+    expect(stepErrors(2, DEFAULT_ANSWERS, EMPTY_DETAILS, today, messages)).toEqual([]);
+  });
+});
+
+describe('step 3, Your details', () => {
+  const details = (change: Partial<Details>): Details => ({ ...EMPTY_DETAILS, name: 'Ayesha Khan', phone: { ...EMPTY_DETAILS.phone, pk: '300 123 4567' }, ...change });
+
+  it('passes with a name and a number', () => {
+    expect(detailsErrors(details({}), messages)).toEqual([]);
+  });
+
+  it('needs a name; spaces alone don’t count', () => {
+    expect(detailsErrors(details({ name: '' }), messages)).toEqual([{ group: 'name', fields: ['name'], message: 'Add your name so we know who to reply to.' }]);
+    expect(detailsErrors(details({ name: '   ' }), messages)[0].group).toBe('name');
+  });
+
+  it('then checks the number, in page order', () => {
+    expect(detailsErrors(EMPTY_DETAILS, messages)).toEqual([
+      { group: 'name', fields: ['name'], message: 'Add your name so we know who to reply to.' },
+      { group: 'phone', fields: ['phone'], message: 'Add your WhatsApp number so we can reply.' },
+    ]);
+    expect(stepErrors(3, DEFAULT_ANSWERS, details({ phone: { ...EMPTY_DETAILS.phone, pk: '300 12' } }), today, messages)[0].message).toMatch(/\(5 of 10 digits\)/);
   });
 });

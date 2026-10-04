@@ -1,6 +1,7 @@
 import { createContext, use, useCallback, useId, useMemo, useRef, useState, type RefObject } from 'react';
 import type { PlannerCopy } from '@/lib/content/pages';
 import { DEFAULT_ANSWERS, type TripAnswers } from '@/lib/utils/plannerAnswers';
+import { EMPTY_DETAILS, switchPhoneMode, type Details } from '@/lib/utils/plannerDetails';
 import { destinationChoices, monthChoices } from '@/lib/utils/plannerOptions';
 import { stepErrors, type FieldProblem } from '@/lib/utils/plannerValidation';
 import { usePlannerFocus, type FocusRequest } from './usePlannerFocus';
@@ -24,6 +25,11 @@ export type Planner = {
   /** The step's problems once the visitor has tried to leave it; they update as the answers change. */
   errors: FieldProblem[];
   update: (change: (answers: TripAnswers) => TripAnswers) => void;
+  /** Your details: in memory only, never stored. */
+  details: Details;
+  updateDetails: (change: (details: Details) => Details) => void;
+  /** "Outside Pakistan?" / "Pakistani number?": focus moves to the new field, whose message waits for the next Next. */
+  switchPhoneMode: () => void;
   /** Checks the step: moves on, or shows its problems and takes the visitor to the first. */
   next: () => void;
   /** The step before, every answer kept. */
@@ -56,6 +62,9 @@ export function usePlanner(): Planner {
 export function usePlannerState(destinations: readonly string[], builtOn: string, messages: PlannerCopy['errors']): Planner {
   const today = useToday(builtOn);
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS);
+  const [details, setDetails] = useState<Details>(EMPTY_DETAILS);
+  /** After switching the phone's mode, its message hides until the next Next. */
+  const [phoneQuiet, setPhoneQuiet] = useState(false);
   const [step, setStep] = useState<PlannerStep>(1);
   const [direction, setDirection] = useState<Planner['direction']>(null);
   const [tried, setTried] = useState<Partial<Record<PlannerStep, boolean>>>({});
@@ -67,12 +76,14 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
   const fieldId = useCallback((field: string) => `${base}-${field}`, [base]);
   usePlannerFocus(focus, { fieldId, progressRef, formRef, barRef });
   const update = useCallback((change: (answers: TripAnswers) => TripAnswers) => setAnswers(change), []);
+  const updateDetails = useCallback((change: (details: Details) => Details) => setDetails(change), []);
 
   const choices = useMemo(
     () => ({ destinations: destinationChoices(destinations), months: monthChoices(today) }),
     [destinations, today],
   );
-  const problems = stepErrors(step, answers, today, messages);
+  const problems = stepErrors(step, answers, details, today, messages);
+  const shown = phoneQuiet ? problems.filter((problem) => problem.group !== 'phone') : problems;
 
   function go(to: PlannerStep, way: 'forward' | 'back') {
     setStep(to);
@@ -86,9 +97,17 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
     answers,
     step,
     direction,
-    errors: tried[step] ? problems : [],
+    errors: tried[step] ? shown : [],
     update,
+    details,
+    updateDetails,
+    switchPhoneMode() {
+      setDetails(switchPhoneMode);
+      setPhoneQuiet(true);
+      setFocus({ target: 'field', field: details.phone.mode === 'pk' ? 'countryCode' : 'phone', scroll: false });
+    },
     next() {
+      setPhoneQuiet(false);
       if (problems.length > 0) {
         setTried((was) => ({ ...was, [step]: true }));
         setFocus({ target: 'field', field: problems[0].fields[0] });

@@ -32,6 +32,13 @@
   color: var(--link-hover);
 }
 
+/* Inline body link (docs/components.md §1.2 item 3): the sentence's size, underlined 4px below. */
+.inline {
+  text-decoration: underline;
+  text-decoration-thickness: var(--hairline-width);
+  text-underline-offset: var(--space-4);
+}
+
 /* Back link (docs/components.md §1.2 item 3): 14/500, no underline. */
 .backLink {
   composes: ui from '../../../styles/typography.module.css';

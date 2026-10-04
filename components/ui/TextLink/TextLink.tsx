@@ -7,7 +7,8 @@ const ARROW_SIZE = 16;
 /**
  * An underlined link with an arrow, e.g. "Meet the team →". The arrow nudges right on hover.
  * A back link, "← All tours", has its arrow first and no underline. The button form is an action
- * with the underlined look and no arrow, e.g. "Clear all" (docs/components.md §1.2 item 3).
+ * with the underlined look and no arrow, e.g. "Clear all". The inline form sits in a sentence and
+ * takes its size (docs/components.md §1.2 item 3).
  */
 export function TextLink(props: TextLinkProps) {
   const { children } = props;
@@ -20,6 +21,14 @@ export function TextLink(props: TextLinkProps) {
   }
 
   const { href, variant = 'arrow' } = props;
+  if (variant === 'inline') {
+    return (
+      <a href={href} className={styles.inline}>
+        {children}
+      </a>
+    );
+  }
+
   if (variant === 'back') {
     return (
       <a href={href} className={styles.backLink}>

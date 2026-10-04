@@ -14,11 +14,9 @@ export function StepNav({ backLabel, nextLabel, onBack, onNext }: StepNavProps) 
           {backLabel}
         </Button>
       )}
-      {nextLabel && (
-        <Button arrow onClick={onNext} className={styles.next}>
-          {nextLabel}
-        </Button>
-      )}
+      <Button arrow onClick={onNext} className={styles.next}>
+        {nextLabel}
+      </Button>
     </div>
   );
 }

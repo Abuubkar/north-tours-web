@@ -17,7 +17,8 @@
   },
   "nav": {
     "back": "Back",
-    "next": "Next: {title}"
+    "next": "Next: {title}",
+    "review": "Review"
   },
   "whereWhen": {
     "destinations": {
@@ -127,12 +128,52 @@
       }
     }
   },
+  "details": {
+    "name": {
+      "label": "Name",
+      "hint": "Required",
+      "placeholder": "Your name"
+    },
+    "phone": {
+      "label": "WhatsApp number",
+      "hint": "Required",
+      "prefix": "+92",
+      "placeholder": "3XX XXX XXXX",
+      "abroad": "Outside Pakistan?",
+      "pakistani": "Pakistani number?",
+      "countryCode": "Country code",
+      "number": "Number"
+    },
+    "bestTime": {
+      "label": "Best time to reach you",
+      "hint": "Optional",
+      "options": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening"
+      }
+    },
+    "notes": {
+      "label": "Anything else?",
+      "hint": "Optional",
+      "placeholder": "Celebrating something? Travelling with elderly parents? Tell us."
+    },
+    "privacy": {
+      "text": "We only use your details to plan this trip.",
+      "link": "Privacy policy"
+    }
+  },
   "errors": {
     "destinations": "Choose at least one destination, or “Not sure, suggest something”.",
     "month": "Pick a month, or switch to exact dates.",
     "dates": "Add a start and an end date.",
     "pastDate": "That date has passed. Choose today or later.",
     "endBeforeStart": "The end date is before the start date.",
-    "ages": "Add an age for each child."
+    "ages": "Add an age for each child.",
+    "name": "Add your name so we know who to reply to.",
+    "phoneEmpty": "Add your WhatsApp number so we can reply.",
+    "phoneIncomplete": "This number looks incomplete ({count} of 10 digits). Pakistani mobile numbers have 10 digits after +92, for example 3XX XXX XXXX.",
+    "phoneInvalid": "This doesn’t look like a Pakistani mobile number. It has 10 digits after +92 and starts with 3, for example 3XX XXX XXXX.",
+    "phoneIntl": "Add the country code and number, 8 to 15 digits in all, for example +44 7700 900123."
   }
 }

@@ -7,7 +7,7 @@ import { photoSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
-import { DATE_MODES, DEPARTING_FROM, GROUP_TYPES, HOTELS, PLANNER_BUDGETS, TRANSPORT, TRIP_LENGTHS } from '../utils/plannerOptions.ts';
+import { BEST_TIMES, DATE_MODES, DEPARTING_FROM, GROUP_TYPES, HOTELS, PLANNER_BUDGETS, TRANSPORT, TRIP_LENGTHS } from '../utils/plannerOptions.ts';
 
 /*
  * Page copy (CLAUDE.md §7): each page's wording lives in content/pages, so components never
@@ -444,7 +444,7 @@ const plannerCopySchema = z.strictObject({
   /** Each step's title, in the progress heading and the Next button. */
   steps: z.strictObject({ whereWhen: copy, whosComing: copy, details: copy }),
   /** Next names the step it goes to: "Next: Who’s coming". */
-  nav: z.strictObject({ back: copy, next: copyWith('title') }),
+  nav: z.strictObject({ back: copy, next: copyWith('title'), review: copy }),
   whereWhen: z.strictObject({
     destinations: z.strictObject({ label: copy, hint: copy, unsure: copy }),
     dates: z.strictObject({
@@ -483,6 +483,24 @@ const plannerCopySchema = z.strictObject({
     departingFrom: chipQuestion(DEPARTING_FROM).extend({ otherCity: copy, otherCityPlaceholder: copy }),
     budget: chipQuestion(PLANNER_BUDGETS),
   }),
+  details: z.strictObject({
+    name: z.strictObject({ label: copy, hint: copy, placeholder: copy }),
+    /** "WhatsApp number": "+92" and a Pakistani mobile, or "Outside Pakistan?" for a country code and number. */
+    phone: z.strictObject({
+      label: copy,
+      hint: copy,
+      prefix: copy,
+      placeholder: copy,
+      abroad: copy,
+      pakistani: copy,
+      countryCode: copy,
+      number: copy,
+    }),
+    bestTime: chipQuestion(BEST_TIMES),
+    notes: z.strictObject({ label: copy, hint: copy, placeholder: copy }),
+    /** "We only use your details to plan this trip." and its link to the privacy policy. */
+    privacy: z.strictObject({ text: copy, link: copy }),
+  }),
   /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
   errors: z.strictObject({
     destinations: copy,
@@ -491,6 +509,12 @@ const plannerCopySchema = z.strictObject({
     pastDate: copy,
     endBeforeStart: copy,
     ages: copy,
+    name: copy,
+    phoneEmpty: copy,
+    /** {count} is how many digits there are: "(9 of 10 digits)". */
+    phoneIncomplete: copyWith('count'),
+    phoneInvalid: copy,
+    phoneIntl: copy,
   }),
 });
 

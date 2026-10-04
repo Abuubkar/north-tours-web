@@ -278,3 +278,71 @@ export const Step2Kept: Story = {
     await expect(canvas.getByRole('textbox', { name: 'Other city' })).toHaveValue('Multan');
   },
 };
+
+const toStep3 = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void> }) => {
+  await toStep2(canvas, userEvent);
+  await userEvent.click(button(canvas, /^Next: Your details/));
+};
+
+/** Step 3: Next with nothing filled shows the name and number messages, focuses the name; each input is invalid and described. */
+export const DetailsEmpty: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await toStep3(canvas, userEvent);
+    await expect(progress(canvas)).toHaveTextContent('Step 3 of 3 · Your details');
+    await userEvent.click(button(canvas, /^Review/));
+    const name = canvas.getByRole('textbox', { name: 'Name' });
+    await waitFor(() => expect(name).toHaveFocus());
+    await expect(name).toHaveAttribute('aria-invalid', 'true');
+    await expect(name).toHaveAccessibleDescription('Required Add your name so we know who to reply to.');
+    const phone = canvas.getByRole('textbox', { name: 'WhatsApp number' });
+    await expect(phone).toHaveAttribute('aria-invalid', 'true');
+    await expect(phone).toHaveAccessibleDescription('+92 Required Add your WhatsApp number so we can reply.');
+    await expect(name.getBoundingClientRect().top).toBeGreaterThanOrEqual(bar(canvas).getBoundingClientRect().bottom);
+  },
+};
+
+export const DetailsEmptyPhone: Story = { ...DetailsEmpty, globals: { viewport: { value: 'phone' } } };
+
+/**
+ * "300 12" is incomplete (5 of 10 digits) and takes focus once the name is filled. Abroad, "44"
+ * and "7700 900123" pass; "Pakistani number?" brings back the number as typed.
+ */
+export const DetailsPhone: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await toStep3(canvas, userEvent);
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+    const phone = canvas.getByRole('textbox', { name: 'WhatsApp number' });
+    await userEvent.type(phone, '300 12');
+    await userEvent.click(button(canvas, /^Review/));
+    await waitFor(() => expect(phone).toHaveFocus());
+    await expect(canvas.getByText(/This number looks incomplete \(5 of 10 digits\)/)).toBeVisible();
+    await userEvent.click(button(canvas, 'Outside Pakistan?'));
+    const code = canvas.getByRole('textbox', { name: 'Country code' });
+    await expect(code).toHaveFocus();
+    // The message waits for the next Next.
+    await expect(canvas.queryByText(/looks incomplete|country code and number/)).toBeNull();
+    await userEvent.type(code, '44');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Number' }), '7700 900123');
+    await userEvent.click(button(canvas, /^Review/));
+    await expect(canvas.queryByText(/country code and number/)).toBeNull();
+    await userEvent.click(button(canvas, 'Pakistani number?'));
+    await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('300 12');
+  },
+};
+
+/** Back to step 2 and Next again keep the name, number, best time and notes. */
+export const DetailsKept: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await toStep3(canvas, userEvent);
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+    await userEvent.click(button(canvas, 'Evening'));
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Anything else?' }), 'Travelling with my mother.');
+    await userEvent.click(button(canvas, 'Back'));
+    await userEvent.click(button(canvas, /^Next: Your details/));
+    await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('Ayesha Khan');
+    await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('300 123 4567');
+    await expect(button(canvas, 'Evening')).toHaveAttribute('aria-pressed', 'true');
+    await expect(canvas.getByRole('textbox', { name: 'Anything else?' })).toHaveValue('Travelling with my mother.');
+  },
+};
