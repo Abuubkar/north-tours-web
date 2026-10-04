@@ -1,39 +1,30 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useScrollSpy } from '@/hooks/useScrollSpy';
-import { routes } from '@/lib/routes';
-import { activeNavItem, mainNav, SPIED_SECTIONS } from '@/lib/utils/nav';
+import { activeNavItem, mainNav } from '@/lib/utils/nav';
 import type { NavLinksProps } from './NavLinks.types';
 import styles from './NavLinks.module.css';
 
-const variantClass = {
-  header: { list: styles.headerList, link: styles.headerLink },
-  menu: { list: styles.menuList, link: styles.menuLink },
+const variants = {
+  header: { name: 'Main', list: styles.headerList, link: styles.headerLink },
+  menu: { name: 'Main', list: styles.menuList, link: styles.menuLink },
+  footer: { name: 'Footer', list: styles.footerList, link: styles.footerLink },
 };
 
-const NO_SECTIONS = [] as const;
-
 /**
- * The main nav, named "Main". On the Homepage the item for the section in view is gold and
- * marked aria-current="location" (scroll-spy); on other pages the current page's item is,
- * with aria-current="page".
+ * The main nav's page links (ADR-0026), in the header, the mobile menu or the footer. The item
+ * for the page shown is gold and marked aria-current="page", from the URL alone.
  */
 export function NavLinks({ variant }: NavLinksProps) {
-  const pathname = usePathname();
-  const onHomepage = pathname === routes.home;
-  const spiedSection = useScrollSpy(onHomepage ? SPIED_SECTIONS : NO_SECTIONS);
-  // On the Homepage the item marks a place on the page; elsewhere, the page itself.
-  const active = onHomepage ? spiedSection : activeNavItem(pathname);
-  const ariaCurrent = onHomepage ? 'location' : 'page';
-  const classes = variantClass[variant];
+  const active = activeNavItem(usePathname());
+  const { name, list, link } = variants[variant];
 
   return (
-    <nav aria-label="Main">
-      <ul className={classes.list}>
+    <nav aria-label={name}>
+      <ul className={list}>
         {mainNav.map(({ id, label, href }) => (
           <li key={id}>
-            <a href={href} className={classes.link} aria-current={id === active ? ariaCurrent : undefined}>
+            <a href={href} className={link} aria-current={id === active ? 'page' : undefined}>
               {label}
             </a>
           </li>

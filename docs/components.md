@@ -33,7 +33,7 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Mobile menu:** the `Sheet` **drawer** variant (from the side), not the design's panel under the header. Close button, backdrop, Escape and focus return come from the Sheet. Every page gets "Plan on WhatsApp", including the Planner (§5 item 39).
 - **Other mobile overlays** (booking, filters, sort) use the Sheet's **bottom** variant.
 - **Routes:** one route map in `lib/routes.ts`. Nav and footer links point to pages that don't exist yet.
-- **Active nav item** comes from the URL (`lib/utils/nav.ts`): Tours on `/tours` and `/tours/*`, Destinations on `/destinations/*`, Guides on `/about`. On the Homepage, scroll-spy instead (PRD #39).
+- **Active nav item** comes from the URL (`lib/utils/nav.ts`): Tours on `/tours` and `/tours/*`, Destinations on `/destinations/*`, Guides on `/about`. On the Homepage, scroll-spy instead (PRD #39). *(Replaced by PRD #118: the nav lists five pages, marked from the URL alone, with no scroll-spy.)*
 - **WhatsApp links** are built by `lib/utils/whatsapp.ts` from the number and messages in `content/settings.json`. While the number is a placeholder they go to `https://wa.me/?text=…`; placeholder phone, email and social links show as plain text.
 - **Skip link** first on every page, to `<main id="main" tabindex="-1">`. In-page anchors land below the sticky header (`scroll-padding-top: var(--header-h)`).
 
@@ -45,7 +45,7 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Motion** is native (ADR-0016): the hero blur and brand statement reveal are CSS scroll-driven animations; cards rise with the `useRiseOnView` hook (only cards below the fold at load, only the photo fades). Story files run one at a time so reduced motion can be set per story (ADR-0023).
 - **`TourCard`** (built) shows the tour's next upcoming departure that has seats, or, when all are sold out, the next sold-out date with "Join waitlist". Lists sort by the date each card shows. WhatsApp opens a message naming the tour and date (templates in settings); sold out, the waitlist message. The seats line uses the shared wording ("Sold out · waitlist open").
 - **Card links:** destination cards link to `/destinations/{slug}`; Homepage guide cards link to the guide's profile, `/about#guide-{slug}` (replacing "not clickable" in §2 and §5 item 26). Each card is one link, named by the destination or guide.
-- **Scroll-spy** (Homepage only): the header nav and the mobile menu mark How it works, Destinations or Reviews, with `aria-current="location"`, once that section's top is above 40% of the viewport; above How booking works nothing is marked. Tours and Guides lead to other pages, so they're never marked there. Other pages keep the path rule (`aria-current="page"`).
+- **Scroll-spy** (Homepage only): the header nav and the mobile menu mark How it works, Destinations or Reviews, with `aria-current="location"`, once that section's top is above 40% of the viewport; above How booking works nothing is marked. Tours and Guides lead to other pages, so they're never marked there. Other pages keep the path rule (`aria-current="page"`). *(Removed by PRD #118: nothing is marked on the Homepage.)*
 - **Layout patterns** from §4 are shared styles in `styles/layout.module.css`: section shell, header row, capped hairline grid, cell, text-grid bleed (which fixes §5 item 28) and image-card cell.
 - Built here: `MediaFrame`, `TextLink` (base); `TourCard`, `PriceBlock`, `SeatsStatus`, `StepCell`, `RouteMap`, `RouteStopList`, `ReviewCard`, `DestinationCard`, `GuideCard` (features); the Homepage sections and the `/credits` page.
 
@@ -119,7 +119,7 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 
 **Decided in the About PRD (#78, 2026-10-04):**
 
-- **Route and metadata:** `/about`, one static page. `<title>` "About us, our guides and drivers | [BRAND NAME]", a meta description, and the header photo's 1200×630 crop as the share image. Page copy in `content/pages/about.json`; page data shaped in `lib/content/aboutPage.ts`. The header's Guides is marked on `/about`.
+- **Route and metadata:** `/about`, one static page. `<title>` "About us, our guides and drivers | [BRAND NAME]", a meta description, and the header photo's 1200×630 crop as the share image. Page copy in `content/pages/about.json`; page data shaped in `lib/content/aboutPage.ts`. The header's Guides is marked on `/about` (About since PRD #118).
 - **Sample claims (ADR-0019):** an object in content holding an invented claim about the company carries `sample: true` (only `true`; the owner confirms a claim by removing it; never shown). On About: the story and founder, each principle, each vehicle, the fleet age, the safety list, the travellers figure and each membership. Headlines and labels aren't flagged, nor the `trust` values. PRD 12's `launch:check` lists them. Stock photos of a vehicle type stand in for the fleet (vehicles only, no people, no other company's name readable at the size shown), credited on `/credits`.
 - **`PageHeader`, About variant:** the `<h1>` at the long size, the lead (560px), then a full-width photo, 4:3 on phones and 21:9 from 820px from CSS alone (`MediaFrame`'s `wideRatio`), loaded first with high priority. A place photo (the Karakoram Highway) stands in for the design's team photo (ADR-0009).
 - **Principles** ("How we run every trip") are a `<ul>` of `PrincipleCell`s with `<h3>` titles and **no 01–04 numbers** (settles §5 item 36).
@@ -168,7 +168,10 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 **Decided in the page-only navigation PRD (#118, 2026-10-04):**
 
 - **Destinations page** (`app/destinations/page.tsx`, `content/pages/destinations.json`, `lib/content/destinationsPage.ts`): every destination on one page, built only from existing parts: the dark `PageHeader` (Tours' variant, the `<h1>` and lead), `DestinationsGrid`'s home variant (its `<h2>`, then the six cards in content order, each an `<h3>` linking to `/destinations/{slug}`), then `PrivateTripBanner` as its own section (the Tours banner's photo, `/plan` and WhatsApp with the general message). Its own title and description; the share image is the first destination's 1200×630 crop (the Homepage's while it has no photo). `routes.destinations` is now this page, so "← All destinations", the Planner's "Explore destinations", the 404's quick link, the sitemap and the canonical URL all use it.
-- Built here: the destinations page; `getDestinationsPage` (`lib/content`).
+- **The main nav links only to pages (ADR-0026):** Tours, Destinations, Private trips, About and Contact, one list (`mainNav`) for the header, the mobile menu and the footer's large links (`NavLinks`' `footer` variant, named "Footer"). The footer's "About us" is now "About", and its small links are Help, Privacy, Terms and Photo credits after social. Help stays a footer link; the header keeps five items so it fits at 820px beside the brand and "WhatsApp us".
+- **Active item from the URL only** (`activeNavItem`): an item marks its own page, and Tours and Destinations also every page under them. The Homepage's scroll-spy (#46) is gone, with `routes.how`, `routes.reviews` and the `how`, `reviews` and `destinations` section ids nothing links to any more. `useScrollSpy` and `sectionInView` (now `lib/utils/scrollSpy.ts`) stay for the itinerary's current day, which passes its own line.
+- **In-content links to a section of another page stay:** the Homepage's "Meet the team →" (`/about#guides`), guide cards (`/about#guide-{slug}`) and Help answers (`/help#{id}`). The pages-only rule is for the nav.
+- Built here: the destinations page; `getDestinationsPage` (`lib/content`); `NavLinks`' footer variant.
 
 Open questions are in §6, grouped by the PRD that settles them.
 
@@ -608,7 +611,7 @@ The shared header, mobile menu and footer live in `components/layout` instead (P
 
 | Section | Home | Tours | Tour Detail | Destination | Planner | About | Help | Contact | Legal |
 |---|---|---|---|---|---|---|---|---|---|
-| `SiteHeader` (+ `MobileMenu`) | ✓ (scroll-spy) | ✓ active Tours | ✓ active Tours | ✓ active Destinations | ✓ (no active; the design's menu lacks the WhatsApp CTA, added in PRD #32) | ✓ active Guides | ✓ | ✓ | ✓ |
+| `SiteHeader` (+ `MobileMenu`) | ✓ (no active) | ✓ active Tours | ✓ active Tours | ✓ active Destinations | ✓ active Private trips (the design's menu lacks the WhatsApp CTA, added in PRD #32) | ✓ active About | ✓ | ✓ active Contact | ✓ |
 | `SiteFooter` | ✓ 10 | ✓ 07 | ✓ 13 | ✓ 11 | ✓ | ✓ 11 | ✓ 11 | ✓ 11 | ✓ 11 |
 | `HomeHero` (video + Display word) | ✓ 01 | | | | | | | | |
 | `PhotoHero` (back link + H1 + FactsRow) | | | ✓ 01 | v 01 (display name, lead) | | | | | |
@@ -638,14 +641,14 @@ The shared header, mobile menu and footer live in `components/layout` instead (P
 ### 3.2 Shared sections, in detail
 
 #### `SiteHeader` / `MobileMenu` — `components/layout` (built in PRD #32)
-- Sticky, 72px, `rgba(12,18,22,.86)` with `backdrop-filter: blur(18px) saturate(140%)` (M3 "frosted"; solid `ink-900` when unsupported), bottom hairline, `data-surface="dark"`. Contents: `BrandMark`, then on desktop a nav (14/500, gap 32, min-height 44 per link, active item gold) and the header WhatsApp button. `SiteHeader` is server-rendered; only `NavLinks` (reads the path, and on the Homepage follows the scroll) and `MobileMenu` (open state) are client components.
+- Sticky, 72px, `rgba(12,18,22,.86)` with `backdrop-filter: blur(18px) saturate(140%)` (M3 "frosted"; solid `ink-900` when unsupported), bottom hairline, `data-surface="dark"`. Contents: `BrandMark`, then on desktop a nav (14/500, gap 32, min-height 44 per link, active item gold) and the header WhatsApp button. `SiteHeader` is server-rendered; only `NavLinks` (reads the path) and `MobileMenu` (open state) are client components.
 - **Mobile < 820:** a WhatsApp `IconButton` 44 plus the menu `IconButton` 44.
 - **MobileMenu:** the `Sheet` drawer (side), titled "Menu", with the nav links in the `footerNav` role (min-height 44, hairlines, active item gold) and a primary 56 "Plan on WhatsApp" on every page. It closes on link tap, the close button, the backdrop and Escape, returning focus to the menu button. *(The design shows a panel below the header with no Escape or focus handling and no WhatsApp button on the Planner; PRD #32 replaced it.)*
-- **Nav items:** Tours (→ `/tours`), How it works (→ `/#how`), Destinations (→ `/#destinations`), Guides (→ `/about#guides`), Reviews (→ `/#reviews`). On Home, **scroll-spy** marks How it works, Destinations or Reviews (`aria-current="location"`) once that section's top is above 40% of the viewport (built in PRD #39; Tours and Guides aren't marked there).
+- **Nav items** (ADR-0026, `mainNav` in `lib/utils/nav.ts`): Tours (→ `/tours`), Destinations (→ `/destinations`), Private trips (→ `/plan`), About (→ `/about`), Contact (→ `/contact`), the same list in the header, the menu and the footer's large links. Every item is a page, never a section. The current page's item is gold with `aria-current="page"`, from the URL alone: Tours on `/tours` and `/tours/*`, Destinations on `/destinations` and `/destinations/*`, and the other three on their own page; none on the Homepage, Help, Privacy, Terms, Photo credits or the 404. *(PRD #118 replaces the design's section-anchor nav: How it works, Destinations and Reviews jumped to Homepage sections, Guides to `/about#guides`, with scroll-spy on the Homepage.)*
 
 #### `SiteFooter` — `components/layout/SiteFooter` (static, built in PRD #32)
-- Identical on all 9 pages. `SectionLabel` "Contact" (240 column), then large nav links `clamp(40px,5.2cqi,76px)`/500 (Tours, Destinations, Private trips, About us, Reviews), then a right column (`flex:0 1 380px`) with an intro 17, primary 56 "Chat on WhatsApp" and `KeyValueRow`s (WhatsApp, Phone, Email, Office with address and hours).
-- Bottom bar (margin-top 96, hairline, 13px `text-2`): "© {build year} {brand} · DTS Licence No. {licence}" and links (Instagram, Facebook, YouTube, Help, Contact, Privacy, Terms). Placeholder phone, email and social values show as plain text.
+- Identical on all 9 pages. `SectionLabel` "Contact" (240 column), then large nav links `clamp(40px,5.2cqi,76px)`/500 (`NavLinks`' footer variant: the main nav's five pages, the current one gold; PRD #118 replaced the design's Tours, Destinations, Private trips, About us, Reviews), then a right column (`flex:0 1 380px`) with an intro 17, primary 56 "Chat on WhatsApp" and `KeyValueRow`s (WhatsApp, Phone, Email, Office with address and hours).
+- Bottom bar (margin-top 96, hairline, 13px `text-2`): "© {build year} {brand} · DTS Licence No. {licence}" and links (Instagram, Facebook, YouTube, Help, Privacy, Terms, Photo credits; Contact is a large link since PRD #118). Placeholder phone, email and social values show as plain text.
 - The design's `id="whatsapp"` anchor isn't used: every WhatsApp link goes to `wa.me`.
 
 #### `HomeHero` — `sections/HomeHero` (client for scroll effect)

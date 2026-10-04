@@ -7,7 +7,7 @@ import { siteUrlFor } from './siteUrl.ts';
  * the URL rule: absolute once the site URL is real, root-relative while it's a placeholder.
  */
 
-/** The route map's pages: every plain path, without anchors such as /#how or /help#policies. */
+/** The route map's pages: every plain path, without anchors such as /about#guides or /help#policies. */
 const PAGES = Object.values(routes).flatMap((route) => (typeof route === 'string' && !route.includes('#') ? [route] : []));
 
 /**

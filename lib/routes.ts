@@ -52,10 +52,7 @@ export const routes = {
   credits: '/credits',
   /** One guide's profile on the About page. */
   guide: (slug: string) => `/about${guideHash(slug)}`,
-
-  /* Sections the nav jumps to. */
-  how: '/#how',
-  reviews: '/#reviews',
+  /** About's guides, for the Homepage's "Meet the team". */
   guides: '/about#guides',
 } as const;
 

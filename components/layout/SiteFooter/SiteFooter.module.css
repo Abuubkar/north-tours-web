@@ -20,20 +20,6 @@
   gap: var(--space-64) var(--gutter);
 }
 
-.list {
-  padding: 0;
-  list-style: none;
-}
-
-.bigLink {
-  composes: footerNav from '../../../styles/typography.module.css';
-  display: flex;
-  align-items: center;
-  min-height: var(--tap);
-  color: var(--fg);
-  text-decoration: none;
-}
-
 .contact {
   display: flex;
   flex: 0 1 var(--footer-contact-w);

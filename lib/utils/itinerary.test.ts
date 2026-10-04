@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { loadTours } from '../content/tours.ts';
-import { sectionInView } from './nav.ts';
+import { sectionInView } from './scrollSpy.ts';
 import { dayState, drawItinerary, ITINERARY_LINE, ITINERARY_MAP_FRAME, MINI_MAP_FRAME, routePath, routeProgress, stopStates } from './itinerary.ts';
 
 /** A short version of the Grand: up to Hunza, out to Attabad and back, then home. */

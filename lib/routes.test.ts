@@ -41,12 +41,8 @@ describe('routes', () => {
     expect(helpCategoryAnchor('safety')).toBe('cat-safety');
   });
 
-  it('has the three nav anchors', () => {
-    expect([routes.how, routes.reviews, routes.guides]).toEqual([
-      '/#how',
-      '/#reviews',
-      '/about#guides',
-    ]);
+  it('links to About’s guides', () => {
+    expect(routes.guides).toBe('/about#guides');
   });
 
   it('names every fixed page, not the ones built from a slug or filters', () => {

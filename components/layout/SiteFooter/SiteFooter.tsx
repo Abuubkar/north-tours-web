@@ -5,26 +5,22 @@ import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
 import { routes } from '@/lib/routes';
 import { emailHref, phoneHref, socialLinks } from '@/lib/utils/contact';
 import { whatsappLink } from '@/lib/utils/whatsapp';
+import { NavLinks } from '../NavLinks/NavLinks';
 import type { SiteFooterProps } from './SiteFooter.types';
 import styles from './SiteFooter.module.css';
 
-const footerNav = [
-  { label: 'Tours', href: routes.tours },
-  { label: 'Destinations', href: routes.destinations },
-  { label: 'Private trips', href: routes.plan },
-  { label: 'About us', href: routes.about },
-  { label: 'Reviews', href: routes.reviews },
-];
-
+/** The small links after social. Contact is one of the main nav's large links above. */
 const legalLinks = [
   { label: 'Help', href: routes.help },
-  { label: 'Contact', href: routes.contact },
   { label: 'Privacy', href: routes.privacy },
   { label: 'Terms', href: routes.terms },
   { label: 'Photo credits', href: routes.credits },
 ];
 
-/** The footer on every page, built from settings. Placeholders show as written, unlinked. */
+/**
+ * The footer on every page, built from settings: the main nav's pages as large links, then contact.
+ * Placeholders show as written, unlinked.
+ */
 export function SiteFooter({ settings }: SiteFooterProps) {
   const { brand, contact, legal, social, whatsapp } = settings;
   const chatHref = whatsappLink(contact.whatsapp, whatsapp.generalMessage);
@@ -36,17 +32,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
           <SectionLabel>Contact</SectionLabel>
         </div>
         <div className={styles.columns}>
-          <nav aria-label="Footer">
-            <ul className={styles.list}>
-              {footerNav.map(({ label, href }) => (
-                <li key={label}>
-                  <a href={href} className={styles.bigLink}>
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <NavLinks variant="footer" />
           <div className={styles.contact}>
             <p className={styles.intro}>{whatsapp.footerIntro}</p>
             <Button href={chatHref} size={56} icon="whatsapp">

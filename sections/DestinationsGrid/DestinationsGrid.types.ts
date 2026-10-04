@@ -1,6 +1,6 @@
 import type { DestinationCardProps } from '@/components/destination-card/DestinationCard/DestinationCard.types';
 
-/** Home (the Homepage, #destinations, and the destinations page): every destination, up to six across, its months in full. */
+/** Home (the Homepage and the destinations page): every destination, up to six across, its months in full. */
 type Home = {
   variant?: 'home';
   /** The headline, and the label over each card's months ("Best season"). */
