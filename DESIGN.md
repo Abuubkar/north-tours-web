@@ -277,7 +277,7 @@ Touch devices always show the Default state; nothing depends on hover.
 
 ### Data contract
 
-`title, price, route, dates, seatsLeft, totalSeats, rating, reviews, photo, status ('open' | 'urgent' | 'soldout')`. Urgent is set when `seatsLeft ≤ 3`.
+`title, price, route, dates, seatsLeft, totalSeats, rating, reviews, photo, status ('open' | 'urgent' | 'soldout')`. Urgent is set when `seatsLeft ≤ 3`. The price is the twin price of the departure the card shows: the departure's own room prices if it has them (e.g. Eid), otherwise the tour's (ADR-0017).
 
 A card shows one departure: the tour's next upcoming departure that still has seats. Only when every upcoming departure is sold out does it show the next sold-out date, in the sold-out state with the waitlist. Lists of cards (the Homepage's upcoming departures) sort by the date each card shows.
 

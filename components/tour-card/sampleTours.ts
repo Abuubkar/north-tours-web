@@ -12,7 +12,7 @@ export const sampleTour: Tour = {
   tripTypes: ['family'],
   days: 9,
   nights: 8,
-  priceFrom: 145000,
+  prices: { twin: 145000, triple: 135000, quad: 127000 },
   difficulty: 'Easy walking, long road days',
   transport: 'Coaster, with jeeps for Deosai',
   bestSeason: { from: 'Apr', to: 'Oct' },

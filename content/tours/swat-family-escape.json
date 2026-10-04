@@ -15,7 +15,11 @@
   ],
   "days": 5,
   "nights": 4,
-  "priceFrom": 52000,
+  "prices": {
+    "twin": 52000,
+    "triple": 48500,
+    "quad": 46000
+  },
   "difficulty": "Easy, suits young children",
   "transport": "Coaster, with jeeps to Mahodand",
   "bestSeason": {

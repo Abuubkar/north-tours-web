@@ -16,7 +16,11 @@
   ],
   "days": 6,
   "nights": 5,
-  "priceFrom": 110000,
+  "prices": {
+    "twin": 110000,
+    "triple": 103000,
+    "quad": 97000
+  },
   "difficulty": "Easy walking, long road days",
   "transport": "Coaster, with jeeps for Deosai",
   "bestSeason": {

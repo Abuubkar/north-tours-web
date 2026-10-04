@@ -83,3 +83,22 @@ export const StaleBuild: Story = {
     await waitFor(() => expect(factValue(canvas, 'Next departure')).toHaveTextContent('12–20 May3 of 16 seats left'));
   },
 };
+
+/**
+ * "From" is the lowest twin price of the dates still to come: once the browser drops a cheaper
+ * date that has left, the price is worked out again from the rest (here an Eid date).
+ */
+export const FromAfterHydration: Story = {
+  args: {
+    tour: {
+      ...sampleTour,
+      departures: [
+        { ...departure('2020-06-01', '2020-06-09', 5), prices: { twin: 99000, triple: 95000, quad: 90000 } },
+        { ...departure('2099-06-09', '2099-06-17', 9), prices: { twin: 160000, triple: 150000, quad: 140000 } },
+      ],
+    },
+  },
+  play: async ({ canvas }) => {
+    await waitFor(() => expect(factValue(canvas, 'from')).toHaveTextContent('PKR 160,000per person, twin sharing'));
+  },
+};

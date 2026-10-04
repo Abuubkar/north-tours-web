@@ -16,7 +16,11 @@
   ],
   "days": 5,
   "nights": 4,
-  "priceFrom": 68000,
+  "prices": {
+    "twin": 68000,
+    "triple": 64000,
+    "quad": 60000
+  },
   "difficulty": "Moderate: 3–4 hours of uphill walking",
   "transport": "Coaster, with jeeps from Raikot",
   "bestSeason": {

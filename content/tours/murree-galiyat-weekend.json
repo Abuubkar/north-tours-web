@@ -15,7 +15,11 @@
   ],
   "days": 3,
   "nights": 2,
-  "priceFrom": 28000,
+  "prices": {
+    "twin": 28000,
+    "triple": 26000,
+    "quad": 24500
+  },
   "difficulty": "Easy, gentle forest walks",
   "transport": "Coaster",
   "bestSeason": {

@@ -299,7 +299,7 @@ A caret-style show/hide (▾ rotates 180°), distinct from the `+` accordion:
 - **Pages:** Homepage "03 Departures" (4), Tour Detail "12 Related tours" (3), Tours "03 Results" (8), Destination "07 Tours" (2), Design System "06" (all states).
 - **Anatomy** (`TourCard.dc.html`): `MediaFrame` 4:3 with an optional status `Tag` at a 16px inset. Body padding 24px: route 13/500 `text-2`, title H3 26/500 (balance, 10px gap), dates 15 `text`. Then a divider (`margin-top:auto`, padding-top 20, `line`), `PriceBlock` on the left and `RatingInline` on the right, `SeatsStatus` 16px below, and actions 24px below (gap 8): **View Trip** (primary 48, flex 1, arrow) plus a 48px **WhatsApp IconButton**.
 - **States:** **default**. **hover** (pointer only: `ink-800` surface .4s, photo scale 1.045 over 1s `ease-out`, arrow +4px over .3s, WhatsApp border → `text`). **urgent** (≤ 3 seats: urgent tag "Only N seats left", gold dot and text "3 of 16 seats left"; hover still applies). **soldout** (no hover, photo 40% opacity, title and price `text-2`, "Sold out" tag, dot `line-strong`, "0 of 12 seats · waitlist open", primary replaced by **Join waitlist** quiet 48). Forced-hover is a design-only prop.
-- **Data:** `title, price, route, dates, seatsLeft, totalSeats, rating, reviews, photo, status, href`.
+- **Data:** `title, price, route, dates, seatsLeft, totalSeats, rating, reviews, photo, status, href`. The price is the shown departure's twin price: its own room prices, or else the tour's (ADR-0017).
 - **Motion (M4):** "cards rise" once, on first view only, translateY 40px → 0 over .9s with a 90ms stagger. Only the photo fades. Cards are visible by default. On Tours it runs on first load only, never on filter change. Reduced motion means the cards simply appear.
 - **Client?** Hover can be pure CSS (`@media (hover:hover)`), so the card stays static. The rise needs a small client hook (`/hooks/useRiseOnView`).
 
@@ -308,7 +308,7 @@ A caret-style show/hide (▾ rotates 180°), distinct from the `+` accordion:
 - `SeeAllToursCell` (Destination only): the last grid cell, min-height 200, padding `32px 28px`, "See all Hunza trips →" 26/500 plus "Opens the Tours page, filtered to Hunza" 14 `text-2`. Links to `Tours?dest=hunza`.
 
 #### `PriceBlock` — `components/tour/PriceBlock`
-- "from" 13 `text-3` / "PKR 145,000" tabular nowrap / "per person[, twin sharing]" 13 `text-3`.
+- "from" 13 `text-3` / "PKR 145,000" tabular nowrap / "per person[, twin sharing]" 13 `text-3`. A card's price is its departure's twin price; "from" elsewhere is the lowest twin price across upcoming departures, worked out, never stored (ADR-0017).
 - **Sizes:** 24/500 (TourCard), 30/500 (BookingPanel), 18/500 (TD hero facts, TD sticky bar, TD departure rows), 16/500 (room rows).
 - The sold-out colour is `text-2` (TourCard). On the TD dates list the sold-out colour is `ink-text-2`. Never animated. Static.
 

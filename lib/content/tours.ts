@@ -7,14 +7,23 @@ import { imageSchema } from './images.ts';
 
 const pkr = z.int('Use whole rupees').positive();
 
+/**
+ * Room prices per person (ADR-0017). Sharing a room never costs more per person, so the set
+ * runs twin ≥ triple ≥ quad.
+ */
+const roomPricesSchema = z
+  .strictObject({ twin: pkr, triple: pkr, quad: pkr })
+  .refine((p) => p.triple <= p.twin, { message: 'Triple sharing can’t cost more than twin', path: ['triple'] })
+  .refine((p) => p.quad <= p.triple, { message: 'Quad sharing can’t cost more than triple', path: ['quad'] });
+
 export const departureSchema = z
   .strictObject({
     start: isoDate,
     end: isoDate,
     seatsTotal: z.int().positive(),
     seatsLeft: z.int().min(0, 'Seats left can’t be negative'),
-    /** Only when this departure costs something other than the tour's price. */
-    price: pkr.optional(),
+    /** Only when this date costs something else (e.g. Eid): replaces the tour's whole set. */
+    prices: roomPricesSchema.optional(),
   })
   .refine((d) => d.end >= d.start, { message: 'Must end on or after its start', path: ['end'] })
   .refine((d) => d.seatsLeft <= d.seatsTotal, {
@@ -34,7 +43,8 @@ export const tourSchema = z
     tripTypes: z.array(z.enum(['family', 'couples', 'friends', 'corporate'])).min(1),
     days: z.int().positive(),
     nights: z.int().min(0),
-    priceFrom: pkr,
+    /** Per person, by room sharing (ADR-0017). "From" is worked out from these, never stored. */
+    prices: roomPricesSchema,
     /** Quick facts, as shown, e.g. "Easy walking, long road days". */
     difficulty: nonEmpty,
     /** As shown, e.g. "Coaster and jeeps". */
@@ -69,6 +79,7 @@ export const tourSchema = z
 
 export type Tour = z.infer<typeof tourSchema>;
 export type Departure = z.infer<typeof departureSchema>;
+export type RoomPrices = z.infer<typeof roomPricesSchema>;
 
 function daysBetween(start: string, end: string): number {
   return Math.round((Date.parse(end) - Date.parse(start)) / 86_400_000);

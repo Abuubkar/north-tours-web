@@ -15,7 +15,11 @@
   ],
   "days": 6,
   "nights": 5,
-  "priceFrom": 98000,
+  "prices": {
+    "twin": 98000,
+    "triple": 92000,
+    "quad": 87000
+  },
   "difficulty": "Easy walking, long road days",
   "transport": "Coaster",
   "bestSeason": {
@@ -54,7 +58,11 @@
       "end": "2027-08-23",
       "seatsTotal": 16,
       "seatsLeft": 16,
-      "price": 104000
+      "prices": {
+        "twin": 104000,
+        "triple": 98000,
+        "quad": 92000
+      }
     }
   ]
 }

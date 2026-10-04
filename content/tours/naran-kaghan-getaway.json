@@ -17,7 +17,11 @@
   ],
   "days": 4,
   "nights": 3,
-  "priceFrom": 38000,
+  "prices": {
+    "twin": 38000,
+    "triple": 35500,
+    "quad": 33500
+  },
   "difficulty": "Easy, short walks",
   "transport": "Coaster, with jeeps to Saiful Muluk",
   "bestSeason": {

@@ -137,3 +137,14 @@ export const PlaceholderPhoto: Story = {
     await expect(canvas.getByRole('img', { name: 'Attabad Lake' })).toBeVisible();
   },
 };
+
+/** A departure with its own room prices (e.g. Eid) shows its own twin price, not the tour's. */
+export const OwnPrices: Story = {
+  args: { departure: { ...openDeparture, prices: { twin: 160000, triple: 150000, quad: 140000 } } },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText('PKR 160,000')).toBeVisible();
+    await expect(canvas.queryByText('PKR 145,000')).toBeNull();
+  },
+};
+
+export const OwnPricesOnLight: Story = { ...OwnPrices, globals: { surface: 'light' } };

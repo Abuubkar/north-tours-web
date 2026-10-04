@@ -1,6 +1,24 @@
+import type { Departure, RoomPrices, Tour } from '../content/tours.ts';
+import { upcomingDepartures } from './departures.ts';
+
 const pkr = new Intl.NumberFormat('en-PK');
 
 /** "PKR 145,000": whole rupees, grouped in thousands. */
 export function formatPkr(amount: number): string {
   return `PKR ${pkr.format(amount)}`;
+}
+
+/** A departure's room prices: its own set (e.g. an Eid date), or else the tour's (ADR-0017). */
+export function departurePrices(tour: Pick<Tour, 'prices'>, departure: Pick<Departure, 'prices'>): RoomPrices {
+  return departure.prices ?? tour.prices;
+}
+
+/**
+ * The "from" price as of `today` (YYYY-MM-DD, Asia/Karachi): the lowest twin price across the
+ * tour's upcoming departures, or the tour's own twin price when none is left. Never stored.
+ */
+export function fromPrice(tour: Pick<Tour, 'prices' | 'departures'>, today: string): number {
+  const upcoming = upcomingDepartures(tour.departures, today);
+  if (upcoming.length === 0) return tour.prices.twin;
+  return Math.min(...upcoming.map((departure) => departurePrices(tour, departure).twin));
 }
