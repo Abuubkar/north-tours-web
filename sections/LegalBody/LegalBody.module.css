@@ -1,0 +1,22 @@
+.body {
+  composes: bodySection from '../../styles/layout.module.css';
+}
+
+.layout {
+  composes: sideLayout from '../../styles/layout.module.css';
+}
+
+/* The text, at most 35em, its sections well apart. */
+.article {
+  composes: mainColumn from '../../styles/layout.module.css';
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-48);
+  max-width: var(--measure-legal);
+}
+
+.closing {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  padding-top: var(--space-24);
+  border-top: var(--hairline-width) solid var(--hairline);
+}

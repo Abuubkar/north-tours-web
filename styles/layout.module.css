@@ -79,6 +79,58 @@
 }
 
 /*
+ * A text page's body under its header (Help's questions, a legal document): a hairline, less
+ * room above than a section, the usual room below.
+ */
+.bodySection {
+  padding: var(--body-top) var(--margin) var(--section-y);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+/*
+ * Two columns with a sticky side (docs/components.md §4): from 820px a 240px column (Help's
+ * categories, the legal contents) stays in view beside the text, stopping under the header.
+ * Below 820px the side column is hidden and its phone form (`sideTop`) sits above the text.
+ */
+.sideLayout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+}
+
+.sideColumn {
+  position: sticky;
+  top: var(--side-top);
+  flex: 0 0 var(--label-col);
+}
+
+.mainColumn {
+  min-width: 0;
+}
+
+@media (width < 820px) {
+  .sideColumn {
+    display: none;
+  }
+}
+
+@media (width >= 820px) {
+  .sideLayout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--gutter);
+  }
+
+  .mainColumn {
+    flex: 1 1 0;
+  }
+
+  .sideTop {
+    display: none;
+  }
+}
+
+/*
  * Image-card cell (docs/components.md §4): a card (or a link) filling its grid cell, the photo
  * full-bleed in its frame and the text under it padded on both sides like a text-grid cell.
  */

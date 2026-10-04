@@ -9,6 +9,7 @@ type WithoutPhoto = {
    */
   variant?: 'default' | 'planner' | 'plannerSlim';
   image?: never;
+  updated?: never;
 };
 
 /** About: the <h1> at the long size, the lead, then a wide photo (the page's LCP image). */
@@ -16,9 +17,18 @@ type About = {
   variant: 'about';
   /** 4:3 on phones, 21:9 from 820px, cropped at its focus. */
   image: Photo;
+  updated?: never;
 };
 
-export type PageHeaderProps = (WithoutPhoto | About) & {
+/** The legal pages (light): the document's title as the <h1>, then when it was last updated. */
+type Legal = {
+  variant: 'legal';
+  /** "Last updated {date}" and the date, YYYY-MM-DD. */
+  updated: { template: string; date: string };
+  image?: never;
+};
+
+export type PageHeaderProps = (WithoutPhoto | About | Legal) & {
   /** The page's <h1>. */
   headline: string;
   /** The line under it; the slim planner header has none. */

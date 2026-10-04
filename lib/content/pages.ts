@@ -4,8 +4,8 @@ import { slugSchema } from './collection.ts';
 import { CONTENT_DIR, displayPath, parseFile, requireValid } from './files.ts';
 import { checkChosenReviews } from './links.ts';
 import { loadReviews } from './reviews.ts';
-import { SETTINGS_TOKENS } from '../utils/tokens.ts';
-import { copy, copyWith, nonEmpty, sample } from './fields.ts';
+import { SETTINGS_TOKENS, type CompanyToken, type PolicyToken, type SettingsToken } from '../utils/tokens.ts';
+import { checkUniqueIds, copy, copyWith, nonEmpty, pastDate, sample } from './fields.ts';
 import { photoSchema, ownerImageSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
@@ -708,4 +708,89 @@ let cachedAbout: AboutCopy | undefined;
 export function getAboutCopy(): AboutCopy {
   cachedAbout ??= requireValid(loadAboutCopy());
   return cachedAbout;
+}
+
+/**
+ * The tokens the Privacy Policy and the Terms may use: the company's details and the booking
+ * policies, so no figure from settings is ever typed into them.
+ */
+export const LEGAL_TOKENS = [
+  'brand',
+  'email',
+  'phone',
+  'whatsapp',
+  'officeAddress',
+  'dtsLicence',
+  'companyRegistration',
+  'replyTime',
+  'advancePercent',
+  'paymentMethods',
+  'refundSchedule',
+  'fullRefundDays',
+  'refundPaidWithinDays',
+  'balanceDueDays',
+  'childFromAge',
+] as const satisfies readonly (SettingsToken | PolicyToken | CompanyToken)[];
+
+/** One numbered section: its anchor (/privacy#cookies), its heading and its paragraphs. */
+const legalSectionSchema = z.strictObject({
+  id: slugSchema,
+  heading: copy,
+  paragraphs: z.array(copyWith(...LEGAL_TOKENS)).min(1, 'Write at least one paragraph'),
+});
+
+/**
+ * A legal document (/privacy or /terms). Sample text until the owner's lawyer has reviewed it,
+ * marked `sample: true` (ADR-0020); the owner removes the field once it has been.
+ */
+const legalDocumentSchema = z.strictObject({
+  /** The <title> part, e.g. "Privacy policy". */
+  title: copy,
+  description: copy,
+  /** The page's <h1>, in sentence case. */
+  headline: copy,
+  /** "Last updated": the date of this version, not after the build date. */
+  lastUpdated: pastDate,
+  /** The article's last line: "Questions about this policy? Email {email}." (a link once the email is real). */
+  closing: copyWith('email'),
+  sample,
+  /** Numbered in this order; each anchor once only. */
+  sections: z
+    .array(legalSectionSchema)
+    .min(1, 'Write at least one section')
+    .superRefine((sections, ctx) => checkUniqueIds(sections.map(({ id }, i) => ({ id, path: [i] })), ctx)),
+});
+
+/** The legal pages' wording (PRD #86): the template's labels and both documents, which share one layout. */
+const legalCopySchema = z.strictObject({
+  labels: z.strictObject({
+    /** Over the contents list from 820px. */
+    contents: copy,
+    /** The contents list's disclosure on phones: "Contents (9)". */
+    contentsCount: copyWith('count'),
+    /** Under the <h1>: "Last updated 4 October 2026". */
+    lastUpdated: copyWith('date'),
+  }),
+  privacy: legalDocumentSchema,
+  terms: legalDocumentSchema,
+});
+
+export type LegalCopy = z.infer<typeof legalCopySchema>;
+
+/** Which legal document a page shows. */
+export type LegalDocumentId = 'privacy' | 'terms';
+
+export function legalCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'legal.json');
+}
+
+export function loadLegalCopy(dir = CONTENT_DIR) {
+  return parseFile(legalCopySchema, legalCopyFile(dir));
+}
+
+let cachedLegal: LegalCopy | undefined;
+
+export function getLegalCopy(): LegalCopy {
+  cachedLegal ??= requireValid(loadLegalCopy());
+  return cachedLegal;
 }

@@ -55,6 +55,8 @@ const settingsSchema = z.strictObject({
     refundSchedule: refundScheduleSchema,
     /** The balance is due this many days before departure. */
     balanceDueDays: z.int().min(0),
+    /** A refund is paid back within this many days of cancelling (Help's policies, the FAQs and the Terms). */
+    refundPaidWithinDays: z.int().min(1, 'Use at least 1 day'),
     /** Children count as travellers (and pay) from this age. */
     childFromAge: z.int().min(0).max(17),
   }),

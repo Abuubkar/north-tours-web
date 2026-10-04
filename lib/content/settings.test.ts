@@ -122,6 +122,14 @@ describe('settings', () => {
     expect(fields(withChange((s) => Object.assign(s.policies, { childFromAge: 18 })))).toEqual(['policies.childFromAge']);
   });
 
+  it('rejects a missing refund window, or one of 0 days', () => {
+    expect(fields(withChange((s) => delete (s.policies as Partial<Settings['policies']>).refundPaidWithinDays))).toEqual([
+      'policies.refundPaidWithinDays',
+    ]);
+    expect(fields(withChange((s) => Object.assign(s.policies, { refundPaidWithinDays: 0 })))).toEqual(['policies.refundPaidWithinDays']);
+    expect(fields(withChange((s) => Object.assign(s.policies, { refundPaidWithinDays: 2.5 })))).toEqual(['policies.refundPaidWithinDays']);
+  });
+
   describe('refund schedule', () => {
     const schedule = (rows: [number, number][]) =>
       withChange((s) => Object.assign(s.policies, { refundSchedule: rows.map(([daysBefore, refundPercent]) => ({ daysBefore, refundPercent })) }));

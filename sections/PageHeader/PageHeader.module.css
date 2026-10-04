@@ -53,3 +53,15 @@
 .photo {
   margin-top: var(--page-header-media-top);
 }
+
+/* Help and the legal pages: less room under the header, which a hairline closes. */
+.short {
+  padding-bottom: var(--page-header-bottom-short);
+}
+
+/* "Last updated 4 October 2026" under a legal page's <h1>. */
+.updated {
+  composes: small from '../../styles/typography.module.css';
+  margin-top: var(--space-20);
+  color: var(--fg-2);
+}

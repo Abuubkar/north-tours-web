@@ -124,3 +124,26 @@ export const AboutPhone: Story = {
 };
 
 export const AboutPhoneOnLight: Story = { ...AboutPhone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** The legal pages (light): the document's title as the only <h1>, then "Last updated" with its date in a <time>. */
+export const Legal: Story = {
+  args: { variant: 'legal', headline: 'Privacy policy', lead: undefined, updated: { template: 'Last updated {date}', date: '2026-10-04' } },
+  play: async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Privacy policy' })).toBeVisible();
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await expect(canvas.getByText(/^Last updated/)).toHaveTextContent('Last updated 4 October 2026');
+    await expect(canvasElement.querySelector('time')).toHaveAttribute('datetime', '2026-10-04');
+    await expect(canvasElement.querySelector('header')).toHaveAttribute('data-surface', 'light');
+  },
+};
+
+export const LegalOnLight: Story = { ...Legal, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const LegalPhone: Story = {
+  ...Legal,
+  globals: { viewport: { value: 'phone' } },
+  play: async (context) => {
+    await Legal.play!(context);
+    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
+  },
+};

@@ -173,6 +173,10 @@ Folders are created only when the first file for them is needed (section 3).
   principles, vehicles and fleet age, the safety list, stats beyond the `trust` settings and
   memberships. Only `true` is allowed; the owner confirms a claim by removing the field. It never
   shows on the site.
+- **Sample legal and policy text carries the same `sample: true` (ADR-0020):** each Help policy, the
+  Privacy Policy and the Terms, until the owner's lawyer has reviewed them. Settings figures appear in
+  them only as `{tokens}`. The Privacy Policy describes the site as built: a change that adds a
+  cookie, analytics, a form that sends data or a request to another host updates it in the same PR.
 
 ## 8. Design rules
 
