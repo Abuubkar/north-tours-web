@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { destinationPageTitle, getDestinationPage } from './destinationPage.ts';
 
-describe('getDestinationPage', () => {
+describe('destination page', () => {
   it('gives the page title from the copy template', () => {
     expect(destinationPageTitle('hunza')).toBe('Hunza tours from Lahore');
     expect(destinationPageTitle('fairy-meadows')).toBe('Fairy Meadows tours from Lahore');

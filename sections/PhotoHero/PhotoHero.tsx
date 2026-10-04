@@ -10,10 +10,14 @@ import styles from './PhotoHero.module.css';
  * the page's only <h1> and its facts. Destination: the name at display size, sized from its
  * length so it stays on one line, with the destination's lead under it.
  */
+const heroClass = { tour: styles.hero, destination: `${styles.hero} ${styles.destination}` };
+
+/** Tour: the tour hero size, wrapping as it needs. Destination: display size on one line (`--name-length`). */
+const titleClass = { tour: styles.title, destination: styles.name };
+
 export function PhotoHero({ variant = 'tour', image, back, kicker, title, lead, children }: PhotoHeroProps) {
-  const destination = variant === 'destination';
   return (
-    <section className={`${styles.hero} ${destination ? styles.destination : ''}`} data-surface="dark">
+    <section className={heroClass[variant]} data-surface="dark">
       <div className={styles.media}>
         <MediaFrame image={image} ratio="fill" sizes="100vw" priority />
       </div>
@@ -25,13 +29,9 @@ export function PhotoHero({ variant = 'tour', image, back, kicker, title, lead, 
       </div>
       <div className={styles.foot}>
         <p className={styles.kicker}>{kicker}</p>
-        {destination ? (
-          <h1 className={styles.name} style={{ '--name-length': title.length } as CSSProperties}>
-            {title}
-          </h1>
-        ) : (
-          <h1 className={styles.title}>{title}</h1>
-        )}
+        <h1 className={titleClass[variant]} style={{ '--name-length': title.length } as CSSProperties}>
+          {title}
+        </h1>
         {lead && <p className={styles.lead}>{lead}</p>}
         {children}
       </div>

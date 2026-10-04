@@ -42,8 +42,11 @@ export const Phone: Story = {
 /** No tour visits yet: the Tours fact is left out, never "0". */
 export const NoTours: Story = {
   args: { tourCount: 0 },
+  globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas, canvasElement }) => {
     await expect(canvas.queryByText('Tours')).toBeNull();
     await expect(canvasElement.querySelectorAll('dt')).toHaveLength(3);
   },
 };
+
+export const NoToursPhone: Story = { ...NoTours, globals: { viewport: { value: 'phone' } } };

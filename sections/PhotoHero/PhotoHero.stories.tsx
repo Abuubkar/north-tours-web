@@ -111,6 +111,11 @@ export const StaleBuild: Story = {
   },
 };
 
+/** Nothing on the page scrolls sideways. */
+async function noSideScroll(canvasElement: HTMLElement) {
+  await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
+}
+
 /** A destination's facts under its hero. */
 const destinationFacts = (tourCount: number) => (
   <DestinationFacts destination={sampleDestination} tourCount={tourCount} copy={sampleDestinationCopy.facts} />
@@ -132,8 +137,8 @@ export const Destination: Story = {
     variant: 'destination',
     image: sampleDestination.image,
     back: { href: '/#destinations', label: 'All destinations' },
-    kicker: 'Gilgit-Baltistan',
-    title: 'Hunza',
+    kicker: sampleDestination.region,
+    title: sampleDestination.name,
     lead: sampleDestination.lead,
     children: destinationFacts(2),
   },
@@ -159,13 +164,13 @@ export const DestinationPhone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async (context) => {
     await Destination.play!(context);
-    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
+    await noSideScroll(context.canvasElement);
   },
 };
 
 /** A long name ("Fairy Meadows") shrinks to stay on one line. */
 export const DestinationLongName: Story = {
-  args: { ...Destination.args, title: 'Fairy Meadows', kicker: 'Gilgit-Baltistan' },
+  args: { ...Destination.args, title: 'Fairy Meadows' },
   play: async ({ canvas, canvasElement }) => {
     await expect(canvas.getByRole('heading', { level: 1, name: 'Fairy Meadows' })).toBeVisible();
     await nameFitsOnOneLine(canvasElement);
@@ -177,7 +182,7 @@ export const DestinationLongNamePhone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async (context) => {
     await DestinationLongName.play!(context);
-    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
+    await noSideScroll(context.canvasElement);
   },
 };
 
