@@ -18,7 +18,8 @@
 
 /* Floated, so the legend lays out like any label line inside its fieldset. */
 .legend {
-  composes: label;
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-2);
   float: left;
   width: 100%;
   margin-bottom: var(--space-8);
