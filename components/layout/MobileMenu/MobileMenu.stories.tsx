@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import styles from '../../ui/stories.module.css';
+import { markedLinks, scrollToSection, SpySections } from '../../../.storybook/spySections';
 import { realUser } from '../../../.storybook/realUser';
 import { MobileMenu } from './MobileMenu';
 
@@ -103,19 +103,16 @@ export const ScrollSpy: Story = {
   render: (args) => (
     <>
       <MobileMenu {...args} />
-      <div className={styles.scrollRoom} />
-      <section id="how" className={styles.scrollRoom} />
-      <section id="destinations" className={styles.scrollRoom} />
-      <section id="reviews" className={styles.scrollRoom} />
+      <SpySections />
     </>
   ),
   play: async ({ canvas }) => {
-    document.getElementById('destinations')!.scrollIntoView({ block: 'start', behavior: 'instant' });
+    scrollToSection('destinations');
     // A DOM click, so the page isn't scrolled back up to the menu button first.
     canvas.getByRole('button', { name: 'Menu' }).click();
     const menu = within(await canvas.findByRole('dialog', { name: 'Menu' }));
-    await waitFor(() => expect(menu.getByRole('link', { name: 'Destinations' })).toHaveAttribute('aria-current', 'location'));
-    const marked = menu.getAllByRole('link').filter((link) => link.hasAttribute('aria-current'));
-    await expect(marked.map((link) => link.textContent)).toEqual(['Destinations']);
+    await waitFor(() => expect(markedLinks(menu.getByRole('navigation', { name: 'Main' }))).toEqual(['Destinations (location)']));
   },
 };
+
+export const ScrollSpyOnLight: Story = { ...ScrollSpy, globals: { surface: 'light', viewport: { value: 'phone' } } };

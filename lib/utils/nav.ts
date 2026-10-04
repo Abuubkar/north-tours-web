@@ -16,10 +16,8 @@ export const mainNav: readonly NavItem[] = [
 /** The Homepage sections the nav marks while they're in view (scroll-spy). Tours and Guides link to other pages. */
 export const SPIED_SECTIONS = ['how', 'destinations', 'reviews'] as const satisfies readonly NavItemId[];
 
-export type SpiedSection = (typeof SPIED_SECTIONS)[number];
-
 /** A section counts as in view once its top is above this fraction of the viewport's height. */
-const SPY_LINE = 0.4;
+export const SPY_LINE = 0.4;
 
 /**
  * The Homepage section in view, from each section's top (px from the top of the viewport): the

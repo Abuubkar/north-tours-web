@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, waitFor, within } from 'storybook/test';
-import styles from '../../ui/stories.module.css';
+import { expect, waitFor } from 'storybook/test';
+import { markedLinks, scrollToSection, SpySections } from '../../../.storybook/spySections';
 import { NavLinks } from './NavLinks';
 
 const meta = {
@@ -29,35 +29,17 @@ export const Menu: Story = { ...OnAboutPage, args: { variant: 'menu' } };
 
 export const MenuOnLight: Story = { ...Menu, globals: { surface: 'light' } };
 
-/** A stand-in Homepage: room for the hero and departures, then the three sections the nav follows. */
+/** The nav above a stand-in Homepage. */
 function Homepage(args: Parameters<typeof NavLinks>[0]) {
   return (
     <>
       <NavLinks {...args} />
-      <div className={styles.scrollRoom} />
-      {[
-        ['how', 'How booking works'],
-        ['destinations', 'Where we go'],
-        ['reviews', 'Reviews'],
-      ].map(([id, title]) => (
-        <section key={id} id={id} className={styles.scrollRoom}>
-          <h2>{title}</h2>
-        </section>
-      ))}
+      <SpySections />
     </>
   );
 }
 
 const onHomepage = { nextjs: { appDirectory: true, navigation: { pathname: '/' } } };
-
-const currentItems = (canvasElement: HTMLElement) =>
-  within(canvasElement)
-    .getAllByRole('link')
-    .filter((link) => link.hasAttribute('aria-current'))
-    .map((link) => `${link.textContent} (${link.getAttribute('aria-current')})`);
-
-/** Puts a section's top just under the header, as the nav's anchors do. */
-const scrollToSection = (id: string) => document.getElementById(id)!.scrollIntoView({ block: 'start', behavior: 'instant' });
 
 /**
  * On the Homepage the nav marks the section in view, with aria-current="location": none above
@@ -69,18 +51,18 @@ export const ScrollSpy: Story = {
   parameters: onHomepage,
   play: async ({ canvasElement }) => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-    await waitFor(() => expect(currentItems(canvasElement)).toEqual([]));
+    await waitFor(() => expect(markedLinks(canvasElement)).toEqual([]));
     for (const [id, label] of [
       ['how', 'How it works'],
       ['destinations', 'Destinations'],
       ['reviews', 'Reviews'],
     ]) {
       scrollToSection(id);
-      await waitFor(() => expect(currentItems(canvasElement)).toEqual([`${label} (location)`]));
+      await waitFor(() => expect(markedLinks(canvasElement)).toEqual([`${label} (location)`]));
     }
     // Back above How booking works: nothing is marked again.
     window.scrollTo({ top: 0, behavior: 'instant' });
-    await waitFor(() => expect(currentItems(canvasElement)).toEqual([]));
+    await waitFor(() => expect(markedLinks(canvasElement)).toEqual([]));
   },
 };
 
@@ -89,6 +71,8 @@ export const ScrollSpyOnLight: Story = { ...ScrollSpy, globals: { surface: 'ligh
 /** The menu variant follows the same section. */
 export const ScrollSpyMenu: Story = { ...ScrollSpy, args: { variant: 'menu' }, globals: { viewport: { value: 'phone' } } };
 
+export const ScrollSpyMenuOnLight: Story = { ...ScrollSpyMenu, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 /** Off the Homepage the path rule still applies, even with those sections on the page. */
 export const OffHomepage: Story = {
   render: Homepage,
@@ -96,6 +80,6 @@ export const OffHomepage: Story = {
   play: async ({ canvasElement }) => {
     scrollToSection('reviews');
     await new Promise((resolve) => setTimeout(resolve, 100));
-    await expect(currentItems(canvasElement)).toEqual(['Tours (page)']);
+    await expect(markedLinks(canvasElement)).toEqual(['Tours (page)']);
   },
 };

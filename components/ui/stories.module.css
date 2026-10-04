@@ -1,4 +1,4 @@
-/* Layout helpers shared by base component stories only. */
+/* Layout helpers shared by stories (also used by .storybook helpers). */
 .stack {
   display: flex;
   flex-direction: column;

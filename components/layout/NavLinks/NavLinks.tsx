@@ -22,9 +22,10 @@ const NO_SECTIONS = [] as const;
 export function NavLinks({ variant }: NavLinksProps) {
   const pathname = usePathname();
   const onHomepage = pathname === routes.home;
-  const sectionInView = useScrollSpy(onHomepage ? SPIED_SECTIONS : NO_SECTIONS);
-  const active = onHomepage ? sectionInView : activeNavItem(pathname);
-  const current = onHomepage ? 'location' : 'page';
+  const spiedSection = useScrollSpy(onHomepage ? SPIED_SECTIONS : NO_SECTIONS);
+  // On the Homepage the item marks a place on the page; elsewhere, the page itself.
+  const active = onHomepage ? spiedSection : activeNavItem(pathname);
+  const ariaCurrent = onHomepage ? 'location' : 'page';
   const classes = variantClass[variant];
 
   return (
@@ -32,7 +33,7 @@ export function NavLinks({ variant }: NavLinksProps) {
       <ul className={classes.list}>
         {mainNav.map(({ id, label, href }) => (
           <li key={id}>
-            <a href={href} className={classes.link} aria-current={id === active ? current : undefined}>
+            <a href={href} className={classes.link} aria-current={id === active ? ariaCurrent : undefined}>
               {label}
             </a>
           </li>

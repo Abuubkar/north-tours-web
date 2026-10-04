@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import styles from '../../ui/stories.module.css';
+import { markedLinks, scrollToSection, SpySections } from '../../../.storybook/spySections';
 import { realUser } from '../../../.storybook/realUser';
 import { placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteHeader } from './SiteHeader';
@@ -144,23 +144,32 @@ export const FocusRingPhone: Story = {
   },
 };
 
-/** On the Homepage the header marks the section in view: Reviews, with aria-current="location". */
+/** On the Homepage the header marks the section in view, with aria-current="location", and nothing above it. */
 export const HomepageScrollSpy: Story = {
   parameters: { ...onPath('/'), fullBleed: true },
   render: (args) => (
     <>
       <SiteHeader {...args} />
-      <div className={styles.scrollRoom} />
-      <section id="how" className={styles.scrollRoom} />
-      <section id="destinations" className={styles.scrollRoom} />
-      <section id="reviews" className={styles.scrollRoom} />
+      <SpySections />
     </>
   ),
   play: async ({ canvas }) => {
-    document.getElementById('reviews')!.scrollIntoView({ block: 'start', behavior: 'instant' });
     const nav = canvas.getByRole('navigation', { name: 'Main' });
-    await waitFor(() => expect(within(nav).getByRole('link', { name: 'Reviews' })).toHaveAttribute('aria-current', 'location'));
-    const marked = within(nav).getAllByRole('link').filter((link) => link.hasAttribute('aria-current'));
-    await expect(marked).toHaveLength(1);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    await waitFor(() => expect(markedLinks(nav)).toEqual([]));
+    for (const [id, label] of [
+      ['how', 'How it works'],
+      ['destinations', 'Destinations'],
+      ['reviews', 'Reviews'],
+    ]) {
+      scrollToSection(id);
+      await waitFor(() => expect(markedLinks(nav)).toEqual([`${label} (location)`]));
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
   },
+};
+
+export const HomepageScrollSpyOnLight: Story = {
+  ...HomepageScrollSpy,
+  globals: { surface: 'light', viewport: { value: 'desktop' } },
 };
