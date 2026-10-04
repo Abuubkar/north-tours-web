@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/Button/Button';
 import { useTourFilters } from '@/hooks/useTourFilters';
 import { routes } from '@/lib/routes';
 import { sortedByText, tripsCount } from '@/lib/utils/resultsText';
+import { EmptyState } from '@/sections/EmptyState/EmptyState';
 import { ActiveFilterChips } from '../ActiveFilterChips/ActiveFilterChips';
 import { ResultsGrid } from '../ResultsGrid/ResultsGrid';
 import { ResultsHeader } from '../ResultsHeader/ResultsHeader';
-import { EmptyState } from '@/sections/EmptyState/EmptyState';
 import type { TourResultsProps } from './TourResults.types';
 import styles from './TourResults.module.css';
 

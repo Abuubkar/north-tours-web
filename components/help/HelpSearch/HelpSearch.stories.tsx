@@ -179,3 +179,40 @@ export const EnterAndClearButton: Story = {
 };
 
 export const EnterAndClearButtonPhone: Story = { ...EnterAndClearButton, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/**
+ * The address's answer among the matches: "refund" keeps #refunds open beside the other match
+ * (the one-open group is lifted), and clearing leaves #refunds open, the others closed.
+ */
+export const LinkedAnswerAmongMatches: Story = {
+  beforeEach: atHash('#refunds'),
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await waitFor(() => expect(openAnswers(canvasElement)).toEqual(['refunds']));
+    const ids = expected('refund');
+    await expect(ids).toContain('refunds');
+    await search(canvas, 'refund', userEvent);
+    await waitFor(() => expect(openAnswers(canvasElement)).toEqual(ids));
+    await userEvent.click(canvas.getByRole('button', { name: 'Clear search' }));
+    await waitFor(() => expect(openAnswers(canvasElement)).toEqual(['refunds']));
+    await expect(window.location.hash).toBe('#refunds');
+  },
+};
+
+export const LinkedAnswerAmongMatchesOnDark: Story = { ...LinkedAnswerAmongMatches, globals: { surface: 'dark', viewport: { value: 'desktop' } } };
+
+/** A new search straight after clearing announces only its own count, never the cleared one's. */
+export const NoStaleCount: Story = {
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await search(canvas, 'refund', userEvent);
+    const line = canvasElement.querySelector('[aria-live="polite"]')!;
+    await waitFor(() => expect(line).toHaveTextContent('answers for “refund”'));
+    const seen: string[] = [];
+    const observer = new MutationObserver(() => seen.push(line.textContent ?? ''));
+    observer.observe(line, { childList: true, characterData: true, subtree: true });
+    await userEvent.click(canvas.getByRole('button', { name: 'Clear search' }));
+    await search(canvas, 'visa', userEvent);
+    await waitFor(() => expect(line).toHaveTextContent('No answers for “visa”'));
+    observer.disconnect();
+    await expect(seen.filter((text) => text !== '')).toEqual(['No answers for “visa”']);
+  },
+};

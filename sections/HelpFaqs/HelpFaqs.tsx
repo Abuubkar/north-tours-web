@@ -5,6 +5,7 @@ import { FaqCategory } from '@/components/help/FaqCategory/FaqCategory';
 import { Button } from '@/components/ui/Button/Button';
 import { useHelp } from '@/hooks/useHelp';
 import { categoryLinks } from '@/lib/utils/helpAnswers';
+import { matchingCategories } from '@/lib/utils/helpSearch';
 import { EmptyState } from '../EmptyState/EmptyState';
 import type { HelpFaqsProps } from './HelpFaqs.types';
 import styles from './HelpFaqs.module.css';
@@ -21,9 +22,7 @@ const GROUP = 'help-faqs';
  */
 export function HelpFaqs({ copy, askHref }: HelpFaqsProps) {
   const { categories, searching, terms, matching, openIds, toggled, linkTo, clear } = useHelp();
-  const shown = categories
-    .map((category) => ({ ...category, questions: searching ? category.questions.filter((q) => matching.has(q.id)) : category.questions }))
-    .filter((category) => category.questions.length > 0);
+  const shown = matchingCategories(categories, searching ? matching : null);
 
   return (
     <section data-surface="light" className={styles.body}>

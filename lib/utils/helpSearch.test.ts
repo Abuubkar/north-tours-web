@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { categoryCounts, highlight, matchesAnswer, matchingAnswers, normalise, resultLine, searchTerms } from './helpSearch.ts';
+import { highlight, matchesAnswer, matchingAnswers, matchingCategories, normalise, resultLine, searchTerms } from './helpSearch.ts';
 
 describe('normalise', () => {
   it('lower-cases and removes accents', () => {
@@ -104,16 +104,20 @@ const categories = [
   },
 ];
 
-describe('matchingAnswers and categoryCounts', () => {
-  it('counts each category’s matches during a search', () => {
+describe('matchingAnswers and matchingCategories', () => {
+  it('keeps each category’s matches during a search, and leaves out categories with none', () => {
     const matching = matchingAnswers(categories, ['advance']);
     expect([...matching]).toEqual(['advance', 'refunds']);
-    expect(categoryCounts(categories, matching)).toEqual({ booking: 1, cancellations: 1 });
+    expect(matchingCategories(categories, matching).map((c) => [c.id, c.questions.map((q) => q.id)])).toEqual([
+      ['booking', ['advance']],
+      ['cancellations', ['refunds']],
+    ]);
+    expect(matchingCategories(categories, matchingAnswers(categories, ['dates'])).map((c) => c.id)).toEqual(['cancellations']);
   });
 
-  it('counts every answer with no terms, and none for no match', () => {
-    expect(categoryCounts(categories, matchingAnswers(categories, []))).toEqual({ booking: 1, cancellations: 2 });
-    expect(categoryCounts(categories, matchingAnswers(categories, ['visa']))).toEqual({ booking: 0, cancellations: 0 });
+  it('keeps every category outside a search, and none for no match', () => {
+    expect(matchingCategories(categories, null)).toEqual(categories);
+    expect(matchingCategories(categories, matchingAnswers(categories, ['visa']))).toEqual([]);
   });
 });
 

@@ -96,9 +96,15 @@ export function matchingAnswers(categories: readonly HelpCategory[], terms: read
   return new Set(categories.flatMap(({ questions }) => questions.filter((q) => matchesAnswer(q, terms)).map((q) => q.id)));
 }
 
-/** How many of each category's answers match, by category id. */
-export function categoryCounts(categories: readonly HelpCategory[], matching: ReadonlySet<string>): Record<string, number> {
-  return Object.fromEntries(categories.map(({ id, questions }) => [id, questions.filter((q) => matching.has(q.id)).length]));
+/**
+ * The categories as a search shows them: each with only its matching answers, and those with
+ * none left out. Outside a search (`matching` null), every category as it is.
+ */
+export function matchingCategories(categories: readonly HelpCategory[], matching: ReadonlySet<string> | null): HelpCategory[] {
+  if (!matching) return [...categories];
+  return categories
+    .map((category) => ({ ...category, questions: category.questions.filter((q) => matching.has(q.id)) }))
+    .filter((category) => category.questions.length > 0);
 }
 
 /** The result line's words: "{count} answers for “{query}”", "1 answer for “{query}”", "No answers for “{query}”". */

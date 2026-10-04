@@ -1,10 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
 import { IconButton } from '@/components/ui/IconButton/IconButton';
 import { Input } from '@/components/ui/Input/Input';
 import { useHelp } from '@/hooks/useHelp';
-import { matchingAnswers, resultLine, searchTerms } from '@/lib/utils/helpSearch';
+import { resultLine } from '@/lib/utils/helpSearch';
 import type { HelpSearchProps } from './HelpSearch.types';
 import styles from './HelpSearch.module.css';
 
@@ -18,11 +17,8 @@ const FIELD_ID = 'help-search';
  * field is there and does nothing.
  */
 export function HelpSearch({ copy }: HelpSearchProps) {
-  const { query, setQuery, settledQuery, clear, inputRef, categories } = useHelp();
-  const line = useMemo(() => {
-    const terms = searchTerms(settledQuery);
-    return terms.length === 0 ? '' : resultLine(copy.results, matchingAnswers(categories, terms).size, settledQuery);
-  }, [settledQuery, categories, copy.results]);
+  const { query, setQuery, settledQuery, settledSearching, settledCount, clear, inputRef } = useHelp();
+  const line = settledSearching ? resultLine(copy.results, settledCount, settledQuery) : '';
 
   return (
     <div role="search" className={styles.search}>

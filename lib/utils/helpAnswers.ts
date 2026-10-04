@@ -1,4 +1,5 @@
 import { helpAnswerHash } from '../routes.ts';
+import { matchingCategories } from './helpSearch.ts';
 import { optionName } from './resultsText.ts';
 
 /*
@@ -27,12 +28,12 @@ export function categoryLinks(
   words: AnswerCountWords,
   matching: ReadonlySet<string> | null = null,
 ): CategoryLink[] {
-  return categories
-    .map(({ id, title, questions }) => {
-      const count = matching ? questions.filter((q) => matching.has(q.id)).length : questions.length;
-      return { id, title, count, name: optionName(title, count, words) };
-    })
-    .filter(({ count }) => count > 0);
+  return matchingCategories(categories, matching).map(({ id, title, questions }) => ({
+    id,
+    title,
+    count: questions.length,
+    name: optionName(title, questions.length, words),
+  }));
 }
 
 /**

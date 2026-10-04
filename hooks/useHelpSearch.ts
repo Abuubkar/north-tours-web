@@ -14,7 +14,7 @@ const NONE: ReadonlySet<string> = new Set();
  * Nothing goes in the URL.
  */
 export function useHelpSearch(categories: readonly HelpCategory[]) {
-  const [query, setQuery] = useState('');
+  const [query, setTypedQuery] = useState('');
   const [settledQuery, setSettledQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +22,12 @@ export function useHelpSearch(categories: readonly HelpCategory[]) {
     const timer = setTimeout(() => setSettledQuery(query), SETTLE_MS);
     return () => clearTimeout(timer);
   }, [query]);
+
+  /** A new query; an empty one forgets the settled one too, so the next search never announces an old count. */
+  const setQuery = useCallback((next: string) => {
+    setTypedQuery(next);
+    if (next === '') setSettledQuery('');
+  }, []);
 
   const terms = useMemo(() => searchTerms(query), [query]);
   const termsKey = terms.join(' ');
@@ -35,10 +41,13 @@ export function useHelpSearch(categories: readonly HelpCategory[]) {
   const toggledMatch = useCallback(
     (id: string, open: boolean) => {
       setClosed((current) => {
-        const ids = new Set(current.key === termsKey ? current.ids : NONE);
-        if (open) ids.delete(id);
-        else ids.add(id);
-        return { key: termsKey, ids };
+        const ids = current.key === termsKey ? current.ids : NONE;
+        // The search opening its matches fires a toggle for each: nothing changes, so no re-render.
+        if (ids.has(id) !== open) return current;
+        const next = new Set(ids);
+        if (open) next.delete(id);
+        else next.add(id);
+        return { key: termsKey, ids: next };
       });
     },
     [termsKey],
@@ -48,13 +57,19 @@ export function useHelpSearch(categories: readonly HelpCategory[]) {
   const clear = useCallback(() => {
     setQuery('');
     inputRef.current?.focus();
-  }, []);
+  }, [setQuery]);
+
+  /** How many answers match the settled query, for the result line. */
+  const settledTerms = useMemo(() => searchTerms(settledQuery), [settledQuery]);
+  const settledCount = useMemo(() => matchingAnswers(categories, settledTerms).size, [categories, settledTerms]);
 
   return {
     query,
     setQuery,
-    /** The query as it was when typing last stopped (none once cleared). */
-    settledQuery: query === '' ? '' : settledQuery,
+    /** The query as it was when typing last stopped (none once cleared), and how many answers it matches. */
+    settledQuery,
+    settledSearching: settledTerms.length > 0,
+    settledCount,
     terms,
     searching: terms.length > 0,
     matching,

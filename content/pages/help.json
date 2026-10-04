@@ -6,10 +6,7 @@
   },
   "categories": {
     "label": "Help categories",
-    "count": {
-      "one": "{count} answer",
-      "other": "{count} answers"
-    }
+    "count": { "one": "{count} answer", "other": "{count} answers" }
   },
   "linkToAnswer": "Link to this answer · {path}",
   "search": {
