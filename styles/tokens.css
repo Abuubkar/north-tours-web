@@ -167,7 +167,11 @@
   /* Destination places to see (PRD #63): each row's photo and number. */
   --place-photo-w: 96px;
   --place-number: 22px;
-  --places-list-min: 360px; /* the list beside the map, before it wraps */
+  --places-list-min: 360px; /* the list beside the map, and the map's own basis */
+  --places-map-max: 640px; /* the map beside the list, from 820px */
+  --places-map-top: calc(var(--header-h) + var(--space-24)); /* where the sticky map stops, under the header */
+  --pin-size: 26px; /* a place's numbered circle on the map */
+  --pin-halo: 40px; /* the glow around a lit pin */
 
   /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
   --itinerary-node: 11px;

@@ -363,6 +363,8 @@ const destinationCopySchema = z.strictObject({
   places: z.strictObject({
     headline: copyWith('destination'),
     kinds: z.record(z.enum(PLACE_KINDS), copy),
+    /** Under the map, e.g. "Schematic · positions approximate"; hidden from screen readers with the drawing. */
+    mapCaption: copy,
   }),
 });
 

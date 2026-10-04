@@ -50,6 +50,8 @@ export const destinationSchema = z
     seasons: z.array(z.strictObject({ season: z.enum(SEASONS), text: nonEmpty })).length(4, 'Write a note for each of the four seasons'),
     /** What to see, 1 to 8 places, numbered in this order. Leave it out to hide the section. */
     places: z.array(placeSchema).min(1, 'List at least one place, or leave places out').max(8, 'List at most 8 places').optional(),
+    /** Names on the places map for context, e.g. "Karimabad"; one beyond the map shows at its edge ("↓ Gilgit"). */
+    mapLabels: z.array(z.strictObject({ name: nonEmpty, lat: latitude, lon: longitude })).optional(),
   })
   .superRefine((destination, ctx) => {
     for (const { month, message } of bestSeasonProblems(destination.months, destination.bestSeason)) {

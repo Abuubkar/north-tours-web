@@ -1,6 +1,6 @@
-import type { PlaceListProps } from '@/components/places-map/PlaceList/PlaceList.types';
+import type { PlacesExplorerProps } from '@/components/places-map/PlacesExplorer/PlacesExplorer.types';
 
-export type PlacesToSeeProps = PlaceListProps & {
+export type PlacesToSeeProps = PlacesExplorerProps & {
   /** "What to see in Hunza". */
   headline: string;
 };

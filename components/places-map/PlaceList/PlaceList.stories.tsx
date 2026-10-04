@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, within } from 'storybook/test';
+import { expect, fn, within } from 'storybook/test';
 import { sampleDestinationCopy } from '@/components/destination-card/sampleDestinationCopy';
 import { hunzaPlaces, placeholderPlaces } from '../samplePlaces';
 import { PlaceList } from './PlaceList';
@@ -7,7 +7,7 @@ import { PlaceList } from './PlaceList';
 const meta = {
   title: 'Places map/PlaceList',
   component: PlaceList,
-  args: { places: hunzaPlaces, kinds: sampleDestinationCopy.places.kinds },
+  args: { places: hunzaPlaces, kinds: sampleDestinationCopy.places.kinds, lit: null, picked: null, onPoint: fn(), onPick: fn() },
 } satisfies Meta<typeof PlaceList>;
 
 export default meta;
@@ -49,3 +49,17 @@ export const Placeholders: Story = { ...Desktop, args: { places: placeholderPlac
 export const PlaceholdersPhone: Story = { ...Phone, args: { places: placeholderPlaces } };
 
 export const PlaceholdersOnLight: Story = { ...Placeholders, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+/** The lit place's row is raised and the picked one pressed; the rest stay as they are. */
+export const OnePicked: Story = {
+  args: { lit: 'attabad-lake', picked: 'attabad-lake' },
+  globals: { viewport: { value: 'desktop' } },
+  play: async ({ canvas }) => {
+    const rows = within(canvas.getByRole('list')).getAllByRole('button');
+    await expect(rows.filter((row) => row.getAttribute('aria-pressed') === 'true').map((row) => row.textContent)).toEqual([
+      expect.stringContaining('Attabad Lake'),
+    ]);
+  },
+};
+
+export const OnePickedOnLight: Story = { ...OnePicked, globals: { surface: 'light', viewport: { value: 'desktop' } } };

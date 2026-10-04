@@ -50,7 +50,12 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
       <DestinationOverview overview={destination.overview} />
       <SeasonCalendarSection destination={destination} copy={copy.calendar} />
       {shows.has('places') && (
-        <PlacesToSee headline={fillTokens(copy.places.headline, tokens)} places={destination.places ?? []} kinds={copy.places.kinds} />
+        <PlacesToSee
+          headline={fillTokens(copy.places.headline, tokens)}
+          places={destination.places ?? []}
+          labels={destination.mapLabels ?? []}
+          copy={copy.places}
+        />
       )}
     </PageMain>
   );

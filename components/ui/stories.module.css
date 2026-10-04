@@ -53,3 +53,9 @@
 .sideMap {
   width: var(--map-side-w);
 }
+
+/* A small stage for a map pin shown on its own, with room for its name above it. */
+.pinStage {
+  position: relative;
+  height: var(--space-144);
+}

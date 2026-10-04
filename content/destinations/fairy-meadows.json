@@ -149,5 +149,17 @@
         }
       }
     }
+  ],
+  "mapLabels": [
+    {
+      "name": "Raikot Bridge",
+      "lat": 35.495,
+      "lon": 74.593
+    },
+    {
+      "name": "Nanga Parbat",
+      "lat": 35.2375,
+      "lon": 74.5891
+    }
   ]
 }

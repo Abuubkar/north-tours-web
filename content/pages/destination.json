@@ -48,6 +48,7 @@
       "lake": "Lake",
       "adventure": "Adventure",
       "meadow": "Meadow"
-    }
+    },
+    "mapCaption": "Schematic · positions approximate"
   }
 }

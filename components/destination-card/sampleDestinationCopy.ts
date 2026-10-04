@@ -19,5 +19,6 @@ export const sampleDestinationCopy: DestinationCopy = {
   places: {
     headline: 'What to see in {destination}',
     kinds: { heritage: 'Heritage', viewpoint: 'Viewpoint', lake: 'Lake', adventure: 'Adventure', meadow: 'Meadow' },
+    mapCaption: 'Schematic · positions approximate',
   },
 };

@@ -1,16 +1,17 @@
-import { PlaceList } from '@/components/places-map/PlaceList/PlaceList';
+import { PlacesExplorer } from '@/components/places-map/PlacesExplorer/PlacesExplorer';
 import type { PlacesToSeeProps } from './PlacesToSee.types';
 import styles from './PlacesToSee.module.css';
 
-/** "What to see in Hunza" (#places): the destination's places, each with a photo, a line and its kind, in the media + text split. */
-export function PlacesToSee({ headline, places, kinds }: PlacesToSeeProps) {
+/**
+ * "What to see in Hunza" (#places): a map of the destination's places beside their list, each
+ * with a photo, a line and its kind, linked so a place lights on both.
+ */
+export function PlacesToSee({ headline, places, labels, copy }: PlacesToSeeProps) {
   return (
     <section id="places" className={styles.section}>
       <h2 className={styles.headline}>{headline}</h2>
-      <div className={styles.split}>
-        <div className={styles.list}>
-          <PlaceList places={places} kinds={kinds} />
-        </div>
+      <div className={styles.places}>
+        <PlacesExplorer places={places} labels={labels} copy={copy} />
       </div>
     </section>
   );

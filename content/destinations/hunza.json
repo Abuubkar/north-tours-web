@@ -217,5 +217,22 @@
         }
       }
     }
+  ],
+  "mapLabels": [
+    {
+      "name": "Karimabad",
+      "lat": 36.3247,
+      "lon": 74.6634
+    },
+    {
+      "name": "Gilgit",
+      "lat": 35.9208,
+      "lon": 74.3089
+    },
+    {
+      "name": "Khunjerab",
+      "lat": 36.85,
+      "lon": 75.42
+    }
   ]
 }

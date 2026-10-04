@@ -96,3 +96,11 @@ describe('places to see', () => {
     expect(fields((d) => Object.assign(place(d).image, { alt: '' }))).toEqual(['places.0.image.alt']);
   });
 });
+
+describe('map labels', () => {
+  it('are optional, and need coordinates in range', () => {
+    expect(fields((d) => delete d.mapLabels)).toEqual([]);
+    expect(fields((d) => Object.assign(d.mapLabels![0], { lat: -91 }))).toEqual(['mapLabels.0.lat']);
+    expect(fields((d) => Object.assign(d.mapLabels![0], { lon: 181 }))).toEqual(['mapLabels.0.lon']);
+  });
+});

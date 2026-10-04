@@ -169,5 +169,17 @@
         }
       }
     }
+  ],
+  "mapLabels": [
+    {
+      "name": "Kaghan",
+      "lat": 34.778,
+      "lon": 73.524
+    },
+    {
+      "name": "Chilas",
+      "lat": 35.42,
+      "lon": 74.096
+    }
   ]
 }

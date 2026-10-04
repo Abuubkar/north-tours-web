@@ -173,5 +173,17 @@
         }
       }
     }
+  ],
+  "mapLabels": [
+    {
+      "name": "Kalam",
+      "lat": 35.49,
+      "lon": 72.58
+    },
+    {
+      "name": "Bahrain",
+      "lat": 35.21,
+      "lon": 72.55
+    }
   ]
 }
