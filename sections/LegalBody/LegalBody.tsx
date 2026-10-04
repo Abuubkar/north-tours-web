@@ -16,7 +16,7 @@ export function LegalBody({ contents, sections, closing, email }: LegalBodyProps
   return (
     <section data-surface="light" className={styles.body}>
       <div className={styles.layout}>
-        <TableOfContents label={contents.label} toggleLabel={contents.toggleLabel} sections={sections} />
+        <TableOfContents label={contents.label} countLabel={contents.countLabel} sections={sections} />
         <article className={styles.article}>
           {sections.map((section) => (
             <LegalSection key={section.id} {...section} />

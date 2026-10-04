@@ -2,10 +2,10 @@
 
 import type { MouseEvent } from 'react';
 import { Accordion } from '@/components/ui/Accordion/Accordion';
-import type { ContentsEntry, TableOfContentsProps } from './TableOfContents.types';
+import type { ContentsLinksProps, TableOfContentsProps } from './TableOfContents.types';
 import styles from './TableOfContents.module.css';
 
-function Links({ sections, linkClass }: { sections: ContentsEntry[]; linkClass: string }) {
+function Links({ sections, linkClass }: ContentsLinksProps) {
   return (
     <ol className={styles.list}>
       {sections.map(({ id, number, heading }) => (
@@ -30,7 +30,7 @@ function closeOnPick(event: MouseEvent<HTMLElement>) {
  * accessibility tree. The links are plain anchors: without JavaScript they still jump, and the
  * disclosure just stays open.
  */
-export function TableOfContents({ label, toggleLabel, sections }: TableOfContentsProps) {
+export function TableOfContents({ label, countLabel, sections }: TableOfContentsProps) {
   return (
     <>
       <nav aria-label={label} className={styles.side}>
@@ -42,7 +42,7 @@ export function TableOfContents({ label, toggleLabel, sections }: TableOfContent
         <Accordion
           size="compact"
           marker="caret"
-          items={[{ id: 'contents', summary: toggleLabel, content: <Links sections={sections} linkClass={styles.phoneLink} /> }]}
+          items={[{ id: 'contents', summary: countLabel, content: <Links sections={sections} linkClass={styles.phoneLink} /> }]}
         />
       </nav>
     </>

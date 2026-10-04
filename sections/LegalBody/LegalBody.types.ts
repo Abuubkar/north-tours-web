@@ -2,7 +2,7 @@ import type { LegalSectionProps } from '@/components/legal/LegalSection/LegalSec
 
 export type LegalBodyProps = {
   /** "Contents" and the phone disclosure's "Contents (9)". */
-  contents: { label: string; toggleLabel: string };
+  contents: { label: string; countLabel: string };
   /** The document's sections in order, numbered, their tokens filled. */
   sections: LegalSectionProps[];
   /** The article's last line, with the email's place: "Questions about this policy? Email {email}." */

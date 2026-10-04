@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { fillTokens } from '../utils/tokens.ts';
 import { legalDocument } from './legalPage.ts';
 import { legalCopyFile, loadLegalCopy, type LegalCopy } from './pages.ts';
 import { getSettings } from './settings.ts';
@@ -16,10 +17,11 @@ function withChange(change: (copy: LegalCopy) => void) {
 const fields = (result: ReturnType<typeof loadLegalCopy>) => result.problems.map((p) => p.field);
 
 /** Every word a document shows, its tokens filled from `settings`. */
-const allText = (copy: LegalCopy, id: 'privacy' | 'terms', settings = getSettings()) =>
-  legalDocument(copy, id, settings)
-    .sections.flatMap((section) => section.paragraphs)
-    .join('\n');
+const allText = (copy: LegalCopy, id: 'privacy' | 'terms', settings = getSettings()) => {
+  const { title, description, headline, closing, sections } = legalDocument(copy, id, settings);
+  // The closing line keeps {email}, where the page puts the email's link.
+  return [title, description, headline, fillTokens(closing, { email: settings.contact.email }), ...sections.flatMap((section) => [section.heading, ...section.paragraphs])].join('\n');
+};
 
 describe('legal page copy', () => {
   it('accepts the live file, both documents marked as sample text (ADR-0020)', () => {
@@ -75,6 +77,7 @@ describe('legal documents', () => {
     }
     const terms = allText(legal, 'terms', changed);
     expect(terms).toContain('a 40% advance');
+    expect(terms).toContain('We accept bank transfer, and nothing else');
     expect(terms).toContain('Cancel 21 or more days before departure');
     expect(terms).toContain('within 10 days of cancelling');
     expect(terms).toContain('up to 21 days before departure');

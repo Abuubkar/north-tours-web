@@ -110,7 +110,7 @@
         "heading": "Bookings and payment",
         "paragraphs": [
           "You can book a group departure from its tour page or on WhatsApp, and plan a private trip in the trip planner or on WhatsApp. Your seats are confirmed once we have received a {advancePercent}% advance.",
-          "We accept {paymentMethods}, and nothing else. Cash is paid at our Lahore office. The balance is due {balanceDueDays} days before departure.",
+          "We accept {paymentMethods}, and nothing else. The balance is due {balanceDueDays} days before departure.",
           "Children under {childFromAge} share their parents’ room free. From {childFromAge}, a child counts as a traveller."
         ]
       },
@@ -120,7 +120,7 @@
         "paragraphs": [
           "To cancel, message us on WhatsApp or email {email}. The day we receive your message is the day you cancelled.",
           "{refundSchedule}",
-          "Refunds are paid back the same way you paid, within {refundPaidWithinDays} days of cancelling. A balance already paid is refunded in full.",
+          "Refunds are paid back the same way you paid, within {refundPaidWithinDays} days of cancelling.",
           "You can move to another date free of charge up to {fullRefundDays} days before departure, if it has seats. Someone else can take your place until the balance is due."
         ]
       },

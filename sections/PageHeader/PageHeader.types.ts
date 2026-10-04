@@ -1,3 +1,4 @@
+import type { LastUpdatedProps } from '@/components/ui/LastUpdated/LastUpdated.types';
 import type { Photo } from '@/lib/content/images';
 
 /** A text-only header: no photo. */
@@ -24,7 +25,7 @@ type About = {
 type Legal = {
   variant: 'legal';
   /** "Last updated {date}" and the date, YYYY-MM-DD. */
-  updated: { template: string; date: string };
+  updated: Omit<LastUpdatedProps, 'className'>;
   image?: never;
 };
 

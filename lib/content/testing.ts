@@ -16,13 +16,14 @@ export function contentFixture(files: Record<string, unknown>): string {
 
 /**
  * The live settings with every figure text may quote changed: a 40% advance, a full refund from
- * 21 days, a 10-day refund window, children from 3, another reply time and so on. Text filled
+ * 21 days, a 10-day refund window, children from 3, another reply time, bank transfer only and so on. Text filled
  * with these must show none of the live figures; one that does was typed in, not a token.
  */
 export function changedSettings(settings: Settings): Settings {
   return {
     ...settings,
     booking: { ...settings.booking, advancePercent: 40, replyTime: 'within 4 hours' },
+    payments: { methods: ['Bank transfer'] },
     policies: {
       refundSchedule: [
         { daysBefore: 21, refundPercent: 100 },
@@ -53,13 +54,15 @@ function settingsFigures({ booking, policies }: Settings): Set<string> {
 }
 
 /**
- * The live settings' figures (and reply time) left in `text` after it was filled with `changed`
- * settings: none means every figure in it came from a token. `[placeholders]` are skipped.
+ * The live settings' figures, reply time and payment methods left in `text` after it was filled
+ * with `changed` settings: none means every one of them came from a token. `[placeholders]` are skipped.
  */
 export function staleFigures(text: string, live: Settings, changed: Settings): string[] {
   const now = settingsFigures(changed);
   const stale = [...settingsFigures(live)].filter((figure) => !now.has(figure));
   const numbers = text.replace(/\[[^\]]*\]/g, '').match(/\d+(?:,\d{3})*/g) ?? [];
   const found = [...new Set(numbers)].filter((n) => stale.includes(n));
-  return text.includes(live.booking.replyTime) ? [...found, live.booking.replyTime] : found;
+  const methods = live.payments.methods.filter((method) => !changed.payments.methods.includes(method));
+  const words = [live.booking.replyTime, ...methods].filter((word) => new RegExp(`\\b${word}\\b`, 'i').test(text));
+  return [...found, ...words];
 }

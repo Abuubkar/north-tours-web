@@ -20,7 +20,7 @@ export default function PrivacyPage() {
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
       <PageHeader variant="legal" headline={legal.headline} updated={{ template: labels.lastUpdated, date: legal.lastUpdated }} />
       <LegalBody
-        contents={{ label: labels.contents, toggleLabel: labels.contentsCount }}
+        contents={{ label: labels.contents, countLabel: labels.contentsCount }}
         sections={legal.sections}
         closing={legal.closing}
         email={settings.contact.email}

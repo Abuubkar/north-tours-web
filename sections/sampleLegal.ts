@@ -16,4 +16,4 @@ const terms: [string, string, string[]][] = [
 
 export const sampleLegalSections: LegalSectionProps[] = terms.map(([id, heading, paragraphs], i) => ({ id, number: i + 1, heading, paragraphs }));
 
-export const sampleLegalLabels = { label: 'Contents', toggleLabel: 'Contents (9)' };
+export const sampleLegalLabels = { label: 'Contents', countLabel: 'Contents (9)' };
