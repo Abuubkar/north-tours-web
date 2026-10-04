@@ -17,8 +17,9 @@ describe('about page', () => {
   });
 
   it('fills the licence from settings, the placeholder as written', () => {
-    const { copy } = getAboutPage();
-    expect(copy.credentials.licence.value).toBe(`DTS licence No. ${getSettings().legal.dtsLicence}`);
+    const { credentials } = getAboutPage();
+    expect(credentials.licence.value).toBe(`DTS licence No. ${getSettings().legal.dtsLicence}`);
+    expect(credentials.company.value).toBe(getSettings().legal.companyRegistration);
   });
 
   it('counts the guides in content and takes years and trips from the trust settings', () => {

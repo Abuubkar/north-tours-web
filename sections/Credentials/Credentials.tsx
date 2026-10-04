@@ -8,25 +8,25 @@ import styles from './Credentials.module.css';
  * section's <h2>. Then the licence, the company registration and any memberships as label-column
  * rows; the Memberships row is left out when there are none.
  */
-export function Credentials({ copy, licenceNote, companyRegistration }: CredentialsProps) {
-  const { licence, company, memberships } = copy;
+export function Credentials({ credentials }: CredentialsProps) {
+  const { licence, company, memberships } = credentials;
   return (
     <section className={styles.section}>
       <div className={styles.row}>
         <div className={styles.label}>
-          <SectionLabel as="h2">{copy.label}</SectionLabel>
+          <SectionLabel as="h2">{credentials.label}</SectionLabel>
         </div>
         <dl className={styles.rows}>
           <KeyValueRow label={licence.label} layout="column">
             <span className={styles.licence}>{licence.value}</span>
-            <span className={styles.note}>{licenceNote}</span>
+            <span className={styles.note}>{licence.note}</span>
           </KeyValueRow>
           <KeyValueRow label={company.label} layout="column">
-            {companyRegistration}
+            {company.value}
           </KeyValueRow>
-          {memberships.items.length > 0 && (
+          {memberships.names.length > 0 && (
             <KeyValueRow label={memberships.label} layout="column">
-              {memberships.items.map((item) => item.name).join(', ')}
+              {memberships.names.join(', ')}
             </KeyValueRow>
           )}
         </dl>

@@ -643,9 +643,13 @@ const aboutCopySchema = z.strictObject({
   /** "Our vehicles, and how we keep you safe": the fleet, its age and the safety practices (all sample, ADR-0019). */
   vehicles: z.strictObject({
     headline: copy,
-    /** Until the owner's photos of the real fleet, a stock photo of the type: no people, no other company's name (ADR-0019). */
+    /**
+     * Each vehicle: its name, what it's for ("22 seats · air-conditioned · group departures") and,
+     * until the owner's photos of the real fleet, a stock photo of the type: no people, no other
+     * company's name (ADR-0019).
+     */
     items: z
-      .array(z.strictObject({ name: copy, line: copy, image: photoSchema, sample }))
+      .array(z.strictObject({ name: copy, summary: copy, image: photoSchema, sample }))
       .min(1, 'List at least one vehicle'),
     /** "Average age of our fleet:" and "4 years". */
     fleetAge: z.strictObject({ label: copy, value: copy, sample }),

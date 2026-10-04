@@ -1,7 +1,7 @@
 .cell {
   composes: cell from '../../../styles/layout.module.css';
   gap: var(--space-8);
-  padding: var(--space-32) var(--cell-pad) var(--space-48);
+  padding: var(--space-32) var(--cell-pad);
 }
 
 /* The design's clamp(40px, 4.4cqi, 64px) moves to the nearest role (docs/components.md §5 item 33). */

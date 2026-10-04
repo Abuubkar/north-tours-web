@@ -26,13 +26,15 @@ export const Default: Story = {
     await expect(canvas.getByRole('heading', { level: 3, name: 'How we keep you safe' })).toBeVisible();
     const rows = within(canvas.getByRole('list')).getAllByRole('listitem');
     await expect(rows).toHaveLength(5);
-    for (const row of rows) {
-      const square = row.querySelector('[aria-hidden="true"]')!;
+    for (const [i, row] of rows.entries()) {
+      const square = row.firstElementChild!;
+      await expect(square).toHaveAttribute('aria-hidden', 'true');
       await expect(square.getBoundingClientRect().width).toBe(18);
       await expect(getComputedStyle(square).borderRadius).toBe('2px');
-      await expect(row).toHaveAccessibleName('');
+      // Only the practice is read out: no ✓ glyph, no image.
+      await expect(row.textContent).toBe(sampleAbout.vehicles.safety.items[i]);
+      await expect(within(row).queryByRole('img')).toBeNull();
     }
-    await expect(rows[0]).toHaveTextContent(sampleAbout.vehicles.safety.items[0]);
   },
 };
 

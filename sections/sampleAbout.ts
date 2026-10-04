@@ -52,7 +52,7 @@ export const sampleAbout: AboutCopy = {
     items: [
       {
         name: 'Toyota Coaster',
-        line: '22 seats · air-conditioned · group departures',
+        summary: '22 seats · air-conditioned · group departures',
         image: {
           src: '/images/vehicles/toyota-coaster.jpg',
           alt: 'A white Toyota Coaster minibus, seen from the front',
@@ -69,7 +69,7 @@ export const sampleAbout: AboutCopy = {
       },
       {
         name: '4x4 jeep',
-        line: '6 seats · for Deosai, Fairy Meadows and mountain tracks',
+        summary: '6 seats · for Deosai, Fairy Meadows and mountain tracks',
         image: {
           src: '/images/vehicles/4x4-jeep.jpg',
           alt: 'A red Toyota Land Cruiser 4x4 with a white roof',

@@ -13,7 +13,7 @@ const meta = {
   component: InNumbers,
   args: {
     headline: sampleAbout.numbers.headline,
-    stats: companyStats(trust, sampleAbout.numbers.travellers.value, 6, 2026, sampleAbout.numbers.labels),
+    stats: companyStats({ trust, travellers: sampleAbout.numbers.travellers.value, guideCount: 6, year: 2026, labels: sampleAbout.numbers.labels }),
   },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },

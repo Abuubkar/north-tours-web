@@ -4,11 +4,12 @@ import { companyStats } from './companyStats.ts';
 const labels = { years: 'years running trips', trips: 'trips completed', travellers: 'travellers', guides: 'guides and drivers' };
 
 describe('companyStats', () => {
-  const stats = companyStats({ operatingSince: 2014, tripsCompleted: '1,200+' }, '9,000+', 6, 2026, labels);
+  const trust = { operatingSince: 2014, tripsCompleted: '1,200+' };
+  const stats = companyStats({ trust, travellers: '9,000+', guideCount: 6, year: 2026, labels });
 
   it('counts the years running trips from operatingSince to the build year', () => {
     expect(stats[0]).toEqual({ value: '12', label: 'years running trips' });
-    expect(companyStats({ operatingSince: 2014, tripsCompleted: '1' }, '1', 1, 2030, labels)[0].value).toBe('16');
+    expect(companyStats({ trust, travellers: '1', guideCount: 1, year: 2030, labels })[0].value).toBe('16');
   });
 
   it('shows trips completed as the trust settings write them', () => {

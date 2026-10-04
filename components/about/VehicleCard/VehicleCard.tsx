@@ -12,7 +12,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
       <MediaFrame image={vehicle.image} ratio="4:3" sizes={PHOTO_SIZES} />
       <div className={styles.text}>
         <h3 className={styles.name}>{vehicle.name}</h3>
-        <p className={styles.line}>{vehicle.line}</p>
+        <p className={styles.summary}>{vehicle.summary}</p>
       </div>
     </li>
   );

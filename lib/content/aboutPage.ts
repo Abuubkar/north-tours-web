@@ -18,10 +18,6 @@ export function getAboutPage() {
       ...copy,
       // The year the company started, as the trust strip counts it (#42).
       story: { ...copy.story, headline: fillTokens(copy.story.headline, { foundedYear: String(settings.trust.operatingSince) }) },
-      credentials: {
-        ...copy.credentials,
-        licence: { ...copy.credentials.licence, value: fillTokens(copy.credentials.licence.value, { dtsLicence: settings.legal.dtsLicence }) },
-      },
     },
     settings,
     /** Every guide in the loader's order, with their profile's rows and share link. */
@@ -29,8 +25,28 @@ export function getAboutPage() {
       guideProfile(guide, copy.guides.profile, settings.whatsapp.guideShareMessage, settings.site.url),
     ),
     /** "The company in numbers": years and trips as the trust strip shows them, up to the build year. */
-    stats: companyStats(settings.trust, copy.numbers.travellers.value, guides.length, new Date().getFullYear(), copy.numbers.labels),
+    stats: companyStats({
+      trust: settings.trust,
+      travellers: copy.numbers.travellers.value,
+      guideCount: guides.length,
+      year: new Date().getFullYear(),
+      labels: copy.numbers.labels,
+    }),
+    /** Credentials: the licence and registration from settings (placeholders as written), and the memberships. */
+    credentials: {
+      label: copy.credentials.label,
+      licence: {
+        label: copy.credentials.licence.label,
+        value: fillTokens(copy.credentials.licence.value, { dtsLicence: settings.legal.dtsLicence }),
+        // The trust strip's line under the licence.
+        note: settings.trust.licence.note,
+      },
+      company: { label: copy.credentials.company.label, value: settings.legal.companyRegistration },
+      memberships: { label: copy.credentials.memberships.label, names: copy.credentials.memberships.items.map((item) => item.name) },
+    },
     /** The header's place photo is also the page's share image. */
     sharePhoto: copy.header.image,
   };
 }
+
+export type AboutPage = ReturnType<typeof getAboutPage>;

@@ -1,24 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { placeholderSettings } from '@/components/layout/sampleSettings';
-import { fillTokens } from '@/lib/utils/tokens';
-import { sampleAbout } from '../sampleAbout';
 import { Credentials } from './Credentials';
 
-const { credentials } = sampleAbout;
-const copy = {
-  ...credentials,
-  licence: { ...credentials.licence, value: fillTokens(credentials.licence.value, { dtsLicence: placeholderSettings.legal.dtsLicence }) },
+/** As the page shapes them from today's settings (placeholders as written) and the sample membership. */
+const credentials = {
+  label: 'Credentials',
+  licence: { label: 'Tour operator licence', value: 'DTS licence No. [DTS licence number]', note: 'Department of Tourist Services, Punjab' },
+  company: { label: 'Company', value: '[SECP or NTN number]' },
+  memberships: { label: 'Memberships', names: ['[Tour operators’ association]'] },
 };
 
 const meta = {
   title: 'Sections/Credentials',
   component: Credentials,
-  args: {
-    copy,
-    licenceNote: placeholderSettings.trust.licence.note,
-    companyRegistration: placeholderSettings.legal.companyRegistration,
-  },
+  args: { credentials },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof Credentials>;
@@ -59,7 +54,7 @@ export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', view
 
 /** With no memberships the row is left out. */
 export const NoMemberships: Story = {
-  args: { copy: { ...copy, memberships: { ...copy.memberships, items: [] } } },
+  args: { credentials: { ...credentials, memberships: { ...credentials.memberships, names: [] } } },
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole('term').map((t) => t.textContent)).toEqual(['Tour operator licence', 'Company']);
     await expect(canvas.queryByText('Memberships')).toBeNull();

@@ -19,7 +19,7 @@ export function generateMetadata(): Metadata {
 
 /** Who runs the company, who guides and drives, and how every trip is run (PRD #78). */
 export default function AboutPage() {
-  const { copy, settings, sharePhoto, profiles, stats } = getAboutPage();
+  const { copy, settings, sharePhoto, profiles, stats, credentials } = getAboutPage();
 
   return (
     <PageMain>
@@ -30,7 +30,7 @@ export default function AboutPage() {
       <GuidesGrid variant="about" copy={copy.guides} profiles={profiles} />
       <VehiclesAndSafety copy={copy.vehicles} />
       <InNumbers headline={copy.numbers.headline} stats={stats} />
-      <Credentials copy={copy.credentials} licenceNote={settings.trust.licence.note} companyRegistration={settings.legal.companyRegistration} />
+      <Credentials credentials={credentials} />
     </PageMain>
   );
 }

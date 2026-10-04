@@ -183,8 +183,10 @@ The header row is a flex row with `flex-wrap: wrap; gap: 24px 48px`. Label: `fle
 | Destinations | 160px | 6 | 2 | 6 |
 | Other valleys (Destination; two columns below 820px, an odd last card spans the row) | 160px | 5 | 2 | 5 |
 | Guides | 150px | 4 | 2 | 4 |
+| Principles (About) | 240px | 4 | 1 | 4 |
+| Vehicles (About; beside the safety list) | 200px | 2 | 1 | 2 |
 | Reviews | 290px | 3 | 1 | 3 |
-| Trust strip | 165px | 4 | 2 | 4 |
+| Trust strip, and About's numbers | 165px | 4 | 2 | 4 |
 | Trust strip, mini (Tour Detail final CTA) | 200px | 3 | 1 | 3 |
 | Quick facts (Tour Detail) | 160px | 5 | 2 | 5 |
 | Highlights (Tour Detail) | 160px | 3 | 2 | 3 |
