@@ -4,6 +4,7 @@ import { destinationReviews, toursVisiting } from '../utils/destination.ts';
 import { tripsCount } from '../utils/resultsText.ts';
 import { fillTokens } from '../utils/tokens.ts';
 import { destinationMessage, whatsappLink } from '../utils/whatsapp.ts';
+import { cardTour } from '../utils/cardTour.ts';
 import { getDestination, getDestinations, getTour, getTours } from './catalog.ts';
 import { isPhoto } from './images.ts';
 import { getDestinationCopy, getHomeCopy, getToursCopy } from './pages.ts';
@@ -60,18 +61,6 @@ export function getDestinationPage(slug: string) {
           tours: tripsCount(toursVisiting(otherSlug, allTours).length, copy.others.tourCount),
         },
       })),
-    tours: tours.map((t) => ({
-      slug: t.slug,
-      title: t.title,
-      route: t.route,
-      days: t.days,
-      nights: t.nights,
-      prices: t.prices,
-      rating: t.rating,
-      image: t.image,
-      destinations: t.destinations,
-      tripTypes: t.tripTypes,
-      departures: t.departures,
-    })),
+    tours: tours.map(cardTour),
   };
 }

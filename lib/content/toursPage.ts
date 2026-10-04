@@ -5,6 +5,7 @@ import { getHomeCopy, getToursCopy } from './pages.ts';
 import { getReviews } from './reviews.ts';
 import { ratingSummary } from '../utils/rating.ts';
 import { whatsappLink } from '../utils/whatsapp.ts';
+import { cardTour } from '../utils/cardTour.ts';
 import { getSettings } from './settings.ts';
 
 /** The most recent reviews the page shows. */
@@ -35,19 +36,7 @@ export function getToursPage() {
       .slice(0, REVIEW_CARDS)
       .map((review) => ({ review, tourTitle: getTour(review.tour)!.title })),
     ratingSummary: ratingSummary(getTours().map((tour) => tour.rating)),
-    tours: getTours().map((t) => ({
-      slug: t.slug,
-      title: t.title,
-      route: t.route,
-      days: t.days,
-      nights: t.nights,
-      prices: t.prices,
-      rating: t.rating,
-      image: t.image,
-      destinations: t.destinations,
-      tripTypes: t.tripTypes,
-      departures: t.departures,
-    })),
+    tours: getTours().map(cardTour),
     /** Destination slugs in the loader's order: the Destination options. */
     destinations: destinations.map((d) => d.slug),
     /** Each option's words: destination names, and the page's labels for the fixed groups. */

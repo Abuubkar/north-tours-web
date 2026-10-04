@@ -33,20 +33,22 @@ const audits: PageAudit[] = [];
 const server = await serveExport(OUT);
 const urlFor = (page: string) => `${server.origin}${page}`;
 // The story tests' Chromium (ADR-0012), in the same full browser Lighthouse uses.
-const browser = await chromium.launch({ channel: 'chromium' }).catch(async (error) => {
+const browser = await chromium.launch({ channel: 'chromium', args: server.browserArgs }).catch(async (error) => {
   await server.close();
   throw error;
 });
-const lighthouse = await startLighthouse().catch(async (error) => {
+const lighthouse = await startLighthouse(server.browserArgs).catch(async (error) => {
   await Promise.allSettled([browser.close(), server.close()]);
   throw error;
 });
 try {
-  const unknown = await fetch(urlFor('/no-such-page-audit'));
+  const probe = await browser.newPage();
+  const unknown = (await probe.goto(urlFor('/no-such-page-audit')))!;
   const notFound = readFileSync(path.join(OUT, '404.html'), 'utf8');
-  if (unknown.status !== 404 || (await unknown.text()) !== notFound) {
-    siteFailures.push(`An unknown path got status ${unknown.status}${unknown.status === 404 ? ' but not the 404 page' : ', not 404'}`);
+  if (unknown.status() !== 404 || (await unknown.text()) !== notFound) {
+    siteFailures.push(`An unknown path got status ${unknown.status()}${unknown.status() === 404 ? ' but not the 404 page' : ', not 404'}`);
   }
+  await probe.close();
 
   for (const page of pages) {
     log(`audit:site: ${page}`);

@@ -57,3 +57,9 @@ export const routes = {
   reviews: '/#reviews',
   guides: '/about#guides',
 } as const;
+
+/** A page in the route map by name, for copy that links to one: "plan" is /plan, "destinations" /#destinations. */
+export type PageName = { [K in keyof typeof routes]: (typeof routes)[K] extends string ? K : never }[keyof typeof routes];
+
+/** Every name whose route is a fixed path, not a function of a slug or filters. */
+export const PAGE_NAMES = Object.keys(routes).filter((name): name is PageName => typeof routes[name as keyof typeof routes] === 'string');

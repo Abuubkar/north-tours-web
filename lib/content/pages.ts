@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { z } from 'zod';
+import { PAGE_NAMES, type PageName } from '../routes.ts';
 import { slugSchema } from './collection.ts';
 import { CONTENT_DIR, displayPath, parseFile, requireValid } from './files.ts';
 import { checkChosenReviews } from './links.ts';
@@ -934,4 +935,36 @@ let cachedLegal: LegalCopy | undefined;
 export function getLegalCopy(): LegalCopy {
   cachedLegal ??= requireValid(loadLegalCopy());
   return cachedLegal;
+}
+
+/**
+ * The not-found page's wording (PRD #94): the header's <h1> and lead, the empty state's headline,
+ * lead and two labels, and the quick link rows, each to a page in the route map by name. The
+ * quick links' label and "Follow the trips" are Contact's.
+ */
+const notFoundCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  header: z.strictObject({ headline: copy, lead: copy }),
+  empty: z.strictObject({ headline: copy, lead: copy, toursLabel: copy, askLabel: copy }),
+  quickLinks: z
+    .array(z.strictObject({ label: copy, page: z.enum(PAGE_NAMES as [PageName, ...PageName[]]) }))
+    .min(1, 'List at least one quick link'),
+});
+
+export type NotFoundCopy = z.infer<typeof notFoundCopySchema>;
+
+export function notFoundCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'not-found.json');
+}
+
+export function loadNotFoundCopy(dir = CONTENT_DIR) {
+  return parseFile(notFoundCopySchema, notFoundCopyFile(dir));
+}
+
+let cachedNotFound: NotFoundCopy | undefined;
+
+export function getNotFoundCopy(): NotFoundCopy {
+  cachedNotFound ??= requireValid(loadNotFoundCopy());
+  return cachedNotFound;
 }

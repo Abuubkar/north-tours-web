@@ -88,5 +88,7 @@
   display: flex;
   align-items: center;
   align-self: stretch;
+  justify-content: center;
+  min-width: var(--tap); /* "Help" and "Terms" still get a 44px-wide target */
   color: var(--fg-2);
 }

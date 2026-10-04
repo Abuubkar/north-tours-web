@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { guideAnchor, guideHash, helpCategoryAnchor, routes } from './routes.ts';
+import { guideAnchor, guideHash, helpCategoryAnchor, PAGE_NAMES, routes } from './routes.ts';
 
 describe('routes', () => {
   it('has a URL for each page', () => {
@@ -47,5 +47,11 @@ describe('routes', () => {
       '/#reviews',
       '/about#guides',
     ]);
+  });
+
+  it('names every fixed page, not the ones built from a slug or filters', () => {
+    expect(PAGE_NAMES).toEqual(expect.arrayContaining(['home', 'plan', 'destinations', 'policies']));
+    expect(PAGE_NAMES).not.toContain('tour');
+    expect(PAGE_NAMES).not.toContain('toursWith');
   });
 });

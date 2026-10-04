@@ -1,0 +1,4 @@
+/* The spoken route: read out, never shown. */
+.spoken {
+  composes: visuallyHidden from '../../../styles/layout.module.css';
+}

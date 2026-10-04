@@ -1,0 +1,20 @@
+{
+  "title": "Page not found",
+  "description": "This page isn’t here: the link may be old, or the page may have moved. Browse every trip from Lahore, or ask us on WhatsApp.",
+  "header": {
+    "headline": "We can’t find that page",
+    "lead": "The link may be old, or the page may have moved."
+  },
+  "empty": {
+    "headline": "Looking for a trip?",
+    "lead": "See every trip from Lahore, or tell us where you’d like to go and we’ll plan it.",
+    "toursLabel": "Browse tours",
+    "askLabel": "Ask on WhatsApp"
+  },
+  "quickLinks": [
+    { "label": "Plan a private trip", "page": "plan" },
+    { "label": "Destinations", "page": "destinations" },
+    { "label": "About us and our guides", "page": "about" },
+    { "label": "Help & FAQs", "page": "help" }
+  ]
+}
