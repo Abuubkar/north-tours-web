@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { refundTableRows } from './refundTable.ts';
 
-const words = { from: '{days} or more days', range: '{from}–{to} days', under: 'Under {days} days', percent: '{percent}%', none: 'None' };
+const words = { from: '{days} or more days', range: '{from}–{to} days', single: '{days} days', under: 'Under {days} days', percent: '{percent}%', none: 'None' };
 
 const schedule = (rows: [number, number][]) => ({
   refundSchedule: rows.map(([daysBefore, refundPercent]) => ({ daysBefore, refundPercent })),
@@ -29,6 +29,14 @@ describe('refundTableRows', () => {
       { days: '15–29 days', refund: '50%' },
       { days: '7–14 days', refund: '25%' },
       { days: 'Under 7 days', refund: '10%' },
+    ]);
+  });
+
+  it('names a range of one day by itself, not "7–7 days"', () => {
+    expect(refundTableRows(schedule([[8, 100], [7, 50], [0, 0]]), words)).toEqual([
+      { days: '8 or more days', refund: '100%' },
+      { days: '7 days', refund: '50%' },
+      { days: 'Under 7 days', refund: 'None' },
     ]);
   });
 });

@@ -2,17 +2,17 @@ import type { RefundTableProps } from './RefundTable.types';
 import styles from './RefundTable.module.css';
 
 /** How much of the advance comes back for each number of days before departure, from settings. */
-export function RefundTable({ caption, daysHeader, refundHeader, rows }: RefundTableProps) {
+export function RefundTable({ words, rows }: RefundTableProps) {
   return (
     <table className={styles.table}>
-      <caption className={styles.caption}>{caption}</caption>
+      <caption className={styles.caption}>{words.caption}</caption>
       <thead>
         <tr>
           <th scope="col" className={styles.header}>
-            {daysHeader}
+            {words.days}
           </th>
           <th scope="col" className={`${styles.header} ${styles.right}`}>
-            {refundHeader}
+            {words.refund}
           </th>
         </tr>
       </thead>

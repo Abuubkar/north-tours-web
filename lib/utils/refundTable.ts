@@ -3,8 +3,11 @@ import { fillTokens } from './tokens.ts';
 
 type Policies = Settings['policies'];
 
-/** The refund table's words: "{days} or more days", "{from}–{to} days", "Under {days} days", "{percent}%" and "None". */
-export type RefundTableWords = { from: string; range: string; under: string; percent: string; none: string };
+/**
+ * The refund table's words: "{days} or more days", "{from}–{to} days", "{days} days" (a range of one
+ * day), "Under {days} days", "{percent}%" and "None".
+ */
+export type RefundTableWords = { from: string; range: string; single: string; under: string; percent: string; none: string };
 
 /** A row of the refund table: the days before departure and the share of the advance refunded. */
 export type RefundTableRow = { days: string; refund: string };
@@ -20,6 +23,7 @@ export function refundTableRows(policies: Pick<Policies, 'refundSchedule'>, word
     if (i === 0) return { days: fillTokens(words.from, { days: String(row.daysBefore) }), refund };
     const above = rows[i - 1].daysBefore;
     if (row.daysBefore === 0) return { days: fillTokens(words.under, { days: String(above) }), refund };
+    if (row.daysBefore === above - 1) return { days: fillTokens(words.single, { days: String(row.daysBefore) }), refund };
     return { days: fillTokens(words.range, { from: String(row.daysBefore), to: String(above - 1) }), refund };
   });
 }

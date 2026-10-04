@@ -47,6 +47,7 @@ export const sampleHelpCopy: HelpCopy = {
       refund: 'Refund of advance',
       from: '{days} or more days',
       range: '{from}–{to} days',
+      single: '{days} days',
       under: 'Under {days} days',
       percent: '{percent}%',
       none: 'None',
@@ -70,7 +71,7 @@ export const sampleHelpCopy: HelpCopy = {
         title: 'Changes to your booking',
         summary: 'Move to another date for free up to {fullRefundDays} days before departure, if it has seats.',
         paragraphs: [
-          'You can move to another departure free of charge up to {fullRefundDays} days before your trip, as long as the new date has seats. Closer to departure, a change counts as a cancellation.',
+          'You can move to another departure free of charge up to {fullRefundDays} days before your trip, as long as the new date has seats.',
           'Someone else can take your place until the balance is due, {balanceDueDays} days before departure. Send us their name and number on WhatsApp.',
         ],
         sample: true,
@@ -92,7 +93,7 @@ export const sampleHelpCopy: HelpCopy = {
         summary: 'Children under {childFromAge} share their parents’ room free; older children count as travellers.',
         paragraphs: [
           'Children under {childFromAge} travel free when they share their parents’ room. From {childFromAge}, a child counts as a traveller, with a seat and a place in the room.',
-          'You choose twin, triple or quad sharing when you book. Tell us your children’s ages, and we’ll plan the stops around them.',
+          'Tell us your children’s ages when you book, and we’ll plan the rooms and the stops around them.',
         ],
         sample: true,
       },
@@ -168,8 +169,7 @@ export const sampleHelpCategories: HelpCategory[] = [
       {
         id: 'change-dates',
         question: 'Can I change my dates?',
-        answer:
-          'Yes, free of charge up to 14 days before departure, if the new date has seats. Closer to departure, a change counts as a cancellation.',
+        answer: 'Yes, free of charge up to 14 days before departure, if the new date has seats.',
       },
       {
         id: 'we-cancel',
@@ -334,7 +334,7 @@ export const samplePolicies: PolicyCardData[] = [
     title: 'Changes to your booking',
     summary: 'Move to another date for free up to 14 days before departure, if it has seats.',
     paragraphs: [
-      'You can move to another departure free of charge up to 14 days before your trip, as long as the new date has seats. Closer to departure, a change counts as a cancellation.',
+      'You can move to another departure free of charge up to 14 days before your trip, as long as the new date has seats.',
       'Someone else can take your place until the balance is due, 7 days before departure. Send us their name and number on WhatsApp.',
     ],
   },
@@ -354,7 +354,7 @@ export const samplePolicies: PolicyCardData[] = [
     summary: 'Children under 5 share their parents’ room free; older children count as travellers.',
     paragraphs: [
       'Children under 5 travel free when they share their parents’ room. From 5, a child counts as a traveller, with a seat and a place in the room.',
-      'You choose twin, triple or quad sharing when you book. Tell us your children’s ages, and we’ll plan the stops around them.',
+      'Tell us your children’s ages when you book, and we’ll plan the rooms and the stops around them.',
     ],
   },
   {

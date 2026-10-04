@@ -711,7 +711,7 @@ export function getAboutCopy(): AboutCopy {
 }
 
 /** The tokens Help's policies may use, so no figure from settings is typed into them. */
-export const POLICY_TEXT_TOKENS = [
+const POLICY_TEXT_TOKENS = [
   'advancePercent',
   'paymentMethods',
   'refundSchedule',
@@ -777,6 +777,8 @@ const helpCopySchema = z.strictObject({
       /** "14 or more days", "7–13 days", "Under 7 days"; "50%", and "None" for nothing back. */
       from: copyWith('days'),
       range: copyWith('from', 'to'),
+      /** A range of one day: "7 days". */
+      single: copyWith('days'),
       under: copyWith('days'),
       percent: copyWith('percent'),
       none: copy,

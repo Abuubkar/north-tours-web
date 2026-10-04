@@ -8,7 +8,7 @@ const { refundTable } = sampleHelpCopy.policies;
 const meta = {
   title: 'Help/RefundTable',
   component: RefundTable,
-  args: { caption: refundTable.caption, daysHeader: refundTable.days, refundHeader: refundTable.refund, rows: samplePolicies[0].refundRows! },
+  args: { words: refundTable, rows: samplePolicies[0].refundRows! },
   globals: { surface: 'light', viewport: { value: 'desktop' } },
 } satisfies Meta<typeof RefundTable>;
 

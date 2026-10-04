@@ -8,12 +8,8 @@
   composes: stepTitle from '../../../styles/typography.module.css';
 }
 
-.summary {
-  composes: small from '../../../styles/typography.module.css';
-  color: var(--fg-2);
-}
-
-.paragraph {
+/* The summary and the full text's paragraphs. */
+.text {
   composes: small from '../../../styles/typography.module.css';
   color: var(--fg-2);
 }

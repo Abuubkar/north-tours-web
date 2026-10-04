@@ -12,8 +12,8 @@ export function PolicyCard({ id, title, summary, refundRows, paragraphs, table, 
   return (
     <article className={styles.card}>
       <h3 className={styles.title}>{title}</h3>
-      <p className={styles.summary}>{summary}</p>
-      {refundRows && <RefundTable caption={table.caption} daysHeader={table.days} refundHeader={table.refund} rows={refundRows} />}
+      <p className={styles.text}>{summary}</p>
+      {refundRows && <RefundTable words={table} rows={refundRows} />}
       <Accordion
         size="link"
         marker="caret"
@@ -23,7 +23,7 @@ export function PolicyCard({ id, title, summary, refundRows, paragraphs, table, 
             summary: readMore,
             openSummary: hide,
             content: paragraphs.map((paragraph, i) => (
-              <p key={i} className={styles.paragraph}>
+              <p key={i} className={styles.text}>
                 {paragraph}
               </p>
             )),

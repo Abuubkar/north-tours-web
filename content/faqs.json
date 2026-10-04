@@ -44,7 +44,7 @@
         {
           "id": "change-dates",
           "question": "Can I change my dates?",
-          "answer": "Yes, free of charge up to {fullRefundDays} days before departure, if the new date has seats. Closer to departure, a change counts as a cancellation.",
+          "answer": "Yes, free of charge up to {fullRefundDays} days before departure, if the new date has seats.",
           "sample": true
         },
         {

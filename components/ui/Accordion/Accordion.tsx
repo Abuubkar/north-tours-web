@@ -4,11 +4,11 @@ import styles from './Accordion.module.css';
 
 const ICON_SIZE = 20;
 
-/** Each size's classes: the list, an item, its summary, the summary's text and the content. */
+/** Each size's classes: the list, an item, its summary, the summary's text, the marker and the content. */
 const sizes = {
-  default: { list: styles.accordion, item: styles.item, summary: styles.summary, text: styles.summaryText, content: styles.content },
-  compact: { list: undefined, item: styles.compactItem, summary: styles.compactSummary, text: styles.compactText, content: undefined },
-  link: { list: undefined, item: styles.linkItem, summary: styles.linkSummary, text: styles.linkText, content: styles.linkContent },
+  default: { list: styles.accordion, item: styles.item, summary: styles.summary, text: styles.summaryText, marker: styles.marker, content: styles.content },
+  compact: { list: undefined, item: styles.compactItem, summary: styles.compactSummary, text: styles.compactText, marker: styles.marker, content: undefined },
+  link: { list: undefined, item: styles.linkItem, summary: styles.linkSummary, text: styles.linkText, marker: styles.linkMarker, content: styles.linkContent },
 };
 
 /**
@@ -37,7 +37,7 @@ export function Accordion({ items, marker = 'plus', name, size = 'default', onTo
             ) : (
               <span className={look.text}>{item.summary}</span>
             )}
-            <span className={`${size === 'link' ? styles.linkMarker : styles.marker} ${styles[marker]}`} aria-hidden="true">
+            <span className={`${look.marker} ${styles[marker]}`} aria-hidden="true">
               <Icon name={marker} size={ICON_SIZE} className={styles.glyph} />
             </span>
           </summary>
