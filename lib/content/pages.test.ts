@@ -302,6 +302,30 @@ describe('about page copy', () => {
     expect(problems(load((c) => Object.assign(c.guides, { intro: 'Meet {name}' })))).toEqual(['guides.intro']);
   });
 
+  it('needs a photo with alt text for each vehicle, and the fleet age', () => {
+    expect(problems(load((c) => delete (c.vehicles.items[0] as Partial<AboutCopy['vehicles']['items'][0]>).image))).toEqual(['vehicles.items.0.image']);
+    expect(problems(load((c) => Object.assign(c.vehicles.items[1].image, { alt: '' })))).toEqual(['vehicles.items.1.image.alt']);
+    expect(problems(load((c) => Object.assign(c.vehicles.items[0], { image: { placeholder: 'A coaster', alt: 'A coaster' } })))).toContain(
+      'vehicles.items.0.image.src',
+    );
+    expect(problems(load((c) => delete (c.vehicles as Partial<AboutCopy['vehicles']>).fleetAge))).toEqual(['vehicles.fleetAge']);
+  });
+
+  it('takes {dtsLicence} in the licence, and no other token', () => {
+    expect(load((c) => Object.assign(c.credentials.licence, { value: 'Licence {dtsLicence}' })).problems).toEqual([]);
+    const result = load((c) => Object.assign(c.credentials.licence, { value: 'DTS licence No. {licence}' }));
+    expect(problems(result)).toEqual(['credentials.licence.value']);
+    expect(result.problems[0].message).toBe('Unknown token {licence}. Use only {dtsLicence}');
+    expect(problems(load((c) => Object.assign(c.numbers.travellers, { value: '{trips}' })))).toEqual(['numbers.travellers.value']);
+  });
+
+  it('accepts no memberships, and flags the sample one', () => {
+    expect(load((c) => Object.assign(c.credentials.memberships, { items: [] })).problems).toEqual([]);
+    expect(problems(load((c) => Object.assign(c.credentials.memberships.items[0], { sample: 'yes' })))).toEqual([
+      'credentials.memberships.items.0.sample',
+    ]);
+  });
+
   it('keeps the founder’s portrait the owner’s: never a stock photo of a person (ADR-0009)', () => {
     const stock = { ...about.header.image, alt: 'A founder' };
     expect(problems(load((c) => Object.assign(c.story.founder, { portrait: stock })))).toEqual(['story.founder.portrait']);

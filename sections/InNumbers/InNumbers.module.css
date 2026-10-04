@@ -1,0 +1,17 @@
+/* A section with a top hairline and no vertical padding, as the trust strip: the cells carry it. */
+.strip {
+  padding: 0 var(--margin);
+  border-top: var(--hairline-width) solid var(--hairline);
+}
+
+.headline {
+  composes: visuallyHidden from '../../styles/layout.module.css';
+}
+
+/* The trust strip's grid (MIN 165, at most 4, DESIGN.md §5); no outer lines. */
+.grid {
+  composes: textGrid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-trust-min);
+  --grid-cols: var(--grid-trust-cols);
+  border-block: none;
+}

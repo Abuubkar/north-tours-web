@@ -27,6 +27,7 @@ export default function CreditsPage() {
     ...getDestinations().flatMap((destination) => [destination.image, ...(destination.places ?? []).map((place) => place.image)]),
     getToursCopy().banner.image,
     getAboutCopy().header.image,
+    ...getAboutCopy().vehicles.items.map((vehicle) => vehicle.image),
     ...getGuides().map((guide) => guide.portrait),
   ]);
 

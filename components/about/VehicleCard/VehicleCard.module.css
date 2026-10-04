@@ -1,0 +1,17 @@
+/* An image-card cell (docs/components.md §4): the photo full width, the text padded under it. */
+.card {
+  composes: cell from '../../../styles/layout.module.css';
+}
+
+.text {
+  composes: imageCardText from '../../../styles/layout.module.css';
+}
+
+.name {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+.line {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}

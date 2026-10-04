@@ -16,6 +16,17 @@ describe('about page', () => {
     for (const profile of profiles) expect(profile.rows.map((r) => r.label)).toEqual(['Home valley', 'With us', 'Languages', 'Leads']);
   });
 
+  it('fills the licence from settings, the placeholder as written', () => {
+    const { copy } = getAboutPage();
+    expect(copy.credentials.licence.value).toBe(`DTS licence No. ${getSettings().legal.dtsLicence}`);
+  });
+
+  it('counts the guides in content and takes years and trips from the trust settings', () => {
+    const { stats } = getAboutPage();
+    expect(stats[1].value).toBe(getSettings().trust.tripsCompleted);
+    expect(stats[3].value).toBe(String(getGuides().length));
+  });
+
   it('shares the header’s photo', () => {
     const { copy, sharePhoto } = getAboutPage();
     expect(sharePhoto).toBe(copy.header.image);

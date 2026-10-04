@@ -1,0 +1,57 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+/* Past ~44 characters (DESIGN.md §6). */
+.longHeadline {
+  composes: sectionLong from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+/* Media and text split (docs/components.md §4): the safety list wraps under the fleet on narrow screens. */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gutter);
+  margin-top: var(--space-48);
+}
+
+/* A hairline frame: the vehicles' grid, then the fleet's age across the full width. */
+.fleet {
+  display: grid;
+  flex: 1 1 var(--fleet-min);
+  gap: var(--hairline-width);
+  min-width: 0;
+  border-block: var(--hairline-width) solid var(--hairline);
+  background: var(--hairline);
+}
+
+/* At most two across, each at least 200px (DESIGN.md §5); the frame's colour draws the lines. */
+.vehicles {
+  composes: gridColumns from '../../styles/layout.module.css';
+  --grid-min: var(--grid-vehicles-min);
+  --grid-cols: var(--grid-vehicles-cols);
+}
+
+.age {
+  composes: ui from '../../styles/typography.module.css';
+  padding: var(--space-16) var(--cell-pad);
+  background: var(--bg);
+  color: var(--fg-2);
+}
+
+.ageValue {
+  color: var(--fg);
+  font-weight: var(--fw-medium);
+}
+
+.safety {
+  flex: 1 1 var(--safety-min);
+  min-width: 0;
+}

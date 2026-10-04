@@ -25,6 +25,7 @@ export function contentPhotos(dir = CONTENT_DIR): PhotoUse[] {
     ...(tours.data ? [{ file: displayPath(toursCopyFile(dir)), field: 'banner.image', image: tours.data.banner.image }] : []),
     // The About header's photo is also its share image.
     ...(about.data ? [{ file: displayPath(aboutCopyFile(dir)), field: 'header.image', image: about.data.header.image, share: true }] : []),
+    ...(about.data?.vehicles.items ?? []).map((v, i) => ({ file: displayPath(aboutCopyFile(dir)), field: `vehicles.items.${i}.image`, image: v.image })),
     // A tour's photo is its page's hero and share image.
     ...catalog.tours.map((t) => ({ file: catalog.tourFiles[t.slug], field: 'image', image: t.image, share: true })),
     ...catalog.tours.flatMap((t) => t.highlights.map((h, i) => ({ file: catalog.tourFiles[t.slug], field: `highlights.${i}.image`, image: h.image }))),

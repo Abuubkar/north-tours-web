@@ -1,0 +1,23 @@
+.title {
+  composes: stepTitle from '../../../styles/typography.module.css';
+  padding-bottom: var(--space-16);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+}
+
+/* The ✓ square sits on the first line of its text. */
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  padding-block: var(--space-16);
+  border-bottom: var(--hairline-width) solid var(--hairline);
+}
+
+.text {
+  composes: small from '../../../styles/typography.module.css';
+}

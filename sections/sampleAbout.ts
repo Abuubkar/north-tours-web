@@ -47,4 +47,67 @@ export const sampleAbout: AboutCopy = {
       share: 'Share this profile on WhatsApp',
     },
   },
+  vehicles: {
+    headline: 'Our vehicles, and how we keep you safe',
+    items: [
+      {
+        name: 'Toyota Coaster',
+        line: '22 seats · air-conditioned · group departures',
+        image: {
+          src: '/images/vehicles/toyota-coaster.jpg',
+          alt: 'A white Toyota Coaster minibus, seen from the front',
+          width: 1600,
+          height: 1200,
+          credit: {
+            source: 'wikimedia',
+            author: 'Captainmorlypogi1959',
+            licence: 'CC BY-SA 4.0',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Toyota_Coaster_2020.jpg',
+          },
+        },
+        sample: true,
+      },
+      {
+        name: '4x4 jeep',
+        line: '6 seats · for Deosai, Fairy Meadows and mountain tracks',
+        image: {
+          src: '/images/vehicles/4x4-jeep.jpg',
+          alt: 'A red Toyota Land Cruiser 4x4 with a white roof',
+          width: 1600,
+          height: 1079,
+          focus: { x: 55, y: 55 },
+          credit: {
+            source: 'wikimedia',
+            author: 'Mr.choppers',
+            licence: 'CC BY-SA 3.0',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:1982_Toyota_Land_Cruiser_FJ40_in_Freeborn_Red,_front_right.jpg',
+          },
+        },
+        sample: true,
+      },
+    ],
+    fleetAge: { label: 'Average age of our fleet:', value: '4 years', sample: true },
+    safety: {
+      title: 'How we keep you safe',
+      items: [
+        'Every vehicle is checked before each departure',
+        'Driver rest rules: set hours at the wheel, and no night driving on mountain roads',
+        'A first-aid kit in every vehicle, and a first-aid trained guide on every trip',
+        'When a landslide closes the road, we wait or take the safe way round, never a risky shortcut',
+        'Where there’s no signal, check-in times agreed with our Lahore office before you set off',
+      ],
+      sample: true,
+    },
+  },
+  numbers: {
+    headline: 'The company in numbers',
+    labels: { years: 'years running trips', trips: 'trips completed', travellers: 'travellers', guides: 'guides and drivers' },
+    travellers: { value: '9,000+', sample: true },
+  },
+  credentials: {
+    label: 'Credentials',
+    licence: { label: 'Tour operator licence', value: 'DTS licence No. {dtsLicence}' },
+    company: { label: 'Company' },
+    memberships: { label: 'Memberships', items: [{ name: '[Tour operators’ association]', sample: true }] },
+  },
 };

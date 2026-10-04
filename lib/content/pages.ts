@@ -640,6 +640,35 @@ const aboutCopySchema = z.strictObject({
       share: copy,
     }),
   }),
+  /** "Our vehicles, and how we keep you safe": the fleet, its age and the safety practices (all sample, ADR-0019). */
+  vehicles: z.strictObject({
+    headline: copy,
+    /** Until the owner's photos of the real fleet, a stock photo of the type: no people, no other company's name (ADR-0019). */
+    items: z
+      .array(z.strictObject({ name: copy, line: copy, image: photoSchema, sample }))
+      .min(1, 'List at least one vehicle'),
+    /** "Average age of our fleet:" and "4 years". */
+    fleetAge: z.strictObject({ label: copy, value: copy, sample }),
+    /** "How we keep you safe" and the practices, one per row. */
+    safety: z.strictObject({ title: copy, items: z.array(copy).min(1, 'List at least one practice'), sample }),
+  }),
+  /** The company in numbers: a heading only read out, each stat's label, and the travellers figure (sample). */
+  numbers: z.strictObject({
+    headline: copy,
+    labels: z.strictObject({ years: copy, trips: copy, travellers: copy, guides: copy }),
+    /** As shown, e.g. "9,000+". Years and trips come from the trust settings; guides are counted. */
+    travellers: z.strictObject({ value: copy, sample }),
+  }),
+  /** "Credentials": the only section with a label instead of a headline (DESIGN.md §6). */
+  credentials: z.strictObject({
+    label: copy,
+    /** "DTS licence No. {dtsLicence}", the licence from settings, over the trust strip's note. */
+    licence: z.strictObject({ label: copy, value: copyWith('dtsLicence') }),
+    /** The company registration, from settings. */
+    company: z.strictObject({ label: copy }),
+    /** Associations the company belongs to; the row is left out with none. Never a real organisation until confirmed. */
+    memberships: z.strictObject({ label: copy, items: z.array(z.strictObject({ name: copy, sample })) }),
+  }),
 });
 
 export type AboutCopy = z.infer<typeof aboutCopySchema>;
