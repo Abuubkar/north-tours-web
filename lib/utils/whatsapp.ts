@@ -15,6 +15,14 @@ export function whatsappLink(number: string, message: string): string {
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
+/**
+ * A wa.me link with a message and no number, so WhatsApp asks the visitor who to send it to:
+ * sharing a guide's profile with family, say.
+ */
+export function whatsappShareLink(message: string): string {
+  return `https://wa.me/?text=${encodeURIComponent(message)}`;
+}
+
 /** A destination page's "Ask on WhatsApp" message: "Hi, I’d like to plan a private trip to Hunza." */
 export function destinationMessage(whatsapp: Pick<Settings['whatsapp'], 'destinationMessage'>, destination: string): string {
   return fillTokens(whatsapp.destinationMessage, { destination });

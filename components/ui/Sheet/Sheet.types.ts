@@ -7,6 +7,8 @@ type SheetBase = {
   /** Shown in the header and used as the dialog's accessible name. */
   title: string;
   children: ReactNode;
+  /** In the header between the title and Close, e.g. a guide profile's counter, previous and next. */
+  actions?: ReactNode;
   /** Pinned under the scrolling body, e.g. a filter sheet's "Clear all" and "Show 8 trips". */
   footer?: ReactNode;
 };

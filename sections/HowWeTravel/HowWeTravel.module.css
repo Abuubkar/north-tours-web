@@ -1,0 +1,21 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+/* Past ~44 characters (DESIGN.md §6). */
+.longHeadline {
+  composes: sectionLong from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.grid {
+  composes: textGrid from '../../styles/layout.module.css';
+  --grid-min: var(--grid-principles-min);
+  --grid-cols: var(--grid-principles-cols);
+  margin-top: var(--space-48);
+}

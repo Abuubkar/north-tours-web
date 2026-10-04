@@ -1,0 +1,63 @@
+.section {
+  composes: section from '../../styles/layout.module.css';
+}
+
+/* Media and text split (docs/components.md §4): the founder beside the story, above it on phones. */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gutter);
+}
+
+.text {
+  flex: 1 1 var(--story-text-min);
+  min-width: 0;
+}
+
+.headline {
+  composes: section from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+/* Past ~44 characters (DESIGN.md §6). */
+.longHeadline {
+  composes: sectionLong from '../../styles/typography.module.css';
+  max-width: var(--measure-headline);
+}
+
+.paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  max-width: var(--measure-about);
+  margin-top: var(--space-32);
+}
+
+.paragraph {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+.founder {
+  display: flex;
+  flex: 0 1 var(--founder-w);
+  flex-direction: column;
+  gap: var(--space-16);
+  min-width: var(--founder-min);
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.name {
+  composes: stepTitle from '../../styles/typography.module.css';
+}
+
+.role {
+  composes: ui from '../../styles/typography.module.css';
+  color: var(--fg-2);
+}

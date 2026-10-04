@@ -8,7 +8,10 @@ const meta = {
   title: 'Base/MediaFrame',
   component: MediaFrame,
   args: { image: samplePhoto, ratio: '4:3', sizes: '460px' },
-  argTypes: { ratio: { control: 'inline-radio', options: ['fill', '4:3', '3:4', '4:5', '16:10'] } },
+  argTypes: {
+    ratio: { control: 'inline-radio', options: ['fill', '4:3', '3:4', '4:5', '16:10'] },
+    wideRatio: { control: 'inline-radio', options: [undefined, '21:9', '4:5'] },
+  },
   decorators: [
     (Story) => (
       <div className={styles.card}>
@@ -59,6 +62,26 @@ export const Wide: Story = {
   play: async ({ canvas }) => {
     const frame = canvas.getByRole('img', { name: samplePhoto.alt }).closest('picture')!.getBoundingClientRect();
     await expect(frame.width / frame.height).toBeCloseTo(1.6, 1);
+  },
+};
+
+/** A frame that changes shape at 820px, from CSS alone: the About header, 21:9 on wide screens. */
+export const WideFromTablet: Story = {
+  args: { ratio: '4:3', wideRatio: '21:9', sizes: '460px' },
+  globals: { viewport: { value: 'desktop' } },
+  play: async ({ canvas }) => {
+    const frame = canvas.getByRole('img', { name: samplePhoto.alt }).closest('picture')!.getBoundingClientRect();
+    await expect(frame.width / frame.height).toBeCloseTo(21 / 9, 1);
+  },
+};
+
+/** Below 820px the same frame keeps its 4:3. */
+export const WideFromTabletPhone: Story = {
+  ...WideFromTablet,
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas }) => {
+    const frame = canvas.getByRole('img', { name: samplePhoto.alt }).closest('picture')!.getBoundingClientRect();
+    await expect(frame.width / frame.height).toBeCloseTo(4 / 3, 1);
   },
 };
 

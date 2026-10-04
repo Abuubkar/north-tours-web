@@ -1,0 +1,83 @@
+{
+  "title": "About us, our guides and drivers",
+  "description": "A small Lahore company with guides and drivers from Hunza, Skardu and Swat. Meet the team, see how we run every trip, and how we keep your family safe on the road north.",
+  "header": {
+    "headline": "A Lahore company, with guides and drivers from the valleys we visit",
+    "lead": "A small team in Lahore that plans every trip, and guides and drivers from the valleys we take you to.",
+    "image": {
+      "src": "/images/route/karakoram-highway.jpg",
+      "alt": "The Karakoram Highway curves past a guard rail and a stone wall towards snowy peaks half hidden in cloud",
+      "width": 2560,
+      "height": 1707,
+      "focus": { "x": 60, "y": 62 },
+      "credit": {
+        "source": "wikimedia",
+        "author": "Shahid Mehmood",
+        "licence": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Karakoram_highway_leads_rakaposhi.jpg"
+      }
+    }
+  },
+  "story": {
+    "headline": "Running trips north since {foundedYear}",
+    "paragraphs": [
+      "We started with one hired coaster and a family from our own street in Lahore who wanted to see Hunza without worrying about the road. Most of the people we travel with live here, so Lahore is where we plan every trip and where every departure starts.",
+      "Within a few seasons, guides and drivers from Hunza, Skardu and Swat joined us. They taught us to plan around the weather and the roads rather than the clock, and to stop where the people who live there would stop.",
+      "We still do the same things on every trip: we message each family the night before, we never drive the mountain roads after dark, and we ask how it went once you’re home. It’s why so many families travel with us again, and bring their cousins next time."
+    ],
+    "founder": {
+      "name": "Tariq Mehmood",
+      "role": "Founder",
+      "portrait": {
+        "placeholder": "Founder, at the office or on the road",
+        "alt": "Tariq Mehmood, founder"
+      }
+    },
+    "sample": true
+  },
+  "principles": {
+    "headline": "How we run every trip",
+    "items": [
+      {
+        "title": "Unhurried pace",
+        "text": "We plan around the weather, the roads and your family.",
+        "sample": true
+      },
+      {
+        "title": "Local guides",
+        "text": "Our guides grew up in the valleys they show you.",
+        "sample": true
+      },
+      {
+        "title": "Clear prices",
+        "text": "What’s included is written down before you pay.",
+        "sample": true
+      },
+      {
+        "title": "Safety first",
+        "text": "Rested drivers, vehicles checked before every departure, and a first-aid kit on every trip.",
+        "sample": true
+      }
+    ]
+  },
+  "guides": {
+    "headline": "The full team of guides and drivers",
+    "intro": "Tap anyone to see where they’re from, the languages they speak and the routes they lead.",
+    "viewProfile": "View profile",
+    "profile": {
+      "rows": {
+        "home": "Home valley",
+        "joined": "With us",
+        "languages": "Languages",
+        "leads": "Leads",
+        "licence": "Licence"
+      },
+      "since": "Since {year}",
+      "counter": "{index} of {total}",
+      "announcement": "{name}, {counter}",
+      "previous": "Previous profile",
+      "next": "Next profile",
+      "share": "Share this profile on WhatsApp"
+    }
+  }
+}

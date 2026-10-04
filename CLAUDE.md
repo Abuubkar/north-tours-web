@@ -169,6 +169,10 @@ Folders are created only when the first file for them is needed (section 3).
   statistics and facts are fine, as long as they pass the schemas. Exception: WhatsApp
   number, phone, email, office address, DTS licence and company registration stay as
   `[placeholders]` until real values are supplied.
+- **Invented claims about the company carry `sample: true` (ADR-0019):** the founder and story,
+  principles, vehicles and fleet age, the safety list, stats beyond the `trust` settings and
+  memberships. Only `true` is allowed; the owner confirms a claim by removing the field. It never
+  shows on the site.
 
 ## 8. Design rules
 

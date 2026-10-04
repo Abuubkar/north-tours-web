@@ -96,6 +96,11 @@ const settingsSchema = z.strictObject({
     tourMessage: copyWith('tour', 'date'),
     /** A sold-out card's message, with the same tokens. */
     waitlistMessage: copyWith('tour', 'date'),
+    /**
+     * "Share this profile on WhatsApp" on a guide's profile, sent to whoever the visitor picks:
+     * {name}, {role} (in lower case) and {url}, the site's address and the guide's anchor.
+     */
+    guideShareMessage: copyWith('name', 'role', 'url'),
     /** "Ask on WhatsApp" on a destination page: {destination} is its name. */
     destinationMessage: copyWith('destination'),
     /** "Reserve with 30% advance" on the booking panel: everything the visitor chose, filled in. */

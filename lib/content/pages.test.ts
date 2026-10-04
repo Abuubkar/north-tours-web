@@ -1,11 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
+  aboutCopyFile,
+  type AboutCopy,
   creditsCopyFile,
   destinationCopyFile,
   loadDestinationCopy,
   type DestinationCopy,
   homeCopyFile,
+  loadAboutCopy,
   loadCreditsCopy,
   loadHomeCopy,
   loadTourCopy,
@@ -252,5 +255,55 @@ describe('planner page copy', () => {
   it('needs exactly three next steps and a label for every row', () => {
     expect(problems(load((c) => c.next.steps.pop()))).toEqual(['next.steps']);
     expect(problems(load((c) => delete (c.aside.rows as Partial<PlannerCopy['aside']['rows']>).budget))).toEqual(['aside.rows.budget']);
+  });
+});
+
+describe('about page copy', () => {
+  const about: AboutCopy = JSON.parse(readFileSync(aboutCopyFile(), 'utf8'));
+  const load = (change: (copy: AboutCopy) => void) => {
+    const copy = structuredClone(about);
+    change(copy);
+    return loadAboutCopy(contentFixture({ 'pages/about.json': copy }));
+  };
+  const problems = (result: ReturnType<typeof loadAboutCopy>) => result.problems.map((p) => p.field);
+
+  it('accepts the live file', () => {
+    expect(loadAboutCopy().problems).toEqual([]);
+  });
+
+  it('rejects a missing field, naming the file', () => {
+    const result = load((c) => delete (c.header as Partial<AboutCopy['header']>).lead);
+    expect(problems(result)).toEqual(['header.lead']);
+    expect(result.problems[0].file).toMatch(/pages\/about\.json$/);
+    expect(problems(load((c) => delete (c.story.founder as Partial<AboutCopy['story']['founder']>).name))).toEqual(['story.founder.name']);
+  });
+
+  it('takes {foundedYear} in the story headline, and no other token', () => {
+    expect(load((c) => Object.assign(c.story, { headline: 'Since {foundedYear}' })).problems).toEqual([]);
+    const result = load((c) => Object.assign(c.story, { headline: 'Running trips north since {year}' }));
+    expect(problems(result)).toEqual(['story.headline']);
+    expect(result.problems[0].message).toBe('Unknown token {year}. Use only {foundedYear}');
+    expect(problems(load((c) => Object.assign(c.header, { headline: 'Since {foundedYear}' })))).toEqual(['header.headline']);
+  });
+
+  it('marks invented claims with sample: true, and nothing else (ADR-0019)', () => {
+    expect(load((c) => Object.assign(c.story, { sample: true })).problems).toEqual([]);
+    expect(load((c) => delete c.story.sample).problems).toEqual([]);
+    const result = load((c) => Object.assign(c.story, { sample: false }));
+    expect(problems(result)).toEqual(['story.sample']);
+    expect(result.problems[0].message).toMatch(/ADR-0019/);
+    expect(problems(load((c) => Object.assign(c.principles.items[1], { sample: 'yes' })))).toEqual(['principles.items.1.sample']);
+    expect(problems(load((c) => Object.assign(c.principles.items[0], { sample: 1 })))).toEqual(['principles.items.0.sample']);
+  });
+
+  it('takes only its own tokens in the profile’s words', () => {
+    expect(load((c) => Object.assign(c.guides.profile, { counter: '{index}/{total}' })).problems).toEqual([]);
+    expect(problems(load((c) => Object.assign(c.guides.profile, { since: 'Since {joined}' })))).toEqual(['guides.profile.since']);
+    expect(problems(load((c) => Object.assign(c.guides, { intro: 'Meet {name}' })))).toEqual(['guides.intro']);
+  });
+
+  it('keeps the founder’s portrait the owner’s: never a stock photo of a person (ADR-0009)', () => {
+    const stock = { ...about.header.image, alt: 'A founder' };
+    expect(problems(load((c) => Object.assign(c.story.founder, { portrait: stock })))).toEqual(['story.founder.portrait']);
   });
 });

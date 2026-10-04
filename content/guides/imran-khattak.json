@@ -9,6 +9,13 @@
   ],
   "years": 11,
   "bio": "Drives private trips to Swat and Naran, and knows where to stop for chai on every road north.",
+  "home": "Mingora, Swat",
+  "leads": [
+    "Swat",
+    "Kalam",
+    "Naran-Kaghan"
+  ],
+  "joined": 2020,
   "portrait": {
     "placeholder": "driver with the Prado in Swat",
     "alt": "Imran Khattak, driver"

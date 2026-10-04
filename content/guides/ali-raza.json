@@ -9,6 +9,13 @@
     "English"
   ],
   "bio": "Knows every lake around Skardu by name and times Deosai for the quiet hours.",
+  "home": "Skardu, Baltistan",
+  "leads": [
+    "Skardu",
+    "Deosai",
+    "Shigar"
+  ],
+  "joined": 2018,
   "portrait": {
     "placeholder": "guide on the Deosai plateau",
     "alt": "Ali Raza, guide"

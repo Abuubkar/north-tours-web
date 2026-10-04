@@ -67,6 +67,11 @@ describe('photo files', () => {
     for (const use of tourPhotos) expect(use.share).toBe(true);
   });
 
+  it('gives the About header’s photo a share crop: it’s the page’s share image', () => {
+    const about = contentPhotos().find((use) => /pages\/about\.json$/.test(use.file) && use.field === 'header.image');
+    expect(about?.share).toBe(true);
+  });
+
   it('lists each tour’s highlight and stay photos, without share crops', () => {
     for (const kind of ['highlights.', 'stays.']) {
       const uses = contentPhotos().filter((use) => use.field.startsWith(kind));

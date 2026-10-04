@@ -88,6 +88,15 @@ describe('settings', () => {
     expect(result.problems[0].message).toBe('Unknown token {place}. Use only {destination}');
   });
 
+  it('rejects a missing guide share message, or one with a token other than {name}, {role} and {url}', () => {
+    expect(fields(withChange((s) => delete (s.whatsapp as Partial<Settings['whatsapp']>).guideShareMessage))).toEqual([
+      'whatsapp.guideShareMessage',
+    ]);
+    const result = withChange((s) => Object.assign(s.whatsapp, { guideShareMessage: 'Meet {guide}: {url}' }));
+    expect(fields(result)).toEqual(['whatsapp.guideShareMessage']);
+    expect(result.problems[0].message).toBe('Unknown token {guide}. Use only {name}, {role}, {url}');
+  });
+
   it('rejects an empty reserve message or one with an unknown token', () => {
     expect(fields(withChange((s) => Object.assign(s.whatsapp, { reserveMessage: '' })))).toEqual(['whatsapp.reserveMessage']);
     const result = withChange((s) => Object.assign(s.whatsapp, { reserveMessage: 'Reserve {seats} on {tour}' }));

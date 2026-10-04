@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import { fallbackSrc, objectPosition, variantSrcSet } from '@/lib/utils/images';
-import type { MediaFrameProps, MediaFrameRatio } from './MediaFrame.types';
+import type { MediaFrameProps, MediaFrameRatio, MediaFrameWideRatio } from './MediaFrame.types';
 import styles from './MediaFrame.module.css';
 
 const ratioClass: Record<MediaFrameRatio, string> = {
@@ -11,12 +11,17 @@ const ratioClass: Record<MediaFrameRatio, string> = {
   '16:10': styles.ratio16x10,
 };
 
+const wideRatioClass: Record<MediaFrameWideRatio, string> = {
+  '21:9': styles.wide21x9,
+  '4:5': styles.wide4x5,
+};
+
 /**
  * A photo in AVIF, WebP or JPEG at the width the screen needs (ADR-0015), or, until the photo
  * exists, the design's striped placeholder naming the shot, read out as an image by its alt.
  */
-export function MediaFrame({ image, ratio, sizes, priority = false, className }: MediaFrameProps) {
-  const frame = [styles.frame, ratioClass[ratio], className].filter(Boolean).join(' ');
+export function MediaFrame({ image, ratio, wideRatio, sizes, priority = false, className }: MediaFrameProps) {
+  const frame = [styles.frame, ratioClass[ratio], wideRatio && wideRatioClass[wideRatio], className].filter(Boolean).join(' ');
 
   if ('placeholder' in image) {
     return (

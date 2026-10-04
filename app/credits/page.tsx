@@ -3,7 +3,7 @@ import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
 import { getDestinations, getTours } from '@/lib/content/catalog';
 import { getGuides } from '@/lib/content/guides';
-import { getCreditsCopy, getHomeCopy, getToursCopy } from '@/lib/content/pages';
+import { getAboutCopy, getCreditsCopy, getHomeCopy, getToursCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
 import { photoCredits } from '@/lib/utils/credits';
 import { pageMetadata } from '@/lib/utils/metadata';
@@ -26,6 +26,7 @@ export default function CreditsPage() {
     ]),
     ...getDestinations().flatMap((destination) => [destination.image, ...(destination.places ?? []).map((place) => place.image)]),
     getToursCopy().banner.image,
+    getAboutCopy().header.image,
     ...getGuides().map((guide) => guide.portrait),
   ]);
 

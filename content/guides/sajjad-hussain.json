@@ -10,6 +10,12 @@
   ],
   "years": 9,
   "bio": "Leads the jeep track and the walk to Fairy Meadows, and carries the first-aid kit up and down every time.",
+  "home": "Tato village, below Fairy Meadows",
+  "leads": [
+    "Fairy Meadows",
+    "Nanga Parbat base camp"
+  ],
+  "joined": 2019,
   "portrait": {
     "placeholder": "trek lead at Raikot Bridge",
     "alt": "Sajjad Hussain, trek lead"

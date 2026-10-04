@@ -2,8 +2,8 @@ import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
-import { copy, copyWith } from './fields.ts';
-import { photoSchema } from './images.ts';
+import { copy, copyWith, nonEmpty, sample } from './fields.ts';
+import { photoSchema, portraitSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
@@ -591,4 +591,70 @@ let cachedPlanner: PlannerCopy | undefined;
 export function getPlannerCopy(): PlannerCopy {
   cachedPlanner ??= requireValid(loadPlannerCopy());
   return cachedPlanner;
+}
+
+/**
+ * The About page's wording (PRD #78). Invented claims about the company carry `sample: true`
+ * (ADR-0019); headlines and labels are page copy and aren't flagged.
+ */
+const aboutCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The page header: the <h1>, the line under it and a wide photo, also the page's share image. */
+  header: z.strictObject({ headline: copy, lead: copy, image: photoSchema }),
+  /** "Running trips north since {foundedYear}" (the year from `trust.operatingSince`), the story and the founder. */
+  story: z.strictObject({
+    headline: copyWith('foundedYear'),
+    paragraphs: z.array(copy).min(1, 'Write at least one paragraph'),
+    founder: z.strictObject({
+      name: nonEmpty,
+      /** Under the name: "Founder". */
+      role: copy,
+      /** The owner's photo only (ADR-0009); a placeholder until then. */
+      portrait: portraitSchema,
+    }),
+    sample,
+  }),
+  /** "How we run every trip": plain points, not a sequence, so never numbered. */
+  principles: z.strictObject({
+    headline: copy,
+    items: z.array(z.strictObject({ title: copy, text: copy, sample })).min(1, 'List at least one principle'),
+  }),
+  /** "The full team of guides and drivers" (#guides): every guide's card, and the profile each opens. */
+  guides: z.strictObject({
+    headline: copy,
+    intro: copy,
+    /** Under each card's role. */
+    viewProfile: copy,
+    profile: z.strictObject({
+      /** The label of each row under the bio. */
+      rows: z.strictObject({ home: copy, joined: copy, languages: copy, leads: copy, licence: copy }),
+      /** "With us": "Since 2016". */
+      since: copyWith('year'),
+      /** Beside the name: "2 of 6". */
+      counter: copyWith('index', 'total'),
+      /** Read out after Next or Previous: "Ali Raza, 2 of 6". */
+      announcement: copyWith('name', 'counter'),
+      previous: copy,
+      next: copy,
+      share: copy,
+    }),
+  }),
+});
+
+export type AboutCopy = z.infer<typeof aboutCopySchema>;
+
+export function aboutCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'about.json');
+}
+
+export function loadAboutCopy(dir = CONTENT_DIR) {
+  return parseFile(aboutCopySchema, aboutCopyFile(dir));
+}
+
+let cachedAbout: AboutCopy | undefined;
+
+export function getAboutCopy(): AboutCopy {
+  cachedAbout ??= requireValid(loadAboutCopy());
+  return cachedAbout;
 }

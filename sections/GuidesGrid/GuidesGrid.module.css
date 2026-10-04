@@ -17,3 +17,15 @@
 .cell {
   composes: cell from '../../styles/layout.module.css';
 }
+
+/* About: the line under the headline, then the team. */
+.intro {
+  composes: small from '../../styles/typography.module.css';
+  max-width: var(--measure-guides-intro);
+  margin-top: var(--space-24);
+  color: var(--fg-2);
+}
+
+.team {
+  margin-top: var(--space-64);
+}

@@ -1,6 +1,6 @@
 ---
 description: Add a guide, driver or tour host (only with their consent)
-argument-hint: <name>, <role>, <base>, <languages>, [years], "<short bio>", consent confirmed
+argument-hint: <name>, <role>, <base>, <languages>, <home valley>, <places they lead>, <year joined>, [years], [licence], "<short bio>", consent confirmed
 ---
 
 Add a guide: $ARGUMENTS
@@ -15,6 +15,10 @@ This is a content-only task (CLAUDE.md §7). Create one file in `content/guides/
    - `languages`: a list
    - `years`: optional
    - `bio`: one or two plain sentences, in the owner's words
+   - `home`: their home valley, e.g. "Karimabad, Hunza"
+   - `leads`: the places or routes they lead, 1 to 6, e.g. "Hunza", "Nagar", "Gilgit"
+   - `joined`: the year they joined, not before the company started (`trust.operatingSince` in settings) and not in the future
+   - `licence`: optional, only as the owner gives it (a guide or driving licence); never make one up
 
    If any required field is missing, ask.
 4. **Portrait:** always a placeholder for now: `{ "placeholder": "<role in lower case> in <base>", "alt": "<name>, <role in lower case>" }`, e.g. `"guide in Swat"`. Photos of people come only from the owner (ADR-0009) and are added once the image pipeline exists; if the owner offers a photo, say so and keep the placeholder. Never use a stock photo.
