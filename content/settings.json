@@ -20,27 +20,15 @@
   },
   "policies": {
     "refundSchedule": [
-      {
-        "daysBefore": 14,
-        "refundPercent": 100
-      },
-      {
-        "daysBefore": 7,
-        "refundPercent": 50
-      },
-      {
-        "daysBefore": 0,
-        "refundPercent": 0
-      }
+      { "daysBefore": 14, "refundPercent": 100 },
+      { "daysBefore": 7, "refundPercent": 50 },
+      { "daysBefore": 0, "refundPercent": 0 }
     ],
     "balanceDueDays": 7,
     "childFromAge": 5
   },
   "payments": {
-    "methods": [
-      "Cash",
-      "Bank transfer"
-    ]
+    "methods": ["Cash", "Bank transfer"]
   },
   "legal": {
     "dtsLicence": "[DTS licence number]",

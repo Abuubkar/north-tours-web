@@ -7,3 +7,8 @@
 .cell {
   composes: cardCell riseCell from '../../../styles/layout.module.css';
 }
+
+/* The see-all cell: a cell of the grid, but not a card, so it never rises. */
+.seeAll {
+  composes: cardCell from '../../../styles/layout.module.css';
+}

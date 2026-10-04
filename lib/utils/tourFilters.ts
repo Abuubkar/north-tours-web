@@ -29,6 +29,13 @@ export const DEFAULT_SORT: Sort = 'soonest';
 /** From this width the desktop filter bar shows; below it, the mobile bar and its sheets. */
 export const FILTER_BAR_QUERY = '(width >= 820px)';
 
+/**
+ * A tour card photo's width in the per-card hairline grid (layout.module.css `cardGrid`): one,
+ * two or three columns below 820px, below 1100px and from 1100px. Tours' results and a
+ * destination's tours.
+ */
+export const CARD_GRID_PHOTO_SIZES = '(width >= 1100px) 33vw, (width >= 820px) 50vw, 100vw';
+
 /** Below this width the results have one or two columns, and the private trip banner follows two cards. */
 export const NARROW_RESULTS_QUERY = '(width < 1100px)';
 

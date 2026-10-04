@@ -51,7 +51,7 @@ export const Hunza: Story = {
 export const HunzaOnLight: Story = { ...Hunza, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** Two across from 820px, so the cell starts a short second row with no grey cell beside it. */
-export const HunzaLaptop: Story = { ...Hunza, globals: { viewport: { value: 'tablet' } }, play: async ({ canvas }) => {
+export const HunzaTablet: Story = { ...Hunza, globals: { viewport: { value: 'tablet' } }, play: async ({ canvas }) => {
   const cells = canvas.getAllByRole('listitem');
   await expect(new Set(cells.map((cell) => Math.round(cell.getBoundingClientRect().top))).size).toBe(2);
 } };
@@ -68,6 +68,8 @@ export const HunzaPhone: Story = {
   },
 };
 
+export const HunzaPhoneOnLight: Story = { ...HunzaPhone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 /** Murree: one tour and the cell. */
 export const Murree: Story = {
   args: { tours: [murree], seeAll: { ...seeAll, title: 'See all Murree trips', href: '/tours?dest=murree' } },
@@ -76,6 +78,10 @@ export const Murree: Story = {
     await expect(canvas.getByRole('link', { name: 'See all Murree trips' })).toHaveAttribute('href', '/tours?dest=murree');
   },
 };
+
+export const MurreeAt1366: Story = { ...Murree, globals: { viewport: { value: 'laptop' } } };
+
+export const MurreePhone: Story = { ...Murree, globals: { viewport: { value: 'phone' } } };
 
 /** Bookable first, then sold out (with the waitlist), then no upcoming dates. */
 export const SoldOutAndNoDates: Story = {
@@ -86,6 +92,10 @@ export const SoldOutAndNoDates: Story = {
     await expect(canvas.getByText('No upcoming dates · ask on WhatsApp')).toBeVisible();
   },
 };
+
+export const SoldOutAndNoDatesAt1366: Story = { ...SoldOutAndNoDates, globals: { viewport: { value: 'laptop' } } };
+
+export const SoldOutAndNoDatesOnLight: Story = { ...SoldOutAndNoDates, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const SoldOutAndNoDatesPhone: Story = { ...SoldOutAndNoDates, globals: { viewport: { value: 'phone' } } };
 
@@ -118,6 +128,8 @@ export const RisesBelowTheFold: Story = {
     ]) {
       await expect(opacityUpTo(essential, card)).toBe(1);
     }
+    // The see-all cell isn't a card: it never moves.
+    await expect(getComputedStyle(canvas.getAllByRole('listitem').at(-1)!).transform).toBe('none');
     card.scrollIntoView({ block: 'center' });
     await waitFor(() => expect(getComputedStyle(card).transform).toBe('none'), { timeout: 3000 });
     window.scrollTo({ top: 0, behavior: 'instant' });

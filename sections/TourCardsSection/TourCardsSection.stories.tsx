@@ -59,10 +59,14 @@ export const Destination: Story = {
     ),
   },
   play: async ({ canvas }) => {
-    const headings = [...document.querySelectorAll('h2, h3')].map((h) => `${h.tagName} ${h.textContent}`);
-    await expect(headings).toEqual(['H2 Tours that visit Hunza', 'H3 Hunza Express']);
+    await expect(canvas.getByRole('heading', { level: 2 })).toHaveTextContent('Tours that visit Hunza');
+    await expect(canvas.getAllByRole('heading', { level: 3 }).map((h: HTMLElement) => h.textContent)).toEqual(['Hunza Express']);
     await expect(canvas.getByRole('link', { name: 'See all Hunza trips' })).toHaveAttribute('href', '/tours?dest=hunza');
   },
 };
 
 export const DestinationOnLight: Story = { ...Destination, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const DestinationAt1366: Story = { ...Destination, globals: { viewport: { value: 'laptop' } } };
+
+export const DestinationPhone: Story = { ...Destination, globals: { viewport: { value: 'phone' } } };

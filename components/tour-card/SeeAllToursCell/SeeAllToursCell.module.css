@@ -23,8 +23,10 @@
   transition: transform var(--dur-300) var(--ease-out);
 }
 
-.cell:hover .arrow {
-  transform: translateX(var(--nudge));
+@media (hover: hover) {
+  .cell:hover .arrow {
+    transform: translateX(var(--nudge));
+  }
 }
 
 .note {
