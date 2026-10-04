@@ -211,6 +211,8 @@ The header row is a flex row with `flex-wrap: wrap; gap: 24px 48px`. Label: `fle
 
 Removed. The headline introduces each section. A small label (11px logo-mark triangle + 13px/500 name in `--text-2`) is used **only** when a section has no headline of its own: About “Credentials”, Contact “Quick links”, and the footer “Contact” column.
 
+**One owner-approved exception (PRD #86, 2026-10-04):** the Contact page header keeps its “Contact” label in the 240px label column beside the `<h1>` “Talk to a person”, as designed. It's plain text, not a heading. No other header takes a label.
+
 ### Headline style
 
 - Plain, specific, varied in length; mostly without a full stop.

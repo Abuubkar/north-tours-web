@@ -27,13 +27,7 @@ export default function ContactPage() {
       <OnTripMobileBanner text={copy.banner} />
       <PageHeader variant="contact" label={copy.header.label} headline={copy.header.headline} lead={copy.header.lead} />
       <WaysToReachUs copy={copy.ways} channels={channels} />
-      <OnTripNow
-        heading={copy.onTrip.heading}
-        line={copy.onTrip.line}
-        number={travelSupport.value}
-        callLabel={copy.onTrip.callLabel}
-        callHref={travelSupport.href}
-      />
+      <OnTripNow copy={copy.onTrip} support={travelSupport} />
     </PageMain>
   );
 }

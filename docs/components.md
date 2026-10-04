@@ -10,7 +10,7 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Error colour:** an error token that reuses deep gold `#7A5A12` on light and gold `#D9B44A` on dark. No new colour. Errors always pair the colour with the "!" badge and a message.
 - **Off-scale sizes:** three type roles are added: the Tour Detail hero H1 `clamp(48px, 7.2cqi, 108px)`, the Destination hero name, and the BookingPanel price (30px). Every other off-scale size in §5 item 33, the compact review card (item 24) and the section-padding variants (item 35) move to the nearest DESIGN.md value.
 - **One `<h1>` per page** (CLAUDE.md §10). Type roles are visual only.
-- **Precedence fixes** (DESIGN.md / CLAUDE.md win): input, select and textarea borders on light use `--line-strong-light #7D8992` (item 19). No Geist Mono in UI (item 37). No section label on the Contact header (item 32). No 01–04 numbers on About principles (item 36). Every overlay (sheets, drawer, dropdowns, mobile menu) closes on Escape and returns focus (item 41). Payments and Reserve / call back follow ADR-0008 (items 43, 45).
+- **Precedence fixes** (DESIGN.md / CLAUDE.md win): input, select and textarea borders on light use `--line-strong-light #7D8992` (item 19). No Geist Mono in UI (item 37). No section label on the Contact header (item 32; *reversed by the owner on 2026-10-04, PRD #86: the label stays, an exception recorded in DESIGN.md §6*). No 01–04 numbers on About principles (item 36). Every overlay (sheets, drawer, dropdowns, mobile menu) closes on Escape and returns focus (item 41). Payments and Reserve / call back follow ADR-0008 (items 43, 45).
 
 **Decided in the base components PRD (#8, 2026-10-04):**
 

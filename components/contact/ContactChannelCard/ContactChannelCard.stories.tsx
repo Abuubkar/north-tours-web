@@ -46,6 +46,25 @@ export const WhatsAppReal: Story = {
   },
 };
 
+export const WhatsAppRealPhone: Story = { ...WhatsAppReal, globals: { viewport: { value: 'phone' } } };
+
+export const WhatsAppRealOnLight: Story = { ...WhatsAppReal, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const WhatsAppPlaceholderPhone: Story = { ...WhatsAppPlaceholder, globals: { viewport: { value: 'phone' } } };
+
+/** The phone, a placeholder: plain text, never a tel: link, then the hours as written. */
+export const PhonePlaceholder: Story = {
+  args: { label: 'Phone', icon: undefined, value: '[+92 42 XXXX XXXX]', href: undefined, size: 'default', line: '[Mon–Sat, X am – X pm]', children: undefined },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('heading', { level: 3, name: 'Phone' })).toBeVisible();
+    await expect(canvas.queryByRole('link')).toBeNull();
+  },
+};
+
+export const PhonePlaceholderOnLight: Story = { ...PhonePlaceholder, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const PhonePlaceholderPhone: Story = { ...PhonePlaceholder, globals: { viewport: { value: 'phone' } } };
+
 /** The phone, real: a tel: link, then the hours. */
 export const PhoneReal: Story = {
   args: { label: 'Phone', icon: undefined, value: '+92 42 3578 1234', href: 'tel:+924235781234', size: 'default', line: 'Mon–Sat, 10 am – 7 pm', children: undefined },
@@ -57,6 +76,8 @@ export const PhoneReal: Story = {
 
 export const PhoneRealOnLight: Story = { ...PhoneReal, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
+export const PhoneRealPhone: Story = { ...PhoneReal, globals: { viewport: { value: 'phone' } } };
+
 /** The email, a placeholder: plain text, never a mailto: link. */
 export const EmailPlaceholder: Story = {
   args: { label: 'Email', icon: undefined, value: '[hello@brand.pk]', href: undefined, size: 'default', line: 'For invoices, documents and longer questions.', children: undefined },
@@ -66,3 +87,19 @@ export const EmailPlaceholder: Story = {
     await expect(canvas.getByText('[hello@brand.pk]')).toBeVisible();
   },
 };
+
+export const EmailPlaceholderOnLight: Story = { ...EmailPlaceholder, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+export const EmailPlaceholderDesktop: Story = { ...EmailPlaceholder, globals: { viewport: { value: 'desktop' } } };
+
+/** The email, real: a mailto: link. */
+export const EmailReal: Story = {
+  args: { label: 'Email', icon: undefined, value: 'hello@example.pk', href: 'mailto:hello@example.pk', size: 'default', line: 'For invoices, documents and longer questions.', children: undefined },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('link', { name: 'hello@example.pk' })).toHaveAttribute('href', 'mailto:hello@example.pk');
+  },
+};
+
+export const EmailRealOnLight: Story = { ...EmailReal, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const EmailRealPhone: Story = { ...EmailReal, globals: { viewport: { value: 'phone' } } };

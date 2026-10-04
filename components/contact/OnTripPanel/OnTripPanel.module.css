@@ -28,7 +28,7 @@
   composes: trustValue from '../../../styles/typography.module.css';
 }
 
-/* The card title role, tabular: the design's clamp(22px, 2.4cqi, 32px)/600. */
+/* The card title role (26/500), tabular, in place of the design's clamp(22px, 2.4cqi, 32px)/600 (§5 item 33). */
 .number {
   composes: cardTitle from '../../../styles/typography.module.css';
   font-variant-numeric: tabular-nums;

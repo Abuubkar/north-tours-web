@@ -81,4 +81,8 @@ export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', view
 
 export const PhoneReal: Story = { ...Phone, args: { channels: real } };
 
+export const PhoneRealOnLight: Story = { ...PhoneReal, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 export const Laptop: Story = { ...Placeholders, globals: { viewport: { value: 'laptop' } } };
+
+export const LaptopOnLight: Story = { ...Placeholders, globals: { surface: 'light', viewport: { value: 'laptop' } } };

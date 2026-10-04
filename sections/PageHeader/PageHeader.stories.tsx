@@ -215,3 +215,14 @@ export const ContactPhone: Story = {
 };
 
 export const ContactPhoneOnLight: Story = { ...ContactPhone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** Contact with real settings: the lead says the real hours. */
+export const ContactRealHours: Story = {
+  ...Contact,
+  args: { ...Contact.args, lead: 'Most trips are planned on WhatsApp. We reply within 2 hours, Mon–Sat, 10 am – 7 pm.' },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText(/Mon–Sat, 10 am – 7 pm/)).toBeVisible();
+  },
+};
+
+export const ContactRealHoursPhone: Story = { ...ContactRealHours, globals: { viewport: { value: 'phone' } } };

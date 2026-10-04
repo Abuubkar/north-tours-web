@@ -6,11 +6,8 @@ const meta = {
   title: 'Contact/OnTripPanel',
   component: OnTripPanel,
   args: {
-    heading: 'On a trip right now?',
-    line: 'Call your guide, or our travel support line.',
-    number: '[24/7 number]',
-    callLabel: 'Call travel support',
-    callHref: undefined,
+    copy: { heading: 'On a trip right now?', line: 'Call your guide, or our travel support line.', callLabel: 'Call travel support' },
+    support: { value: '[24/7 number]', href: undefined },
   },
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof OnTripPanel>;
@@ -34,9 +31,11 @@ export const PlaceholderOnLight: Story = { ...Placeholder, globals: { surface: '
 
 export const PlaceholderPhone: Story = { ...Placeholder, globals: { viewport: { value: 'phone' } } };
 
+export const PlaceholderPhoneOnLight: Story = { ...Placeholder, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 /** With a real number: "Call travel support" is a 56px tel: link. */
 export const RealNumber: Story = {
-  args: { number: '+92 321 7654321', callHref: 'tel:+923217654321' },
+  args: { support: { value: '+92 321 7654321', href: 'tel:+923217654321' } },
   play: async ({ canvas }) => {
     const call = canvas.getByRole('link', { name: 'Call travel support' });
     await expect(call).toHaveAttribute('href', 'tel:+923217654321');
@@ -47,3 +46,5 @@ export const RealNumber: Story = {
 export const RealNumberOnLight: Story = { ...RealNumber, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const RealNumberPhone: Story = { ...RealNumber, globals: { viewport: { value: 'phone' } } };
+
+export const RealNumberPhoneOnLight: Story = { ...RealNumber, globals: { surface: 'light', viewport: { value: 'phone' } } };

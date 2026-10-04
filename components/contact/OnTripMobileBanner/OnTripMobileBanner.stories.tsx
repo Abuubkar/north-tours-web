@@ -3,17 +3,15 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
 import { realUser } from '../../../.storybook/realUser';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
+import { ON_TRIP_ANCHOR } from '@/lib/routes';
 import { OnTripPanel } from '../OnTripPanel/OnTripPanel';
 import type { OnTripPanelProps } from '../OnTripPanel/OnTripPanel.types';
 import { OnTripMobileBanner } from './OnTripMobileBanner';
 import styles from '../../ui/stories.module.css';
 
 const panel: OnTripPanelProps = {
-  heading: 'On a trip right now?',
-  line: 'Call your guide, or our travel support line.',
-  number: '[24/7 number]',
-  callLabel: 'Call travel support',
-  callHref: undefined,
+  copy: { heading: 'On a trip right now?', line: 'Call your guide, or our travel support line.', callLabel: 'Call travel support' },
+  support: { value: '[24/7 number]', href: undefined },
 };
 
 /** The banner at the top, then room, then the panel well below the fold, as on the page. */
@@ -49,7 +47,7 @@ type Story = StoryObj<typeof meta>;
 const headerHeight = () => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop);
 
 const lands = async (target: HTMLElement) => {
-  const top = document.getElementById('on-trip')!.getBoundingClientRect().top;
+  const top = document.getElementById(ON_TRIP_ANCHOR)!.getBoundingClientRect().top;
   await expect(top).toBeGreaterThanOrEqual(headerHeight() - 1);
   await expect(top).toBeLessThanOrEqual(headerHeight() + 1);
   await expect(target).toHaveFocus();
@@ -63,7 +61,7 @@ export const ToHeading: Story = {
   decorators: [withPanel(panel)],
   play: async ({ canvas }) => {
     const banner = canvas.getByRole('link', { name: 'On a trip right now? Get help' });
-    await expect(banner).toHaveAttribute('href', '#on-trip');
+    await expect(banner).toHaveAttribute('href', `#${ON_TRIP_ANCHOR}`);
     await expect(banner.getBoundingClientRect().height).toBeGreaterThanOrEqual(52);
     const keys = await realUser();
     banner.focus();
@@ -79,7 +77,7 @@ export const ToHeadingOnLight: Story = { ...ToHeading, globals: { surface: 'ligh
 
 /** With a real number, the banner focuses "Call travel support"; with full motion the scroll is smooth and ends in the same place. */
 export const ToCallButton: Story = {
-  decorators: [withPanel({ ...panel, number: '+92 321 7654321', callHref: 'tel:+923217654321' })],
+  decorators: [withPanel({ ...panel, support: { value: '+92 321 7654321', href: 'tel:+923217654321' } })],
   beforeEach: async () => {
     await emulateFullMotion();
     window.scrollTo(0, 0);
@@ -94,7 +92,7 @@ export const ToCallButton: Story = {
     const call = canvas.getByRole('link', { name: 'Call travel support' });
     await expect(call).toHaveFocus();
     // Smooth: still on its way just after the press, then in place.
-    await expect(window.scrollY).toBeLessThan(document.getElementById('on-trip')!.offsetTop - headerHeight() - 1);
+    await expect(window.scrollY).toBeLessThan(document.getElementById(ON_TRIP_ANCHOR)!.offsetTop - headerHeight() - 1);
     await waitFor(() => lands(call), { timeout: 3000 });
   },
 };
@@ -107,3 +105,7 @@ export const NotOnDesktop: Story = {
     await expect(canvas.queryByRole('link', { name: 'On a trip right now? Get help' })).toBeNull();
   },
 };
+
+export const ToCallButtonOnLight: Story = { ...ToCallButton, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+export const NotOnDesktopOnLight: Story = { ...NotOnDesktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };

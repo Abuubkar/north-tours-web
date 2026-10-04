@@ -1,6 +1,9 @@
 import { hasPlaceholder, isPlaceholder } from './placeholder.ts';
 import { whatsappLink } from './whatsapp.ts';
 
+/** A contact value from settings as shown: the number or address, and its link once it's real. */
+export type ContactValue = { value: string; href: string | undefined };
+
 /*
  * Links for contact details from settings. While a value is a `[placeholder]` there is no link
  * (undefined), so it shows as plain text and nobody reaches a made-up contact (ADR-0010).

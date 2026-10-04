@@ -1,11 +1,8 @@
+import type { ContactValue } from '@/lib/utils/contact';
+
 export type OnTripPanelProps = {
-  /** "On a trip right now?": the section's <h2>. */
-  heading: string;
-  /** "Call your guide, or our travel support line." */
-  line: string;
-  /** The travel support number from settings, shown as written. */
-  number: string;
-  /** "Call travel support", shown only once the number is real (`callHref`). */
-  callLabel: string;
-  callHref: string | undefined;
+  /** "On a trip right now?" (the section's <h2>), the line under it and "Call travel support". */
+  copy: { heading: string; line: string; callLabel: string };
+  /** The travel support number, shown as written; "Call travel support" only once it's real (an href). */
+  support: ContactValue;
 };

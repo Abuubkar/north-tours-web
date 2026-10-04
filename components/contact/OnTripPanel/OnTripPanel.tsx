@@ -10,19 +10,19 @@ const HEADING_ID = `${ON_TRIP_ANCHOR}-heading`;
  * and "Call travel support" only once the number is real; until then the number shows as written.
  * The heading takes focus from the phones' banner when there's no button.
  */
-export function OnTripPanel({ heading, line, number, callLabel, callHref }: OnTripPanelProps) {
+export function OnTripPanel({ copy, support }: OnTripPanelProps) {
   return (
     <section id={ON_TRIP_ANCHOR} aria-labelledby={HEADING_ID} data-surface="light" className={styles.panel}>
       <div className={styles.text}>
         <h2 id={HEADING_ID} tabIndex={-1} className={styles.heading}>
-          {heading}
+          {copy.heading}
         </h2>
-        <p className={styles.line}>{line}</p>
-        <p className={styles.number}>{number}</p>
+        <p className={styles.line}>{copy.line}</p>
+        <p className={styles.number}>{support.value}</p>
       </div>
-      {callHref && (
-        <Button href={callHref} size={56}>
-          {callLabel}
+      {support.href && (
+        <Button href={support.href} size={56}>
+          {copy.callLabel}
         </Button>
       )}
     </section>
