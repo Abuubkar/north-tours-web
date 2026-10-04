@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
-import styles from '../../ui/stories.module.css';
+import { roomAbove } from '../../../.storybook/scrollRoom';
 import { placeholderSettings } from '../../layout/sampleSettings';
-import { tourWith } from '../sampleTours';
+import { sampleTour, tourWith } from '../sampleTours';
 import { UpcomingDepartures } from './UpcomingDepartures';
 
 /*
@@ -96,16 +96,6 @@ export const NoneLeft: Story = {
 
 export const NoneLeftOnLight: Story = { ...NoneLeft, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-/** Scroll room above the grid, so its cards start below the fold. */
-const belowTheFold = [
-  (Story: () => React.ReactNode) => (
-    <>
-      <div className={styles.scrollRoom} />
-      <Story />
-    </>
-  ),
-];
-
 /** Every ancestor's opacity, from the element up to the card's list item. */
 const opacityUpTo = (element: Element, stop: Element) => {
   let opacity = 1;
@@ -120,15 +110,16 @@ const opacityUpTo = (element: Element, stop: Element) => {
  * when it comes into view. Its dates, price, seats and buttons are never faded.
  */
 export const RisesIntoView: Story = {
-  decorators: belowTheFold,
+  decorators: [roomAbove],
   beforeEach: emulateFullMotion,
   play: async ({ canvas }) => {
     const card = canvas.getAllByRole('listitem')[0];
     await waitFor(() => expect(card).toHaveAttribute('data-rise', 'below'));
     await expect(getComputedStyle(card).transform).toBe('matrix(1, 0, 0, 1, 0, 40)');
-    const photo = within(card).getAllByRole('img')[0];
+    const photo = within(card).getByRole('img', { name: sampleTour.image.alt });
     await expect(opacityUpTo(photo, card)).toBe(0);
     for (const essential of [
+      within(card).getByText('Only 3 seats left'),
       within(card).getByText('12–12 May · 1 day'),
       within(card).getByText('PKR 145,000'),
       within(card).getByText('3 of 16 seats left'),
@@ -144,26 +135,28 @@ export const RisesIntoView: Story = {
   },
 };
 
+/** No card is offset (the hook left them alone). */
+const expectNoCardOffset = async (canvas: ReturnType<typeof within>) => {
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  for (const card of canvas.getAllByRole('listitem')) {
+    await expect(card).not.toHaveAttribute('data-rise');
+    await expect(getComputedStyle(card).transform).toBe('none');
+  }
+};
+
+export const RisesIntoViewOnLight: Story = { ...RisesIntoView, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
 /** Cards already in view when the page loads are never offset. */
 export const InViewAtLoad: Story = {
-  play: async ({ canvas }) => {
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    for (const card of canvas.getAllByRole('listitem')) {
-      await expect(card).not.toHaveAttribute('data-rise');
-      await expect(getComputedStyle(card).transform).toBe('none');
-    }
-  },
+  beforeEach: emulateFullMotion,
+  play: async ({ canvas }) => expectNoCardOffset(canvas),
 };
 
 /** With reduced motion, no card is offset, even below the fold. */
 export const ReducedMotion: Story = {
-  decorators: belowTheFold,
+  decorators: [roomAbove],
   beforeEach: emulateReducedMotion,
-  play: async ({ canvas }) => {
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    for (const card of canvas.getAllByRole('listitem')) {
-      await expect(card).not.toHaveAttribute('data-rise');
-      await expect(getComputedStyle(card).transform).toBe('none');
-    }
-  },
+  play: async ({ canvas }) => expectNoCardOffset(canvas),
 };
+
+export const ReducedMotionOnLight: Story = { ...ReducedMotion, globals: { surface: 'light', viewport: { value: 'desktop' } } };

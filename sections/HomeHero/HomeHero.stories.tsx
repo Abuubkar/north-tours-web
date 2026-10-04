@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
 import { emulateFullMotion, emulateReducedMotion } from '../../.storybook/reducedMotion';
-import styles from '@/components/ui/stories.module.css';
+import { roomBelow } from '../../.storybook/scrollRoom';
 import { placeholderSettings, realSettings } from '@/components/layout/sampleSettings';
 import { sampleHome } from '../sampleHome';
 import { HomeHero } from './HomeHero';
@@ -65,24 +65,15 @@ export const RealNumber: Story = {
   },
 };
 
-/** Scroll room after the hero, so it can scroll away. */
-const withScrollRoom = [
-  (Story: () => React.ReactNode) => (
-    <>
-      <Story />
-      <div className={styles.scrollRoom} />
-    </>
-  ),
-];
-
+/** The hero's layers, in order: photo, scrim, dim layer. */
 const layers = (canvasElement: HTMLElement) => {
-  const photo = canvasElement.querySelector('picture')!.parentElement!;
-  return { photo: getComputedStyle(photo), dim: getComputedStyle(photo.nextElementSibling!.nextElementSibling!) };
+  const [photo, , dim] = canvasElement.querySelector('section')!.children;
+  return { photo: getComputedStyle(photo), dim: getComputedStyle(dim) };
 };
 
 /** M1: halfway scrolled away, the photo is blurred and zoomed, and the dim layer darkens it. */
 export const ScrolledAway: Story = {
-  decorators: withScrollRoom,
+  decorators: [roomBelow],
   beforeEach: emulateFullMotion,
   play: async ({ canvasElement }) => {
     window.scrollTo(0, 450);
@@ -98,7 +89,7 @@ export const ScrolledAway: Story = {
 
 /** With reduced motion the hero stays still: no blur, no zoom, no dimming, however far it's scrolled. */
 export const ReducedMotion: Story = {
-  decorators: withScrollRoom,
+  decorators: [roomBelow],
   beforeEach: emulateReducedMotion,
   play: async ({ canvasElement }) => {
     window.scrollTo(0, 450);

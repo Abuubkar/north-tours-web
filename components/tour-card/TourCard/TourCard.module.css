@@ -69,15 +69,6 @@
   flex: 1;
 }
 
-/* M4: while its card waits to rise, only the photo is hidden; text, price and buttons never fade. */
-:global([data-rise='below']) .media {
-  opacity: 0;
-}
-
-:global([data-rise='in']) .media {
-  transition: opacity var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
-}
-
 /* Sold out (DESIGN.md §8): the photo dims, title and price drop to secondary, no hover. */
 .soldOut .photo {
   opacity: var(--sold-out-opacity);
@@ -86,6 +77,19 @@
 .soldOut .title,
 .soldOut .price {
   color: var(--fg-2);
+}
+
+/*
+ * M4 (useRiseOnView sets data-rise on the card's grid cell): while the card waits to rise only
+ * its photo is hidden; tags, text, price, seats and buttons never fade. After the sold-out rule,
+ * so a sold-out photo fades in to its dimmed opacity.
+ */
+:global([data-rise='below']) .photo {
+  opacity: 0;
+}
+
+:global([data-rise='in']) .photo {
+  transition: opacity var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
 }
 
 /* Hover, for pointers only; touch always shows the default state. */

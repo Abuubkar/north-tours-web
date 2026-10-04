@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect } from 'storybook/test';
+import { expect, waitFor } from 'storybook/test';
 import { emulateFullMotion, emulateReducedMotion } from '../../.storybook/reducedMotion';
-import styles from '@/components/ui/stories.module.css';
+import { roomAbove } from '../../.storybook/scrollRoom';
 import { sampleHome } from '../sampleHome';
 import { BrandStatement } from './BrandStatement';
 
@@ -37,50 +37,41 @@ export const Phone: Story = { ...Desktop, globals: { viewport: { value: 'phone' 
 
 export const PhoneOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
-/** Scroll room above the statement, so it starts near the bottom of the screen, not yet lit. */
-const belowTheFold = [
-  (Story: () => React.ReactNode) => (
-    <>
-      <div className={styles.scrollRoom} />
-      <Story />
-    </>
-  ),
-];
-
-const wordOpacity = (canvasElement: HTMLElement, index: number) =>
-  Number(getComputedStyle(canvasElement.querySelectorAll('h1 > span')[index]).opacity);
+const wordStyles = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll('h1 > span')].map((word) => getComputedStyle(word));
 
 /**
- * M2: each word is tied to the statement's scroll timeline, one after another. (The reveal itself
- * is scroll-driven, so it's checked in a real browser on the built page.)
+ * M2: each word is tied to the statement's scroll timeline, one after another. (The reveal while
+ * scrolling is checked in a real browser on the built page.) Axe then checks the statement fully
+ * lit, with motion off, since the dimmed words are a passing scroll state.
  */
 export const LightsUp: Story = {
   beforeEach: emulateFullMotion,
-  parameters: { a11y: { test: 'off' } },
-  play: async ({ canvas }) => {
-    const words = [...canvas.getByRole('heading', { level: 1 }).querySelectorAll('span')];
-    const styles = words.map((word) => getComputedStyle(word));
-    for (const style of styles) {
-      await expect(style.animationName).toMatch(/word-reveal/);
-      await expect(style.animationTimeline).toBe('--statement');
+  play: async ({ canvasElement }) => {
+    const words = wordStyles(canvasElement);
+    for (const word of words) {
+      await expect(word.animationName).toMatch(/word-reveal/);
+      await expect(word.animationTimeline).toBe('--statement');
     }
-    const ranges = styles.map((style) => style.animationRangeStart);
-    await expect(new Set(ranges).size).toBe(words.length);
+    await expect(new Set(words.map((word) => word.animationRangeStart)).size).toBe(words.length);
+    await emulateReducedMotion();
+    await waitFor(() => {
+      for (const word of wordStyles(canvasElement)) expect(word.opacity).toBe('1');
+    });
   },
 };
 
+export const LightsUpOnLight: Story = { ...LightsUp, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
 /** With reduced motion every word is fully opaque, wherever the statement is. */
 export const ReducedMotion: Story = {
-  decorators: belowTheFold,
+  decorators: [roomAbove],
   beforeEach: emulateReducedMotion,
   play: async ({ canvas, canvasElement }) => {
     const heading = canvas.getByRole('heading', { level: 1 });
     window.scrollTo(0, window.scrollY + heading.getBoundingClientRect().top - window.innerHeight * 0.9);
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    const words = canvasElement.querySelectorAll('h1 > span').length;
-    for (let i = 0; i < words; i++) {
-      await expect(wordOpacity(canvasElement, i)).toBe(1);
-      await expect(getComputedStyle(canvasElement.querySelectorAll('h1 > span')[i]).animationName).toBe('none');
+    for (const word of wordStyles(canvasElement)) {
+      await expect([word.opacity, word.animationName]).toEqual(['1', 'none']);
     }
   },
 };

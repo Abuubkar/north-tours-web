@@ -6,7 +6,7 @@ const THRESHOLD = 0.12;
 /**
  * Cards rise (M4, DESIGN.md §10, ADR-0016): once, for the children of `listRef` that are still
  * below the fold when the page loads. Each gets `data-rise="below"` (its CSS offsets it), then
- * `data-rise="in"` the first time it comes into view, with a stagger by column in `--rise-delay`.
+ * `data-rise="in"` the first time it comes into view, with its column in `--rise-column` for the stagger.
  * Cards in view at load are never touched, nor anything with reduced motion, so nothing is
  * hidden if the script fails.
  */
