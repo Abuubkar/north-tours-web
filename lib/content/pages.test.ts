@@ -137,6 +137,13 @@ describe('tours page copy', () => {
     expect(result.problems[0].file).toMatch(/pages\/tours\.json$/);
   });
 
+  it('needs a label for every sort, and no others', () => {
+    expect(withToursChange((c) => delete (c.sorts as Partial<ToursCopy['sorts']>).shortest).problems.map((p) => p.field)).toEqual([
+      'sorts.shortest',
+    ]);
+    expect(withToursChange((c) => Object.assign(c.sorts, { cheapest: 'Cheapest' })).problems).not.toEqual([]);
+  });
+
   it('rejects a token the field does not take', () => {
     const result = withToursChange((c) => Object.assign(c.results, { sortedBy: 'Sorted by {order}' }));
     expect(result.problems.map((p) => p.field)).toEqual(['results.sortedBy']);

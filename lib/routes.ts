@@ -1,3 +1,6 @@
+import type { TourFilters } from './utils/tourFilters.ts';
+import { toursSearch } from './utils/toursSearch.ts';
+
 /**
  * Every URL on the site. Links use these, never hard-coded paths. Most pages are built by
  * their own PRDs; links point to them already.
@@ -5,6 +8,8 @@
 export const routes = {
   home: '/',
   tours: '/tours',
+  /** The Tours page filtered, e.g. "See all Hunza trips": /tours?dest=hunza (lib/utils/toursSearch). */
+  toursWith: (filters: Partial<TourFilters>) => `/tours${toursSearch(filters)}`,
   tour: (slug: string) => `/tours/${slug}`,
   destination: (slug: string) => `/destinations/${slug}`,
   plan: '/plan',

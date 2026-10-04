@@ -1,5 +1,5 @@
 import { todayInKarachi } from '../utils/departures.ts';
-import { getTours } from './catalog.ts';
+import { getDestinations, getTours } from './catalog.ts';
 import { getHomeCopy, getToursCopy } from './pages.ts';
 import { getSettings } from './settings.ts';
 
@@ -28,7 +28,11 @@ export function getToursPage() {
       prices: t.prices,
       rating: t.rating,
       image: t.image,
+      destinations: t.destinations,
+      tripTypes: t.tripTypes,
       departures: t.departures,
     })),
+    /** In the loader's order: the Destination options. */
+    destinations: getDestinations().map((d) => ({ slug: d.slug, name: d.name })),
   };
 }

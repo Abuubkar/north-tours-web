@@ -4,6 +4,7 @@ import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith } from './fields.ts';
 import { photoSchema } from './images.ts';
+import { SORTS } from '../utils/tourFilters.ts';
 
 /*
  * Page copy (CLAUDE.md §7): each page's wording lives in content/pages, so components never
@@ -263,8 +264,17 @@ const toursCopySchema = z.strictObject({
     /** Beside it from 820px: {sort} is the sort's label, in lower case. */
     sortedBy: copyWith('sort'),
   }),
-  /** Each sort's label, e.g. "Soonest departure". */
-  sorts: z.strictObject({ soonest: copy }),
+  /** Each sort's label by its id, e.g. "Soonest departure"; every sort needs one. */
+  sorts: z.record(z.enum(SORTS), copy),
+  /** When no trip matches. The headline's wording is fixed (DESIGN.md §6). */
+  empty: z.strictObject({
+    headline: copy,
+    lead: copy,
+    /** Removes every filter (the sort stays). */
+    clearLabel: copy,
+    /** To the Trip Planner. */
+    planLabel: copy,
+  }),
 });
 
 export type ToursCopy = z.infer<typeof toursCopySchema>;

@@ -1,6 +1,9 @@
+import type { Decorator } from '@storybook/nextjs-vite';
 import { tourWith } from '@/components/tour-card/sampleTours';
+import type { FilterTour } from '@/hooks/useTourFilters';
 import type { ToursCopy } from '@/lib/content/pages';
 import type { Tour } from '@/lib/content/tours';
+import { TourFiltersProvider } from './TourFiltersProvider/TourFiltersProvider';
 
 /* Sample Tours page copy and tours for the filter stories, which can't read content files. */
 
@@ -15,8 +18,22 @@ export const sampleToursCopy: ToursCopy = {
     count: { one: '{count} trip', other: '{count} trips' },
     sortedBy: 'Sorted by {sort} · sold-out trips last',
   },
-  sorts: { soonest: 'Soonest departure' },
+  sorts: {
+    soonest: 'Soonest departure',
+    'price-asc': 'Price: low to high',
+    'price-desc': 'Price: high to low',
+    shortest: 'Shortest first',
+  },
+  empty: {
+    headline: 'No trips match these filters yet.',
+    lead: 'Tell us what you’re looking for and we’ll plan it. Most private trips start with a WhatsApp message.',
+    clearLabel: 'Clear all filters',
+    planLabel: 'Plan a private trip',
+  },
 };
+
+/** The sample destinations, in the loader's order (by slug). */
+export const sampleDestinations = ['fairy-meadows', 'hunza', 'murree', 'naran-kaghan', 'skardu', 'swat'];
 
 type Sample = Pick<Tour, 'destinations' | 'tripTypes' | 'days'> & { twin: number; departures: [string, number][] };
 
@@ -63,3 +80,17 @@ export const sampleSoonestOrder = [
   'Fairy Meadows Trek',
   'Skardu & Deosai',
 ];
+
+/**
+ * Wraps a story in the Tours view for these tours. The build day is in 2020 and the browser's
+ * real today is later, so any 2020 date is dropped as on a stale build; the 2099 ones stay.
+ */
+export function withTourFilters(tours: FilterTour[] = sampleListTours): Decorator {
+  return function WithTourFilters(Story) {
+    return (
+      <TourFiltersProvider tours={tours} destinations={sampleDestinations} builtOn="2020-01-01">
+        <Story />
+      </TourFiltersProvider>
+    );
+  };
+}
