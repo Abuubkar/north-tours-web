@@ -44,6 +44,14 @@ const homeSchema = z.strictObject({
   route: z.strictObject({
     headline: copy,
   }),
+  destinations: z.strictObject({
+    headline: copy,
+    /** Above each destination's months. */
+    seasonLabel: copy,
+  }),
+  guides: z.strictObject({
+    headline: copy,
+  }),
   reviews: z.strictObject({
     headline: copy,
   }),
@@ -64,4 +72,29 @@ let cachedHome: HomeCopy | undefined;
 export function getHomeCopy(): HomeCopy {
   cachedHome ??= requireValid(loadHomeCopy());
   return cachedHome;
+}
+
+const creditsSchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The page's <h1>. */
+  headline: copy,
+  intro: copy,
+});
+
+export type CreditsCopy = z.infer<typeof creditsSchema>;
+
+export function creditsCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'credits.json');
+}
+
+export function loadCreditsCopy(dir = CONTENT_DIR) {
+  return parseFile(creditsSchema, creditsCopyFile(dir));
+}
+
+let cachedCredits: CreditsCopy | undefined;
+
+export function getCreditsCopy(): CreditsCopy {
+  cachedCredits ??= requireValid(loadCreditsCopy());
+  return cachedCredits;
 }

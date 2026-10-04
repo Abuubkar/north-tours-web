@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, within } from 'storybook/test';
+import { expect, waitFor, within } from 'storybook/test';
+import { markedLinks, scrollToSection, SpySections } from '../../../.storybook/spySections';
 import { realUser } from '../../../.storybook/realUser';
 import { placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteHeader } from './SiteHeader';
@@ -141,4 +142,34 @@ export const FocusRingPhone: Story = {
     await expect(whatsapp).toHaveFocus();
     await expect(getComputedStyle(whatsapp).outlineStyle).toBe('solid');
   },
+};
+
+/** On the Homepage the header marks the section in view, with aria-current="location", and nothing above it. */
+export const HomepageScrollSpy: Story = {
+  parameters: { ...onPath('/'), fullBleed: true },
+  render: (args) => (
+    <>
+      <SiteHeader {...args} />
+      <SpySections />
+    </>
+  ),
+  play: async ({ canvas }) => {
+    const nav = canvas.getByRole('navigation', { name: 'Main' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    await waitFor(() => expect(markedLinks(nav)).toEqual([]));
+    for (const [id, label] of [
+      ['how', 'How it works'],
+      ['destinations', 'Destinations'],
+      ['reviews', 'Reviews'],
+    ]) {
+      scrollToSection(id);
+      await waitFor(() => expect(markedLinks(nav)).toEqual([`${label} (location)`]));
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  },
+};
+
+export const HomepageScrollSpyOnLight: Story = {
+  ...HomepageScrollSpy,
+  globals: { surface: 'light', viewport: { value: 'desktop' } },
 };

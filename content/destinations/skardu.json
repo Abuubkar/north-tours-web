@@ -8,7 +8,19 @@
     "to": "Oct"
   },
   "image": {
-    "placeholder": "Upper Kachura Lake at dawn",
-    "alt": "Still blue water of Upper Kachura Lake ringed by pines and mountains at dawn"
+    "src": "/images/skardu/upper-kachura.jpg",
+    "alt": "Still water of Upper Kachura Lake at dawn, reflecting a sunlit rocky peak and tall poplars",
+    "width": 1200,
+    "height": 668,
+    "focus": {
+      "x": 70,
+      "y": 45
+    },
+    "credit": {
+      "source": "wikimedia",
+      "author": "Hassaan ur Rahman",
+      "licence": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Upper_Kachura_Lake_in_Morning.jpg"
+    }
   }
 }

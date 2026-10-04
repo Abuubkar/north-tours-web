@@ -20,6 +20,7 @@ const legalLinks = [
   { label: 'Contact', href: routes.contact },
   { label: 'Privacy', href: routes.privacy },
   { label: 'Terms', href: routes.terms },
+  { label: 'Photo credits', href: routes.credits },
 ];
 
 function TextOrLink({ href, className, children }: TextOrLinkProps) {

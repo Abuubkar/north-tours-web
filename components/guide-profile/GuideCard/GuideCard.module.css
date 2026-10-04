@@ -1,0 +1,16 @@
+.card {
+  composes: imageCard from '../../../styles/layout.module.css';
+}
+
+.text {
+  composes: imageCardText from '../../../styles/layout.module.css';
+}
+
+.name {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+.role {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dateRange, messageDate, monthYear, tripLength, yearsSince } from './dates.ts';
+import { dateRange, messageDate, monthYear, seasonRange, tripLength, yearsSince } from './dates.ts';
 
 describe('dateRange', () => {
   it('names the month once when both dates share it', () => {
@@ -44,5 +44,12 @@ describe('yearsSince', () => {
   it('counts whole years to the current year', () => {
     expect(yearsSince(2014, 2026)).toBe(12);
     expect(yearsSince(2026, 2026)).toBe(0);
+  });
+});
+
+describe('seasonRange', () => {
+  it('names both months in full', () => {
+    expect(seasonRange({ from: 'Apr', to: 'Oct' })).toBe('April – October');
+    expect(seasonRange({ from: 'Jun', to: 'Sep' })).toBe('June – September');
   });
 });

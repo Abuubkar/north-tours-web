@@ -12,7 +12,7 @@
   text-decoration: none;
 }
 
-.link[aria-current='page'] {
+.link[aria-current] {
   color: var(--accent);
 }
 

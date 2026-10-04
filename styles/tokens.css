@@ -137,6 +137,10 @@
   --grid-reviews-cols: 3;
   --grid-trust-min: 165px;
   --grid-trust-cols: 4;
+  --grid-destinations-min: 160px;
+  --grid-destinations-cols: 6;
+  --grid-guides-min: 150px;
+  --grid-guides-cols: 4;
 
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;
@@ -158,7 +162,18 @@
   --dur-900: 0.9s;
   --dur-1000: 1s;
   --photo-zoom: 1.045; /* tour card photo on hover */
+
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Scroll and entrance motion (DESIGN.md §10, ADR-0016) */
+  --hero-blur: 16px; /* M1: the hero photo, fully scrolled away */
+  --hero-zoom: 1.08;
+  --hero-dim: 0.8; /* the dim layer over it */
+  --word-dim: 0.16; /* M2: a brand statement word before it lights up */
+  --reveal-from: 8vh; /* the statement starts lighting up once its top is 92% down the screen */
+  --reveal-span: 45vh; /* and is fully lit 45% of the screen later */
+  --rise-distance: 40px; /* M4: a card's offset before it rises */
+  --rise-stagger: 90ms; /* between cards in a row */
 
   /* Type (DESIGN.md §3). Roles live in typography.module.css. */
   --font: var(--font-geist), system-ui, sans-serif;

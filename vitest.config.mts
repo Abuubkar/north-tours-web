@@ -23,6 +23,9 @@ export default defineConfig({
         plugins: [storybookTest({ configDir: path.join(dirname, '.storybook') })],
         test: {
           name: 'storybook',
+          // Story files share one browser page, and some emulate reduced motion for the whole page
+          // (.storybook/reducedMotion.ts), so they run one at a time.
+          fileParallelism: false,
           browser: {
             enabled: true,
             headless: true,

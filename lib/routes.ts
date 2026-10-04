@@ -13,6 +13,9 @@ export const routes = {
   contact: '/contact',
   privacy: '/privacy',
   terms: '/terms',
+  credits: '/credits',
+  /** One guide's profile on the About page. */
+  guide: (slug: string) => `/about#guide-${slug}`,
 
   /* Sections the nav jumps to. */
   how: '/#how',

@@ -22,3 +22,37 @@
   composes: bodyLarge from '../../styles/typography.module.css';
   color: var(--fg-2);
 }
+
+/*
+ * M2 (DESIGN.md §10, ADR-0016): each word goes from dim to full opacity in turn while the
+ * statement rises from near the bottom of the screen to about halfway. Without scroll-driven
+ * animations, or with reduced motion, the words are simply shown.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .headline {
+      view-timeline: --statement block;
+      view-timeline-inset: 0;
+    }
+
+    .word {
+      animation-name: word-reveal;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --statement;
+      animation-range:
+        cover calc(var(--reveal-from) + var(--word) * var(--reveal-span) / var(--words))
+        cover calc(var(--reveal-from) + (var(--word) + 1) * var(--reveal-span) / var(--words));
+    }
+  }
+}
+
+@keyframes word-reveal {
+  from {
+    opacity: var(--word-dim);
+  }
+
+  to {
+    opacity: 1;
+  }
+}

@@ -1,4 +1,4 @@
-/* Layout helpers shared by base component stories only. */
+/* Layout helpers shared by stories (also used by .storybook helpers). */
 .stack {
   display: flex;
   flex-direction: column;
@@ -31,4 +31,9 @@
 /* A hero-sized box for full-bleed media. */
 .fill {
   height: var(--hero-h);
+}
+
+/* Scroll room for motion stories: pushes content below the fold, or lets a section scroll away. */
+.scrollRoom {
+  height: calc(1.5 * var(--hero-h));
 }

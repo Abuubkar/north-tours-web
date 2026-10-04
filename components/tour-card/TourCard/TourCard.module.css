@@ -79,6 +79,19 @@
   color: var(--fg-2);
 }
 
+/*
+ * M4 (useRiseOnView sets data-rise on the card's grid cell): while the card waits to rise only
+ * its photo is hidden; tags, text, price, seats and buttons never fade. After the sold-out rule,
+ * so a sold-out photo fades in to its dimmed opacity.
+ */
+:global([data-rise='below']) .photo {
+  opacity: 0;
+}
+
+:global([data-rise='in']) .photo {
+  transition: opacity var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
+}
+
 /* Hover, for pointers only; touch always shows the default state. */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .live {

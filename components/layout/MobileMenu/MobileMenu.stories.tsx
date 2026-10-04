@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
+import { markedLinks, scrollToSection, SpySections } from '../../../.storybook/spySections';
 import { realUser } from '../../../.storybook/realUser';
 import { MobileMenu } from './MobileMenu';
 
@@ -95,3 +96,23 @@ export const HiddenOnDesktop: Story = {
     await expect(canvas.queryByRole('button', { name: 'Menu' })).toBeNull();
   },
 };
+
+/** On the Homepage at 390, the menu marks the section in view, as the header does. */
+export const ScrollSpy: Story = {
+  parameters: { nextjs: { appDirectory: true, navigation: { pathname: '/' } } },
+  render: (args) => (
+    <>
+      <MobileMenu {...args} />
+      <SpySections />
+    </>
+  ),
+  play: async ({ canvas }) => {
+    scrollToSection('destinations');
+    // A DOM click, so the page isn't scrolled back up to the menu button first.
+    canvas.getByRole('button', { name: 'Menu' }).click();
+    const menu = within(await canvas.findByRole('dialog', { name: 'Menu' }));
+    await waitFor(() => expect(markedLinks(menu.getByRole('navigation', { name: 'Main' }))).toEqual(['Destinations (location)']));
+  },
+};
+
+export const ScrollSpyOnLight: Story = { ...ScrollSpy, globals: { surface: 'light', viewport: { value: 'phone' } } };
