@@ -28,7 +28,7 @@ describe('mainNav', () => {
     expect(mainNav.map(({ label, href }) => [label, href])).toEqual([
       ['Tours', '/tours'],
       ['How it works', '/#how'],
-      ['Destinations', '/#destinations'],
+      ['Destinations', '/destinations'],
       ['Guides', '/about#guides'],
       ['Reviews', '/#reviews'],
     ]);

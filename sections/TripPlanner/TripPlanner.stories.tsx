@@ -485,7 +485,7 @@ export const SendAndAgain: Story = {
     await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
     await waitFor(() => expect(canvas.getByRole('heading', { level: 2, name: 'Thanks, Ayesha.' })).toHaveFocus());
     await expect(canvas.getByRole('link', { name: 'Browse tours' })).toHaveAttribute('href', '/tours');
-    await expect(canvas.getByRole('link', { name: 'Explore destinations' })).toHaveAttribute('href', '/#destinations');
+    await expect(canvas.getByRole('link', { name: 'Explore destinations' })).toHaveAttribute('href', '/destinations');
     await userEvent.click(button(canvas, 'Plan another trip'));
     await waitFor(() => expect(progress(canvas)).toHaveFocus());
     await expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when');

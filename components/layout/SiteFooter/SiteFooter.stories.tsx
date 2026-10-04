@@ -77,7 +77,7 @@ export const FooterNav: Story = {
     const links = within(nav).getAllByRole('link');
     await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual([
       ['Tours', '/tours'],
-      ['Destinations', '/#destinations'],
+      ['Destinations', '/destinations'],
       ['Private trips', '/plan'],
       ['About us', '/about'],
       ['Reviews', '/#reviews'],

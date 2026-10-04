@@ -344,7 +344,7 @@ const destinationCopySchema = z.strictObject({
   /** The <title> part: "Hunza tours from Lahore". */
   title: copyWith('destination'),
   hero: z.strictObject({
-    /** "← All destinations", to the Homepage's destinations (there's no index page). */
+    /** "← All destinations", to the destinations page. */
     backLabel: copy,
   }),
   /** The facts under the hero's lead. */
@@ -424,6 +424,35 @@ let cachedDestination: DestinationCopy | undefined;
 export function getDestinationCopy(): DestinationCopy {
   cachedDestination ??= requireValid(loadDestinationCopy());
   return cachedDestination;
+}
+
+/** The destinations page's wording (PRD #118): every destination on one page. */
+const destinationsCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The page header: the <h1> and the line under it. */
+  header: z.strictObject({ headline: copy, lead: copy }),
+  /** The grid's headline, and the label over each card's months ("Best season"). */
+  destinations: z.strictObject({ headline: copy, seasonLabel: copy }),
+  /** A private trip, in the planner or on WhatsApp (its photo is the Tours banner's). */
+  banner: z.strictObject({ headline: copy, lead: copy, planLabel: copy, askLabel: copy }),
+});
+
+export type DestinationsCopy = z.infer<typeof destinationsCopySchema>;
+
+export function destinationsCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'destinations.json');
+}
+
+export function loadDestinationsCopy(dir = CONTENT_DIR) {
+  return parseFile(destinationsCopySchema, destinationsCopyFile(dir));
+}
+
+let cachedDestinations: DestinationsCopy | undefined;
+
+export function getDestinationsCopy(): DestinationsCopy {
+  cachedDestinations ??= requireValid(loadDestinationsCopy());
+  return cachedDestinations;
 }
 
 /** A planner question answered with one chip: its label, hint and a label for every option. */

@@ -4,7 +4,8 @@ import styles from './DestinationsGrid.module.css';
 
 /**
  * A card per destination, each linking to its page: "Where we go, and when to go there" on the
- * Homepage (#destinations), or "Other valleys we travel to" at the end of a destination page.
+ * Homepage (#destinations), every destination on the destinations page, or "Other valleys we
+ * travel to" at the end of a destination page.
  */
 export function DestinationsGrid(props: DestinationsGridProps) {
   const other = props.variant === 'other';
