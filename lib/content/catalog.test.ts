@@ -5,7 +5,7 @@ import { catalogAsOf, loadCatalog } from './catalog.ts';
 import type { Destination } from './destinations.ts';
 import { CONTENT_DIR } from './files.ts';
 import { contentFixture } from './testing.ts';
-import type { Tour } from './tours.ts';
+import type { RoomPrices, Tour } from './tours.ts';
 
 const read = <T>(file: string): T => JSON.parse(readFileSync(path.join(CONTENT_DIR, file), 'utf8'));
 const hunza = read<Destination>('destinations/hunza.json');
@@ -133,7 +133,7 @@ describe('catalog: tours and destinations', () => {
   });
 
   it('needs a twin, triple and quad price in whole rupees', () => {
-    expect(fields(load((t) => delete (t.prices as Partial<Tour['prices']>).quad))).toEqual(['prices.quad']);
+    expect(fields(load((t) => delete (t.prices as Partial<RoomPrices>).quad))).toEqual(['prices.quad']);
     expect(fields(load((t) => Object.assign(t.prices, { triple: 135000.5 })))).toEqual(['prices.triple']);
   });
 

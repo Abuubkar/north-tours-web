@@ -102,3 +102,5 @@ export const FromAfterHydration: Story = {
     await waitFor(() => expect(factValue(canvas, 'from')).toHaveTextContent('PKR 160,000per person, twin sharing'));
   },
 };
+
+export const FromAfterHydrationOnLight: Story = { ...FromAfterHydration, globals: { surface: 'light' } };
