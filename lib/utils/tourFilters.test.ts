@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Departure } from '../content/tours.ts';
 import {
+  activeFilters,
   cardDeparture,
   clearFilters,
   facetCounts,
@@ -8,6 +9,7 @@ import {
   matches,
   NO_FILTERS,
   tourPrice,
+  toggleFilter,
   tourResults,
   type ListedTour,
   type TourFilters,
@@ -247,5 +249,36 @@ describe('tourResults', () => {
 describe('clearFilters', () => {
   it('removes every filter and keeps the sort', () => {
     expect(clearFilters(view({ dest: ['hunza'], month: '2027-06', sort: 'price-desc' }))).toEqual(view({ sort: 'price-desc' }));
+  });
+});
+
+describe('toggleFilter', () => {
+  it('picks and unpicks an option, keeping its group in option order', () => {
+    const skardu = toggleFilter(NO_FILTERS, options, 'dest', 'skardu');
+    expect(skardu.dest).toEqual(['skardu']);
+    expect(toggleFilter(skardu, options, 'dest', 'hunza').dest).toEqual(['hunza', 'skardu']);
+    expect(toggleFilter(skardu, options, 'dest', 'skardu').dest).toEqual([]);
+  });
+
+  it('takes one month at a time: another replaces it, and picking it again clears it', () => {
+    const june = toggleFilter(NO_FILTERS, options, 'month', '2027-06');
+    const july = toggleFilter(june, options, 'month', '2027-07');
+    expect(july.month).toBe('2027-07');
+    expect(toggleFilter(july, options, 'month', '2027-07').month).toBeNull();
+  });
+});
+
+describe('activeFilters', () => {
+  it('lists the picked options in group order, then option order, month last', () => {
+    const filters = view({ type: ['family', 'corporate'], month: '2027-06', dest: ['hunza', 'swat'], budget: ['under-50k'] });
+    expect(activeFilters(filters)).toEqual([
+      { group: 'dest', id: 'hunza' },
+      { group: 'dest', id: 'swat' },
+      { group: 'budget', id: 'under-50k' },
+      { group: 'type', id: 'family' },
+      { group: 'type', id: 'corporate' },
+      { group: 'month', id: '2027-06' },
+    ]);
+    expect(activeFilters(NO_FILTERS)).toEqual([]);
   });
 });

@@ -13,6 +13,8 @@ const meta = {
   component: TourResults,
   args: { copy: sampleToursCopy, settings: placeholderSettings },
   decorators: [withTourFilters()],
+  // Each story starts at plain /tours (a story's own query follows), and the URL is put back after.
+  beforeEach: atQuery(''),
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof TourResults>;

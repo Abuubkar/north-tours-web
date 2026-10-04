@@ -10,8 +10,10 @@ import { getSettings } from './settings.ts';
  */
 export function getToursPage() {
   const settings = getSettings();
+  const copy = getToursCopy();
+  const destinations = getDestinations();
   return {
-    copy: getToursCopy(),
+    copy,
     settings,
     /** The build's date (Asia/Karachi), for the browser's re-check of departures. */
     builtOn: todayInKarachi(new Date()),
@@ -33,6 +35,8 @@ export function getToursPage() {
       departures: t.departures,
     })),
     /** Destination slugs in the loader's order: the Destination options. */
-    destinations: getDestinations().map((d) => d.slug),
+    destinations: destinations.map((d) => d.slug),
+    /** Each option's words: destination names, and the page's labels for the fixed groups. */
+    optionLabels: { dest: Object.fromEntries(destinations.map((d) => [d.slug, d.name])), ...copy.filters.options },
   };
 }

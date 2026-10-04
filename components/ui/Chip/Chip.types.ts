@@ -17,6 +17,7 @@ type TriggerChip = ButtonAttrs & {
   /** Filters are applied, e.g. "Destination (2)". */
   active?: boolean;
   children: ReactNode;
+  /** How many are applied, shown in brackets: "(2)". */
   count?: number;
 };
 
@@ -37,4 +38,8 @@ type LinkChip = {
 /** toggle: on/off choice. trigger: opens a dropdown or sheet. removable: an applied filter. link: navigates. */
 export type ChipProps = ToggleChip | TriggerChip | RemovableChip | LinkChip;
 
-export type CountProps = { value?: number };
+export type CountProps = {
+  value?: number;
+  /** A trigger's applied count reads "(2)"; an option's trip count is bare. */
+  inParens?: boolean;
+};

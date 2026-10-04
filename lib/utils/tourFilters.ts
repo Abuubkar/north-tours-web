@@ -31,6 +31,9 @@ export const LIST_GROUPS = ['dest', 'dur', 'budget', 'type'] as const;
 
 export type ListGroup = (typeof LIST_GROUPS)[number];
 
+/** Every filter group: the list groups, then Month. */
+export type FilterGroupId = ListGroup | 'month';
+
 /** What the visitor asked for: options picked in each group (in option order), one month or none, and the sort. */
 export type TourFilters = {
   dest: string[];
@@ -179,6 +182,25 @@ export function tourResults<T extends ListedTour>(tours: readonly T[], filters: 
         a.tour.title.localeCompare(b.tour.title),
     )
     .map(({ tour, departure }) => ({ tour, departure }));
+}
+
+/**
+ * The view with an option picked, or unpicked if it was. Each list group stays in option order.
+ * Month takes one at a time: another replaces it, and picking it again clears it.
+ */
+export function toggleFilter(filters: TourFilters, options: FilterOptions, group: FilterGroupId, id: string): TourFilters {
+  if (group === 'month') return { ...filters, month: filters.month === id ? null : id };
+  const picked: readonly string[] = filters[group];
+  const next = picked.includes(id) ? picked.filter((p) => p !== id) : [...picked, id];
+  return { ...filters, [group]: (options[group] as readonly string[]).filter((option) => next.includes(option)) };
+}
+
+/** The picked options as chips, in group order and then option order: "Hunza", "Family", "June 2027". */
+export function activeFilters(filters: TourFilters): { group: FilterGroupId; id: string }[] {
+  return [
+    ...LIST_GROUPS.flatMap((group) => filters[group].map((id: string) => ({ group, id }))),
+    ...(filters.month ? [{ group: 'month' as const, id: filters.month }] : []),
+  ];
 }
 
 /** Every filter removed; the sort stays. */

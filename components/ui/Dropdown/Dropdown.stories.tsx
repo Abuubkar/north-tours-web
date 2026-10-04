@@ -1,7 +1,9 @@
+import { useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
 import { realUser } from '../../../.storybook/realUser';
 import { Dropdown } from './Dropdown';
+import type { DropdownHandle } from './Dropdown.types';
 import styles from './Dropdown.stories.module.css';
 
 const destinations = [
@@ -152,5 +154,34 @@ export const ScriptFallback: Story = {
       Object.defineProperty(CSS, 'supports', { value: original, configurable: true });
       noAnchor.remove();
     }
+  },
+};
+
+/** A sort menu: picking an option closes it from the caller, and focus goes back to the chip. */
+function ClosesOnPick() {
+  const dropdown = useRef<DropdownHandle>(null);
+  return (
+    <Dropdown ref={dropdown} label="Sort: Soonest departure">
+      <ul className={styles.options}>
+        {['Soonest departure', 'Shortest first'].map((option) => (
+          <li key={option}>
+            <button type="button" className={styles.option} onClick={() => dropdown.current?.close()}>
+              {option}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </Dropdown>
+  );
+}
+
+export const CallerCloses: Story = {
+  render: () => <ClosesOnPick />,
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole('button', { name: /Sort/ });
+    await userEvent.click(trigger);
+    await userEvent.click(canvas.getByRole('button', { name: 'Shortest first' }));
+    await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+    await expect(trigger).toHaveFocus();
   },
 };

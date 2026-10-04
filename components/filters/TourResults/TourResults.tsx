@@ -14,14 +14,14 @@ import styles from './TourResults.module.css';
  * space kept), so the full list built into the page never flashes first.
  */
 export function TourResults({ copy, settings }: TourResultsProps) {
-  const { filters, results, changes, clearAll, headingRef } = useTourFilters();
+  const { filters, results, changes, clearAll, headingRef, focusResults } = useTourFilters();
   const count = tripsCount(results.length, copy.results.count);
   // Every change is announced, even when the count stays the same (a no-break space makes the text differ).
   const announcement = changes === 0 ? '' : `${results.length === 0 ? copy.empty.headline : count}${changes % 2 ? ' ' : ''}`;
 
   function clearAndFocus() {
     clearAll();
-    headingRef.current?.focus();
+    focusResults();
   }
 
   return (

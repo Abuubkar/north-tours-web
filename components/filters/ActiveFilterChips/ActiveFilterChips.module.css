@@ -1,0 +1,12 @@
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* The chips flow with "Clear all" as one row. */
+.list {
+  display: contents;
+  list-style: none;
+}

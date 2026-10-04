@@ -1,0 +1,19 @@
+/* TextLink's underline on a button, at the UI size, with a 44px tap target. */
+.textButton {
+  composes: ui from '../../../styles/typography.module.css';
+  min-height: var(--tap);
+  padding: 0 var(--space-8);
+  border: 0;
+  background: transparent;
+  color: var(--link);
+  font-weight: var(--fw-medium);
+  text-decoration: underline;
+  text-decoration-thickness: var(--hairline-width);
+  text-underline-offset: var(--underline-offset);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.textButton:hover {
+  color: var(--link-hover);
+}

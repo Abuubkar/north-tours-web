@@ -4,7 +4,7 @@ import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith } from './fields.ts';
 import { photoSchema } from './images.ts';
-import { SORTS } from '../utils/tourFilters.ts';
+import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
 
 /*
  * Page copy (CLAUDE.md §7): each page's wording lives in content/pages, so components never
@@ -264,6 +264,22 @@ const toursCopySchema = z.strictObject({
     /** Beside it from 820px: {sort} is the sort's label, in lower case. */
     sortedBy: copyWith('sort'),
   }),
+  /** The filters: the bar's name, each group's label, and the fixed groups' options by id. */
+  filters: z.strictObject({
+    /** Names the desktop bar for screen readers: "Filter trips". */
+    label: copy,
+    groups: z.strictObject({ dest: copy, dur: copy, budget: copy, type: copy, month: copy }),
+    /** Every option needs a label (destinations use their names, months their dates). */
+    options: z.strictObject({
+      dur: z.record(z.enum(DURATIONS), copy),
+      budget: z.record(z.enum(BUDGETS), copy),
+      type: z.record(z.enum(TRIP_TYPES), copy),
+    }),
+    /** Removes every filter (the sort stays). */
+    clearAll: copy,
+  }),
+  /** Before the current sort on its menu: "Sort:". */
+  sortLabel: copy,
   /** Each sort's label by its id, e.g. "Soonest departure"; every sort needs one. */
   sorts: z.record(z.enum(SORTS), copy),
   /** When no trip matches. The headline's wording is fixed (DESIGN.md §6). */

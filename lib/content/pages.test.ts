@@ -137,6 +137,12 @@ describe('tours page copy', () => {
     expect(result.problems[0].file).toMatch(/pages\/tours\.json$/);
   });
 
+  it('needs a label for every option of the fixed groups', () => {
+    const result = withToursChange((c) => delete (c.filters.options.dur as Partial<ToursCopy['filters']['options']['dur']>)['8plus']);
+    expect(result.problems.map((p) => p.field)).toEqual(['filters.options.dur.8plus']);
+    expect(withToursChange((c) => delete (c.filters.options.type as Partial<ToursCopy['filters']['options']['type']>).corporate).problems).not.toEqual([]);
+  });
+
   it('needs a label for every sort, and no others', () => {
     expect(withToursChange((c) => delete (c.sorts as Partial<ToursCopy['sorts']>).shortest).problems.map((p) => p.field)).toEqual([
       'sorts.shortest',

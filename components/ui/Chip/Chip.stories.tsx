@@ -87,6 +87,14 @@ export const Toggle: RenderStory = {
   },
 };
 
+/** With filters applied the trigger shows how many, in brackets: "Destination (2)". */
+export const TriggerCount: Story = {
+  args: { variant: 'trigger', expanded: false, active: true, count: 2, children: 'Destination' },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('button', { name: 'Destination (2)' })).toHaveAttribute('aria-expanded', 'false');
+  },
+};
+
 /** A dropdown trigger reports whether what it opens is open. */
 export const Trigger: RenderStory = {
   render: () => <TriggerDemo />,

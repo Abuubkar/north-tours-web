@@ -42,6 +42,7 @@ export const icons = {
   },
   minus: { kind: 'stroke', body: <path d="M5 12h14" /> },
   caret: { kind: 'stroke', body: <path d="m6 9 6 6 6-6" /> },
+  check: { kind: 'stroke', body: <path d="M20 6 9 17l-5-5" /> },
   clock: {
     kind: 'stroke',
     body: (

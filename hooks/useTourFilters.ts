@@ -5,10 +5,13 @@ import {
   facetCounts,
   filterOptions,
   NO_FILTERS,
+  toggleFilter,
   tourResults,
   type FacetCounts,
+  type FilterGroupId,
   type FilterOptions,
   type ListedTour,
+  type Sort,
   type TourFilters,
   type TourResult,
 } from '@/lib/utils/tourFilters';
@@ -28,10 +31,15 @@ export type TourFiltersState = {
   results: TourResult<FilterTour>[];
   /** How many times the visitor has changed the view; the results announce their count after each. */
   changes: number;
+  /** Picks an option, or unpicks it (Month: one at a time). */
+  toggle: (group: FilterGroupId, id: string) => void;
+  setSort: (sort: Sort) => void;
   /** Removes every filter, keeping the sort. */
   clearAll: () => void;
-  /** The results' heading, where focus goes when the filters are cleared. */
+  /** The results' heading, where focus goes once the filters are cleared. */
   headingRef: RefObject<HTMLHeadingElement | null>;
+  /** Moves focus to where the results start, after the last filter is removed. */
+  focusResults: () => void;
 };
 
 export const TourFiltersContext = createContext<TourFiltersState | null>(null);
@@ -94,7 +102,10 @@ export function useTourFiltersState(tours: FilterTour[], destinations: readonly 
     counts: facetCounts(tours, filters, options, today),
     results: tourResults(tours, filters, today),
     changes,
+    toggle: (group, id) => change(toggleFilter(filters, options, group, id)),
+    setSort: (sort) => change({ ...filters, sort }),
     clearAll: () => change(clearFilters(filters)),
     headingRef,
+    focusResults: () => headingRef.current?.focus(),
   };
 }

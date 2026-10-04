@@ -3,6 +3,7 @@ import { tourWith } from '@/components/tour-card/sampleTours';
 import type { FilterTour } from '@/hooks/useTourFilters';
 import type { ToursCopy } from '@/lib/content/pages';
 import type { Tour } from '@/lib/content/tours';
+import type { OptionLabels } from '@/lib/utils/resultsText';
 import { TourFiltersProvider } from './TourFiltersProvider/TourFiltersProvider';
 
 /* Sample Tours page copy and tours for the filter stories, which can't read content files. */
@@ -18,6 +19,17 @@ export const sampleToursCopy: ToursCopy = {
     count: { one: '{count} trip', other: '{count} trips' },
     sortedBy: 'Sorted by {sort} · sold-out trips last',
   },
+  filters: {
+    label: 'Filter trips',
+    groups: { dest: 'Destination', dur: 'Duration', budget: 'Budget', type: 'Trip type', month: 'Month' },
+    options: {
+      dur: { '2-4': '2–4 days', '5-7': '5–7 days', '8plus': '8+ days' },
+      budget: { 'under-50k': 'Under PKR 50k', '50-100k': 'PKR 50–100k', '100k-plus': 'PKR 100k+' },
+      type: { family: 'Family', couples: 'Couples', friends: 'Friends', corporate: 'Corporate' },
+    },
+    clearAll: 'Clear all',
+  },
+  sortLabel: 'Sort:',
   sorts: {
     soonest: 'Soonest departure',
     'price-asc': 'Price: low to high',
@@ -30,6 +42,12 @@ export const sampleToursCopy: ToursCopy = {
     clearLabel: 'Clear all filters',
     planLabel: 'Plan a private trip',
   },
+};
+
+/** Each sample option's words: destination names, and the page's labels for the rest. */
+export const sampleOptionLabels: OptionLabels = {
+  dest: { 'fairy-meadows': 'Fairy Meadows', hunza: 'Hunza', murree: 'Murree', 'naran-kaghan': 'Naran-Kaghan', skardu: 'Skardu', swat: 'Swat' },
+  ...sampleToursCopy.filters.options,
 };
 
 /** The sample destinations, in the loader's order (by slug). */
