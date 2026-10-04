@@ -6,7 +6,6 @@ const meta = {
   title: 'Planner/PlannerProgress',
   component: PlannerProgress,
   args: { text: 'Step 1 of 3 · Where and when', total: 3, filled: 1 },
-  globals: { surface: 'light' },
 } satisfies Meta<typeof PlannerProgress>;
 
 export default meta;
@@ -28,7 +27,7 @@ export const Step1: Story = {
   },
 };
 
-export const Step1OnDark: Story = { ...Step1, globals: { surface: 'dark' } };
+export const Step1OnLight: Story = { ...Step1, globals: { surface: 'light' } };
 
 /** Step 2: two segments lit. */
 export const Step2: Story = {

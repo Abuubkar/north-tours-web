@@ -5,15 +5,26 @@ import type { Photo } from '@/lib/content/images';
 /** A text-only header: no photo. */
 type WithoutPhoto = {
   /**
-   * default: the <h1> at the statement size over the lead (Tours). planner: the same on the light
-   * page with a shorter lead and less room below (Trip Planner, step 1). plannerSlim: the planner's
-   * later steps, where the same <h1> reads as a slim line ("Planning your private trip").
+   * default: the <h1> at the statement size over the lead (Tours). plannerSlim: the Trip Planner's
+   * later steps, where the same <h1> reads as a slim line ("Planning your private trip"). contact:
+   * the <h1> and a lead at most 600px wide, with no label (it would repeat the headline).
    */
-  variant?: 'default' | 'planner' | 'plannerSlim';
+  variant?: 'default' | 'plannerSlim' | 'contact';
   image?: never;
   updated?: never;
   search?: never;
-  label?: never;
+};
+
+/**
+ * The Trip Planner's first step: the <h1> and a shorter lead on a photo band that slides under the
+ * site header, its text on the hero scrim (the page's LCP image).
+ */
+type Planner = {
+  variant: 'planner';
+  /** Fills the band, cropped at its focus. */
+  image: Photo;
+  updated?: never;
+  search?: never;
 };
 
 /** About: the <h1> at the long size, the lead, then a wide photo (the page's LCP image). */
@@ -23,7 +34,6 @@ type About = {
   image: Photo;
   updated?: never;
   search?: never;
-  label?: never;
 };
 
 /** Help (light): the <h1> at the statement size, then the search. */
@@ -33,7 +43,6 @@ type Help = {
   search: ReactNode;
   image?: never;
   updated?: never;
-  label?: never;
 };
 
 /** The legal pages (light): the document's title as the <h1>, then when it was last updated. */
@@ -43,23 +52,9 @@ type Legal = {
   updated: Omit<LastUpdatedProps, 'className'>;
   image?: never;
   search?: never;
-  label?: never;
 };
 
-/**
- * Contact (dark): the "Contact" label in the 240px label column beside the <h1>, then the lead.
- * An owner-approved exception to DESIGN.md §6, which keeps labels for sections without a headline.
- */
-type Contact = {
-  variant: 'contact';
-  /** "Contact": plain text, not a heading. */
-  label: string;
-  image?: never;
-  updated?: never;
-  search?: never;
-};
-
-export type PageHeaderProps = (WithoutPhoto | About | Help | Legal | Contact) & {
+export type PageHeaderProps = (WithoutPhoto | Planner | About | Help | Legal) & {
   /** The page's <h1>. */
   headline: string;
   /** The line under it; the slim planner header has none. */

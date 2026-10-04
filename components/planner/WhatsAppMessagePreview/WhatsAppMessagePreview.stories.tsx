@@ -13,7 +13,6 @@ const meta = {
   title: 'Planner/WhatsAppMessagePreview',
   component: WhatsAppMessagePreview,
   args: { title: 'Message preview', message, note: 'Opens WhatsApp with this message ready to send. Nothing is sent until you press send there.' },
-  globals: { surface: 'light' },
 } satisfies Meta<typeof WhatsAppMessagePreview>;
 
 export default meta;
@@ -29,11 +28,11 @@ export const Default: Story = {
   },
 };
 
-export const OnDark: Story = { ...Default, globals: { surface: 'dark' } };
+export const OnLight: Story = { ...Default, globals: { surface: 'light' } };
 
 export const Phone: Story = {
   ...Default,
-  globals: { surface: 'light', viewport: { value: 'phone' } },
+  globals: { viewport: { value: 'phone' } },
   play: async ({ canvasElement }) => {
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },

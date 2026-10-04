@@ -1,4 +1,4 @@
-/* Per-card hairlines in 1, 2 or 3 columns (layout.module.css `cardGrid`). */
+/* Tour cards in 1, 2 or 3 columns, with gaps (layout.module.css `cardGrid`). */
 .grid {
   composes: cardGrid from '../../../styles/layout.module.css';
 }
@@ -8,7 +8,9 @@
   composes: cardCell riseCell from '../../../styles/layout.module.css';
 }
 
-/* The see-all cell: a cell of the grid, but not a card, so it never rises. */
+/* The see-all cell: a cell of the grid, but not a card, so it never rises; an 8px bordered block. */
 .seeAll {
   composes: cardCell from '../../../styles/layout.module.css';
+  border: var(--hairline-width) solid var(--hairline);
+  border-radius: var(--radius-card);
 }

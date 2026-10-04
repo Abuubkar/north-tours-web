@@ -9,7 +9,7 @@ const meta = {
   args: { copy: samplePlannerCopy.success },
   decorators: [withAnsweredPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof PlannerSuccess>;
 
 export default meta;
@@ -27,8 +27,8 @@ export const Desktop: Story = {
   },
 };
 
-export const OnDark: Story = { ...Desktop, globals: { surface: 'dark', viewport: { value: 'desktop' } } };
+export const OnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-export const Phone: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const Phone: Story = { ...Desktop, globals: { viewport: { value: 'phone' } } };
 
-export const Laptop: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+export const Laptop: Story = { ...Desktop, globals: { viewport: { value: 'laptop' } } };

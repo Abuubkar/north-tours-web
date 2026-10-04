@@ -21,19 +21,19 @@ export function generateMetadata(): Metadata {
 
 /**
  * Contact (PRD #86): every way to reach the company, WhatsApp first, the travel support line for
- * travellers on a trip (with a banner on phones that jumps to it), the office, quick links to carry
+ * travellers on a trip beside the road north (with a banner on phones that jumps to it), the office, quick links to carry
  * on and the trust strip. Contact values are links only once they're real.
  */
 export default function ContactPage() {
-  const { copy, channels, travelSupport, quickLinks, settings, sharePhoto } = getContactPage();
+  const { copy, channels, travelSupport, quickLinks, settings, sharePhoto, routeMap } = getContactPage();
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
       <CanonicalMeta path={routes.contact} siteUrl={settings.site.url} />
       <OnTripMobileBanner text={copy.banner} />
-      <PageHeader variant="contact" label={copy.header.label} headline={copy.header.headline} lead={copy.header.lead} />
+      <PageHeader variant="contact" headline={copy.header.headline} lead={copy.header.lead} />
       <WaysToReachUs copy={copy.ways} channels={channels} />
-      <OnTripNow copy={copy.onTrip} support={travelSupport} />
+      <OnTripNow copy={copy.onTrip} support={travelSupport} map={routeMap} />
       <VisitOffice settings={settings} form="two-row" />
       <QuickLinks {...quickLinks} />
       <TrustStrip settings={settings} year={new Date().getFullYear()} />

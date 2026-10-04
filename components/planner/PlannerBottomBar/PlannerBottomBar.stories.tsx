@@ -7,7 +7,7 @@ const meta = {
   component: PlannerBottomBar,
   args: { nextShort: 'Next', nextLabel: 'Next: Who’s coming', onBack: fn(), onNext: fn(), onSend: fn() },
   parameters: { fullBleed: true },
-  globals: { surface: 'light', viewport: { value: 'phone' } },
+  globals: { viewport: { value: 'phone' } },
 } satisfies Meta<typeof PlannerBottomBar>;
 
 export default meta;
@@ -27,7 +27,7 @@ export const Phone: Story = {
 /** From 820px Next names the step it goes to; Back (quiet) from step 2. */
 export const Tablet: Story = {
   args: { backLabel: 'Back' },
-  globals: { surface: 'light', viewport: { value: 'tablet' } },
+  globals: { viewport: { value: 'tablet' } },
   play: async ({ canvas, args, userEvent }) => {
     await expect(canvas.getByRole('button', { name: 'Next: Who’s coming' })).toBeVisible();
     await userEvent.click(canvas.getByRole('button', { name: 'Back' }));
@@ -48,7 +48,7 @@ export const Review: Story = {
 
 /** From 1100px it isn't shown (the form has its own Back and Next). */
 export const Desktop: Story = {
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     await expect(canvas.queryByRole('button', { name: /^Next/ })).toBeNull();
   },

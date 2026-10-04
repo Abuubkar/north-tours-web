@@ -48,7 +48,7 @@ export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', 
 
 /** At 820, the narrowest flat line, the names and times don't run into each other. */
 export const NavBreakpoint: Story = {
-  globals: { viewport: { value: 'navBreakpoint' } },
+  globals: { viewport: { value: 'breakpoint820' } },
   play: async ({ canvas, canvasElement }) => {
     await expect(rows(stops(canvas))).toBe(1);
     const names = ['Lahore', 'Islamabad', 'Chilas', 'Gilgit', 'Hunza'].map((name) => canvas.getByText(name).getBoundingClientRect());
@@ -79,7 +79,7 @@ export const Murree: Story = {
   },
 };
 
-export const MurreeNavBreakpoint: Story = { ...Murree, globals: { viewport: { value: 'navBreakpoint' } } };
+export const MurreeNavBreakpoint: Story = { ...Murree, globals: { viewport: { value: 'breakpoint820' } } };
 
 export const MurreePhone: Story = {
   args: { stops: sampleMurree.gettingThere.stops },

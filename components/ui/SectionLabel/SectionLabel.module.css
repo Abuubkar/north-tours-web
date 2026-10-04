@@ -1,15 +1,5 @@
+/* Text only: the design's triangle mark is gone (owner feedback, 2026-10-04). */
 .sectionLabel {
   composes: label from '../../../styles/typography.module.css';
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
   color: var(--fg-2);
-}
-
-.mark {
-  flex: none;
-  width: var(--label-mark-w);
-  height: var(--label-mark-h);
-  background: var(--fg);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }

@@ -8,7 +8,7 @@ import styles from './TourCardGrid.module.css';
 
 const columnsClass = { 3: styles.threeColumns, 4: styles.fourColumns };
 
-/** Tour cards in a hairline grid; cards below the fold rise into place the first time they're seen (M4). */
+/** Tour cards in capped columns with gaps between them; cards below the fold rise into place the first time they're seen (M4). */
 export function TourCardGrid({ cards, maxColumns, settings }: TourCardGridProps) {
   const listRef = useRef<HTMLUListElement>(null);
   useRiseOnView(listRef);

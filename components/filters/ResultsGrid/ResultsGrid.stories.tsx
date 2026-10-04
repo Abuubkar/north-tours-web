@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { gridColumns } from '../../../.storybook/gridColumns';
+import { drawsLines, gridColumns, gridGaps } from '../../../.storybook/gridColumns';
+import { emulateReducedMotion } from '../../../.storybook/reducedMotion';
 import { placeholderSettings } from '../../layout/sampleSettings';
 import { sampleListTours } from '../sampleFilters';
 import { ResultsGrid } from './ResultsGrid';
 
-const results = sampleListTours.slice(0, 4).map((tour) => ({ tour, departure: tour.departures[0] }));
+const toResults = (tours: typeof sampleListTours) => tours.map((tour) => ({ tour, departure: tour.departures[0] }));
+const results = toResults(sampleListTours.slice(0, 4));
+/** All eight, so the run after the banner has rows to measure. */
+const allResults = toResults(sampleListTours);
 
 const meta = {
   title: 'Filters/ResultsGrid',
@@ -19,19 +23,26 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const cells = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll('li')];
-const rightLine = (cell: Element) => getComputedStyle(cell).borderRightWidth;
+/** The cards after the banner, one list. */
+const restCells = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll<HTMLElement>('ul:last-of-type > li')];
+/** No line anywhere: not on the list, not on a card's cell. */
+const expectNoLines = async (canvasElement: HTMLElement) => {
+  for (const element of [...canvasElement.querySelectorAll('ul'), ...cells(canvasElement)]) await expect(drawsLines(element)).toBe(false);
+};
 
 /**
- * 1440: three columns. Every card has a line under it and a line to its right unless it ends the
- * row, and the short last row simply ends: nothing is painted in the line colour beside it.
+ * 1440: three columns, 24px between cards side by side and 48px between rows, with no lines; the
+ * short last row simply ends.
  */
 export const ThreeColumns: Story = {
+  args: { results: allResults },
+  // Cards below the fold would wait 40px lower to rise; measure them in place.
+  beforeEach: emulateReducedMotion,
   play: async ({ canvasElement }) => {
     const all = cells(canvasElement);
     await expect(gridColumns(all)).toBe(3);
-    await expect(all.map(rightLine)).toEqual(['1px', '1px', '0px', '1px']);
-    await expect(all.map((cell) => getComputedStyle(cell).borderBottomWidth)).toEqual(['1px', '1px', '1px', '1px']);
-    await expect(getComputedStyle(canvasElement.querySelector('ul')!).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    await expect(gridGaps(restCells(canvasElement))).toEqual({ column: 24, row: 48 });
+    await expectNoLines(canvasElement);
   },
 };
 
@@ -47,23 +58,27 @@ export const Laptop: Story = {
   },
 };
 
-/** From 820px to 1100px: two columns, the line between them only. */
+/** From 820px to 1100px: two columns, the same gaps. */
 export const TwoColumns: Story = {
-  globals: { viewport: { value: 'navBreakpoint' } },
+  args: { results: allResults },
+  beforeEach: emulateReducedMotion,
+  globals: { viewport: { value: 'breakpoint820' } },
   play: async ({ canvasElement }) => {
     const all = cells(canvasElement);
     await expect(gridColumns(all)).toBe(2);
-    await expect(all.map(rightLine)).toEqual(['1px', '0px', '1px', '0px']);
+    await expect(gridGaps(restCells(canvasElement))).toEqual({ column: 24, row: 48 });
+    await expectNoLines(canvasElement);
   },
 };
 
-/** 390: one column, a line under each card, nothing to the side, and nothing scrolls sideways. */
+/** 390: one column, 48px between cards, no lines, and nothing scrolls sideways. */
 export const OneColumn: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvasElement }) => {
     const all = cells(canvasElement);
     await expect(gridColumns(all)).toBe(1);
-    await expect(all.map(rightLine)).toEqual(['0px', '0px', '0px', '0px']);
+    await expect(gridGaps(all)).toEqual({ column: null, row: 48 });
+    await expectNoLines(canvasElement);
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };

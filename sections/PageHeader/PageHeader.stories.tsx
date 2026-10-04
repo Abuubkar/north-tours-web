@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
 import { HelpProvider } from '@/components/help/HelpProvider/HelpProvider';
 import { HelpSearch } from '@/components/help/HelpSearch/HelpSearch';
+import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
 import { sampleAbout } from '../sampleAbout';
 import { sampleHelpCategories, sampleHelpCopy } from '../sampleHelp';
 import { PageHeader } from './PageHeader';
@@ -45,24 +46,38 @@ export const Phone: Story = {
 
 const plannerLead = 'Tell us what you have in mind. We’ll plan it and reply on WhatsApp, usually within 2 hours.';
 
-/** The planner's first step on the light page: the <h1> at the statement size, the lead at most 600px wide. */
+/**
+ * The planner's first step: the <h1> at the statement size and the lead (at most 600px wide) on a
+ * photo band, dark, 360–460px tall, which slides under the site header (72px) and loads first.
+ */
 export const Planner: Story = {
-  args: { variant: 'planner', headline: 'Your dates, your group', lead: plannerLead },
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  args: { variant: 'planner', image: samplePhoto, headline: 'Your dates, your group', lead: plannerLead },
+  globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas, canvasElement }) => {
     const h1 = canvas.getByRole('heading', { level: 1, name: 'Your dates, your group' });
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
     // The statement size: clamp(40px, 6.4cqi, 92px).
     await expect(parseFloat(getComputedStyle(h1).fontSize)).toBeGreaterThanOrEqual(40);
     await expect(canvas.getByText(plannerLead).getBoundingClientRect().width).toBeLessThanOrEqual(600);
+    const band = h1.closest('header')!;
+    await expect(band).toHaveAttribute('data-surface', 'dark');
+    await expect(getComputedStyle(band).marginTop).toBe('-72px');
+    const { height } = band.getBoundingClientRect();
+    await expect(height >= 360 && height <= 460).toBe(true);
+    const photo = canvas.getByRole('img', { name: samplePhoto.alt });
+    await expect(photo).toHaveAttribute('fetchpriority', 'high');
+    // The text sits over the photo, at the band's foot.
+    await expect(h1.getBoundingClientRect().top).toBeGreaterThan(photo.getBoundingClientRect().top);
   },
 };
 
-export const PlannerLaptop: Story = { ...Planner, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+export const PlannerOnLight: Story = { ...Planner, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const PlannerLaptop: Story = { ...Planner, globals: { viewport: { value: 'laptop' } } };
 
 export const PlannerPhone: Story = {
   ...Planner,
-  globals: { surface: 'light', viewport: { value: 'phone' } },
+  globals: { viewport: { value: 'phone' } },
   play: async (context) => {
     await Planner.play!(context);
     await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
@@ -72,7 +87,7 @@ export const PlannerPhone: Story = {
 /** Later steps: the same, only <h1> reads as a slim 15px line with no lead. */
 export const PlannerSlim: Story = {
   args: { variant: 'plannerSlim', headline: 'Planning your private trip', lead: undefined },
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas, canvasElement }) => {
     const h1 = canvas.getByRole('heading', { level: 1, name: 'Planning your private trip' });
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
@@ -81,9 +96,11 @@ export const PlannerSlim: Story = {
   },
 };
 
-export const PlannerSlimPhone: Story = { ...PlannerSlim, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const PlannerSlimOnLight: Story = { ...PlannerSlim, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-export const PlannerSlimLaptop: Story = { ...PlannerSlim, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+export const PlannerSlimPhone: Story = { ...PlannerSlim, globals: { viewport: { value: 'phone' } } };
+
+export const PlannerSlimLaptop: Story = { ...PlannerSlim, globals: { viewport: { value: 'laptop' } } };
 
 /** The frame's width over its height, from its rendered box. */
 const frameRatio = (img: HTMLElement) => {
@@ -184,17 +201,17 @@ export const HelpPhone: Story = {
 const contactLead = 'Most trips are planned on WhatsApp. We reply within 2 hours, [Mon–Sat, X am – X pm].';
 
 /**
- * Contact (dark): the "Contact" label beside the only <h1> from 820px, not a heading; the lead at
- * most 600px wide.
+ * Contact (dark): the only <h1>, with no label before it (the owner removed it: it repeated the
+ * headline), then the lead at most 600px wide.
  */
 export const Contact: Story = {
-  args: { variant: 'contact', label: 'Contact', headline: 'Talk to a person', lead: contactLead },
+  args: { variant: 'contact', headline: 'Talk to a person', lead: contactLead },
   play: async ({ canvas, canvasElement }) => {
     const h1 = canvas.getByRole('heading', { level: 1, name: 'Talk to a person' });
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
     await expect(canvas.getAllByRole('heading')).toHaveLength(1);
-    const label = canvas.getByText('Contact');
-    await expect(label.getBoundingClientRect().right).toBeLessThanOrEqual(h1.getBoundingClientRect().left);
+    await expect(canvas.queryByText('Contact')).toBeNull();
+    await expect(h1.previousElementSibling).toBeNull();
     await expect(canvas.getByText(contactLead).getBoundingClientRect().width).toBeLessThanOrEqual(600);
   },
 };
@@ -203,14 +220,13 @@ export const ContactOnLight: Story = { ...Contact, globals: { surface: 'light', 
 
 export const ContactLaptop: Story = { ...Contact, globals: { viewport: { value: 'laptop' } } };
 
-/** At 390 the label sits above the <h1>, and nothing scrolls sideways. */
+/** At 390 the <h1> opens the header, and nothing scrolls sideways. */
 export const ContactPhone: Story = {
   ...Contact,
   globals: { viewport: { value: 'phone' } },
-  play: async ({ canvas, canvasElement }) => {
-    const h1 = canvas.getByRole('heading', { level: 1, name: 'Talk to a person' });
-    await expect(canvas.getByText('Contact').getBoundingClientRect().bottom).toBeLessThanOrEqual(h1.getBoundingClientRect().top);
-    await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
+  play: async (context) => {
+    await Contact.play!(context);
+    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
   },
 };
 

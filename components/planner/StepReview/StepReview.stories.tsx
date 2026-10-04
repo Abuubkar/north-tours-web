@@ -9,7 +9,7 @@ const meta = {
   args: { copy: samplePlannerCopy.review, steps: samplePlannerCopy.steps, backLabel: 'Back' },
   decorators: [withAnsweredPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof StepReview>;
 
 export default meta;
@@ -28,11 +28,11 @@ export const Desktop: Story = {
   },
 };
 
-export const Laptop: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+export const Laptop: Story = { ...Desktop, globals: { viewport: { value: 'laptop' } } };
 
 /** Below 1100px only the call back stays inline; Back and Send are in the bottom bar. */
 export const Phone: Story = {
-  globals: { surface: 'light', viewport: { value: 'phone' } },
+  globals: { viewport: { value: 'phone' } },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('link', { name: 'Request a call back' })).toBeVisible();
     await expect(canvas.queryByRole('link', { name: 'Send on WhatsApp' })).toBeNull();

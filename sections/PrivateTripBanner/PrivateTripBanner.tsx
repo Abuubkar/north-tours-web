@@ -6,7 +6,7 @@ import styles from './PrivateTripBanner.module.css';
 /** The photo's width: up to 560px, the full width on phones. */
 const PHOTO_SIZES = '(width >= 640px) 560px, 100vw';
 
-const variantClass = { results: styles.inResults, section: styles.ownSection };
+const variantClass = { results: styles.banner, section: styles.ownSection };
 
 /**
  * The offer of a private trip: a photo, the headline and lead, then the planner and WhatsApp.

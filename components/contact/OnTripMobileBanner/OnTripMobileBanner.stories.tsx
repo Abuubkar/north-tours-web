@@ -6,13 +6,10 @@ import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/red
 import { ON_TRIP_ANCHOR } from '@/lib/routes';
 import { OnTripPanel } from '../OnTripPanel/OnTripPanel';
 import type { OnTripPanelProps } from '../OnTripPanel/OnTripPanel.types';
+import { sampleOnTrip } from '../sampleOnTrip';
 import { OnTripMobileBanner } from './OnTripMobileBanner';
 import styles from '../../ui/stories.module.css';
 
-const panel: OnTripPanelProps = {
-  copy: { heading: 'On a trip right now?', line: 'Call your guide, or our travel support line.', callLabel: 'Call travel support' },
-  support: { value: '[24/7 number]', href: undefined },
-};
 
 /** The banner at the top, then room, then the panel well below the fold, as on the page. */
 function withPanel(props: OnTripPanelProps) {
@@ -58,7 +55,7 @@ const lands = async (target: HTMLElement) => {
  * at once (reduced motion: no smooth scroll) and focuses the panel's heading.
  */
 export const ToHeading: Story = {
-  decorators: [withPanel(panel)],
+  decorators: [withPanel(sampleOnTrip)],
   play: async ({ canvas }) => {
     const banner = canvas.getByRole('link', { name: 'On a trip right now? Get help' });
     await expect(banner).toHaveAttribute('href', `#${ON_TRIP_ANCHOR}`);
@@ -77,7 +74,7 @@ export const ToHeadingOnLight: Story = { ...ToHeading, globals: { surface: 'ligh
 
 /** With a real number, the banner focuses "Call travel support"; with full motion the scroll is smooth and ends in the same place. */
 export const ToCallButton: Story = {
-  decorators: [withPanel({ ...panel, support: { value: '+92 321 7654321', href: 'tel:+923217654321' } })],
+  decorators: [withPanel({ ...sampleOnTrip, support: { value: '+92 321 7654321', href: 'tel:+923217654321' } })],
   beforeEach: async () => {
     await emulateFullMotion();
     window.scrollTo(0, 0);
@@ -99,7 +96,7 @@ export const ToCallButton: Story = {
 
 /** At 1440 the banner isn't shown (the panel is in view without it). */
 export const NotOnDesktop: Story = {
-  decorators: [withPanel(panel)],
+  decorators: [withPanel(sampleOnTrip)],
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     await expect(canvas.queryByRole('link', { name: 'On a trip right now? Get help' })).toBeNull();

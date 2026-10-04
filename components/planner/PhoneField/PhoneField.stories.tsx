@@ -10,7 +10,7 @@ const meta = {
   args: { copy: samplePlannerCopy.details.phone },
   decorators: [withPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof PhoneField>;
 
 export default meta;
@@ -36,9 +36,9 @@ export const Pakistani: Story = {
   },
 };
 
-export const PakistaniPhone: Story = { ...Pakistani, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const PakistaniPhone: Story = { ...Pakistani, globals: { viewport: { value: 'phone' } } };
 
-export const PakistaniOnDark: Story = { ...Pakistani, globals: { surface: 'dark', viewport: { value: 'desktop' } } };
+export const PakistaniOnLight: Story = { ...Pakistani, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** "Outside Pakistan?" switches to a country code and a number, focusing the code; "Pakistani number?" switches back. */
 export const Abroad: Story = {
@@ -59,4 +59,4 @@ export const Abroad: Story = {
   },
 };
 
-export const AbroadPhone: Story = { ...Abroad, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const AbroadPhone: Story = { ...Abroad, globals: { viewport: { value: 'phone' } } };

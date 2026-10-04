@@ -2,12 +2,11 @@ import { routes } from '@/lib/routes';
 import type { BrandMarkProps } from './BrandMark.types';
 import styles from './BrandMark.module.css';
 
-/** The logo triangle and the brand name, linking home. */
+/** The brand name, linking home. Text only until the owner supplies a logo. */
 export function BrandMark({ name }: BrandMarkProps) {
   return (
     <a href={routes.home} className={styles.brandMark}>
-      <span className={styles.mark} aria-hidden="true" />
-      <span className={styles.name}>{name}</span>
+      {name}
     </a>
   );
 }

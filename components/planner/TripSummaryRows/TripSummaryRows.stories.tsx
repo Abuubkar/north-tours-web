@@ -9,21 +9,22 @@ const meta = {
   args: { copy: samplePlannerCopy.aside },
   decorators: [withAnsweredPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light' },
 } satisfies Meta<typeof TripSummaryRows>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Nine rows; an empty one shows "—" and is read as "Not answered". */
+/** Nine rows; an empty one reads "Not yet", in the quietest text colour. */
 export const Default: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole('term')).toHaveLength(9);
     await expect(await canvas.findByText('Hunza')).toBeVisible();
     const transport = canvas.getAllByRole('definition')[6];
-    await expect(transport).toHaveTextContent('Not answered');
-    await expect(canvas.getAllByText('—')[0]).toHaveAttribute('aria-hidden', 'true');
+    await expect(transport).toHaveTextContent('Not yet');
+    await expect(canvas.queryByText('—')).toBeNull();
+    const quiet = getComputedStyle(canvas.getAllByText('Not yet')[0]).color;
+    await expect(quiet).not.toBe(getComputedStyle(canvas.getByText('Hunza')).color);
   },
 };
 
-export const OnDark: Story = { ...Default, globals: { surface: 'dark' } };
+export const OnLight: Story = { ...Default, globals: { surface: 'light' } };

@@ -9,7 +9,7 @@ import type { MobileMenuProps } from './MobileMenu.types';
 import styles from './MobileMenu.module.css';
 
 /**
- * Below 820px: the menu button and the side drawer it opens. Only the button hides from 820px,
+ * Below 960px: the menu button and the side drawer it opens. Only the button hides from 960px,
  * so a menu left open while the window widens stays usable. The Sheet handles Escape, the
  * backdrop, the close button, Android's back gesture and focus return to the menu button.
  */

@@ -1,11 +1,6 @@
-/* Per-card hairlines in 1, 2 or 3 columns (layout.module.css `cardGrid`). */
+/* Tour cards in 1, 2 or 3 columns, with gaps (layout.module.css `cardGrid`). */
 .grid {
   composes: cardGrid from '../../../styles/layout.module.css';
-}
-
-/* After the banner, whose hairline is above it. */
-.rest {
-  border-top: 0;
 }
 
 /* Rises into place once (M4, layout.module.css `riseCell`). */

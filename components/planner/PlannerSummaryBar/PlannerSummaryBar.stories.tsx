@@ -16,7 +16,7 @@ const meta = {
   decorators: [withAnsweredPlanner],
   beforeEach: noSavedPlanner,
   parameters: { fullBleed: true },
-  globals: { surface: 'light', viewport: { value: 'phone' } },
+  globals: { viewport: { value: 'phone' } },
 } satisfies Meta<typeof PlannerSummaryBar>;
 
 export default meta;
@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 
 /**
  * A 52px row with the trip, a caret, the progress under it; real keys open and close it to show
- * the nine rows. Light only: its frosted bar is the light page's (the planner is always light).
+ * the nine rows, an empty one reading "Not yet". On the dark frosted bar, like the page.
  */
 export const Phone: Story = {
   play: async ({ canvas, canvasElement }) => {
@@ -37,14 +37,17 @@ export const Phone: Story = {
     summary.focus();
     await user.keyboard('{Enter}');
     await expect(canvas.getAllByRole('term')).toHaveLength(9);
+    await expect(canvas.getAllByText('Not yet')).toHaveLength(2);
     await user.keyboard('{Enter}');
     await expect(summary.closest('details')!.open).toBe(false);
   },
 };
 
+export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
 /** From 1100px it isn't shown (the side column and the progress in the form take over). */
 export const Desktop: Story = {
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
   play: async ({ canvasElement }) => {
     await expect(canvasElement.querySelector('summary')!.getClientRects()).toHaveLength(0);
   },

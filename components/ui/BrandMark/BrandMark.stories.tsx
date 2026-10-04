@@ -11,11 +11,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Links home, named by the brand, and is at least the 44px tap target. */
+/** Links home, named by the brand, and is at least the 44px tap target. Text only: no logo mark until the owner supplies one. */
 export const Default: Story = {
   play: async ({ canvas }) => {
     const link = canvas.getByRole('link', { name: '[BRAND NAME]' });
     await expect(link).toHaveAttribute('href', '/');
+    await expect(link.children).toHaveLength(0);
     await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
   },
 };

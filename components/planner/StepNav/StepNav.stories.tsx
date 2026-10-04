@@ -6,7 +6,6 @@ const meta = {
   title: 'Planner/StepNav',
   component: StepNav,
   args: { nextLabel: 'Next: Who’s coming', onBack: fn(), onNext: fn() },
-  globals: { surface: 'light' },
 } satisfies Meta<typeof StepNav>;
 
 export default meta;
@@ -32,6 +31,6 @@ export const WithBack: Story = {
   },
 };
 
-export const WithBackOnDark: Story = { ...WithBack, globals: { surface: 'dark' } };
+export const WithBackOnLight: Story = { ...WithBack, globals: { surface: 'light' } };
 
-export const WithBackPhone: Story = { ...WithBack, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const WithBackPhone: Story = { ...WithBack, globals: { viewport: { value: 'phone' } } };

@@ -472,6 +472,8 @@ const plannerCopySchema = z.strictObject({
     headline: copy,
     lead: copyWith('replyTime'),
     slim: copy,
+    /** The photo band behind step 1's <h1> and lead, also the page's share image. */
+    image: photoSchema,
   }),
   /** The progress heading: "Step 1 of 3 · Where and when", then "Review · Check and send". */
   progress: z.strictObject({ step: copyWith('step', 'title'), review: copy }),
@@ -569,12 +571,15 @@ const plannerCopySchema = z.strictObject({
     explore: copy,
     again: copy,
   }),
-  /** "Your trip so far": the nine rows beside the form (from 1100px), and how many are answered. */
+  /** "Your trip so far": the postcard beside the form from 1100px, and the summary bar's rows below. */
   aside: z.strictObject({
     label: copy,
+    /** "2 of 9": how many rows are answered. */
     answered: copyWith('count'),
-    /** Read out for an empty row, which shows "—". */
-    notAnswered: copy,
+    /** An empty row: "Not yet". */
+    notYet: copy,
+    /** The postcard's photo until a destination is chosen (or with only "Not sure"). */
+    image: photoSchema,
     rows: z.record(z.enum(SUMMARY_ROWS), copy),
   }),
   /** The summary bar's label on phones: "Hunza · Jun · 4 people". */
@@ -843,8 +848,8 @@ export function getHelpCopy(): HelpCopy {
 const contactCopySchema = z.strictObject({
   title: copy,
   description: copy,
-  /** The header: the "Contact" label beside the <h1> (an owner-approved exception to DESIGN.md §6), and the lead. */
-  header: z.strictObject({ label: copy, headline: copy, lead: copyWith('replyTime', 'officeHours') }),
+  /** The header: the <h1> and the lead (no label: the owner removed it, as it repeated the headline). */
+  header: z.strictObject({ headline: copy, lead: copyWith('replyTime', 'officeHours') }),
   /** "Ways to reach us" (a heading read out, not shown) and each channel's words. */
   ways: z.strictObject({
     headline: copy,
@@ -852,8 +857,11 @@ const contactCopySchema = z.strictObject({
     phone: z.strictObject({ label: copy }),
     email: z.strictObject({ label: copy, line: copy }),
   }),
-  /** "On a trip right now?": the travel support line, and its button once the number is real. */
-  onTrip: z.strictObject({ heading: copy, line: copy, callLabel: copy }),
+  /**
+   * "On a trip right now?": the heading, the line under it, the two people to call (the guide, whose
+   * number is in the trip confirmation, and the support line's label) and the call button.
+   */
+  onTrip: z.strictObject({ heading: copy, line: copy, guide: z.strictObject({ label: copy, note: copy }), support: copy, callLabel: copy }),
   /** The phones' banner at the top of the page, to the on-trip panel. */
   banner: copy,
   /** "Quick links" (the section's label and heading), each link's words, and "Follow the trips" over the social links. */

@@ -2,7 +2,7 @@ import { todayInKarachi } from '../utils/departures.ts';
 import { summaryWords } from '../utils/plannerSummary.ts';
 import { fillTokens } from '../utils/tokens.ts';
 import { getDestinations } from './catalog.ts';
-import { getHomeCopy, getPlannerCopy } from './pages.ts';
+import { getPlannerCopy } from './pages.ts';
 import { getSettings } from './settings.ts';
 
 /**
@@ -29,8 +29,8 @@ export function getPlannerPage() {
     },
     settings,
     /** The build's date (Asia/Karachi): the months and the earliest date until the browser has its own. */
-    /** The page has no photo of its own, so it shares the Homepage's. */
-    sharePhoto: getHomeCopy().hero.image,
+    /** The photo band behind the <h1> is the page's share image. */
+    sharePhoto: copy.header.image,
     /** The destination cards, in the loader's order. */
     destinations,
     /** The summary bar's words, with the destinations' names. */

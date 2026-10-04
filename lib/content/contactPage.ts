@@ -3,6 +3,7 @@ import { emailHref, phoneHref, socialLinks, whatsappHref } from '../utils/contac
 import { fillTokens } from '../utils/tokens.ts';
 import { whatsappLink } from '../utils/whatsapp.ts';
 import { getContactCopy, getHomeCopy, type ContactCopy } from './pages.ts';
+import { getRouteMap } from './routeMap.ts';
 import { getSettings, type Settings } from './settings.ts';
 
 /**
@@ -58,6 +59,8 @@ export function getContactPage() {
   return {
     ...contactPage(getContactCopy(), settings),
     settings,
+    /** The road north, drawn beside "On a trip right now?". */
+    routeMap: getRouteMap(),
     /** The page has no photo of its own (the office's is a placeholder), so it shares the Homepage's. */
     sharePhoto: getHomeCopy().hero.image,
   };

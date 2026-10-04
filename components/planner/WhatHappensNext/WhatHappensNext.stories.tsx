@@ -7,7 +7,6 @@ const meta = {
   title: 'Planner/WhatHappensNext',
   component: WhatHappensNext,
   args: { copy: samplePlannerCopy.next },
-  globals: { surface: 'light' },
 } satisfies Meta<typeof WhatHappensNext>;
 
 export default meta;
@@ -24,4 +23,4 @@ export const Default: Story = {
   },
 };
 
-export const OnDark: Story = { ...Default, globals: { surface: 'dark' } };
+export const OnLight: Story = { ...Default, globals: { surface: 'light' } };

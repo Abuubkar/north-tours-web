@@ -6,6 +6,7 @@ import { roomBelow, scrollThrough } from '../../../.storybook/scrollRoom';
 import { NavLinks } from './NavLinks';
 
 const PAGES = [
+  ['Home', '/'],
   ['Tours', '/tours'],
   ['Destinations', '/destinations'],
   ['Private trips', '/plan'],
@@ -45,7 +46,7 @@ async function parkPointer(canvasElement: HTMLElement) {
   spot.remove();
 }
 
-/** The five pages in order, none a section of a page; on the About page, About is the current item (gold). */
+/** The six pages in order, Home first, none a section of a page; on the About page, About is the current item (gold). */
 export const OnAboutPage: Story = {
   play: async ({ canvas, canvasElement, args }) => {
     const nav = canvas.getByRole('navigation', { name: args.variant === 'footer' ? 'Footer' : 'Main' });
@@ -73,7 +74,7 @@ export const Footer: Story = { ...OnAboutPage, args: { variant: 'footer' } };
 
 export const FooterOnLight: Story = { ...Footer, globals: { surface: 'light' } };
 
-/** Tours covers every tour page, and Destinations every destination page. */
+/** Tours covers every tour page, and Destinations every destination page; Home stays unmarked there. */
 export const OnDestinationPage: Story = {
   parameters: onPath('/destinations/hunza'),
   play: async ({ canvasElement }) => {
@@ -81,12 +82,16 @@ export const OnDestinationPage: Story = {
   },
 };
 
-/** On the Homepage no item is marked, wherever the page is scrolled: the nav marks pages, not sections. */
+/** On the Homepage, Home is marked (gold), wherever the page is scrolled: the nav marks pages, not sections (ADR-0027). */
 export const OnHomepage: Story = {
   parameters: onPath('/'),
   decorators: [roomBelow],
   play: async ({ canvasElement }) => {
-    await scrollThrough(async () => expect(markedLinks(canvasElement)).toEqual([]));
+    await scrollThrough(async () => expect(markedLinks(canvasElement)).toEqual(['Home (page)']));
+    await parkPointer(canvasElement);
+    const nav = canvasElement.querySelector('nav')!;
+    const gold = accent(nav);
+    for (const link of within(nav).getAllByRole('link')) await expect(getComputedStyle(link).color === gold).toBe(link.textContent === 'Home');
   },
 };
 

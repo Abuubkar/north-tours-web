@@ -5,11 +5,11 @@ import styles from './PlannerSummaryBar.module.css';
 
 /**
  * Below 1100px, under the header: the trip in one line, opening (a `<details>` caret row) to the
- * nine rows, with the progress under it. Light frosted, like the progress bar from 1100px.
+ * nine rows, with the progress under it. Frosted dark, like the progress bar from 1100px.
  */
-export function PlannerSummaryBar({ label, copy, children, ref, className }: PlannerSummaryBarProps) {
+export function PlannerSummaryBar({ label, copy, children, ref }: PlannerSummaryBarProps) {
   return (
-    <div ref={ref} className={[styles.bar, className].filter(Boolean).join(' ')}>
+    <div ref={ref} data-surface="dark" className={styles.bar}>
       <div className={styles.summary}>
         <Accordion
           size="compact"

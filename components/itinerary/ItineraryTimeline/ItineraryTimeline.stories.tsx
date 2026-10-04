@@ -72,7 +72,7 @@ export const Laptop: Story = {
 
 /** Below 1280px there's no side map; each day has its mini map, hidden from screen readers. */
 export const Tablet: Story = {
-  globals: { viewport: { value: 'navBreakpoint' } },
+  globals: { viewport: { value: 'breakpoint820' } },
   play: async ({ canvas, canvasElement }) => {
     await expect(canvas.queryByRole('img')).toBeNull();
     const minis = canvasElement.querySelectorAll('li > div [aria-hidden="true"]');
@@ -102,7 +102,7 @@ export const ReducedMotion: Story = {
 
 export const LaptopOnLight: Story = { ...Laptop, globals: { surface: 'light', viewport: { value: 'laptop' } } };
 
-export const TabletOnLight: Story = { ...Tablet, globals: { surface: 'light', viewport: { value: 'navBreakpoint' } } };
+export const TabletOnLight: Story = { ...Tablet, globals: { surface: 'light', viewport: { value: 'breakpoint820' } } };
 
 export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
 

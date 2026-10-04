@@ -10,7 +10,7 @@ const meta = {
   args: { copy: samplePlannerCopy.whosComing },
   decorators: [withPlanner],
   beforeEach: noSavedPlanner,
-  globals: { surface: 'light', viewport: { value: 'desktop' } },
+  globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof StepWhosComing>;
 
 export default meta;
@@ -32,9 +32,9 @@ export const Desktop: Story = {
   },
 };
 
-export const Laptop: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+export const Laptop: Story = { ...Desktop, globals: { viewport: { value: 'laptop' } } };
 
-export const Phone: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const Phone: Story = { ...Desktop, globals: { viewport: { value: 'phone' } } };
 
 /** Real keys: "More children" twice shows Child 1 and Child 2, side by side; "Fewer children" removes Child 2 and its age. */
 export const ChildrenAges: Story = {
@@ -58,7 +58,7 @@ export const ChildrenAges: Story = {
   },
 };
 
-export const ChildrenAgesPhone: Story = { ...ChildrenAges, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const ChildrenAgesPhone: Story = { ...ChildrenAges, globals: { viewport: { value: 'phone' } } };
 
 /** Adults stop at 1 and 40; the button at the limit is aria-disabled and keeps focus (real keys). */
 export const AdultLimits: Story = {
@@ -122,4 +122,4 @@ export const OtherCity: Story = {
   },
 };
 
-export const OtherCityPhone: Story = { ...OtherCity, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const OtherCityPhone: Story = { ...OtherCity, globals: { viewport: { value: 'phone' } } };

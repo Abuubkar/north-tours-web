@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
+import { drawsLines, gridGaps } from '../../../.storybook/gridColumns';
 import { opacityUpTo } from '../../../.storybook/opacity';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
 import { roomAbove } from '../../../.storybook/scrollRoom';
@@ -45,6 +46,11 @@ export const Hunza: Story = {
     await expect(cells).toHaveLength(3);
     await expect(cells.at(-1)).toContainElement(link);
     await expect(new Set(cells.map((cell) => Math.round(cell.getBoundingClientRect().top))).size).toBe(1);
+    // Cards 24px apart with no lines; the see-all cell is an 8px block with a hairline border.
+    await expect(gridGaps(cells).column).toBe(24);
+    for (const cell of [canvas.getByRole('list'), ...cells.slice(0, -1)]) await expect(drawsLines(cell)).toBe(false);
+    const seeAll = getComputedStyle(cells.at(-1)!);
+    await expect([seeAll.borderTopWidth, seeAll.borderRadius]).toEqual(['1px', '8px']);
   },
 };
 

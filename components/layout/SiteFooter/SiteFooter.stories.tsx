@@ -70,13 +70,14 @@ export const PlaceholdersPhoneOnLight: Story = {
   globals: { surface: 'light', viewport: { value: 'phone' } },
 };
 
-/** The footer's nav is its own landmark, with the main nav's five pages as large links; Contact isn't a small link too. */
+/** The footer's nav is its own landmark, with the main nav's six pages as large links; Contact isn't a small link too. */
 export const FooterNav: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('contentinfo')).toHaveAttribute('data-surface', 'dark');
     const nav = canvas.getByRole('navigation', { name: 'Footer' });
     const links = within(nav).getAllByRole('link');
     await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual([
+      ['Home', '/'],
       ['Tours', '/tours'],
       ['Destinations', '/destinations'],
       ['Private trips', '/plan'],

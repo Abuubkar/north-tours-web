@@ -6,21 +6,14 @@ import { SUMMARY_ROWS } from '@/lib/utils/plannerSummary';
 import type { TripSummaryRowsProps } from './TripSummaryRows.types';
 import styles from './TripSummaryRows.module.css';
 
-/** The trip's nine rows as answered so far; an empty row shows "—", read as "Not answered". */
+/** The trip's nine rows as answered so far; an empty row reads "Not yet", quieter. */
 export function TripSummaryRows({ copy }: TripSummaryRowsProps) {
   const { trip } = usePlanner();
   return (
     <dl className={styles.rows}>
       {SUMMARY_ROWS.map((row) => (
         <KeyValueRow key={row} layout="column" label={copy.rows[row]}>
-          {trip[row] ?? (
-            <>
-              <span aria-hidden="true" className={styles.empty}>
-                —
-              </span>
-              <span className={styles.hidden}>{copy.notAnswered}</span>
-            </>
-          )}
+          {trip[row] ?? <span className={styles.empty}>{copy.notYet}</span>}
         </KeyValueRow>
       ))}
     </dl>

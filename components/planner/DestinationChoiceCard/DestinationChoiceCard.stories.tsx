@@ -27,7 +27,6 @@ const meta = {
   component: DestinationChoiceCard,
   args: { label: 'Hunza', image: samplePhoto, pressed: false, onToggle: fn() },
   render: (args) => <Toggle {...args} />,
-  globals: { surface: 'light' },
 } satisfies Meta<typeof DestinationChoiceCard>;
 
 export default meta;
@@ -45,7 +44,7 @@ export const Off: Story = {
   },
 };
 
-export const OffOnDark: Story = { ...Off, globals: { surface: 'dark' } };
+export const OffOnLight: Story = { ...Off, globals: { surface: 'light' } };
 
 /** On: the shared selected state, --fg border on the raised fill, and a ticked box. */
 export const On: Story = {
@@ -57,7 +56,7 @@ export const On: Story = {
   },
 };
 
-/** "Not sure": the light stripes, no caption. */
+/** "Not sure": the placeholder stripes, no caption. */
 export const NotSure: Story = {
   args: { label: 'Not sure, suggest something', image: undefined },
   play: async ({ canvas }) => {

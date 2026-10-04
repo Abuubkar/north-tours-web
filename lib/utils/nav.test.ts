@@ -3,8 +3,9 @@ import { routes } from '../routes.ts';
 import { activeNavItem, mainNav } from './nav.ts';
 
 describe('mainNav', () => {
-  it('lists the five pages in order', () => {
+  it('lists the six pages in order, Home first', () => {
     expect(mainNav.map(({ label, href }) => [label, href])).toEqual([
+      ['Home', '/'],
       ['Tours', '/tours'],
       ['Destinations', '/destinations'],
       ['Private trips', '/plan'],
@@ -24,6 +25,7 @@ describe('mainNav', () => {
 
 describe('activeNavItem', () => {
   it.each([
+    ['/', 'home'],
     ['/tours', 'tours'],
     ['/tours/hunza-skardu-grand', 'tours'],
     ['/destinations', 'destinations'],
@@ -35,7 +37,7 @@ describe('activeNavItem', () => {
     expect(activeNavItem(path)).toBe(item);
   });
 
-  it.each(['/', '/help', '/privacy', '/terms', '/credits', '/no-such-page'])('marks nothing on %s', (path) => {
+  it.each(['/help', '/privacy', '/terms', '/credits', '/no-such-page'])('marks nothing on %s', (path) => {
     expect(activeNavItem(path)).toBeNull();
   });
 

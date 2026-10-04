@@ -52,10 +52,7 @@
   --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent);
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%);
-  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars and the planner's bottom bar, frosted like the header */
-  --light-bar-bg: color-mix(in srgb, var(--mist-50) 92%, transparent); /* the planner's progress, frosted on the light page */
-  --placeholder-stripe-light-a: #dce2e7; /* the planner's "Not sure" card: the placeholder stripes on light */
-  --placeholder-stripe-light-b: #e6eaee;
+  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars and the planner's bars, frosted like the header */
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
@@ -99,11 +96,7 @@
   --handle-w: 36px; /* bottom sheet grab handle */
   --handle-h: 4px;
   --dropdown-min-w: 260px; /* dropdown panel */
-  --nav-gap: clamp(var(--space-24), 2.9cqi, var(--space-32)); /* header nav: 32px, 24px near 820px so it fits */
-  --brand-mark-w: 16px; /* logo triangle in the header */
-  --brand-mark-h: 14px;
-  --label-mark-w: 11px; /* section label triangle */
-  --label-mark-h: 10px;
+  --nav-gap: clamp(var(--space-24), 2.9cqi, var(--space-32)); /* header nav: 32px, closing to about 28px at 960px */
   --list-row-y: 14px; /* label and value rows, DESIGN.md §5 */
   --key-col-w: 120px; /* a label and value row's label column (a destination's "By road") */
   --key-value-min: 300px; /* its value, before it wraps under the label */
@@ -111,7 +104,7 @@
   --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
   --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero */
   --destination-hero-h: clamp(620px, 52cqi, 780px); /* Destination photo hero */
-  --photo-hero-scrim-stretch: 160%; /* its scrim on phones, drawn taller so the text sits on the dark end */
+  --photo-hero-scrim-stretch: 160%; /* its scrim on phones (and the planner's photo band at every width), drawn taller so the text sits on the dark end */
   --hero-row-pad: clamp(var(--space-24), 2.4cqi, var(--space-32)); /* under the hero's lead and buttons */
   --hero-actions-w: 420px; /* the hero's button pair, before it wraps */
   --measure-cta-actions: 520px; /* a closing CTA's lead and its 56px button pair */
@@ -176,6 +169,7 @@
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */
+  --planner-band-h: clamp(360px, 30cqi, 460px); /* the planner's photo band behind that header, under the site header */
   --grid-choices-min: 150px; /* the planner's destination cards (gaps, not hairlines) */
   --date-field-min: 200px; /* a date field beside another (From and To) before they stack */
   --age-select-w: 110px; /* each child's age select, in a row */
@@ -203,7 +197,7 @@
   --measure-search: 640px; /* Help's search field */
   --measure-contact-lead: 600px; /* the Contact header's lead */
   --on-trip-pad-y: clamp(28px, 4cqi, 56px); /* inside Contact's "On a trip right now?" panel */
-  --on-trip-text-min: 360px; /* its words beside its button, before the button wraps under */
+  --on-trip-text-min: 360px; /* its words beside the route map (--map-min-w), before the map wraps under */
   --quick-link-h: 64px; /* Contact's quick link rows */
   --quick-links-min: 360px; /* the quick links beside the social links, before those wrap under */
   --social-w: 280px; /* the social links beside them */
@@ -252,6 +246,8 @@
   /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
   --grid-tours-cols: 4;
+  --grid-tours-gap: var(--space-24); /* tour cards are the exception: gaps, not hairlines (owner feedback) */
+  --grid-tours-row-gap: var(--space-48); /* between rows of tour cards */
   --grid-tours-detail-cols: 3; /* Tour Detail's related tours, and Destination */
   --grid-steps-min: 260px;
   --grid-steps-cols: 4;
@@ -299,8 +295,9 @@
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
-   *   820px  nav collapses to WhatsApp + menu; sheets replace dropdowns; Tours results go to two columns;
+   *   820px  sheets replace dropdowns; Tours results go to two columns;
    *          a destination's month calendar goes from six columns to twelve
+   *   960px  the header's nav collapses to WhatsApp + menu (six nav items, ADR-0027)
    *   1100px Tour Detail and Trip Planner side columns appear; Tours results go to three columns
    *   1280px Tour Detail side map appears
    *   viewport height 920px  compact booking panel below this
@@ -338,9 +335,9 @@
   --fw-medium: 500;
   --fw-semibold: 600;
 
-  --fs-display: 27cqi;
+  --fs-display: 26cqi; /* with the tracking below, as wide as the design's 27cqi at -0.065em */
   --lh-display: 0.74;
-  --ls-display: -0.065em;
+  --ls-display: -0.05em; /* kerning off (typography.module.css): even gaps in NORTH, the T clear of the H */
   --indent-display: -0.035em;
   --display-sink: 0.05em; /* sets the display word flush with the hero's bottom edge */
 

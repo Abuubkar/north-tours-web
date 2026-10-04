@@ -1,10 +1,10 @@
-/* Sticky under the header below 1100px, on the light frosted bar (the header's blur), a hairline under it. */
+/* Sticky under the header below 1100px, on the dark frosted bar (the header's blur), a hairline under it. */
 .bar {
   position: sticky;
   top: var(--header-h);
   z-index: var(--z-planner-bar);
   border-bottom: var(--hairline-width) solid var(--hairline);
-  background: var(--light-bar-bg);
+  background: var(--filter-bar-bg);
   backdrop-filter: var(--header-backdrop);
 }
 

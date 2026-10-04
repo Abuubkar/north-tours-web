@@ -4,7 +4,23 @@
   "header": {
     "headline": "Your dates, your group",
     "lead": "Tell us what you have in mind. We’ll plan it and reply on WhatsApp, usually {replyTime}.",
-    "slim": "Planning your private trip"
+    "slim": "Planning your private trip",
+    "image": {
+      "src": "/images/skardu/shangrila.jpg",
+      "alt": "Lower Kachura Lake mirrors a steep mountain and autumn trees, with a red pagoda roof and small cottages on the far shore.",
+      "width": 1600,
+      "height": 1046,
+      "focus": {
+        "x": 45,
+        "y": 50
+      },
+      "credit": {
+        "source": "wikimedia",
+        "author": "Furqanlw",
+        "licence": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heaven_on_Earth_Lower_Kachura_Lake_(Shangrila_Lake).jpg"
+      }
+    }
   },
   "progress": {
     "step": "Step {step} of 3 · {title}",
@@ -215,8 +231,24 @@
   },
   "aside": {
     "label": "Your trip so far",
-    "answered": "{count} of 9 answered",
-    "notAnswered": "Not answered",
+    "answered": "{count} of 9",
+    "notYet": "Not yet",
+    "image": {
+      "src": "/images/route/karakoram-highway.jpg",
+      "alt": "The Karakoram Highway curves past a guard rail and a stone wall towards snowy peaks half hidden in cloud",
+      "width": 2560,
+      "height": 1707,
+      "focus": {
+        "x": 60,
+        "y": 62
+      },
+      "credit": {
+        "source": "wikimedia",
+        "author": "Shahid Mehmood",
+        "licence": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Karakoram_highway_leads_rakaposhi.jpg"
+      }
+    },
     "rows": {
       "destinations": "Destinations",
       "dates": "Dates",

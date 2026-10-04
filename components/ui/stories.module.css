@@ -59,3 +59,8 @@
   position: relative;
   height: var(--space-144);
 }
+
+/* The route map's width in Contact's on-trip panel, its narrowest. */
+.onTripMap {
+  width: var(--map-min-w);
+}
