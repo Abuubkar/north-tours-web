@@ -81,3 +81,21 @@ export const RealSocialOnLight: Story = { ...RealSocial, globals: { surface: 'li
 export const RealSocialPhone: Story = { ...RealSocial, globals: { viewport: { value: 'phone' } } };
 
 export const RealSocialPhoneOnLight: Story = { ...RealSocial, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** The not-found page's rows (PRD #94): the same section, with its own four links to the main pages. */
+const notFoundLinks = [
+  { label: 'Plan a private trip', href: '/plan' },
+  { label: 'Destinations', href: '/#destinations' },
+  { label: 'About us and our guides', href: '/about' },
+  { label: 'Help & FAQs', href: '/help' },
+];
+
+export const NotFoundRows: Story = {
+  args: { links: notFoundLinks },
+  play: async ({ canvas }) => {
+    const rows = within(canvas.getByRole('navigation', { name: 'Quick links' })).getAllByRole('link');
+    await expect(rows.map((a) => [a.textContent?.replace('→', ''), a.getAttribute('href')])).toEqual(notFoundLinks.map((l) => [l.label, l.href]));
+  },
+};
+
+export const NotFoundRowsPhone: Story = { ...NotFoundRows, globals: { viewport: { value: 'phone' } } };
