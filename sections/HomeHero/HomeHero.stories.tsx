@@ -35,6 +35,22 @@ export const Desktop: Story = {
   },
 };
 
+/**
+ * "NORTH" is set with kerning off and one tracking value, so its letter gaps are even (Geist's
+ * kerning closed N–O and ran the T into the H), and it stays inside the hero.
+ */
+export const DisplayWord: Story = {
+  play: async ({ canvas, canvasElement }) => {
+    const word = canvas.getByText('NORTH');
+    const { fontKerning, letterSpacing, fontSize } = getComputedStyle(word);
+    await expect(fontKerning).toBe('none');
+    await expect(parseFloat(letterSpacing) / parseFloat(fontSize)).toBeCloseTo(-0.05, 3);
+    await expect(word.getBoundingClientRect().right).toBeLessThanOrEqual(canvasElement.getBoundingClientRect().right);
+  },
+};
+
+export const DisplayWordPhone: Story = { ...DisplayWord, globals: { viewport: { value: 'phone' } } };
+
 /** The hero always sits on its photo, so it stays dark on a light page. */
 export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 

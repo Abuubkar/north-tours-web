@@ -108,7 +108,7 @@ In code each role is one class in `styles/typography.module.css`, reused with CS
 
 | Role | Class | Size | Weight | Line height | Tracking | Notes |
 |---|---|---|---|---|---|---|
-| Display (hero word) | `display` | `27cqi` (≈105px @390, ≈389px @1440) | 600 | .74 | −0.065em | One word, e.g. NORTH. `white-space: nowrap`, slight negative left margin (−.035em), sits flush to hero bottom |
+| Display (hero word) | `display` | `26cqi` (≈101px @390, ≈374px @1440) | 600 | .74 | −0.05em | One word, e.g. NORTH. Kerning off (`font-kerning: none`): Geist's capital kerning at this size made the gaps uneven (owner feedback, 2026-10-04; the design's 27cqi at −0.065em spans the same width). `white-space: nowrap`, slight negative left margin (−.035em), sits flush to hero bottom |
 | Tour hero title | `tourHero` | `clamp(48px, 7.2cqi, 108px)` | 500 | .95 | −0.05em | Tour Detail hero. `text-wrap: balance` |
 | Destination hero name | `destinationHero` | `min(20cqi, round(150 / max(length, 5)) cqi)` | 600 | .8 | −0.065em | Fits the name on one line; the component sets `--name-length`. Negative left margin as Display |
 | Statement | `statement` | `clamp(40px, 6.4cqi, 92px)` | 500 | .98 | −0.045em | Brand statement, two lines on desktop |
