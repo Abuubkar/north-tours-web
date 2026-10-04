@@ -197,7 +197,7 @@
   --measure-search: 640px; /* Help's search field */
   --measure-contact-lead: 600px; /* the Contact header's lead */
   --on-trip-pad-y: clamp(28px, 4cqi, 56px); /* inside Contact's "On a trip right now?" panel */
-  --on-trip-text-min: 360px; /* its words beside its button, before the button wraps under */
+  --on-trip-text-min: 360px; /* its words beside the route map (--map-min-w), before the map wraps under */
   --quick-link-h: 64px; /* Contact's quick link rows */
   --quick-links-min: 360px; /* the quick links beside the social links, before those wrap under */
   --social-w: 280px; /* the social links beside them */

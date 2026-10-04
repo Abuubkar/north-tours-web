@@ -6,13 +6,11 @@ import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/red
 import { ON_TRIP_ANCHOR } from '@/lib/routes';
 import { OnTripPanel } from '../OnTripPanel/OnTripPanel';
 import type { OnTripPanelProps } from '../OnTripPanel/OnTripPanel.types';
+import { sampleOnTrip } from '../sampleOnTrip';
 import { OnTripMobileBanner } from './OnTripMobileBanner';
 import styles from '../../ui/stories.module.css';
 
-const panel: OnTripPanelProps = {
-  copy: { heading: 'On a trip right now?', line: 'Call your guide, or our travel support line.', callLabel: 'Call travel support' },
-  support: { value: '[24/7 number]', href: undefined },
-};
+const panel: OnTripPanelProps = sampleOnTrip;
 
 /** The banner at the top, then room, then the panel well below the fold, as on the page. */
 function withPanel(props: OnTripPanelProps) {

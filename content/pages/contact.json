@@ -18,6 +18,8 @@
   "onTrip": {
     "heading": "On a trip right now?",
     "line": "Call your guide, or our travel support line.",
+    "guide": { "label": "Your guide", "note": "Number in your trip confirmation" },
+    "support": "Travel support · 24/7",
     "callLabel": "Call travel support"
   },
   "banner": "On a trip right now? Get help",
