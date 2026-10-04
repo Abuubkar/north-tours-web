@@ -31,7 +31,7 @@ export default function ContactPage() {
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
       <CanonicalMeta path={routes.contact} siteUrl={settings.site.url} />
       <OnTripMobileBanner text={copy.banner} />
-      <PageHeader variant="contact" label={copy.header.label} headline={copy.header.headline} lead={copy.header.lead} />
+      <PageHeader variant="contact" headline={copy.header.headline} lead={copy.header.lead} />
       <WaysToReachUs copy={copy.ways} channels={channels} />
       <OnTripNow copy={copy.onTrip} support={travelSupport} />
       <VisitOffice settings={settings} form="two-row" />

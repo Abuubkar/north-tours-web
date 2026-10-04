@@ -13,7 +13,6 @@ type WithoutPhoto = {
   image?: never;
   updated?: never;
   search?: never;
-  label?: never;
 };
 
 /** About: the <h1> at the long size, the lead, then a wide photo (the page's LCP image). */
@@ -23,7 +22,6 @@ type About = {
   image: Photo;
   updated?: never;
   search?: never;
-  label?: never;
 };
 
 /** Help (light): the <h1> at the statement size, then the search. */
@@ -33,7 +31,6 @@ type Help = {
   search: ReactNode;
   image?: never;
   updated?: never;
-  label?: never;
 };
 
 /** The legal pages (light): the document's title as the <h1>, then when it was last updated. */
@@ -43,17 +40,11 @@ type Legal = {
   updated: Omit<LastUpdatedProps, 'className'>;
   image?: never;
   search?: never;
-  label?: never;
 };
 
-/**
- * Contact (dark): the "Contact" label in the 240px label column beside the <h1>, then the lead.
- * An owner-approved exception to DESIGN.md §6, which keeps labels for sections without a headline.
- */
+/** Contact (dark): the <h1>, then the lead at most 600px wide. No label: it would repeat the headline. */
 type Contact = {
   variant: 'contact';
-  /** "Contact": plain text, not a heading. */
-  label: string;
   image?: never;
   updated?: never;
   search?: never;

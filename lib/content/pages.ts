@@ -843,8 +843,8 @@ export function getHelpCopy(): HelpCopy {
 const contactCopySchema = z.strictObject({
   title: copy,
   description: copy,
-  /** The header: the "Contact" label beside the <h1> (an owner-approved exception to DESIGN.md §6), and the lead. */
-  header: z.strictObject({ label: copy, headline: copy, lead: copyWith('replyTime', 'officeHours') }),
+  /** The header: the <h1> and the lead (no label: the owner removed it, as it repeated the headline). */
+  header: z.strictObject({ headline: copy, lead: copyWith('replyTime', 'officeHours') }),
   /** "Ways to reach us" (a heading read out, not shown) and each channel's words. */
   ways: z.strictObject({
     headline: copy,
