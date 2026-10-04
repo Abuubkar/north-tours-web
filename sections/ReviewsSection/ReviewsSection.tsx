@@ -7,11 +7,15 @@ import styles from './ReviewsSection.module.css';
 const STAR_SIZE = 16;
 
 /** The headline with the overall rating beside it, then the review cards. */
-export function ReviewsSection({ copy, reviews, summary }: ReviewsSectionProps) {
+const headlineClass = { long: styles.headline, standard: styles.standardHeadline };
+
+export function ReviewsSection({ copy, headlineSize = 'long', reviews, summary }: ReviewsSectionProps) {
+  // A tour with no reviews yet has no section; its rating still shows in the hero.
+  if (reviews.length === 0) return null;
   return (
     <section id="reviews" className={styles.section}>
       <div className={styles.header}>
-        <h2 className={styles.headline}>{copy.headline}</h2>
+        <h2 className={headlineClass[headlineSize]}>{copy.headline}</h2>
         {summary && (
           <p className={styles.summary}>
             <Icon name="star" size={STAR_SIZE} className={styles.star} />

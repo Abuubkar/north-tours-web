@@ -538,5 +538,19 @@
         }
       }
     }
+  ],
+  "faqs": [
+    {
+      "question": "What should I pack?",
+      "answer": "Layers. Mornings and nights are cold even in summer, and Deosai can be near freezing. Bring a warm jacket, comfortable walking shoes, sunglasses, sunscreen, any personal medicines and a power bank. We send a full packing list on WhatsApp after you book."
+    },
+    {
+      "question": "Will the altitude affect me?",
+      "answer": "All overnight stops are below about 2,500 m. The highest point is the Deosai plateau, around 4,000 m, which we visit for a few hours only. Most travellers feel fine; drink water and take it slowly. Tell us about any heart or breathing conditions before you book."
+    },
+    {
+      "question": "What are the roads like? What if the weather delays us?",
+      "answer": "The Karakoram Highway is paved but mountainous, and landslides can close sections, especially in spring. Your driver adjusts the plan and we keep you updated on WhatsApp. If a closure adds a night, we arrange the hotel and agree the cost with you before you decide."
+    }
   ]
 }

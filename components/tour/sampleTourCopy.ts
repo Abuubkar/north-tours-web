@@ -115,4 +115,13 @@ export const sampleTourCopy: TourCopy = {
     headline: 'Hold your seats with a {advancePercent}% advance',
     lead: 'Or message us first. Most families plan this trip with us on WhatsApp.',
   },
+  reviews: {
+    headline: 'What travellers said after this trip',
+  },
+  faqs: {
+    headline: 'Questions people ask before booking',
+  },
+  related: {
+    headline: 'Other trips from Lahore',
+  },
 };

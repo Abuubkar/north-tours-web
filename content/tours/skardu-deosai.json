@@ -399,5 +399,19 @@
         }
       }
     }
+  ],
+  "faqs": [
+    {
+      "question": "Will the altitude affect me?",
+      "answer": "Skardu is about 2,200 m. The Deosai plateau is above 4,000 m and we spend most of a day there, so take it slowly and drink plenty of water. Tell us about any heart or breathing conditions before you book."
+    },
+    {
+      "question": "What should I pack for Deosai?",
+      "answer": "Warm layers, a windproof jacket, a hat and sunglasses. Even in July it can be near freezing in the morning, and the sun is strong at that height."
+    },
+    {
+      "question": "What are the roads like? What if the weather delays us?",
+      "answer": "The Karakoram Highway is paved but mountainous, and landslides can close sections, especially in spring. Your driver adjusts the plan and we keep you updated on WhatsApp. If a closure adds a night, we arrange the hotel and agree the cost with you before you decide."
+    }
   ]
 }

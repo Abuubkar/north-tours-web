@@ -6,12 +6,20 @@
 
 import type { Settings } from '../content/settings.ts';
 import { paymentMethodsSentence } from './payments.ts';
-import { fullRefundDays } from './policies.ts';
+import { fullRefundDays, refundScheduleText } from './policies.ts';
 
 const TOKEN = /\{(\w+)\}/g;
 
 /** Tokens filled from settings, e.g. "{advancePercent}% advance" → "30% advance". */
-export const SETTINGS_TOKENS = ['advancePercent', 'paymentMethods', 'pickupPoint', 'fullRefundDays', 'childFromAge'] as const;
+export const SETTINGS_TOKENS = [
+  'advancePercent',
+  'paymentMethods',
+  'pickupPoint',
+  'fullRefundDays',
+  'childFromAge',
+  'balanceDueDays',
+  'refundSchedule',
+] as const;
 
 export type SettingsToken = (typeof SETTINGS_TOKENS)[number];
 
@@ -36,5 +44,8 @@ export function settingsTokens(settings: Pick<Settings, 'booking' | 'payments' |
     pickupPoint: settings.booking.pickupPoint,
     fullRefundDays: String(fullRefundDays(settings.policies)),
     childFromAge: String(settings.policies.childFromAge),
+    balanceDueDays: String(settings.policies.balanceDueDays),
+    /** The whole schedule in sentences, for FAQ and Help answers. */
+    refundSchedule: refundScheduleText(settings.policies),
   };
 }

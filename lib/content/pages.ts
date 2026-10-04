@@ -223,6 +223,12 @@ const tourCopySchema = z.strictObject({
   sheet: z.strictObject({ subtitle: copyWith('tripLength') }),
   /** The final call to action, "Hold your seats with a 30% advance". */
   cta: z.strictObject({ headline: copyWith(...SETTINGS_TOKENS), lead: copy }),
+  /** The tour's reviews (#reviews), with its rating beside the headline. */
+  reviews: z.strictObject({ headline: copy }),
+  /** The tour's questions, then the shared booking ones (#faqs). */
+  faqs: z.strictObject({ headline: copy }),
+  /** Three other trips. */
+  related: z.strictObject({ headline: copy }),
 });
 
 export type TourCopy = z.infer<typeof tourCopySchema>;

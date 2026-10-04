@@ -49,6 +49,20 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Layout patterns** from §4 are shared styles in `styles/layout.module.css`: section shell, header row, capped hairline grid, cell, text-grid bleed (which fixes §5 item 28) and image-card cell.
 - Built here: `MediaFrame`, `TextLink` (base); `TourCard`, `PriceBlock`, `SeatsStatus`, `StepCell`, `RouteMap`, `RouteStopList`, `ReviewCard`, `DestinationCard`, `GuideCard` (features); the Homepage sections and the `/credits` page.
 
+**Decided in the Tour Detail PRD (#47, 2026-10-04):**
+
+- **Room prices** (ADR-0017): a tour has twin, triple and quad prices per person; a departure can replace the whole set (e.g. Eid). "From" is worked out, never stored: the lowest twin price across upcoming departures, or the tour's twin price with none left. A tour card shows its departure's twin price.
+- **The booking panel** (`components/booking-panel`): date radios, travellers (`Stepper`, kept to the date's seats left, the number asked for kept across dates), room radios with the date's prices, the total and the advance. One booking state (`hooks/useBooking`) is shared by the departure rows, the aside, the sticky bar, the sheet and the final call to action. From 1100px it is a 380px sticky aside; on screens under 920px tall the aside picks its date from a native `Select` (the compact form). Below 1100px a frosted sticky bar with Reserve opens it in the `Sheet` bottom variant (always the list form). Buttons are 48 (§5 item 1).
+- **Reserve** opens WhatsApp with the tour, dates, travellers, room, total and advance (settings template). It is `aria-disabled` until a date is chosen. It doesn't hold a seat (ADR-0008).
+- **The final call to action never opens WhatsApp itself:** from 1100px it scrolls to Dates and prices and focuses the panel's first date control; below that it opens the booking sheet; without JavaScript it links to `#dates` (§6, settled).
+- **Join waitlist** is always quiet (§5 item 5) and opens the waitlist message for that date, from the card, the departure row and the panel (§6, settled).
+- **The selected row** uses the shared selected state with `aria-pressed`, reading "Selected", never gold (§5 item 6). Option tiles are 8px (§5 item 9).
+- **Policies live in settings** (`policies`: the refund schedule, the balance due and the children's age); the panel, the FAQs and later Help read them. A tested formatter writes the schedule as sentences.
+- **Shared FAQs** live in `content/faqs.json` (a booking category now; Help adds its own). Tour Detail shows the tour's own questions, then the booking ones, in one `Accordion` with the first open.
+- **The itinerary map** (from 1280px) is a sticky side column whose progress line follows the day being read: #46's scroll-spy rule at a 50% line, with an IntersectionObserver, no scroll listener (ADR-0016). Below 1280px each day has a static mini map. Both are schematic (CLAUDE.md §8) and need Survey of Pakistan vetting before launch.
+- **Hotels are never named:** a generic title ("Hotel in Karimabad") and a photo of the town or valley. Highlights and hotels are open hairline grids, so a part-filled last row ends cleanly.
+- Built here: `Select` (base); `FactsRow`, `FactCell`, `HeroFacts`, the booking panel and its parts, `DepartureList`, `DepartureRow`, `RoomSharingList`, `SuitabilityList`, `InclusionList`, `HighlightCard`, `HotelCard`, the itinerary components, `TourCardGrid` and `RelatedTours` (features); `PhotoHero`, `QuickFacts`, `BookingLayout`, `TripOverview`, `Highlights`, `Itinerary`, `Included`, `Hotels`, `DatesAndPrices`, `ClosingCta`, `FaqSection` (sections).
+
 Open questions are in §6, grouped by the PRD that settles them.
 
 Token names used below: `ink-900 #0C1216`, `ink-800 #121A1F`, `line #253038`, `line-strong #5C6871`, `text #F1EEE8`, `text-2 #B7BFC5`, `text-3 #8F9AA2`, `gold #D9B44A`, `gold-hover #E3C366`, `gold-pressed #C9A43C`, `on-gold #10161A`, `mist-50 #EEF1F3`, `mist-100 #E2E7EB`, `line-light #CBD2D8`, `line-strong-light #7D8992`, `ink-text #10161A`, `ink-text-2 #46525C`, `ink-text-3 #5B6770`, `gold-deep #7A5A12`.
@@ -721,9 +735,7 @@ Each one is asked (grilled) at the start of its PRD. A recommendation is noted w
 - All settled (see the decisions at the top of this file).
 
 **Tour Detail PRD**
-- Reserve flow: does the final CTA open WhatsApp directly, or keep "choose date → panel Reserve → WhatsApp"?
-- Join waitlist: presumably opens WhatsApp with a waitlist message, from the card, the departure row and the panel.
-- The two sticky-panel rules: the side panel appears at ≥ 1100px width, and its compact (select) mode at viewport height < 920px. Also the side map at ≥ 1280px with per-day mini maps below that.
+- All settled (see the decisions at the top of this file).
 
 **Tours PRD**
 - Mobile filter sheet: filters apply live and "Show N trips" only closes the sheet. Confirm live-apply rather than apply-on-confirm.

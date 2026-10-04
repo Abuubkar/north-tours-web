@@ -375,5 +375,15 @@
         }
       }
     }
+  ],
+  "faqs": [
+    {
+      "question": "Is it safe to travel to Swat?",
+      "answer": "Swat has been a busy family holiday valley for years. We travel the main roads, stay in established hotels and follow local advice; if anything changes before your date, we tell you on WhatsApp."
+    },
+    {
+      "question": "Is the trip suitable for toddlers?",
+      "answer": "Yes. The longest drive is the first day, with a long lunch stop. Bring what your child needs for the road, and tell us their ages so we can plan the stops."
+    }
   ]
 }

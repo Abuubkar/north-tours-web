@@ -48,7 +48,7 @@ describe('booking steps', () => {
     const result = withChange((c) => Object.assign(c.how.steps[2], { text: 'Pay by {paymentMethod}.' }));
     expect(fields(result)).toEqual(['how.steps.2.text']);
     expect(result.problems[0].message).toBe(
-      'Unknown token {paymentMethod}. Use only {advancePercent}, {paymentMethods}, {pickupPoint}, {fullRefundDays}, {childFromAge}',
+      'Unknown token {paymentMethod}. Use only {advancePercent}, {paymentMethods}, {pickupPoint}, {fullRefundDays}, {childFromAge}, {balanceDueDays}, {refundSchedule}',
     );
   });
 });

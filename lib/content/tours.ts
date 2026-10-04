@@ -122,6 +122,11 @@ export const tourSchema = z
     stops: z.array(stopSchema).min(2, 'List at least two stops'),
     /** One entry per day. */
     itinerary: z.array(daySchema),
+    /** The tour's own questions (altitude, roads and similar), before the shared booking FAQs. */
+    faqs: z
+      .array(z.strictObject({ question: nonEmpty, answer: nonEmpty }))
+      .min(2, 'List at least 2 questions')
+      .max(4, 'List at most 4 questions'),
   })
   .refine((t) => t.nights <= t.days, { message: 'Can’t have more nights than days', path: ['nights'] })
   .superRefine((tour, ctx) => {

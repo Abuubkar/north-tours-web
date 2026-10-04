@@ -226,6 +226,11 @@ describe('catalog: tours and destinations', () => {
     });
   });
 
+  it('needs 2 to 4 of the tour’s own FAQs', () => {
+    expect(fields(load((t) => t.faqs.splice(1)))).toEqual(['faqs']);
+    expect(fields(load((t) => Object.assign(t, { faqs: Array.from({ length: 5 }, () => t.faqs[0]) })))).toEqual(['faqs']);
+  });
+
   it('rejects an inclusion icon that isn’t one of the design’s nine', () => {
     expect(fields(load((t) => Object.assign(t.included[0], { icon: 'spa' })))).toEqual(['included.0.icon']);
   });

@@ -1,0 +1,22 @@
+{
+  "categories": [
+    {
+      "id": "booking",
+      "title": "Booking and payment",
+      "questions": [
+        {
+          "question": "How do payment and the advance work?",
+          "answer": "Pay a {advancePercent}% advance to confirm your seats, by {paymentMethods}. The balance is due {balanceDueDays} days before departure. You get a receipt on WhatsApp for every payment."
+        },
+        {
+          "question": "What is the cancellation and refund policy?",
+          "answer": "{refundSchedule} If we cancel a departure, you get a full refund or a free move to another date."
+        },
+        {
+          "question": "Can we travel with children?",
+          "answer": "Yes. Children aged {childFromAge} and over count as travellers; younger children share their parents’ room free. Tell us their ages when you book and we’ll plan the stops around them."
+        }
+      ]
+    }
+  ]
+}

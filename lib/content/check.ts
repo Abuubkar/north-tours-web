@@ -1,4 +1,5 @@
 import { loadCatalog } from './catalog.ts';
+import { loadFaqs } from './faqs.ts';
 import { CONTENT_DIR, type ContentProblem } from './files.ts';
 import { loadGuides } from './guides.ts';
 import { checkPhotoFiles, PUBLIC_DIR } from './imageFiles.ts';
@@ -19,6 +20,7 @@ export function checkContent(dir = CONTENT_DIR, publicDir = PUBLIC_DIR): Content
     ...loadCreditsCopy(dir).problems,
     ...loadTourCopy(dir).problems,
     ...loadRouteMap(dir).problems,
+    ...loadFaqs(dir).problems,
     ...checkPhotoFiles(dir, publicDir),
   ];
 }

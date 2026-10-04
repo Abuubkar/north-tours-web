@@ -358,5 +358,19 @@
         }
       }
     }
+  ],
+  "faqs": [
+    {
+      "question": "How hard is the walk?",
+      "answer": "From Tato it is about three hours uphill on a well-used path, then the next day five to six hours there and back towards the base camp viewpoint. You need to be comfortable walking uphill for a few hours; porters can carry your bag."
+    },
+    {
+      "question": "What is the jeep track from Raikot like?",
+      "answer": "Narrow and steep, with long drops, on a track built into the mountainside. Local drivers do it every day, but if you are very nervous of heights, talk to us before you book."
+    },
+    {
+      "question": "Will the altitude affect me?",
+      "answer": "Fairy Meadows is about 3,300 m. Most travellers feel only a little breathless on the walk up. Drink water, take it slowly, and tell us about any heart or breathing conditions before you book."
+    }
   ]
 }
