@@ -30,3 +30,10 @@
   composes: ui from '../../../styles/typography.module.css';
   color: var(--fg-2);
 }
+
+/* Other valleys: how many tours visit, 13px in the tertiary colour. */
+.count {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}

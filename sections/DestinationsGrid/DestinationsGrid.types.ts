@@ -1,13 +1,18 @@
 import type { DestinationCardProps } from '@/components/destination-card/DestinationCard/DestinationCard.types';
 
-export type DestinationsGridProps = {
-  /**
-   * home (the Homepage, #destinations): every destination, up to six across, its months in full.
-   * other (a destination page): the other destinations, up to five across, each with its tours.
-   */
-  variant?: 'home' | 'other';
-  /** The headline, and the line introducing each card's months: "Best season" (home), "Best · {season}" (other). */
+/** Home (the Homepage, #destinations): every destination, up to six across, its months in full. */
+type Home = {
+  variant?: 'home';
+  /** The headline, and the label over each card's months ("Best season"). */
   copy: { headline: string; seasonLabel: string };
-  /** The cards; on a destination page each with its tours, e.g. "2 tours". */
-  destinations: (DestinationCardProps['destination'] & { tours?: string })[];
+  destinations: DestinationCardProps['destination'][];
 };
+
+/** Other (a destination page): the other destinations, up to five across, each with its season in short and its tours. */
+type Other = {
+  variant: 'other';
+  copy: { headline: string };
+  destinations: (DestinationCardProps['destination'] & { details: NonNullable<DestinationCardProps['details']> })[];
+};
+
+export type DestinationsGridProps = Home | Other;

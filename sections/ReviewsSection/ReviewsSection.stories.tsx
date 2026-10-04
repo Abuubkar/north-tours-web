@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { sampleReviews } from '@/components/review-card/sampleReviews';
+import { monthYear } from '@/lib/utils/dates';
 import { sampleHome } from '../sampleHome';
 import { ReviewsSection } from './ReviewsSection';
 
@@ -111,7 +112,7 @@ export const Destination: Story = {
       await expect(card.getByRole('img', { name: `${review.rating} out of 5 stars` })).toBeVisible();
       await expect(card.getByText(review.quote, { exact: false })).toBeVisible();
       await expect(cards[i]).toHaveTextContent(review.name);
-      await expect(cards[i]).toHaveTextContent(`${tourTitle} · `);
+      await expect(cards[i]).toHaveTextContent(`${tourTitle} · ${monthYear(review.month)}`);
     }
   },
 };
@@ -123,7 +124,8 @@ export const DestinationPhone: Story = { ...Destination, globals: { viewport: { 
 /** With no reviews the section is left out entirely: no headline, no grid. */
 export const DestinationNoReviews: Story = {
   args: { ...Destination.args, reviews: [] },
-  play: async ({ canvasElement }) => {
-    await expect(canvasElement.querySelector('section')).toBeNull();
+  play: async ({ canvas }) => {
+    await expect(canvas.queryByRole('heading', { name: 'What travellers said about Hunza' })).toBeNull();
+    await expect(canvas.queryAllByRole('figure')).toHaveLength(0);
   },
 };

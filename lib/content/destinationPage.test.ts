@@ -23,11 +23,17 @@ describe('destination page', () => {
     expect(getDestinationPage('murree').reviews.map((r) => r.tourTitle)).toEqual(['Murree & Galiyat Weekend']);
   });
 
+  it('shows a review of a tour visiting two destinations on both (Hunza & Skardu Grand)', () => {
+    const slugs = (slug: string) => getDestinationPage(slug).reviews.map((r) => r.review.slug);
+    expect(slugs('skardu')).toEqual(slugs('hunza'));
+    expect(getDestinationPage('skardu').reviews.every((r) => r.tourTitle === 'Hunza & Skardu Grand')).toBe(true);
+  });
+
   it('links to the other five destinations, each with its tours', () => {
     const { others } = getDestinationPage('hunza');
     expect(others.map((o) => o.slug)).toEqual(['fairy-meadows', 'murree', 'naran-kaghan', 'skardu', 'swat']);
-    expect(others.find((o) => o.slug === 'skardu')!.tours).toBe('2 tours');
-    expect(others.find((o) => o.slug === 'murree')!.tours).toBe('1 tour');
+    expect(others.find((o) => o.slug === 'skardu')!.details).toEqual({ season: 'Best · May – Oct', tours: '2 tours' });
+    expect(others.find((o) => o.slug === 'murree')!.details.tours).toBe('1 tour');
   });
 
   it('shares the destination’s own photo', () => {

@@ -94,7 +94,7 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
       {shows.has('others') && (
         <DestinationsGrid
           variant="other"
-          copy={{ headline: copy.others.headline, seasonLabel: copy.others.season }}
+          copy={{ headline: copy.others.headline }}
           destinations={page.others}
         />
       )}

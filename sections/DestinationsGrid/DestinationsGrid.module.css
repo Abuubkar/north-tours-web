@@ -8,7 +8,7 @@
 }
 
 .grid {
-  composes: grid gridColumns from '../../styles/layout.module.css';
+  composes: grid from '../../styles/layout.module.css';
   --grid-min: var(--grid-destinations-min);
   --grid-cols: var(--grid-destinations-cols);
   margin-top: var(--space-64);
@@ -16,10 +16,11 @@
 
 /*
  * A destination page's other valleys: at most five across from 820px; below it two, so an odd
- * last card can take the whole row, as designed.
+ * last card can take the whole row, as designed. A little closer to its headline (48px, as
+ * designed) than the Homepage's grid.
  */
 .otherGrid {
-  composes: grid gridColumns from '../../styles/layout.module.css';
+  composes: grid from '../../styles/layout.module.css';
   --grid-min: var(--grid-destinations-min);
   --grid-cols: var(--grid-destinations-other-cols);
   margin-top: var(--space-48);

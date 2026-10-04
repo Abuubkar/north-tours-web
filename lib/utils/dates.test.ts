@@ -1,13 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { dateRange, dayCount, messageDate, messageDateRange, monthYear, seasonRange, tripLength, yearsSince } from './dates.ts';
 
-describe('seasonRange, short', () => {
-  it('names the months in short: "Apr – Oct"', () => {
-    expect(seasonRange({ from: 'Apr', to: 'Oct' }, 'short')).toBe('Apr – Oct');
-    expect(seasonRange({ from: 'Apr', to: 'Oct' })).toBe('April – October');
-  });
-});
-
 describe('dateRange', () => {
   it('names the month once when both dates share it', () => {
     expect(dateRange('2027-05-12', '2027-05-20')).toBe('12–20 May');
@@ -76,5 +69,9 @@ describe('seasonRange', () => {
   it('names both months in full', () => {
     expect(seasonRange({ from: 'Apr', to: 'Oct' })).toBe('April – October');
     expect(seasonRange({ from: 'Jun', to: 'Sep' })).toBe('June – September');
+  });
+
+  it('names them in short for a destination’s other valleys: "Apr – Oct"', () => {
+    expect(seasonRange({ from: 'Apr', to: 'Oct' }, 'short')).toBe('Apr – Oct');
   });
 });

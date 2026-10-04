@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Departure } from '../content/tours.ts';
 import { destinationReviews, destinationSections, tourCards, toursVisiting } from './destination.ts';
-import { tripsCount } from './resultsText.ts';
 
 const tour = (title: string, destinations: string[]) => ({ title, destinations });
 const grand = tour('Hunza & Skardu Grand', ['hunza', 'skardu']);
@@ -136,11 +135,3 @@ describe('destinationReviews', () => {
   });
 });
 
-describe('tour count words', () => {
-  const words = { one: '{count} tour', other: '{count} tours' };
-
-  it('says "1 tour" and "2 tours"', () => {
-    expect(tripsCount(1, words)).toBe('1 tour');
-    expect(tripsCount(2, words)).toBe('2 tours');
-  });
-});

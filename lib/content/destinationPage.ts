@@ -1,4 +1,5 @@
 import { todayInKarachi } from '../utils/departures.ts';
+import { seasonRange } from '../utils/dates.ts';
 import { destinationReviews, toursVisiting } from '../utils/destination.ts';
 import { tripsCount } from '../utils/resultsText.ts';
 import { fillTokens } from '../utils/tokens.ts';
@@ -23,7 +24,8 @@ export function getDestinationPage(slug: string) {
   const destination = getDestination(slug)!;
   const settings = getSettings();
   const copy = getDestinationCopy();
-  const tours = toursVisiting(slug, getTours());
+  const allTours = getTours();
+  const tours = toursVisiting(slug, allTours);
   return {
     destination,
     copy,
@@ -45,7 +47,7 @@ export function getDestinationPage(slug: string) {
       getReviews(),
       tours.map((t) => t.slug),
     ).map((review) => ({ review, tourTitle: getTour(review.tour)!.title })),
-    /** Every other destination, in the loader's order, with how many tours visit it ("2 tours"). */
+    /** Every other destination, in the loader's order, with its season in short and how many tours visit ("2 tours"). */
     others: getDestinations()
       .filter((other) => other.slug !== slug)
       .map(({ slug: otherSlug, name, bestSeason, image }) => ({
@@ -53,7 +55,10 @@ export function getDestinationPage(slug: string) {
         name,
         bestSeason,
         image,
-        tours: tripsCount(toursVisiting(otherSlug, getTours()).length, copy.others.tourCount),
+        details: {
+          season: fillTokens(copy.others.season, { season: seasonRange(bestSeason, 'short') }),
+          tours: tripsCount(toursVisiting(otherSlug, allTours).length, copy.others.tourCount),
+        },
       })),
     tours: tours.map((t) => ({
       slug: t.slug,
