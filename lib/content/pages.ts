@@ -378,6 +378,19 @@ const destinationCopySchema = z.strictObject({
   }),
   /** "Good to know before you go" (light). */
   goodToKnow: z.strictObject({ headline: copy }),
+  /** "Tours that visit {destination}", and the cell after the cards that opens Tours filtered to it. */
+  tours: z.strictObject({
+    headline: copyWith('destination'),
+    seeAll: copyWith('destination'),
+    seeAllNote: copyWith('destination'),
+  }),
+  /** "{destination}, on your own dates": a private trip, in the planner or on WhatsApp (its photo is the Tours banner's). */
+  banner: z.strictObject({
+    headline: copyWith('destination'),
+    lead: copy,
+    planLabel: copy,
+    askLabel: copy,
+  }),
 });
 
 export type DestinationCopy = z.infer<typeof destinationCopySchema>;

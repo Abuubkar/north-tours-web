@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
 import { placeholderSettings } from '@/components/layout/sampleSettings';
 import { openDeparture, sampleTour, urgentDeparture } from '@/components/tour-card/sampleTours';
+import { DestinationTours } from '@/components/tour-card/DestinationTours/DestinationTours';
 import { TourCard } from '@/components/tour-card/TourCard/TourCard';
+import { tourWith } from '@/components/tour-card/sampleTours';
 import { sampleHome } from '../sampleHome';
 import { TourCardsSection } from './TourCardsSection';
 
@@ -41,3 +43,26 @@ export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', 
 export const Phone: Story = { ...Desktop, globals: { viewport: { value: 'phone' } } };
 
 export const PhoneOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** Destination: "Tours that visit Hunza", its cards as <h3>s under the <h2>, then the see-all cell. */
+export const Destination: Story = {
+  args: {
+    id: 'tours',
+    copy: { headline: 'Tours that visit Hunza' },
+    children: (
+      <DestinationTours
+        tours={[{ ...tourWith('Hunza Express', [['2099-06-02', 12]]), destinations: ['hunza'] }]}
+        builtOn="2020-01-01"
+        seeAll={{ title: 'See all Hunza trips', note: 'Opens the Tours page, filtered to Hunza', href: '/tours?dest=hunza' }}
+        settings={placeholderSettings}
+      />
+    ),
+  },
+  play: async ({ canvas }) => {
+    const headings = [...document.querySelectorAll('h2, h3')].map((h) => `${h.tagName} ${h.textContent}`);
+    await expect(headings).toEqual(['H2 Tours that visit Hunza', 'H3 Hunza Express']);
+    await expect(canvas.getByRole('link', { name: 'See all Hunza trips' })).toHaveAttribute('href', '/tours?dest=hunza');
+  },
+};
+
+export const DestinationOnLight: Story = { ...Destination, globals: { surface: 'light', viewport: { value: 'desktop' } } };

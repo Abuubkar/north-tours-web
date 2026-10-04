@@ -12,6 +12,10 @@ describe('destination page', () => {
     expect(getDestinationPage('murree').tours.map((t) => t.slug)).toEqual(['murree-galiyat-weekend']);
   });
 
+  it('asks on WhatsApp about the destination', () => {
+    expect(decodeURIComponent(getDestinationPage('hunza').askHref)).toContain('Hi, I’d like to plan a private trip to Hunza.');
+  });
+
   it('shares the destination’s own photo', () => {
     const { destination, sharePhoto } = getDestinationPage('skardu');
     expect(sharePhoto).toBe(destination.image);

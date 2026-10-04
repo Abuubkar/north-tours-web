@@ -3,11 +3,6 @@
   composes: cardGrid from '../../../styles/layout.module.css';
 }
 
-/* After the banner, whose hairline is above it. */
-.rest {
-  border-top: 0;
-}
-
 /* Rises into place once (M4, layout.module.css `riseCell`). */
 .cell {
   composes: cardCell riseCell from '../../../styles/layout.module.css';

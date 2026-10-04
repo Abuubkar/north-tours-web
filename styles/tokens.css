@@ -177,6 +177,7 @@
 
   /* Destination getting there (PRD #63): the route line's stops. */
   --route-dot: 12px;
+  --see-all-min-h: 200px; /* the "See all Hunza trips" cell after a destination's tour cards */
 
   /* Tour Detail itinerary: the timeline's nodes, the side map (from 1280px) and the mini maps. */
   --itinerary-node: 11px;

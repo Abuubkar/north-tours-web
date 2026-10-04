@@ -8,6 +8,7 @@ import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMet
 import { getToursCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
 import { getToursPage } from '@/lib/content/toursPage';
+import { routes } from '@/lib/routes';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { PENDING_SCRIPT } from '@/lib/utils/toursSearch';
 import { PageHeader } from '@/sections/PageHeader/PageHeader';
@@ -41,7 +42,7 @@ export default function ToursPage() {
           copy={{ results: copy.results, sorts: copy.sorts, empty: copy.empty, filters: copy.filters }}
           labels={optionLabels}
           settings={whatsapp}
-          banner={<PrivateTripBanner copy={copy.banner} whatsappHref={page.askHref} />}
+          banner={<PrivateTripBanner copy={copy.banner} planHref={routes.plan} whatsappHref={page.askHref} />}
         />
       </TourFiltersProvider>
       <ReviewsSection variant="compact" copy={copy.reviews} reviews={page.reviews} summary={page.ratingSummary} />

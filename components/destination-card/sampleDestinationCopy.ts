@@ -29,4 +29,15 @@ export const sampleDestinationCopy: DestinationCopy = {
     leg: '{time} by road to {stop}',
   },
   goodToKnow: { headline: 'Good to know before you go' },
+  tours: {
+    headline: 'Tours that visit {destination}',
+    seeAll: 'See all {destination} trips',
+    seeAllNote: 'Opens the Tours page, filtered to {destination}',
+  },
+  banner: {
+    headline: '{destination}, on your own dates',
+    lead: 'We plan private tours for families and teams, from 2 days to 2 weeks.',
+    planLabel: 'Plan a private trip',
+    askLabel: 'Ask on WhatsApp',
+  },
 };

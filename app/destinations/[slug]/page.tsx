@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { DestinationFacts } from '@/components/facts/DestinationFacts/DestinationFacts';
+import { DestinationTours } from '@/components/tour-card/DestinationTours/DestinationTours';
 import { PageMain } from '@/components/layout/PageMain/PageMain';
 import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMeta';
 import { getDestination, getDestinations } from '@/lib/content/catalog';
@@ -14,7 +15,9 @@ import { GettingThere } from '@/sections/GettingThere/GettingThere';
 import { GoodToKnow } from '@/sections/GoodToKnow/GoodToKnow';
 import { PhotoHero } from '@/sections/PhotoHero/PhotoHero';
 import { PlacesToSee } from '@/sections/PlacesToSee/PlacesToSee';
+import { PrivateTripBanner } from '@/sections/PrivateTripBanner/PrivateTripBanner';
 import { SeasonCalendarSection } from '@/sections/SeasonCalendarSection/SeasonCalendarSection';
+import { TourCardsSection } from '@/sections/TourCardsSection/TourCardsSection';
 
 type DestinationPageProps = { params: Promise<{ slug: string }> };
 
@@ -32,9 +35,9 @@ export async function generateMetadata({ params }: DestinationPageProps): Promis
 
 export default async function DestinationPage({ params }: DestinationPageProps) {
   const page = getDestinationPage((await params).slug);
-  const { destination, copy, settings } = page;
-  const shows = new Set(destinationSections(destination));
-  const tokens = { destination: destination.name };
+  const { destination, copy, settings, tokens } = page;
+  const shows = new Set(destinationSections({ destination, tours: page.tours }));
+  const fill = (template: string) => fillTokens(template, tokens);
 
   return (
     <PageMain>
@@ -53,7 +56,7 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
       <SeasonCalendarSection destination={destination} copy={copy.calendar} />
       {shows.has('places') && (
         <PlacesToSee
-          headline={fillTokens(copy.places.headline, tokens)}
+          headline={fill(copy.places.headline)}
           places={destination.places ?? []}
           labels={destination.mapLabels ?? []}
           copy={copy.places}
@@ -61,6 +64,28 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
       )}
       {shows.has('gettingThere') && <GettingThere gettingThere={destination.gettingThere} copy={copy.gettingThere} />}
       {shows.has('goodToKnow') && <GoodToKnow copy={copy.goodToKnow} notes={destination.notes ?? []} />}
+      {shows.has('tours') && (
+        <TourCardsSection id="tours" copy={{ headline: fill(copy.tours.headline) }}>
+          <DestinationTours
+            tours={page.tours}
+            builtOn={page.builtOn}
+            seeAll={{
+              title: fill(copy.tours.seeAll),
+              note: fill(copy.tours.seeAllNote),
+              href: routes.toursWith({ dest: [destination.slug] }),
+            }}
+            settings={page.whatsapp}
+          />
+        </TourCardsSection>
+      )}
+      {shows.has('banner') && (
+        <PrivateTripBanner
+          variant="section"
+          copy={{ ...copy.banner, headline: fill(copy.banner.headline), image: page.bannerImage }}
+          planHref={routes.planFor(destination.slug)}
+          whatsappHref={page.askHref}
+        />
+      )}
     </PageMain>
   );
 }

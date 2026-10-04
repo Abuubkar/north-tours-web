@@ -79,6 +79,15 @@ describe('settings', () => {
     expect(result.problems[0].message).toBe('Unknown token {people}. Use only {tour}, {date}');
   });
 
+  it('rejects a missing destination message, or one with a token other than {destination}', () => {
+    expect(fields(withChange((s) => delete (s.whatsapp as Partial<Settings['whatsapp']>).destinationMessage))).toEqual([
+      'whatsapp.destinationMessage',
+    ]);
+    const result = withChange((s) => Object.assign(s.whatsapp, { destinationMessage: 'A private trip to {place}' }));
+    expect(fields(result)).toEqual(['whatsapp.destinationMessage']);
+    expect(result.problems[0].message).toBe('Unknown token {place}. Use only {destination}');
+  });
+
   it('rejects an empty reserve message or one with an unknown token', () => {
     expect(fields(withChange((s) => Object.assign(s.whatsapp, { reserveMessage: '' })))).toEqual(['whatsapp.reserveMessage']);
     const result = withChange((s) => Object.assign(s.whatsapp, { reserveMessage: 'Reserve {seats} on {tour}' }));

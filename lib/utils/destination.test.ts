@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { destinationSections, toursVisiting } from './destination.ts';
+import type { Departure } from '../content/tours.ts';
+import { destinationSections, tourCards, toursVisiting } from './destination.ts';
 
 const tour = (title: string, destinations: string[]) => ({ title, destinations });
 const grand = tour('Hunza & Skardu Grand', ['hunza', 'skardu']);
@@ -33,17 +34,70 @@ describe('destinationSections', () => {
   };
   const note = { title: 'Cash and ATMs', text: 'Carry enough cash.' };
 
-  it('shows every section with places and notes (Hunza)', () => {
-    expect(destinationSections({ places: [place], notes: [note] })).toEqual(['hero', 'overview', 'calendar', 'places', 'gettingThere', 'goodToKnow']);
+  const tour = { title: 'Hunza Express' };
+  const sections = (destination: Parameters<typeof destinationSections>[0]['destination'], tours: unknown[] = [tour]) =>
+    destinationSections({ destination, tours });
+
+  it('shows every section with places, notes and tours (Hunza)', () => {
+    expect(sections({ places: [place], notes: [note] })).toEqual([
+      'hero',
+      'overview',
+      'calendar',
+      'places',
+      'gettingThere',
+      'goodToKnow',
+      'tours',
+      'banner',
+    ]);
   });
 
   it('leaves out places and good to know with none (Murree), keeping the sections every page has', () => {
-    expect(destinationSections({})).toEqual(['hero', 'overview', 'calendar', 'gettingThere']);
-    expect(destinationSections({ places: [], notes: [] })).toEqual(['hero', 'overview', 'calendar', 'gettingThere']);
+    expect(sections({})).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'tours', 'banner']);
+    expect(sections({ places: [], notes: [] })).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'tours', 'banner']);
+  });
+
+  it('leaves the tours out when no tour visits, keeping the banner', () => {
+    expect(sections({}, [])).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'banner']);
   });
 
   it('shows each optional section on its own', () => {
-    expect(destinationSections({ places: [place] })).toEqual(['hero', 'overview', 'calendar', 'places', 'gettingThere']);
-    expect(destinationSections({ notes: [note] })).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'goodToKnow']);
+    expect(sections({ places: [place] }, [])).toEqual(['hero', 'overview', 'calendar', 'places', 'gettingThere', 'banner']);
+    expect(sections({ notes: [note] }, [])).toEqual(['hero', 'overview', 'calendar', 'gettingThere', 'goodToKnow', 'banner']);
+  });
+});
+
+describe('tourCards', () => {
+  const departure = (start: string, seatsLeft: number): Departure => ({ start, end: start, seatsTotal: 16, seatsLeft });
+  const listed = (title: string, destinations: string[], departures: Departure[]) => ({
+    title,
+    destinations,
+    tripTypes: ['family' as const],
+    days: 1,
+    prices: { twin: 50000, triple: 45000, quad: 40000 },
+    departures,
+  });
+  const today = '2027-05-01';
+  const grand = listed('Hunza & Skardu Grand', ['hunza', 'skardu'], [departure('2027-05-12', 0), departure('2027-06-09', 5)]);
+  const express = listed('Hunza Express', ['hunza'], [departure('2027-05-20', 3)]);
+  const full = listed('Hunza Autumn', ['hunza'], [departure('2027-05-05', 0)]);
+  const none = listed('Hunza Winter', ['hunza'], [departure('2027-01-05', 4)]);
+
+  it('orders bookable, then sold out, then no upcoming dates; soonest first', () => {
+    const cards = tourCards(toursVisiting('hunza', [none, full, grand, express]), today);
+    expect(cards.map((c) => c.tour.title)).toEqual(['Hunza Express', 'Hunza & Skardu Grand', 'Hunza Autumn', 'Hunza Winter']);
+  });
+
+  it('shows each card’s next date with seats, the next sold-out one when all are full, and none when nothing is left', () => {
+    const cards = tourCards([grand, full, none], today);
+    expect(cards.map((c) => c.departure?.start)).toEqual(['2027-06-09', '2027-05-05', undefined]);
+  });
+
+  it('drops a departure that has left, moving the card on', () => {
+    expect(tourCards([express], '2027-05-21')[0].departure).toBeUndefined();
+    expect(tourCards([grand], '2027-05-13')[0].departure?.start).toBe('2027-06-09');
+  });
+
+  it('puts a tour visiting two destinations on both', () => {
+    expect(tourCards(toursVisiting('skardu', [grand, express]), today).map((c) => c.tour.title)).toEqual(['Hunza & Skardu Grand']);
   });
 });

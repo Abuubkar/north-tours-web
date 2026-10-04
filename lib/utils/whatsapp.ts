@@ -15,6 +15,11 @@ export function whatsappLink(number: string, message: string): string {
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
+/** A destination page's "Ask on WhatsApp" message: "Hi, I’d like to plan a private trip to Hunza." */
+export function destinationMessage(whatsapp: Pick<Settings['whatsapp'], 'destinationMessage'>, destination: string): string {
+  return fillTokens(whatsapp.destinationMessage, { destination });
+}
+
 /** A tour card's message from a settings template: "Hi, I’m interested in {tour} on {date}." */
 export function departureMessage(template: string, tour: string, start: string): string {
   return fillTokens(template, { tour, date: messageDate(start) });
