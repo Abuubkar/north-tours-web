@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { SETTINGS_TOKENS } from '../utils/tokens.ts';
 import { copy, copyWith, nonEmpty, sample } from './fields.ts';
-import { photoSchema, portraitSchema } from './images.ts';
+import { photoSchema, ownerImageSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
@@ -611,7 +611,7 @@ const aboutCopySchema = z.strictObject({
       /** Under the name: "Founder". */
       role: copy,
       /** The owner's photo only (ADR-0009); a placeholder until then. */
-      portrait: portraitSchema,
+      portrait: ownerImageSchema,
     }),
     sample,
   }),

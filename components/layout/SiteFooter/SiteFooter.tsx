@@ -27,7 +27,7 @@ const legalLinks = [
 /** The footer on every page, built from settings. Placeholders show as written, unlinked. */
 export function SiteFooter({ settings }: SiteFooterProps) {
   const { brand, contact, legal, social, whatsapp } = settings;
-  const whatsappHref = whatsappLink(contact.whatsapp, whatsapp.generalMessage);
+  const chatHref = whatsappLink(contact.whatsapp, whatsapp.generalMessage);
   const socialLinks = [
     { label: 'Instagram', href: webHref(social.instagram) },
     { label: 'Facebook', href: webHref(social.facebook) },
@@ -54,12 +54,12 @@ export function SiteFooter({ settings }: SiteFooterProps) {
           </nav>
           <div className={styles.contact}>
             <p className={styles.intro}>{whatsapp.footerIntro}</p>
-            <Button href={whatsappHref} size={56} icon="whatsapp">
+            <Button href={chatHref} size={56} icon="whatsapp">
               Chat on WhatsApp
             </Button>
             <dl>
               <KeyValueRow label="WhatsApp">
-                <TextOrLink href={whatsappHref} className={styles.rowLink}>
+                <TextOrLink href={chatHref} className={styles.rowLink}>
                   {contact.whatsapp}
                 </TextOrLink>
               </KeyValueRow>

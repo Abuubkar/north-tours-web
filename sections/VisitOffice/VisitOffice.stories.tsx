@@ -88,3 +88,5 @@ export const RealValuesPhone: Story = {
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };
+
+export const RealValuesPhoneOnLight: Story = { ...RealValuesPhone, globals: { surface: 'light', viewport: { value: 'phone' } } };

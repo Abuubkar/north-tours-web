@@ -11,5 +11,8 @@ export function isPlaceholder(value: string): boolean {
  * Punjab", which `isPlaceholder` (the whole value only) lets through.
  */
 export function hasPlaceholder(value: string): boolean {
-  return /\[[^\]]+\]/.test(value);
+  return PLACEHOLDER_PART.test(value);
 }
+
+/** A `[placeholder]` anywhere in a value: PLACEHOLDER without its anchors. */
+const PLACEHOLDER_PART = new RegExp(PLACEHOLDER.source.slice(1, -1));

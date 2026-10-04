@@ -2,7 +2,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { copy, copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder } from './fields.ts';
-import { portraitSchema } from './images.ts';
+import { ownerImageSchema } from './images.ts';
 
 /**
  * How much of the advance is refunded, by days before departure: each row applies from
@@ -98,8 +98,8 @@ const settingsSchema = z.strictObject({
     directionsLabel: nonEmpty,
     /** Opens WhatsApp with the general message. */
     whatsappLabel: nonEmpty,
-    /** The owner's photo of the office only, never a stock one (ADR-0009); a placeholder until then. */
-    image: portraitSchema,
+    /** The owner's photo of the office only, never a stock one; a placeholder until then. */
+    image: ownerImageSchema,
   }),
   /** WhatsApp wording, editable without touching code. */
   whatsapp: z.strictObject({

@@ -46,8 +46,11 @@ export const imageSchema = z.union([photoSchema, placeholder], {
   error: 'Needs alt text and either a photo (src, width, height, credit) or a placeholder',
 });
 
-/** Photos of people come only from the owner (ADR-0009, CLAUDE.md §8): never a stock credit. */
-export const portraitSchema = z.union([z.strictObject({ ...photoFields, credit: ownerCredit }), placeholder], {
+/**
+ * The owner's own photos only, never a stock credit: people (ADR-0009, CLAUDE.md §8) and the
+ * company's own premises, such as the office.
+ */
+export const ownerImageSchema = z.union([z.strictObject({ ...photoFields, credit: ownerCredit }), placeholder], {
   error: 'Needs alt text and either an owner photo (src, width, height, credit: owner) or a placeholder',
 });
 
