@@ -33,13 +33,17 @@ export const PhotoOnLight: Story = { ...Photo, globals: { surface: 'light' } };
 
 export const PhotoPhone: Story = { ...Photo, globals: { viewport: { value: 'phone' } } };
 
+export const PhotoDesktop: Story = { ...Photo, globals: { viewport: { value: 'desktop' } } };
+
 /** Until the photo exists, the striped placeholder names the shot. */
 export const Placeholder: Story = {
   args: { highlight: sampleTour.highlights[1] },
-  play: async ({ canvas }) => {
-    await expect(canvas.getByRole('img', { name: 'Attabad Lake' })).toBeVisible();
+  play: async ({ canvas, args }) => {
+    await expect(canvas.getByRole('img', { name: args.highlight.image.alt })).toBeVisible();
   },
 };
+
+export const PlaceholderPhone: Story = { ...Placeholder, globals: { viewport: { value: 'phone' } } };
 
 export const PlaceholderOnLight: Story = { ...Placeholder, globals: { surface: 'light' } };
 

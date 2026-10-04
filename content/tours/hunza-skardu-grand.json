@@ -116,22 +116,22 @@
       }
     },
     {
-      "title": "Attabad Lake",
-      "text": "A turquoise lake formed by the 2010 landslide",
+      "title": "Altit Fort",
+      "text": "Hunza’s oldest fort, on a cliff above the river",
       "image": {
-        "src": "/images/hunza/attabad-lake.jpg",
-        "alt": "Turquoise Attabad Lake below a sunlit mountain, with boats and ferry pontoons at the jetty",
-        "width": 1200,
-        "height": 800,
+        "src": "/images/hunza/altit-fort.jpg",
+        "alt": "The stone tower of Altit Fort rises from a granite outcrop against a deep blue sky, beside poplar-covered mountain slopes.",
+        "width": 1600,
+        "height": 1068,
         "focus": {
-          "x": 55,
-          "y": 60
+          "x": 62,
+          "y": 40
         },
         "credit": {
           "source": "wikimedia",
-          "author": "Waseem Abbas",
+          "author": "Vasiq Eqbal",
           "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Attabad_Lake_-_Gilgit_Baltistan_-_Pakistan.jpg"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Altit_Fort_-_Hunza.jpg"
         }
       }
     },

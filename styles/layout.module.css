@@ -77,6 +77,27 @@
 }
 
 /*
+ * Cards rise (M4, useRiseOnView sets data-rise on each grid cell): a card below the fold waits
+ * lower down, then rises once into place. Only its photo fades (`risePhoto`); text, prices and
+ * buttons never do.
+ */
+.riseCell[data-rise='below'] {
+  transform: translateY(var(--rise-distance));
+}
+
+.riseCell[data-rise='in'] {
+  transition: transform var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
+}
+
+:global([data-rise='below']) .risePhoto {
+  opacity: 0;
+}
+
+:global([data-rise='in']) .risePhoto {
+  transition: opacity var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
+}
+
+/*
  * A selectable option tile wrapping a radio (the booking panel's dates and rooms): 8px, and the
  * shared selected state once its radio is checked (docs/components.md, PRD #8). The tile shows
  * the focus ring for the radio inside it.

@@ -18,10 +18,6 @@
 }
 
 /* M4 (useRiseOnView on the grid): while a card waits to rise only its photo is hidden. */
-:global([data-rise='below']) .photo {
-  opacity: 0;
-}
-
-:global([data-rise='in']) .photo {
-  transition: opacity var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
+.photo {
+  composes: risePhoto from '../../../styles/layout.module.css';
 }

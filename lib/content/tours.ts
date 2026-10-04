@@ -31,11 +31,11 @@ export const departureSchema = z
     path: ['seatsLeft'],
   });
 
-/** 2 to 5 short lines, e.g. who a trip suits. */
-const lines = z.array(nonEmpty).min(2, 'List at least 2').max(5, 'List at most 5');
+/** Who a trip suits, or may not: 2 to 5 short lines. */
+const suitabilityLines = z.array(nonEmpty).min(2, 'List at least 2').max(5, 'List at most 5');
 
-/** A place on the trip with its photo, e.g. a highlight. */
-const placeCard = z.strictObject({ title: nonEmpty, text: nonEmpty, image: imageSchema });
+/** Something you'll see on the trip: a title, one line and a place photo. */
+const highlightSchema = z.strictObject({ title: nonEmpty, text: nonEmpty, image: imageSchema });
 
 export const tourSchema = z
   .strictObject({
@@ -67,11 +67,11 @@ export const tourSchema = z
     overview: z.strictObject({
       headline: nonEmpty,
       paragraphs: z.array(nonEmpty).min(1, 'Write at least one paragraph').max(2, 'Keep it to two paragraphs'),
-      suitedTo: lines,
-      notSuitedTo: lines,
+      suitedTo: suitabilityLines,
+      notSuitedTo: suitabilityLines,
     }),
     /** What you'll see along the way: a title, one line and a place photo each. */
-    highlights: z.array(placeCard).min(3, 'List at least 3 highlights').max(6, 'List at most 6 highlights'),
+    highlights: z.array(highlightSchema).min(3, 'List at least 3 highlights').max(6, 'List at most 6 highlights'),
   })
   .refine((t) => t.nights <= t.days, { message: 'Can’t have more nights than days', path: ['nights'] })
   .superRefine((tour, ctx) => {

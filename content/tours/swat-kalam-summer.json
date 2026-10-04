@@ -99,26 +99,6 @@
       }
     },
     {
-      "title": "Ushu Forest",
-      "text": "Tall cedars on the road above Kalam",
-      "image": {
-        "src": "/images/swat/ushu-forest.jpg",
-        "alt": "A white-water stream over dark boulders through the conifers of Ushu forest near Kalam",
-        "width": 1200,
-        "height": 795,
-        "focus": {
-          "x": 55,
-          "y": 65
-        },
-        "credit": {
-          "source": "wikimedia",
-          "author": "Syed Basit Imran",
-          "licence": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Route_to_mahodand_lake_from_Kalam_2.JPG"
-        }
-      }
-    },
-    {
       "title": "Mahodand Lake",
       "text": "A day out by jeep to the lake of fish",
       "image": {

@@ -80,26 +80,6 @@
   },
   "highlights": [
     {
-      "title": "Nanga Parbat",
-      "text": "The world’s ninth-highest mountain, from your cabin",
-      "image": {
-        "src": "/images/fairy-meadows/nanga-parbat.jpg",
-        "alt": "First sunlight on the summit of Nanga Parbat above the Raikot glacier and the pines of Fairy Meadows",
-        "width": 1200,
-        "height": 800,
-        "focus": {
-          "x": 58,
-          "y": 30
-        },
-        "credit": {
-          "source": "wikimedia",
-          "author": "Mohammad Yaseen",
-          "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Golden_hour_-_Sunrise_at_the_Killer_Mountain,_the_mighty_Nanga_Parbat.jpg"
-        }
-      }
-    },
-    {
       "title": "Fairy Meadows",
       "text": "A meadow of pines and streams, our home for two nights",
       "image": {

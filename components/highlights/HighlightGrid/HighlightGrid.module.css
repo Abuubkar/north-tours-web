@@ -5,14 +5,5 @@
 }
 
 .cell {
-  composes: cell from '../../../styles/layout.module.css';
-}
-
-/* M4 (useRiseOnView): a card below the fold waits lower down, then rises once into place. */
-.cell[data-rise='below'] {
-  transform: translateY(var(--rise-distance));
-}
-
-.cell[data-rise='in'] {
-  transition: transform var(--dur-900) var(--ease-out) calc(var(--rise-column) * var(--rise-stagger));
+  composes: cell riseCell from '../../../styles/layout.module.css';
 }

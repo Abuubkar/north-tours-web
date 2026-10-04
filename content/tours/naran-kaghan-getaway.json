@@ -86,26 +86,6 @@
   },
   "highlights": [
     {
-      "title": "Lake Saiful Muluk",
-      "text": "The famous lake under Malika Parbat, by jeep",
-      "image": {
-        "src": "/images/naran-kaghan/saiful-muluk.jpg",
-        "alt": "Lake Saiful Muluk lying still, mirroring green slopes and the snowy peaks above it",
-        "width": 1020,
-        "height": 800,
-        "focus": {
-          "x": 30,
-          "y": 40
-        },
-        "credit": {
-          "source": "wikimedia",
-          "author": "Nusrat Ashfaq",
-          "licence": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saif_ul_Malook_4.JPG"
-        }
-      }
-    },
-    {
       "title": "Lulusar Lake",
       "text": "A long jade lake at the head of the valley",
       "image": {

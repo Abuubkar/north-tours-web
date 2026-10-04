@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { gridColumns } from '../../../.storybook/gridColumns';
+import { opacityUpTo } from '../../../.storybook/opacity';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
 import { roomAbove } from '../../../.storybook/scrollRoom';
 import { sampleTour } from '../../tour-card/sampleTours';
@@ -35,15 +36,6 @@ export const Phone: Story = {
   play: async ({ canvas }) => {
     await expect(gridColumns(canvas.getAllByRole('listitem'))).toBe(2);
   },
-};
-
-/** Every ancestor's opacity, from the element up to the card's list item. */
-const opacityUpTo = (element: Element, stop: Element) => {
-  let opacity = 1;
-  for (let el: Element | null = element; el && el !== stop.parentElement; el = el.parentElement) {
-    opacity *= Number(getComputedStyle(el).opacity);
-  }
-  return opacity;
 };
 
 /** M4: a card below the fold starts 40px lower with its photo hidden, then rises into place. Text never fades. */

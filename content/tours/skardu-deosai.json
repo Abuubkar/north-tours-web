@@ -140,26 +140,6 @@
       }
     },
     {
-      "title": "Deosai Plains",
-      "text": "A full day by jeep on the high plateau",
-      "image": {
-        "src": "/images/skardu/deosai.jpg",
-        "alt": "A clear stream winding across the green Deosai plateau towards snow-streaked mountains",
-        "width": 1200,
-        "height": 785,
-        "focus": {
-          "x": 45,
-          "y": 45
-        },
-        "credit": {
-          "source": "wikimedia",
-          "author": "Qammer Wazir",
-          "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Land_of_Giants,_Deosai.jpg"
-        }
-      }
-    },
-    {
       "title": "Sheosar Lake",
       "text": "The lake at the western edge of Deosai",
       "image": {

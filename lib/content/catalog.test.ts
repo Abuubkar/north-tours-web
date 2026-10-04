@@ -173,7 +173,8 @@ describe('catalog: tours and destinations', () => {
 
   it('needs 3 to 6 highlights, each image with alt text', () => {
     expect(fields(load((t) => t.highlights.splice(2)))).toEqual(['highlights']);
-    expect(fields(load((t) => t.highlights.push({ ...t.highlights[0] })))).toEqual(['highlights']);
+    expect(fields(load((t) => Object.assign(t, { highlights: Array.from({ length: 7 }, () => t.highlights[0]) })))).toEqual(['highlights']);
+    expect(fields(load((t) => Object.assign(t, { highlights: Array.from({ length: 6 }, () => t.highlights[0]) })))).toEqual([]);
     expect(fields(load((t) => Object.assign(t.highlights[0].image, { alt: '' })))).toEqual(['highlights.0.image.alt']);
   });
 
