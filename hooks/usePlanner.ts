@@ -2,17 +2,41 @@ import { createContext, use, useCallback, useId, useMemo, useRef, useState, type
 import type { PlannerCopy } from '@/lib/content/pages';
 import { DEFAULT_ANSWERS, type TripAnswers } from '@/lib/utils/plannerAnswers';
 import { EMPTY_DETAILS, switchPhoneMode, type Details } from '@/lib/utils/plannerDetails';
+import { callBackMessage, tripRequestMessage, type PlannerTemplates } from '@/lib/utils/plannerMessage';
 import { destinationChoices, monthChoices } from '@/lib/utils/plannerOptions';
+import { detailsSummary, tripSummary, type DetailsSummary, type SummaryWords, type TripSummary } from '@/lib/utils/plannerSummary';
 import { stepErrors, type FieldProblem } from '@/lib/utils/plannerValidation';
+import { whatsappLink } from '@/lib/utils/whatsapp';
 import { usePlannerFocus, type FocusRequest } from './usePlannerFocus';
 import { useToday } from './useToday';
 
-/** Where and when, Who's coming, Your details. */
-export type PlannerStep = 1 | 2 | 3;
-
+/** The three questions' steps (Where and when, Who's coming, Your details). */
 export const STEP_COUNT = 3;
+/** Review · Check and send. */
+export const REVIEW = 4;
+/** "Thanks, Ayesha." */
+export const SUCCESS = 5;
 
-/** The Trip Planner's one state, shared by the steps, the progress and the navigation. */
+export type QuestionStep = 1 | 2 | 3;
+export type PlannerStep = QuestionStep | typeof REVIEW | typeof SUCCESS;
+
+/** What the planner needs from the page: the choices, the words and where the messages go. */
+export type PlannerConfig = {
+  /** Destination slugs in the loader's order. */
+  destinations: readonly string[];
+  /** The build's date (YYYY-MM-DD, Asia/Karachi). */
+  builtOn: string;
+  /** The page's error messages. */
+  messages: PlannerCopy['errors'];
+  /** The words the summary is written in. */
+  words: SummaryWords;
+  /** The WhatsApp message templates (settings). */
+  templates: PlannerTemplates;
+  /** The WhatsApp number (settings; a placeholder sends to no number). */
+  whatsappNumber: string;
+};
+
+/** The Trip Planner's one state, shared by the steps, the review, the progress and the navigation. */
 export type Planner = {
   /** Today in Pakistan (YYYY-MM-DD): the build's date while hydrating, then the browser's. */
   today: string;
@@ -30,10 +54,23 @@ export type Planner = {
   updateDetails: (change: (details: Details) => Details) => void;
   /** "Outside Pakistan?" / "Pakistani number?": focus moves to the new field, whose message waits for the next Next. */
   togglePhoneMode: () => void;
+  /** The answers in words, as the review, the side column and the message show them. */
+  trip: TripSummary;
+  contact: DetailsSummary;
+  /** The trip request, as the preview shows it and "Send on WhatsApp" sends it. */
+  message: string;
+  sendHref: string;
+  callBackHref: string;
   /** Checks the step: moves on, or shows its problems and takes the visitor to the first. */
   next: () => void;
   /** The step before, every answer kept. */
   back: () => void;
+  /** From the review: that step, with focus on its first field. */
+  edit: (step: QuestionStep) => void;
+  /** A WhatsApp link was followed: the thank-you, with focus on it. */
+  sent: () => void;
+  /** "Plan another trip": everything cleared, back to step 1. */
+  restart: () => void;
   /** A control's id from its field's name ("from", "age-0"), so the first problem can be focused. */
   fieldId: (field: string) => string;
   /** The progress heading, which takes focus after a step change. */
@@ -42,6 +79,10 @@ export type Planner = {
   formRef: RefObject<HTMLDivElement | null>;
   /** The sticky bar holding the progress: fields scroll to just below it. */
   barRef: RefObject<HTMLDivElement | null>;
+  /** The step's body, whose first field takes focus after Edit. */
+  bodyRef: RefObject<HTMLDivElement | null>;
+  /** "Thanks, Ayesha.", which takes focus on arrival. */
+  successRef: RefObject<HTMLHeadingElement | null>;
 };
 
 export const PlannerContext = createContext<Planner | null>(null);
@@ -54,27 +95,28 @@ export function usePlanner(): Planner {
 }
 
 /**
- * The Trip Planner's state (PRD #71): the answers, the step and the steps the visitor has tried
- * to leave. The rules (options, validation) are pure functions in lib/utils; scrolling and focus
- * live in `usePlannerFocus`. `destinations` are slugs in the loader's order, `messages` the
- * page's error wording.
+ * The Trip Planner's state (PRD #71): the answers, your details, the step and the steps the
+ * visitor has tried to leave. The rules (options, validation, summary, messages) are pure
+ * functions in lib/utils; scrolling and focus live in `usePlannerFocus`.
  */
-export function usePlannerState(destinations: readonly string[], builtOn: string, messages: PlannerCopy['errors']): Planner {
+export function usePlannerState({ destinations, builtOn, messages, words, templates, whatsappNumber }: PlannerConfig): Planner {
   const today = useToday(builtOn);
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS);
   const [details, setDetails] = useState<Details>(EMPTY_DETAILS);
-  /** After switching the phone's mode, its message hides until the next Next. */
-  const [hidePhoneError, setHidePhoneError] = useState(false);
   const [step, setStep] = useState<PlannerStep>(1);
   const [direction, setDirection] = useState<Planner['direction']>(null);
   const [tried, setTried] = useState<Partial<Record<PlannerStep, boolean>>>({});
+  /** After switching the phone's mode, its message hides until the next Next. */
+  const [hidePhoneError, setHidePhoneError] = useState(false);
   const [focus, setFocus] = useState<FocusRequest | null>(null);
   const progressRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const successRef = useRef<HTMLHeadingElement>(null);
   const base = useId();
   const fieldId = useCallback((field: string) => `${base}-${field}`, [base]);
-  usePlannerFocus(focus, { fieldId, progressRef, formRef, barRef });
+  usePlannerFocus(focus, { fieldId, progressRef, formRef, barRef, bodyRef, successRef });
   const update = useCallback((change: (answers: TripAnswers) => TripAnswers) => setAnswers(change), []);
   const updateDetails = useCallback((change: (details: Details) => Details) => setDetails(change), []);
 
@@ -84,11 +126,14 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
   );
   const problems = stepErrors(step, answers, details, today, messages);
   const shown = hidePhoneError ? problems.filter((problem) => problem.group !== 'phone') : problems;
+  const trip = tripSummary(answers, words);
+  const contact = detailsSummary(details, words);
+  const message = tripRequestMessage(templates, trip, contact);
 
-  function go(to: PlannerStep, way: 'forward' | 'back') {
+  function go(to: PlannerStep, way: 'forward' | 'back', then: FocusRequest = { target: 'progress' }) {
     setStep(to);
     setDirection(way);
-    setFocus({ target: 'progress' });
+    setFocus(then);
   }
 
   return {
@@ -106,6 +151,11 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
       setHidePhoneError(true);
       setFocus({ target: 'field', field: details.phone.mode === 'pk' ? 'countryCode' : 'phone', scroll: false });
     },
+    trip,
+    contact,
+    message,
+    sendHref: whatsappLink(whatsappNumber, message),
+    callBackHref: whatsappLink(whatsappNumber, callBackMessage(templates, trip, contact)),
     next() {
       setHidePhoneError(false);
       if (problems.length > 0) {
@@ -113,14 +163,24 @@ export function usePlannerState(destinations: readonly string[], builtOn: string
         setFocus({ target: 'field', field: problems[0].fields[0] });
         return;
       }
-      if (step < STEP_COUNT) go((step + 1) as PlannerStep, 'forward');
+      if (step <= STEP_COUNT) go((step + 1) as PlannerStep, 'forward');
     },
     back() {
-      if (step > 1) go((step - 1) as PlannerStep, 'back');
+      if (step > 1 && step <= REVIEW) go((step - 1) as PlannerStep, 'back');
+    },
+    edit: (to) => go(to, 'back', { target: 'first' }),
+    sent: () => go(SUCCESS, 'forward', { target: 'success' }),
+    restart() {
+      setAnswers(DEFAULT_ANSWERS);
+      setDetails(EMPTY_DETAILS);
+      setTried({});
+      go(1, 'back');
     },
     fieldId,
     progressRef,
     formRef,
     barRef,
+    bodyRef,
+    successRef,
   };
 }

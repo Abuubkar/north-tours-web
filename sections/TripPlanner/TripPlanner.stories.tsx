@@ -306,7 +306,7 @@ export const DetailsEmptyPhone: Story = { ...DetailsEmpty, globals: { viewport: 
 /**
  * Real keys: the number keeps digits and spaces; "300 12" is incomplete (5 of 10 digits), its
  * message wraps under the field, and it takes focus once the name is filled. Abroad, "44" and
- * "7700 900123" pass; "Pakistani number?" brings back the number as typed.
+ * "7700 900123" pass; back on Your details, "Pakistani number?" brings back the number as typed.
  */
 export const DetailsPhone: Story = {
   play: async ({ canvas, canvasElement, userEvent }) => {
@@ -332,8 +332,11 @@ export const DetailsPhone: Story = {
     await expect(canvas.queryByText(/looks incomplete|country code and number/)).toBeNull();
     await userEvent.type(code, '44');
     await userEvent.type(canvas.getByRole('textbox', { name: 'Number' }), '7700 900123');
+    // A valid number abroad passes: on to the review, which shows it in international form.
     await userEvent.click(button(canvas, /^Review/));
-    await expect(canvas.queryByText(/country code and number/)).toBeNull();
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Review · Check and send'));
+    await expect(canvas.getByText('+44 7700 900123')).toBeVisible();
+    await userEvent.click(button(canvas, 'Edit your details'));
     await userEvent.click(button(canvas, 'Pakistani number?'));
     await expect(canvas.getByRole('textbox', { name: 'WhatsApp number' })).toHaveValue('300 12');
   },
@@ -359,3 +362,117 @@ export const DetailsKept: Story = {
     await expect(canvas.getByRole('textbox', { name: 'Anything else?' })).toHaveValue('Travelling with my mother.');
   },
 };
+
+/** Keeps the story on the page: a followed wa.me link still runs its click handler, but opens nothing. */
+const stayOnPage = () => {
+  const block = (event: MouseEvent) => {
+    if ((event.target as Element).closest('a[href^="https://wa.me"]')) event.preventDefault();
+  };
+  document.addEventListener('click', block);
+  return () => document.removeEventListener('click', block);
+};
+
+/** Every step answered, then Review: Hunza in the fourth month, 2 adults and 2 children (6, 9), Family, Upgraded, Ayesha. */
+const toReview = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void>; type: (el: Element, text: string) => Promise<void>; selectOptions: (el: Element, value: string) => Promise<void> }) => {
+  await userEvent.click(button(canvas, 'Hunza'));
+  await userEvent.click(monthChips(canvas)[3]);
+  await userEvent.click(button(canvas, /^Next/));
+  await userEvent.click(button(canvas, 'More children'));
+  await userEvent.click(button(canvas, 'More children'));
+  await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Child 1' }), '6');
+  await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Child 2' }), '9');
+  await userEvent.click(button(canvas, 'Family'));
+  await userEvent.click(button(canvas, 'Upgraded'));
+  await userEvent.click(button(canvas, /^Next/));
+  await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+  await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+  await userEvent.click(button(canvas, 'Evening'));
+  await userEvent.click(button(canvas, /^Review/));
+};
+
+const linkText = (link: HTMLElement) => new URL(link.getAttribute('href')!).searchParams.get('text');
+
+/**
+ * Review: every answer in its section (<h3>s under the progress <h2>), "Not given" for the rest,
+ * and the preview is exactly the message "Send on WhatsApp" carries. One <h1>.
+ */
+export const Review: Story = {
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await waitFor(() => expect(progress(canvas)).toHaveFocus());
+    await expect(progress(canvas)).toHaveTextContent('Review · Check and send');
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    const sections = canvas.getAllByRole('heading', { level: 3 }).map((h) => h.textContent);
+    await expect(sections).toEqual(['Where and when', 'Who’s coming', 'Your details']);
+    const values = canvas.getAllByRole('definition').map((d) => d.textContent);
+    for (const value of ['Hunza', '5–7 days', '2 adults, 2 children (ages 6, 9)', 'Family', 'Upgraded', 'Lahore', 'Ayesha Khan', '+92 300 123 4567', 'Evening']) {
+      await expect(values).toContain(value);
+    }
+    await expect(canvas.getAllByText('Not given').map((n) => n.closest('div')!.firstChild!.textContent)).toEqual(['Transport', 'Budget', 'Anything else']);
+    const send = canvas.getByRole('link', { name: 'Send on WhatsApp' });
+    await expect(send).toHaveAttribute('target', '_blank');
+    await expect(send).toHaveAttribute('rel', 'noopener');
+    await expect(linkText(send)).toBe(canvasElement.querySelector('figure p')!.textContent);
+    await expect(linkText(send)).toContain('• Group: 2 adults, 2 children (ages 6, 9) · Family');
+  },
+};
+
+export const ReviewPhone: Story = { ...Review, globals: { viewport: { value: 'phone' } } };
+
+export const ReviewLaptop: Story = { ...Review, globals: { viewport: { value: 'laptop' } } };
+
+/** "Edit who’s coming" opens step 2 with focus on its first field; Next goes on through the steps again. */
+export const Edit: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await userEvent.click(button(canvas, 'Edit who’s coming'));
+    await waitFor(() => expect(button(canvas, 'Fewer adults')).toHaveFocus());
+    await expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming');
+    await userEvent.click(button(canvas, /^Next: Your details/));
+    await expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveValue('Ayesha Khan');
+    await userEvent.click(button(canvas, /^Review/));
+    await userEvent.click(button(canvas, 'Edit your details'));
+    await waitFor(() => expect(canvas.getByRole('textbox', { name: 'Name' })).toHaveFocus());
+  },
+};
+
+/** "Request a call back" asks for a call on the number at the best time, with the trip; following it shows the thank-you. */
+export const CallBack: Story = {
+  beforeEach: stayOnPage,
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await toReview(canvas, userEvent);
+    const callBack = canvas.getByRole('link', { name: 'Request a call back' });
+    const text = linkText(callBack)!;
+    await expect(callBack.getAttribute('href')).toMatch(/^https:\/\/wa\.me\/\?text=/);
+    await expect(text.split('\n')[0]).toBe('Please call me back on +92 300 123 4567, best time evening.');
+    await expect(text).toContain('• Destinations: Hunza');
+    await expect(text.split('\n').at(-1)).toBe('Name: Ayesha Khan');
+    await userEvent.click(callBack);
+    const thanks = canvas.getByRole('heading', { level: 2, name: 'Thanks, Ayesha.' });
+    await waitFor(() => expect(thanks).toHaveFocus());
+    await expect(canvas.queryByText(/^Step|^Review ·/)).toBeNull();
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Planning your private trip' })).toBeVisible();
+  },
+};
+
+/** "Send on WhatsApp" leads to the thank-you too; "Plan another trip" starts a clean step 1, focus on the progress. */
+export const SendAndAgain: Story = {
+  beforeEach: stayOnPage,
+  play: async ({ canvas, userEvent }) => {
+    await toReview(canvas, userEvent);
+    await userEvent.click(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await waitFor(() => expect(canvas.getByRole('heading', { level: 2, name: 'Thanks, Ayesha.' })).toHaveFocus());
+    await expect(canvas.getByRole('link', { name: 'Browse tours' })).toHaveAttribute('href', '/tours');
+    await expect(canvas.getByRole('link', { name: 'Explore destinations' })).toHaveAttribute('href', '/#destinations');
+    await userEvent.click(button(canvas, 'Plan another trip'));
+    await waitFor(() => expect(progress(canvas)).toHaveFocus());
+    await expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when');
+    await expect(canvas.getByRole('heading', { level: 1, name: 'Your dates, your group' })).toBeVisible();
+    await expect(canvas.queryAllByRole('button', { pressed: true }).map((b) => b.textContent)).toEqual(['Flexible']);
+  },
+};
+
+export const SendAndAgainPhone: Story = { ...SendAndAgain, globals: { viewport: { value: 'phone' } } };
+
+export const SendAndAgainLaptop: Story = { ...SendAndAgain, globals: { viewport: { value: 'laptop' } } };

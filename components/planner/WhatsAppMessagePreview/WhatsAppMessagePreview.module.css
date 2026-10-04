@@ -1,0 +1,32 @@
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.title {
+  composes: small from '../../../styles/typography.module.css';
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  font-weight: var(--fw-medium);
+}
+
+/* The message as sent: line breaks kept, long notes wrapped, in a raised panel (8px). */
+.message {
+  composes: ui from '../../../styles/typography.module.css';
+  max-width: var(--measure-message);
+  padding: var(--space-16) var(--cell-pad);
+  border: var(--hairline-width) solid var(--hairline);
+  border-radius: var(--radius-card);
+  background: var(--bg-raised);
+  line-height: var(--lh-body-large);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.note {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}

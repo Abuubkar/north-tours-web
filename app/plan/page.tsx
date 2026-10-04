@@ -18,11 +18,11 @@ export function generateMetadata(): Metadata {
  * It has no photo of its own, so it shares the Homepage's image.
  */
 export default function PlanPage() {
-  const { copy, settings, builtOn, sharePhoto, destinations } = getPlannerPage();
+  const { copy, settings, sharePhoto, destinations, config } = getPlannerPage();
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
-      <PlannerProvider destinations={destinations.map((d) => d.slug)} builtOn={builtOn} messages={copy.errors}>
+      <PlannerProvider {...config}>
         <TripPlanner copy={copy} destinations={destinations} />
       </PlannerProvider>
     </PageMain>

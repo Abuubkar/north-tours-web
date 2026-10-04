@@ -7,6 +7,7 @@ import { photoSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
+import { DETAIL_ROWS, SUMMARY_ROWS } from '../utils/plannerSummary.ts';
 import { BEST_TIMES, DATE_MODES, DEPARTING_FROM, GROUP_TYPES, HOTELS, PLANNER_BUDGETS, TRANSPORT, TRIP_LENGTHS } from '../utils/plannerOptions.ts';
 
 /*
@@ -500,6 +501,39 @@ const plannerCopySchema = z.strictObject({
     notes: z.strictObject({ label: copy, hint: copy, placeholder: copy }),
     /** "We only use your details to plan this trip. {link}.": {link} is the privacy policy link, named by `link`. */
     privacy: z.strictObject({ text: copyWith('link'), link: copy }),
+  }),
+  /** How the trip is written in the review, the side column and the message. */
+  summary: z.strictObject({
+    /** "Not sure" among the destinations: "Suggest something". */
+    unsure: copy,
+    flexibleDates: copyWith('month', 'days'),
+    exactDates: copyWith('from', 'to'),
+    adults: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
+    children: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
+    /** After the children: "(age 6)", "(ages 6, 9)". */
+    ages: z.strictObject({ one: copyWith('ages'), other: copyWith('ages') }),
+    /** A child under 2 in that list. */
+    underTwo: copy,
+  }),
+  /** Review · Check and send: every answer with Edit per step, the message, and the two ways to send it. */
+  review: z.strictObject({
+    rows: z.record(z.enum([...SUMMARY_ROWS, ...DETAIL_ROWS]), copy),
+    edit: copy,
+    /** The Edit button's name: "Edit where and when" ({section} is the step's title, in lower case). */
+    editLabel: copyWith('section'),
+    notGiven: copy,
+    previewTitle: copy,
+    previewNote: copy,
+    send: copy,
+    callBack: copy,
+  }),
+  /** After sending: "Thanks, Ayesha." ({firstName}), what happens next, and the ways on. */
+  success: z.strictObject({
+    headline: copyWith('firstName'),
+    line: copyWith('replyTime'),
+    browse: copy,
+    explore: copy,
+    again: copy,
   }),
   /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
   errors: z.strictObject({

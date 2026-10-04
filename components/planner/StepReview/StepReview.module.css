@@ -1,0 +1,6 @@
+/* After a hairline (the step body draws it); the buttons wrap on narrow screens. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}

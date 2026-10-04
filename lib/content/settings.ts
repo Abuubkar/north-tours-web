@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
-import { copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder } from './fields.ts';
+import { copy, copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder } from './fields.ts';
 
 /**
  * How much of the advance is refunded, by days before departure: each row applies from
@@ -100,6 +100,28 @@ const settingsSchema = z.strictObject({
     destinationMessage: copyWith('destination'),
     /** "Reserve with 30% advance" on the booking panel: everything the visitor chose, filled in. */
     reserveMessage: copyWith('travellers', 'tour', 'dates', 'room', 'total', 'advancePercent', 'advance'),
+    /**
+     * The Trip Planner's messages, a template per line: the trip request ("Send on WhatsApp") and
+     * the call back. A line whose tokens are all empty is left out.
+     */
+    planner: z.strictObject({
+      greeting: copy,
+      destinations: copyWith('destinations'),
+      dates: copyWith('dates'),
+      group: copyWith('group'),
+      stay: copyWith('hotels', 'transport'),
+      departingFrom: copyWith('departingFrom'),
+      budget: copyWith('budget'),
+      bestTime: copyWith('bestTime'),
+      notes: copyWith('notes'),
+      name: copyWith('name'),
+      phone: copyWith('phone'),
+      callBack: copyWith('phone', 'bestTime'),
+      /** Hotels or transport left open. */
+      any: nonEmpty,
+      /** No best time, in the call back. */
+      anyTime: nonEmpty,
+    }),
   }),
 });
 

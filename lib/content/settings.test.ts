@@ -203,3 +203,18 @@ describe('requireValid', () => {
     expect(() => requireValid(invalid)).toThrow(/settings\.json › contact\.email/);
   });
 });
+
+describe('planner messages', () => {
+  it('need every template', () => {
+    expect(fields(withChange((s) => delete (s.whatsapp.planner as Partial<Settings['whatsapp']['planner']>).callBack))).toEqual([
+      'whatsapp.planner.callBack',
+    ]);
+  });
+
+  it('reject a token a line doesn’t take', () => {
+    const result = withChange((s) => Object.assign(s.whatsapp.planner, { dates: '• Dates: {when}' }));
+    expect(fields(result)).toEqual(['whatsapp.planner.dates']);
+    expect(result.problems[0].message).toBe('Unknown token {when}. Use only {dates}');
+    expect(withChange((s) => Object.assign(s.whatsapp.planner, { callBack: 'Call {phone} ({bestTime})' })).problems).toEqual([]);
+  });
+});

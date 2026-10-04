@@ -162,6 +162,10 @@
   --measure-field: 520px; /* the planner's name and number fields */
   --measure-notes: 640px; /* its "Anything else?" */
   --country-code-w: 72px; /* a country code's field: three digits */
+  --review-key-w: 110px; /* the review's label column */
+  --review-key-w-wide: 180px; /* and from 1100px */
+  --measure-message: 560px; /* the WhatsApp message preview */
+  --planner-success-y: clamp(40px, 5cqi, 72px); /* above and below the planner's thank-you */
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */

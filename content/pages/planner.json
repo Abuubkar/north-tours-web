@@ -163,6 +163,55 @@
       "link": "Privacy policy"
     }
   },
+  "summary": {
+    "unsure": "Suggest something",
+    "flexibleDates": "{month}, about {days} days",
+    "exactDates": "{from} – {to}",
+    "adults": {
+      "one": "{count} adult",
+      "other": "{count} adults"
+    },
+    "children": {
+      "one": "{count} child",
+      "other": "{count} children"
+    },
+    "ages": {
+      "one": "(age {ages})",
+      "other": "(ages {ages})"
+    },
+    "underTwo": "under 2"
+  },
+  "review": {
+    "rows": {
+      "destinations": "Destinations",
+      "dates": "Dates",
+      "length": "Trip length",
+      "group": "Group",
+      "groupType": "Group type",
+      "hotels": "Hotels",
+      "transport": "Transport",
+      "from": "Departing from",
+      "budget": "Budget",
+      "name": "Name",
+      "phone": "WhatsApp",
+      "bestTime": "Best time",
+      "notes": "Anything else"
+    },
+    "edit": "Edit",
+    "editLabel": "Edit {section}",
+    "notGiven": "Not given",
+    "previewTitle": "Message preview",
+    "previewNote": "Opens WhatsApp with this message ready to send. Nothing is sent until you press send there.",
+    "send": "Send on WhatsApp",
+    "callBack": "Request a call back"
+  },
+  "success": {
+    "headline": "Thanks, {firstName}.",
+    "line": "Check WhatsApp, we’ll reply {replyTime}. If you asked for a call back, we’ll ring you at your best time.",
+    "browse": "Browse tours",
+    "explore": "Explore destinations",
+    "again": "Plan another trip"
+  },
   "errors": {
     "destinations": "Choose at least one destination, or “Not sure, suggest something”.",
     "month": "Pick a month, or switch to exact dates.",

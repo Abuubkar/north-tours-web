@@ -19,6 +19,11 @@ export const EMPTY_DETAILS: Details = { name: '', phone: EMPTY_PHONE, bestTime: 
 /** The longest "Anything else?". */
 export const NOTES_MAX_LENGTH = 500;
 
+/** The first word of the name, for "Thanks, Ayesha.". */
+export function firstName(details: Details): string {
+  return details.name.trim().split(/\s+/)[0] ?? '';
+}
+
 /** Switches between a Pakistani number and a country code and number, keeping what was typed in each. */
 export function switchPhoneMode(details: Details): Details {
   return { ...details, phone: { ...details.phone, mode: details.phone.mode === 'pk' ? 'intl' : 'pk' } };
