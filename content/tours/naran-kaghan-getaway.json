@@ -141,5 +141,76 @@
         }
       }
     }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotel",
+      "text": "3 nights in Naran, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 4 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    },
+    {
+      "icon": "jeep",
+      "title": "Jeeps",
+      "text": "Jeeps to Lake Saiful Muluk and back"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Boating",
+      "text": "A boat on Saiful Muluk, if you’d like one"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 3
+      },
+      "place": "Naran",
+      "title": "Hotel in Naran",
+      "description": "3-star · by the river",
+      "image": {
+        "src": "/images/naran-kaghan/naran-valley.jpg",
+        "alt": "The Kunhar River curves through green meadows toward Naran town, set between steep forested mountains.",
+        "width": 1600,
+        "height": 1050,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mustafa Amin",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+        }
+      }
+    }
   ]
 }

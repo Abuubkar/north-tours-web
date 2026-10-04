@@ -164,6 +164,9 @@
   --grid-hero-facts-cols: 4;
   --grid-highlights-min: 160px;
   --grid-highlights-cols: 3;
+  --grid-hotels-min: 160px; /* five fit beside the booking aside, as designed */
+  --grid-hotels-cols: 5; /* never more than the tour's stays */
+  --hotel-card-max: 320px; /* so one or two stays aren't stretched across the page */
   --grid-pairs-min: 260px; /* two cells side by side: who a trip suits, what's included */
   --grid-pairs-cols: 2;
   --grid-quick-facts-min: 160px;

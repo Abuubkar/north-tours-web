@@ -199,5 +199,121 @@
         }
       }
     }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotels",
+      "text": "5 nights in 3-star hotels, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 6 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Entry tickets",
+      "text": "Baltit and Altit forts, Attabad boating"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 1
+      },
+      "place": "Naran",
+      "title": "Hotel in Naran",
+      "description": "3-star · by the river",
+      "image": {
+        "src": "/images/naran-kaghan/naran-valley.jpg",
+        "alt": "The Kunhar River curves through green meadows toward Naran town, set between steep forested mountains.",
+        "width": 1600,
+        "height": 1050,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mustafa Amin",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 2,
+        "to": 4
+      },
+      "place": "Hunza",
+      "title": "Hotel in Karimabad",
+      "description": "3-star · valley view",
+      "image": {
+        "src": "/images/hunza/karimabad.jpg",
+        "alt": "Aerial view of Karimabad's autumn poplars, terraced fields and houses below a long jagged mountain ridge.",
+        "width": 1600,
+        "height": 1199,
+        "focus": {
+          "x": 50,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Ashar",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Karimabad,_Hunza.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 5,
+        "to": 5
+      },
+      "place": "Naran",
+      "title": "Hotel in Naran",
+      "description": "3-star · by the river",
+      "image": {
+        "src": "/images/naran-kaghan/naran-valley.jpg",
+        "alt": "The Kunhar River curves through green meadows toward Naran town, set between steep forested mountains.",
+        "width": 1600,
+        "height": 1050,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mustafa Amin",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+        }
+      }
+    }
   ]
 }

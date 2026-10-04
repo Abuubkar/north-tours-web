@@ -211,5 +211,181 @@
         }
       }
     }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotels",
+      "text": "8 nights in 3-star hotels, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 9 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    },
+    {
+      "icon": "jeep",
+      "title": "Jeeps",
+      "text": "Jeeps to Deosai and Shangrila"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Entry tickets",
+      "text": "Baltit and Altit forts, Attabad boating"
+    },
+    {
+      "icon": "flights",
+      "title": "Flights",
+      "text": "An optional flight home from Skardu to Islamabad"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 1
+      },
+      "place": "Islamabad",
+      "title": "Hotel in Islamabad",
+      "description": "3-star · city centre",
+      "image": {
+        "src": "/images/route/islamabad.jpg",
+        "alt": "Snow-dusted Margalla Hills rise under dark storm clouds above the rooftops and buildings of Islamabad.",
+        "width": 1600,
+        "height": 1067,
+        "focus": {
+          "x": 55,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Ali Mujtaba",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Snow-capped_Margalla_Hills_in_Islamabad,_Pakistan.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 2,
+        "to": 2
+      },
+      "place": "Chilas",
+      "title": "Hotel in Chilas",
+      "description": "Simple, clean rooms by the Indus",
+      "image": {
+        "src": "/images/route/chilas.jpg",
+        "alt": "The Indus River winds between dark rocks and dry tawny hills near Chilas, with snowy peaks on the horizon.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 50,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Adnan Wahab Khan",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chilas_11.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 3,
+        "to": 5
+      },
+      "place": "Hunza",
+      "title": "Hotel in Karimabad",
+      "description": "3-star · valley view",
+      "image": {
+        "src": "/images/hunza/karimabad.jpg",
+        "alt": "Aerial view of Karimabad's autumn poplars, terraced fields and houses below a long jagged mountain ridge.",
+        "width": 1600,
+        "height": 1199,
+        "focus": {
+          "x": 50,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Ashar",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Karimabad,_Hunza.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 6,
+        "to": 7
+      },
+      "place": "Skardu",
+      "title": "Hotel in Skardu",
+      "description": "3-star · garden",
+      "image": {
+        "src": "/images/skardu/skardu-valley.jpg",
+        "alt": "Skardu town sits among autumn trees beside the turquoise Indus River and its white sandbanks, below cloud-wrapped mountains.",
+        "width": 1600,
+        "height": 1068,
+        "focus": {
+          "x": 55,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Vasiq Eqbal",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:An_autumnal_view_of_Skardu%27s_skyline.jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 8,
+        "to": 8
+      },
+      "place": "Chilas or Naran",
+      "title": "Hotel in Chilas or Naran",
+      "description": "Simple, clean rooms",
+      "image": {
+        "src": "/images/naran-kaghan/naran-valley.jpg",
+        "alt": "The Kunhar River curves through green meadows toward Naran town, set between steep forested mountains.",
+        "width": 1600,
+        "height": 1050,
+        "focus": {
+          "x": 45,
+          "y": 60
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Mustafa Amin",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naran_Valley,_Khyber_Pakhtunkhwa.JPG"
+        }
+      }
+    }
   ]
 }

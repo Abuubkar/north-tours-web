@@ -60,6 +60,101 @@ export const icons = {
       </>
     ),
   },
+  bedDouble: {
+    kind: 'stroke',
+    body: (
+      <>
+        <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+        <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+        <path d="M12 4v6" />
+        <path d="M2 18h20" />
+      </>
+    ),
+  },
+  utensils: {
+    kind: 'stroke',
+    body: (
+      <>
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+        <path d="M7 2v20" />
+        <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
+      </>
+    ),
+  },
+  bus: {
+    kind: 'stroke',
+    body: (
+      <>
+        <path d="M8 6v6" />
+        <path d="M15 6v6" />
+        <path d="M2 12h19.6" />
+        <path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" />
+        <circle cx="7" cy="18" r="2" />
+        <path d="M9 18h5" />
+        <circle cx="16" cy="18" r="2" />
+      </>
+    ),
+  },
+  compass: {
+    kind: 'stroke',
+    body: (
+      <>
+        <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" />
+        <circle cx="12" cy="12" r="10" />
+      </>
+    ),
+  },
+  carFront: {
+    kind: 'stroke',
+    body: (
+      <>
+        <path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8" />
+        <path d="M7 14h.01" />
+        <path d="M17 14h.01" />
+        <rect width="18" height="8" x="3" y="10" rx="2" />
+        <path d="M5 18v2" />
+        <path d="M19 18v2" />
+      </>
+    ),
+  },
+  sandwich: {
+    kind: 'stroke',
+    body: (
+      <>
+        <path d="m2.37 11.223 8.372-6.777a2 2 0 0 1 2.516 0l8.371 6.777" />
+        <path d="M21 15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-5.25" />
+        <path d="M3 15a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h9" />
+        <path d="m6.67 15 6.13 4.6a2 2 0 0 0 2.8-.4l3.15-4.2" />
+        <rect width="20" height="4" x="2" y="11" rx="1" />
+      </>
+    ),
+  },
+  wallet: {
+    kind: 'stroke',
+    body: (
+      <>
+        <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
+        <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+      </>
+    ),
+  },
+  ticket: {
+    kind: 'stroke',
+    body: (
+      <>
+        <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+        <path d="M13 5v2" />
+        <path d="M13 17v2" />
+        <path d="M13 11v2" />
+      </>
+    ),
+  },
+  plane: {
+    kind: 'stroke',
+    body: (
+      <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
+    ),
+  },
   star: {
     kind: 'fill',
     body: (

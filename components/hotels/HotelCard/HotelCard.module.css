@@ -1,0 +1,27 @@
+.card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.text {
+  composes: imageCardText from '../../../styles/layout.module.css';
+}
+
+.nights {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  font-weight: var(--fw-regular);
+}
+
+/* The design's 17/500. */
+.title {
+  composes: bodyLarge from '../../../styles/typography.module.css';
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-small);
+}
+
+.description {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}

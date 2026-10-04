@@ -37,6 +37,27 @@ const suitabilityLines = z.array(nonEmpty).min(2, 'List at least 2').max(5, 'Lis
 /** Something you'll see on the trip: a title, one line and a place photo. */
 const highlightSchema = z.strictObject({ title: nonEmpty, text: nonEmpty, image: imageSchema });
 
+/** The design's nine inclusion icons. */
+export const INCLUSION_ICONS = ['hotel', 'meals', 'transport', 'guide', 'jeep', 'lunch', 'personal', 'tickets', 'flights'] as const;
+
+/** A row in "What the price includes": "Hotels · 8 nights in 3-star hotels, twin sharing". */
+const inclusionSchema = z.strictObject({ icon: z.enum(INCLUSION_ICONS), title: nonEmpty, text: nonEmpty });
+
+/**
+ * Where you stay for a run of nights. Never a hotel's name, real or invented: a generic title
+ * ("Hotel in Karimabad") and a photo of the town or valley (PRD #47).
+ */
+const staySchema = z.strictObject({
+  /** Nights from and to, counting the first night as 1. */
+  nights: z.strictObject({ from: z.int().positive(), to: z.int().positive() }),
+  /** Where, for the nights label: "Nights 3–5 · Hunza". */
+  place: nonEmpty,
+  title: nonEmpty,
+  /** e.g. "3-star · valley view". */
+  description: nonEmpty,
+  image: imageSchema,
+});
+
 export const tourSchema = z
   .strictObject({
     slug: slugSchema,
@@ -72,8 +93,28 @@ export const tourSchema = z
     }),
     /** What you'll see along the way: a title, one line and a place photo each. */
     highlights: z.array(highlightSchema).min(3, 'List at least 3 highlights').max(6, 'List at most 6 highlights'),
+    included: z.array(inclusionSchema).min(1),
+    notIncluded: z.array(inclusionSchema).min(1),
+    /** Each night of the trip, once: from night 1 to the last, with no gap or overlap. */
+    stays: z.array(staySchema).min(1),
   })
   .refine((t) => t.nights <= t.days, { message: 'Can’t have more nights than days', path: ['nights'] })
+  .superRefine((tour, ctx) => {
+    let next = 1;
+    tour.stays.forEach(({ nights }, i) => {
+      const path = ['stays', i, 'nights'];
+      if (nights.from !== next) {
+        const message = nights.from > next ? `Night ${next} has no stay` : `Night ${nights.from} is already covered`;
+        ctx.addIssue({ code: 'custom', message, path: [...path, 'from'] });
+      }
+      if (nights.to < nights.from) ctx.addIssue({ code: 'custom', message: 'Ends before it starts', path: [...path, 'to'] });
+      if (nights.to > tour.nights) {
+        ctx.addIssue({ code: 'custom', message: `The tour has ${tour.nights} nights`, path: [...path, 'to'] });
+      }
+      next = Math.max(next, nights.to + 1);
+    });
+    if (next <= tour.nights) ctx.addIssue({ code: 'custom', message: `Night ${next} has no stay`, path: ['stays'] });
+  })
   .superRefine((tour, ctx) => {
     const starts = new Set<string>();
     tour.departures.forEach((d, i) => {

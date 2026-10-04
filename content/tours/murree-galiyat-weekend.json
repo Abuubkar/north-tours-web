@@ -137,5 +137,71 @@
         }
       }
     }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotel",
+      "text": "2 nights at Nathia Gali, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 3 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Tickets",
+      "text": "The Ayubia chairlift, if you’d like a ride"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 2
+      },
+      "place": "Nathia Gali",
+      "title": "Hotel in Nathia Gali",
+      "description": "3-star · forest view",
+      "image": {
+        "src": "/images/murree/murree-hills.jpg",
+        "alt": "Houses scattered across a pine-covered hill near Murree, with forested ridges fading into haze beyond.",
+        "width": 1600,
+        "height": 1200,
+        "focus": {
+          "x": 40,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Fraz.khalid1",
+          "licence": "CC0 1.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Murree--Category-Murree--.JPG"
+        }
+      }
+    }
   ]
 }

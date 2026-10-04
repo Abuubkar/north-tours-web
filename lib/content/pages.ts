@@ -130,6 +130,15 @@ const tourCopySchema = z.strictObject({
   /** The headings over the tour's suitability lists (the overview's headline is the tour's own). */
   overview: z.strictObject({ suitedTo: copy, notSuitedTo: copy }),
   highlights: z.strictObject({ headline: copy }),
+  /** "What the price includes" (#included) and its two lists' headings. */
+  included: z.strictObject({ headline: copy, included: copy, notIncluded: copy }),
+  hotels: z.strictObject({
+    headline: copy,
+    /** After each stay's description: "3-star · valley view · twin sharing". */
+    sharing: copy,
+    /** Under the stays. */
+    note: copy,
+  }),
   /** "Upcoming departures and prices" (#dates). */
   dates: z.strictObject({
     headline: copy,

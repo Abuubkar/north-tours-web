@@ -47,6 +47,23 @@
 }
 
 /*
+ * The same grid with its lines drawn by each cell's outline instead of the grid's background,
+ * so a part-filled last row simply ends rather than leaving filled empty cells. The outlines
+ * meet in the 1px gaps; the first and last columns' outer lines are clipped off.
+ */
+.openGrid {
+  composes: grid;
+  border-block: none;
+  background: none;
+  clip-path: inset(calc(-1 * var(--hairline-width)) 0);
+}
+
+.openCell {
+  composes: cell;
+  outline: var(--hairline-width) solid var(--hairline);
+}
+
+/*
  * Text-grid bleed (DESIGN.md §5): cells are padded on both sides, and the grid reaches out by
  * that padding and is clipped back, so the first and last column's text lines up with the page
  * margins at any column count.

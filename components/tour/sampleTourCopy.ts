@@ -29,6 +29,16 @@ export const sampleTourCopy: TourCopy = {
   highlights: {
     headline: 'What you’ll see along the way',
   },
+  included: {
+    headline: 'What the price includes',
+    included: 'Included',
+    notIncluded: 'Not included',
+  },
+  hotels: {
+    headline: 'Where you’ll stay each night',
+    sharing: 'twin sharing',
+    note: 'All rooms are twin sharing as standard. Triple and quad rooms cost less per person (see below).',
+  },
   dates: {
     headline: 'Upcoming departures and prices',
     rowMeta: '{tripLength} · departs Lahore',

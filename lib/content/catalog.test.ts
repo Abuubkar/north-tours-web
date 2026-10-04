@@ -178,6 +178,37 @@ describe('catalog: tours and destinations', () => {
     expect(fields(load((t) => Object.assign(t.highlights[0].image, { alt: '' })))).toEqual(['highlights.0.image.alt']);
   });
 
+  describe('stays', () => {
+    // The Grand's stays: nights 1, 2, 3–5, 6–7 and 8 of 8.
+    it('accepts stays covering every night once', () => {
+      expect(fields(load())).toEqual([]);
+    });
+
+    it('rejects a gap', () => {
+      const result = load((t) => Object.assign(t.stays[1].nights, { from: 3, to: 3 }));
+      expect(fields(result)).toContain('stays.1.nights.from');
+      expect(result.problems.find((p) => p.field === 'stays.1.nights.from')!.message).toBe('Night 2 has no stay');
+    });
+
+    it('rejects an overlap', () => {
+      const result = load((t) => Object.assign(t.stays[2].nights, { from: 2 }));
+      expect(result.problems).toEqual([expect.objectContaining({ field: 'stays.2.nights.from', message: 'Night 2 is already covered' })]);
+    });
+
+    it('rejects nights beyond the tour’s, or nights left without a stay', () => {
+      expect(fields(load((t) => Object.assign(t.stays[4].nights, { to: 9 })))).toEqual(['stays.4.nights.to']);
+      expect(fields(load((t) => t.stays.pop()))).toEqual(['stays']);
+    });
+
+    it('needs alt text on a stay’s photo', () => {
+      expect(fields(load((t) => Object.assign(t.stays[0].image, { alt: '' })))).toEqual(['stays.0.image.alt']);
+    });
+  });
+
+  it('rejects an inclusion icon that isn’t one of the design’s nine', () => {
+    expect(fields(load((t) => Object.assign(t.included[0], { icon: 'spa' })))).toEqual(['included.0.icon']);
+  });
+
   it('needs a summary of at most 160 characters', () => {
     expect(fields(load((t) => delete (t as Partial<Tour>).summary))).toEqual(['summary']);
     expect(fields(load((t) => Object.assign(t, { summary: 'x'.repeat(160) })))).toEqual([]);

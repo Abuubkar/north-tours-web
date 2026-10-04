@@ -19,7 +19,11 @@ export default function CreditsPage() {
   const hero = getHomeCopy().hero.image;
   const credits = photoCredits([
     hero,
-    ...getTours().flatMap((tour) => [tour.image, ...tour.highlights.map((highlight) => highlight.image)]),
+    ...getTours().flatMap((tour) => [
+      tour.image,
+      ...tour.highlights.map((highlight) => highlight.image),
+      ...tour.stays.map((stay) => stay.image),
+    ]),
     ...getDestinations().map((destination) => destination.image),
     ...getGuides().map((guide) => guide.portrait),
   ]);

@@ -138,5 +138,101 @@
         }
       }
     }
+  ],
+  "included": [
+    {
+      "icon": "hotel",
+      "title": "Hotels",
+      "text": "3 nights in 3-star hotels, twin sharing"
+    },
+    {
+      "icon": "meals",
+      "title": "Breakfast and dinner",
+      "text": "Day 1 dinner to Day 4 breakfast"
+    },
+    {
+      "icon": "transport",
+      "title": "Transport",
+      "text": "Air-conditioned coaster from Lahore and back"
+    },
+    {
+      "icon": "guide",
+      "title": "Guide",
+      "text": "Tour guide throughout the trip"
+    },
+    {
+      "icon": "jeep",
+      "title": "Jeeps",
+      "text": "Jeeps to Mahodand Lake and back"
+    }
+  ],
+  "notIncluded": [
+    {
+      "icon": "lunch",
+      "title": "Lunch",
+      "text": "We stop at good places; you pay as you go"
+    },
+    {
+      "icon": "personal",
+      "title": "Personal expenses",
+      "text": "Snacks, shopping, laundry, tips"
+    },
+    {
+      "icon": "tickets",
+      "title": "Entry tickets",
+      "text": "The White Palace at Marghazar"
+    }
+  ],
+  "stays": [
+    {
+      "nights": {
+        "from": 1,
+        "to": 2
+      },
+      "place": "Kalam",
+      "title": "Hotel in Kalam",
+      "description": "3-star · by the river",
+      "image": {
+        "src": "/images/swat/kalam-river.jpg",
+        "alt": "The green Swat River at Kalam, between pine-covered slopes and a snow-capped peak",
+        "width": 1200,
+        "height": 795,
+        "focus": {
+          "x": 50,
+          "y": 50
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Akram Attari",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kalam,_Swat_(Pakistan).jpg"
+        }
+      }
+    },
+    {
+      "nights": {
+        "from": 3,
+        "to": 3
+      },
+      "place": "Mingora",
+      "title": "Hotel in Mingora",
+      "description": "3-star · garden",
+      "image": {
+        "src": "/images/swat/mingora.jpg",
+        "alt": "Mingora's dense houses spread across the Swat valley floor toward layered mountains at sunset.",
+        "width": 1600,
+        "height": 883,
+        "focus": {
+          "x": 45,
+          "y": 55
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Imranrashid26",
+          "licence": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_over_the_Mingora_City,_Swat_Valley,_Pakistan.jpg"
+        }
+      }
+    }
   ]
 }
