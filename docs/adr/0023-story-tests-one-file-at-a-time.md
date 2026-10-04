@@ -1,4 +1,4 @@
-# ADR-0017: Story tests run one file at a time, and set reduced motion per story
+# ADR-0023: Story tests run one file at a time, and set reduced motion per story
 
 - **Status:** Accepted
 - **Date:** 2026-10-04
