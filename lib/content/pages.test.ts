@@ -1,6 +1,18 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { creditsCopyFile, homeCopyFile, loadCreditsCopy, loadHomeCopy, loadTourCopy, tourCopyFile, type HomeCopy, type TourCopy } from './pages.ts';
+import {
+  creditsCopyFile,
+  homeCopyFile,
+  loadCreditsCopy,
+  loadHomeCopy,
+  loadTourCopy,
+  loadToursCopy,
+  tourCopyFile,
+  toursCopyFile,
+  type HomeCopy,
+  type TourCopy,
+  type ToursCopy,
+} from './pages.ts';
 import { contentFixture } from './testing.ts';
 
 const home: HomeCopy = JSON.parse(readFileSync(homeCopyFile(), 'utf8'));
@@ -104,5 +116,30 @@ describe('tour page copy', () => {
     const result = withTourChange((c) => Object.assign(c, { title: '{tour}, {days} from Lahore' }));
     expect(result.problems.map((p) => p.field)).toEqual(['title']);
     expect(result.problems[0].message).toBe('Unknown token {days}. Use only {tour}, {duration}');
+  });
+});
+
+describe('tours page copy', () => {
+  const tours: ToursCopy = JSON.parse(readFileSync(toursCopyFile(), 'utf8'));
+  const withToursChange = (change: (copy: ToursCopy) => void) => {
+    const copy = structuredClone(tours);
+    change(copy);
+    return loadToursCopy(contentFixture({ 'pages/tours.json': copy }));
+  };
+
+  it('accepts the live file', () => {
+    expect(loadToursCopy().problems).toEqual([]);
+  });
+
+  it('rejects a missing field, naming the file', () => {
+    const result = withToursChange((c) => delete (c.header as Partial<ToursCopy['header']>).lead);
+    expect(result.problems.map((p) => p.field)).toEqual(['header.lead']);
+    expect(result.problems[0].file).toMatch(/pages\/tours\.json$/);
+  });
+
+  it('rejects a token the field does not take', () => {
+    const result = withToursChange((c) => Object.assign(c.results, { sortedBy: 'Sorted by {order}' }));
+    expect(result.problems.map((p) => p.field)).toEqual(['results.sortedBy']);
+    expect(result.problems[0].message).toBe('Unknown token {order}. Use only {sort}');
   });
 });

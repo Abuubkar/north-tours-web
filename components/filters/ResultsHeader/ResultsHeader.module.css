@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-8) var(--space-16);
+  margin-bottom: var(--space-24);
+}
+
+.count {
+  composes: stepTitle from '../../../styles/typography.module.css';
+}
+
+.sortedBy {
+  composes: ui from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+/* Below 820px: the heading is read out but not shown (the bar shows the count), and the sort line is left out. */
+@media (width < 820px) {
+  .header {
+    margin: 0;
+  }
+
+  /* Visually hidden: read out, never seen, taking no room. */
+  .count {
+    position: absolute;
+    width: var(--hidden-size);
+    height: var(--hidden-size);
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .sortedBy {
+    display: none;
+  }
+}

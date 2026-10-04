@@ -5,7 +5,7 @@ import { RatingInline } from '@/components/ui/RatingInline/RatingInline';
 import { Tag } from '@/components/ui/Tag/Tag';
 import { routes } from '@/lib/routes';
 import { dateRange, tripLength } from '@/lib/utils/dates';
-import { seatStatus, urgencyText } from '@/lib/utils/departures';
+import { NO_UPCOMING_DATES, seatStatus, urgencyText } from '@/lib/utils/departures';
 import { departurePrices } from '@/lib/utils/price';
 import { routeLine } from '@/lib/utils/route';
 import { departureMessage, whatsappLink } from '@/lib/utils/whatsapp';
@@ -20,30 +20,39 @@ import styles from './TourCard.module.css';
  */
 const PHOTO_SIZES = '(width >= 1200px) 25vw, (width >= 600px) 50vw, 100vw';
 
+/** What the card's actions say and send: the trip, its waitlist, or (with no dates left) a general question. */
+function cardAction(tour: TourCardProps['tour'], departure: TourCardProps['departure'], settings: TourCardProps['settings']) {
+  if (!departure) {
+    return {
+      message: settings.whatsapp.generalMessage,
+      whatsappLabel: `Ask about ${tour.title} on WhatsApp`,
+    };
+  }
+  const soldOut = seatStatus(departure) === 'soldout';
+  const template = soldOut ? settings.whatsapp.waitlistMessage : settings.whatsapp.tourMessage;
+  return {
+    message: departureMessage(template, tour.title, departure.start),
+    whatsappLabel: soldOut ? `Join the waitlist for ${tour.title} on WhatsApp` : `Ask about ${tour.title} on WhatsApp`,
+  };
+}
+
 /**
  * One tour and the departure it shows (DESIGN.md §8), with that date's twin price. Urgent at 3
- * seats or fewer; sold out swaps View Trip for the waitlist. Each link names the tour for screen readers.
+ * seats or fewer; sold out swaps View Trip for the waitlist. With no dates left it says so, shows
+ * the tour's own "from" price (its twin price, ADR-0017) and asks on WhatsApp in general. Each
+ * link names the tour for screen readers.
  */
-export function TourCard({ tour, departure, settings }: TourCardProps) {
-  const status = seatStatus(departure);
+export function TourCard({ tour, departure, priority = false, settings }: TourCardProps) {
+  const status = departure && seatStatus(departure);
   const soldOut = status === 'soldout';
-  // Sold out, the card offers the waitlist instead of the trip.
-  const action = soldOut
-    ? {
-        template: settings.whatsapp.waitlistMessage,
-        whatsappLabel: `Join the waitlist for ${tour.title} on WhatsApp`,
-      }
-    : {
-        template: settings.whatsapp.tourMessage,
-        whatsappLabel: `Ask about ${tour.title} on WhatsApp`,
-      };
-  const whatsapp = whatsappLink(settings.contact.whatsapp, departureMessage(action.template, tour.title, departure.start));
+  const action = cardAction(tour, departure, settings);
+  const whatsapp = whatsappLink(settings.contact.whatsapp, action.message);
 
   return (
     <article className={`${styles.card} ${soldOut ? styles.soldOut : styles.live}`}>
       <div className={styles.media}>
-        <MediaFrame image={tour.image} ratio="4:3" sizes={PHOTO_SIZES} className={styles.photo} />
-        {status === 'urgent' && (
+        <MediaFrame image={tour.image} ratio="4:3" sizes={PHOTO_SIZES} priority={priority} className={styles.photo} />
+        {departure && status === 'urgent' && (
           <div className={styles.tag}>
             <Tag variant="urgent">{urgencyText(departure)}</Tag>
           </div>
@@ -58,17 +67,19 @@ export function TourCard({ tour, departure, settings }: TourCardProps) {
         <p className={styles.route}>{routeLine(tour.route)}</p>
         <h3 className={styles.title}>{tour.title}</h3>
         <p className={styles.dates}>
-          {dateRange(departure.start, departure.end)} · {tripLength(tour.days, tour.nights)}
+          {departure ? `${dateRange(departure.start, departure.end)} · ${tripLength(tour.days, tour.nights)}` : NO_UPCOMING_DATES}
         </p>
         <div className={styles.priceRow}>
           <div className={styles.price}>
-            <PriceBlock amount={departurePrices(tour, departure).twin} />
+            <PriceBlock amount={departure ? departurePrices(tour, departure).twin : tour.prices.twin} />
           </div>
           <RatingInline score={tour.rating.score} count={tour.rating.count} />
         </div>
-        <div className={styles.seats}>
-          <SeatsStatus departure={departure} />
-        </div>
+        {departure && (
+          <div className={styles.seats}>
+            <SeatsStatus departure={departure} />
+          </div>
+        )}
         <div className={styles.actions}>
           {soldOut ? (
             <Button href={whatsapp} variant="quiet" size={48} className={styles.main} aria-label={`Join waitlist, ${tour.title}`}>

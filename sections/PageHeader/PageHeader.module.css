@@ -1,0 +1,25 @@
+/* Right under the site header, so no hairline of its own; more room above than below. */
+.header {
+  padding: var(--page-header-top) var(--margin) var(--page-header-bottom);
+}
+
+.row {
+  composes: sectionHeader from '../../styles/layout.module.css';
+}
+
+/* The content column of the section header row (DESIGN.md §4). */
+.content {
+  flex: 999 1 var(--content-col-min);
+  min-width: 0;
+}
+
+.headline {
+  composes: statement from '../../styles/typography.module.css';
+  max-width: var(--measure-statement);
+}
+
+.lead {
+  composes: bodyLarge from '../../styles/typography.module.css';
+  margin-top: var(--space-24);
+  color: var(--fg-2);
+}

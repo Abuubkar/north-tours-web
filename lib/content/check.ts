@@ -3,7 +3,7 @@ import { loadFaqs } from './faqs.ts';
 import { CONTENT_DIR, type ContentProblem } from './files.ts';
 import { loadGuides } from './guides.ts';
 import { checkPhotoFiles, PUBLIC_DIR } from './imageFiles.ts';
-import { loadCreditsCopy, loadHomeCopy, loadTourCopy } from './pages.ts';
+import { loadCreditsCopy, loadHomeCopy, loadTourCopy, loadToursCopy } from './pages.ts';
 import { loadReviews } from './reviews.ts';
 import { loadRouteMap } from './routeMap.ts';
 import { loadSettings } from './settings.ts';
@@ -19,6 +19,7 @@ export function checkContent(dir = CONTENT_DIR, publicDir = PUBLIC_DIR): Content
     ...loadHomeCopy(dir).problems,
     ...loadCreditsCopy(dir).problems,
     ...loadTourCopy(dir).problems,
+    ...loadToursCopy(dir).problems,
     ...loadRouteMap(dir).problems,
     ...loadFaqs(dir).problems,
     ...checkPhotoFiles(dir, publicDir),

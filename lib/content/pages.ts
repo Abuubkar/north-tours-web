@@ -247,3 +247,39 @@ export function getTourCopy(): TourCopy {
   cachedTour ??= requireValid(loadTourCopy());
   return cachedTour;
 }
+
+/** "{count} trip" and "{count} trips": a count of trips in the page's words. */
+const countWords = z.strictObject({ one: copyWith('count'), other: copyWith('count') });
+
+/** The Tours page's wording (PRD #56). */
+const toursCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The page header: the <h1> and the line under it. */
+  header: z.strictObject({ headline: copy, lead: copy }),
+  results: z.strictObject({
+    /** The results heading, "8 trips". */
+    count: countWords,
+    /** Beside it from 820px: {sort} is the sort's label, in lower case. */
+    sortedBy: copyWith('sort'),
+  }),
+  /** Each sort's label, e.g. "Soonest departure". */
+  sorts: z.strictObject({ soonest: copy }),
+});
+
+export type ToursCopy = z.infer<typeof toursCopySchema>;
+
+export function toursCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'tours.json');
+}
+
+export function loadToursCopy(dir = CONTENT_DIR) {
+  return parseFile(toursCopySchema, toursCopyFile(dir));
+}
+
+let cachedTours: ToursCopy | undefined;
+
+export function getToursCopy(): ToursCopy {
+  cachedTours ??= requireValid(loadToursCopy());
+  return cachedTours;
+}

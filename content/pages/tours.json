@@ -1,0 +1,18 @@
+{
+  "title": "All our trips from Lahore",
+  "description": "Every group tour from Lahore to Hunza, Skardu, Swat, Naran-Kaghan, Fairy Meadows and Murree, with dates, prices per person and seats left.",
+  "header": {
+    "headline": "All our trips from Lahore",
+    "lead": "Prices per person, twin sharing. Every departure leaves from Lahore."
+  },
+  "results": {
+    "count": {
+      "one": "{count} trip",
+      "other": "{count} trips"
+    },
+    "sortedBy": "Sorted by {sort} · sold-out trips last"
+  },
+  "sorts": {
+    "soonest": "Soonest departure"
+  }
+}
