@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect } from 'storybook/test';
+import { expect, fn } from 'storybook/test';
 import { TextLink } from './TextLink';
 
 const meta = {
@@ -39,3 +39,20 @@ export const Back: Story = {
 };
 
 export const BackOnLight: Story = { ...Back, globals: { surface: 'light' } };
+
+const onClear = fn();
+
+/** The button form: an action that reads like a link, underlined, no arrow, a 44px tap target. */
+export const Button: Story = {
+  args: { variant: 'button', onClick: onClear, children: 'Clear all', href: undefined },
+  play: async ({ canvas, userEvent }) => {
+    const button = canvas.getByRole('button', { name: 'Clear all' });
+    await expect(getComputedStyle(button).textDecorationLine).toBe('underline');
+    await expect(button.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
+    await expect(button.querySelector('svg')).toBeNull();
+    await userEvent.click(button);
+    await expect(onClear).toHaveBeenCalledOnce();
+  },
+};
+
+export const ButtonOnLight: Story = { ...Button, globals: { surface: 'light' } };

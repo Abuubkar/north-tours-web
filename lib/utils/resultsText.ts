@@ -19,6 +19,14 @@ export function sortedByText(template: string, sortLabel: string): string {
 /** Each option's words: destination names by slug, and the page's labels for the fixed groups. */
 export type OptionLabels = { dest: Record<string, string> } & ToursCopy['filters']['options'];
 
+/** Each option's words, from the destinations (name by slug) and the page's labels for the fixed groups. */
+export function optionLabels(
+  destinations: readonly { slug: string; name: string }[],
+  options: ToursCopy['filters']['options'],
+): OptionLabels {
+  return { dest: Object.fromEntries(destinations.map((d) => [d.slug, d.name])), ...options };
+}
+
 /** An option's words: "Hunza", "5–7 days", "Family"; a month is "June 2027". */
 export function optionLabel(labels: OptionLabels, group: FilterGroupId, id: string): string {
   if (group === 'month') return monthYear(id);

@@ -14,7 +14,7 @@ const keyboardFocusIn = (element: HTMLElement) =>
  * Whether a sticky bar should step out of the way (the Tours filter bars): hidden while the
  * visitor scrolls down past 320px, shown again as soon as they scroll up, and always shown while
  * keyboard focus is inside it (or moves into it). A clicked control keeps focus without a ring,
- * so after a click the bar still hides. The bar's own CSS moves it.
+ * so after a click the bar still hides, and comes back as soon as a key is pressed on it. The bar's own CSS moves it.
  *
  * It reads the scroll direction with one passive listener, at most once a frame. ADR-0016 rules
  * out scroll listeners for scroll-linked animation; the direction can't come from scroll-driven
@@ -40,14 +40,17 @@ export function useHideOnScroll(barRef: RefObject<HTMLElement | null>): boolean 
     const onScroll = () => {
       frame ||= requestAnimationFrame(update);
     };
-    const onFocus = () => setHidden(false);
+    // Focus moving in, or a key pressed on a control that kept focus after a click, brings it back.
+    const show = () => setHidden(false);
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    bar.addEventListener('focusin', onFocus);
+    bar.addEventListener('focusin', show);
+    bar.addEventListener('keydown', show);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('scroll', onScroll);
-      bar.removeEventListener('focusin', onFocus);
+      bar.removeEventListener('focusin', show);
+      bar.removeEventListener('keydown', show);
     };
   }, [barRef]);
 

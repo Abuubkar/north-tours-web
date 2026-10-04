@@ -15,7 +15,7 @@ const meta = {
   args: { copy: sampleToursCopy, labels: sampleOptionLabels },
   decorators: [withTourFilters()],
   // Each story starts at plain /tours (a story's own query follows), and the URL is put back after.
-  beforeEach: [emulateReducedMotion, atQuery('')],
+  beforeEach: atQuery(''),
   // The bar over the results it filters, as on the page.
   render: (args) => (
     <>
@@ -99,7 +99,9 @@ export const Keyboard: Story = {
     await user.keyboard('{Enter}');
     await expect(destination).toHaveAttribute('aria-expanded', 'true');
     const hunza = within(bar(canvas)).getByRole('button', { name: 'Hunza, 2 trips' });
-    hunza.focus();
+    // Tab from the trigger into the panel: Fairy Meadows, then Hunza.
+    await user.keyboard('{Tab}{Tab}');
+    await expect(hunza).toHaveFocus();
     await user.keyboard(' ');
     await expect(hunza).toHaveAttribute('aria-pressed', 'true');
     await expect(trigger(canvas, /^Destination \(1\)/)).toHaveAttribute('aria-expanded', 'true');
@@ -219,8 +221,27 @@ export const HidesOnScroll: Story = {
 
 /** With reduced motion the bar moves without a transition. */
 export const ReducedMotion: Story = {
+  beforeEach: emulateReducedMotion,
   play: async ({ canvas }) => {
     await expect(getComputedStyle(bar(canvas)).transitionDuration).toBe('0s');
+  },
+};
+
+/** A key pressed on a control that kept focus after a click brings the hidden bar back. */
+export const KeyOnHiddenBar: Story = {
+  play: async ({ canvas }) => {
+    const user = await realUser();
+    if (!user) return;
+    const sort = trigger(canvas, /^Sort:/);
+    await user.click(sort);
+    await user.click(sort);
+    scrollTo(100);
+    scrollTo(600);
+    await waitFor(() => expect(getComputedStyle(bar(canvas)).transform).not.toBe('none'));
+    await expect(sort).toHaveFocus();
+    await user.keyboard('{Shift}');
+    await waitFor(() => expect(getComputedStyle(bar(canvas)).transform).toBe('none'));
+    scrollTo(0);
   },
 };
 

@@ -22,10 +22,11 @@ export function FilterBar({ copy, labels }: FilterBarProps) {
   const { filters } = useTourFilters();
   const barRef = useRef<HTMLElement>(null);
   const hidden = useHideOnScroll(barRef);
-  const dropdowns = useRef<(DropdownHandle | null)[]>([]);
+  // Every dropdown on the bar (the filters by group, and the sort), so hiding can close the open one.
+  const dropdowns = useRef(new Map<string, DropdownHandle | null>());
 
   useEffect(() => {
-    if (hidden) for (const dropdown of dropdowns.current) dropdown?.close();
+    if (hidden) for (const dropdown of dropdowns.current.values()) dropdown?.close();
   }, [hidden]);
 
   return (
@@ -36,11 +37,11 @@ export function FilterBar({ copy, labels }: FilterBarProps) {
       className={`${styles.bar} ${hidden ? styles.hidden : ''}`}
     >
       <div className={styles.row}>
-        {GROUPS.map((group, index) => (
+        {GROUPS.map((group) => (
           <FilterGroup
             key={group}
             ref={(dropdown) => {
-              dropdowns.current[index] = dropdown;
+              dropdowns.current.set(group, dropdown);
             }}
             group={group}
             label={copy.filters.groups[group]}
@@ -53,7 +54,7 @@ export function FilterBar({ copy, labels }: FilterBarProps) {
         <div className={styles.sort}>
           <SortMenu
             ref={(dropdown) => {
-              dropdowns.current[GROUPS.length] = dropdown;
+              dropdowns.current.set('sort', dropdown);
             }}
             label={copy.sortLabel}
             sorts={copy.sorts}

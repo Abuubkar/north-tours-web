@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { optionLabel, sortedByText, tripsCount, type OptionLabels } from './resultsText.ts';
+import { optionLabel, optionLabels, sortedByText, tripsCount, type OptionLabels } from './resultsText.ts';
 
 const words = { one: '{count} trip', other: '{count} trips' };
 
@@ -40,5 +40,14 @@ describe('optionLabel', () => {
 
   it('names a month with its year', () => {
     expect(optionLabel(labels, 'month', '2027-06')).toBe('June 2027');
+  });
+});
+
+describe('optionLabels', () => {
+  it('names destinations by slug, beside the page’s labels', () => {
+    const options = { dur: { '2-4': 'a', '5-7': 'b', '8plus': 'c' }, budget: { 'under-50k': 'd', '50-100k': 'e', '100k-plus': 'f' }, type: { family: 'g', couples: 'h', friends: 'i', corporate: 'j' } };
+    const labels = optionLabels([{ slug: 'hunza', name: 'Hunza' }, { slug: 'swat', name: 'Swat' }], options);
+    expect(labels.dest).toEqual({ hunza: 'Hunza', swat: 'Swat' });
+    expect(optionLabel(labels, 'type', 'family')).toBe('g');
   });
 });

@@ -132,9 +132,8 @@
   --departure-price-w: 140px;
   --radio-size: 16px; /* the booking panel's date radio ring */
   --radio-dot: 8px;
-  --radio-ring-width: 1.5px;
+  --radio-ring-width: 1.5px; /* also a filter or sort option's checkbox or radio border */
   --indicator-size: 18px; /* a filter or sort option's checkbox or radio (Tours) */
-  --indicator-border: 1.5px;
 
   /* Tours (PRD #56): a page header with a text <h1>, and the results under it. */
   --page-header-top: clamp(64px, 8cqi, 128px);

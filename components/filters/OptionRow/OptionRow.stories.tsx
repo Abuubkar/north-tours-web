@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, fn } from 'storybook/test';
+import { realUser } from '../../../.storybook/realUser';
 import { OptionRow } from './OptionRow';
 import type { OptionRowProps } from './OptionRow.types';
 import styles from '../../ui/stories.module.css';
@@ -62,14 +63,17 @@ export const Radio: Story = {
 
 export const RadioOnLight: Story = { ...Radio, globals: { surface: 'light' } };
 
-/** Clicking or pressing Space toggles it. */
+/** Clicking or pressing Space (a real key press) toggles it. */
 export const Toggles: RenderStory = {
   render: () => <Toggle label="Family" count={2} name="Family, 2 trips" indicator="check" />,
   play: async ({ canvas, userEvent }) => {
     const row = canvas.getByRole('button', { name: 'Family, 2 trips' });
     await userEvent.click(row);
     await expect(row).toHaveAttribute('aria-pressed', 'true');
-    await userEvent.keyboard(' ');
+    const user = await realUser();
+    if (!user) return;
+    row.focus();
+    await user.keyboard(' ');
     await expect(row).toHaveAttribute('aria-pressed', 'false');
   },
 };

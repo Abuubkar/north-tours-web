@@ -2,15 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import { Chip } from '@/components/ui/Chip/Chip';
-import { TextButton } from '@/components/ui/TextButton/TextButton';
+import { TextLink } from '@/components/ui/TextLink/TextLink';
 import { useTourFilters } from '@/hooks/useTourFilters';
 import { optionLabel } from '@/lib/utils/resultsText';
 import { activeFilters } from '@/lib/utils/tourFilters';
-import type { ActiveFilterChipsProps } from './ActiveFilterChips.types';
+import type { ActiveFilterChipsProps, FocusTarget } from './ActiveFilterChips.types';
 import styles from './ActiveFilterChips.module.css';
-
-/** Where focus goes after a chip is removed: another chip (by position), or the results. */
-type FocusTarget = number | 'results' | null;
 
 /**
  * The picked filters as removable chips, then "Clear all" (the sort stays). Removing a chip moves
@@ -52,14 +49,15 @@ export function ActiveFilterChips({ labels, clearLabel }: ActiveFilterChipsProps
           </li>
         ))}
       </ul>
-      <TextButton
+      <TextLink
+        variant="button"
         onClick={() => {
           focusAfter.current = 'results';
           clearAll();
         }}
       >
         {clearLabel}
-      </TextButton>
+      </TextLink>
     </div>
   );
 }

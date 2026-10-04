@@ -6,3 +6,6 @@ export type ActiveFilterChipsProps = {
   /** "Clear all". */
   clearLabel: string;
 };
+
+/** Where focus goes after a chip is removed: another chip (by position), the results, or nowhere yet. */
+export type FocusTarget = number | 'results' | null;

@@ -1,4 +1,5 @@
 import { todayInKarachi } from '../utils/departures.ts';
+import { optionLabels } from '../utils/resultsText.ts';
 import { getDestinations, getTours } from './catalog.ts';
 import { getHomeCopy, getToursCopy } from './pages.ts';
 import { getSettings } from './settings.ts';
@@ -37,6 +38,6 @@ export function getToursPage() {
     /** Destination slugs in the loader's order: the Destination options. */
     destinations: destinations.map((d) => d.slug),
     /** Each option's words: destination names, and the page's labels for the fixed groups. */
-    optionLabels: { dest: Object.fromEntries(destinations.map((d) => [d.slug, d.name])), ...copy.filters.options },
+    optionLabels: optionLabels(destinations, copy.filters.options),
   };
 }

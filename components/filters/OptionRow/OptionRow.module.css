@@ -26,7 +26,7 @@
   justify-content: center;
   width: var(--indicator-size);
   height: var(--indicator-size);
-  border: var(--indicator-border) solid var(--control-border);
+  border: var(--radio-ring-width) solid var(--control-border);
   color: var(--bg);
 }
 
