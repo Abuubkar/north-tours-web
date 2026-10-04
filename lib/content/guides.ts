@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { consent } from './consent.ts';
 import { CONTENT_DIR, requireItems } from './files.ts';
-import { nonEmpty } from './fields.ts';
+import { nonEmpty, sample } from './fields.ts';
 import { ownerImageSchema } from './images.ts';
 import { checkGuideYears } from './links.ts';
 import { loadSettings } from './settings.ts';
@@ -29,6 +29,8 @@ const guideSchema = z.strictObject({
   /** Owner-supplied only (ADR-0009); a placeholder until the photo arrives. */
   portrait: ownerImageSchema,
   consent,
+  /** A sample guide (ADR-0022). `/add-guide` writes real guides, never flagged. */
+  sample,
 });
 
 export type Guide = z.infer<typeof guideSchema>;

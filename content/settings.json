@@ -16,7 +16,8 @@
   "booking": {
     "advancePercent": 30,
     "replyTime": "within 2 hours",
-    "pickupPoint": "[Pickup point], Lahore"
+    "pickupPoint": "[Pickup point], Lahore",
+    "sample": true
   },
   "policies": {
     "refundSchedule": [
@@ -26,7 +27,8 @@
     ],
     "balanceDueDays": 7,
     "refundPaidWithinDays": 7,
-    "childFromAge": 5
+    "childFromAge": 5,
+    "sample": true
   },
   "payments": {
     "methods": ["Cash", "Bank transfer"]
@@ -62,7 +64,8 @@
     },
     "payments": {
       "label": "We accept"
-    }
+    },
+    "sample": true
   },
   "visitOffice": {
     "headline": "Plan your trip over chai at our Lahore office",
@@ -78,6 +81,9 @@
       "placeholder": "The office front from the street, sign visible",
       "alt": "Our office in Lahore"
     }
+  },
+  "maps": {
+    "surveyOfPakistanVetted": false
   },
   "whatsapp": {
     "generalMessage": "Hi, I’d like to plan a trip north.",

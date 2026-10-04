@@ -177,6 +177,15 @@ Folders are created only when the first file for them is needed (section 3).
   Privacy Policy and the Terms, until the owner's lawyer has reviewed them. Settings figures appear in
   them only as `{tokens}`. The Privacy Policy describes the site as built: a change that adds a
   cookie, analytics, a form that sends data or a request to another host updates it in the same PR.
+- **Sample tours, destinations, guides and reviews carry the same `sample: true` (ADR-0022)**, at
+  the top of each file, and so does each tour's `rating` on its own and the settings sections with
+  invented figures (`booking`, `trust`, `policies`). Reviews and guides added with `/add-review` and
+  `/add-guide` are real and never get it.
+- **`pnpm launch:check`** lists everything that must be real before launch, by file and field: the
+  brand name, the site URL, every `[placeholder]` (whole or partial), every `sample: true`, every
+  placeholder photo and the maps' Survey of Pakistan vetting (`maps.surveyOfPakistanVetted`). It fails
+  until nothing is left; it isn't part of the build, `pnpm test` or the pre-commit hook. See
+  `docs/launch-checklist.md`.
 
 ## 8. Design rules
 

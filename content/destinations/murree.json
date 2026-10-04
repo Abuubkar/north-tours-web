@@ -68,5 +68,6 @@
     ],
     "byRoad": "Motorway M-2 to Islamabad, then the Murree Expressway.",
     "byAir": "No flights needed."
-  }
+  },
+  "sample": true
 }

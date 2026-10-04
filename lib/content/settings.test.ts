@@ -245,4 +245,18 @@ describe('planner messages', () => {
     expect(result.problems[0].message).toBe('Unknown token {when}. Use only {dates}');
     expect(withChange((s) => Object.assign(s.whatsapp.planner, { callBack: 'Call {phone} ({bestTime})' })).problems).toEqual([]);
   });
+
+  it('flags the booking, trust and policies figures as sample only with true (ADR-0022)', () => {
+    const sections = ['booking', 'trust', 'policies'] as const;
+    expect(withChange((s) => sections.forEach((section) => Object.assign(s[section], { sample: true }))).problems).toEqual([]);
+    for (const section of sections) {
+      expect(fields(withChange((s) => Object.assign(s[section], { sample: false })))).toEqual([`${section}.sample`]);
+    }
+  });
+
+  it('needs the maps’ vetting flag', () => {
+    expect(fields(withChange((s) => Object.assign(s, { maps: {} })))).toEqual(['maps.surveyOfPakistanVetted']);
+    expect(fields(withChange((s) => delete (s as Partial<Settings>).maps))).toEqual(['maps']);
+    expect(withChange((s) => Object.assign(s.maps, { surveyOfPakistanVetted: true })).problems).toEqual([]);
+  });
 });

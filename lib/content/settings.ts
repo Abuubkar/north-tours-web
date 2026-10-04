@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
-import { copy, copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder } from './fields.ts';
+import { copy, copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder, sample } from './fields.ts';
 import { ownerImageSchema } from './images.ts';
 
 /**
@@ -45,12 +45,17 @@ const settingsSchema = z.strictObject({
     officeHours: nonEmpty,
     travelSupport: phoneOrPlaceholder,
   }),
+  /** `sample` (ADR-0022) while the advance and reply time are invented. */
   booking: z.strictObject({
     advancePercent: z.int().min(1).max(100),
     replyTime: nonEmpty,
     pickupPoint: nonEmpty,
+    sample,
   }),
-  /** Booking policies, read by the booking panel, the FAQs and Help, so they always agree. */
+  /**
+   * Booking policies, read by the booking panel, the FAQs and Help, so they always agree.
+   * `sample` (ADR-0022) while the figures are invented.
+   */
   policies: z.strictObject({
     refundSchedule: refundScheduleSchema,
     /** The balance is due this many days before departure. */
@@ -59,6 +64,7 @@ const settingsSchema = z.strictObject({
     refundPaidWithinDays: z.int().min(1, 'Use at least 1 day'),
     /** Children count as travellers (and pay) from this age. */
     childFromAge: z.int().min(0).max(17),
+    sample,
   }),
   payments: z.strictObject({
     /** Accepted methods, shown as they're written here (ADR-0008: cash and bank transfer). */
@@ -76,7 +82,10 @@ const settingsSchema = z.strictObject({
     facebook: linkOrPlaceholder,
     youtube: linkOrPlaceholder,
   }),
-  /** The trust strip (Homepage, Tours, Help, Contact): the same on every page. */
+  /**
+   * The trust strip (Homepage, Tours, Help, Contact): the same on every page. `sample`
+   * (ADR-0022) while operating since and trips completed are invented.
+   */
   trust: z.strictObject({
     /** The year the company started; "Operating" counts years from it. */
     operatingSince: z.int().min(1950, 'Use a year like 2014').max(new Date().getFullYear(), 'Can’t be in the future'),
@@ -88,6 +97,7 @@ const settingsSchema = z.strictObject({
     /** The pickup point, in the Tour Detail strip. */
     departs: z.strictObject({ label: nonEmpty }),
     payments: z.strictObject({ label: nonEmpty }),
+    sample,
   }),
   /**
    * "Plan your trip over chai at our Lahore office": the same block on About and Contact (as the
@@ -103,6 +113,12 @@ const settingsSchema = z.strictObject({
     /** The owner's photo of the office only, never a stock one; a placeholder until then. */
     image: ownerImageSchema,
   }),
+  /**
+   * The owner sets `surveyOfPakistanVetted` to true once the Survey of Pakistan has vetted the
+   * route, itinerary and places maps (CLAUDE.md §8). Nothing on the site reads it; `pnpm
+   * launch:check` lists the maps until then.
+   */
+  maps: z.strictObject({ surveyOfPakistanVetted: z.boolean() }),
   /** WhatsApp wording, editable without touching code. */
   whatsapp: z.strictObject({
     /** Pre-filled in every general "WhatsApp us" link. */

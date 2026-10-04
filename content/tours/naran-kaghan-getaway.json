@@ -30,7 +30,8 @@
   },
   "rating": {
     "score": 4.8,
-    "count": 214
+    "count": 214,
+    "sample": true
   },
   "image": {
     "src": "/images/naran-kaghan/saiful-muluk.jpg",
@@ -308,5 +309,6 @@
       "question": "What is the jeep ride to Saiful Muluk like?",
       "answer": "About 45 minutes each way on a rough, steep track, in local jeeps with drivers who do it every day. It isn’t long, but it is bumpy; tell us if anyone in your group gets travel sick."
     }
-  ]
+  ],
+  "sample": true
 }

@@ -28,7 +28,8 @@
   },
   "rating": {
     "score": 4.6,
-    "count": 58
+    "count": 58,
+    "sample": true
   },
   "image": {
     "src": "/images/murree/galiyat-clouds.jpg",
@@ -277,5 +278,6 @@
       "question": "Is it suitable for grandparents?",
       "answer": "Yes. The walks are optional and gentle, the hotel is a short drive from everything, and there are no long road days."
     }
-  ]
+  ],
+  "sample": true
 }

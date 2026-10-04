@@ -29,7 +29,8 @@
   },
   "rating": {
     "score": 4.7,
-    "count": 52
+    "count": 52,
+    "sample": true
   },
   "image": {
     "src": "/images/swat/ushu-forest.jpg",
@@ -324,5 +325,6 @@
       "question": "Is it safe to travel to Swat?",
       "answer": "Swat has been a busy family holiday valley for years. We travel the main roads, stay in established hotels and follow local advice; if anything changes before your date, we tell you on WhatsApp."
     }
-  ]
+  ],
+  "sample": true
 }

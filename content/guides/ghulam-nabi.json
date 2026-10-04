@@ -20,5 +20,6 @@
     "placeholder": "driver beside the coaster",
     "alt": "Ghulam Nabi, driver"
   },
-  "consent": true
+  "consent": true,
+  "sample": true
 }

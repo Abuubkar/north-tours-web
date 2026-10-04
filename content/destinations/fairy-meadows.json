@@ -200,5 +200,6 @@
       "title": "No signal",
       "text": "There’s no mobile signal at the meadow, and power only in the evenings."
     }
-  ]
+  ],
+  "sample": true
 }
