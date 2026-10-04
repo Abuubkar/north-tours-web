@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Departure, RoomPrices } from '../content/tours.ts';
-import { departurePrices, formatPkr, fromPrice } from './price.ts';
+import { departurePrices, formatPkr, fromPrice, shownPrice } from './price.ts';
 
 describe('formatPkr', () => {
   it('groups thousands', () => {
@@ -46,6 +46,12 @@ describe('fromPrice', () => {
   it('ignores a cheaper departure that has already left', () => {
     const tour = { prices, departures: [departure('2027-04-20', { ...prices, twin: 99000 }), departure('2027-05-12', eid)] };
     expect(fromPrice(tour, today)).toBe(160000);
+  });
+
+  it('gives way to the chosen date’s twin price in the booking (shownPrice)', () => {
+    const tour = { prices, departures: [departure('2027-05-12'), departure('2027-06-09', eid)] };
+    expect(shownPrice(tour, undefined, today)).toBe(145000);
+    expect(shownPrice(tour, tour.departures[1], today)).toBe(160000);
   });
 
   it('falls back to the tour’s twin price with no departure left', () => {

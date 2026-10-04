@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button/Button';
 import { useBooking } from '@/hooks/useBooking';
 import { advanceAmount, askMessage, bookingTotal, reserveMessage, totalBreakdown } from '@/lib/utils/booking';
 import { dateRange } from '@/lib/utils/dates';
-import { seatStatus, shownDeparture } from '@/lib/utils/departures';
+import { seatStatus } from '@/lib/utils/departures';
 import { departurePrices, formatPkr } from '@/lib/utils/price';
 import { fillTokens } from '@/lib/utils/tokens';
 import { departureMessage, whatsappLink } from '@/lib/utils/whatsapp';
@@ -17,11 +17,11 @@ import styles from './BookingFooter.module.css';
  * date offers the waitlist instead. Then "Ask on WhatsApp" and the cancellation rule.
  */
 export function BookingFooter({ tour, copy, tokens, settings }: BookingFooterProps) {
-  const { today, departures, chosen, travellers, room } = useBooking();
+  const { chosen, askDeparture, travellers, room } = useBooking();
   const link = (message: string) => whatsappLink(settings.contact.whatsapp, message);
   const percent = settings.booking.advancePercent;
   const reserveLabel = fillTokens(copy.reserveLabel, tokens);
-  const ask = link(askMessage(settings.whatsapp, tour.title, chosen ?? shownDeparture(departures, today)));
+  const ask = link(askMessage(settings.whatsapp, tour.title, askDeparture));
 
   /** What the choice comes to (announced as it changes), and the action it leads to. */
   function choice() {

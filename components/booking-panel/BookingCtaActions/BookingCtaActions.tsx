@@ -3,8 +3,7 @@
 import type { MouseEvent } from 'react';
 import { Button } from '@/components/ui/Button/Button';
 import { useBooking } from '@/hooks/useBooking';
-import { askMessage, SIDE_PANEL_QUERY } from '@/lib/utils/booking';
-import { shownDeparture } from '@/lib/utils/departures';
+import { askMessage } from '@/lib/utils/booking';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import type { BookingCtaActionsProps } from './BookingCtaActions.types';
 import styles from './BookingCtaActions.module.css';
@@ -18,15 +17,12 @@ const DATES = '#dates';
  * and puts focus on the aside's first date control; below that it opens the booking sheet.
  */
 export function BookingCtaActions({ tour, reserveLabel, askLabel, settings }: BookingCtaActionsProps) {
-  const { today, departures, chosen, openSheet, dateControlRef } = useBooking();
-  const ask = askMessage(settings.whatsapp, tour, chosen ?? shownDeparture(departures, today));
+  const { askDeparture, openSheetIfNarrow, dateControlRef } = useBooking();
+  const ask = askMessage(settings.whatsapp, tour, askDeparture);
 
   function reserve(event: MouseEvent) {
     event.preventDefault();
-    if (!window.matchMedia(SIDE_PANEL_QUERY).matches) {
-      openSheet();
-      return;
-    }
+    if (openSheetIfNarrow()) return;
     document.querySelector(DATES)?.scrollIntoView();
     dateControlRef.current?.focus({ preventScroll: true });
   }

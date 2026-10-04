@@ -22,3 +22,12 @@ export function fromPrice(tour: Pick<Tour, 'prices' | 'departures'>, today: stri
   if (upcoming.length === 0) return tour.prices.twin;
   return Math.min(...upcoming.map((departure) => departurePrices(tour, departure).twin));
 }
+
+/** The price the booking shows: the chosen departure's twin price, or "from" until one is chosen. */
+export function shownPrice(
+  tour: Pick<Tour, 'prices' | 'departures'>,
+  chosen: Pick<Departure, 'prices'> | undefined,
+  today: string,
+): number {
+  return chosen ? departurePrices(tour, chosen).twin : fromPrice(tour, today);
+}

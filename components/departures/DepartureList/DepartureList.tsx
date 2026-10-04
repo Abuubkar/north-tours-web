@@ -2,7 +2,6 @@
 
 import { TextLink } from '@/components/ui/TextLink/TextLink';
 import { useBooking } from '@/hooks/useBooking';
-import { SIDE_PANEL_QUERY } from '@/lib/utils/booking';
 import { NO_UPCOMING_DATES } from '@/lib/utils/departures';
 import { departureMessage, whatsappLink } from '@/lib/utils/whatsapp';
 import { DepartureRow } from '../DepartureRow/DepartureRow';
@@ -15,7 +14,7 @@ import styles from './DepartureList.module.css';
  * is in a sheet, it opens the sheet too.
  */
 export function DepartureList({ tour, copy, settings }: DepartureListProps) {
-  const { departures, chosen, choose, openSheet } = useBooking();
+  const { departures, chosen, choose, openSheetIfNarrow } = useBooking();
   const link = (message: string) => whatsappLink(settings.contact.whatsapp, message);
 
   if (departures.length === 0) {
@@ -37,7 +36,7 @@ export function DepartureList({ tour, copy, settings }: DepartureListProps) {
           selected={departure === chosen}
           onSelect={() => {
             choose(departure.start);
-            if (!window.matchMedia(SIDE_PANEL_QUERY).matches) openSheet();
+            openSheetIfNarrow();
           }}
           waitlistHref={link(departureMessage(settings.whatsapp.waitlistMessage, tour.title, departure.start))}
         />

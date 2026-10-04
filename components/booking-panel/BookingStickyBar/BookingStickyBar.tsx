@@ -5,8 +5,8 @@ import { IconButton } from '@/components/ui/IconButton/IconButton';
 import { useBooking } from '@/hooks/useBooking';
 import { askMessage } from '@/lib/utils/booking';
 import { dateRange } from '@/lib/utils/dates';
-import { seatStatus, shownDeparture } from '@/lib/utils/departures';
-import { departurePrices, fromPrice } from '@/lib/utils/price';
+import { seatStatus } from '@/lib/utils/departures';
+import { shownPrice } from '@/lib/utils/price';
 import { fillTokens } from '@/lib/utils/tokens';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import { PriceBlock } from '../../tour/PriceBlock/PriceBlock';
@@ -19,16 +19,16 @@ import styles from './BookingStickyBar.module.css';
  * and sits at the end of the page, so it never covers the footer.
  */
 export function BookingStickyBar({ tour, copy, priceNote, settings }: BookingStickyBarProps) {
-  const { today, departures, chosen, openSheet } = useBooking();
-  const price = chosen ? departurePrices(tour, chosen).twin : fromPrice({ prices: tour.prices, departures }, today);
+  const { today, departures, chosen, askDeparture, openSheet } = useBooking();
+  const price = shownPrice({ prices: tour.prices, departures }, chosen, today);
   const note = chosen
     ? fillTokens(seatStatus(chosen) === 'soldout' ? copy.soldOutNote : copy.dateNote, { date: dateRange(chosen.start, chosen.end) })
     : priceNote;
-  const ask = askMessage(settings.whatsapp, tour.title, chosen ?? shownDeparture(departures, today));
+  const ask = askMessage(settings.whatsapp, tour.title, askDeparture);
 
   return (
     <div className={styles.bar} data-surface="dark">
-      <PriceBlock amount={price} size="fact" from={false} note={note} />
+      <PriceBlock amount={price} size="fact" from={!chosen} note={note} />
       <div className={styles.actions}>
         <Button size={48} onClick={openSheet}>
           {copy.reserveLabel}

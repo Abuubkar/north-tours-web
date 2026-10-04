@@ -17,6 +17,7 @@ const booking = (chosen: Booking['chosen'], travellers = 2): Booking => ({
   today: '2020-01-01',
   departures: sampleDepartures,
   chosen,
+  askDeparture: chosen ?? sampleDepartures[0],
   travellers,
   maxTravellers: 16,
   room: 'twin',
@@ -26,6 +27,7 @@ const booking = (chosen: Booking['chosen'], travellers = 2): Booking => ({
   sheetOpen: false,
   openSheet: () => {},
   closeSheet: () => {},
+  openSheetIfNarrow: () => false,
   dateControlRef: { current: null },
 });
 

@@ -1,7 +1,7 @@
 import { createContext, use, useRef, useState, type RefObject } from 'react';
 import type { Departure } from '@/lib/content/tours';
-import { clampTravellers, DEFAULT_TRAVELLERS, maxTravellers, type RoomType } from '@/lib/utils/booking';
-import { upcomingDepartures } from '@/lib/utils/departures';
+import { clampTravellers, DEFAULT_TRAVELLERS, maxTravellers, SIDE_PANEL_QUERY, type RoomType } from '@/lib/utils/booking';
+import { shownDeparture, upcomingDepartures } from '@/lib/utils/departures';
 import { useToday } from './useToday';
 
 /** What the visitor has chosen, shared by the booking panel, the departure rows and (on phones) the bar and sheet. */
@@ -12,6 +12,8 @@ export type Booking = {
   departures: Departure[];
   /** The chosen departure; cleared once its date has passed. */
   chosen: Departure | undefined;
+  /** The date "Ask on WhatsApp" names: the chosen one, else the next (as a tour card shows it). */
+  askDeparture: Departure | undefined;
   /** Kept between 1 and `maxTravellers`. */
   travellers: number;
   maxTravellers: number;
@@ -23,6 +25,8 @@ export type Booking = {
   sheetOpen: boolean;
   openSheet: () => void;
   closeSheet: () => void;
+  /** Opens the sheet where the panel lives in it (below 1100px); true if it did. */
+  openSheetIfNarrow: () => boolean;
   /** The aside panel's first date control, which the final call to action focuses. */
   dateControlRef: RefObject<HTMLElement | null>;
 };
@@ -57,6 +61,7 @@ export function useBookingState(departures: Departure[], builtOn: string): Booki
     today,
     departures: upcoming,
     chosen,
+    askDeparture: chosen ?? shownDeparture(upcoming, today),
     travellers,
     maxTravellers: max,
     room,
@@ -68,6 +73,11 @@ export function useBookingState(departures: Departure[], builtOn: string): Booki
     sheetOpen,
     openSheet: () => setSheetOpen(true),
     closeSheet: () => setSheetOpen(false),
+    openSheetIfNarrow() {
+      if (window.matchMedia(SIDE_PANEL_QUERY).matches) return false;
+      setSheetOpen(true);
+      return true;
+    },
     dateControlRef,
   };
 }

@@ -6,7 +6,7 @@ import { Stepper } from '@/components/ui/Stepper/Stepper';
 import { useBooking } from '@/hooks/useBooking';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { COMPACT_PANEL_QUERY, ROOM_TYPES } from '@/lib/utils/booking';
-import { departurePrices, fromPrice } from '@/lib/utils/price';
+import { departurePrices, shownPrice } from '@/lib/utils/price';
 import { fillTokens } from '@/lib/utils/tokens';
 import { PriceBlock } from '../../tour/PriceBlock/PriceBlock';
 import { BookingFooter } from '../BookingFooter/BookingFooter';
@@ -30,7 +30,7 @@ export function BookingPanel({ variant, tour, copy, tokens, settings, paymentMet
     dateControlRef.current = element;
   }, [dateControlRef]);
   const prices = chosen ? departurePrices(tour, chosen) : tour.prices;
-  const price = chosen ? prices.twin : fromPrice({ prices: tour.prices, departures: booking.departures }, booking.today);
+  const price = shownPrice({ prices: tour.prices, departures: booking.departures }, chosen, booking.today);
 
   return (
     <div className={styles.panel}>

@@ -51,6 +51,8 @@ const preview: Preview = {
         navBreakpoint: viewport('Nav breakpoint 820', 820, 800),
         laptop: viewport('Laptop 1366', 1366, 768),
         desktop: viewport('Desktop 1440', 1440, 900),
+        // Tall enough (920px or more) for Tour Detail's booking aside to list its dates.
+        desktopTall: viewport('Desktop 1440, tall', 1440, 1000),
       },
     },
   },

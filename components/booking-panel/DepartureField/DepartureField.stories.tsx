@@ -41,3 +41,5 @@ export const NoneLeft: Story = {
     await expect(canvas.getByText('No upcoming dates · ask on WhatsApp')).toBeVisible();
   },
 };
+
+export const NoneLeftOnLight: Story = { ...NoneLeft, globals: { surface: 'light' } };

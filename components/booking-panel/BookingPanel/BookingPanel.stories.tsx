@@ -215,3 +215,15 @@ export const InSheet: Story = {
     await expect(dateRadio(canvas, '12–20 May')).toBeVisible();
   },
 };
+
+export const InSheetOnLight: Story = { ...InSheet, globals: { surface: 'light', viewport: { value: 'laptop' } } };
+
+/** The aside's panel on a screen 920px or taller: the list of dates. */
+export const AsideTall: Story = {
+  args: { variant: 'aside' },
+  globals: { viewport: { value: 'desktopTall' } },
+  play: async ({ canvas }) => {
+    await expect(canvas.queryByRole('combobox')).toBeNull();
+    await expect(canvas.getByRole('group', { name: 'Departure date' })).toBeVisible();
+  },
+};

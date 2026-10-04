@@ -23,6 +23,7 @@ type Story = StoryObj<typeof meta>;
 /** The "from" price, Reserve and a 48px WhatsApp button named by the tour. */
 export const Phone: Story = {
   play: async ({ canvas }) => {
+    await expect(canvas.getByText('from')).toBeVisible();
     await expect(canvas.getByText('PKR 145,000')).toBeVisible();
     await expect(canvas.getByText('per person · twin sharing')).toBeVisible();
     await expect(canvas.getByRole('button', { name: 'Reserve' }).getBoundingClientRect().height).toBe(48);

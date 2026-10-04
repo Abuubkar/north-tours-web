@@ -2,6 +2,8 @@
 
 import { Sheet } from '@/components/ui/Sheet/Sheet';
 import { useBooking } from '@/hooks/useBooking';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { SIDE_PANEL_QUERY } from '@/lib/utils/booking';
 import { BookingPanel } from '../BookingPanel/BookingPanel';
 import type { BookingSheetProps } from './BookingSheet.types';
 import styles from './BookingSheet.module.css';
@@ -13,8 +15,10 @@ import styles from './BookingSheet.module.css';
  */
 export function BookingSheet({ subtitle, ...panel }: BookingSheetProps) {
   const { sheetOpen, closeSheet } = useBooking();
+  // From 1100px the aside is the panel, so the sheet closes (e.g. a tablet turned to landscape).
+  const sidePanel = useMediaQuery(SIDE_PANEL_QUERY);
   return (
-    <Sheet open={sheetOpen} onClose={closeSheet} title={panel.tour.title} handle>
+    <Sheet open={sheetOpen && !sidePanel} onClose={closeSheet} title={panel.tour.title} handle>
       <p className={styles.subtitle}>{subtitle}</p>
       <BookingPanel variant="sheet" {...panel} />
     </Sheet>

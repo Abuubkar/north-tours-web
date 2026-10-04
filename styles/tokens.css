@@ -167,6 +167,7 @@
   /* Layers: what stays above the page while it scrolls. Sheets use the browser's top layer. */
   --z-header: 10;
   --z-skip-link: 20; /* above the header when focused */
+  --z-sticky-bar: 10; /* Tour Detail's booking bar at the bottom of the screen, like the header at the top */
 
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
