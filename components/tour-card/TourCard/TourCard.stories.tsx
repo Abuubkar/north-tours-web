@@ -86,8 +86,6 @@ export const Hover: Story = {
   },
 };
 
-export const HoverPhone: Story = { ...Hover, globals: { viewport: { value: 'phone' } } };
-
 /** Three seats or fewer: the "Only 3 seats left" tag and a gold seats line. */
 export const Urgent: Story = {
   args: { departure: urgentDeparture },
