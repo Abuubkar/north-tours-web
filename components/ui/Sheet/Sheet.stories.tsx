@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, waitFor } from 'storybook/test';
+import { expect, waitFor, within } from 'storybook/test';
 import { realUser } from '../../../.storybook/realUser';
 import { Button } from '../Button/Button';
+import { IconButton } from '../IconButton/IconButton';
 import { Sheet } from './Sheet';
 import type { SheetProps } from './Sheet.types';
 
@@ -138,3 +139,74 @@ export const WithFooter: RenderStory = {
 };
 
 export const WithFooterOnLight: RenderStory = { ...WithFooter, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+function ActionsDemo({ variant }: { variant: 'bottom' | 'drawer' }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="secondary" onClick={() => setOpen(true)}>
+        Show profile
+      </Button>
+      <Sheet
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Karim Baig"
+        variant={variant}
+        actions={
+          <>
+            <span>2 of 6</span>
+            <IconButton icon="arrowLeft" label="Previous profile" />
+            <IconButton icon="arrowRight" label="Next profile" />
+          </>
+        }
+      >
+        <p>Lead guide, Hunza. Speaks Burushaski, Urdu and English.</p>
+      </Sheet>
+    </>
+  );
+}
+
+/**
+ * Header actions sit between the title and Close (a guide profile's counter, previous and next).
+ * Close still takes focus when the sheet opens.
+ */
+export const WithActions: RenderStory = {
+  render: () => <ActionsDemo variant="drawer" />,
+  globals: { viewport: { value: 'desktop' } },
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Show profile' }));
+    const dialog = canvas.getByRole('dialog', { name: 'Karim Baig' });
+    const close = canvas.getByRole('button', { name: 'Close' });
+    await waitFor(() => expect(close).toHaveFocus());
+    const buttons = within(dialog).getAllByRole('button').map((b) => b.getAttribute('aria-label'));
+    await expect(buttons).toEqual(['Previous profile', 'Next profile', 'Close']);
+    const title = canvas.getByRole('heading', { level: 2, name: 'Karim Baig' }).getBoundingClientRect();
+    await expect(canvas.getByText('2 of 6').getBoundingClientRect().left).toBeGreaterThan(title.left);
+    await expect(close.getBoundingClientRect().left).toBeGreaterThan(canvas.getByRole('button', { name: 'Next profile' }).getBoundingClientRect().left);
+  },
+};
+
+export const WithActionsOnLight: RenderStory = { ...WithActions, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+/** On a phone the bottom sheet's header fits the title, the actions and Close in one row. */
+export const WithActionsPhone: RenderStory = {
+  render: () => <ActionsDemo variant="bottom" />,
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Show profile' }));
+    const close = canvas.getByRole('button', { name: 'Close' });
+    await waitFor(() => expect(close).toHaveFocus());
+    const next = canvas.getByRole('button', { name: 'Next profile' }).getBoundingClientRect();
+    await expect(Math.round(next.top)).toBe(Math.round(close.getBoundingClientRect().top));
+    await expect(close.getBoundingClientRect().right).toBeLessThanOrEqual(window.innerWidth);
+  },
+};
+
+/** Close takes focus on open in every sheet. */
+export const FocusesClose: RenderStory = {
+  render: () => <SheetDemo title="Filters" handle />,
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Show filters' }));
+    await waitFor(() => expect(canvas.getByRole('button', { name: 'Close' })).toHaveFocus());
+  },
+};

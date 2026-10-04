@@ -8,6 +8,11 @@
     "English"
   ],
   "bio": "Plans every trip from the Lahore office and stays in touch on WhatsApp from departure day until you’re home.",
+  "home": "Lahore",
+  "leads": [
+    "All group departures"
+  ],
+  "joined": 2017,
   "portrait": {
     "placeholder": "tour host at the Lahore office",
     "alt": "Sana Qureshi, tour host"

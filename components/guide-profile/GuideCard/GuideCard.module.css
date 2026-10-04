@@ -2,6 +2,22 @@
   composes: imageCard from '../../../styles/layout.module.css';
 }
 
+/* About: the whole card is the button that opens the profile. */
+.button {
+  padding: 0;
+  border: 0;
+  background: var(--bg);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: background-color var(--dur-200) var(--ease-out);
+}
+
+/* While its profile is shown (docs/components.md §2.1). */
+.selected {
+  background: var(--bg-raised);
+}
+
 .text {
   composes: imageCardText from '../../../styles/layout.module.css';
 }
@@ -13,4 +29,23 @@
 .role {
   composes: ui from '../../../styles/typography.module.css';
   color: var(--fg-2);
+}
+
+/* Looks like a text link; the whole card is the control. */
+.view {
+  composes: label from '../../../styles/typography.module.css';
+  margin-top: var(--space-4);
+  text-decoration: underline;
+  text-underline-offset: var(--underline-offset-inline);
+}
+
+/* M4 (useRiseOnView on the About grid): while a card waits to rise only its photo is hidden. */
+.photo {
+  composes: risePhoto from '../../../styles/layout.module.css';
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
 }

@@ -9,6 +9,13 @@
   ],
   "years": 14,
   "bio": "Has driven the Karakoram Highway for fourteen years and knows which bends worry first-timers. Never drives the mountain roads at night.",
+  "home": "Chilas, Diamer",
+  "leads": [
+    "Karakoram Highway",
+    "Hunza",
+    "Skardu"
+  ],
+  "joined": 2014,
   "portrait": {
     "placeholder": "driver beside the coaster",
     "alt": "Ghulam Nabi, driver"

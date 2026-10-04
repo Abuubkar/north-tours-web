@@ -1,14 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect } from 'storybook/test';
+import { expect, fn } from 'storybook/test';
 import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
 import { sampleGuides } from '../sampleGuides';
 import { GuideCard } from './GuideCard';
 import styles from '../../ui/stories.module.css';
 
+const karim = sampleGuides[0];
+const withPhoto = { ...karim, portrait: { ...samplePhoto, credit: { source: 'owner' as const } } };
+
 const meta = {
   title: 'Guide profile/GuideCard',
   component: GuideCard,
-  args: { guide: sampleGuides[0] },
   decorators: [
     (Story) => (
       <div className={styles.card}>
@@ -19,10 +21,11 @@ const meta = {
 } satisfies Meta<typeof GuideCard>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 /** Until the owner's photo arrives: the placeholder portrait. One link to the profile, named by the guide. */
 export const Placeholder: Story = {
+  render: () => <GuideCard guide={karim} />,
   play: async ({ canvas }) => {
     const link = canvas.getByRole('link', { name: 'Karim Baig' });
     await expect(link).toHaveAttribute('href', '/about#guide-karim-baig');
@@ -40,7 +43,7 @@ export const PlaceholderDesktop: Story = { ...Placeholder, globals: { viewport: 
 
 /** With an owner-supplied photo (a place photo stands in here; no stock photos of people, ADR-0009). */
 export const Photo: Story = {
-  args: { guide: { ...sampleGuides[0], portrait: { ...samplePhoto, credit: { source: 'owner' } } } },
+  render: () => <GuideCard guide={withPhoto} />,
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('link', { name: 'Karim Baig' })).toHaveAttribute('href', '/about#guide-karim-baig');
   },
@@ -51,3 +54,48 @@ export const PhotoOnLight: Story = { ...Photo, globals: { surface: 'light' } };
 export const PhotoPhone: Story = { ...Photo, globals: { viewport: { value: 'phone' } } };
 
 export const PhotoDesktop: Story = { ...Photo, globals: { viewport: { value: 'desktop' } } };
+
+const onOpen = fn();
+
+/**
+ * About: a button that opens the guide's profile, named by the guide with the role as its
+ * description, carrying the guide's anchor as its id, and "View profile" underlined.
+ */
+export const OnAbout: Story = {
+  render: () => <GuideCard variant="button" guide={karim} viewLabel="View profile" selected={false} onOpen={onOpen} />,
+  play: async ({ canvas, userEvent }) => {
+    const card = canvas.getByRole('button', { name: 'Karim Baig' });
+    await expect(card).toHaveAttribute('aria-haspopup', 'dialog');
+    await expect(card).toHaveAttribute('id', 'guide-karim-baig');
+    await expect(card).toHaveAccessibleDescription('Lead guide · Hunza');
+    await expect(getComputedStyle(canvas.getByText('View profile')).textDecorationLine).toBe('underline');
+    // Its name is plain text: a button can't hold a heading.
+    await expect(canvas.queryByRole('heading')).toBeNull();
+    onOpen.mockClear();
+    await userEvent.click(card);
+    await expect(onOpen).toHaveBeenCalledOnce();
+  },
+};
+
+export const OnAboutOnLight: Story = { ...OnAbout, globals: { surface: 'light' } };
+
+export const OnAboutPhone: Story = { ...OnAbout, globals: { viewport: { value: 'phone' } } };
+
+export const OnAboutDesktop: Story = { ...OnAbout, globals: { viewport: { value: 'desktop' } } };
+
+/** While its profile is shown, the card takes the raised surface. */
+export const OnAboutSelected: Story = {
+  render: () => (
+    <div className={styles.row}>
+      <GuideCard variant="button" guide={karim} viewLabel="View profile" selected onOpen={onOpen} />
+      <GuideCard variant="button" guide={sampleGuides[1]} viewLabel="View profile" selected={false} onOpen={onOpen} />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const selected = getComputedStyle(canvas.getByRole('button', { name: 'Karim Baig' })).backgroundColor;
+    const other = getComputedStyle(canvas.getByRole('button', { name: 'Ghulam Nabi' })).backgroundColor;
+    await expect(selected).not.toBe(other);
+  },
+};
+
+export const OnAboutSelectedOnLight: Story = { ...OnAboutSelected, globals: { surface: 'light' } };

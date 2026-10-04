@@ -1,4 +1,5 @@
 import type { ContentProblem } from './files.ts';
+import type { Guide } from './guides.ts';
 import type { Review } from './reviews.ts';
 import type { Tour } from './tours.ts';
 
@@ -42,5 +43,14 @@ export function checkReviewLinks(
             message: `No tour "${review.tour}" (expected a file in content/tours)`,
           },
         ],
+  );
+}
+
+/** Every guide joined no earlier than the year the company started (`trust.operatingSince`). */
+export function checkGuideYears(guides: Guide[], guideFiles: Record<string, string>, operatingSince: number): ContentProblem[] {
+  return guides.flatMap((guide) =>
+    guide.joined >= operatingSince
+      ? []
+      : [{ file: guideFiles[guide.slug], field: 'joined', message: `Can’t be before the company started (${operatingSince})` }],
   );
 }

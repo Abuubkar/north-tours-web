@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { routes } from './routes.ts';
+import { guideAnchor, routes } from './routes.ts';
 
 describe('routes', () => {
   it('has a URL for each page', () => {
@@ -27,6 +27,7 @@ describe('routes', () => {
 
   it('links a guide to their profile on the About page', () => {
     expect(routes.guide('karim-baig')).toBe('/about#guide-karim-baig');
+    expect(guideAnchor('karim-baig')).toBe('guide-karim-baig');
   });
 
   it('has the four nav anchors', () => {

@@ -296,6 +296,12 @@ describe('about page copy', () => {
     expect(problems(load((c) => Object.assign(c.principles.items[0], { sample: 1 })))).toEqual(['principles.items.0.sample']);
   });
 
+  it('takes only its own tokens in the profile’s words', () => {
+    expect(load((c) => Object.assign(c.guides.profile, { counter: '{index}/{total}' })).problems).toEqual([]);
+    expect(problems(load((c) => Object.assign(c.guides.profile, { since: 'Since {joined}' })))).toEqual(['guides.profile.since']);
+    expect(problems(load((c) => Object.assign(c.guides, { intro: 'Meet {name}' })))).toEqual(['guides.intro']);
+  });
+
   it('keeps the founder’s portrait the owner’s: never a stock photo of a person (ADR-0009)', () => {
     const stock = { ...about.header.image, alt: 'A founder' };
     expect(problems(load((c) => Object.assign(c.story.founder, { portrait: stock })))).toEqual(['story.founder.portrait']);

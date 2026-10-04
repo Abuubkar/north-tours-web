@@ -620,6 +620,26 @@ const aboutCopySchema = z.strictObject({
     headline: copy,
     items: z.array(z.strictObject({ title: copy, text: copy, sample })).min(1, 'List at least one principle'),
   }),
+  /** "The full team of guides and drivers" (#guides): every guide's card, and the profile each opens. */
+  guides: z.strictObject({
+    headline: copy,
+    intro: copy,
+    /** Under each card's role. */
+    viewProfile: copy,
+    profile: z.strictObject({
+      /** The label of each row under the bio. */
+      rows: z.strictObject({ home: copy, joined: copy, languages: copy, leads: copy, licence: copy }),
+      /** "With us": "Since 2016". */
+      since: copyWith('year'),
+      /** Beside the name: "2 of 6". */
+      counter: copyWith('index', 'total'),
+      /** Read out after Next or Previous: "Ali Raza, 2 of 6". */
+      announcement: copyWith('name', 'counter'),
+      previous: copy,
+      next: copy,
+      share: copy,
+    }),
+  }),
 });
 
 export type AboutCopy = z.infer<typeof aboutCopySchema>;

@@ -91,6 +91,20 @@
 
 .title {
   composes: stepTitle from '../../../styles/typography.module.css';
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Between the title and Close; the title wraps before they do. */
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.close {
+  flex: none;
 }
 
 /* Scrolling inside the sheet never scrolls the page behind it. */

@@ -1,0 +1,46 @@
+/* "2 of 6", beside the guide's name. */
+.counter {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+/* Read out after previous or next; never seen. */
+.status {
+  composes: visuallyHidden from '../../../styles/layout.module.css';
+}
+
+.role {
+  composes: small from '../../../styles/typography.module.css';
+  color: var(--fg-2);
+}
+
+.bio {
+  composes: quote from '../../../styles/typography.module.css';
+}
+
+/* Label-column rows (120px), the value always beside the label, even in a phone's sheet. */
+.rows {
+  --key-value-min: 0px;
+  --key-row-y: var(--space-12);
+}
+
+.share {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* The profile's own address, in Geist (not the design's mono, docs/components.md §5 item 37). */
+.path {
+  composes: label from '../../../styles/typography.module.css';
+  color: var(--fg-3);
+  overflow-wrap: anywhere;
+}

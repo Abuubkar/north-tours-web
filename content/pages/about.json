@@ -9,7 +9,10 @@
       "alt": "The Karakoram Highway curves past a guard rail and a stone wall towards snowy peaks half hidden in cloud",
       "width": 2560,
       "height": 1707,
-      "focus": { "x": 60, "y": 62 },
+      "focus": {
+        "x": 60,
+        "y": 62
+      },
       "credit": {
         "source": "wikimedia",
         "author": "Shahid Mehmood",
@@ -59,5 +62,25 @@
         "sample": true
       }
     ]
+  },
+  "guides": {
+    "headline": "The full team of guides and drivers",
+    "intro": "Tap anyone to see where they’re from, the languages they speak and the routes they lead.",
+    "viewProfile": "View profile",
+    "profile": {
+      "rows": {
+        "home": "Home valley",
+        "joined": "With us",
+        "languages": "Languages",
+        "leads": "Leads",
+        "licence": "Licence"
+      },
+      "since": "Since {year}",
+      "counter": "{index} of {total}",
+      "announcement": "{name}, {counter}",
+      "previous": "Previous profile",
+      "next": "Next profile",
+      "share": "Share this profile on WhatsApp"
+    }
   }
 }

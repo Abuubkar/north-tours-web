@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, type MouseEvent } from 'react';
+import { useEffect, useId, useRef, type MouseEvent } from 'react';
 import { useModalDialog } from '@/hooks/useModalDialog';
 import { IconButton } from '../IconButton/IconButton';
 import type { SheetProps } from './Sheet.types';
@@ -8,11 +8,18 @@ import styles from './Sheet.module.css';
 
 /**
  * A modal <dialog> opened with showModal(): the browser makes the page behind inert,
- * closes it on Escape and returns focus to whatever opened it.
+ * closes it on Escape and returns focus to whatever opened it. Close takes focus on open, even
+ * when header actions come before it.
  */
-export function Sheet({ open, onClose, title, variant = 'bottom', handle = false, children, footer }: SheetProps) {
+export function Sheet({ open, onClose, title, variant = 'bottom', handle = false, children, actions, footer }: SheetProps) {
   const { ref, close } = useModalDialog(open);
   const titleId = useId();
+  const header = useRef<HTMLElement>(null);
+
+  // After showModal() (the effect above, in useModalDialog), which would focus the first control.
+  useEffect(() => {
+    if (open) header.current?.querySelector<HTMLElement>(`.${styles.close}`)?.focus();
+  }, [open]);
 
   // Clicks on the dialog element itself land on the backdrop; the panel content is a child.
   function closeOnBackdrop(event: MouseEvent<HTMLDialogElement>) {
@@ -29,11 +36,12 @@ export function Sheet({ open, onClose, title, variant = 'bottom', handle = false
     >
       <div className={styles.panel}>
         {handle && <span className={styles.handle} aria-hidden="true" />}
-        <header className={styles.header}>
+        <header ref={header} className={styles.header}>
           <h2 id={titleId} className={styles.title}>
             {title}
           </h2>
-          <IconButton icon="close" label="Close" onClick={close} />
+          {actions && <div className={styles.actions}>{actions}</div>}
+          <IconButton icon="close" label="Close" onClick={close} className={styles.close} />
         </header>
         <div className={styles.body}>{children}</div>
         {footer && <div className={styles.footer}>{footer}</div>}

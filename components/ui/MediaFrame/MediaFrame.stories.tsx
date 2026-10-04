@@ -10,7 +10,7 @@ const meta = {
   args: { image: samplePhoto, ratio: '4:3', sizes: '460px' },
   argTypes: {
     ratio: { control: 'inline-radio', options: ['fill', '4:3', '3:4', '4:5', '16:10'] },
-    wideRatio: { control: 'inline-radio', options: [undefined, '21:9'] },
+    wideRatio: { control: 'inline-radio', options: [undefined, '21:9', '4:5'] },
   },
   decorators: [
     (Story) => (

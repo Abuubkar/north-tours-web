@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cardMessage, departureMessage, destinationMessage, whatsappLink } from './whatsapp.ts';
+import { cardMessage, departureMessage, destinationMessage, whatsappLink, whatsappShareLink } from './whatsapp.ts';
 
 describe('whatsappLink', () => {
   it('reduces a real number to its digits', () => {
@@ -13,6 +13,14 @@ describe('whatsappLink', () => {
   it('encodes the message', () => {
     expect(whatsappLink('+92 300 1234567', 'Hi, I’d like to plan a trip north & back?')).toBe(
       'https://wa.me/923001234567?text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north%20%26%20back%3F',
+    );
+  });
+});
+
+describe('whatsappShareLink', () => {
+  it('has no number, so the visitor picks who to send it to, and encodes the message', () => {
+    expect(whatsappShareLink('Meet Ali Raza: https://example.pk/about#guide-ali-raza')).toBe(
+      'https://wa.me/?text=Meet%20Ali%20Raza%3A%20https%3A%2F%2Fexample.pk%2Fabout%23guide-ali-raza',
     );
   });
 });

@@ -33,4 +33,18 @@ export const sampleAbout: AboutCopy = {
       { title: 'Safety first', text: 'Rested drivers, vehicles checked before every departure, and a first-aid kit on every trip.', sample: true },
     ],
   },
+  guides: {
+    headline: 'The full team of guides and drivers',
+    intro: 'Tap anyone to see where they’re from, the languages they speak and the routes they lead.',
+    viewProfile: 'View profile',
+    profile: {
+      rows: { home: 'Home valley', joined: 'With us', languages: 'Languages', leads: 'Leads', licence: 'Licence' },
+      since: 'Since {year}',
+      counter: '{index} of {total}',
+      announcement: '{name}, {counter}',
+      previous: 'Previous profile',
+      next: 'Next profile',
+      share: 'Share this profile on WhatsApp',
+    },
+  },
 };

@@ -185,6 +185,7 @@
   /* About (PRD #78): the page header's photo, the story and the founder beside it. */
   --page-header-media-top: clamp(40px, 5cqi, 72px); /* above the About header's wide photo */
   --measure-about: 560px; /* About's header lead and story paragraphs */
+  --measure-guides-intro: 520px; /* the line under About's guides headline */
   --story-text-min: 380px; /* the story's text beside the founder, before it wraps above */
   --founder-w: 320px; /* the founder's portrait and name */
   --founder-min: 240px; /* narrowest it gets beside the text */
@@ -285,6 +286,7 @@
 
   /* Motion (DESIGN.md §10) */
   --nudge: 4px; /* button arrow moves this far on hover */
+  --dur-200: 0.2s; /* an About guide card taking the raised surface while its profile is shown */
   --dur-300: 0.3s;
   --dur-400: 0.4s;
   --dur-900: 0.9s;
