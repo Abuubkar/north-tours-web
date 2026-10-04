@@ -1,0 +1,29 @@
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+/* The trust value role: the design's clamp(26px, 2.6cqi, 36px) is off the scale (§5 item 33). */
+.title {
+  composes: trustValue from '../../../styles/typography.module.css';
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-12);
+}
+
+/* "Link to this answer · /help#refunds": Geist at the label role, not the design's mono (§5 item 37). */
+.link {
+  composes: label from '../../../styles/typography.module.css';
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--fg-3);
+  text-decoration: underline;
+  text-decoration-thickness: var(--hairline-width);
+  text-underline-offset: var(--underline-offset-inline);
+}

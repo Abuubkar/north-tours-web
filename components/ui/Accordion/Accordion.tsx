@@ -13,7 +13,7 @@ export function Accordion({ items, marker = 'plus', name, size = 'default' }: Ac
   return (
     <div className={compact ? undefined : styles.accordion}>
       {items.map((item) => (
-        <details key={item.id} name={name} open={item.defaultOpen} className={compact ? styles.compactItem : styles.item}>
+        <details key={item.id} id={item.anchor} name={name} open={item.defaultOpen} className={compact ? styles.compactItem : styles.item}>
           <summary className={compact ? styles.compactSummary : styles.summary}>
             <span className={compact ? styles.compactText : styles.summaryText}>{item.summary}</span>
             <span className={`${styles.marker} ${styles[marker]}`} aria-hidden="true">

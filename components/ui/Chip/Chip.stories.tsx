@@ -127,3 +127,13 @@ export const Link: Story = {
     await expect(canvas.getByRole('link', { name: /Safety/ })).toHaveAttribute('href', '#safety');
   },
 };
+
+/** A link chip whose count is read out in words: named "Safety, 4 answers" (Help's categories on phones). */
+export const LinkWithLabel: Story = {
+  args: { variant: 'link', href: '#cat-safety', children: 'Safety', count: 4, label: 'Safety, 4 answers' },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('link', { name: 'Safety, 4 answers' })).toHaveAttribute('href', '#cat-safety');
+  },
+};
+
+export const LinkWithLabelOnLight: Story = { ...LinkWithLabel, globals: { surface: 'light' } };

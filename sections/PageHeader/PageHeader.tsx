@@ -8,6 +8,7 @@ const headlineClass: Record<PageHeaderVariant, string> = {
   planner: styles.headline,
   plannerSlim: styles.slimHeadline,
   about: styles.aboutHeadline,
+  help: styles.headline,
   legal: styles.headline,
 };
 
@@ -17,6 +18,7 @@ const headerClass: Record<PageHeaderVariant, string | undefined> = {
   planner: styles.planner,
   plannerSlim: styles.plannerSlim,
   about: undefined,
+  help: styles.short,
   legal: styles.short,
 };
 
@@ -25,11 +27,12 @@ const leadClass: Record<PageHeaderVariant, string> = {
   planner: styles.plannerLead,
   plannerSlim: styles.lead,
   about: styles.aboutLead,
+  help: styles.lead,
   legal: styles.lead,
 };
 
 /** The text pages read on the light surface; the others follow the page. */
-const LIGHT: ReadonlySet<PageHeaderVariant> = new Set(['legal']);
+const LIGHT: ReadonlySet<PageHeaderVariant> = new Set(['help', 'legal']);
 
 /**
  * A page's opening: the <h1> and a lead line under it (Tours, the planner's first step), on About

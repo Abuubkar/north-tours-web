@@ -147,3 +147,25 @@ export const LegalPhone: Story = {
     await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
   },
 };
+
+/** Help (light): the only <h1>, at the statement size. */
+export const Help: Story = {
+  args: { variant: 'help', headline: 'Help with booking, payments and the trip', lead: undefined },
+  play: async ({ canvas, canvasElement }) => {
+    const h1 = canvas.getByRole('heading', { level: 1, name: 'Help with booking, payments and the trip' });
+    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
+    await expect(parseFloat(getComputedStyle(h1).fontSize)).toBeGreaterThanOrEqual(40);
+    await expect(canvasElement.querySelector('header')).toHaveAttribute('data-surface', 'light');
+  },
+};
+
+export const HelpOnLight: Story = { ...Help, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+export const HelpPhone: Story = {
+  ...Help,
+  globals: { viewport: { value: 'phone' } },
+  play: async (context) => {
+    await Help.play!(context);
+    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
+  },
+};

@@ -710,6 +710,35 @@ export function getAboutCopy(): AboutCopy {
   return cachedAbout;
 }
 
+/** The Help page's wording (PRD #86); its questions and answers are the shared FAQs (content/faqs.json). */
+const helpCopySchema = z.strictObject({
+  title: copy,
+  description: copy,
+  /** The page's <h1>. */
+  header: z.strictObject({ headline: copy }),
+  /** The category list beside the questions (chips on phones): its name, and each link's count read out ("4 answers"). */
+  categories: z.strictObject({ label: copy, count: countWords }),
+  /** Under each answer: "Link to this answer · {path}", the answer's own address (/help#refunds). */
+  linkToAnswer: copyWith('path'),
+});
+
+export type HelpCopy = z.infer<typeof helpCopySchema>;
+
+export function helpCopyFile(dir = CONTENT_DIR): string {
+  return path.join(dir, 'pages', 'help.json');
+}
+
+export function loadHelpCopy(dir = CONTENT_DIR) {
+  return parseFile(helpCopySchema, helpCopyFile(dir));
+}
+
+let cachedHelp: HelpCopy | undefined;
+
+export function getHelpCopy(): HelpCopy {
+  cachedHelp ??= requireValid(loadHelpCopy());
+  return cachedHelp;
+}
+
 /**
  * The tokens the Privacy Policy and the Terms may use: the company's details and the booking
  * policies, so no figure from settings is ever typed into them.

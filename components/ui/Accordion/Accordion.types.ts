@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 export type AccordionItem = {
   /** Stable key for the item. */
   id: string;
+  /** The item's anchor, so a link reaches it: Help's answers carry their id (/help#refunds). */
+  anchor?: string;
   summary: ReactNode;
   content: ReactNode;
   defaultOpen?: boolean;

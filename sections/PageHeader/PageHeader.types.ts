@@ -21,6 +21,13 @@ type About = {
   updated?: never;
 };
 
+/** Help (light): the <h1> at the statement size. */
+type Help = {
+  variant: 'help';
+  image?: never;
+  updated?: never;
+};
+
 /** The legal pages (light): the document's title as the <h1>, then when it was last updated. */
 type Legal = {
   variant: 'legal';
@@ -29,7 +36,7 @@ type Legal = {
   image?: never;
 };
 
-export type PageHeaderProps = (WithoutPhoto | About | Legal) & {
+export type PageHeaderProps = (WithoutPhoto | About | Help | Legal) & {
   /** The page's <h1>. */
   headline: string;
   /** The line under it; the slim planner header has none. */

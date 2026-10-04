@@ -7,6 +7,11 @@ export const guideAnchor = (slug: string) => `guide-${slug}`;
 /** The hash of a guide's profile: "#guide-karim-baig". */
 export const guideHash = (slug: string) => `#${guideAnchor(slug)}`;
 
+/** A Help category's heading carries this prefix and its id: `/help#cat-safety`. */
+export const HELP_CATEGORY_PREFIX = 'cat-';
+
+export const helpCategoryAnchor = (id: string) => `${HELP_CATEGORY_PREFIX}${id}`;
+
 /**
  * Every URL on the site. Links use these, never hard-coded paths. Most pages are built by
  * their own PRDs; links point to them already.
@@ -23,6 +28,8 @@ export const routes = {
   planFor: (destination: string) => `/plan?dest=${encodeURIComponent(destination)}`,
   about: '/about',
   help: '/help',
+  /** One answer on the Help page, which opens it: /help#refunds. */
+  helpAnswer: (id: string) => `/help#${id}`,
   contact: '/contact',
   privacy: '/privacy',
   terms: '/terms',

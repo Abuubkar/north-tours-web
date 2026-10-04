@@ -2,19 +2,186 @@
   "categories": [
     {
       "id": "booking",
-      "title": "Booking and payment",
+      "title": "Booking & payment",
       "questions": [
         {
+          "id": "how-to-book",
+          "question": "How do I book a trip?",
+          "answer": "Choose a departure on its tour page and press Reserve, or message us on WhatsApp. Your seats are confirmed once the {advancePercent}% advance is paid."
+        },
+        {
+          "id": "advance",
           "question": "How do payment and the advance work?",
-          "answer": "Pay a {advancePercent}% advance to confirm your seats, by {paymentMethods}. The balance is due {balanceDueDays} days before departure. You get a receipt on WhatsApp for every payment."
+          "answer": "Pay a {advancePercent}% advance to confirm your seats, by {paymentMethods}. The balance is due {balanceDueDays} days before departure. You get a receipt on WhatsApp for every payment.",
+          "tourPages": true,
+          "sample": true
         },
         {
+          "id": "payment-methods",
+          "question": "How can I pay?",
+          "answer": "By {paymentMethods}, and nothing else. We send the details on WhatsApp when you book.",
+          "sample": true
+        },
+        {
+          "id": "balance",
+          "question": "When is the balance due?",
+          "answer": "{balanceDueDays} days before departure. We remind you on WhatsApp a few days before it’s due.",
+          "sample": true
+        }
+      ]
+    },
+    {
+      "id": "cancellations",
+      "title": "Cancellations & changes",
+      "questions": [
+        {
+          "id": "refunds",
           "question": "What is the cancellation and refund policy?",
-          "answer": "{refundSchedule} If we cancel a departure, you get a full refund or a free move to another date."
+          "answer": "{refundSchedule} If we cancel a departure, you get a full refund or a free move to another date.",
+          "tourPages": true,
+          "sample": true
         },
         {
+          "id": "change-dates",
+          "question": "Can I change my dates?",
+          "answer": "Yes, free of charge up to {fullRefundDays} days before departure, if the new date has seats. Closer to departure, a change counts as a cancellation.",
+          "sample": true
+        },
+        {
+          "id": "we-cancel",
+          "question": "What happens if you cancel a departure?",
+          "answer": "You get a full refund, or a free move to another date. We only cancel for safety, road closures or too few travellers, and tell you on WhatsApp as soon as we know.",
+          "sample": true
+        },
+        {
+          "id": "name-change",
+          "question": "Can someone else take my place?",
+          "answer": "Yes, until the balance is due, {balanceDueDays} days before departure. Send us their name and number on WhatsApp.",
+          "sample": true
+        }
+      ]
+    },
+    {
+      "id": "on-trip",
+      "title": "On the trip",
+      "questions": [
+        {
+          "id": "altitude",
+          "question": "Will the altitude affect me?",
+          "answer": "Most overnight stops are below about 2,500 m. Drink plenty of water, take the first day slowly, and tell us about any heart or breathing condition before you book."
+        },
+        {
+          "id": "packing",
+          "question": "What should I pack?",
+          "answer": "Layers, a warm jacket, comfortable shoes, sunglasses, sun cream and any medicines you take. We send a full packing list on WhatsApp after you book.",
+          "sample": true
+        },
+        {
+          "id": "roads",
+          "question": "What if the road closes or the weather turns?",
+          "answer": "Landslides can close mountain roads, mostly in spring and the monsoon. Your driver adapts the plan and we keep you updated on WhatsApp. Extra nights are shared at cost, with nothing added.",
+          "sample": true
+        },
+        {
+          "id": "signal",
+          "question": "Will my phone work?",
+          "answer": "Mobile networks work in most towns. Signal is patchy or absent in upper Hunza, Deosai and Fairy Meadows, and your guide carries a way to reach our office from there.",
+          "sample": true
+        },
+        {
+          "id": "food",
+          "question": "What is the food like?",
+          "answer": "Breakfast and dinner are included, mostly Pakistani and local dishes. Tell us about allergies or diets when you book.",
+          "sample": true
+        }
+      ]
+    },
+    {
+      "id": "families",
+      "title": "Families & children",
+      "questions": [
+        {
+          "id": "children",
           "question": "Can we travel with children?",
-          "answer": "Yes. Children aged {childFromAge} and over count as travellers; younger children share their parents’ room free. Tell us their ages when you book and we’ll plan the stops around them."
+          "answer": "Yes. Children aged {childFromAge} and over count as travellers; younger children share their parents’ room free. Tell us their ages when you book and we’ll plan the stops around them.",
+          "tourPages": true,
+          "sample": true
+        },
+        {
+          "id": "child-pricing",
+          "question": "Do children pay less?",
+          "answer": "Children under {childFromAge} travel free when they share their parents’ room. From {childFromAge}, a child counts as a traveller, with a seat and a place in the room.",
+          "sample": true
+        },
+        {
+          "id": "elderly",
+          "question": "Can we travel with elderly parents?",
+          "answer": "Yes. Tell us about mobility and health, and we plan shorter walks, more stops and ground-floor rooms where we can.",
+          "sample": true
+        },
+        {
+          "id": "long-drives",
+          "question": "Are the long drives hard on children?",
+          "answer": "Some days are long. We stop every two to three hours and plan around meals, rest and bathrooms.",
+          "sample": true
+        }
+      ]
+    },
+    {
+      "id": "private",
+      "title": "Private & corporate trips",
+      "questions": [
+        {
+          "id": "quotes",
+          "question": "How do private trip quotes work?",
+          "answer": "Tell us your dates, group and style in the trip planner or on WhatsApp. We reply {replyTime} with a day-by-day plan and a price per person.",
+          "sample": true
+        },
+        {
+          "id": "invoices",
+          "question": "Can you invoice our company?",
+          "answer": "Yes. We issue invoices in your company’s name, with our registration details.",
+          "sample": true
+        },
+        {
+          "id": "group-size",
+          "question": "How large can a corporate group be?",
+          "answer": "From 10 to 60 people, with as many vehicles and guides as the group needs.",
+          "sample": true
+        },
+        {
+          "id": "own-dates",
+          "question": "Can we choose our own dates?",
+          "answer": "Yes. Private trips run on your dates, as long as the roads and the weather allow."
+        }
+      ]
+    },
+    {
+      "id": "safety",
+      "title": "Safety",
+      "questions": [
+        {
+          "id": "driver-rest",
+          "question": "How long do drivers drive each day?",
+          "answer": "No more than ten hours, with a break every two to three hours, and never on mountain roads after dark.",
+          "sample": true
+        },
+        {
+          "id": "first-aid",
+          "question": "What about first aid?",
+          "answer": "Every vehicle carries a first-aid kit, and at least one guide on each trip is trained in first aid.",
+          "sample": true
+        },
+        {
+          "id": "road-closed",
+          "question": "What happens if the road closes mid-trip?",
+          "answer": "We stop somewhere safe, arrange rooms and carry on when the road reopens. Extra nights, meals and transport are shared at cost, with nothing added.",
+          "sample": true
+        },
+        {
+          "id": "emergency",
+          "question": "Who do I call in an emergency on a trip?",
+          "answer": "Your guide first, then our travel support line, {travelSupport}."
         }
       ]
     }

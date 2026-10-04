@@ -1,0 +1,14 @@
+.body {
+  composes: bodySection from '../../styles/layout.module.css';
+}
+
+.layout {
+  composes: sideLayout from '../../styles/layout.module.css';
+}
+
+.main {
+  composes: mainColumn from '../../styles/layout.module.css';
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-64);
+}

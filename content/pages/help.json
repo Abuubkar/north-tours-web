@@ -1,0 +1,12 @@
+{
+  "title": "Help and FAQs",
+  "description": "Answers about booking, the advance and payments, refunds, children, altitude and safety on our tours from Lahore, plus our booking policies in plain words.",
+  "header": {
+    "headline": "Help with booking, payments and the trip"
+  },
+  "categories": {
+    "label": "Help categories",
+    "count": { "one": "{count} answer", "other": "{count} answers" }
+  },
+  "linkToAnswer": "Link to this answer · {path}"
+}
