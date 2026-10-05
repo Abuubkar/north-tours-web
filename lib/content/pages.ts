@@ -487,7 +487,7 @@ const plannerCopySchema = z.strictObject({
       label: copy,
       hint: copy,
       unsure: copy,
-      /** The "Not sure, suggest something" card's photo: open country, no place in particular. */
+      /** The "Not sure, suggest something" card's photo: a wide view of the mountains, suggesting open options. */
       unsureImage: photoSchema,
     }),
     dates: z.strictObject({

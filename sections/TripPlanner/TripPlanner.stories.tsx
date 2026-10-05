@@ -155,34 +155,56 @@ export const LengthAskedOnce: Story = {
   },
 };
 
+/** A token's value in pixels, as the page has it. */
+const tokenPx = (name: string) => parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+
+/**
+ * A question's label line and its first control: a group's <legend> and the box after it, or a
+ * field's label line and the control under it. A question without a label (the privacy line) has neither.
+ */
+function questionParts(question: HTMLElement) {
+  const legend = question.querySelector<HTMLElement>(':scope > legend');
+  if (legend) return { label: legend, control: legend.nextElementSibling?.firstElementChild ?? null };
+  const head = question.querySelector<HTMLElement>(':scope > div:has(> label)');
+  return head ? { label: head, control: head.nextElementSibling } : null;
+}
+
 /**
  * One rhythm on every step: from one question's last control, across the hairline, to the next
- * question's label is the same space everywhere (32px each side of the line), and every label sits
- * 16px above its control, whether the question is one field or a group.
+ * question's first line is the same space everywhere (`--form-question-y` each side of the line),
+ * and every label sits `--form-label-gap` above its control, whether the question is one field or a group.
  */
 async function expectRhythm(canvasElement: HTMLElement) {
-  const body = canvasElement.querySelector<HTMLElement>('[data-form-field]')!.parentElement!;
-  const questions = [...body.children] as HTMLElement[];
-  if (questions.length < 2) throw new Error('Expected at least two questions');
-  // Steps 1 and 2 ask only groups: each is named by its legend, its controls in the box after it.
-  const legend = (question: HTMLElement) => question.querySelector<HTMLElement>(':scope > legend')!.getBoundingClientRect();
+  const body = canvasElement.querySelector<HTMLElement>('[data-form-field]')?.parentElement;
+  const questions = body ? ([...body.children] as HTMLElement[]) : [];
+  if (questions.length < 2) throw new Error('Expected a step body with at least two questions');
+  const space = tokenPx('--form-question-y');
+  const hairline = tokenPx('--hairline-width');
   for (const [i, question] of questions.entries()) {
+    const parts = questionParts(question);
+    const style = getComputedStyle(question);
+    const firstLine = parts ? parts.label.getBoundingClientRect().top : question.getBoundingClientRect().top + hairline + parseFloat(style.paddingTop);
     if (i > 0) {
       const before = questions[i - 1];
       const end = before.getBoundingClientRect().bottom - parseFloat(getComputedStyle(before).paddingBottom);
-      await expect(Math.round(legend(question).top - end)).toBe(65);
-      await expect(getComputedStyle(question).borderTopWidth).toBe('1px');
+      await expect(Math.round(firstLine - end)).toBe(2 * space + hairline);
+      await expect(style.borderTopWidth).toBe(`${hairline}px`);
     }
-    const firstControl = question.querySelector(':scope > legend + div > :first-child')!.getBoundingClientRect();
-    await expect(Math.round(firstControl.top - legend(question).bottom)).toBe(16);
+    if (parts?.control) {
+      await expect(Math.round(parts.control.getBoundingClientRect().top - parts.label.getBoundingClientRect().bottom)).toBe(tokenPx('--form-label-gap'));
+    }
   }
 }
 
+/** Steps 1, 2 and 3 share the rhythm. */
 export const Rhythm: Story = {
   play: async ({ canvas, canvasElement, userEvent }) => {
     await expectRhythm(canvasElement);
     await toStep2(canvas, userEvent);
     await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming'));
+    await expectRhythm(canvasElement);
+    await userEvent.click(button(canvas, /^Next/));
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 3 of 3 · Your details'));
     await expectRhythm(canvasElement);
   },
 };
