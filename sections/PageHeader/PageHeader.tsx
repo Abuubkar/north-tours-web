@@ -1,6 +1,6 @@
 import { LastUpdated } from '@/components/ui/LastUpdated/LastUpdated';
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
-import { coverSizes, HERO_MAX_HEIGHT } from '@/lib/utils/images';
+import { coverSizes } from '@/lib/utils/images';
 import type { PageHeaderProps, PageHeaderVariant } from './PageHeader.types';
 import styles from './PageHeader.module.css';
 
@@ -37,11 +37,8 @@ const leadClass: Record<PageHeaderVariant, string> = {
 
 /** The text pages read on the light surface; the photo headers are always dark; the others follow the page. */
 const LIGHT: ReadonlySet<PageHeaderVariant> = new Set(['help', 'legal']);
-/** The photo headers, and each one's tallest, for its photo's `sizes`. */
-const PHOTO_HEIGHT: Partial<Record<PageHeaderVariant, `${number}px`>> = {
-  planner: HERO_MAX_HEIGHT.plannerBand,
-  about: HERO_MAX_HEIGHT.photoHero,
-};
+/** The photo headers, and each one's tallest (the maximum of `--planner-band-h` and `--photo-hero-h`), for the photo's `sizes`. */
+const PHOTO_HEIGHT: Partial<Record<PageHeaderVariant, `${number}px`>> = { planner: '460px', about: '740px' };
 
 /**
  * A page's opening: the <h1> and a lead line under it (Tours), over a photo on the planner's first

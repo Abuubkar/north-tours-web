@@ -55,20 +55,6 @@ export function shareSrc(src: string): string {
 }
 
 /**
- * Each photo hero's tallest, for its photo's `sizes`: the first screen for the Homepage hero, and
- * the maximum of each hero's height clamp in tokens.css, which `images.test.ts` checks they match.
- */
-export const HERO_MAX_HEIGHT = {
-  home: '100vh',
-  /** `--photo-hero-h`'s maximum: a tour's hero and About's cover. */
-  photoHero: '740px',
-  /** `--destination-hero-h`'s maximum. */
-  destinationHero: '780px',
-  /** `--planner-band-h`'s maximum. */
-  plannerBand: '460px',
-} as const;
-
-/**
  * The `sizes` for a full-bleed photo that covers a frame of this height (a hero). On a screen
  * narrower than the photo drawn at that height (a phone held upright), the photo is cropped to the
  * height and drawn wider than the screen, so the browser has to pick a file for that width, not
@@ -78,10 +64,7 @@ export const HERO_MAX_HEIGHT = {
  * Math functions like max() aren't used, as not every browser reads them in `sizes`. A placeholder
  * has no file to pick, so it's the screen's width.
  */
-export function coverSizes(
-  photo: ContentImage | Pick<Photo, 'width' | 'height'>,
-  height: (typeof HERO_MAX_HEIGHT)[keyof typeof HERO_MAX_HEIGHT] | `${number}px`,
-): string {
+export function coverSizes(photo: ContentImage | Pick<Photo, 'width' | 'height'>, height: `${number}vh` | `${number}px`): string {
   if ('placeholder' in photo) return '100vw';
   const ratio = photo.width / photo.height;
   const value = Number.parseFloat(height);

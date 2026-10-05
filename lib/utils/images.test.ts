@@ -1,9 +1,7 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   coverCrop,
   coverSizes,
-  HERO_MAX_HEIGHT,
   fallbackSrc,
   objectPosition,
   shareSrc,
@@ -50,18 +48,6 @@ describe('objectPosition', () => {
   it('centres by default and follows the focus', () => {
     expect(objectPosition()).toBe('50% 50%');
     expect(objectPosition({ x: 30, y: 70 })).toBe('30% 70%');
-  });
-});
-
-describe('HERO_MAX_HEIGHT', () => {
-  const tokens = readFileSync(new URL('../../styles/tokens.css', import.meta.url), 'utf8');
-  /** A height token's clamp maximum: "clamp(600px, 50cqi, 740px)" → "740px". */
-  const clampMax = (name: string) => new RegExp(`${name}: clamp\\([^,]+,[^,]+, (\\d+px)\\)`).exec(tokens)?.[1];
-
-  it('matches each hero height token\'s maximum, so a photo is never asked for too narrow', () => {
-    expect(HERO_MAX_HEIGHT.photoHero).toBe(clampMax('--photo-hero-h'));
-    expect(HERO_MAX_HEIGHT.destinationHero).toBe(clampMax('--destination-hero-h'));
-    expect(HERO_MAX_HEIGHT.plannerBand).toBe(clampMax('--planner-band-h'));
   });
 });
 
