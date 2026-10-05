@@ -62,11 +62,12 @@ export const Running: Story = {
     await expect(copy.inert).toBe(false);
     const copyLinks = [...copy.querySelectorAll('a')];
     await expect(copyLinks.map((link) => [link.getAttribute('href'), link.tabIndex])).toEqual(places.map(({ href }) => [href, -1]));
-    // One drawing of the list per loop, at 45px a second (--ticker-speed); no pause button.
+    // One drawing of the list per loop, at --ticker-speed px a second; no pause button.
     const animation = await loop(canvas);
     await expect(animation.playState).toBe('running');
     const drawing = nav.querySelector('ul')!.offsetWidth;
-    await expect(Number(animation.effect!.getTiming().duration)).toBeCloseTo((drawing / 45) * 1000, 0);
+    const speed = Number(getComputedStyle(nav).getPropertyValue('--ticker-speed'));
+    await expect(Number(animation.effect!.getTiming().duration)).toBeCloseTo((drawing / speed) * 1000, 0);
     await expect(canvas.queryByRole('button')).toBeNull();
   },
 };
@@ -109,24 +110,38 @@ export const HoverKeepsRunning: Story = {
 
 /**
  * The places sliding in from the right are the loop's copy, and a click on them lands on their
- * link: here the loop is held where the copy's first place is in view, then hit-tested.
+ * link: here the loop is held where the copy's first place has just come fully in, then hit-tested.
  */
 export const CopyIsClickable: Story = {
   play: async ({ canvas }) => {
     const animation = await loop(canvas);
-    animation.pause();
-    animation.currentTime = Number(animation.effect!.getTiming().duration) / 2;
-    const [, copy] = strip(canvas).querySelectorAll('ul');
+    const [drawing, copy] = strip(canvas).querySelectorAll('ul');
     const first = copy.querySelector('a')!;
-    const { left, top, width, height } = first.getBoundingClientRect();
     const frame = strip(canvas).querySelector('div')!.getBoundingClientRect();
-    await expect(left).toBeGreaterThanOrEqual(frame.left);
-    await expect(left + width).toBeLessThanOrEqual(frame.right);
-    const hit = document.elementFromPoint(left + width / 2, top + height / 2);
-    await expect(first.contains(hit)).toBe(true);
-    animation.play();
+    // The track moves one drawing's width over the loop: hold it near the end, where the copy's
+    // first place has come in from the right.
+    const duration = Number(animation.effect!.getTiming().duration);
+    animation.pause();
+    try {
+      // Where the place starts, from where it is now and how far the track has moved.
+      const moved = (Number(animation.currentTime) / duration) * drawing.offsetWidth;
+      const start = first.getBoundingClientRect().left + moved;
+      // Just inside the left edge, but short of a whole drawing's move, where the loop starts over.
+      const target = Math.max(frame.left + 8, start - drawing.offsetWidth + 4);
+      animation.currentTime = ((start - target) / drawing.offsetWidth) * duration;
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const { left, top, width, height } = first.getBoundingClientRect();
+      await expect(left).toBeGreaterThanOrEqual(frame.left);
+      await expect(left + width).toBeLessThanOrEqual(frame.right);
+      const hit = document.elementFromPoint(left + width / 2, top + height / 2);
+      await expect(first.contains(hit)).toBe(true);
+    } finally {
+      animation.play();
+    }
   },
 };
+
+export const CopyIsClickablePhone: Story = { ...CopyIsClickable, globals: { viewport: { value: 'phone' } } };
 
 /**
  * A place with keyboard focus stops the strip and is brought fully into view, here the last place

@@ -29,7 +29,7 @@ function AltitudeList({ places, duplicate = false, ref }: AltitudeListProps) {
 }
 
 /**
- * The Homepage's altitude strip (2f, ADR-0030): a light strip under the header, in the page flow,
+ * The Homepage's altitude strip (2f, ADR-0030, ADR-0031): a light strip under the header, in the page flow,
  * running slowly through every destination and its altitude. The list is drawn twice for a
  * seamless loop; the copy is hidden from screen readers and out of the tab order, so each place is
  * read and tabbed once, but stays clickable. It keeps running under the pointer (owner, 2026-10-05);

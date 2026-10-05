@@ -68,6 +68,8 @@ What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm bui
 
 **Touch:** every tap target is at least 44px.
 
+**Known gap to decide on:** the Homepage altitude strip moves without a pause control (ADR-0031), which WCAG 2.2.2 asks for. Visitors with reduced motion turned on get a still strip.
+
 **Screen reader** (VoiceOver with Safari on macOS or iOS; TalkBack with Chrome on Android)
 - One `<h1>`, and headings in order with no skipped level.
 - Landmarks named: the banner, main, the footer and each navigation.

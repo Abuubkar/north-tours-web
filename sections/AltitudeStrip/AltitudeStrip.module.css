@@ -1,5 +1,5 @@
 /*
- * The Homepage's altitude strip (2f, ADR-0030): Text on Ink, upper-case Geist Mono, as tall as a
+ * The Homepage's altitude strip (2f, ADR-0030, ADR-0031): Text on Ink, upper-case Geist Mono, as tall as a
  * tap target. In the page flow, not sticky: it scrolls away and the header stays.
  */
 .strip {

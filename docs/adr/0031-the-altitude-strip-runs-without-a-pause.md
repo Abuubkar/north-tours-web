@@ -22,8 +22,9 @@ The owner also found that the places sliding in from the right couldn't be click
 ## Decision
 - **The strip doesn't pause for the pointer,** and has no pause button.
 - **A place with keyboard focus still stops it** and is brought fully into view, so keyboard users can see what they're about to open.
-- **It runs at 45px a second** (`--ticker-speed`).
+- **It runs at 43px a second** (`--ticker-speed`), very slightly faster than 40.
 - **The loop's copy is clickable.** It stays `aria-hidden` and its links are `tabindex="-1"`, so screen readers read each place once and Tab reaches each place once. A click on either drawing opens that place's destination page.
+- **The strip runs to the screen's right edge.** The end padding that made room for the pause button is gone, so places enter from the edge.
 - **Reduced motion is unchanged:** with `prefers-reduced-motion: reduce`, or without JavaScript, the strip stands still and scrolls sideways.
 - Everything else in ADR-0030 stands.
 
@@ -33,5 +34,8 @@ The owner also found that the places sliding in from the right couldn't be click
 - **Keep the copy inert and make the first drawing wider instead:** the places sliding in would still be dead to clicks for part of every loop.
 
 ## Consequences
-- **Accessibility:** the strip no longer meets WCAG 2.2.2 for visitors who haven't turned on reduced motion. That's a known gap, accepted by the owner. Axe doesn't detect it, so `pnpm audit:site` stays clean.
-- **Clicking moving places:** they have to be clicked as they pass. They stay links 44px tall, so the target is easy to hit at 45px a second.
+- **Accessibility:**
+  - Without the button, the strip no longer meets WCAG 2.2.2 for visitors who haven't turned on reduced motion. The owner asked for the button's removal (2026-10-05) and was told of the gap. Axe doesn't detect it, so `pnpm audit:site` stays clean; it's listed in the launch checklist's manual pass so it's looked at again before launch.
+  - The loop's copy is hidden from screen readers, so touch exploration (VoiceOver, TalkBack) over it finds nothing; each place is still reached once in the first drawing, and swiping moves through them.
+  - A click on the copy focuses a link inside hidden content for the moment before the page changes.
+- **Clicking moving places:** they have to be clicked as they pass. They stay links 44px tall, so the target is easy to hit at 43px a second. A press held across the loop's restart (once every half minute or so) can miss.
