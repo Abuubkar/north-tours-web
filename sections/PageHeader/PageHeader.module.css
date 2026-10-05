@@ -15,52 +15,47 @@
 }
 
 /*
- * The planner's first step: a photo band, shorter than the photo heroes, that slides under the
- * sticky header like them; the <h1> and a shorter lead sit at its foot, on the hero scrim.
+ * A photo header: the photo slides under the sticky header like the photo heroes, and the <h1>
+ * and lead sit at its foot, on the hero scrim. The planner's first step has a band, shorter than
+ * the heroes; About a full-bleed cover as tall as the tour hero (owner feedback, 2026-10-05).
  */
-.planner {
-  position: relative;
-  isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: var(--planner-band-h);
-  margin-top: calc(-1 * var(--header-h));
-  padding-top: calc(var(--header-h) + var(--space-48));
-  padding-bottom: var(--planner-header-bottom);
-  overflow: hidden;
-}
-
-/*
- * About: a full-bleed photo cover as tall as the tour hero (`--photo-hero-h`), sliding under the
- * sticky header like it, with the <h1> and lead over its lower part on the hero scrim, drawn
- * taller at every width as on the planner's band, so the long <h1> stays on its dark end.
- */
+.planner,
 .cover {
   position: relative;
   isolation: isolate;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: var(--photo-hero-h);
   margin-top: calc(-1 * var(--header-h));
-  padding-top: calc(var(--header-h) + var(--space-96));
-  padding-bottom: var(--hero-row-pad);
   overflow: hidden;
 }
 
-.bandMedia,
-.bandScrim {
+.planner {
+  min-height: var(--planner-band-h);
+  padding-top: calc(var(--header-h) + var(--space-48));
+  padding-bottom: var(--planner-header-bottom);
+}
+
+.cover {
+  min-height: var(--photo-hero-h);
+  padding-top: calc(var(--header-h) + var(--space-96));
+  padding-bottom: var(--hero-row-pad);
+}
+
+.photoMedia,
+.photoScrim {
   position: absolute;
   inset: 0;
   z-index: -1;
 }
 
-/* The hero scrim drawn taller and anchored at the foot, so the <h1> and lead sit on its dark end. */
-.bandScrim {
+/*
+ * The hero scrim drawn taller and anchored at the foot, at every width, so the <h1> and lead sit
+ * on its dark end (on About, the long <h1>'s top line would otherwise meet lighter rock).
+ */
+.photoScrim {
   background: var(--hero-scrim) bottom / 100% var(--photo-hero-scrim-stretch);
 }
-
 
 /* On the photo, the lead is in the text colour, as on the heroes. */
 .plannerLead {

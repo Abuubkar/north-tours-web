@@ -52,10 +52,10 @@ export function PageHeader({ headline, lead, variant = 'default', image, updated
     <header className={classes} data-surface={LIGHT.has(variant) ? 'light' : photo ? 'dark' : undefined}>
       {photo && image && (
         <>
-          <div className={styles.bandMedia}>
+          <div className={styles.photoMedia}>
             <MediaFrame image={image} ratio="fill" sizes="100vw" priority />
           </div>
-          <div className={styles.bandScrim} />
+          <div className={styles.photoScrim} />
         </>
       )}
       <h1 className={headlineClass[variant]}>{headline}</h1>

@@ -108,33 +108,36 @@ export const FooterNav: Story = {
   },
 };
 
+/** The footer's large links, and where its left margin ends. */
+function footerLinks(canvas: ReturnType<typeof within>, canvasElement: HTMLElement) {
+  const footer = canvasElement.querySelector('footer')!;
+  const margin = footer.getBoundingClientRect().left + parseFloat(getComputedStyle(footer).paddingLeft);
+  return { footer, margin, links: within(canvas.getByRole('navigation', { name: 'Footer' })).getAllByRole('link') };
+}
+
 /**
  * No section label (owner feedback, 2026-10-05): no "Contact" heading, the large links start at the
  * footer's left margin, and the contact column sits on the right.
  */
 export const NoLabel: Story = {
   play: async ({ canvas, canvasElement }) => {
-    const footer = canvasElement.querySelector('footer')!;
+    const { footer, margin, links } = footerLinks(canvas, canvasElement);
     await expect(within(footer).queryByRole('heading')).toBeNull();
     await expect(within(footer).queryByText('Contact', { selector: 'h2, p, span' })).toBeNull();
-    const margin = parseFloat(getComputedStyle(footer).paddingLeft);
-    const links = within(canvas.getByRole('navigation', { name: 'Footer' })).getAllByRole('link');
-    await expect(Math.round(links[0].getBoundingClientRect().left)).toBe(Math.round(footer.getBoundingClientRect().left + margin));
+    await expect(Math.round(links[0].getBoundingClientRect().left)).toBe(Math.round(margin));
     const chat = canvas.getByRole('link', { name: 'Chat on WhatsApp' }).getBoundingClientRect();
     await expect(chat.left).toBeGreaterThan(Math.max(...links.map((link) => link.getBoundingClientRect().right)));
   },
 };
 
-export const NoLabelOnLight: Story = { ...NoLabel, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+export const NoLabelOnLight: Story = { ...NoLabel, globals: { surface: 'light' } };
 
 /** At 390 the large links still start at the margin, with the contact column under them. */
 export const NoLabelPhone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, canvasElement }) => {
-    const footer = canvasElement.querySelector('footer')!;
-    const margin = parseFloat(getComputedStyle(footer).paddingLeft);
-    const links = within(canvas.getByRole('navigation', { name: 'Footer' })).getAllByRole('link');
-    await expect(Math.round(links[0].getBoundingClientRect().left)).toBe(Math.round(footer.getBoundingClientRect().left + margin));
+    const { margin, links } = footerLinks(canvas, canvasElement);
+    await expect(Math.round(links[0].getBoundingClientRect().left)).toBe(Math.round(margin));
     const chat = canvas.getByRole('link', { name: 'Chat on WhatsApp' }).getBoundingClientRect();
     await expect(chat.top).toBeGreaterThan(links.at(-1)!.getBoundingClientRect().bottom);
   },
