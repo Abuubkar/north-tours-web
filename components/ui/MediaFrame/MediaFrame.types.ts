@@ -16,5 +16,7 @@ export type MediaFrameProps = {
   sizes: string;
   /** The page's main image (LCP): loads straight away with high priority. Others load lazily. */
   priority?: boolean;
+  /** A full-bleed hero: upright phones get the photo's portrait crop (ADR-0033), which `pnpm images` writes for heroes only. */
+  portrait?: boolean;
   className?: string;
 };

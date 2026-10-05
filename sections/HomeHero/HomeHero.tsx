@@ -19,7 +19,7 @@ export function HomeHero({ copy, settings }: HomeHeroProps) {
   return (
     <section className={styles.hero} data-surface="dark">
       <div className={styles.media}>
-        <MediaFrame image={copy.image} ratio="fill" sizes="100vw" priority />
+        <MediaFrame image={copy.image} ratio="fill" sizes="100vw" priority portrait />
       </div>
       <div className={styles.scrim} />
       <div className={styles.dim} />

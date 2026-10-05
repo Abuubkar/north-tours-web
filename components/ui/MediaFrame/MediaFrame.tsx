@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { fallbackSrc, objectPosition, variantSrcSet } from '@/lib/utils/images';
+import { fallbackSrc, IMAGE_FORMATS, objectPosition, PORTRAIT_MEDIA, PORTRAIT_SIZES, portraitSrcSet, variantSrcSet } from '@/lib/utils/images';
 import type { MediaFrameProps, MediaFrameRatio, MediaFrameWideRatio } from './MediaFrame.types';
 import styles from './MediaFrame.module.css';
 
@@ -15,11 +15,16 @@ const wideRatioClass: Record<MediaFrameWideRatio, string> = {
   '4:5': styles.wide4x5,
 };
 
+/** Each format's MIME type, for a `<source>`. */
+const TYPE = { avif: 'image/avif', webp: 'image/webp', jpg: 'image/jpeg' } as const;
+
 /**
  * A photo in AVIF, WebP or JPEG at the width the screen needs (ADR-0015), or, until the photo
- * exists, the design's striped placeholder naming the shot, read out as an image by its alt.
+ * exists, the design's striped placeholder naming the shot, read out as an image by its alt. A
+ * hero's `portrait` crop goes to upright phones (ADR-0033); its focus sits at the same percentage
+ * across the crop, so the one `object-position` frames both.
  */
-export function MediaFrame({ image, ratio, wideRatio, sizes, priority = false, className }: MediaFrameProps) {
+export function MediaFrame({ image, ratio, wideRatio, sizes, priority = false, portrait = false, className }: MediaFrameProps) {
   const frame = [styles.frame, ratioClass[ratio], wideRatio && wideRatioClass[wideRatio], className].filter(Boolean).join(' ');
 
   if ('placeholder' in image) {
@@ -33,6 +38,10 @@ export function MediaFrame({ image, ratio, wideRatio, sizes, priority = false, c
 
   return (
     <picture className={frame}>
+      {portrait &&
+        IMAGE_FORMATS.map((format) => (
+          <source key={format} media={PORTRAIT_MEDIA} type={TYPE[format]} srcSet={portraitSrcSet(image, format)} sizes={PORTRAIT_SIZES} />
+        ))}
       <source type="image/avif" srcSet={variantSrcSet(image, 'avif')} sizes={sizes} />
       <source type="image/webp" srcSet={variantSrcSet(image, 'webp')} sizes={sizes} />
       <img

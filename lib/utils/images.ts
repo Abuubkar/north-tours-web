@@ -55,6 +55,67 @@ export function shareFile(src: string): string {
   return src.replace(extension, '-share.jpg');
 }
 
+/*
+ * Phone-shaped crops of the full-bleed hero photos (ADR-0033). On an upright phone a hero is
+ * about 2:3, so the landscape photo is cropped to its height and only its middle third shows. A
+ * 2:3 crop around the focus carries that same view in a file a third as wide.
+ */
+
+/** The portrait crop's shape, width to height. */
+export const PORTRAIT_RATIO = { width: 2, height: 3 } as const;
+
+/**
+ * The screens that get the portrait crop: upright phones. A hero's box there is about 2:3
+ * (390×600 for a tour, 454×768 for the Homepage's bleed), so the crop shows what the landscape
+ * photo would. On wider screens the box turns square or wide and the crop would zoom in.
+ */
+export const PORTRAIT_MEDIA = '(max-width: 479px) and (orientation: portrait)';
+
+/**
+ * The portrait widths, each no wider than the crop. With `PORTRAIT_SIZES`, a phone whose screen is
+ * at most 800 device pixels wide (390px up to DPR 2, Lighthouse's 412px at DPR 1.75) picks the 800;
+ * sharper screens (DPR 2.6 and 3) the 1200.
+ */
+export const PORTRAIT_WIDTHS = [800, 1200] as const;
+
+/** The portrait crop always fills the screen's width: `sizes` for its sources. */
+export const PORTRAIT_SIZES = '100vw';
+
+/** The largest 2:3 box inside the photo, in the photo's pixels. */
+function portraitBox(photo: Pick<Photo, 'width' | 'height'>) {
+  const { width, height } = PORTRAIT_RATIO;
+  return photo.width * height > photo.height * width
+    ? { width: Math.round((photo.height * width) / height), height: photo.height }
+    : { width: photo.width, height: Math.round((photo.width * height) / width) };
+}
+
+/**
+ * The region of the photo to cut for its portrait crop: the largest 2:3 box around the focus, at
+ * the photo's own scale. The focus lands at the same percentage across the crop as across the
+ * photo, so `object-position` at the focus frames both alike.
+ */
+export function portraitCrop(photo: Pick<Photo, 'width' | 'height' | 'focus'>) {
+  return coverCrop(photo, portraitBox(photo), photo.focus).extract;
+}
+
+/** The widths the portrait crop is resized to: `PORTRAIT_WIDTHS`, each capped at the crop's own width (never enlarged). */
+export function portraitWidths(photo: Pick<Photo, 'width' | 'height'>): number[] {
+  const crop = portraitBox(photo).width;
+  return [...new Set(PORTRAIT_WIDTHS.map((w) => Math.min(w, crop)))];
+}
+
+/** "/images/hunza/attabad.jpg" at 800 as AVIF → "/images/hunza/attabad-portrait-800.avif", the file in public. */
+export function portraitFile(src: string, width: number, format: ImageFormat): string {
+  return src.replace(extension, `-portrait-${width}.${format}`);
+}
+
+/** The `srcset` of the portrait crop in one format, under the base path. */
+export function portraitSrcSet(photo: Pick<Photo, 'src' | 'width' | 'height'>, format: ImageFormat): string {
+  return portraitWidths(photo)
+    .map((w) => `${sitePath(portraitFile(photo.src, w, format))} ${w}w`)
+    .join(', ');
+}
+
 /** CSS `object-position` for the focus, e.g. "30% 60%". */
 export function objectPosition(focus: Focus = CENTRE): string {
   return `${focus.x}% ${focus.y}%`;

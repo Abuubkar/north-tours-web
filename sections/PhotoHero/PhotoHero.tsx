@@ -19,7 +19,7 @@ export function PhotoHero({ variant = 'tour', image, back, kicker, title, lead, 
   return (
     <section className={heroClass[variant]} data-surface="dark">
       <div className={styles.media}>
-        <MediaFrame image={image} ratio="fill" sizes="100vw" priority />
+        <MediaFrame image={image} ratio="fill" sizes="100vw" priority portrait />
       </div>
       <div className={styles.scrim} />
       <div className={styles.top}>
