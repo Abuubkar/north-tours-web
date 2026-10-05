@@ -1,4 +1,4 @@
-import type { Photo } from '../content/images.ts';
+import type { ContentImage, Photo } from '../content/images.ts';
 
 /*
  * Image variants (ADR-0015). `pnpm images` writes them and `MediaFrame` reads them, both from
@@ -52,6 +52,27 @@ export function fallbackSrc(photo: Pick<Photo, 'src' | 'width'>): string {
 /** "/images/hunza/attabad.jpg" → "/images/hunza/attabad-share.jpg". */
 export function shareSrc(src: string): string {
   return src.replace(extension, '-share.jpg');
+}
+
+/**
+ * The `sizes` for a full-bleed photo that covers a frame of this height (a hero). On a screen
+ * narrower than the photo drawn at that height (a phone held upright), the photo is cropped to the
+ * height and drawn wider than the screen, so the browser has to pick a file for that width, not
+ * the screen's, or the photo comes out soft. Elsewhere it's the screen's width.
+ *
+ * The height is the frame's tallest: "100vh" for a first-screen hero, or a clamp's maximum in px.
+ * Math functions like max() aren't used, as not every browser reads them in `sizes`. A placeholder
+ * has no file to pick, so it's the screen's width.
+ */
+export function coverSizes(photo: ContentImage | Pick<Photo, 'width' | 'height'>, height: `${number}vh` | `${number}px`): string {
+  if ('placeholder' in photo) return '100vw';
+  const ratio = photo.width / photo.height;
+  const value = Number.parseFloat(height);
+  if (height.endsWith('vh')) {
+    return `(max-aspect-ratio: ${photo.width}/${photo.height}) ${Math.ceil(value * ratio)}vh, 100vw`;
+  }
+  const drawn = Math.ceil(value * ratio);
+  return `(max-width: ${drawn}px) ${drawn}px, 100vw`;
 }
 
 /** CSS `object-position` for the focus, e.g. "30% 60%". */

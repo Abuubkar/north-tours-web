@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   coverCrop,
+  coverSizes,
   fallbackSrc,
   objectPosition,
   shareSrc,
@@ -47,6 +48,23 @@ describe('objectPosition', () => {
   it('centres by default and follows the focus', () => {
     expect(objectPosition()).toBe('50% 50%');
     expect(objectPosition({ x: 30, y: 70 })).toBe('30% 70%');
+  });
+});
+
+describe('coverSizes', () => {
+  const photo = { width: 2560, height: 1707 };
+
+  it('asks for the photo as wide as it is drawn at the screen height, on a screen taller than the photo', () => {
+    expect(coverSizes(photo, '100vh')).toBe('(max-aspect-ratio: 2560/1707) 150vh, 100vw');
+  });
+
+  it('asks for the photo as wide as it is drawn at a fixed height, on a screen narrower than that', () => {
+    expect(coverSizes(photo, '740px')).toBe('(max-width: 1110px) 1110px, 100vw');
+    expect(coverSizes({ width: 1600, height: 1600 }, '460px')).toBe('(max-width: 460px) 460px, 100vw');
+  });
+
+  it('is the screen width for a placeholder, which has no file to pick', () => {
+    expect(coverSizes({ placeholder: 'Karakoram at dawn', alt: 'Karakoram at dawn' }, '100vh')).toBe('100vw');
   });
 });
 
