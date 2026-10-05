@@ -21,7 +21,7 @@ It validates content first (as `pnpm content:check`), then reads every JSON file
 | **Site URL** | `content/settings.json › site.url` | Write the live address, e.g. `https://example.pk`. Until then canonical URLs, `og:url`, share images, the sitemap and JSON-LD are root-relative, and robots.txt has no `Sitemap:` line; once it's real they're absolute and robots.txt names the sitemap. |
 | **Placeholders** | Any text with a `[bracketed]` part, whole or partial ("[Office address], Lahore, Punjab"): contact details, office hours, the pickup point, the DTS licence, the company registration, social links, memberships | Replace the bracketed part with the real value. A value with no real counterpart (say, no YouTube channel) still has to be supplied for now; making it optional is a content-model change. |
 | **Sample content** | Every object with `"sample": true`: invented claims about the company (ADR-0019), sample legal and policy text (ADR-0020), and each sample tour, tour rating, destination, guide, review and the `booking`, `trust` and `policies` settings figures (ADR-0022) | Make the item real, or have it reviewed (the lawyer for the Privacy Policy, the Terms and the Help policies), then remove the `sample` field. Delete a sample tour, guide or review the company doesn't have. |
-| **Placeholder photos** | Every image still `{ "placeholder", "alt" }`: guide portraits, the founder, the office, any place without a photo yet | Add the photo (ADR-0009): people and the office are the owner's own photos only, never stock. Run `pnpm images` and commit both folders. |
+| **Placeholder photos** | Every image still `{ "placeholder", "alt" }`: guide portraits, the founder, any place without a photo yet (the office shows a map instead, ADR-0029) | Add the photo (ADR-0009): people and the office are the owner's own photos only, never stock. Run `pnpm images` and commit both folders. |
 | **Map vetting** | `content/settings.json › maps.surveyOfPakistanVetted` | Set it to `true` once the Survey of Pakistan has vetted the route map, the itinerary maps and the places maps (CLAUDE.md §8). Nothing on the site reads it. |
 
 Not checked: the Homepage hero video (#38) is a nice-to-have, not a launch blocker.
@@ -89,7 +89,7 @@ What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm bui
 ## 4. The owner's sign-offs
 
 `launch:check` lists these until they're done:
-- **Real values:** the brand name, the site URL, contact details, office hours, the pickup point, the DTS licence, the company registration, social links and memberships.
+- **Real values:** the brand name, the site URL, contact details (the office's address and phone are real since 2026-10-05), office hours, the pickup point, the DTS licence, the company registration, social links and memberships.
 - **Legal review:** the Privacy Policy, the Terms and the Help policies are sample text (ADR-0020) until a lawyer has reviewed them.
 - **Photos of people:** guides, drivers, the founder and the office are the owner's own photos only (ADR-0009).
 - **The fleet:** stock photos of each vehicle type stand in for it (ADR-0019). Each vehicle is listed as sample content until the owner's photo and details replace it.

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { onPath } from '../../../.storybook/markedLinks';
-import { placeholderSettings, realSettings } from '../sampleSettings';
+import { listingSettings, placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteFooter } from './SiteFooter';
 
 const MESSAGE = 'text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
@@ -69,6 +69,22 @@ export const PlaceholdersPhoneOnLight: Story = {
   ...Placeholders,
   globals: { surface: 'light', viewport: { value: 'phone' } },
 };
+
+/**
+ * Today's settings: the office's phone from its Google Maps listing is a tel: link, and its
+ * address shows in the Office row; WhatsApp and email stay placeholders.
+ */
+export const OfficeListing: Story = {
+  args: { settings: listingSettings },
+  play: async ({ canvasElement }) => {
+    const phone = contactRow(canvasElement, 'Phone').getByRole('link', { name: '+92 42 3725 2511' });
+    await expect(phone).toHaveAttribute('href', 'tel:+924237252511');
+    await expect(contactRow(canvasElement, 'Office').getByText(/^3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000/)).toBeVisible();
+    await expect(contactRow(canvasElement, 'Email').queryByRole('link')).toBeNull();
+  },
+};
+
+export const OfficeListingOnLight: Story = { ...OfficeListing, globals: { surface: 'light' } };
 
 /** The footer's nav is its own landmark, with the main nav's six pages as large links; Contact isn't a small link too. */
 export const FooterNav: Story = {

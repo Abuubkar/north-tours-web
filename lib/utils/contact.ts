@@ -29,12 +29,32 @@ export function whatsappHref(number: string, message: string): string | undefine
   return isPlaceholder(number) ? undefined : whatsappLink(number, message);
 }
 
-/**
- * "Get directions": a Google Maps search for the office's address, encoded. None while any part
- * of the address is a `[placeholder]`, so nobody is sent to a made-up place.
+/*
+ * The office on Google Maps (ADR-0029), from the address as Google knows it (`officeMapQuery` in
+ * settings), encoded. None while any part of it is a `[placeholder]`, so nobody is sent to, or
+ * shown, a made-up place.
  */
+
+/** "Get directions": Google Maps directions to the office, from wherever the visitor is. */
 export function directionsHref(address: string): string | undefined {
+  return hasPlaceholder(address) ? undefined : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
+}
+
+/** The map under "Visit the office": Google's embed of the address, which needs no API key. */
+export function officeMapSrc(address: string): string | undefined {
+  return hasPlaceholder(address) ? undefined : `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+}
+
+/** The link under the map: the address in Google Maps, full size. */
+export function officeMapHref(address: string): string | undefined {
   return hasPlaceholder(address) ? undefined : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+}
+
+/** "Visit the office"'s map: its frame, its name and the link under it; none while the address is a placeholder. */
+export function officeMap(query: string, words: Pick<Settings['visitOffice'], 'mapTitle' | 'mapLinkLabel'>) {
+  const src = officeMapSrc(query);
+  const href = officeMapHref(query);
+  return src && href ? { src, title: words.mapTitle, href, linkLabel: words.mapLinkLabel } : undefined;
 }
 
 /** A social profile's name and its link, or none while it's a placeholder (plain text). */

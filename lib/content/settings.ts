@@ -2,7 +2,6 @@ import path from 'node:path';
 import { z } from 'zod';
 import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
 import { copy, copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder, sample } from './fields.ts';
-import { ownerImageSchema } from './images.ts';
 
 /**
  * How much of the advance is refunded, by days before departure: each row applies from
@@ -42,6 +41,12 @@ const settingsSchema = z.strictObject({
     phone: phoneOrPlaceholder,
     email: emailOrPlaceholder,
     officeAddress: nonEmpty,
+    /**
+     * How Google Maps finds the office, for the map, its link and "Get directions" (ADR-0029): the
+     * address as Google knows it. Google doesn't know the plot ("16-R") or the floor, and with them
+     * shows no place at all, so this is the street and block.
+     */
+    officeMapQuery: nonEmpty,
     officeHours: nonEmpty,
     travelSupport: phoneOrPlaceholder,
   }),
@@ -106,12 +111,14 @@ const settingsSchema = z.strictObject({
   visitOffice: z.strictObject({
     headline: nonEmpty,
     rows: z.strictObject({ office: nonEmpty, open: nonEmpty, phone: nonEmpty, whatsapp: nonEmpty }),
-    /** To Google Maps, only once the address is real. */
+    /** To Google Maps directions, only once the address is real. */
     directionsLabel: nonEmpty,
     /** Opens WhatsApp with the general message. */
     whatsappLabel: nonEmpty,
-    /** The owner's photo of the office only, never a stock one; a placeholder until then. */
-    image: ownerImageSchema,
+    /** The office map's name for screen readers (its iframe's title, ADR-0029). */
+    mapTitle: nonEmpty,
+    /** The link under the map, to the address in Google Maps. */
+    mapLinkLabel: nonEmpty,
   }),
   /**
    * The owner sets `surveyOfPakistanVetted` to true once the Survey of Pakistan has vetted the

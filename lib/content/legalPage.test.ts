@@ -86,12 +86,21 @@ describe('legal documents', () => {
     expect(allText(legal, 'privacy', changed)).toContain('We reply within 4 hours');
   });
 
-  it('describes the site as built (ADR-0020): no cookies or analytics, planner answers in the browser, WhatsApp and Google Maps as third parties', () => {
+  it('describes the site as built (ADR-0020): no cookies or analytics of its own, planner answers in the browser, WhatsApp and Google Maps as third parties', () => {
     const privacy = allText(legal, 'privacy');
-    expect(privacy).toContain('sets no cookies and uses no analytics');
+    expect(privacy).toContain('sets no cookies of its own and uses no analytics');
     expect(privacy).toContain('in this browser’s storage');
     expect(privacy).toContain('Your name, number, best time to call and notes are never stored');
     expect(privacy).toContain('WhatsApp is run by a separate company');
-    expect(privacy).toContain('opens Google Maps');
+    expect(privacy).toContain('take you to Google Maps itself');
+  });
+
+  it('says the office map loads from Google, which may set cookies and receives the visitor’s IP address (ADR-0029)', () => {
+    const privacy = allText(legal, 'privacy');
+    expect(privacy).toContain('The About and Contact pages show our office on a Google map.');
+    expect(privacy).toContain('Google receives your IP address');
+    expect(privacy).toContain('may set its own cookies');
+    expect(privacy).toContain('policies.google.com/privacy');
+    expect(legal.privacy.sample).toBe(true);
   });
 });

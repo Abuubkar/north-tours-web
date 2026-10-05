@@ -1,0 +1,16 @@
+.map {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-16);
+}
+
+/* The photo's old frame: 4:3 at the card radius, on the placeholder fill until the map paints. */
+.frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--placeholder-stripe-b);
+}

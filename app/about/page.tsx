@@ -25,7 +25,7 @@ export function generateMetadata(): Metadata {
 
 /** Who runs the company, who guides and drives, and how every trip is run (PRD #78). */
 export default function AboutPage() {
-  const { copy, settings, sharePhoto, profiles, stats, credentials, reviews } = getAboutPage();
+  const { copy, settings, sharePhoto, profiles, stats, credentials, reviews, officeMap } = getAboutPage();
 
   return (
     <PageMain>
@@ -38,7 +38,7 @@ export default function AboutPage() {
       <VehiclesAndSafety copy={copy.vehicles} />
       <InNumbers headline={copy.numbers.headline} stats={stats} />
       <Credentials credentials={credentials} />
-      <VisitOffice settings={settings} />
+      <VisitOffice settings={settings} map={officeMap} />
       <ReviewsSection copy={copy.reviews} headlineSize="long" reviews={reviews} summary={null} />
       <ClosingCta
         headline={copy.cta.headline}

@@ -168,7 +168,8 @@ Folders are created only when the first file for them is needed (section 3).
 - **Sample content is allowed (ADR-0010):** invented tours, prices, reviews, ratings, guides,
   statistics and facts are fine, as long as they pass the schemas. Exception: WhatsApp
   number, phone, email, office address, DTS licence and company registration stay as
-  `[placeholders]` until real values are supplied.
+  `[placeholders]` until real values are supplied. The office's address and phone are real since
+  2026-10-05 (the owner's Google Maps listing).
 - **Invented claims about the company carry `sample: true` (ADR-0019):** the founder and story,
   principles, vehicles and fleet age, the safety list, stats beyond the `trust` settings and
   memberships. Only `true` is allowed; the owner confirms a claim by removing the field. It never
@@ -212,7 +213,9 @@ Folders are created only when the first file for them is needed (section 3).
     allowed only for abstract atmosphere, and must be marked as such in the content files.
 - **Maps:** the route map, the itinerary maps and each destination's places map are schematic
   (SVG or HTML overlays) with no country borders. Do not add a third-party basemap. The final
-  maps need Survey of Pakistan vetting before launch.
+  maps need Survey of Pakistan vetting before launch. The one exception is "Visit the office":
+  a Google Maps embed of the office's address (ADR-0029), lazy-loaded, and covered by the
+  Privacy Policy.
 
 ## 9. Motion rules
 

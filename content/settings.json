@@ -7,9 +7,10 @@
   },
   "contact": {
     "whatsapp": "[+92 3XX XXX XXXX]",
-    "phone": "[+92 42 XXXX XXXX]",
+    "phone": "+92 42 3725 2511",
     "email": "[hello@brand.pk]",
-    "officeAddress": "[Office address], Lahore, Punjab",
+    "officeAddress": "3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000",
+    "officeMapQuery": "Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000",
     "officeHours": "[Mon–Sat, X am – X pm]",
     "travelSupport": "[24/7 number]"
   },
@@ -77,10 +78,8 @@
     },
     "directionsLabel": "Get directions",
     "whatsappLabel": "WhatsApp first",
-    "image": {
-      "placeholder": "The office front from the street, sign visible",
-      "alt": "Our office in Lahore"
-    }
+    "mapTitle": "Map of our office in DHA Phase 8, Lahore",
+    "mapLinkLabel": "Open in Google Maps"
   },
   "maps": {
     "surveyOfPakistanVetted": false

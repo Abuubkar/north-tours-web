@@ -2,7 +2,7 @@
   composes: section from '../../styles/layout.module.css';
 }
 
-/* Media and text split (docs/components.md §4): the photo beside the text, under it on phones. */
+/* Media and text split (docs/components.md §4): the map beside the text, under it on phones. */
 .split {
   display: flex;
   flex-wrap: wrap;
@@ -39,7 +39,7 @@
   gap: var(--space-12);
 }
 
-.photo {
+.map {
   flex: 1 1 var(--office-text-min);
   min-width: 0;
 }

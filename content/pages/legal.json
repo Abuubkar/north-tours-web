@@ -6,9 +6,9 @@
   },
   "privacy": {
     "title": "Privacy policy",
-    "description": "What we do with the details you send us, and what this website doesn’t do: no cookies, no analytics, and nothing you type sent to a server.",
+    "description": "What we do with the details you send us, and what this website doesn’t do: no cookies of its own, no analytics, and nothing you type sent to a server.",
     "headline": "Privacy policy",
-    "lastUpdated": "2026-10-04",
+    "lastUpdated": "2026-10-05",
     "closing": "Questions about this policy? Email {email}.",
     "sample": true,
     "sections": [
@@ -66,7 +66,7 @@
         "id": "cookies",
         "heading": "Cookies, analytics and your browser",
         "paragraphs": [
-          "This website sets no cookies and uses no analytics or tracking of any kind. Its fonts and images are served by the website itself, so opening a page doesn’t contact any other company.",
+          "This website sets no cookies of its own and uses no analytics or tracking of any kind. Its fonts and images are served by the website itself. The one thing that comes from another company is the map of our office on the About and Contact pages, from Google (see “Third parties”).",
           "The trip planner keeps your trip answers (destinations, dates, group size and the like) in this browser’s storage, so they’re still there if you reload the page or come back later. They never leave your device unless you send them in a WhatsApp message. Your name, number, best time to call and notes are never stored.",
           "To remove the saved answers, press “Plan another trip” at the end of the planner, or clear this site’s data in your browser’s settings."
         ]
@@ -76,8 +76,8 @@
         "heading": "Third parties",
         "paragraphs": [
           "WhatsApp is run by a separate company, with its own privacy policy. When you tap a WhatsApp button, your message goes through WhatsApp, and what happens to it there is covered by WhatsApp’s policy, not ours.",
-          "“Get directions” opens Google Maps, which is also run by a separate company with its own privacy policy.",
-          "Neither is contacted until you tap one of those buttons."
+          "The About and Contact pages show our office on a Google map. The map loads from Google when you scroll near it, so Google receives your IP address and the page you are on, and may set its own cookies. What Google does with them is covered by Google’s privacy policy (policies.google.com/privacy), not ours.",
+          "“Get directions” and “Open in Google Maps” take you to Google Maps itself. WhatsApp isn’t contacted until you tap one of its buttons."
         ]
       },
       {

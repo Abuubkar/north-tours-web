@@ -1,24 +1,23 @@
 import { Button } from '@/components/ui/Button/Button';
+import { OfficeMap } from '@/components/contact/OfficeMap/OfficeMap';
 import { KeyValueRow } from '@/components/ui/KeyValueRow/KeyValueRow';
-import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
 import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
 import { directionsHref, phoneHref, whatsappHref } from '@/lib/utils/contact';
+import { hasPlaceholder } from '@/lib/utils/placeholder';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import type { VisitOfficeProps } from './VisitOffice.types';
 import styles from './VisitOffice.module.css';
 
-/** Beside the text from wide screens (about half the page), the full width below. */
-const PHOTO_SIZES = '(width >= 820px) 50vw, 100vw';
-
 /**
  * "Plan your trip over chai at our Lahore office", shared by About and Contact: the office's
  * address and hours from settings, on About its phone and WhatsApp too (placeholders as plain
- * text), "Get directions" once the address is real, on About "WhatsApp first", and the office
- * photo (the owner's to supply).
+ * text), "Get directions" once the address is real, on About "WhatsApp first", and the office on
+ * a Google map (ADR-0029) beside them, under them on phones.
  */
-export function VisitOffice({ settings, form = 'four-row' }: VisitOfficeProps) {
+export function VisitOffice({ settings, form = 'four-row', map }: VisitOfficeProps) {
   const { visitOffice: copy, contact, whatsapp } = settings;
-  const directions = directionsHref(contact.officeAddress);
+  // Shown only once the address is real, to the office as Google Maps knows it (ADR-0029).
+  const directions = hasPlaceholder(contact.officeAddress) ? undefined : directionsHref(contact.officeMapQuery);
   // The four-row form adds the phone and WhatsApp rows and "WhatsApp first".
   const showNumbers = form === 'four-row';
   return (
@@ -59,7 +58,7 @@ export function VisitOffice({ settings, form = 'four-row' }: VisitOfficeProps) {
             </div>
           )}
         </div>
-        <MediaFrame image={copy.image} ratio="4:3" sizes={PHOTO_SIZES} className={styles.photo} />
+        {map && <OfficeMap {...map} className={styles.map} />}
       </div>
     </section>
   );

@@ -309,6 +309,7 @@ A card shows one departure: the tour's next upcoming departure that still has se
 - **Reviews:** five 15px gold stars, then the quote, then a hairline, then name (15/500) and trip · month (14 `--text-3`).
 - **Trust strip:** four cells, each with a 13px `--text-3` label, a large value and a 14px `--text-2` note. The mini strip in Tour Detail's final call to action has three (DTS licence, Departs from, We accept), values at 16/500, MIN 200.
 - **Contact's on-trip panel:** a raised dark panel (`--bg-raised`, hairline border, 8px): "On a trip right now?", the line, and two hairline rows (your guide; the 24/7 support line with "Call travel support" once the number is real), with the schematic route map beside it as decoration (no legend, hidden from screen readers; 440px; left out on phones). The owner picked it on 2026-10-04, replacing the light panel.
+- **Office map** ("Visit the office", About and Contact; owner feedback, 2026-10-05, ADR-0029): Google's map of the office address in the old photo's 4:3 frame at 8px, beside the rows (under them on phones), loaded lazily on the image placeholder's fill, then "Open in Google Maps" as an arrow text link. The only third-party map on the site; the schematic maps keep no basemap.
 - **Footer:** contact label column; the same six page links as the header, large, on the left, the current page's in gold; on the right a 380px column with an intro line, primary WhatsApp button and hairline contact rows (WhatsApp, Phone, Email, Office). The bottom bar sits on a hairline: © + DTS licence on the left, social links then Help, Privacy, Terms and Photo credits on the right (13px `--text-2`).
 
 ---
@@ -389,7 +390,7 @@ The design files' token names `--fs-h1`, `--fs-h2`, `--fs-h2-long` and `--fs-h3`
 
 ## 14. Placeholders still to supply
 
-Brand name, logo (the header shows the name as text until then), DTS licence number, years operating, trips completed, advance %, pickup point, WhatsApp/phone/email, office address, guide names and portraits, all photography and the hero video, real prices, dates, ratings and reviews. Elevations and best-season ranges should be fact-checked before launch.
+Brand name, logo (the header shows the name as text until then), DTS licence number, years operating, trips completed, advance %, pickup point, WhatsApp/email (the office's phone and address are real since 2026-10-05), guide names and portraits, all photography and the hero video, real prices, dates, ratings and reviews. Elevations and best-season ranges should be fact-checked before launch.
 
 During development, invented sample content may fill these, except contact details and legal identifiers, which stay as placeholders (ADR-0010). Location photos may come from Unsplash or Wikimedia Commons; photos of people are supplied by the owner only (ADR-0009).
 
