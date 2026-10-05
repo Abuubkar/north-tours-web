@@ -36,7 +36,7 @@ describe('bar label', () => {
     expect(label({ destinations: ['hunza', 'skardu'] })).toBe('Hunza +1 · Dates? · 2 people');
   });
 
-  it('reads “Help me choose” as “Suggestions”', () => {
+  it('shortens “Help me choose” to its own word, “Suggestions”', () => {
     expect(label({ destinations: ['unsure'] })).toBe('Suggestions · Dates? · 2 people');
   });
 

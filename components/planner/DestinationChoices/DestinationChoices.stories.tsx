@@ -22,8 +22,8 @@ export const Desktop: Story = {
     await expect(group).toHaveAccessibleDescription('Required · choose one or more');
     const names = canvas.getAllByRole('button').map((b) => b.getAttribute('aria-label'));
     await expect(names).toEqual(['Fairy Meadows', 'Hunza', 'Murree', 'Naran-Kaghan', 'Skardu', 'Swat', 'Help me choose']);
-    const unsure = canvas.getByRole('button', { name: 'Help me choose' });
-    await expect(unsure.querySelector('img')).toHaveAttribute('alt', samplePlannerCopy.whereWhen.destinations.unsureImage.alt);
+    const helpMeChoose = canvas.getByRole('button', { name: 'Help me choose' });
+    await expect(helpMeChoose.querySelector('img')).toHaveAttribute('alt', samplePlannerCopy.whereWhen.destinations.unsureImage.alt);
     await userEvent.click(canvas.getByRole('button', { name: 'Hunza' }));
     await userEvent.click(canvas.getByRole('button', { name: 'Help me choose' }));
     await expect(canvas.getAllByRole('button', { pressed: true })).toHaveLength(2);

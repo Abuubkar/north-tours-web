@@ -68,7 +68,7 @@ export const NoDestination: Story = {
 export const NoDestinationOnLight: Story = { ...NoDestination, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /** Only "Help me choose": still the page's photo and "Your trip". */
-export const NotSure: Story = {
+export const HelpMeChoose: Story = {
   decorators: [withAnswers({ ...sampleAnswers, destinations: ['unsure'] })],
   play: async ({ canvas }) => {
     const card = postcard(canvas);
