@@ -14,7 +14,7 @@ Two rules stood in the way:
 
 ## Decision
 - **"Visit the office" shows a Google Maps embed** of the office in the photo's place, on About and Contact: an `<iframe>` of `https://www.google.com/maps?q=<query>&output=embed`. It needs no API key, account or script of ours.
-- **The map finds the office by `contact.officeMapQuery`**, the address as Google knows it: "Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000". Google doesn't know the plot ("16-R") or the floor; with them in the query it shows a scatter of search results across Lahore and no place, without them it outlines Block R. The full address stays in `contact.officeAddress`, shown on the page as written.
+- **The map finds the office by `contact.officeMapQuery`**: "Codeupnow, Ex Air Avenue, Block R, DHA Phase 8, Lahore", the name of the owner's Google Maps listing plus its street. Google doesn't know the plot ("16-R") or the floor, so the full address alone shows a scatter of search results; the listing's name pins the exact building, and the map's card shows the listing ("Codeupnow", its address and rating). The owner chose the exact pin knowing the card names Codeupnow (2026-10-05). The full address stays in `contact.officeAddress`, shown on the page as written.
   - It loads lazily (`loading="lazy"`), so it waits until the visitor scrolls near it and never competes with a page's LCP. It has a `title` naming it for screen readers ("Map of our office in DHA Phase 8, Lahore", from settings). It keeps the photo's 4:3 frame and 8px radius, so nothing moves when it loads.
   - The page loaders build it (`officeMap` in `lib/utils/contact.ts`) and pass it to the section, so stories can pass a stand-in page instead. The map, its link and "Get directions" come from one helper (`officeOnMaps`), which gives none of them while the address or the query has a placeholder.
   - A link under it opens the full map in Google Maps.
@@ -26,7 +26,7 @@ Two rules stood in the way:
 
 ## Alternatives considered
 - **A static map image** (a screenshot or the Static Maps API): a screenshot of Google's map can't be redistributed, and the Static Maps API needs an API key and billing account.
-- **The owner's listing itself** (its name in the query, or its place id): would pin the exact building, but the listing's name would then show on the map card while the brand name is still a placeholder, and a keyless embed can't take a place id. Revisit once the brand name is real.
+- **The address without the listing's name** ("Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000"): avoids showing "Codeupnow" on the map card, but only outlines Block R and doesn't pin the building. The owner preferred the exact pin (2026-10-05).
 - **A schematic drawing of the neighbourhood:** can't show the street well enough to find the door, and would need its own vetting.
 - **OpenStreetMap's embed:** no key either, but the owner's listing and the directions are on Google Maps, which most visitors in Pakistan already use; one provider keeps the Privacy Policy simpler.
 - **A click-to-load map** (a button that loads the iframe): avoids the request until asked, but adds a step and a client component for a map the owner wants seen. The lazy load already keeps it off pages' first paint; revisit if a cookie banner or consent rule ever arrives (CLAUDE.md §11).
