@@ -6,7 +6,6 @@
   composes: altitude from '../../styles/typography.module.css';
   display: flex;
   height: var(--altitude-strip-h);
-  padding-inline-end: var(--margin);
   background: var(--altitude-strip-bg);
   color: var(--altitude-strip-fg);
   white-space: nowrap;
@@ -55,8 +54,7 @@
 }
 
 /* Rings inside: the window clips anything outside a place, and the strip's edges meet the header and hero. */
-.place:focus-visible,
-.pause:focus-visible {
+.place:focus-visible {
   outline-offset: var(--focus-inset);
 }
 
@@ -64,26 +62,11 @@
   font-weight: var(--fw-semibold);
 }
 
-/* At the strip's end: a tap-target square, its ring inside it. */
-.pause {
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  width: var(--tap);
-  height: var(--tap);
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-}
-
 /*
  * Running (the script has measured the loop and the visitor allows motion): the window clips, and
- * the track moves one drawing's width at `--ticker-speed`, then starts again, seamlessly. It
- * pauses on hover and while focus is among the places, and when paused with the button. A place
- * with a keyboard focus ring stops it outright, so the script can bring the place into view.
+ * the track moves one drawing's width at `--ticker-speed`, then starts again, seamlessly. It keeps
+ * running under the pointer (ADR-0031). A place with a keyboard focus ring stops it outright, so
+ * the script can bring the place into view.
  */
 @media (prefers-reduced-motion: no-preference) {
   .strip[data-running] .viewport {
@@ -93,12 +76,6 @@
 
   .strip[data-running] .track {
     animation: altitude-loop calc(var(--loop-w) / var(--ticker-speed) * 1s) linear infinite;
-  }
-
-  .strip[data-paused] .track,
-  .viewport:hover .track,
-  .viewport:focus-within .track {
-    animation-play-state: paused;
   }
 
   .viewport:has(:focus-visible) .track {

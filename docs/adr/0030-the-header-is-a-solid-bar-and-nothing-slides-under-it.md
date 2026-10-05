@@ -1,6 +1,6 @@
 # ADR-0030: The header is a solid bar and nothing slides under it
 
-- **Status:** Accepted
+- **Status:** Accepted; superseded in part by ADR-0031 (the altitude strip's pausing, pause button, speed and inert copy)
 - **Date:** 2026-10-05
 - **Supersedes:** ADR-0027 in part (the header's 960px breakpoint)
 - **Related issue:** #135 (PRD), #136, #137, #138

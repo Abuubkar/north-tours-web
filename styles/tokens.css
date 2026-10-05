@@ -107,7 +107,7 @@
   --footer-contact-w: 380px; /* footer contact column */
   /*
    * The Homepage's altitude strip under the header (2f, ADR-0030): as tall as a tap target on both
-   * widths (the drawing's 36px and 32px grew so its pause button gets a 44px hit area). Places are
+   * widths (the drawing's 36px and 32px), so each place is a 44px-tall link. Places are
    * 24px apart on phones and 40px from the full-bar breakpoint (below).
    */
   --altitude-strip-h: var(--tap);
@@ -343,7 +343,7 @@
   --rise-distance: 40px; /* M4: a card's offset before it rises */
   --rise-stagger: 90ms; /* between cards in a row */
   --results-pending-max: 3s; /* Tours (and the planner): a linked or saved view shows after this even if the page's script never runs */
-  --ticker-speed: 40; /* the altitude strip runs this many px a second (unitless, for calc) */
+  --ticker-speed: 45; /* the altitude strip runs this many px a second (unitless, for calc); 40 at first, a little faster at the owner's request (ADR-0031) */
   --step-slide: 28px; /* the planner's step body slides in from this far */
   --dur-350: 0.35s; /* and takes this long */
 

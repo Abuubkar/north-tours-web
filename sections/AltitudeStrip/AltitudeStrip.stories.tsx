@@ -38,12 +38,11 @@ const loop = async (canvas: Canvas) => {
   await waitFor(() => expect(track(canvas).getAnimations()).toHaveLength(1));
   return track(canvas).getAnimations()[0];
 };
-const pauseButton = (canvas: Canvas) => canvas.getByRole('button', { name: 'Pause the altitude strip' });
 
 /**
- * A light strip (Text on Ink) under the header, as tall as a tap target so its pause button gets a
- * 44px hit area: each place is a link to its destination, named and tabbed once though the list is
- * drawn twice for the loop (the copy is hidden and inert). The ▲ is decorative.
+ * A light strip (Text on Ink) under the header, as tall as a tap target: each place is a link to
+ * its destination, named and tabbed once though the list is drawn twice for the loop (the copy is
+ * hidden from screen readers and out of the tab order, but clickable). The ▲ is decorative.
  */
 export const Running: Story = {
   play: async ({ canvas }) => {
@@ -57,21 +56,18 @@ export const Running: Story = {
       places.map(({ name, altitude, href }) => [`${name}▲ ${altitude}`, href]),
     );
     await expect(links.map((link) => within(link).getByText('▲').getAttribute('aria-hidden'))).toEqual(places.map(() => 'true'));
-    // The loop's copy: drawn, but out of the accessibility tree and the tab order.
+    // The loop's copy: drawn and clickable, but out of the accessibility tree and the tab order.
     const [, copy] = nav.querySelectorAll('ul');
     await expect(copy).toHaveAttribute('aria-hidden', 'true');
-    await expect(copy.inert).toBe(true);
-    await expect(copy.querySelectorAll('a')).toHaveLength(places.length);
-    // One drawing of the list per loop, at about 40px a second (--ticker-speed).
+    await expect(copy.inert).toBe(false);
+    const copyLinks = [...copy.querySelectorAll('a')];
+    await expect(copyLinks.map((link) => [link.getAttribute('href'), link.tabIndex])).toEqual(places.map(({ href }) => [href, -1]));
+    // One drawing of the list per loop, at 45px a second (--ticker-speed); no pause button.
     const animation = await loop(canvas);
     await expect(animation.playState).toBe('running');
     const drawing = nav.querySelector('ul')!.offsetWidth;
-    await expect(Number(animation.effect!.getTiming().duration)).toBeCloseTo((drawing / 40) * 1000, 0);
-    const pause = pauseButton(canvas);
-    await expect(pause).toHaveAccessibleName('Pause the altitude strip');
-    await expect(pause).toHaveAttribute('aria-pressed', 'false');
-    const { width, height: buttonHeight } = pause.getBoundingClientRect();
-    await expect([width, buttonHeight]).toEqual([44, 44]);
+    await expect(Number(animation.effect!.getTiming().duration)).toBeCloseTo((drawing / 45) * 1000, 0);
+    await expect(canvas.queryByRole('button')).toBeNull();
   },
 };
 
@@ -79,33 +75,56 @@ export const RunningOnLight: Story = { ...Running, globals: { surface: 'light', 
 
 export const RunningPhone: Story = { ...Running, globals: { viewport: { value: 'phone' } } };
 
-/** Real Tab presses reach each place once, in order, then the pause button: never the copy. */
+/** Real Tab presses reach each place once, in order, then leave the strip: never the copy. */
 export const TabOrder: Story = {
   play: async ({ canvas }) => {
     const keys = await realUser();
     if (!keys) return;
     await loop(canvas);
     const reached: string[] = [];
-    for (let i = 0; i <= places.length; i++) {
+    for (let i = 0; i < places.length; i++) {
       await keys.keyboard('{Tab}');
-      const focused = document.activeElement as HTMLElement;
-      reached.push(focused.getAttribute('href') ?? focused.getAttribute('aria-label')!);
+      reached.push((document.activeElement as HTMLElement).getAttribute('href')!);
     }
-    await expect(reached).toEqual([...places.map(({ href }) => href), 'Pause the altitude strip']);
+    await expect(reached).toEqual(places.map(({ href }) => href));
+    await keys.keyboard('{Tab}');
+    await expect(strip(canvas).contains(document.activeElement)).toBe(false);
   },
 };
 
-/** Pointing at the places pauses the strip; moving away starts it again. */
-export const HoverPauses: Story = {
+/** Pointing at the places doesn't stop the strip (owner, ADR-0031). */
+export const HoverKeepsRunning: Story = {
   play: async ({ canvas, canvasElement }) => {
     const user = await realUser();
     if (!user) return;
     const animation = await loop(canvas);
-    // The window, which stands still (the places move, so they never settle for the pointer).
     await user.hover(strip(canvas).querySelector('div')!);
-    await waitFor(() => expect(animation.playState).toBe('paused'));
+    const before = Number(animation.currentTime);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    await expect(animation.playState).toBe('running');
+    await expect(Number(animation.currentTime)).toBeGreaterThan(before);
     await parkPointer(canvasElement);
-    await waitFor(() => expect(animation.playState).toBe('running'));
+  },
+};
+
+/**
+ * The places sliding in from the right are the loop's copy, and a click on them lands on their
+ * link: here the loop is held where the copy's first place is in view, then hit-tested.
+ */
+export const CopyIsClickable: Story = {
+  play: async ({ canvas }) => {
+    const animation = await loop(canvas);
+    animation.pause();
+    animation.currentTime = Number(animation.effect!.getTiming().duration) / 2;
+    const [, copy] = strip(canvas).querySelectorAll('ul');
+    const first = copy.querySelector('a')!;
+    const { left, top, width, height } = first.getBoundingClientRect();
+    const frame = strip(canvas).querySelector('div')!.getBoundingClientRect();
+    await expect(left).toBeGreaterThanOrEqual(frame.left);
+    await expect(left + width).toBeLessThanOrEqual(frame.right);
+    const hit = document.elementFromPoint(left + width / 2, top + height / 2);
+    await expect(first.contains(hit)).toBe(true);
+    animation.play();
   },
 };
 
@@ -130,8 +149,7 @@ export const FocusShowsThePlace: Story = {
       expect(place.left).toBeGreaterThanOrEqual(frame.left);
       expect(place.right).toBeLessThanOrEqual(frame.right);
     });
-    await keys.keyboard('{Tab}');
-    await expect(pauseButton(canvas)).toHaveFocus();
+    last.blur();
     await expect((await loop(canvas)).playState).toBe('running');
   },
 };
@@ -139,28 +157,7 @@ export const FocusShowsThePlace: Story = {
 export const FocusShowsThePlaceOnLight: Story = { ...FocusShowsThePlace, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
 /**
- * The pause button is a toggle with one name, "Pause the altitude strip": pressed, it stops the
- * strip (aria-pressed="true", the icon turns to play); pressed again, it runs. The name never changes.
- */
-export const PauseButton: Story = {
-  play: async ({ canvas, userEvent }) => {
-    const animation = await loop(canvas);
-    const button = canvas.getByRole('button', { name: 'Pause the altitude strip' });
-    await userEvent.click(button);
-    await expect(button).toHaveAccessibleName('Pause the altitude strip');
-    await expect(button).toHaveAttribute('aria-pressed', 'true');
-    await waitFor(() => expect(animation.playState).toBe('paused'));
-    await userEvent.click(button);
-    await expect(button).toHaveAccessibleName('Pause the altitude strip');
-    await expect(button).toHaveAttribute('aria-pressed', 'false');
-    await waitFor(() => expect(animation.playState).toBe('running'));
-  },
-};
-
-export const PauseButtonOnLight: Story = { ...PauseButton, globals: { surface: 'light', viewport: { value: 'desktop' } } };
-
-/**
- * With reduced motion the strip stands still: no animation, no copy and no pause button. The
+ * With reduced motion the strip stands still: no animation and no copy. The
  * places are in order and the strip scrolls sideways to show them all.
  */
 export const ReducedMotion: Story = {
@@ -171,7 +168,6 @@ export const ReducedMotion: Story = {
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     await expect(track(canvas).getAnimations()).toHaveLength(0);
     await expect(nav.querySelectorAll('ul')).toHaveLength(1);
-    await expect(canvas.queryByRole('button')).toBeNull();
     await expect(within(nav).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual(places.map(({ href }) => href));
     const frame = nav.querySelector('div')!;
     await expect(getComputedStyle(frame).overflowX).toBe('auto');
