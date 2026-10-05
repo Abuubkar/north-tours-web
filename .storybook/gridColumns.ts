@@ -33,3 +33,22 @@ export async function expectCardGaps(list: HTMLElement, items: HTMLElement[], ga
   await expect(gridGaps(items)).toEqual(gaps);
   for (const element of [list, ...items]) await expect(drawsLines(element)).toBe(false);
 }
+
+/**
+ * A hairline grid that never paints an empty cell (styles/layout.module.css `grid`): the grid itself
+ * paints nothing, no background and no visible border, so nothing outside its cells is ever grey,
+ * and each cell draws its own lines with its outline.
+ */
+export async function expectOpenHairlines(grid: HTMLElement) {
+  const style = getComputedStyle(grid);
+  await expect(style.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+  for (const side of ['top', 'right', 'bottom', 'left']) {
+    const width = style.getPropertyValue(`border-${side}-width`);
+    const color = style.getPropertyValue(`border-${side}-color`);
+    await expect(width === '0px' || color === 'rgba(0, 0, 0, 0)').toBe(true);
+  }
+  for (const cell of grid.children) {
+    const { outlineStyle, outlineWidth } = getComputedStyle(cell);
+    await expect(`${outlineStyle} ${outlineWidth}`).toBe('solid 1px');
+  }
+}

@@ -42,16 +42,21 @@
   list-style: none;
 }
 
-/* Hairline grid: the 1px gap over the hairline colour draws the lines. */
+/*
+ * Hairline grid (owner feedback, 2026-10-05): each cell's 1px outline draws its lines, meeting the
+ * next cell's in the 1px gap, and the grid's transparent top and bottom borders keep the room for
+ * the outer lines. The grid itself paints nothing, so a part-filled last row simply ends rather
+ * than leaving grey empty cells. Its cells are `cell`s.
+ */
 .grid {
   composes: gridColumns;
-  border-block: var(--hairline-width) solid var(--hairline);
-  background: var(--hairline);
+  border-block: var(--hairline-width) solid transparent;
 }
 
 .cell {
   display: flex;
   flex-direction: column;
+  outline: var(--hairline-width) solid var(--hairline);
   background: var(--bg);
 }
 
@@ -80,8 +85,10 @@
 /*
  * Text-grid bleed (DESIGN.md §5): cells are padded on both sides, and the grid reaches out by
  * that padding and is clipped back, so the first and last column's text lines up with the page
- * margins at any column count. It names `gridColumns` as well as `grid`: the production build
- * passes on only one level of composition to modules that compose this class.
+ * margins at any column count, and the outer columns' side lines are clipped off. A grid with no
+ * outer lines sets `border-block: none`, so its top and bottom lines fall outside it and are
+ * clipped too. It names `gridColumns` as well as `grid`: the production build passes on only one
+ * level of composition to modules that compose this class.
  */
 .textGrid {
   composes: grid gridColumns;

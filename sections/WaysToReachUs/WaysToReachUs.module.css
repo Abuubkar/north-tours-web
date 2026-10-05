@@ -9,7 +9,8 @@
 
 /*
  * A text hairline grid with bleed (DESIGN.md §5), but fixed: three known cells, 2fr 1fr 1fr from
- * 1100px, one column below (docs/components.md §5 item 27).
+ * 1100px, one column below (docs/components.md §5 item 27). As the shared grid, the cells'
+ * outlines draw the lines and the grid paints nothing.
  */
 .grid {
   display: grid;
@@ -17,8 +18,7 @@
   gap: var(--hairline-width);
   margin-inline: calc(-1 * var(--cell-pad));
   padding: 0;
-  border-block: var(--hairline-width) solid var(--hairline);
-  background: var(--hairline);
+  border-block: var(--hairline-width) solid transparent;
   list-style: none;
   clip-path: inset(0 var(--cell-pad));
 }

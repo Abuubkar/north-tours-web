@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { sampleDestinationCopy } from '@/components/destination-card/sampleDestinationCopy';
 import { sampleDestination } from '@/components/destination-card/sampleDestinations';
-import { gridColumns } from '../../.storybook/gridColumns';
+import { expectOpenHairlines, gridColumns } from '../../.storybook/gridColumns';
 import { GoodToKnow } from './GoodToKnow';
 
 const notes = sampleDestination.notes!;
@@ -51,3 +51,16 @@ export const Phone: Story = {
 export const ThreeNotes: Story = { ...Desktop, args: { notes: notes.slice(0, 3) } };
 
 export const ThreeNotesPhone: Story = { ...Phone, args: { notes: notes.slice(0, 3) } };
+
+/**
+ * Four notes in three columns (Fairy Meadows, Skardu): the fourth sits alone in the last row, and
+ * the grid paints nothing beside it, so no grey empty cells (owner feedback).
+ */
+export const FourNotes: Story = {
+  ...Desktop,
+  args: { notes: notes.slice(0, 4) },
+  play: async (context) => {
+    await Desktop.play!(context);
+    await expectOpenHairlines(context.canvas.getByRole('list'));
+  },
+};

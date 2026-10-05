@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { sampleReviews } from '@/components/review-card/sampleReviews';
 import { monthYear } from '@/lib/utils/dates';
+import { expectOpenHairlines } from '../../.storybook/gridColumns';
 import { sampleAbout, sampleAboutReviews } from '../sampleAbout';
 import { sampleHome } from '../sampleHome';
 import { ReviewsSection } from './ReviewsSection';
@@ -47,6 +48,25 @@ export const OneReview: Story = {
     await expect(canvas.getByText(/average · 1 review$/)).toBeVisible();
   },
 };
+
+/**
+ * A destination or tour with one review: the card sits in the first of three columns, not
+ * stretched, and the grid paints nothing beside it, so no grey empty cells (owner feedback).
+ */
+export const LoneReview: Story = {
+  args: { reviews: sampleReviews.slice(0, 1), summary: { score: 5, count: 1 } },
+  play: async ({ canvas }) => {
+    const card = canvas.getByRole('figure');
+    const grid = card.parentElement!;
+    const headline = canvas.getByRole('heading', { level: 2 }).getBoundingClientRect();
+    const quote = card.querySelector('blockquote')!.getBoundingClientRect();
+    await expect(Math.round(quote.left)).toBe(Math.round(headline.left));
+    await expect(card.getBoundingClientRect().width).toBeLessThan(grid.getBoundingClientRect().width / 2);
+    await expectOpenHairlines(grid);
+  },
+};
+
+export const LoneReviewOnLight: Story = { ...LoneReview, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const PhoneOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
 

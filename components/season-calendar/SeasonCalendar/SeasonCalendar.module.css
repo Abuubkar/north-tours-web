@@ -46,15 +46,19 @@
   background: var(--bg);
 }
 
-/* A hairline grid with fixed columns, as designed: six on phones, twelve from 820px. */
+/*
+ * A hairline grid with fixed columns, as designed: six on phones, twelve from 820px. As the shared
+ * grid, each month's outline draws the lines, the grid paints nothing, and the outer side lines
+ * are clipped off.
+ */
 .months {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--hairline-width);
   padding: 0;
-  border-block: var(--hairline-width) solid var(--hairline);
-  background: var(--hairline);
+  border-block: var(--hairline-width) solid transparent;
   list-style: none;
+  clip-path: inset(0);
 }
 
 @media (width >= 820px) {
@@ -70,6 +74,7 @@
   gap: var(--space-8);
   min-height: var(--month-cell-min-h);
   padding: var(--space-12) var(--space-8) var(--space-16);
+  outline: var(--hairline-width) solid var(--hairline);
 }
 
 .best {
