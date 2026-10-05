@@ -71,15 +71,17 @@ export const DisplayWordPhone: Story = { ...DisplayWord, globals: { viewport: { 
 export const DisplayWordOnLight: Story = { ...DisplayWord, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 /**
- * The hero starts below the header (no negative margin, so the header never covers the photo) and
- * ends at the fold: its height is the screen, clamped to 700–980px as before, less the header.
+ * The hero starts below the header and the altitude strip (no negative margin, so nothing covers
+ * the photo) and ends at the fold: its height is the screen, clamped to 700–980px as before, less
+ * the header and the strip.
  */
 export const EndsAtTheFold: Story = {
   play: async ({ canvasElement }) => {
     const hero = canvasElement.querySelector('section')!;
     await expect(getComputedStyle(hero).marginTop).toBe('0px');
     const screen = Math.min(Math.max(window.innerHeight, 700), 980);
-    await expect(hero.getBoundingClientRect().height).toBeCloseTo(screen - headerHeight(), 0);
+    const strip = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--altitude-strip-h'));
+    await expect(hero.getBoundingClientRect().height).toBeCloseTo(screen - headerHeight() - strip, 0);
   },
 };
 

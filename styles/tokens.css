@@ -44,6 +44,7 @@
   --hairline-width: 1px; /* every hairline and control border (DESIGN.md §5) */
   --focus-width: 2px;
   --focus-offset: 3px;
+  --focus-inset: calc(-1 * var(--focus-width)); /* a ring drawn inside its element, where the outside is clipped (the altitude strip) */
   --bar-border-width: 2px; /* the header's bordered controls: WhatsApp and Menu (2f, ADR-0030) */
 
   /* Surfaces outside the palette */
@@ -54,6 +55,8 @@
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
   --header-backdrop: blur(18px) saturate(140%); /* the frosted bars' blur (the header's until ADR-0030) */
   --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars and the planner's bars, frosted */
+  --altitude-strip-bg: var(--text); /* the Homepage's altitude strip (2f, ADR-0030): Text on Ink, about 16:1 */
+  --altitude-strip-fg: var(--ink-900);
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
@@ -103,11 +106,18 @@
   --key-value-min: 300px; /* its value, before it wraps under the label */
   --footer-contact-w: 380px; /* footer contact column */
   /*
-   * Homepage hero (DESIGN.md §9): the first screen, clamped as it always was, less the header above it,
-   * so the hero starts below the header and still ends at the fold (owner, 2026-10-05: the nav doesn't
-   * cut the hero image).
+   * The Homepage's altitude strip under the header (2f, ADR-0030): as tall as a tap target on both
+   * widths (the drawing's 36px and 32px grew so its pause button gets a 44px hit area). Places are
+   * 24px apart on phones and 40px from the full-bar breakpoint (below).
    */
-  --hero-h: calc(clamp(700px, 100svh, 980px) - var(--header-h));
+  --altitude-strip-h: var(--tap);
+  --altitude-gap: var(--space-24);
+  /*
+   * Homepage hero (DESIGN.md §9): the first screen, clamped as it always was, less the header and the
+   * altitude strip above it, so the hero starts below them and still ends at the fold (owner,
+   * 2026-10-05: the nav doesn't cut the hero image).
+   */
+  --hero-h: calc(clamp(700px, 100svh, 980px) - var(--header-h) - var(--altitude-strip-h));
   --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero, and About's photo cover */
   --destination-hero-h: clamp(620px, 52cqi, 780px); /* Destination photo hero */
   --photo-hero-scrim-stretch: 160%; /* its scrim on phones (and the planner's photo band and About's cover at every width), drawn taller so the text sits on the dark end */
@@ -333,6 +343,7 @@
   --rise-distance: 40px; /* M4: a card's offset before it rises */
   --rise-stagger: 90ms; /* between cards in a row */
   --results-pending-max: 3s; /* Tours (and the planner): a linked or saved view shows after this even if the page's script never runs */
+  --ticker-speed: 40; /* the altitude strip runs this many px a second (unitless, for calc) */
   --step-slide: 28px; /* the planner's step body slides in from this far */
   --dur-350: 0.35s; /* and takes this long */
 
@@ -436,6 +447,14 @@
   /* Image placeholders only (DESIGN.md §9): the shot named in an 11px monospace caption. */
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --fs-placeholder: 11px;
+
+  /*
+   * The altitude strip (2f, ADR-0030): Geist Mono, loaded for the Homepage only (the system
+   * monospace until it arrives), 500 and the names 600, upper case. 11px on phones, 12px from 1200px.
+   */
+  --font-ticker: var(--font-geist-mono, ui-monospace), var(--font-mono);
+  --fs-altitude: 11px;
+  --ls-altitude: 0.06em;
   --lh-placeholder: 1.5;
   --ls-placeholder: 0.02em;
 }
@@ -445,6 +464,8 @@
   :root {
     --header-h: 76px;
     --fs-brand: 30px;
+    --altitude-gap: 40px;
+    --fs-altitude: 12px;
   }
 }
 

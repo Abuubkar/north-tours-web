@@ -40,6 +40,12 @@ const homeSchema = z.strictObject({
     /** Also the page's share image, cropped to 1200×630 by `pnpm images`. */
     image: photoSchema,
   }),
+  /** The altitude strip under the header (PRD #135): its screen-reader name and its pause button's two labels. */
+  altitudes: z.strictObject({
+    label: copy,
+    pause: copy,
+    play: copy,
+  }),
   statement: z.strictObject({
     /** The page's <h1>. */
     headline: copy,

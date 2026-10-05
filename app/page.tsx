@@ -11,12 +11,14 @@ import { getReviews } from '@/lib/content/reviews';
 import { getRouteMap } from '@/lib/content/routeMap';
 import { getSettings } from '@/lib/content/settings';
 import { routes } from '@/lib/routes';
+import { altitudePlaces } from '@/lib/utils/altitudeStrip';
 import { cardTour } from '@/lib/utils/cardTour';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { pageMetadata } from '@/lib/utils/metadata';
 import { ratingSummary } from '@/lib/utils/rating';
 import { travelAgency } from '@/lib/utils/structuredData';
 import { fillTokens, settingsTokens } from '@/lib/utils/tokens';
+import { AltitudeStrip } from '@/sections/AltitudeStrip/AltitudeStrip';
 import { BrandStatement } from '@/sections/BrandStatement/BrandStatement';
 import { DestinationsGrid } from '@/sections/DestinationsGrid/DestinationsGrid';
 import { GuidesGrid } from '@/sections/GuidesGrid/GuidesGrid';
@@ -41,6 +43,7 @@ export default function HomePage() {
   const copy = getHomeCopy();
   const settings = getSettings();
   const tours = getTours();
+  const destinations = getDestinations();
   const tokens = settingsTokens(settings);
   const steps = copy.how.steps.map((step) => ({ ...step, text: fillTokens(step.text, tokens) }));
   const reviews = getReviews()
@@ -48,7 +51,10 @@ export default function HomePage() {
     .map((review) => ({ review, tourTitle: getTour(review.tour)!.title }));
 
   return (
-    <PageMain>
+    <>
+      {/* Under the header, before <main>, so the skip link passes it (Homepage only, ADR-0030). */}
+      <AltitudeStrip places={altitudePlaces(destinations)} copy={copy.altitudes} />
+      <PageMain>
       <ShareImageMeta photo={copy.hero.image} siteUrl={settings.site.url} />
       <CanonicalMeta path={routes.home} siteUrl={settings.site.url} />
       <JsonLd data={travelAgency(settings, { description: copy.description, image: copy.hero.image.src })} />
@@ -64,10 +70,11 @@ export default function HomePage() {
       </TourCardsSection>
       <HowBookingWorks copy={{ ...copy.how, steps }} />
       <RouteMapSection copy={copy.route} map={getRouteMap()} />
-      <DestinationsGrid copy={copy.destinations} destinations={getDestinations()} />
+      <DestinationsGrid copy={copy.destinations} destinations={destinations} />
       <GuidesGrid copy={copy.guides} guides={getGuides()} />
       <ReviewsSection copy={copy.reviews} reviews={reviews} summary={ratingSummary(tours.map((tour) => tour.rating))} />
       <TrustStrip settings={settings} year={new Date().getFullYear()} />
-    </PageMain>
+      </PageMain>
+    </>
   );
 }

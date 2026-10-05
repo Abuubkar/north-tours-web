@@ -20,6 +20,11 @@
       }
     }
   },
+  "altitudes": {
+    "label": "Altitudes of our destinations",
+    "pause": "Pause the altitude strip",
+    "play": "Play the altitude strip"
+  },
   "statement": {
     "headline": "Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway",
     "body": "Our guides grew up in Hunza, Skardu and Swat. Our drivers have spent decades on the Karakoram Highway. They plan around the weather, the roads and your family’s pace, so all you have to do is look out of the window.",
