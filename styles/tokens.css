@@ -447,16 +447,20 @@
   /* Image placeholders only (DESIGN.md §9): the shot named in an 11px monospace caption. */
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --fs-placeholder: 11px;
-
-  /*
-   * The altitude strip (2f, ADR-0030): Geist Mono, loaded for the Homepage only (the system
-   * monospace until it arrives), 500 and the names 600, upper case. 11px on phones, 12px from 1200px.
-   */
-  --font-ticker: var(--font-geist-mono, ui-monospace), var(--font-mono);
-  --fs-altitude: 11px;
-  --ls-altitude: 0.06em;
   --lh-placeholder: 1.5;
   --ls-placeholder: 0.02em;
+
+  /* The altitude strip (2f, ADR-0030): 500 and the names 600, upper case; 11px on phones, 12px from 1200px. */
+  --fs-altitude: 11px;
+  --ls-altitude: 0.06em;
+}
+
+/*
+ * The altitude strip's face: Geist Mono, loaded for the Homepage only and set by next/font on the
+ * strip itself, so the token resolves there (the system monospace if it isn't there yet).
+ */
+[data-altitude-strip] {
+  --font-ticker: var(--font-geist-mono, ui-monospace), var(--font-mono);
 }
 
 /* From the full-bar breakpoint (1200px, ADR-0030) the header is the full 2f bar: taller, with a larger brand. */

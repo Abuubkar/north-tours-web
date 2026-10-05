@@ -175,10 +175,19 @@
   font-weight: var(--fw-regular);
 }
 
-/* Image placeholders only (DESIGN.md §9): the system monospace, since Geist Mono isn't loaded. */
+/* Image placeholders only (DESIGN.md §9): the system monospace (Geist Mono is loaded only for the altitude strip). */
 .placeholderCaption {
   font-family: var(--font-mono);
   font-size: var(--fs-placeholder);
   line-height: var(--lh-placeholder);
   letter-spacing: var(--ls-placeholder);
+}
+
+/* The altitude strip (2f, ADR-0030): Geist Mono, upper case; the one text under 13px besides captions. */
+.altitude {
+  font-family: var(--font-ticker);
+  font-size: var(--fs-altitude);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-altitude);
+  text-transform: uppercase;
 }

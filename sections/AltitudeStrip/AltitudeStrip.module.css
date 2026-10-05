@@ -3,29 +3,26 @@
  * tap target. In the page flow, not sticky: it scrolls away and the header stays.
  */
 .strip {
+  composes: altitude from '../../styles/typography.module.css';
   display: flex;
   height: var(--altitude-strip-h);
   padding-inline-end: var(--margin);
   background: var(--altitude-strip-bg);
   color: var(--altitude-strip-fg);
-  font-family: var(--font-ticker);
-  font-size: var(--fs-altitude);
-  font-weight: var(--fw-medium);
-  letter-spacing: var(--ls-altitude);
-  text-transform: uppercase;
   white-space: nowrap;
 }
 
 /*
  * The places' window. Standing still (reduced motion, or before the script runs) it scrolls
- * sideways; a container, so each drawing of the list is at least as wide as the window.
+ * sideways, with a thin scrollbar to show it does; a container, so each drawing of the list is at
+ * least as wide as the window.
  */
 .viewport {
   flex: 1;
   min-width: 0;
   overflow-x: auto;
   container-type: inline-size;
-  scrollbar-width: none;
+  scrollbar-width: thin;
 }
 
 .track {
@@ -57,8 +54,9 @@
   text-decoration: none;
 }
 
-/* Inside the link: the window clips anything outside it. */
-.place:focus-visible {
+/* Rings inside: the window clips anything outside a place, and the strip's edges meet the header and hero. */
+.place:focus-visible,
+.pause:focus-visible {
   outline-offset: var(--focus-inset);
 }
 
@@ -81,10 +79,6 @@
   cursor: pointer;
 }
 
-.pause:focus-visible {
-  outline-offset: var(--focus-inset);
-}
-
 /*
  * Running (the script has measured the loop and the visitor allows motion): the window clips, and
  * the track moves one drawing's width at `--ticker-speed`, then starts again, seamlessly. It
@@ -94,6 +88,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .strip[data-running] .viewport {
     overflow-x: hidden;
+    scrollbar-width: none;
   }
 
   .strip[data-running] .track {

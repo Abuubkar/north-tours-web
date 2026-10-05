@@ -10,9 +10,9 @@ import styles from './AltitudeStrip.module.css';
 const ICON_SIZE = 16;
 
 /** The places, each a link to its destination: the name, then "▲ 2,438 m" (the ▲ decorative). */
-function AltitudeList({ places, copy = false, ref }: AltitudeListProps) {
+function AltitudeList({ places, duplicate = false, ref }: AltitudeListProps) {
   return (
-    <ul ref={ref} className={styles.list} aria-hidden={copy || undefined} inert={copy}>
+    <ul ref={ref} className={styles.list} aria-hidden={duplicate || undefined} inert={duplicate}>
       {places.map(({ name, href, altitude }) => (
         <li key={href}>
           <a href={href} className={styles.place}>
@@ -51,7 +51,7 @@ export function AltitudeStrip({ places, copy }: AltitudeStripProps) {
       <div ref={viewportRef} className={styles.viewport} onFocus={onFocus} onBlur={onBlur}>
         <div className={styles.track}>
           <AltitudeList places={places} ref={loopRef} />
-          {moving && <AltitudeList places={places} copy />}
+          {moving && <AltitudeList places={places} duplicate />}
         </div>
       </div>
       {moving && (

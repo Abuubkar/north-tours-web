@@ -12,7 +12,7 @@ export type AltitudeStripProps = {
 export type AltitudeListProps = {
   places: AltitudePlace[];
   /** The loop's second drawing: hidden from screen readers and out of the tab order. */
-  copy?: boolean;
+  duplicate?: boolean;
   /** The first drawing, measured for the loop's width. */
   ref?: Ref<HTMLUListElement>;
 };

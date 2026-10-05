@@ -50,6 +50,8 @@ export const Running: Story = {
     const nav = strip(canvas);
     const { backgroundColor, color, height, textTransform } = getComputedStyle(nav);
     await expect([backgroundColor, color, height, textTransform]).toEqual(['rgb(241, 238, 232)', 'rgb(12, 18, 22)', '44px', 'uppercase']);
+    // Geist Mono, set on the strip itself (the system monospace after it, until it's there).
+    await expect(getComputedStyle(nav).fontFamily).toMatch(/^"?'?Geist Mono/);
     const links = within(nav).getAllByRole('link');
     await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual(
       places.map(({ name, altitude, href }) => [`${name}▲ ${altitude}`, href]),
