@@ -1,6 +1,5 @@
 import { LastUpdated } from '@/components/ui/LastUpdated/LastUpdated';
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
-import { coverSizes } from '@/lib/utils/images';
 import type { PageHeaderProps, PageHeaderVariant } from './PageHeader.types';
 import styles from './PageHeader.module.css';
 
@@ -37,8 +36,7 @@ const leadClass: Record<PageHeaderVariant, string> = {
 
 /** The text pages read on the light surface; the photo headers are always dark; the others follow the page. */
 const LIGHT: ReadonlySet<PageHeaderVariant> = new Set(['help', 'legal']);
-/** The photo headers, and each one's tallest (the maximum of `--planner-band-h` and `--photo-hero-h`), for the photo's `sizes`. */
-const PHOTO_HEIGHT: Partial<Record<PageHeaderVariant, `${number}px`>> = { planner: '460px', about: '740px' };
+const PHOTO: ReadonlySet<PageHeaderVariant> = new Set(['planner', 'about']);
 
 /**
  * A page's opening: the <h1> and a lead line under it (Tours), over a photo on the planner's first
@@ -49,14 +47,13 @@ const PHOTO_HEIGHT: Partial<Record<PageHeaderVariant, `${number}px`>> = { planne
  */
 export function PageHeader({ headline, lead, variant = 'default', image, updated, search }: PageHeaderProps) {
   const classes = [styles.header, headerClass[variant]].filter(Boolean).join(' ');
-  const photoHeight = PHOTO_HEIGHT[variant];
-  const photo = photoHeight !== undefined;
+  const photo = PHOTO.has(variant);
   return (
     <header className={classes} data-surface={LIGHT.has(variant) ? 'light' : photo ? 'dark' : undefined}>
-      {photoHeight && image && (
+      {photo && image && (
         <>
           <div className={styles.photoMedia}>
-            <MediaFrame image={image} ratio="fill" sizes={coverSizes(image, photoHeight)} priority />
+            <MediaFrame image={image} ratio="fill" sizes="100vw" priority />
           </div>
           <div className={styles.photoScrim} />
         </>

@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react';
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
 import { TextLink } from '@/components/ui/TextLink/TextLink';
-import { coverSizes } from '@/lib/utils/images';
 import type { PhotoHeroProps } from './PhotoHero.types';
 import styles from './PhotoHero.module.css';
 
@@ -13,9 +12,6 @@ import styles from './PhotoHero.module.css';
  */
 const heroClass = { tour: styles.hero, destination: `${styles.hero} ${styles.destination}` };
 
-/** Each hero's tallest (the maximum of `--photo-hero-h` and `--destination-hero-h`), for the photo's `sizes`. */
-const heroHeight = { tour: '740px', destination: '780px' } as const;
-
 /** Tour: the tour hero size, wrapping as it needs. Destination: display size on one line (`--name-length`). */
 const titleClass = { tour: styles.title, destination: styles.name };
 
@@ -23,7 +19,7 @@ export function PhotoHero({ variant = 'tour', image, back, kicker, title, lead, 
   return (
     <section className={heroClass[variant]} data-surface="dark">
       <div className={styles.media}>
-        <MediaFrame image={image} ratio="fill" sizes={coverSizes(image, heroHeight[variant])} priority />
+        <MediaFrame image={image} ratio="fill" sizes="100vw" priority />
       </div>
       <div className={styles.scrim} />
       <div className={styles.top}>
