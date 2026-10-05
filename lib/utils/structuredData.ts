@@ -71,7 +71,9 @@ export type TouristTripInput = {
 /**
  * A tour page's trip: its itinerary, one offer per upcoming departure (the twin price per
  * person in PKR, availability from seats, valid until it leaves), and its rating and reviews
- * only once they aren't sample (ADR-0022).
+ * only once they aren't sample (ADR-0022). It's typed as both a TouristTrip and a Product
+ * (#117): schema.org allows `aggregateRating` and `review` on a Product, not on a Trip, and
+ * search engines show review stars for products.
  */
 export function touristTrip({ tour, image, tripTypeLabels, reviews, today, settings }: TouristTripInput): JsonObject {
   const url = (path: string) => siteUrlFor(path, settings.site.url);
@@ -80,7 +82,7 @@ export function touristTrip({ tour, image, tripTypeLabels, reviews, today, setti
   const shownReviews = realReviews(reviews);
   return {
     '@context': CONTEXT,
-    '@type': 'TouristTrip',
+    '@type': ['TouristTrip', 'Product'],
     name: tour.title,
     description: tour.summary,
     url: page,
