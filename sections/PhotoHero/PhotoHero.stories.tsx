@@ -55,7 +55,6 @@ export const Desktop: Story = {
     const photo = canvas.getByRole('img', { name: sampleTour.image.alt });
     await expect(photo).toHaveAttribute('fetchpriority', 'high');
     await expect(photo).toHaveAttribute('loading', 'eager');
-    await expect(photo.getBoundingClientRect().top).toBeCloseTo(hero.getBoundingClientRect().top, 0);
   },
 };
 

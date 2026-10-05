@@ -174,7 +174,7 @@
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */
-  --planner-band-h: clamp(360px, 30cqi, 460px); /* the planner's photo band behind that header, under the site header */
+  --planner-band-h: clamp(360px, 30cqi, 460px); /* the planner's photo band behind that header, below the site header */
   --grid-choices-min: 150px; /* the planner's destination cards (gaps, not hairlines) */
   --date-field-min: 200px; /* a date field beside another (From and To) before they stack */
   --age-select-w: 110px; /* each child's age select, in a row */
