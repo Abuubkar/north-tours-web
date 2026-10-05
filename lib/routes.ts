@@ -1,4 +1,5 @@
 import type { TourFilters } from './utils/tourFilters.ts';
+import { sitePath } from './utils/basePath.ts';
 import { toursSearch } from './utils/toursSearch.ts';
 
 /** A guide's card on the About page carries this id, so `/about#guide-karim-baig` lands on it. */
@@ -25,35 +26,35 @@ export const HELP_PAGE_ANCHORS: readonly string[] = ['main', POLICIES_ANCHOR];
 export const ON_TRIP_ANCHOR = 'on-trip';
 
 /**
- * Every URL on the site. Links use these, never hard-coded paths. Most pages are built by
- * their own PRDs; links point to them already.
+ * Every URL on the site. Links use these, never hard-coded paths. Each goes through `sitePath`,
+ * so it's under the base path when the build has one (ADR-0032).
  */
 export const routes = {
-  home: '/',
-  tours: '/tours',
+  home: sitePath('/'),
+  tours: sitePath('/tours'),
   /** The Tours page filtered, e.g. "See all Hunza trips": /tours?dest=hunza (lib/utils/toursSearch). */
-  toursWith: (filters: Partial<TourFilters>) => `/tours${toursSearch(filters)}`,
-  tour: (slug: string) => `/tours/${slug}`,
+  toursWith: (filters: Partial<TourFilters>) => sitePath(`/tours${toursSearch(filters)}`),
+  tour: (slug: string) => sitePath(`/tours/${slug}`),
   /** Every destination on one page (PRD #118). */
-  destinations: '/destinations',
-  destination: (slug: string) => `/destinations/${slug}`,
-  plan: '/plan',
+  destinations: sitePath('/destinations'),
+  destination: (slug: string) => sitePath(`/destinations/${slug}`),
+  plan: sitePath('/plan'),
   /** The Trip Planner with a destination chosen: /plan?dest=hunza (the Planner pre-selects it). */
-  planFor: (destination: string) => `/plan?dest=${encodeURIComponent(destination)}`,
-  about: '/about',
-  help: '/help',
+  planFor: (destination: string) => sitePath(`/plan?dest=${encodeURIComponent(destination)}`),
+  about: sitePath('/about'),
+  help: sitePath('/help'),
   /** Help's booking policies (Contact's quick links). */
-  policies: `/help#${POLICIES_ANCHOR}`,
+  policies: sitePath(`/help#${POLICIES_ANCHOR}`),
   /** One answer on the Help page, which opens it: /help#refunds. */
-  helpAnswer: (id: string) => `/help${helpAnswerHash(id)}`,
-  contact: '/contact',
-  privacy: '/privacy',
-  terms: '/terms',
-  credits: '/credits',
+  helpAnswer: (id: string) => sitePath(`/help${helpAnswerHash(id)}`),
+  contact: sitePath('/contact'),
+  privacy: sitePath('/privacy'),
+  terms: sitePath('/terms'),
+  credits: sitePath('/credits'),
   /** One guide's profile on the About page. */
-  guide: (slug: string) => `/about${guideHash(slug)}`,
+  guide: (slug: string) => sitePath(`/about${guideHash(slug)}`),
   /** About's guides, for the Homepage's "Meet the team". */
-  guides: '/about#guides',
+  guides: sitePath('/about#guides'),
 } as const;
 
 /** A page in the route map by name, for copy that links to one: "plan" is /plan, "policies" /help#policies. */

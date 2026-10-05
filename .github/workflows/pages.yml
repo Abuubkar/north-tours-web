@@ -1,0 +1,52 @@
+# The noindexed preview on GitHub Pages (ADR-0032): https://abuubkar.github.io/north-tours-web/
+# Builds the static export for the repo's sub-path and deploys it, on every push to main and by hand.
+name: Deploy the preview to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; a newer push waits rather than cancelling one already deploying.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The pnpm version comes from package.json's packageManager.
+      - uses: pnpm/action-setup@v4
+      # Node 24 runs the TypeScript scripts (content:check) with built-in type stripping.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm content:check
+      - uses: actions/configure-pages@v5
+      # Photos are committed (ADR-0015), so there's no `pnpm images` step.
+      - run: pnpm build
+        env:
+          BASE_PATH: /north-tours-web
+          NOINDEX: '1'
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

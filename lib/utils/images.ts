@@ -1,4 +1,5 @@
 import type { Photo } from '../content/images.ts';
+import { sitePath } from './basePath.ts';
 
 /*
  * Image variants (ADR-0015). `pnpm images` writes them and `MediaFrame` reads them, both from
@@ -28,29 +29,29 @@ export function variantWidths(width: number): number[] {
 
 const extension = /\.[a-z]+$/;
 
-/** "/images/hunza/attabad.jpg" at 800 as WebP → "/images/hunza/attabad-800.webp". */
-export function variantSrc(src: string, width: number, format: ImageFormat): string {
+/** "/images/hunza/attabad.jpg" at 800 as WebP → "/images/hunza/attabad-800.webp", the file in public. */
+export function variantFile(src: string, width: number, format: ImageFormat): string {
   return src.replace(extension, `-${width}.${format}`);
 }
 
-/** The `srcset` for one format: every variant width of the photo. */
+/** The `srcset` for one format: every variant width of the photo, under the base path. */
 export function variantSrcSet(photo: Pick<Photo, 'src' | 'width'>, format: ImageFormat): string {
   return variantWidths(photo.width)
-    .map((w) => `${variantSrc(photo.src, w, format)} ${w}w`)
+    .map((w) => `${sitePath(variantFile(photo.src, w, format))} ${w}w`)
     .join(', ');
 }
 
 /** Browsers without `srcset` get one JPEG: the largest up to this width. */
 const FALLBACK_MAX_WIDTH = 1200;
 
-/** The `src` for browsers without `srcset`. */
+/** The `src` for browsers without `srcset`, under the base path. */
 export function fallbackSrc(photo: Pick<Photo, 'src' | 'width'>): string {
   const widths = variantWidths(photo.width).filter((w) => w <= FALLBACK_MAX_WIDTH);
-  return variantSrc(photo.src, widths[widths.length - 1], 'jpg');
+  return sitePath(variantFile(photo.src, widths[widths.length - 1], 'jpg'));
 }
 
-/** "/images/hunza/attabad.jpg" → "/images/hunza/attabad-share.jpg". */
-export function shareSrc(src: string): string {
+/** "/images/hunza/attabad.jpg" → "/images/hunza/attabad-share.jpg", the file in public. */
+export function shareFile(src: string): string {
   return src.replace(extension, '-share.jpg');
 }
 

@@ -41,6 +41,8 @@ It builds the site, serves the static export on a free localhost port (as a stat
 - **Page checks:** exactly one `<h1>` at each width; a `<title>` no other page shares; a meta description; `og:image` and `twitter:image` pointing to a file in the build; a canonical URL to the page itself (not on the 404).
 - **Sitemap:** `sitemap.xml` lists exactly the built pages, minus the 404.
 
+`pnpm audit:site --origin <address>` runs the same checks against a live site, such as the GitHub Pages preview (`docs/github-pages-preview.md`).
+
 **Its limits:**
 - **INP needs real taps,** and Lighthouse only loads pages. The audit reports TBT (Total Blocking Time) as the lab stand-in and warns above 200 ms without failing. INP is checked by hand on the interactive flows.
 - Lab numbers are estimates for a mid-range phone on slow mobile data, not what real visitors measure. They depend on how the site is served: Lighthouse reads LCP up to a second slower from a plain HTTP/1.1 server than from HTTP/2, which every host uses, so the audit serves HTTP/2 (ADR-0025).
@@ -99,3 +101,4 @@ What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm bui
 
 Not listed by `launch:check`:
 - **Hosting** is out of scope here (ADR-0007, CLAUDE.md §11): the owner sets it up by hand once this list is clear.
+- **The real build isn't the preview's.** The GitHub Pages preview builds with `BASE_PATH=/north-tours-web NOINDEX=1` (ADR-0032, `docs/github-pages-preview.md`). The real site builds without `NOINDEX`, so search engines may index it, and without `BASE_PATH` unless the real host serves it from a sub-path; and the site URL in settings is the real address (section 1).

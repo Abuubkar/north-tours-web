@@ -38,13 +38,19 @@ describe('sitemapUrls', () => {
 
 describe('robotsRules', () => {
   it('allows everything and names no sitemap while the site URL is a placeholder', () => {
-    expect(robotsRules('[Site URL]')).toEqual({ rules: { userAgent: '*', allow: '/' } });
+    expect(robotsRules('[Site URL]', false)).toEqual({ rules: { userAgent: '*', allow: '/' } });
   });
 
   it('names the absolute sitemap once the site URL is real', () => {
-    expect(robotsRules('https://example.pk')).toEqual({
+    expect(robotsRules('https://example.pk', false)).toEqual({
       rules: { userAgent: '*', allow: '/' },
       sitemap: 'https://example.pk/sitemap.xml',
     });
+  });
+
+  it('disallows everything and names no sitemap in a noindex build (ADR-0032)', () => {
+    for (const siteUrl of ['[Site URL]', 'https://example.pk']) {
+      expect(robotsRules(siteUrl, true)).toEqual({ rules: { userAgent: '*', disallow: '/' } });
+    }
   });
 });

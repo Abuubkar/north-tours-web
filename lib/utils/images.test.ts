@@ -3,20 +3,20 @@ import {
   coverCrop,
   fallbackSrc,
   objectPosition,
-  shareSrc,
-  variantSrc,
+  shareFile,
+  variantFile,
   variantSrcSet,
   variantWidths,
 } from './images.ts';
 
 describe('variant names', () => {
   it('adds the width and format to the source name', () => {
-    expect(variantSrc('/images/hunza/attabad.jpg', 800, 'webp')).toBe('/images/hunza/attabad-800.webp');
-    expect(variantSrc('/images/hunza/attabad.jpeg', 480, 'jpg')).toBe('/images/hunza/attabad-480.jpg');
+    expect(variantFile('/images/hunza/attabad.jpg', 800, 'webp')).toBe('/images/hunza/attabad-800.webp');
+    expect(variantFile('/images/hunza/attabad.jpeg', 480, 'jpg')).toBe('/images/hunza/attabad-480.jpg');
   });
 
   it('names the share crop', () => {
-    expect(shareSrc('/images/hero/hunza.jpg')).toBe('/images/hero/hunza-share.jpg');
+    expect(shareFile('/images/hero/hunza.jpg')).toBe('/images/hero/hunza-share.jpg');
   });
 });
 

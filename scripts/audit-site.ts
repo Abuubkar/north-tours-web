@@ -2,11 +2,16 @@
 // checks every built page: Lighthouse (LCP, CLS, TBT), axe at 390 and 1440, and the page checks.
 // Prints one Markdown table and fails on any miss. Run on demand; never in `pnpm test` or the
 // pre-commit hook.
+//
+// `--origin https://abuubkar.github.io/north-tours-web` audits a live site instead (ADR-0032): it
+// builds for that address's path, so the page list and the checks match what's deployed, and
+// loads every page from there rather than the local server.
 import { execSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { parseArgs } from 'node:util';
 import { chromium } from 'playwright';
-import { auditReport, builtPages, judgeSite, medianVitals, overLimit, sitemapFailures, sitemapLocs, type PageAudit } from '../lib/utils/audit.ts';
+import { auditReport, auditTarget, builtPages, htmlTitle, judgeSite, medianVitals, overLimit, pageUrl, sitemapFailures, sitemapLocs, type AuditTarget, type PageAudit } from '../lib/utils/audit.ts';
 import { getSettings } from '../lib/content/settings.ts';
 import { inspectPage, WIDTHS } from './audit/inspect.ts';
 import { startLighthouse } from './audit/lighthouse.ts';
@@ -19,33 +24,44 @@ const OUT = path.join(process.cwd(), 'out');
 
 const log = (line: string) => process.stderr.write(`${line}\n`);
 
-log('audit:site: building');
-execSync('pnpm build', { stdio: ['ignore', 'ignore', 'inherit'] });
+const { values: args } = parseArgs({ options: { origin: { type: 'string' } } });
+const live = args.origin === undefined ? null : auditTarget(args.origin);
+const basePath = live?.basePath ?? '';
+
+log(`audit:site: building${basePath ? ` for ${basePath}` : ''}`);
+execSync('pnpm build', { stdio: ['ignore', 'ignore', 'inherit'], env: live ? { ...process.env, BASE_PATH: basePath } : process.env });
 
 const files = readdirSync(OUT, { recursive: true, encoding: 'utf8' }).map((file) => file.replaceAll(path.sep, '/'));
-const site = { files: new Set(files.map((file) => `/${file}`)), url: getSettings().site.url };
+const site = { files: new Set(files.map((file) => `/${file}`)), url: getSettings().site.url, basePath };
 const pages = builtPages(files);
 
 const sitemapFile = path.join(OUT, 'sitemap.xml');
 const sitemap = sitemapLocs(existsSync(sitemapFile) ? readFileSync(sitemapFile, 'utf8') : null);
-const siteFailures = sitemapFailures(sitemap, pages, site.url);
+const siteFailures = sitemapFailures(sitemap, pages, site);
 const audits: PageAudit[] = [];
-const server = await serveExport(OUT);
-const urlFor = (page: string) => `${server.origin}${page}`;
+// A live site needs no local server; the local one serves the export at its root.
+const server = live ? null : await serveExport(OUT);
+const target: AuditTarget = live ?? { origin: server!.origin, basePath };
+const urlFor = (page: string) => pageUrl(page, target);
+const browserArgs = server?.browserArgs ?? [];
+const closeServer = async () => server?.close();
 // The story tests' Chromium (ADR-0012), in the same full browser Lighthouse uses.
-const browser = await chromium.launch({ channel: 'chromium', args: server.browserArgs }).catch(async (error) => {
-  await server.close();
+const browser = await chromium.launch({ channel: 'chromium', args: browserArgs }).catch(async (error) => {
+  await closeServer();
   throw error;
 });
-const lighthouse = await startLighthouse(server.browserArgs).catch(async (error) => {
-  await Promise.allSettled([browser.close(), server.close()]);
+const lighthouse = await startLighthouse(browserArgs).catch(async (error) => {
+  await Promise.allSettled([browser.close(), closeServer()]);
   throw error;
 });
 try {
   const probe = await browser.newPage();
   const unknown = (await probe.goto(urlFor('/no-such-page-audit')))!;
   const notFound = readFileSync(path.join(OUT, '404.html'), 'utf8');
-  if (unknown.status() !== 404 || (await unknown.text()) !== notFound) {
+  const body = await unknown.text();
+  // A live site was built separately (each build has its own id), so only its 404 page's title can match.
+  const isNotFound = live ? htmlTitle(body) === htmlTitle(notFound) : body === notFound;
+  if (unknown.status() !== 404 || !isNotFound) {
     siteFailures.push(`An unknown path got status ${unknown.status()}${unknown.status() === 404 ? ' but not the 404 page' : ', not 404'}`);
   }
   await probe.close();
@@ -72,7 +88,7 @@ try {
     });
   }
 } finally {
-  await Promise.allSettled([lighthouse.close(), browser.close(), server.close()]);
+  await Promise.allSettled([lighthouse.close(), browser.close(), closeServer()]);
 }
 
 const verdicts = judgeSite(audits, site);
