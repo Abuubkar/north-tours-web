@@ -3,10 +3,12 @@ import { expect, fn } from 'storybook/test';
 import { hunzaPlaces } from '../samplePlaces';
 import { PlaceRow } from './PlaceRow';
 
+const baltit = hunzaPlaces.find((place) => place.id === 'baltit-fort')!;
+
 const meta = {
   title: 'Places map/PlaceRow',
   component: PlaceRow,
-  args: { place: hunzaPlaces[0], number: 1, kind: 'Heritage', lit: false, pressed: false, onPoint: fn(), onPick: fn() },
+  args: { place: baltit, number: 2, kind: 'Heritage', lit: false, pressed: false, onPoint: fn(), onPick: fn() },
 } satisfies Meta<typeof PlaceRow>;
 
 export default meta;
@@ -16,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvas, args, userEvent }) => {
     const row = canvas.getByRole('button', { name: 'Baltit Fort' });
-    await expect(row).toHaveAccessibleDescription(`${hunzaPlaces[0].text} Heritage`);
+    await expect(row).toHaveAccessibleDescription(`${baltit.text} Heritage`);
     await expect(row).toHaveAttribute('aria-pressed', 'false');
     await expect(row.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
     await userEvent.hover(row);

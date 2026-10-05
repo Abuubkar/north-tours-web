@@ -155,7 +155,8 @@
     {
       "name": "Raikot Bridge",
       "lat": 35.495,
-      "lon": 74.593
+      "lon": 74.593,
+      "entry": true
     },
     {
       "name": "Nanga Parbat",

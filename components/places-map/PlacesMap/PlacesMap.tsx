@@ -10,13 +10,14 @@ const { width, height } = PLACES_MAP_FRAME;
 
 const placeAt = (x: number, y: number) => overlayPosition({ x, y }, PLACES_MAP_FRAME) as CSSProperties;
 
-const edgeClass = { top: styles.top, bottom: styles.bottom, left: styles.inside, right: styles.inside };
+const edgeClass = { top: styles.top, bottom: styles.bottom, left: '', right: '' };
 
 /**
  * A schematic of the destination's places (CLAUDE.md §8: no roads, borders or basemap): a
- * graticule, a few names for context and a numbered pin for each place. The pins are buttons
- * named by place; the drawing, the names and the caption are hidden from screen readers, since
- * the list beside it carries the content.
+ * graticule, a straight route line joining the places in visiting order (from the way in, when a
+ * name marks it) under a numbered pin for each place, and a few names for context. The pins are
+ * buttons named by place; the drawing, the names and the caption are hidden from screen readers,
+ * since the list beside it carries the content.
  */
 export function PlacesMap({ places, labels, caption, lit, picked, mapRef, onPoint, onPick }: PlacesMapProps) {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -33,6 +34,7 @@ export function PlacesMap({ places, labels, caption, lit, picked, mapRef, onPoin
           {drawing.meridians.map((line) => (
             <line key={line.label} className={styles.grid} x1={line.at} x2={line.at} y1={0} y2={height} />
           ))}
+          {drawing.route && <path className={styles.route} d={drawing.route} />}
         </svg>
         <div aria-hidden="true">
           {drawing.parallels.map((line) => (
@@ -48,7 +50,7 @@ export function PlacesMap({ places, labels, caption, lit, picked, mapRef, onPoin
           {drawing.labels.map((label) => (
             <span
               key={label.text}
-              className={`${styles.context} ${label.edge ? edgeClass[label.edge] : styles.inside} ${label.align === 'end' ? styles.end : ''}`}
+              className={`${styles.context} ${label.edge ? edgeClass[label.edge] : ''} ${label.align === 'end' ? styles.end : ''}`}
               style={placeAt(label.x, label.y)}
               data-context-label=""
             >

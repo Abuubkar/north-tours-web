@@ -64,8 +64,20 @@ export const destinationSchema = z
     }),
     /** Good to know before you go: up to 6 practical notes. Empty or left out hides the section. */
     notes: z.array(z.strictObject({ title: nonEmpty, text: nonEmpty })).max(6, 'List at most 6 notes').optional(),
-    /** Names on the places map for context, e.g. "Karimabad"; one beyond the map shows at its edge ("↓ Gilgit"). */
-    mapLabels: z.array(z.strictObject({ name: nonEmpty, lat: latitude, lon: longitude })).optional(),
+    /**
+     * Names on the places map for context, e.g. "Karimabad"; one beyond the map shows at its edge ("↓ Gilgit"). The one
+     * marked `entry: true` is the way in: the map's route line starts there (at the edge for one beyond the map).
+     */
+    mapLabels: z
+      .array(
+        z.strictObject({
+          name: nonEmpty,
+          lat: latitude,
+          lon: longitude,
+          entry: z.literal(true, { error: 'Use entry: true for the way in, or leave it out' }).optional(),
+        }),
+      )
+      .optional(),
     /** A sample destination (ADR-0022), until the owner confirms it. */
     sample,
   })
@@ -77,6 +89,11 @@ export const destinationSchema = z
     destination.places?.forEach(({ id }, i) => {
       if (ids.has(id)) ctx.addIssue({ code: 'custom', message: `"${id}" is used twice`, path: ['places', i, 'id'] });
       ids.add(id);
+    });
+    destination.mapLabels?.forEach(({ entry }, i, labels) => {
+      if (entry && labels.findIndex((label) => label.entry) < i) {
+        ctx.addIssue({ code: 'custom', message: 'Only one label is the way in', path: ['mapLabels', i, 'entry'] });
+      }
     });
     const { stops } = destination.gettingThere;
     if (stops[0].name !== ROAD_START) {

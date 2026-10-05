@@ -11,8 +11,17 @@ const photo = (src: string, alt: string, width: number, height: number): Photo =
   credit: { source: 'wikimedia', author: 'Sample', licence: 'CC BY-SA 4.0', sourceUrl: 'https://commons.wikimedia.org/' },
 });
 
-/** Hunza's seven places, as designed. */
+/** Hunza's seven places, in visiting order up the valley from Gilgit, as in its content. */
 export const hunzaPlaces: Place[] = [
+  {
+    id: 'rakaposhi-viewpoint',
+    name: 'Rakaposhi viewpoint',
+    kind: 'viewpoint',
+    text: 'A roadside tea stop facing one of the world’s great mountain faces.',
+    lat: 36.213,
+    lon: 74.433,
+    image: photo('/images/hunza/rakaposhi-autumn.jpg', 'Snow-covered Rakaposhi above the Hunza valley at sunset, with golden autumn poplars below', 2560, 1707),
+  },
   {
     id: 'baltit-fort',
     name: 'Baltit Fort',
@@ -50,15 +59,6 @@ export const hunzaPlaces: Place[] = [
     image: photo('/images/hunza/attabad-gojal.jpg', 'Turquoise water of Attabad Lake filling the gorge below grey scree slopes and a blue sky', 1280, 925),
   },
   {
-    id: 'passu-cones',
-    name: 'Passu Cones',
-    kind: 'viewpoint',
-    text: 'Jagged spires above the highway in upper Hunza.',
-    lat: 36.479,
-    lon: 74.865,
-    image: photo('/images/hunza/passu-cones.jpg', 'The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.', 1600, 1068),
-  },
-  {
     id: 'hussaini-bridge',
     name: 'Hussaini Bridge',
     kind: 'adventure',
@@ -68,20 +68,20 @@ export const hunzaPlaces: Place[] = [
     image: photo('/images/hunza/hussaini-bridge.jpg', 'The empty Hussaini suspension bridge stretches over the grey Hunza River toward a sheer rock cliff and jagged peaks.', 1600, 1068),
   },
   {
-    id: 'rakaposhi-viewpoint',
-    name: 'Rakaposhi viewpoint',
+    id: 'passu-cones',
+    name: 'Passu Cones',
     kind: 'viewpoint',
-    text: 'A roadside tea stop facing one of the world’s great mountain faces.',
-    lat: 36.213,
-    lon: 74.433,
-    image: photo('/images/hunza/rakaposhi-autumn.jpg', 'Snow-covered Rakaposhi above the Hunza valley at sunset, with golden autumn poplars below', 2560, 1707),
+    text: 'Jagged spires above the highway in upper Hunza.',
+    lat: 36.479,
+    lon: 74.865,
+    image: photo('/images/hunza/passu-cones.jpg', 'The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.', 1600, 1068),
   },
 ];
 
-/** Hunza's names for context: Karimabad on the map, Gilgit and Khunjerab beyond it. */
+/** Hunza's names for context: Karimabad on the map, Gilgit (the way in) and Khunjerab beyond it. */
 export const hunzaMapLabels: NonNullable<Destination['mapLabels']> = [
   { name: 'Karimabad', lat: 36.3247, lon: 74.6634 },
-  { name: 'Gilgit', lat: 35.9208, lon: 74.3089 },
+  { name: 'Gilgit', lat: 35.9208, lon: 74.3089, entry: true },
   { name: 'Khunjerab', lat: 36.85, lon: 75.42 },
 ];
 
@@ -125,8 +125,9 @@ export const fairyMeadowsPlaces: Place[] = [
   },
 ];
 
+/** Fairy Meadows' names: Raikot Bridge, the way in, and Nanga Parbat, both beyond the map. */
 export const fairyMeadowsMapLabels: NonNullable<Destination['mapLabels']> = [
-  { name: 'Raikot Bridge', lat: 35.495, lon: 74.593 },
+  { name: 'Raikot Bridge', lat: 35.495, lon: 74.593, entry: true },
   { name: 'Nanga Parbat', lat: 35.2375, lon: 74.5891 },
 ];
 

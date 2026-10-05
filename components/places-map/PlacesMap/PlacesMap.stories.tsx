@@ -21,15 +21,51 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Every pin is a button named by its place, unlit; the graticule, the names and the caption are hidden from screen readers. */
+/** The route line's corners, on screen: its path's points scaled from the drawing to the map's box. */
+function routeCorners(canvasElement: HTMLElement) {
+  const route = canvasElement.querySelector('path')!;
+  const svg = route.ownerSVGElement!;
+  const box = svg.getBoundingClientRect();
+  const scale = box.width / svg.viewBox.baseVal.width;
+  return [...route.getAttribute('d')!.matchAll(/[ML]([\d.]+) ([\d.]+)/g)].map(([, x, y]) => ({ x: box.left + Number(x) * scale, y: box.top + Number(y) * scale }));
+}
+
+/**
+ * The route line joins the pins in their numbered order, from the edge under the way in's name, and
+ * runs under them: the middle of each pin is the pin, not the line.
+ */
+async function expectRoute(canvasElement: HTMLElement, edge: 'top' | 'bottom') {
+  const pins = within(canvasElement).getAllByRole('button');
+  for (const [i, pin] of pins.entries()) {
+    pin.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const [entry, ...corners] = routeCorners(canvasElement);
+    await expect(corners).toHaveLength(pins.length);
+    const frame = canvasElement.querySelector('svg')!.getBoundingClientRect();
+    await expect(Math.round(entry.y)).toBe(Math.round(edge === 'top' ? frame.top : frame.bottom));
+    const { left, top, width, height } = pin.getBoundingClientRect();
+    const centre = { x: left + width / 2, y: top + height / 2 };
+    await expect(Math.abs(corners[i].x - centre.x)).toBeLessThan(1);
+    await expect(Math.abs(corners[i].y - centre.y)).toBeLessThan(1);
+    await expect(pin.contains(document.elementFromPoint(centre.x, centre.y))).toBe(true);
+  }
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+/**
+ * Every pin is a button named by its place, unlit; the route line runs up from "↓ Gilgit", the way
+ * in, through the pins in order. The graticule, the line, the names and the caption are hidden from
+ * screen readers.
+ */
 export const Hunza: Story = {
-  play: async ({ canvas, args }) => {
+  play: async ({ canvas, canvasElement, args }) => {
     const pins = canvas.getAllByRole('button');
     await expect(pins.map((pin) => pin.getAttribute('aria-label'))).toEqual(args.places.map((place) => place.name));
     for (const pin of pins) await expect(pin).toHaveAttribute('aria-pressed', 'false');
     for (const text of ['36.3°N', '74.7°E', 'Karimabad', '↓ Gilgit', '↑ Khunjerab', 'Schematic · positions approximate']) {
       await expect(canvas.getByText(text).closest('[aria-hidden="true"]')).not.toBeNull();
     }
+    await expect(canvasElement.querySelector('path')!.closest('[aria-hidden="true"]')).not.toBeNull();
+    await expectRoute(canvasElement, 'bottom');
   },
 };
 
@@ -91,13 +127,14 @@ export const PassuLit: Story = {
   },
 };
 
-/** Fairy Meadows: four places close together, drawn at a finer graticule. */
+/** Fairy Meadows: four places close together, drawn at a finer graticule; the line comes down from "↑ Raikot Bridge". */
 export const FairyMeadows: Story = {
   args: { places: fairyMeadowsPlaces, labels: fairyMeadowsMapLabels, lit: 'fairy-meadows' },
   play: async ({ canvas, canvasElement }) => {
     await expect(canvas.getAllByRole('button')).toHaveLength(4);
     await expect(canvas.getByText('↑ Raikot Bridge')).toBeVisible();
     await nameClearOfPins(canvasElement, 'Fairy Meadows');
+    await expectRoute(canvasElement, 'top');
   },
 };
 

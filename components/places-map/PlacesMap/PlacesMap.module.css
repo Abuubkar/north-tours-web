@@ -29,6 +29,16 @@
   vector-effect: non-scaling-stroke;
 }
 
+/* The route line, as the route map's main route (DESIGN.md §9): it keeps its width at any map size. */
+.route {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: var(--map-route-width);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
 /* Overlays sit at --x/--y, a point in the drawing given in percent. */
 .parallel,
 .meridian,
@@ -54,15 +64,17 @@
   transform: translate(var(--space-4), calc(-100% - var(--space-4)));
 }
 
-/* Names for context: beside their place, or at the edge the place lies beyond. */
+/*
+ * Names for context: beside their place, or at the edge the place lies beyond, 8px clear of their
+ * point, on a chip of the page's colour (as the lit pin's name), so the route line passes under
+ * the name rather than through it (it starts under the way in's).
+ */
 .context {
   composes: waypoint from '../../../styles/typography.module.css';
+  padding-inline: var(--space-8);
+  background: var(--bg);
   color: var(--fg-2);
   transform: translate(var(--context-x, 0), var(--context-y, -50%));
-}
-
-.inside {
-  padding-inline: var(--space-8);
 }
 
 /* The text runs back from its point, so it stays inside the map. */
