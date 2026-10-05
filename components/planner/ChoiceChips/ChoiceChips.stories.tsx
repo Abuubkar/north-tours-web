@@ -71,7 +71,7 @@ export const WithKeysOnLight: Story = { ...WithKeys, globals: { surface: 'light'
 /** One answer only (Departing from): the caller replaces the pick, so one chip is ever on. */
 export const Single: Story = {
   render: () => {
-    const Single = () => {
+    const OneCity = () => {
       const [value, setValue] = useState('lahore');
       const cities = [
         { id: 'lahore', label: 'Lahore' },
@@ -79,7 +79,7 @@ export const Single: Story = {
       ];
       return <ChoiceChips id="from" label="Departing from" hint="Lahore by default" options={cities} value={[value]} onPick={setValue} />;
     };
-    return <Single />;
+    return <OneCity />;
   },
   play: async ({ canvas, userEvent }) => {
     await expect(canvas.getByRole('button', { name: 'Lahore' })).toHaveAttribute('aria-pressed', 'true');

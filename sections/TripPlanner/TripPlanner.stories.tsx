@@ -556,6 +556,8 @@ export const ReviewSeveralPicks: Story = {
 
 export const ReviewSeveralPicksPhone: Story = { ...ReviewSeveralPicks, globals: { viewport: { value: 'phone' } } };
 
+export const ReviewSeveralPicksOnLight: Story = { ...ReviewSeveralPicks, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
 export const ReviewLaptop: Story = { ...Review, globals: { viewport: { value: 'laptop' } } };
 
 /** "Edit who’s coming" opens step 2 with focus on its first field; Next goes on through the steps again. */

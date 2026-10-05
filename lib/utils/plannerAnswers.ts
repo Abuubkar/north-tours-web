@@ -85,7 +85,10 @@ export function toggleDestination(answers: TripAnswers, id: string, choices: rea
   return { ...answers, destinations: toggled(answers.destinations, id, choices) };
 }
 
-/** Picks a flexible month, or unpicks it: any number, earliest first. */
+/**
+ * Picks a flexible month, or unpicks it: any number, earliest first. The months on offer move
+ * with today, so they're kept in order by sorting (YYYY-MM sorts by date) rather than by a list.
+ */
 export function pickMonth(answers: TripAnswers, month: string): TripAnswers {
   const months = answers.months.includes(month) ? answers.months.filter((m) => m !== month) : [...answers.months, month].sort();
   return { ...answers, months };
@@ -127,6 +130,7 @@ export function setAge(answers: TripAnswers, child: number, age: number): TripAn
 
 /** An optional chip question: picks the option, or unpicks it; any number, in the options' order. */
 export function pickOption<K extends ChipQuestion>(answers: TripAnswers, question: K, id: ChipValue<K>): TripAnswers {
+  // TypeScript can't narrow `answers[question]` for a generic question; it holds that question's options.
   return { ...answers, [question]: toggled<ChipValue<K>>(answers[question] as readonly ChipValue<K>[], id, CHIP_OPTIONS[question]) };
 }
 

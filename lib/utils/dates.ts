@@ -87,7 +87,10 @@ export function shortMonthYear(month: string): string {
  */
 export function shortMonthsYears(months: readonly string[]): string {
   const byYear = new Map<string, string[]>();
-  for (const month of months) byYear.set(month.slice(0, 4), [...(byYear.get(month.slice(0, 4)) ?? []), SHORT_MONTHS[Number(month.slice(5, 7)) - 1]]);
+  for (const month of months) {
+    const year = month.slice(0, 4);
+    byYear.set(year, [...(byYear.get(year) ?? []), shortMonthName(month)]);
+  }
   return [...byYear].map(([year, names]) => `${names.join(', ')} ${year}`).join(', ');
 }
 

@@ -24,6 +24,10 @@ describe('answered count', () => {
 });
 
 describe('bar label', () => {
+  it('shows the first month when several are picked', () => {
+    expect(label({ destinations: ['hunza'], months: ['2027-06', '2027-07', '2027-09'] })).toBe('Hunza · Jun · 2 people');
+  });
+
   it('names one valley, the month and the people', () => {
     expect(label({ destinations: ['hunza'], months: ['2027-06'], children: 2, ages: [6, 9] })).toBe('Hunza · Jun · 4 people');
   });

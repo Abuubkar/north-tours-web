@@ -9,7 +9,7 @@ import { BEST_TIMES, toggled, type BestTime } from './plannerOptions.ts';
 export type Details = {
   name: string;
   phone: Phone;
-  /** Any number of times, in the options' order. */
+  /** Any number of times, in the options' order (named as its question in page copy, like the trip's chip questions). */
   bestTime: BestTime[];
   /** "Anything else?", up to 500 characters so the WhatsApp link stays short. */
   notes: string;

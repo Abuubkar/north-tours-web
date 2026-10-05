@@ -455,7 +455,7 @@ export function getDestinationsCopy(): DestinationsCopy {
   return cachedDestinations;
 }
 
-/** A planner question answered with one chip: its label, hint and a label for every option. */
+/** A planner question answered with chips (several, or one for Departing from): its label, hint and a label for every option. */
 const chipQuestion = <T extends readonly [string, ...string[]]>(ids: T) =>
   z.strictObject({ label: copy, hint: copy, options: z.record(z.enum(ids), copy) });
 
