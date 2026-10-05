@@ -8,7 +8,6 @@ import { departureOn as departure, sampleTour } from '@/components/tour-card/sam
 import { sampleTourCopy } from '@/components/tour/sampleTourCopy';
 import type { Departure } from '@/lib/content/tours';
 import { PhotoHero } from './PhotoHero';
-import styles from '../../components/ui/stories.module.css';
 const upcoming = [departure('2099-05-12', '2099-05-20', 3), departure('2099-05-26', '2099-06-03', 9)];
 
 /** The hero with a tour's facts, as the tour page renders it. `builtOn` is in the past (see HeroFacts). */
@@ -32,22 +31,20 @@ const meta = {
     children: facts(upcoming),
   },
   parameters: { fullBleed: true },
-  decorators: [
-    (Story) => (
-      <div className={styles.underHeader}>
-        <Story />
-      </div>
-    ),
-  ],
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof PhotoHero>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** The title is the page's only <h1>; the back link goes to all tours; the photo loads first. */
+/**
+ * The title is the page's only <h1>; the back link goes to all tours; the photo loads first. The
+ * hero starts where it's placed (below the site header), with no negative margin to slide under it.
+ */
 export const Desktop: Story = {
   play: async ({ canvas, canvasElement }) => {
+    const hero = canvasElement.querySelector('section')!;
+    await expect(getComputedStyle(hero).marginTop).toBe('0px');
     await expect(canvas.getByRole('heading', { level: 1, name: 'Hunza & Skardu Grand' })).toBeVisible();
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
     await expect(canvas.getByRole('link', { name: 'All tours' })).toHaveAttribute('href', '/tours');

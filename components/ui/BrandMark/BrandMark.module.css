@@ -1,13 +1,19 @@
-/* The brand name as text, at least the 44px tap target (no logo mark until the owner supplies one). */
+/*
+ * The header's wordmark (2f, ADR-0030): the brand name, heavy and tight, then a gold ▲ the owner
+ * kept from the drawing (2026-10-05). At least the 44px tap target; no logo until the owner supplies one.
+ */
 .brandMark {
-  composes: body from '../../../styles/typography.module.css';
+  composes: brand from '../../../styles/typography.module.css';
   display: inline-flex;
   flex: none;
   align-items: center;
   min-height: var(--tap);
   color: var(--fg);
-  font-weight: var(--fw-semibold);
-  letter-spacing: var(--ls-brand);
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* Decorative: hidden from screen readers, so the link is named by the brand alone. */
+.mark {
+  color: var(--accent);
 }

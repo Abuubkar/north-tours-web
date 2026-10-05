@@ -1,6 +1,6 @@
 # ADR-0027: Home joins the main nav
 
-- **Status:** Accepted
+- **Status:** Accepted; superseded in part by ADR-0030 (the 960px breakpoint)
 - **Date:** 2026-10-04
 - **Supersedes:** ADR-0026 in part (the item list, and the rule that the Homepage marks no item)
 - **Related issue:** none (the owner's review of the built site)

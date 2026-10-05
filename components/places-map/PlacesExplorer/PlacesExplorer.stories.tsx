@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { sampleDestinationCopy } from '@/components/destination-card/sampleDestinationCopy';
+import { headerHeight } from '../../../.storybook/headerHeight';
 import { realUser } from '../../../.storybook/realUser';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
 import { roomAbove, roomBelow } from '../../../.storybook/scrollRoom';
@@ -111,8 +112,10 @@ export const Laptop: Story = {
     const { rows } = parts(canvas);
     const drawing = map(canvasElement);
     await expect(drawing.getBoundingClientRect().right).toBeLessThanOrEqual(rows[0].getBoundingClientRect().left);
-    window.scrollTo({ top: drawing.getBoundingClientRect().top + window.scrollY - 96 + 120, behavior: 'instant' });
-    await waitFor(() => expect(Math.round(drawing.getBoundingClientRect().top)).toBe(96));
+    // It stops 24px under the header (--places-map-top).
+    const stop = headerHeight() + 24;
+    window.scrollTo({ top: drawing.getBoundingClientRect().top + window.scrollY - stop + 120, behavior: 'instant' });
+    await waitFor(() => expect(Math.round(drawing.getBoundingClientRect().top)).toBe(stop));
     window.scrollTo({ top: 0, behavior: 'instant' });
   },
 };
@@ -128,11 +131,12 @@ export const Phone: Story = {
     rows[6].scrollIntoView({ block: 'center', behavior: 'instant' });
     await expect(drawing.getBoundingClientRect().bottom).toBeLessThan(0);
     await userEvent.click(rows[6]);
-    // Smoothly: not there straight away, then settled 88px down (the header's 72px and 16px).
-    await expect(Math.round(drawing.getBoundingClientRect().top)).not.toBe(88);
-    await waitFor(() => expect(Math.round(drawing.getBoundingClientRect().top)).toBe(88), { timeout: 3000 });
+    // Smoothly: not there straight away, then settled 16px under the header.
+    const settled = headerHeight() + 16;
+    await expect(Math.round(drawing.getBoundingClientRect().top)).not.toBe(settled);
+    await waitFor(() => expect(Math.round(drawing.getBoundingClientRect().top)).toBe(settled), { timeout: 3000 });
     await new Promise((resolve) => setTimeout(resolve, 300));
-    await expect(Math.round(drawing.getBoundingClientRect().top)).toBe(88);
+    await expect(Math.round(drawing.getBoundingClientRect().top)).toBe(settled);
     await expect(nameOnMap(canvasElement, 'Passu Cones')).toBeVisible();
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
@@ -148,7 +152,7 @@ export const PhoneReducedMotion: Story = {
     const drawing = map(canvasElement);
     rows[6].scrollIntoView({ block: 'center', behavior: 'instant' });
     await userEvent.click(rows[6]);
-    await expect(Math.round(drawing.getBoundingClientRect().top)).toBe(88);
+    await expect(Math.round(drawing.getBoundingClientRect().top)).toBe(headerHeight() + 16);
     await expect(getComputedStyle(rows[6]).transitionDuration).toBe('0s');
     await expect(getComputedStyle(pins[6].querySelector('[data-pin-circle]')!).transitionDuration).toBe('0s');
   },

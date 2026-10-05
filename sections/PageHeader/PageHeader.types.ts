@@ -16,7 +16,7 @@ type WithoutPhoto = {
 };
 
 /**
- * The Trip Planner's first step: the <h1> and a shorter lead on a photo band that slides under the
+ * The Trip Planner's first step: the <h1> and a shorter lead on a photo band that starts below the
  * site header, its text on the hero scrim (the page's LCP image).
  */
 type Planner = {
@@ -28,7 +28,7 @@ type Planner = {
 };
 
 /**
- * About: a full-bleed photo cover that slides under the site header (owner feedback, 2026-10-05),
+ * About: a full-bleed photo cover that starts below the site header (owner feedback, 2026-10-05),
  * with the <h1> at the long size and the lead over its lower part, on the hero scrim.
  */
 type About = {

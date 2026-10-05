@@ -48,7 +48,7 @@ const plannerLead = 'Tell us what you have in mind. We’ll plan it and reply on
 
 /**
  * The planner's first step: the <h1> at the statement size and the lead (at most 600px wide) on a
- * photo band, dark, 360–460px tall, which slides under the site header (72px) and loads first.
+ * photo band, dark, 360–460px tall, which starts below the site header (no negative margin) and loads first.
  */
 export const Planner: Story = {
   args: { variant: 'planner', image: samplePhoto, headline: 'Your dates, your group', lead: plannerLead },
@@ -61,7 +61,7 @@ export const Planner: Story = {
     await expect(canvas.getByText(plannerLead).getBoundingClientRect().width).toBeLessThanOrEqual(600);
     const band = h1.closest('header')!;
     await expect(band).toHaveAttribute('data-surface', 'dark');
-    await expect(getComputedStyle(band).marginTop).toBe('-72px');
+    await expect(getComputedStyle(band).marginTop).toBe('0px');
     const { height } = band.getBoundingClientRect();
     await expect(height >= 360 && height <= 460).toBe(true);
     const photo = canvas.getByRole('img', { name: samplePhoto.alt });
@@ -104,7 +104,7 @@ export const PlannerSlimLaptop: Story = { ...PlannerSlim, globals: { viewport: {
 
 /**
  * About: a full-bleed photo cover (owner feedback, 2026-10-05), as tall as the tour hero and
- * sliding under the site header, with the one <h1> and the lead over its lower part on the scrim.
+ * starting below the site header, with the one <h1> and the lead over its lower part on the scrim.
  * The photo is the page's main image: loaded straight away with high priority, its size set.
  */
 export const About: Story = {
@@ -122,12 +122,12 @@ export const About: Story = {
     await expect(img).toHaveAttribute('fetchpriority', 'high');
     await expect(img).toHaveAttribute('width');
     await expect(img).toHaveAttribute('height');
-    // Full-bleed: the photo fills the whole header, edge to edge, and slides up under the site header.
+    // Full-bleed: the photo fills the whole header, edge to edge, and starts below the site header.
     const box = header.getBoundingClientRect();
     const photo = img.getBoundingClientRect();
     await expect(Math.round(photo.width)).toBe(Math.round(box.width));
     await expect(Math.round(photo.height)).toBe(Math.round(box.height));
-    await expect(parseFloat(getComputedStyle(header).marginTop)).toBeLessThan(0);
+    await expect(getComputedStyle(header).marginTop).toBe('0px');
     await expect(box.height).toBeGreaterThanOrEqual(600);
     // The words sit over the photo's lower part.
     await expect(h1.getBoundingClientRect().top).toBeGreaterThan(box.top + box.height / 2);

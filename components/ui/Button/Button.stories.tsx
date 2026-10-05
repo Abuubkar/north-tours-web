@@ -52,11 +52,6 @@ export const AllVariantsAndSizesOnLight: Story = {
   },
 };
 
-/** The header's "WhatsApp us": secondary at 44 with the softer border. */
-export const Header: Story = {
-  args: { variant: 'secondary', size: 44, icon: 'whatsapp', children: 'WhatsApp us' },
-};
-
 /** With an href it is a link, so it can be opened in a new tab and shared. */
 export const AsLink: Story = {
   args: { href: 'https://wa.me/', children: 'Chat on WhatsApp', icon: 'whatsapp' },

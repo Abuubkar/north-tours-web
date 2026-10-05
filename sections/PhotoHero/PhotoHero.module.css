@@ -1,4 +1,4 @@
-/* Slides under the sticky header, like the Homepage hero; its text sits on the scrim. */
+/* Starts below the header, like the Homepage hero, so the whole photo shows; its text sits on the scrim. */
 .hero {
   position: relative;
   display: flex;
@@ -6,8 +6,7 @@
   justify-content: space-between;
   gap: var(--space-48);
   min-height: var(--photo-hero-h);
-  margin-top: calc(-1 * var(--header-h));
-  padding-top: var(--space-96);
+  padding-top: var(--space-24);
   overflow: hidden;
 }
 

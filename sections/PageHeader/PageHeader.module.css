@@ -15,7 +15,7 @@
 }
 
 /*
- * A photo header: the photo slides under the sticky header like the photo heroes, and the <h1>
+ * A photo header: the photo starts below the site header like the photo heroes, and the <h1>
  * and lead sit at its foot, on the hero scrim. The planner's first step has a band, shorter than
  * the heroes; About a full-bleed cover as tall as the tour hero (owner feedback, 2026-10-05).
  */
@@ -26,19 +26,18 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  margin-top: calc(-1 * var(--header-h));
   overflow: hidden;
 }
 
 .planner {
   min-height: var(--planner-band-h);
-  padding-top: calc(var(--header-h) + var(--space-48));
+  padding-top: var(--space-48);
   padding-bottom: var(--planner-header-bottom);
 }
 
 .cover {
   min-height: var(--photo-hero-h);
-  padding-top: calc(var(--header-h) + var(--space-96));
+  padding-top: var(--space-96);
   padding-bottom: var(--hero-row-pad);
 }
 

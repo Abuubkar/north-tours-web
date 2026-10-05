@@ -44,15 +44,19 @@
   --hairline-width: 1px; /* every hairline and control border (DESIGN.md §5) */
   --focus-width: 2px;
   --focus-offset: 3px;
+  --focus-inset: calc(-1 * var(--focus-width)); /* a ring drawn inside its element, where the outside is clipped (the altitude strip) */
+  --bar-border-width: 2px; /* the header's bordered controls: WhatsApp and Menu (2f, ADR-0030) */
 
   /* Surfaces outside the palette */
   --map-surface: #0e151a;
   --placeholder-stripe-a: #151e24;
   --placeholder-stripe-b: #10181c;
-  --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent);
+  --header-bg: color-mix(in srgb, var(--ink-900) 86%, transparent); /* Tour Detail's booking bar (the header's frosted look until ADR-0030 made it solid) */
   --backdrop: color-mix(in srgb, var(--ink-900) 72%, transparent); /* behind sheets */
-  --header-backdrop: blur(18px) saturate(140%);
-  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars and the planner's bars, frosted like the header */
+  --header-backdrop: blur(18px) saturate(140%); /* the frosted bars' blur (the header's until ADR-0030) */
+  --filter-bar-bg: color-mix(in srgb, var(--ink-900) 92%, transparent); /* the Tours filter bars and the planner's bars, frosted */
+  --altitude-strip-bg: var(--text); /* the Homepage's altitude strip (2f, ADR-0030): Text on Ink, about 16:1 */
+  --altitude-strip-fg: var(--ink-900);
   --sold-out-opacity: 0.4; /* a sold-out tour card's photo */
   --map-grid: #1b252c; /* route map graticule */
   --map-halo: color-mix(in srgb, var(--gold) 20%, transparent); /* around destination dots */
@@ -88,7 +92,7 @@
   --row-gap: var(--space-24);
   --label-col: 240px;
   --content-col-min: 600px; /* content beside the label column wraps below it under this width */
-  --header-h: 72px;
+  --header-h: 64px; /* the solid bar (2f, ADR-0030): 64px below the full-bar breakpoint, 76px from it (below) */
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
   --measure-answer: 740px; /* FAQ and policy answers */
   --drawer-w: 460px; /* side drawer, e.g. guide profile */
@@ -96,12 +100,24 @@
   --handle-w: 36px; /* bottom sheet grab handle */
   --handle-h: 4px;
   --dropdown-min-w: 260px; /* dropdown panel */
-  --nav-gap: clamp(var(--space-24), 2.9cqi, var(--space-32)); /* header nav: 32px, closing to about 28px at 960px */
+  --nav-gap: 36px; /* between the header's nav links (2f) */
   --list-row-y: 14px; /* label and value rows, DESIGN.md §5 */
   --key-col-w: 120px; /* a label and value row's label column (a destination's "By road") */
   --key-value-min: 300px; /* its value, before it wraps under the label */
   --footer-contact-w: 380px; /* footer contact column */
-  --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
+  /*
+   * The Homepage's altitude strip under the header (2f, ADR-0030): as tall as a tap target on both
+   * widths (the drawing's 36px and 32px grew so its pause button gets a 44px hit area). Places are
+   * 24px apart on phones and 40px from the full-bar breakpoint (below).
+   */
+  --altitude-strip-h: var(--tap);
+  --altitude-gap: var(--space-24);
+  /*
+   * Homepage hero (DESIGN.md §9): the first screen, clamped as it always was, less the header and the
+   * altitude strip above it, so the hero starts below them and still ends at the fold (owner,
+   * 2026-10-05: the nav doesn't cut the hero image).
+   */
+  --hero-h: calc(clamp(700px, 100svh, 980px) - var(--header-h) - var(--altitude-strip-h));
   --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero, and About's photo cover */
   --destination-hero-h: clamp(620px, 52cqi, 780px); /* Destination photo hero */
   --photo-hero-scrim-stretch: 160%; /* its scrim on phones (and the planner's photo band and About's cover at every width), drawn taller so the text sits on the dark end */
@@ -169,7 +185,7 @@
   --measure-planner-lead: 600px; /* the Trip Planner's lead line */
   --page-header-slim-y: 28px; /* the planner's slim header, from step 2 */
   --planner-header-bottom: clamp(32px, 4cqi, 56px); /* under the planner's full header (step 1) */
-  --planner-band-h: clamp(360px, 30cqi, 460px); /* the planner's photo band behind that header, under the site header */
+  --planner-band-h: clamp(360px, 30cqi, 460px); /* the planner's photo band behind that header, below the site header */
   --grid-choices-min: 150px; /* the planner's destination cards (gaps, not hairlines) */
   --date-field-min: 200px; /* a date field beside another (From and To) before they stack */
   --age-select-w: 110px; /* each child's age select, in a row */
@@ -300,7 +316,7 @@
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
    *   820px  sheets replace dropdowns; Tours results go to two columns;
    *          a destination's month calendar goes from six columns to twelve
-   *   960px  the header's nav collapses to WhatsApp + menu (six nav items, ADR-0027)
+   *   1200px the full header bar shows; below it, the brand, WhatsApp and Menu (ADR-0030)
    *   1100px Tour Detail and Trip Planner side columns appear; Tours results go to three columns
    *   1280px Tour Detail side map appears
    *   viewport height 920px  compact booking panel below this
@@ -327,6 +343,7 @@
   --rise-distance: 40px; /* M4: a card's offset before it rises */
   --rise-stagger: 90ms; /* between cards in a row */
   --results-pending-max: 3s; /* Tours (and the planner): a linked or saved view shows after this even if the page's script never runs */
+  --ticker-speed: 40; /* the altitude strip runs this many px a second (unitless, for calc) */
   --step-slide: 28px; /* the planner's step body slides in from this far */
   --dur-350: 0.35s; /* and takes this long */
 
@@ -337,6 +354,8 @@
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
+  --fw-bold: 700; /* the header's links and controls (2f) */
+  --fw-heavy: 800; /* the header's brand name (2f) */
 
   --fs-display: 26cqi; /* with the gap below, as wide as the design's 27cqi at -0.065em */
   --lh-display: 0.74;
@@ -419,13 +438,39 @@
   --ls-label: 0.01em;
   --fs-waypoint: 12px;
   --fs-map-grid: 11px; /* graticule degree labels, decorative */
-  --ls-brand: -0.01em; /* brand name next to the logo mark, 16/600 */
+  --fs-brand: 24px; /* the header's brand name, 800: 24px below the full-bar breakpoint, 30px from it (below) */
+  --lh-brand: 1;
+  --ls-brand: -0.05em;
+  --fs-header-nav: 18px; /* the header's links, 700 */
+  --ls-header-nav: -0.02em;
 
   /* Image placeholders only (DESIGN.md §9): the shot named in an 11px monospace caption. */
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --fs-placeholder: 11px;
   --lh-placeholder: 1.5;
   --ls-placeholder: 0.02em;
+
+  /* The altitude strip (2f, ADR-0030): 500 and the names 600, upper case; 11px on phones, 12px from 1200px. */
+  --fs-altitude: 11px;
+  --ls-altitude: 0.06em;
+}
+
+/*
+ * The altitude strip's face: Geist Mono, loaded for the Homepage only and set by next/font on the
+ * strip itself, so the token resolves there (the system monospace if it isn't there yet).
+ */
+[data-altitude-strip] {
+  --font-ticker: var(--font-geist-mono, ui-monospace), var(--font-mono);
+}
+
+/* From the full-bar breakpoint (1200px, ADR-0030) the header is the full 2f bar: taller, with a larger brand. */
+@media (width >= 1200px) {
+  :root {
+    --header-h: 76px;
+    --fs-brand: 30px;
+    --altitude-gap: 40px;
+    --fs-altitude: 12px;
+  }
 }
 
 /*
@@ -442,7 +487,6 @@
   --fg-3: var(--text-3);
   --hairline: var(--line);
   --control-border: var(--line-strong);
-  --control-border-soft: color-mix(in srgb, var(--text) 50%, transparent);
   --link: var(--text);
   --link-hover: var(--gold);
   --accent: var(--gold); /* ratings, markers, key highlights (DESIGN.md §1) */
@@ -462,6 +506,5 @@
   --link-hover: var(--gold-deep);
   --accent: var(--gold-deep);
   --error: var(--gold-deep);
-  --control-border-soft: color-mix(in srgb, var(--ink-text) 50%, transparent);
   color-scheme: light;
 }

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { markedLinks, onPath } from '../../../.storybook/markedLinks';
-import { realUser } from '../../../.storybook/realUser';
+import { parkPointer } from '../../../.storybook/parkPointer';
 import { roomBelow, scrollThrough } from '../../../.storybook/scrollRoom';
 import { NavLinks } from './NavLinks';
 
@@ -33,17 +33,6 @@ function accent(element: HTMLElement) {
   const { color } = getComputedStyle(probe);
   probe.remove();
   return color;
-}
-
-/** Moves the real pointer onto a small target at the bottom-right corner, away from every link. */
-async function parkPointer(canvasElement: HTMLElement) {
-  const user = await realUser();
-  if (!user) return;
-  const spot = document.createElement('div');
-  spot.style.cssText = 'position:fixed;right:0;bottom:0;width:8px;height:8px';
-  canvasElement.append(spot);
-  await user.hover(spot);
-  spot.remove();
 }
 
 /** The six pages in order, Home first, none a section of a page; on the About page, About is the current item (gold). */

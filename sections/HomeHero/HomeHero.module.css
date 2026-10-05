@@ -1,7 +1,6 @@
 .hero {
   position: relative;
   height: var(--hero-h);
-  margin-top: calc(-1 * var(--header-h));
   overflow: hidden;
 }
 

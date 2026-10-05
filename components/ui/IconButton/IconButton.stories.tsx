@@ -6,7 +6,7 @@ import styles from '../stories.module.css';
 const meta = {
   title: 'Base/IconButton',
   component: IconButton,
-  args: { icon: 'menu', label: 'Menu', size: 44, onClick: fn() },
+  args: { icon: 'close', label: 'Close', size: 44, onClick: fn() },
   argTypes: { size: { control: 'inline-radio', options: [44, 48] } },
 } satisfies Meta<typeof IconButton>;
 
@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   play: async ({ canvas, args, userEvent }) => {
-    await userEvent.click(canvas.getByRole('button', { name: 'Menu' }));
+    await userEvent.click(canvas.getByRole('button', { name: 'Close' }));
     await expect(args.onClick).toHaveBeenCalledOnce();
   },
 };
@@ -23,7 +23,6 @@ export const Default: Story = {
 export const Gallery: Story = {
   render: () => (
     <div className={styles.row}>
-      <IconButton icon="menu" label="Menu" />
       <IconButton icon="close" label="Close" />
       <IconButton icon="arrowLeft" label="Previous profile" />
       <IconButton icon="arrowRight" label="Next profile" />
@@ -68,7 +67,7 @@ export const Disabled: Story = {
 /** Icon buttons are at least the 44px tap target. */
 export const TapTarget: Story = {
   play: async ({ canvas }) => {
-    const { width, height } = canvas.getByRole('button', { name: 'Menu' }).getBoundingClientRect();
+    const { width, height } = canvas.getByRole('button', { name: 'Close' }).getBoundingClientRect();
     await expect(Math.min(width, height)).toBeGreaterThanOrEqual(44);
   },
 };
