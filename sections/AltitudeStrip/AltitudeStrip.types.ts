@@ -5,7 +5,7 @@ import type { AltitudePlace } from '@/lib/utils/altitudeStrip';
 export type AltitudeStripProps = {
   /** From `altitudePlaces(getDestinations())`; with none, there's no strip. */
   places: AltitudePlace[];
-  /** The Homepage copy's `altitudes`: the strip's name and the pause button's two labels. */
+  /** The Homepage copy's `altitudes`: the strip's name and the pause button's name. */
   copy: HomeCopy['altitudes'];
 };
 

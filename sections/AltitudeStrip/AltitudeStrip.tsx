@@ -59,7 +59,7 @@ export function AltitudeStrip({ places, copy }: AltitudeStripProps) {
           type="button"
           className={styles.pause}
           aria-pressed={paused}
-          aria-label={paused ? copy.play : copy.pause}
+          aria-label={copy.pause}
           onClick={togglePaused}
         >
           <Icon name={paused ? 'play' : 'pause'} size={ICON_SIZE} />

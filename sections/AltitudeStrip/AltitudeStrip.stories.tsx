@@ -38,7 +38,7 @@ const loop = async (canvas: Canvas) => {
   await waitFor(() => expect(track(canvas).getAnimations()).toHaveLength(1));
   return track(canvas).getAnimations()[0];
 };
-const pauseButton = (canvas: Canvas) => canvas.getByRole('button', { name: /altitude strip/ });
+const pauseButton = (canvas: Canvas) => canvas.getByRole('button', { name: 'Pause the altitude strip' });
 
 /**
  * A light strip (Text on Ink) under the header, as tall as a tap target so its pause button gets a
@@ -138,17 +138,21 @@ export const FocusShowsThePlace: Story = {
 
 export const FocusShowsThePlaceOnLight: Story = { ...FocusShowsThePlace, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
-/** The pause button stops the strip and turns into "Play", pressed; pressed again, it runs. */
+/**
+ * The pause button is a toggle with one name, "Pause the altitude strip": pressed, it stops the
+ * strip (aria-pressed="true", the icon turns to play); pressed again, it runs. The name never changes.
+ */
 export const PauseButton: Story = {
   play: async ({ canvas, userEvent }) => {
     const animation = await loop(canvas);
-    await userEvent.click(pauseButton(canvas));
-    const play = pauseButton(canvas);
-    await expect(play).toHaveAccessibleName('Play the altitude strip');
-    await expect(play).toHaveAttribute('aria-pressed', 'true');
+    const button = canvas.getByRole('button', { name: 'Pause the altitude strip' });
+    await userEvent.click(button);
+    await expect(button).toHaveAccessibleName('Pause the altitude strip');
+    await expect(button).toHaveAttribute('aria-pressed', 'true');
     await waitFor(() => expect(animation.playState).toBe('paused'));
-    await userEvent.click(play);
-    await expect(pauseButton(canvas)).toHaveAttribute('aria-pressed', 'false');
+    await userEvent.click(button);
+    await expect(button).toHaveAccessibleName('Pause the altitude strip');
+    await expect(button).toHaveAttribute('aria-pressed', 'false');
     await waitFor(() => expect(animation.playState).toBe('running'));
   },
 };
