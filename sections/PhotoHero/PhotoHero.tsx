@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { MediaFrame } from '@/components/ui/MediaFrame/MediaFrame';
 import { TextLink } from '@/components/ui/TextLink/TextLink';
-import { coverSizes } from '@/lib/utils/images';
+import { coverSizes, HERO_MAX_HEIGHT } from '@/lib/utils/images';
 import type { PhotoHeroProps } from './PhotoHero.types';
 import styles from './PhotoHero.module.css';
 
@@ -13,8 +13,8 @@ import styles from './PhotoHero.module.css';
  */
 const heroClass = { tour: styles.hero, destination: `${styles.hero} ${styles.destination}` };
 
-/** Each hero's tallest (the maximum of `--photo-hero-h` and `--destination-hero-h`), for the photo's `sizes`. */
-const heroHeight = { tour: '740px', destination: '780px' } as const;
+/** Each hero's tallest, for its photo's `sizes`. */
+const heroHeight = { tour: HERO_MAX_HEIGHT.photoHero, destination: HERO_MAX_HEIGHT.destinationHero };
 
 /** Tour: the tour hero size, wrapping as it needs. Destination: display size on one line (`--name-length`). */
 const titleClass = { tour: styles.title, destination: styles.name };
