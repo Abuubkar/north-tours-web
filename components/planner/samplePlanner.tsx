@@ -26,7 +26,12 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
   steps: { whereWhen: 'Where and when', whosComing: 'Who’s coming', details: 'Your details' },
   nav: { back: 'Back', next: 'Next: {title}', nextShort: 'Next', review: 'Review' },
   whereWhen: {
-    destinations: { label: 'Destinations', hint: 'Required · choose one or more', unsure: 'Not sure, suggest something' },
+    destinations: {
+      label: 'Destinations',
+      hint: 'Required · choose one or more',
+      unsure: 'Not sure, suggest something',
+      unsureImage: { ...samplePhoto, alt: 'Snow-covered Karakoram peaks seen from the air' },
+    },
     dates: {
       label: 'Dates',
       hint: 'Required',
@@ -35,16 +40,10 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
       from: 'From',
       to: 'To',
       month: 'Month',
-      roughly: 'Roughly',
-      days: 'days',
-      daysLabel: 'Roughly how many days',
-      fewerDays: 'Fewer days',
-      moreDays: 'More days',
     },
     length: {
       label: 'Trip length',
       hint: 'Optional',
-      autoHint: 'Optional · filled from your flexible dates',
       options: { '2-4': '2–4 days', '5-7': '5–7 days', '8-10': '8–10 days', '10plus': '10+ days' },
     },
   },
@@ -90,7 +89,6 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
   },
   summary: {
     unsure: 'Suggest something',
-    flexibleDates: '{month}, about {days} days',
     exactDates: '{from} – {to}',
     adults: { one: '{count} adult', other: '{count} adults' },
     children: { one: '{count} child', other: '{count} children' },
@@ -209,6 +207,7 @@ export const sampleAnswers: TripAnswers = {
   ...DEFAULT_ANSWERS,
   destinations: ['hunza'],
   month: '2027-06',
+  length: '5-7',
   children: 2,
   ages: [6, 9],
   groupType: 'family',

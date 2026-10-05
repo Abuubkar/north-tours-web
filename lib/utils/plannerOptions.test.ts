@@ -7,7 +7,6 @@ import {
   GROUP_TYPES,
   HOTELS,
   labelled,
-  lengthForDays,
   monthChoices,
   PLANNER_BUDGETS,
   TRANSPORT,
@@ -33,21 +32,6 @@ describe('month choices', () => {
     expect(months).toHaveLength(12);
     expect(months.slice(0, 4)).toEqual(['2026-10', '2026-11', '2026-12', '2027-01']);
     expect(months.at(-1)).toBe('2027-09');
-  });
-});
-
-describe('trip length from flexible days', () => {
-  it.each([
-    [2, '2-4'],
-    [4, '2-4'],
-    [5, '5-7'],
-    [7, '5-7'],
-    [8, '8-10'],
-    [10, '8-10'],
-    [11, '10plus'],
-    [21, '10plus'],
-  ])('%i days → %s', (days, length) => {
-    expect(lengthForDays(days)).toBe(length);
   });
 });
 

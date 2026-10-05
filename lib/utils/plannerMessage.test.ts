@@ -16,7 +16,7 @@ const answers: TripAnswers = {
   ...DEFAULT_ANSWERS,
   destinations: ['hunza'],
   month: '2027-06',
-  days: 6,
+  length: '5-7',
   children: 2,
   ages: [6, 9],
   groupType: 'family',
@@ -39,7 +39,7 @@ describe('trip request', () => {
       [
         'Assalam o Alaikum! I’d like to plan a private trip.',
         '• Destinations: Hunza',
-        '• Dates: Jun 2027, about 6 days (5–7 days)',
+        '• Dates: Jun 2027 (5–7 days)',
         '• Group: 2 adults, 2 children (ages 6, 9) · Family',
         '• Hotels: Upgraded · Transport: Car',
         '• Departing from: Lahore',
@@ -75,7 +75,7 @@ describe('call back', () => {
       [
         'Please call me back on +92 300 123 4567, best time evening.',
         '• Destinations: Hunza',
-        '• Dates: Jun 2027, about 6 days (5–7 days)',
+        '• Dates: Jun 2027 (5–7 days)',
         '• Group: 2 adults, 2 children (ages 6, 9) · Family',
         '• Hotels: Upgraded · Transport: Car',
         '• Departing from: Lahore',

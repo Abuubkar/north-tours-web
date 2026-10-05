@@ -4,18 +4,17 @@ import { useId } from 'react';
 import { Chip } from '@/components/ui/Chip/Chip';
 import { FormField } from '@/components/ui/FormField/FormField';
 import { Input } from '@/components/ui/Input/Input';
-import { Stepper } from '@/components/ui/Stepper/Stepper';
 import { usePlanner } from '@/hooks/usePlanner';
 import { shortMonthYear } from '@/lib/utils/dates';
 import { dateMin, pickMonth, setDate } from '@/lib/utils/plannerAnswers';
-import { DATE_MODES, DAYS } from '@/lib/utils/plannerOptions';
+import { DATE_MODES } from '@/lib/utils/plannerOptions';
 import { fieldInvalid, groupError } from '@/lib/utils/plannerValidation';
 import type { DatesFieldProps } from './DatesField.types';
 import styles from './DatesField.module.css';
 
 /**
  * "Dates": exact dates (From and To, nothing before today in Karachi, To not before From), or
- * flexible (one of the next 12 months and roughly how many days).
+ * flexible (one of the next 12 months). How long the trip is, is the Trip length question's.
  */
 export function DatesField({ copy }: DatesFieldProps) {
   const { answers, choices, errors, today, update, fieldId } = usePlanner();
@@ -70,19 +69,6 @@ export function DatesField({ copy }: DatesFieldProps) {
                     {shortMonthYear(month)}
                   </Chip>
                 ))}
-              </div>
-              <div className={styles.days}>
-                <span aria-hidden="true">{copy.roughly}</span>
-                <Stepper
-                  label={copy.daysLabel}
-                  value={answers.days}
-                  min={DAYS.min}
-                  max={DAYS.max}
-                  onChange={(days) => update((a) => ({ ...a, days }))}
-                  decreaseLabel={copy.fewerDays}
-                  increaseLabel={copy.moreDays}
-                />
-                <span aria-hidden="true">{copy.days}</span>
               </div>
             </div>
           )}

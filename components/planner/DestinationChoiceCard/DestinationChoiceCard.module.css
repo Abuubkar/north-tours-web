@@ -30,18 +30,6 @@
   border-color: var(--error);
 }
 
-/* "Not sure": the placeholder stripes, in the photo's frame, with no caption. */
-.stripes {
-  display: block;
-  aspect-ratio: 16 / 10;
-  border-radius: var(--radius-card);
-  background: repeating-linear-gradient(
-    135deg,
-    var(--placeholder-stripe-a) 0 var(--space-8),
-    var(--placeholder-stripe-b) var(--space-8) var(--space-16)
-  );
-}
-
 .text {
   display: flex;
   flex: 1;

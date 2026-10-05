@@ -483,7 +483,13 @@ const plannerCopySchema = z.strictObject({
   /** Next names the step it goes to; on phones (below 820px) the bottom bar's Next is short. */
   nav: z.strictObject({ back: copy, next: copyWith('title'), nextShort: copy, review: copy }),
   whereWhen: z.strictObject({
-    destinations: z.strictObject({ label: copy, hint: copy, unsure: copy }),
+    destinations: z.strictObject({
+      label: copy,
+      hint: copy,
+      unsure: copy,
+      /** The "Not sure, suggest something" card's photo: open country, no place in particular. */
+      unsureImage: photoSchema,
+    }),
     dates: z.strictObject({
       label: copy,
       hint: copy,
@@ -493,20 +499,9 @@ const plannerCopySchema = z.strictObject({
       from: copy,
       to: copy,
       month: copy,
-      /** "Roughly [−  6  +] days": the words either side, and the stepper's name and buttons. */
-      roughly: copy,
-      days: copy,
-      daysLabel: copy,
-      fewerDays: copy,
-      moreDays: copy,
     }),
-    length: z.strictObject({
-      label: copy,
-      hint: copy,
-      /** The hint while the length follows the flexible days. */
-      autoHint: copy,
-      options: z.record(z.enum(TRIP_LENGTHS), copy),
-    }),
+    /** The trip's length, asked once (owner feedback, 2026-10-05: no "Roughly … days"). */
+    length: z.strictObject({ label: copy, hint: copy, options: z.record(z.enum(TRIP_LENGTHS), copy) }),
   }),
   whosComing: z.strictObject({
     /** "Group size": a row for adults and one for children, each a label, a hint and a stepper. */
@@ -542,7 +537,6 @@ const plannerCopySchema = z.strictObject({
   summary: z.strictObject({
     /** "Not sure" among the destinations: "Suggest something". */
     unsure: copy,
-    flexibleDates: copyWith('month', 'days'),
     exactDates: copyWith('from', 'to'),
     adults: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
     children: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),

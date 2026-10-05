@@ -14,7 +14,7 @@ export function DestinationChoices({ destinations, copy }: DestinationChoicesPro
   const { answers, choices, errors, update, fieldId } = usePlanner();
   const cards = [
     ...destinations.map((d) => ({ id: d.slug, label: d.name, image: d.image })),
-    { id: UNSURE, label: copy.unsure, image: undefined },
+    { id: UNSURE, label: copy.unsure, image: copy.unsureImage },
   ];
   return (
     <FormField id={fieldId('destinations-group')} kind="group" label={copy.label} hint={copy.hint} error={groupError(errors, 'destinations')} errorAt="start">

@@ -17,7 +17,7 @@ const empty: TripSummary = { destinations: null, dates: null, length: null, grou
 describe('answered count', () => {
   it('counts the rows with an answer: none, some, all', () => {
     expect(answeredCount(empty)).toBe(0);
-    expect(answeredCount({ ...empty, destinations: 'Hunza', group: '2 adults', from: 'Lahore', dates: 'Jun 2027, about 6 days' })).toBe(4);
+    expect(answeredCount({ ...empty, destinations: 'Hunza', group: '2 adults', from: 'Lahore', dates: 'Jun 2027' })).toBe(4);
     const all = Object.fromEntries(Object.keys(empty).map((key) => [key, 'x'])) as TripSummary;
     expect(answeredCount(all)).toBe(9);
   });

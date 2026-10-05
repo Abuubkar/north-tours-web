@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   dateMin,
   DEFAULT_ANSWERS,
-  lengthIsAutoFilled,
   pickLength,
   pickDeparture,
   pickMonth,
@@ -13,7 +12,6 @@ import {
   setOtherCity,
   setDate,
   toggleDestination,
-  tripLength,
   type TripAnswers,
 } from './plannerAnswers.ts';
 
@@ -21,8 +19,10 @@ const choices = ['hunza', 'skardu', 'swat', 'unsure'];
 const flexible = (change: Partial<TripAnswers> = {}): TripAnswers => ({ ...DEFAULT_ANSWERS, month: '2027-06', ...change });
 
 describe('defaults', () => {
-  it('start flexible, about 6 days, nothing chosen', () => {
-    expect(DEFAULT_ANSWERS).toMatchObject({ destinations: [], dateMode: 'flexible', month: null, days: 6, length: null, lengthAuto: true });
+  it('start flexible, nothing chosen, and no days to count', () => {
+    expect(DEFAULT_ANSWERS).toMatchObject({ destinations: [], dateMode: 'flexible', month: null, length: null });
+    expect(Object.keys(DEFAULT_ANSWERS)).not.toContain('days');
+    expect(Object.keys(DEFAULT_ANSWERS)).not.toContain('lengthAuto');
   });
 });
 
@@ -43,42 +43,16 @@ describe('month', () => {
   });
 });
 
-describe('trip length auto-fill', () => {
-  it.each([
-    [4, '2-4'],
-    [5, '5-7'],
-    [7, '5-7'],
-    [8, '8-10'],
-    [10, '8-10'],
-    [11, '10plus'],
-  ])('follows %i flexible days → %s', (days, length) => {
-    const answers = flexible({ days });
-    expect(tripLength(answers)).toBe(length);
-    expect(lengthIsAutoFilled(answers)).toBe(true);
+describe('trip length', () => {
+  it('is only what the visitor picked: nothing until then, whatever the month', () => {
+    expect(flexible().length).toBeNull();
+    expect(pickLength(flexible(), '8-10').length).toBe('8-10');
   });
 
-  it('waits for a month, and doesn’t apply to exact dates', () => {
-    expect(tripLength(DEFAULT_ANSWERS)).toBeNull();
-    expect(tripLength(flexible({ dateMode: 'exact' }))).toBeNull();
-  });
-
-  it('stops once a length is picked, whatever the days', () => {
-    const picked = pickLength(flexible({ days: 6 }), '8-10');
-    expect(tripLength(picked)).toBe('8-10');
-    expect(tripLength({ ...picked, days: 3 })).toBe('8-10');
-    expect(lengthIsAutoFilled(picked)).toBe(false);
-  });
-
-  it('pressing the filled-in length keeps it, and stops the auto-fill', () => {
-    const kept = pickLength(flexible({ days: 6 }), '5-7');
-    expect(tripLength(kept)).toBe('5-7');
-    expect(tripLength({ ...kept, days: 9 })).toBe('5-7');
-  });
-
-  it('pressing a picked length again clears it, and it stays cleared', () => {
-    const cleared = pickLength(pickLength(flexible({ days: 6 }), '8-10'), '8-10');
-    expect(tripLength(cleared)).toBeNull();
-    expect(tripLength({ ...cleared, days: 9 })).toBeNull();
+  it('another length replaces it, and the same one again clears it', () => {
+    const picked = pickLength(flexible(), '8-10');
+    expect(pickLength(picked, '5-7').length).toBe('5-7');
+    expect(pickLength(picked, '8-10').length).toBeNull();
   });
 });
 

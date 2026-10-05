@@ -12,9 +12,7 @@ const trip: TripAnswers = {
   ...DEFAULT_ANSWERS,
   destinations: ['hunza', 'unsure'],
   month: '2027-06',
-  days: 8,
   length: '8-10',
-  lengthAuto: false,
   adults: 3,
   children: 2,
   ages: [0, 9],
@@ -64,11 +62,16 @@ describe('reading saved answers', () => {
     ['0 adults', { adults: 0 }, { adults: 2 }],
     ['41 adults', { adults: 41 }, { adults: 2 }],
     ['an unknown hotels id', { hotels: 'palace' }, { hotels: null }],
-    ['days out of range', { days: 30 }, { days: 6 }],
     ['an unknown city', { departingFrom: 'karachi' }, { departingFrom: 'lahore' }],
   ])('%s falls back alone', (_, change, expected) => {
     const { answers } = parsePlanner(saved(change), context);
     expect(answers).toEqual({ ...trip, ...change, ...expected });
+  });
+
+  it('ignores the old days and auto-length fields, keeping the picked length', () => {
+    const { answers } = parsePlanner(saved({ days: 9, lengthAuto: true }), context);
+    expect(answers).toEqual(trip);
+    expect(answers).not.toHaveProperty('days');
   });
 
   it('drops ages that don’t match the children', () => {

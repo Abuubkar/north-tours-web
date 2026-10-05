@@ -1,8 +1,6 @@
 import {
   ADULTS,
   CHILDREN,
-  DAYS,
-  lengthForDays,
   type DateMode,
   type DepartingFrom,
   type GroupType,
@@ -26,12 +24,8 @@ export type TripAnswers = {
   to: string | null;
   /** A flexible month, YYYY-MM. */
   month: string | null;
-  /** Roughly how many days, for flexible dates. */
-  days: number;
-  /** The trip length the visitor picked. */
+  /** The trip length the visitor picked: the planner's only length question. */
   length: TripLength | null;
-  /** True until the visitor picks (or clears) a length: until then it follows the flexible days. */
-  lengthAuto: boolean;
   adults: number;
   children: number;
   /** One per child: 0 for "Under 2", or 2 to 17; null until given. */
@@ -58,9 +52,7 @@ export const DEFAULT_ANSWERS: TripAnswers = {
   from: null,
   to: null,
   month: null,
-  days: DAYS.default,
   length: null,
-  lengthAuto: true,
   adults: ADULTS.default,
   children: CHILDREN.default,
   ages: [],
@@ -83,13 +75,9 @@ export function pickMonth(answers: TripAnswers, month: string): TripAnswers {
   return { ...answers, month: answers.month === month ? null : month };
 }
 
-/**
- * Picking a length stops the auto-fill and keeps that length (pressing the filled-in one keeps
- * it too); pressing a length the visitor picked again clears it.
- */
+/** One trip length at a time: another replaces it, and picking it again clears it. */
 export function pickLength(answers: TripAnswers, length: TripLength): TripAnswers {
-  const clear = !answers.lengthAuto && answers.length === length;
-  return { ...answers, length: clear ? null : length, lengthAuto: false };
+  return { ...answers, length: answers.length === length ? null : length };
 }
 
 /** An exact date typed or picked; an emptied field is no date. */
@@ -100,20 +88,6 @@ export function setDate(answers: TripAnswers, end: 'from' | 'to', date: string):
 /** The earliest date a field offers: today in Karachi, and for "To", the start once it's set. */
 export function dateMin(answers: TripAnswers, end: 'from' | 'to', today: string): string {
   return end === 'to' && answers.from && answers.from > today ? answers.from : today;
-}
-
-/**
- * The trip length shown and sent: the one the visitor picked, or, until they pick one, the
- * length that fits their flexible days once they've chosen a month.
- */
-export function tripLength(answers: TripAnswers): TripLength | null {
-  if (!answers.lengthAuto) return answers.length;
-  return answers.dateMode === 'flexible' && answers.month ? lengthForDays(answers.days) : null;
-}
-
-/** Whether the trip length is being filled from the flexible days (its hint says so). */
-export function lengthIsAutoFilled(answers: TripAnswers): boolean {
-  return answers.lengthAuto && tripLength(answers) !== null;
 }
 
 /** A number kept within its limits. */

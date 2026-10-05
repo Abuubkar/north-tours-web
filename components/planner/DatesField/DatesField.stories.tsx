@@ -17,13 +17,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Flexible by default: the 12 months from this one in Karachi, and "Roughly 6 days". */
+/** Flexible by default: the 12 months from this one in Karachi, and no days to count (Trip length asks how long). */
 export const Flexible: Story = {
   play: async ({ canvas }) => {
     const months = within(canvas.getByRole('group', { name: 'Month' })).getAllByRole('button');
     await expect(months).toHaveLength(12);
     await expect(months[0]).toHaveTextContent(shortMonthYear(todayInKarachi(new Date()).slice(0, 7)));
-    await expect(canvas.getByRole('group', { name: 'Roughly how many days' })).toHaveTextContent('6');
+    await expect(canvas.queryByRole('group', { name: 'Roughly how many days' })).toBeNull();
+    await expect(canvas.queryByText('Roughly')).toBeNull();
   },
 };
 

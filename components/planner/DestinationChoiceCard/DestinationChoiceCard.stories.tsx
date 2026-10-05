@@ -56,12 +56,15 @@ export const On: Story = {
   },
 };
 
-/** "Not sure": the placeholder stripes, no caption. */
+/** "Not sure": a photo of its own (owner feedback, 2026-10-05), in the same 16:10 frame as the destinations'. */
 export const NotSure: Story = {
-  args: { label: 'Not sure, suggest something', image: undefined },
+  args: { label: 'Not sure, suggest something', image: { ...samplePhoto, alt: 'Snow-covered Karakoram peaks seen from the air' } },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('button', { name: 'Not sure, suggest something' })).toBeVisible();
-    await expect(canvas.queryByRole('img')).toBeNull();
+    const card = canvas.getByRole('button', { name: 'Not sure, suggest something' });
+    const photo = card.querySelector('img')!;
+    await expect(photo).toBeVisible();
+    const box = photo.getBoundingClientRect();
+    await expect(box.width / box.height).toBeCloseTo(16 / 10, 1);
   },
 };
 

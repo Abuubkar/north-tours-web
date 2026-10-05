@@ -35,8 +35,8 @@ describe('trip summary', () => {
     expect(trip({ destinations: ['hunza', 'unsure'] }).destinations).toBe('Hunza, Suggest something');
   });
 
-  it('writes flexible and exact dates', () => {
-    expect(trip({ month: '2027-06', days: 6 }).dates).toBe('Jun 2027, about 6 days');
+  it('writes flexible and exact dates: a month alone, with no days to count', () => {
+    expect(trip({ month: '2027-06' }).dates).toBe('Jun 2027');
     expect(trip({ dateMode: 'exact', from: '2027-06-12', to: '2027-06-18' }).dates).toBe('12 Jun 2027 – 18 Jun 2027');
     expect(trip({ dateMode: 'exact', from: '2027-06-12', to: null }).dates).toBeNull();
   });
@@ -50,8 +50,12 @@ describe('trip summary', () => {
     expect(trip({ children: 2, ages: [null, null] }).group).toBe('2 adults, 2 children');
   });
 
+  it('leaves the length empty until one is picked, whatever the month', () => {
+    expect(trip({ month: '2027-06' }).length).toBeNull();
+  });
+
   it('writes the options in the page’s words, the length too', () => {
-    expect(trip({ month: '2027-06', groupType: 'family', hotels: 'upgraded', transport: 'car', budget: '50-100k' })).toMatchObject({
+    expect(trip({ month: '2027-06', length: '5-7', groupType: 'family', hotels: 'upgraded', transport: 'car', budget: '50-100k' })).toMatchObject({
       length: '5–7 days',
       groupType: 'Family',
       hotels: 'Upgraded',

@@ -41,7 +41,24 @@
     "destinations": {
       "label": "Destinations",
       "hint": "Required · choose one or more",
-      "unsure": "Not sure, suggest something"
+      "unsure": "Not sure, suggest something",
+      "unsureImage": {
+        "src": "/images/route/karakoram-peaks.jpg",
+        "alt": "Snow-covered Karakoram peaks seen from the air, K2’s steep pyramid rising above the ranges under a clear sky",
+        "width": 1600,
+        "height": 1000,
+        "focus": {
+          "x": 45,
+          "y": 45
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Khankayani512",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:K2_Mega_Pano_(Aerial).jpg",
+          "changes": "Cropped"
+        }
+      }
     },
     "dates": {
       "label": "Dates",
@@ -53,17 +70,11 @@
       },
       "from": "From",
       "to": "To",
-      "month": "Month",
-      "roughly": "Roughly",
-      "days": "days",
-      "daysLabel": "Roughly how many days",
-      "fewerDays": "Fewer days",
-      "moreDays": "More days"
+      "month": "Month"
     },
     "length": {
       "label": "Trip length",
       "hint": "Optional",
-      "autoHint": "Optional · filled from your flexible dates",
       "options": {
         "2-4": "2–4 days",
         "5-7": "5–7 days",
@@ -182,7 +193,6 @@
   },
   "summary": {
     "unsure": "Suggest something",
-    "flexibleDates": "{month}, about {days} days",
     "exactDates": "{from} – {to}",
     "adults": {
       "one": "{count} adult",

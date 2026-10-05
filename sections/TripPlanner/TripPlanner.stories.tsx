@@ -139,28 +139,55 @@ export const Dates: Story = {
   },
 };
 
-/** With a month chosen, the days stepper fills the trip length until the visitor picks one. */
-export const LengthFollowsDays: Story = {
+/** The trip length is asked once: no days stepper, and a month alone leaves the length unpicked until the visitor picks one. */
+export const LengthAskedOnce: Story = {
   play: async ({ canvas, userEvent }) => {
+    await expect(canvas.queryByRole('group', { name: /how many days/i })).toBeNull();
+    await expect(canvas.queryByRole('button', { name: 'More days' })).toBeNull();
     const length = canvas.getByRole('group', { name: 'Trip length' });
     await userEvent.click(monthChips(canvas)[3]);
-    await expect(button(canvas, '5–7 days')).toHaveAttribute('aria-pressed', 'true');
-    await expect(length).toHaveAccessibleDescription('Optional · filled from your flexible dates');
-    await userEvent.click(button(canvas, 'More days'));
-    await userEvent.click(button(canvas, 'More days'));
-    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
-    // Pressing the filled-in length keeps it, and it stops following the days.
+    for (const chip of within(length).getAllByRole('button')) await expect(chip).toHaveAttribute('aria-pressed', 'false');
+    await expect(length).toHaveAccessibleDescription('Optional');
     await userEvent.click(button(canvas, '8–10 days'));
     await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
-    await expect(length).toHaveAccessibleDescription('Optional');
-    await userEvent.click(button(canvas, 'Fewer days'));
-    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
-    await userEvent.click(button(canvas, '2–4 days'));
-    await expect(length).toHaveAccessibleDescription('Optional');
-    await userEvent.click(button(canvas, 'More days'));
-    await expect(button(canvas, '2–4 days')).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.click(button(canvas, '8–10 days'));
+    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'false');
   },
 };
+
+/**
+ * One rhythm on every step: from one question's last control, across the hairline, to the next
+ * question's label is the same space everywhere (32px each side of the line), and every label sits
+ * 16px above its control, whether the question is one field or a group.
+ */
+async function expectRhythm(canvasElement: HTMLElement) {
+  const body = canvasElement.querySelector<HTMLElement>('[data-form-field]')!.parentElement!;
+  const questions = [...body.children] as HTMLElement[];
+  if (questions.length < 2) throw new Error('Expected at least two questions');
+  // Steps 1 and 2 ask only groups: each is named by its legend, its controls in the box after it.
+  const legend = (question: HTMLElement) => question.querySelector<HTMLElement>(':scope > legend')!.getBoundingClientRect();
+  for (const [i, question] of questions.entries()) {
+    if (i > 0) {
+      const before = questions[i - 1];
+      const end = before.getBoundingClientRect().bottom - parseFloat(getComputedStyle(before).paddingBottom);
+      await expect(Math.round(legend(question).top - end)).toBe(65);
+      await expect(getComputedStyle(question).borderTopWidth).toBe('1px');
+    }
+    const firstControl = question.querySelector(':scope > legend + div > :first-child')!.getBoundingClientRect();
+    await expect(Math.round(firstControl.top - legend(question).bottom)).toBe(16);
+  }
+}
+
+export const Rhythm: Story = {
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await expectRhythm(canvasElement);
+    await toStep2(canvas, userEvent);
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming'));
+    await expectRhythm(canvasElement);
+  },
+};
+
+export const RhythmPhone: Story = { ...Rhythm, globals: { viewport: { value: 'phone' } } };
 
 /**
  * Next on an empty step: both messages show, the first card takes focus and sits below the
@@ -406,10 +433,11 @@ const stayOnPage = () => {
   return () => document.removeEventListener('click', block);
 };
 
-/** Every step answered, then Review: Hunza in the fourth month, 2 adults and 2 children (6, 9), Family, Upgraded, Ayesha. */
+/** Every step answered, then Review: Hunza in the fourth month for 5–7 days, 2 adults and 2 children (6, 9), Family, Upgraded, Ayesha. */
 const toReview = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void>; type: (el: Element, text: string) => Promise<void>; selectOptions: (el: Element, value: string) => Promise<void> }) => {
   await userEvent.click(button(canvas, 'Hunza'));
   await userEvent.click(monthChips(canvas)[3]);
+  await userEvent.click(button(canvas, '5–7 days'));
   await userEvent.click(button(canvas, /^Next/));
   await userEvent.click(button(canvas, 'More children'));
   await userEvent.click(button(canvas, 'More children'));
@@ -605,7 +633,7 @@ export const SavedJunk: Story = {
   play: async ({ canvas }) => {
     // Without a month, step 1 doesn't pass, so the planner opens there.
     await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when'));
-    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Skardu', 'Flexible']);
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Skardu', 'Flexible', '5–7 days']);
   },
 };
 
@@ -693,7 +721,8 @@ export const Aside: Story = {
     await expect(rows.getByText('Your trip', { selector: 'p' })).toBeVisible();
     await userEvent.click(button(canvas, 'Hunza'));
     await userEvent.click(monthChips(canvas)[3]);
-    await expect(aside).toHaveTextContent('5 of 9');
+    // A month alone leaves the trip length to the visitor.
+    await expect(aside).toHaveTextContent('4 of 9');
     await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Hunza');
     await expect(rows.getByRole('img', { name: 'A view of Hunza' })).toBeVisible();
     await expect(rows.getByText('Hunza', { selector: 'p' })).toBeVisible();

@@ -1,13 +1,22 @@
+/* The label to its control: one gap for every field and group (owner feedback, 2026-10-05). */
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-16);
+  gap: var(--form-label-gap);
   min-width: 0;
 }
 
-/* A fieldset with no box of its own. */
 .group {
   display: block;
+  margin: 0;
+}
+
+/*
+ * A fieldset with no box of its own. The reset carries no weight, so a layout around the field
+ * (the planner's step body, which pads and divides its questions) still applies to a group as it
+ * does to a single field.
+ */
+:where(.group) {
   padding: 0;
   border: 0;
 }
@@ -32,8 +41,8 @@
   clear: both;
   display: flex;
   flex-direction: column;
-  gap: var(--space-16);
-  padding-top: var(--space-16);
+  gap: var(--form-label-gap);
+  padding-top: var(--form-label-gap);
 }
 
 .label {

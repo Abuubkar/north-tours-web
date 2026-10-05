@@ -175,6 +175,8 @@
   --age-select-w: 110px; /* each child's age select, in a row */
   --measure-counters: 440px; /* the planner's group size rows */
   --measure-field-short: 360px; /* a short text field: the planner's other city */
+  --form-question-y: var(--space-32); /* above and below the hairline between two planner questions, on every step */
+  --form-label-gap: var(--space-16); /* from a field's label (or a group's legend) to its control */
 
   /* About (PRD #78): the page header's photo, the story and the founder beside it. */
   --page-header-media-top: clamp(40px, 5cqi, 72px); /* above the About header's wide photo */
