@@ -21,9 +21,6 @@ export function sitemapUrls(slugs: { tours: string[]; destinations: string[] }, 
   return [...new Set(paths)].map((path) => siteUrlFor(path, siteUrl));
 }
 
-/** `NOINDEX=1` at build: a preview that search engines must not index (ADR-0032). */
-export const NOINDEX = process.env.NOINDEX === '1';
-
 type RobotsRules = { rules: { userAgent: string; allow?: string; disallow?: string }; sitemap?: string };
 
 /**

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import type { Settings } from '../content/settings.ts';
 import { sitePath } from './basePath.ts';
-import { shareSrc } from './images.ts';
+import { shareFile } from './images.ts';
 import { siteUrlFor } from './siteUrl.ts';
 
 /** "{page title} | {brand}": page copy holds only the page's part. */
@@ -33,5 +33,5 @@ export function pageMetadata(
  * the base path (ADR-0032).
  */
 export function shareImageUrl(src: string, siteUrl: string): string {
-  return siteUrlFor(sitePath(shareSrc(src)), siteUrl);
+  return siteUrlFor(sitePath(shareFile(src)), siteUrl);
 }

@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-import { IMAGE_FORMATS, shareSrc, variantSrc, variantWidths } from '../utils/images.ts';
+import { IMAGE_FORMATS, shareFile, variantFile, variantWidths } from '../utils/images.ts';
 import { loadCatalog } from './catalog.ts';
 import { CONTENT_DIR, displayPath, type ContentProblem } from './files.ts';
 import { loadGuides } from './guides.ts';
@@ -54,8 +54,8 @@ export function sourceFile(photo: Photo, dir = CONTENT_DIR): string {
 
 /** Every generated file a photo needs: each width in each format, plus the share crop for heroes. */
 export function generatedFiles({ photo, share }: Pick<PhotoUse, 'photo' | 'share'>): string[] {
-  const variants = variantWidths(photo.width).flatMap((w) => IMAGE_FORMATS.map((f) => variantSrc(photo.src, w, f)));
-  return share ? [...variants, shareSrc(photo.src)] : variants;
+  const variants = variantWidths(photo.width).flatMap((w) => IMAGE_FORMATS.map((f) => variantFile(photo.src, w, f)));
+  return share ? [...variants, shareFile(photo.src)] : variants;
 }
 
 /** A problem for each photo whose source or generated files are missing (run `pnpm images`). */

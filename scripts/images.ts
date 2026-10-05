@@ -5,7 +5,7 @@ import path from 'node:path';
 import sharp, { type Sharp } from 'sharp';
 import { displayPath } from '../lib/content/files.ts';
 import { contentPhotos, PUBLIC_DIR, sourceFile, type PhotoUse } from '../lib/content/imageFiles.ts';
-import { coverCrop, IMAGE_FORMATS, SHARE_IMAGE, shareSrc, variantSrc, variantWidths, type ImageFormat } from '../lib/utils/images.ts';
+import { coverCrop, IMAGE_FORMATS, SHARE_IMAGE, shareFile, variantFile, variantWidths, type ImageFormat } from '../lib/utils/images.ts';
 
 /** Quality per format, chosen for photos on mid-range phones over mobile data. */
 const encode = {
@@ -32,7 +32,7 @@ async function writeVariants({ photo }: PhotoUse, source: string): Promise<numbe
   let written = 0;
   for (const width of variantWidths(photo.width)) {
     for (const format of IMAGE_FORMATS) {
-      const out = path.join(PUBLIC_DIR, variantSrc(photo.src, width, format));
+      const out = path.join(PUBLIC_DIR, variantFile(photo.src, width, format));
       if (mtime(out) >= mtime(source)) continue;
       write(out, await encode[format](sharp(source).resize({ width })).toBuffer());
       written++;
@@ -45,7 +45,7 @@ async function writeVariants({ photo }: PhotoUse, source: string): Promise<numbe
 async function writeShareCrop({ photo }: PhotoUse, source: string): Promise<number> {
   const { resize, extract } = coverCrop(photo, SHARE_IMAGE, photo.focus);
   const data = await encode.jpg(sharp(source).resize(resize).extract(extract)).toBuffer();
-  const out = path.join(PUBLIC_DIR, shareSrc(photo.src));
+  const out = path.join(PUBLIC_DIR, shareFile(photo.src));
   if (mtime(out) >= 0 && readFileSync(out).equals(data)) return 0;
   write(out, data);
   return 1;

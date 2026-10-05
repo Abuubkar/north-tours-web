@@ -30,14 +30,14 @@ export function variantWidths(width: number): number[] {
 const extension = /\.[a-z]+$/;
 
 /** "/images/hunza/attabad.jpg" at 800 as WebP → "/images/hunza/attabad-800.webp", the file in public. */
-export function variantSrc(src: string, width: number, format: ImageFormat): string {
+export function variantFile(src: string, width: number, format: ImageFormat): string {
   return src.replace(extension, `-${width}.${format}`);
 }
 
 /** The `srcset` for one format: every variant width of the photo, under the base path. */
 export function variantSrcSet(photo: Pick<Photo, 'src' | 'width'>, format: ImageFormat): string {
   return variantWidths(photo.width)
-    .map((w) => `${sitePath(variantSrc(photo.src, w, format))} ${w}w`)
+    .map((w) => `${sitePath(variantFile(photo.src, w, format))} ${w}w`)
     .join(', ');
 }
 
@@ -47,11 +47,11 @@ const FALLBACK_MAX_WIDTH = 1200;
 /** The `src` for browsers without `srcset`, under the base path. */
 export function fallbackSrc(photo: Pick<Photo, 'src' | 'width'>): string {
   const widths = variantWidths(photo.width).filter((w) => w <= FALLBACK_MAX_WIDTH);
-  return sitePath(variantSrc(photo.src, widths[widths.length - 1], 'jpg'));
+  return sitePath(variantFile(photo.src, widths[widths.length - 1], 'jpg'));
 }
 
 /** "/images/hunza/attabad.jpg" → "/images/hunza/attabad-share.jpg", the file in public. */
-export function shareSrc(src: string): string {
+export function shareFile(src: string): string {
   return src.replace(extension, '-share.jpg');
 }
 

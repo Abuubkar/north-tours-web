@@ -9,7 +9,7 @@ import { SiteFooter } from '@/components/layout/SiteFooter/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader/SiteHeader';
 import { SkipLink } from '@/components/layout/SkipLink/SkipLink';
 import { getSettings } from '@/lib/content/settings';
-import { NOINDEX } from '@/lib/utils/sitemap';
+import { NOINDEX } from '@/lib/utils/noindex';
 
 const geist = Geist({
   subsets: ['latin'],

@@ -26,12 +26,13 @@ const log = (line: string) => process.stderr.write(`${line}\n`);
 
 const { values: args } = parseArgs({ options: { origin: { type: 'string' } } });
 const live = args.origin === undefined ? null : auditTarget(args.origin);
+const basePath = live?.basePath ?? '';
 
-log(`audit:site: building${live?.basePath ? ` for ${live.basePath}` : ''}`);
-execSync('pnpm build', { stdio: ['ignore', 'ignore', 'inherit'], env: live ? { ...process.env, BASE_PATH: live.basePath } : process.env });
+log(`audit:site: building${basePath ? ` for ${basePath}` : ''}`);
+execSync('pnpm build', { stdio: ['ignore', 'ignore', 'inherit'], env: live ? { ...process.env, BASE_PATH: basePath } : process.env });
 
 const files = readdirSync(OUT, { recursive: true, encoding: 'utf8' }).map((file) => file.replaceAll(path.sep, '/'));
-const site = { files: new Set(files.map((file) => `/${file}`)), url: getSettings().site.url, basePath: live?.basePath ?? '' };
+const site = { files: new Set(files.map((file) => `/${file}`)), url: getSettings().site.url, basePath };
 const pages = builtPages(files);
 
 const sitemapFile = path.join(OUT, 'sitemap.xml');
@@ -39,16 +40,18 @@ const sitemap = sitemapLocs(existsSync(sitemapFile) ? readFileSync(sitemapFile, 
 const siteFailures = sitemapFailures(sitemap, pages, site);
 const audits: PageAudit[] = [];
 // A live site needs no local server; the local one serves the export at its root.
-const server = live ? { origin: live.origin, browserArgs: [], close: async () => {} } : await serveExport(OUT);
-const target: AuditTarget = live ?? { origin: server.origin, basePath: '' };
+const server = live ? null : await serveExport(OUT);
+const target: AuditTarget = live ?? { origin: server!.origin, basePath };
 const urlFor = (page: string) => pageUrl(page, target);
+const browserArgs = server?.browserArgs ?? [];
+const closeServer = async () => server?.close();
 // The story tests' Chromium (ADR-0012), in the same full browser Lighthouse uses.
-const browser = await chromium.launch({ channel: 'chromium', args: server.browserArgs }).catch(async (error) => {
-  await server.close();
+const browser = await chromium.launch({ channel: 'chromium', args: browserArgs }).catch(async (error) => {
+  await closeServer();
   throw error;
 });
-const lighthouse = await startLighthouse(server.browserArgs).catch(async (error) => {
-  await Promise.allSettled([browser.close(), server.close()]);
+const lighthouse = await startLighthouse(browserArgs).catch(async (error) => {
+  await Promise.allSettled([browser.close(), closeServer()]);
   throw error;
 });
 try {
@@ -85,7 +88,7 @@ try {
     });
   }
 } finally {
-  await Promise.allSettled([lighthouse.close(), browser.close(), server.close()]);
+  await Promise.allSettled([lighthouse.close(), browser.close(), closeServer()]);
 }
 
 const verdicts = judgeSite(audits, site);

@@ -71,7 +71,7 @@ describe('a build with BASE_PATH set', () => {
     const photo = { src: '/images/a.jpg', width: 900 };
     expect(site.images.variantSrcSet(photo, 'webp')).toBe('/north-tours-web/images/a-480.webp 480w, /north-tours-web/images/a-800.webp 800w');
     expect(site.images.fallbackSrc(photo)).toBe('/north-tours-web/images/a-800.jpg');
-    expect(site.images.variantSrc(photo.src, 800, 'jpg')).toBe('/images/a-800.jpg');
+    expect(site.images.variantFile(photo.src, 800, 'jpg')).toBe('/images/a-800.jpg');
     expect(site.metadata.shareImageUrl(photo.src, '[Site URL]')).toBe('/north-tours-web/images/a-share.jpg');
   });
 

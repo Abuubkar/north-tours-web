@@ -3,7 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-10-05
 - **Related issue:** #141
-- **Supersedes in part:** ADR-0007 (no deploy pipeline during development)
+- **Supersedes:** ADR-0007 in part (no deploy pipeline during development)
 
 ## Context
 ADR-0007 and CLAUDE.md §11 keep hosting code out until it's asked for. On 2026-10-05 the owner asked for it: "make the repo public and deploy the site on github pages and re-run audits there". The real host is still the owner's decision (Cloudflare is likely); what's wanted now is a preview anyone can open, and a way to run `pnpm audit:site` against it.
