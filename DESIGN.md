@@ -108,9 +108,9 @@ In code each role is one class in `styles/typography.module.css`, reused with CS
 
 | Role | Class | Size | Weight | Line height | Tracking | Notes |
 |---|---|---|---|---|---|---|
-| Display (hero word) | `display` | `26cqi` (≈101px @390, ≈374px @1440) | 600 | .74 | none; `--display-gap` .05em between letters | One word, e.g. NORTH. The same visible gap between every pair of letters, measured ink to ink (owner feedback, 2026-10-05): each letter is its own item and cancels its side space (Geist semibold, measured in `lib/utils/displaySpacing.ts`), then `--display-gap` sits between the letters' ink; the N's ink starts on the margin. A display word with an unmeasured letter fails `pnpm content:check`. Kerning off. The design's 27cqi at −0.065em spans the same width. Sits flush to hero bottom |
+| Display (hero word) | `display` | `26cqi` (≈101px @390, ≈374px @1440) | 600 | .74 | none; `--display-gap` .05em between letters | One word, e.g. NORTH. The same visible gap between every pair of letters, measured ink to ink (owner feedback, 2026-10-05): each letter is its own item and cancels its side space (Geist semibold, measured in `lib/utils/displaySpacing.ts`), then `--display-gap` sits between the letters' ink; the N's ink starts on the margin. A display word with an unmeasured letter fails `pnpm content:check`. The design's 27cqi at −0.065em spans the same width. Sits flush to hero bottom |
 | Tour hero title | `tourHero` | `clamp(48px, 7.2cqi, 108px)` | 500 | .95 | −0.05em | Tour Detail hero. `text-wrap: balance` |
-| Destination hero name | `destinationHero` | `min(20cqi, round(150 / max(length, 5)) cqi)` | 600 | .8 | −0.065em | Fits the name on one line; the component sets `--name-length`. Negative left margin as Display |
+| Destination hero name | `destinationHero` | `min(20cqi, round(150 / max(length, 5)) cqi)` | 600 | .8 | −0.065em | Fits the name on one line; the component sets `--name-length`. Slight negative left margin (`--indent-display`, −.035em) |
 | Statement | `statement` | `clamp(40px, 6.4cqi, 92px)` | 500 | .98 | −0.045em | Brand statement, two lines on desktop |
 | Section headline | `section` | `clamp(34px, 4.6cqi, 66px)` | 500 | 1.0 | −0.04em | Max-width ~720–820px |
 | Section headline, long | `sectionLong` | `clamp(32px, 3.9cqi, 56px)` | 500 | 1.08 | −0.03em | Headlines over ~44 characters (§6) |

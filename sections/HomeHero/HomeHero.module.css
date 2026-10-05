@@ -60,8 +60,15 @@
   flex: 1 1 auto;
 }
 
+/*
+ * A letter per item, each cancelling its own side space (lib/utils/displaySpacing.ts), so the gap
+ * between every pair of letters' ink is `--display-gap` (owner feedback, 2026-10-05), and the
+ * first letter's ink sits on the margin. Separate items don't kern.
+ */
 .display {
   composes: display from '../../styles/typography.module.css';
+  display: flex;
+  column-gap: var(--display-gap);
   transform: translateY(var(--display-sink));
 }
 

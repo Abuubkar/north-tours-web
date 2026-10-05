@@ -5,17 +5,9 @@
  */
 
 .display {
-  /*
-   * One letter per item, each cancelling its own side space (lib/utils/displaySpacing.ts), so the
-   * gap between every pair of letters' ink is `--display-gap` (owner feedback, 2026-10-05). The
-   * first letter’s ink sits on the margin. Kerning stays off: no pair adjustment between the letters.
-   */
-  display: flex;
-  column-gap: var(--display-gap);
   font-size: var(--fs-display);
   font-weight: var(--fw-semibold);
   line-height: var(--lh-display);
-  font-kerning: none;
 }
 
 .tourHero {

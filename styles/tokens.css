@@ -342,7 +342,7 @@
   --lh-display: 0.74;
   --display-gap: 0.05em; /* between every pair of letters' ink in the display word, side space cancelled */
   --indent-display: -0.035em; /* the destination hero name's left margin */
-  --display-sink: 0.05em; /* sets the display word flush with the hero's bottom edge */
+  --display-sink: 0.05em; /* sets the display word flush with the hero's bottom edge; the R's side space in lib/utils/displaySpacing.ts is measured at this cut, so re-measure it if this or --lh-display changes */
 
   --fs-tour-hero: clamp(48px, 7.2cqi, 108px);
   --lh-tour-hero: 0.95;
