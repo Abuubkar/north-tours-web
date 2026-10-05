@@ -8,14 +8,6 @@
   font-size: var(--fs-display);
   font-weight: var(--fw-semibold);
   line-height: var(--lh-display);
-  letter-spacing: var(--ls-display);
-  /*
-   * Geist's kerning, at this size and tracking, closes N–O, opens O–R and runs the T's bar into
-   * the H. Without it, the one tracking value spaces the capitals evenly (owner feedback).
-   */
-  font-kerning: none;
-  margin-left: var(--indent-display);
-  white-space: nowrap;
 }
 
 .tourHero {

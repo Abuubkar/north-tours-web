@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, waitFor } from 'storybook/test';
+import { expect, waitFor, within } from 'storybook/test';
 import { emulateFullMotion, emulateReducedMotion } from '../../.storybook/reducedMotion';
 import { roomBelow } from '../../.storybook/scrollRoom';
 import { placeholderSettings, realSettings } from '@/components/layout/sampleSettings';
@@ -9,6 +9,8 @@ import { HomeHero } from './HomeHero';
 /** The general message from settings. */
 const MESSAGE = 'text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
 const WHATSAPP = `https://wa.me/?${MESSAGE}`;
+
+type Canvas = ReturnType<typeof within>;
 
 const meta = {
   title: 'Sections/HomeHero',
@@ -21,10 +23,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** The display word: a span per letter, so it's found by its whole text. */
+const displayWord = (canvas: Canvas) =>
+  canvas.getByText((_: string, element: Element | null) => element?.tagName === 'P' && element.textContent === sampleHome.hero.displayWord);
+
 /** The lead and both buttons; "NORTH" is decorative and hidden from screen readers. */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
-    await expect(canvas.getByText('NORTH')).toHaveAttribute('aria-hidden', 'true');
+    await expect(displayWord(canvas)).toHaveAttribute('aria-hidden', 'true');
     await expect(canvas.queryByRole('paragraph', { name: 'NORTH' })).toBeNull();
     await expect(canvas.getByRole('link', { name: 'Explore Tours' })).toHaveAttribute('href', '/tours');
     await expect(canvas.getByRole('link', { name: 'Plan on WhatsApp' })).toHaveAttribute('href', WHATSAPP);
@@ -36,16 +42,26 @@ export const Desktop: Story = {
 };
 
 /**
- * "NORTH" is set with kerning off and one tracking value, so its letter gaps are even (Geist's
- * kerning closed N–O and ran the T into the H), and it stays inside the hero.
+ * "NORTH" is a span per letter, each cancelling its own side space, so the gap between every pair
+ * of letters' ink is the display gap (.05em), whatever the letters' shapes; it stays inside the hero.
  */
 export const DisplayWord: Story = {
   play: async ({ canvas, canvasElement }) => {
-    const word = canvas.getByText('NORTH');
-    const { fontKerning, letterSpacing, fontSize } = getComputedStyle(word);
-    await expect(fontKerning).toBe('none');
-    await expect(parseFloat(letterSpacing) / parseFloat(fontSize)).toBeCloseTo(-0.05, 3);
-    await expect(word.getBoundingClientRect().right).toBeLessThanOrEqual(canvasElement.getBoundingClientRect().right);
+    const word = displayWord(canvas);
+    const { fontSize: size, columnGap } = getComputedStyle(word);
+    const fontSize = parseFloat(size);
+    await expect(parseFloat(columnGap) / fontSize).toBeCloseTo(0.05, 3);
+    const letters = [...word.children] as HTMLElement[];
+    await expect(letters.map((letter) => letter.textContent).join('')).toBe(sampleHome.hero.displayWord);
+    const ink = letters.map((letter) => {
+      const { left, right } = letter.getBoundingClientRect();
+      const side = (name: string) => Number(letter.style.getPropertyValue(name)) * fontSize;
+      return { left: left + side('--lsb'), right: right - side('--rsb') };
+    });
+    for (let i = 1; i < ink.length; i++) {
+      await expect(Math.abs(ink[i].left - ink[i - 1].right - parseFloat(columnGap))).toBeLessThan(0.5);
+    }
+    await expect(letters.at(-1)!.getBoundingClientRect().right).toBeLessThanOrEqual(canvasElement.getBoundingClientRect().right);
   },
 };
 

@@ -21,7 +21,7 @@ export function answeredCount(trip: TripSummary): number {
 export type BarWords = {
   /** No destination yet. */
   yourTrip: string;
-  /** "Not sure" as the first destination. */
+  /** "Help me choose" as the first destination. */
   suggestions: string;
   /** No dates yet. */
   noDates: string;

@@ -16,9 +16,9 @@ describe('step 1, Where and when', () => {
     expect(check(valid)).toEqual([]);
   });
 
-  it('needs a destination; “Not sure” alone passes', () => {
+  it('needs a destination; “Help me choose” alone passes', () => {
     expect(check({ ...valid, destinations: [] })).toEqual([
-      { group: 'destinations', fields: ['destinations'], message: 'Choose at least one destination, or “Not sure, suggest something”.' },
+      { group: 'destinations', fields: ['destinations'], message: 'Choose at least one destination, or “Help me choose”.' },
     ]);
     expect(check({ ...valid, destinations: ['unsure'] })).toEqual([]);
   });

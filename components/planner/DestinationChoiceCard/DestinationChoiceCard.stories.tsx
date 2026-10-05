@@ -57,11 +57,11 @@ export const On: Story = {
   },
 };
 
-/** "Not sure": a photo of its own (owner feedback, 2026-10-05), in the same 16:10 frame as the destinations'. */
-export const NotSure: Story = {
-  args: { label: 'Not sure, suggest something', image: samplePlannerCopy.whereWhen.destinations.unsureImage },
+/** "Help me choose": a photo of its own (owner feedback, 2026-10-05), in the same 16:10 frame as the destinations'. */
+export const HelpMeChoose: Story = {
+  args: { label: 'Help me choose', image: samplePlannerCopy.whereWhen.destinations.unsureImage },
   play: async ({ canvas }) => {
-    const card = canvas.getByRole('button', { name: 'Not sure, suggest something' });
+    const card = canvas.getByRole('button', { name: 'Help me choose' });
     const photo = card.querySelector('img')!;
     await expect(photo).toBeVisible();
     const box = photo.getBoundingClientRect();
@@ -69,7 +69,7 @@ export const NotSure: Story = {
   },
 };
 
-export const NotSureOnLight: Story = { ...NotSure, globals: { surface: 'light' } };
+export const HelpMeChooseOnLight: Story = { ...HelpMeChoose, globals: { surface: 'light' } };
 
 /** After a failed Next: the error border, and the message read when the card is focused. */
 export const Invalid: Story = {

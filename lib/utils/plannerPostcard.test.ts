@@ -18,7 +18,7 @@ describe('postcard', () => {
     expect(card({ destinations: ['skardu', 'hunza'] })).toEqual({ title: 'Skardu + Hunza', photo: 'skardu', route: ['Lahore', 'Skardu', 'Hunza'] });
   });
 
-  it('leaves “Not sure” out: alone it reads as no place yet', () => {
+  it('leaves “Help me choose” out: alone it reads as no place yet', () => {
     expect(card({ destinations: ['unsure'] })).toEqual({ title: 'Your trip', photo: null, route: [] });
     expect(card({ destinations: ['unsure', 'swat'] })).toEqual({ title: 'Swat', photo: 'swat', route: ['Lahore', 'Swat'] });
   });

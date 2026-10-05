@@ -5,7 +5,7 @@
 
 import { BUDGETS } from './tourFilters.ts';
 
-/** "Not sure, suggest something": the destination choice that asks for advice instead. */
+/** "Help me choose": the destination choice that asks for advice instead. */
 export const UNSURE = 'unsure';
 
 export const DATE_MODES = ['exact', 'flexible'] as const;
@@ -18,7 +18,7 @@ export type TripLength = (typeof TRIP_LENGTHS)[number];
 /** How many months ahead the month chips reach, this month included. */
 const MONTHS_AHEAD = 12;
 
-/** The destination choices: every destination in the loader's order, then "Not sure". */
+/** The destination choices: every destination in the loader's order, then "Help me choose". */
 export function destinationChoices(slugs: readonly string[]): string[] {
   return [...slugs, UNSURE];
 }

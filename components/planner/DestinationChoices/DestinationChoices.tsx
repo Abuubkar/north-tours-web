@@ -9,7 +9,7 @@ import { DestinationChoiceCard } from '../DestinationChoiceCard/DestinationChoic
 import type { DestinationChoicesProps } from './DestinationChoices.types';
 import styles from './DestinationChoices.module.css';
 
-/** "Destinations": a card per destination and "Not sure, suggest something", any number ticked. */
+/** "Destinations": a card per destination and "Help me choose", any number ticked. */
 export function DestinationChoices({ destinations, copy }: DestinationChoicesProps) {
   const { answers, choices, errors, update, fieldId } = usePlanner();
   const cards = [

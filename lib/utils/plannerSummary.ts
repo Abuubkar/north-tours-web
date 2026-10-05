@@ -18,7 +18,7 @@ type CountWords = { one: string; other: string };
 export type SummaryWords = {
   /** Destination names by slug. */
   destinations: Readonly<Record<string, string>>;
-  /** "Not sure" in a summary: "Suggest something". */
+  /** "Help me choose" in a summary, as the card reads. */
   unsure: string;
   /** "{from} – {to}". */
   exactDates: string;

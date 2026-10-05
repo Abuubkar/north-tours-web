@@ -34,6 +34,10 @@ const request = (a: TripAnswers, d: Details) => tripRequestMessage(whatsapp.plan
 const callBack = (a: TripAnswers, d: Details) => callBackMessage(whatsapp.planner, tripSummary(a, words), detailsSummary(d, words));
 
 describe('trip request', () => {
+  it('names “Help me choose” as the card does', () => {
+    expect(request({ ...answers, destinations: ['unsure'] }, details)).toContain('• Destinations: Help me choose\n');
+  });
+
   it('writes the month alone when no trip length is picked', () => {
     expect(request({ ...answers, lengths: [] }, details)).toContain('• Dates: Jun 2027\n');
   });

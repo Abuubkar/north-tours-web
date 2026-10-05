@@ -26,7 +26,7 @@ export function contentPhotos(dir = CONTENT_DIR): PhotoUse[] {
     ...(tours.data ? [{ file: displayPath(toursCopyFile(dir)), field: 'banner.image', image: tours.data.banner.image }] : []),
     // The About header's photo is also its share image.
     ...(about.data ? [{ file: displayPath(aboutCopyFile(dir)), field: 'header.image', image: about.data.header.image, share: true }] : []),
-    // The planner's photo band is also its share image; the postcard's photo until a destination is chosen; the "Not sure" card's.
+    // The planner's photo band is also its share image; the postcard's photo until a destination is chosen; the "Help me choose" card's.
     ...(planner.data
       ? [
           { file: displayPath(plannerCopyFile(dir)), field: 'header.image', image: planner.data.header.image, share: true },

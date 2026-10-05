@@ -11,7 +11,7 @@ import { UNSURE } from './plannerOptions.ts';
 export type PostcardWords = Pick<BarWords, 'yourTrip' | 'destinations'>;
 
 export type Postcard = {
-  /** Over the photo: "Hunza", "Hunza + Skardu", or "Your trip" with none chosen (or only "Not sure"). */
+  /** Over the photo: "Hunza", "Hunza + Skardu", or "Your trip" with none chosen (or only "Help me choose"). */
   title: string;
   /** The destination whose photo shows, the first chosen; null for the page's own photo. */
   photo: string | null;

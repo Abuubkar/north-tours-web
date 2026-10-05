@@ -338,11 +338,11 @@
   --fw-medium: 500;
   --fw-semibold: 600;
 
-  --fs-display: 26cqi; /* with the tracking below, as wide as the design's 27cqi at -0.065em */
+  --fs-display: 26cqi; /* with the gap below, as wide as the design's 27cqi at -0.065em */
   --lh-display: 0.74;
-  --ls-display: -0.05em; /* kerning off (typography.module.css): even gaps in NORTH, the T clear of the H */
-  --indent-display: -0.035em;
-  --display-sink: 0.05em; /* sets the display word flush with the hero's bottom edge */
+  --display-gap: 0.05em; /* between every pair of letters' ink in the display word, side space cancelled */
+  --indent-display: -0.035em; /* the destination hero name's left margin */
+  --display-sink: 0.05em; /* sets the display word flush with the hero's bottom edge; the R's side space in lib/utils/displaySpacing.ts is measured at this cut, so re-measure it if this or --lh-display changes */
 
   --fs-tour-hero: clamp(48px, 7.2cqi, 108px);
   --lh-tour-hero: 0.95;

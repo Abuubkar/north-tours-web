@@ -54,6 +54,12 @@ describe('home page copy', () => {
     expect(result.problems[0].message).toBe('Unknown token {advancePercent}. Takes no tokens');
   });
 
+  it('rejects a display word with a letter whose side space isn’t measured', () => {
+    const result = withChange((c) => Object.assign(c.hero, { displayWord: 'SOUTH' }));
+    expect(fields(result)).toEqual(['hero.displayWord']);
+    expect(result.problems[0].message).toBe('No measured side space for S, U: measure and add it in lib/utils/displaySpacing.ts');
+  });
+
   it('needs a real photo for the hero, not a placeholder', () => {
     const result = withChange((c) => Object.assign(c.hero, { image: { placeholder: 'Hunza at dawn', alt: 'Hunza' } }));
     expect(fields(result)).toContain('hero.image.src');
