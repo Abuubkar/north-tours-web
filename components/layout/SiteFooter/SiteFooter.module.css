@@ -3,17 +3,8 @@
   border-top: var(--hairline-width) solid var(--hairline);
 }
 
-/* Section anatomy (DESIGN.md §4): the label column, then the content, wrapping on phones. */
-.top {
-  composes: labelRow from '../../../styles/layout.module.css';
-}
-
-.labelColumn {
-  composes: labelColumn from '../../../styles/layout.module.css';
-}
-
+/* No label column (owner feedback, 2026-10-05): the large links start at the left margin. */
 .columns {
-  composes: labelContent from '../../../styles/layout.module.css';
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

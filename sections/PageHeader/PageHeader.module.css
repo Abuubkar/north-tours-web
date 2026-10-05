@@ -31,6 +31,24 @@
   overflow: hidden;
 }
 
+/*
+ * About: a full-bleed photo cover as tall as the tour hero (`--photo-hero-h`), sliding under the
+ * sticky header like it, with the <h1> and lead over its lower part on the hero scrim, drawn
+ * taller at every width as on the planner's band, so the long <h1> stays on its dark end.
+ */
+.cover {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: var(--photo-hero-h);
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: calc(var(--header-h) + var(--space-96));
+  padding-bottom: var(--hero-row-pad);
+  overflow: hidden;
+}
+
 .bandMedia,
 .bandScrim {
   position: absolute;
@@ -42,6 +60,7 @@
 .bandScrim {
   background: var(--hero-scrim) bottom / 100% var(--photo-hero-scrim-stretch);
 }
+
 
 /* On the photo, the lead is in the text colour, as on the heroes. */
 .plannerLead {
@@ -62,7 +81,7 @@
   font-weight: var(--fw-medium);
 }
 
-/* About: the <h1> at the long size (type roles are visual only), a shorter lead, then the wide photo. */
+/* About: the <h1> at the long size (type roles are visual only) and a shorter lead, in the text colour on the photo. */
 .aboutHeadline {
   composes: sectionLong from '../../styles/typography.module.css';
   max-width: var(--measure-headline);
@@ -72,11 +91,7 @@
   composes: bodyLarge from '../../styles/typography.module.css';
   max-width: var(--measure-about);
   margin-top: var(--space-24);
-  color: var(--fg-2);
-}
-
-.photo {
-  margin-top: var(--page-header-media-top);
+  color: var(--fg);
 }
 
 /* Help and the legal pages: less room under the header, which a hairline closes. */

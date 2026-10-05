@@ -27,10 +27,13 @@ type Planner = {
   search?: never;
 };
 
-/** About: the <h1> at the long size, the lead, then a wide photo (the page's LCP image). */
+/**
+ * About: a full-bleed photo cover that slides under the site header (owner feedback, 2026-10-05),
+ * with the <h1> at the long size and the lead over its lower part, on the hero scrim.
+ */
 type About = {
   variant: 'about';
-  /** 4:3 on phones, 21:9 from 820px, cropped at its focus. */
+  /** Fills the cover, cropped at its focus: the page's LCP image. */
   image: Photo;
   updated?: never;
   search?: never;

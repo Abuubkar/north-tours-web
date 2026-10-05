@@ -18,7 +18,7 @@ const headerClass: Record<PageHeaderVariant, string | undefined> = {
   default: undefined,
   planner: styles.planner,
   plannerSlim: styles.plannerSlim,
-  about: undefined,
+  about: styles.cover,
   help: styles.short,
   legal: styles.short,
   contact: undefined,
@@ -34,22 +34,23 @@ const leadClass: Record<PageHeaderVariant, string> = {
   contact: styles.contactLead,
 };
 
-/** The text pages read on the light surface; the others follow the page. */
+/** The text pages read on the light surface; the photo headers are always dark; the others follow the page. */
 const LIGHT: ReadonlySet<PageHeaderVariant> = new Set(['help', 'legal']);
+const PHOTO: ReadonlySet<PageHeaderVariant> = new Set(['planner', 'about']);
 
 /**
- * A page's opening: the <h1> and a lead line under it (Tours), on the planner's first step over a
- * photo band, on About
- * with a wide photo below, on Help with the search, on the legal pages with the date they were
- * last updated. On the planner's later steps the same <h1> becomes a
- * slim line, so the page keeps exactly one <h1> on every step; the size is visual only.
+ * A page's opening: the <h1> and a lead line under it (Tours), over a photo on the planner's first
+ * step (a band) and on About (a full-bleed cover, owner feedback 2026-10-05), on Help with the
+ * search, on the legal pages with the date they were last updated. On the planner's later steps
+ * the same <h1> becomes a slim line, so the page keeps exactly one <h1> on every step; the size is
+ * visual only.
  */
 export function PageHeader({ headline, lead, variant = 'default', image, updated, search }: PageHeaderProps) {
   const classes = [styles.header, headerClass[variant]].filter(Boolean).join(' ');
-  const band = variant === 'planner';
+  const photo = PHOTO.has(variant);
   return (
-    <header className={classes} data-surface={LIGHT.has(variant) ? 'light' : band ? 'dark' : undefined}>
-      {band && image && (
+    <header className={classes} data-surface={LIGHT.has(variant) ? 'light' : photo ? 'dark' : undefined}>
+      {photo && image && (
         <>
           <div className={styles.bandMedia}>
             <MediaFrame image={image} ratio="fill" sizes="100vw" priority />
@@ -61,7 +62,6 @@ export function PageHeader({ headline, lead, variant = 'default', image, updated
       {lead && <p className={leadClass[variant]}>{lead}</p>}
       {search}
       {updated && <LastUpdated template={updated.template} date={updated.date} className={styles.updated} />}
-      {image && !band && <MediaFrame image={image} ratio="4:3" wideRatio="21:9" sizes="100vw" priority className={styles.photo} />}
     </header>
   );
 }

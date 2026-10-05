@@ -179,7 +179,6 @@
   --form-label-gap: var(--space-16); /* from a field's label (or a group's legend) to its control */
 
   /* About (PRD #78): the page header's photo, the story and the founder beside it. */
-  --page-header-media-top: clamp(40px, 5cqi, 72px); /* above the About header's wide photo */
   --measure-about: 560px; /* About's header lead and story paragraphs */
   --measure-guides-intro: 520px; /* the line under About's guides headline */
   --fleet-min: 440px; /* About's vehicles beside the safety list, before it wraps under them */
