@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { sampleReviews } from '@/components/review-card/sampleReviews';
 import { monthYear } from '@/lib/utils/dates';
-import { expectOpenHairlines } from '../../.storybook/gridColumns';
+import { expectOpenHairlines, gridColumns } from '../../.storybook/gridColumns';
 import { sampleAbout, sampleAboutReviews } from '../sampleAbout';
 import { sampleHome } from '../sampleHome';
 import { ReviewsSection } from './ReviewsSection';
@@ -29,15 +29,20 @@ export const Desktop: Story = {
 
 export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
+/** The first card's text lines up with the headline: the bleed holds. */
+async function expectBleed(canvasElement: HTMLElement) {
+  const headline = within(canvasElement).getByRole('heading', { level: 2 }).getBoundingClientRect();
+  const quote = canvasElement.querySelector('blockquote')!.getBoundingClientRect();
+  await expect(Math.round(quote.left)).toBe(Math.round(headline.left));
+}
+
 /** At 390 one column, its text lined up with the headline (the bleed holds). */
 export const Phone: Story = {
   ...Desktop,
   globals: { viewport: { value: 'phone' } },
   play: async (context) => {
     await Desktop.play!(context);
-    const headline = context.canvas.getByRole('heading', { level: 2 }).getBoundingClientRect();
-    const quote = context.canvasElement.querySelector('blockquote')!.getBoundingClientRect();
-    await expect(Math.round(quote.left)).toBe(Math.round(headline.left));
+    await expectBleed(context.canvasElement);
   },
 };
 
@@ -50,23 +55,32 @@ export const OneReview: Story = {
 };
 
 /**
- * A destination or tour with one review: the card sits in the first of three columns, not
- * stretched, and the grid paints nothing beside it, so no grey empty cells (owner feedback).
+ * A destination or tour with one review (unlike `OneReview`, one card): it sits in the first of
+ * three columns, not stretched, and the grid paints nothing beside it, so no grey empty cells
+ * (owner feedback).
  */
-export const LoneReview: Story = {
+export const OneCardInThreeColumns: Story = {
   args: { reviews: sampleReviews.slice(0, 1), summary: { score: 5, count: 1 } },
-  play: async ({ canvas }) => {
+  play: async ({ canvas, canvasElement }) => {
     const card = canvas.getByRole('figure');
     const grid = card.parentElement!;
-    const headline = canvas.getByRole('heading', { level: 2 }).getBoundingClientRect();
-    const quote = card.querySelector('blockquote')!.getBoundingClientRect();
-    await expect(Math.round(quote.left)).toBe(Math.round(headline.left));
+    await expectBleed(canvasElement);
     await expect(card.getBoundingClientRect().width).toBeLessThan(grid.getBoundingClientRect().width / 2);
     await expectOpenHairlines(grid);
   },
 };
 
-export const LoneReviewOnLight: Story = { ...LoneReview, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+export const OneCardInThreeColumnsOnLight: Story = { ...OneCardInThreeColumns, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+/** At 820 three cards in two columns: the third sits alone in the last row, nothing painted beside it. */
+export const ThreeCardsInTwoColumns: Story = {
+  globals: { viewport: { value: 'breakpoint820' } },
+  play: async ({ canvas }) => {
+    const cards = canvas.getAllByRole('figure');
+    await expect(gridColumns(cards)).toBe(2);
+    await expectOpenHairlines(cards[0].parentElement!);
+  },
+};
 
 export const PhoneOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
