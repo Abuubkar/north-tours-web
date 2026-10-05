@@ -63,10 +63,6 @@
   border-color: var(--fg);
 }
 
-.secondary.size44 {
-  border-color: var(--control-border-soft);
-}
-
 .secondary:hover,
 .quiet:hover {
   background: var(--bg-raised);

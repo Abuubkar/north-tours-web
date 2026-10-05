@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
+import { headerHeight } from '../../.storybook/headerHeight';
 import { emulateFullMotion, emulateReducedMotion } from '../../.storybook/reducedMotion';
 import { roomBelow } from '../../.storybook/scrollRoom';
 import { placeholderSettings, realSettings } from '@/components/layout/sampleSettings';
@@ -68,9 +69,6 @@ export const DisplayWord: Story = {
 export const DisplayWordPhone: Story = { ...DisplayWord, globals: { viewport: { value: 'phone' } } };
 
 export const DisplayWordOnLight: Story = { ...DisplayWord, globals: { surface: 'light', viewport: { value: 'desktop' } } };
-
-/** The header's height, from the token every sticky offset reads. */
-const headerHeight = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'));
 
 /**
  * The hero starts below the header (no negative margin, so the header never covers the photo) and

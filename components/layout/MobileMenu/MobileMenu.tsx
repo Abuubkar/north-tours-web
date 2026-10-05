@@ -2,14 +2,13 @@
 
 import { useState, type MouseEvent } from 'react';
 import { Button } from '@/components/ui/Button/Button';
-import { IconButton } from '@/components/ui/IconButton/IconButton';
 import { Sheet } from '@/components/ui/Sheet/Sheet';
 import { NavLinks } from '../NavLinks/NavLinks';
 import type { MobileMenuProps } from './MobileMenu.types';
 import styles from './MobileMenu.module.css';
 
 /**
- * Below 960px: the menu button and the side drawer it opens. Only the button hides from 960px,
+ * Below 1200px: the bordered "Menu" button and the side drawer it opens. Only the button hides from 1200px,
  * so a menu left open while the window widens stays usable. The Sheet handles Escape, the
  * backdrop, the close button, Android's back gesture and focus return to the menu button.
  */
@@ -23,8 +22,10 @@ export function MobileMenu({ whatsappHref }: MobileMenuProps) {
 
   return (
     <>
-      <div className={styles.menuButton}>
-        <IconButton icon="menu" label="Menu" onClick={() => setOpen(true)} />
+      <div className={styles.menuSlot}>
+        <button type="button" className={styles.menuButton} onClick={() => setOpen(true)}>
+          Menu
+        </button>
       </div>
       <Sheet open={open} onClose={() => setOpen(false)} title="Menu" variant="drawer">
         <div className={styles.content} onClick={closeOnLink}>

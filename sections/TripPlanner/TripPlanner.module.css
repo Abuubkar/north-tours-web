@@ -64,7 +64,7 @@
   padding: 0 var(--margin) var(--section-y);
 }
 
-/* From 1100px the progress sticks under the site header, on the dark frosted bar (the header's blur). */
+/* From 1100px the progress sticks under the site header, on the dark frosted bar. */
 .bar {
   position: sticky;
   top: var(--header-h);

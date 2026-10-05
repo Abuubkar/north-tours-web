@@ -17,7 +17,7 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 - **Scope:** Button, IconButton, Icon, Tag, Chip, StarRating (with the inline rating), Stepper, Accordion, Dropdown, Sheet. Input, Select, Textarea, Checkbox/Radio, FormField, MediaFrame, TextLink, SectionLabel, BrandMark, KeyValueRow and the inclusion icons wait for the PRDs that first use them.
 - **Selected state:** Ink 800 fill with a `--fg` border on dark, Mist 100 fill with a `--fg` border on light. Gold is never a selection colour (replaces §5 items 6 and 16).
 - **Radius:** dropdown panels 8px with square rows inside; selectable option tiles 8px; bottom sheets 8px top corners; side drawer 8px leading corners (§5 items 9–11).
-- **Buttons:** primary, secondary, quiet; sizes 44 / 48 / 52 / 56 (DESIGN.md §7). The header "WhatsApp us" is secondary at 44 with the soft border. Join waitlist is always quiet. Disabled: hairline fill, `--fg-3` text (§5 items 1–5, 7, 8).
+- **Buttons:** primary, secondary, quiet; sizes 44 / 48 / 52 / 56 (DESIGN.md §7). The header "WhatsApp us" is secondary at 44 with the soft border *(gone with the 2f header, PRD #135, and the soft border with it)*. Join waitlist is always quiet. Disabled: hairline fill, `--fg-3` text (§5 items 1–5, 7, 8).
 - **Tags:** all 28px (§5 item 15).
 - **Accordion and disclosure:** one Accordion on `<details>`, with a `plus` or `caret` marker.
 - **Dropdown:** in the base components folder, on the native `popover` attribute.
@@ -200,12 +200,13 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 **Decided in the altitude ticker nav PRD (#135, 2026-10-05, ADR-0030):**
 
 - **Heroes start below the nav** (#136; owner: “nav doesn't cut the hero image”): the Homepage hero, `PhotoHero` (tour and destination), About's cover and the planner's band lost their `margin-top: calc(-1 * var(--header-h))` and the top padding that only cleared the header. Each starts at the header's bottom edge. The Homepage hero is the first screen, clamped to 700–980px as before, less the header (`--hero-h`), so it still ends at the fold; the other heroes keep their heights, measured from below the header, and their text keeps its place (`PhotoHero`'s top padding is 24px, About's cover 96px and the planner's band 48px, as before from the header's edge). The scrims are unchanged.
+- **The 2f header** (#137): `SiteHeader` is a solid `--ink-900` bar (no blur, no hairline; the `@supports` fallback is gone), `--header-h` 76px from 1200px and 64px below, so the sticky offsets and scroll padding follow. `BrandMark` is 30px/800, −.05em (24px below 1200px) with a gold `aria-hidden` ▲; the link is named "[BRAND NAME]". The header's links are 18/700, −.02em, 36px apart (`--nav-gap`); the menu's take 700. The full bar's "WhatsApp" link (52px, 16/700) and, below 1200px, the 48px "Chat on WhatsApp" square and the "Menu" text button (48px, 15/700) share one bordered style, `barControl` in `SiteHeader.module.css` (2px `--fg` border, `--bar-border-width`), which `MobileMenu` composes; they're the header's own, not `Button` or `IconButton` variants. The full bar needs about 1,154px with "[BRAND NAME]▲" at 48px margins (measured on the built site), so it shows from **1200px** (ADR-0030, superseding ADR-0027's 960px); the 820px switches are unchanged. `mainNav` and the active rule are unchanged. The menu icon went with the icon button. `--header-bg` and `--header-backdrop` stay for the frosted bars that still use them. Storybook's `headerBreakpoint` viewport is now 1200 and `belowHeaderBreakpoint` 1199; `parkPointer` moved to `.storybook/` for the header's colour checks.
 
 Open questions are in §6, grouped by the PRD that settles them.
 
 Token names used below: `ink-900 #0C1216`, `ink-800 #121A1F`, `line #253038`, `line-strong #5C6871`, `text #F1EEE8`, `text-2 #B7BFC5`, `text-3 #8F9AA2`, `gold #D9B44A`, `gold-hover #E3C366`, `gold-pressed #C9A43C`, `on-gold #10161A`, `mist-50 #EEF1F3`, `mist-100 #E2E7EB`, `line-light #CBD2D8`, `line-strong-light #7D8992`, `ink-text #10161A`, `ink-text-2 #46525C`, `ink-text-3 #5B6770`, `gold-deep #7A5A12`.
 
-Breakpoints that recur in page scripts: **mobile < 820px** (sheets replace dropdowns). **header < 960px** (the nav collapses to WhatsApp and the menu; ADR-0027). **compact < 1100px** (Tour Detail and Planner drop their side column and use bars and sheets instead). **≥ 1280px** (Tour Detail shows the side map). Tour Detail also switches the booking panel to its compact form when **viewport height < 920px**.
+Breakpoints that recur in page scripts: **mobile < 820px** (sheets replace dropdowns). **header < 1200px** (the full bar gives way to the WhatsApp square and Menu; ADR-0030, 960px under ADR-0027). **compact < 1100px** (Tour Detail and Planner drop their side column and use bars and sheets instead). **≥ 1280px** (Tour Detail shows the side map). Tour Detail also switches the booking panel to its compact form when **viewport height < 920px**.
 
 ---
 
@@ -232,7 +233,7 @@ Breakpoints that recur in page scripts: **mobile < 820px** (sheets replace dropd
 | 15 | `StarRating` (5 stars) + `RatingInline` (★ score (count)) | Home, TD, Tours, Dest, About, TourCard, BookingPanel | static | 2+ pages |
 | 16 | `MediaFrame` (8px photo frame / striped placeholder + caption) | all pages except Legal | static | 2+ pages |
 | 17 | `SectionLabel` (13px label, text only) | footer (all), About, Contact | static | 2+ pages |
-| 18 | `BrandMark` (brand name, text only) | header (all) | static | shared |
+| 18 | `BrandMark` (brand name and a gold ▲, no logo) | header (all) | static | shared |
 | 19 | `KeyValueRow` / `ListRows` | footer (all), About, Contact, TD, Dest, Planner, About profile | static | 2+ pages |
 | 20 | `FormField` (label + hint + error alert) | Planner only (+ Help's search label) | static wrapper | form primitive (see note) |
 | 21 | `Icon` set (WhatsApp light/dark, star, clock, inclusion icons, caret, arrows) | all | static | primitive |
@@ -362,7 +363,7 @@ A caret-style show/hide (▾ rotates 180°), distinct from the `+` accordion:
 - Used in the footer "Contact" (all pages), About "07 Credentials", Contact "05 Quick links". Static. *(Contact "01 Header" had one too, removed by the owner on 2026-10-04.)*
 
 #### 18 `BrandMark` — `components/ui/BrandMark`
-- "[BRAND NAME]" 16/600 (`-.01em`), min-height 44, links home. Static. *(The design's 16×14 triangle stand-in for a logo is removed, owner feedback 2026-10-04: the brand shows its name only until the owner supplies a logo.)*
+- "[BRAND NAME]" 16/600 (`-.01em`), min-height 44, links home. Static. *(The design's 16×14 triangle stand-in for a logo is removed, owner feedback 2026-10-04: the brand shows its name only until the owner supplies a logo.)* *(PRD #135, 2f: 30px/800, −.05em, 24px below 1200px, then a gold ▲ the owner kept, `aria-hidden`, so the link is named by the brand alone. Header only.)*
 
 #### 19 `KeyValueRow` / `ListRows` — `components/ui/KeyValueRow`
 - **Justified pair** (label `text-3` left, value right, 15px, padding `14px 0`, bottom hairline, top border on the list): footer contact rows (all pages), About "Visit us", Contact "Visit the office".
@@ -669,9 +670,9 @@ The shared header, mobile menu and footer live in `components/layout` instead (P
 ### 3.2 Shared sections, in detail
 
 #### `SiteHeader` / `MobileMenu` — `components/layout` (built in PRD #32)
-- Sticky, 72px, `rgba(12,18,22,.86)` with `backdrop-filter: blur(18px) saturate(140%)` (M3 "frosted"; solid `ink-900` when unsupported), bottom hairline, `data-surface="dark"`. Contents: `BrandMark`, then on desktop a nav (14/500, gap 32, min-height 44 per link, active item gold) and the header WhatsApp button. `SiteHeader` is server-rendered; only `NavLinks` (reads the path) and `MobileMenu` (open state) are client components.
-- **Below 960** (820 before ADR-0027): a WhatsApp `IconButton` 44 plus the menu `IconButton` 44.
-- **MobileMenu:** the `Sheet` drawer (side), titled "Menu", with the nav links in the `footerNav` role (min-height 44, hairlines, active item gold) and a primary 56 "Plan on WhatsApp" on every page. It closes on link tap, the close button, the backdrop and Escape, returning focus to the menu button. *(The design shows a panel below the header with no Escape or focus handling and no WhatsApp button on the Planner; PRD #32 replaced it.)*
+- Sticky, 72px, `rgba(12,18,22,.86)` with `backdrop-filter: blur(18px) saturate(140%)` (M3 "frosted"; solid `ink-900` when unsupported), bottom hairline, `data-surface="dark"`. Contents: `BrandMark`, then on desktop a nav (14/500, gap 32, min-height 44 per link, active item gold) and the header WhatsApp button. `SiteHeader` is server-rendered; only `NavLinks` (reads the path) and `MobileMenu` (open state) are client components. *(PRD #135, 2f, ADR-0030: solid `ink-900`, no blur, no hairline, 76px from 1200px and 64px below; links 18/700, −.02em, 36px apart; a bordered 52px "WhatsApp" link, 2px `--fg` border, 16/700.)*
+- **Below 960** (820 before ADR-0027): a WhatsApp `IconButton` 44 plus the menu `IconButton` 44. *(PRD #135: below 1200, a 48px bordered WhatsApp square, "Chat on WhatsApp", and a bordered "Menu" text button, 48px, 15/700. Both share the header's `barControl` style; the menu icon is gone.)*
+- **MobileMenu:** the `Sheet` drawer (side), titled "Menu", with the nav links in the `footerNav` role (min-height 44, hairlines, active item gold; 700 since PRD #135) and a primary 56 "Plan on WhatsApp" on every page. It closes on link tap, the close button, the backdrop and Escape, returning focus to the menu button. *(The design shows a panel below the header with no Escape or focus handling and no WhatsApp button on the Planner; PRD #32 replaced it.)*
 - **Nav items** (ADR-0026, ADR-0027, `mainNav` in `lib/utils/nav.ts`): Home (→ `/`), Tours (→ `/tours`), Destinations (→ `/destinations`), Private trips (→ `/plan`), About (→ `/about`), Contact (→ `/contact`), the same list in the header, the menu and the footer's large links. Every item is a page, never a section. The current page's item is gold with `aria-current="page"`, from the URL alone: Tours on `/tours` and `/tours/*`, Destinations on `/destinations` and `/destinations/*`, Home on `/` only, and the other three on their own page; none on Help, Privacy, Terms, Photo credits or the 404. *(PRD #118 replaces the design's section-anchor nav: How it works, Destinations and Reviews jumped to Homepage sections, Guides to `/about#guides`, with scroll-spy on the Homepage.)*
 
 #### `SiteFooter` — `components/layout/SiteFooter` (static apart from `NavLinks`, built in PRD #32)

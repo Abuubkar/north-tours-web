@@ -21,12 +21,14 @@
   gap: var(--nav-gap);
 }
 
+/* The 2f bar's links (ADR-0030): 18/700, tight. */
 .headerLink {
   composes: link;
-  composes: ui from '../../../styles/typography.module.css';
   justify-content: center;
   min-width: var(--tap); /* short words like "Tours" still get a 44px-wide target */
-  font-weight: var(--fw-medium);
+  font-size: var(--fs-header-nav);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-header-nav);
   white-space: nowrap;
 }
 
@@ -36,10 +38,12 @@
   flex-direction: column;
 }
 
+/* The menu's links take the bar's weight (2f). */
 .menuLink {
   composes: link;
   composes: footerNav from '../../../styles/typography.module.css';
   padding-block: var(--space-8);
+  font-weight: var(--fw-bold);
   border-bottom: var(--hairline-width) solid var(--hairline);
 }
 

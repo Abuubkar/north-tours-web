@@ -50,7 +50,8 @@ const preview: Preview = {
         phone: viewport('Phone 390', 390, 844),
         breakpoint820: viewport('Breakpoint 820 (sheets, two columns)', 820, 800),
         tablet: viewport('Tablet 900', 900, 1000),
-        headerBreakpoint: viewport('Header breakpoint 960', 960, 800),
+        belowHeaderBreakpoint: viewport('Below the header breakpoint 1199', 1199, 800),
+        headerBreakpoint: viewport('Header breakpoint 1200 (full bar)', 1200, 800),
         laptop: viewport('Laptop 1366', 1366, 768),
         desktop: viewport('Desktop 1440', 1440, 900),
         // Tall enough (920px or more) for Tour Detail's booking aside to list its dates.

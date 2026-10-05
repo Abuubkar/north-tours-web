@@ -39,7 +39,7 @@ export const Opens: Story = {
 
 export const OpensOnLight: Story = { ...Opens, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
-/** The six pages, the current page's in gold, then "Plan on WhatsApp". */
+/** The six pages in bold (700, the bar's weight), the current page's in gold, then "Plan on WhatsApp". */
 export const Contents: Story = {
   play: async ({ canvas, userEvent }) => {
     const menu = within(await openMenu(canvas, userEvent));
@@ -53,7 +53,11 @@ export const Contents: Story = {
       ['Contact', '/contact'],
     ]);
     await expect(links.filter((link) => link.getAttribute('aria-current') === 'page')).toEqual([links[1]]);
-    for (const link of links) await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
+    for (const link of links) {
+      await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
+      // The bar's weight (2f).
+      await expect(getComputedStyle(link).fontWeight).toBe('700');
+    }
     await expect(menu.getByRole('link', { name: 'Plan on WhatsApp' })).toHaveAttribute('href', WHATSAPP);
   },
 };
@@ -93,7 +97,7 @@ export const LinkCloses: Story = {
   },
 };
 
-/** From 960px the menu button is hidden; the header shows the full nav instead. */
+/** From 1200px the menu button is hidden; the header shows the full bar instead. */
 export const HiddenOnDesktop: Story = {
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
@@ -101,15 +105,28 @@ export const HiddenOnDesktop: Story = {
   },
 };
 
-/** At 960px, the header breakpoint, the button is already hidden. */
+/** At 1200px, the header breakpoint, the button is already hidden. */
 export const HiddenAtHeaderBreakpoint: Story = { ...HiddenOnDesktop, globals: { viewport: { value: 'headerBreakpoint' } } };
 
-/** Below 960px (here 820, a tablet held upright) the menu button shows, since the six pages don't fit in the header. */
+/**
+ * Below 1200px (here 1199) the full bar doesn't fit, so the button shows: the word "Menu" in a
+ * 48px bordered button (2px, 15/700), as drawn in 2f.
+ */
 export const ShownBelowHeaderBreakpoint: Story = {
-  globals: { viewport: { value: 'breakpoint820' } },
+  globals: { viewport: { value: 'belowHeaderBreakpoint' } },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('button', { name: 'Menu' })).toBeVisible();
+    const button = canvas.getByRole('button', { name: 'Menu' });
+    await expect(button).toBeVisible();
+    await expect(button).toHaveTextContent('Menu');
+    await expect(button.getBoundingClientRect().height).toBe(48);
+    const { borderTopWidth, fontSize, fontWeight } = getComputedStyle(button);
+    await expect([borderTopWidth, fontSize, fontWeight]).toEqual(['2px', '15px', '700']);
   },
+};
+
+export const ShownBelowHeaderBreakpointOnLight: Story = {
+  ...ShownBelowHeaderBreakpoint,
+  globals: { surface: 'light', viewport: { value: 'belowHeaderBreakpoint' } },
 };
 
 /** On the Contact page, Contact is the current item. */

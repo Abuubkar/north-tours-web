@@ -1,7 +1,7 @@
 import type { IconDefinition } from './Icon.types';
 
 // Stroke icons are copied from Lucide (ISC, see LICENSE-lucide.txt).
-// The WhatsApp mark is from Simple Icons (CC0). "menu" is the design's two-line mark.
+// The WhatsApp mark is from Simple Icons (CC0).
 
 export const icons = {
   arrowRight: {
@@ -49,15 +49,6 @@ export const icons = {
       <>
         <circle cx="12" cy="12" r="10" />
         <path d="M12 6v6l4 2" />
-      </>
-    ),
-  },
-  menu: {
-    kind: 'stroke',
-    body: (
-      <>
-        <path d="M4 9h16" />
-        <path d="M4 15h16" />
       </>
     ),
   },

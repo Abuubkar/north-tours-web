@@ -1,3 +1,7 @@
+/*
+ * The 2f bar (ADR-0030): solid Ink 900 on every page, with no blur and no hairline. Nothing slides
+ * under it; every hero starts at its bottom edge.
+ */
 .header {
   position: sticky;
   top: 0;
@@ -8,16 +12,6 @@
   gap: var(--space-24);
   height: var(--header-h);
   padding: 0 var(--margin);
-  border-bottom: var(--hairline-width) solid var(--hairline);
-  background: var(--header-bg);
-  backdrop-filter: var(--header-backdrop);
-}
-
-/* Without the blur the translucent bar would be hard to read over content, so it turns solid. */
-@supports not (backdrop-filter: blur(0)) {
-  .header {
-    background: var(--bg);
-  }
 }
 
 .actions {
@@ -28,8 +22,55 @@
 }
 
 /*
- * The header breakpoint (DESIGN.md §4, ADR-0027): below 960px the nav gives way to icon buttons.
- * Brand, the six nav items and "WhatsApp us" need about 880px; 960px leaves them room to breathe.
+ * The bar's bordered controls (2f): a 2px border in the text colour, bold labels. WhatsApp here,
+ * and the mobile menu's "Menu" button, which composes it.
+ */
+.barControl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  border: var(--bar-border-width) solid var(--fg);
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--fg);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-ui);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur-300) var(--ease-out);
+}
+
+.barControl:hover {
+  background: var(--bg-raised);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barControl {
+    transition: none;
+  }
+}
+
+/* The full bar's 52px "WhatsApp" button: the icon and the word at 16/700. */
+.whatsapp {
+  composes: barControl;
+  min-height: var(--control-52);
+  padding: 0 var(--space-24);
+  font-size: var(--fs-body);
+}
+
+/* Below the breakpoint: a 48px square holding the icon. */
+.whatsappSquare {
+  composes: barControl;
+  width: var(--control-48);
+  height: var(--control-48);
+}
+
+/*
+ * The full-bar breakpoint (DESIGN.md §4, ADR-0030): from 1200px the brand, the six links and
+ * WhatsApp; below it, the brand, the WhatsApp square and Menu. The full bar needs about 1,155px
+ * with "[BRAND NAME]▲" (measured on the built site), so 1200px leaves it room.
  */
 .wide {
   display: none;
@@ -40,7 +81,7 @@
   display: flex;
 }
 
-@media (width >= 960px) {
+@media (width >= 1200px) {
   .wide {
     display: block;
   }

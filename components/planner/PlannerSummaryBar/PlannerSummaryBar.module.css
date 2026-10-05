@@ -1,4 +1,4 @@
-/* Sticky under the header below 1100px, on the dark frosted bar (the header's blur), a hairline under it. */
+/* Sticky under the header below 1100px, on the dark frosted bar, a hairline under it. */
 .bar {
   position: sticky;
   top: var(--header-h);
