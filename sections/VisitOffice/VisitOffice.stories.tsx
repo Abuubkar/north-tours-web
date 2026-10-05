@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
-import { mapStandIn } from '@/components/contact/OfficeMap/sampleOfficeMap';
+import { officeMapStandIn } from '@/components/contact/OfficeMap/sampleOfficeMap';
 import { listingSettings, placeholderSettings, realSettings } from '@/components/layout/sampleSettings';
 import { VisitOffice } from './VisitOffice';
 
@@ -59,7 +59,7 @@ const directionsTo = (address: string) => `https://www.google.com/maps/dir/?api=
  * the text from wide screens, named by its title, loading lazily, with the link to the full map.
  */
 export const RealValues: Story = {
-  args: { settings: realSettings, map: mapStandIn },
+  args: { settings: realSettings, map: officeMapStandIn },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('link', { name: '+92 42 3578 1234' })).toHaveAttribute('href', 'tel:+924235781234');
     await expect(canvas.getByRole('link', { name: '+92 300 1234567' })).toHaveAttribute(
@@ -70,9 +70,9 @@ export const RealValues: Story = {
     await expect(directions).toHaveAttribute('href', directionsTo('12 Main Boulevard, Gulberg, Lahore'));
     await expect(directions).toHaveAttribute('target', '_blank');
     await expect(directions).toHaveAttribute('rel', 'noopener');
-    const frame = canvas.getByTitle(mapStandIn.title);
+    const frame = canvas.getByTitle(officeMapStandIn.title);
     await expect(frame).toHaveAttribute('loading', 'lazy');
-    await expect(canvas.getByRole('link', { name: mapStandIn.linkLabel })).toHaveAttribute('href', mapStandIn.href);
+    await expect(canvas.getByRole('link', { name: officeMapStandIn.linkLabel })).toHaveAttribute('href', officeMapStandIn.href);
     const text = canvas.getByRole('heading', { level: 2 }).getBoundingClientRect();
     await expect(frame.getBoundingClientRect().left).toBeGreaterThan(text.right - 1);
   },
@@ -82,11 +82,11 @@ export const RealValuesOnLight: Story = { ...RealValues, globals: { surface: 'li
 
 /** At 390 the map sits under the rows and buttons, and nothing scrolls sideways. */
 export const RealValuesPhone: Story = {
-  args: { settings: realSettings, map: mapStandIn },
+  args: { settings: realSettings, map: officeMapStandIn },
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, canvasElement }) => {
     const button = canvas.getByRole('link', { name: 'WhatsApp first' }).getBoundingClientRect();
-    await expect(canvas.getByTitle(mapStandIn.title).getBoundingClientRect().top).toBeGreaterThan(button.bottom);
+    await expect(canvas.getByTitle(officeMapStandIn.title).getBoundingClientRect().top).toBeGreaterThan(button.bottom);
     await expect(canvas.getByRole('link', { name: /Get directions/ })).toBeVisible();
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
@@ -116,12 +116,12 @@ export const TwoRowPlaceholdersPhoneOnLight: Story = { ...TwoRowPlaceholders, gl
 
 /** The two-row form with a real address: "Get directions →" opens Google Maps in a new tab, the map shows, and still no "WhatsApp first". */
 export const TwoRowRealValues: Story = {
-  args: { form: 'two-row', settings: realSettings, map: mapStandIn },
+  args: { form: 'two-row', settings: realSettings, map: officeMapStandIn },
   play: async ({ canvas }) => {
     await expect(rows(canvas)).toEqual(['Office: 12 Main Boulevard, Gulberg, Lahore', 'Open: Mon–Sat, 10 am – 7 pm']);
     const directions = canvas.getByRole('link', { name: /Get directions/ });
     await expect(directions).toHaveAttribute('href', directionsTo('12 Main Boulevard, Gulberg, Lahore'));
-    await expect(canvas.getByTitle(mapStandIn.title)).toBeVisible();
+    await expect(canvas.getByTitle(officeMapStandIn.title)).toBeVisible();
     await expect(directions).toHaveAttribute('target', '_blank');
     await expect(directions).toHaveAttribute('rel', 'noopener');
     await expect(canvas.queryByRole('link', { name: 'WhatsApp first' })).toBeNull();
@@ -139,7 +139,7 @@ export const TwoRowRealValuesPhoneOnLight: Story = { ...TwoRowRealValues, global
  * phone is a tel: link and "Get directions" shows; WhatsApp and the hours stay placeholders.
  */
 export const OfficeListing: Story = {
-  args: { settings: listingSettings, map: mapStandIn },
+  args: { settings: listingSettings, map: officeMapStandIn },
   play: async ({ canvas }) => {
     await expect(rows(canvas)).toEqual([
       'Office: 3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000',

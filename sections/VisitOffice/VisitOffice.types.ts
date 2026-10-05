@@ -1,5 +1,5 @@
-import type { OfficeMap } from '@/components/contact/OfficeMap/OfficeMap.types';
 import type { Settings } from '@/lib/content/settings';
+import type { OfficeMapData } from '@/lib/utils/contact';
 
 export type VisitOfficeProps = {
   /**
@@ -10,5 +10,5 @@ export type VisitOfficeProps = {
   /** The block's words, the office's address, hours and numbers, and the general WhatsApp message. */
   settings: Pick<Settings, 'visitOffice' | 'contact'> & { whatsapp: Pick<Settings['whatsapp'], 'generalMessage'> };
   /** The office on a map beside the rows (ADR-0029); none while the address is a placeholder. */
-  map?: OfficeMap;
+  map?: OfficeMapData;
 };

@@ -53,7 +53,7 @@ export function getAboutPage() {
       return { review, tourTitle: getTour(review.tour)!.title };
     }),
     /** "Visit the office": the office on a Google map, once the address is real (ADR-0029). */
-    officeMap: officeMap(settings.contact.officeMapQuery, settings.visitOffice),
+    officeMap: officeMap(settings),
     /** The header's place photo is also the page's share image. */
     sharePhoto: copy.header.image,
   };

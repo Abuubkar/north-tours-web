@@ -29,32 +29,38 @@ export function whatsappHref(number: string, message: string): string | undefine
   return isPlaceholder(number) ? undefined : whatsappLink(number, message);
 }
 
-/*
- * The office on Google Maps (ADR-0029), from the address as Google knows it (`officeMapQuery` in
- * settings), encoded. None while any part of it is a `[placeholder]`, so nobody is sent to, or
+/** The office on Google Maps (ADR-0029): directions to it, the map's embed, and the full map. */
+export type OfficeOnMaps = { directions: string; embed: string; search: string };
+
+/**
+ * The office on Google Maps, found by the address as Google knows it (`officeMapQuery`), encoded.
+ * None while any part of the address or the query is a `[placeholder]`, so nobody is sent to, or
  * shown, a made-up place.
  */
-
-/** "Get directions": Google Maps directions to the office, from wherever the visitor is. */
-export function directionsHref(address: string): string | undefined {
-  return hasPlaceholder(address) ? undefined : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
+export function officeOnMaps(contact: Pick<Settings['contact'], 'officeAddress' | 'officeMapQuery'>): OfficeOnMaps | undefined {
+  if (hasPlaceholder(contact.officeAddress) || hasPlaceholder(contact.officeMapQuery)) return undefined;
+  const query = encodeURIComponent(contact.officeMapQuery);
+  return {
+    directions: `https://www.google.com/maps/dir/?api=1&destination=${query}`,
+    embed: `https://www.google.com/maps?q=${query}&output=embed`,
+    search: `https://www.google.com/maps/search/?api=1&query=${query}`,
+  };
 }
 
-/** The map under "Visit the office": Google's embed of the address, which needs no API key. */
-export function officeMapSrc(address: string): string | undefined {
-  return hasPlaceholder(address) ? undefined : `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
-}
+/** "Visit the office"'s map (`OfficeMap`): the frame's address, its name, and the link under it and its words. */
+export type OfficeMapData = {
+  /** Google's embed of the office on the pages; a stand-in page in stories, so tests never call Google. */
+  src: string;
+  /** The frame's name for screen readers: "Map of our office in DHA Phase 8, Lahore". */
+  title: string;
+  href: string;
+  linkLabel: string;
+};
 
-/** The link under the map: the address in Google Maps, full size. */
-export function officeMapHref(address: string): string | undefined {
-  return hasPlaceholder(address) ? undefined : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-}
-
-/** "Visit the office"'s map: its frame, its name and the link under it; none while the address is a placeholder. */
-export function officeMap(query: string, words: Pick<Settings['visitOffice'], 'mapTitle' | 'mapLinkLabel'>) {
-  const src = officeMapSrc(query);
-  const href = officeMapHref(query);
-  return src && href ? { src, title: words.mapTitle, href, linkLabel: words.mapLinkLabel } : undefined;
+/** "Visit the office"'s map, from settings; none while the office isn't real. */
+export function officeMap(settings: Pick<Settings, 'contact' | 'visitOffice'>): OfficeMapData | undefined {
+  const maps = officeOnMaps(settings.contact);
+  return maps && { src: maps.embed, title: settings.visitOffice.mapTitle, href: maps.search, linkLabel: settings.visitOffice.mapLinkLabel };
 }
 
 /** A social profile's name and its link, or none while it's a placeholder (plain text). */

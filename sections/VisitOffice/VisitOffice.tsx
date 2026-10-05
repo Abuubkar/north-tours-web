@@ -2,8 +2,7 @@ import { Button } from '@/components/ui/Button/Button';
 import { OfficeMap } from '@/components/contact/OfficeMap/OfficeMap';
 import { KeyValueRow } from '@/components/ui/KeyValueRow/KeyValueRow';
 import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
-import { directionsHref, phoneHref, whatsappHref } from '@/lib/utils/contact';
-import { hasPlaceholder } from '@/lib/utils/placeholder';
+import { officeOnMaps, phoneHref, whatsappHref } from '@/lib/utils/contact';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import type { VisitOfficeProps } from './VisitOffice.types';
 import styles from './VisitOffice.module.css';
@@ -16,8 +15,8 @@ import styles from './VisitOffice.module.css';
  */
 export function VisitOffice({ settings, form = 'four-row', map }: VisitOfficeProps) {
   const { visitOffice: copy, contact, whatsapp } = settings;
-  // Shown only once the address is real, to the office as Google Maps knows it (ADR-0029).
-  const directions = hasPlaceholder(contact.officeAddress) ? undefined : directionsHref(contact.officeMapQuery);
+  // Shown only once the office is real, to it as Google Maps knows it (ADR-0029).
+  const directions = officeOnMaps(contact)?.directions;
   // The four-row form adds the phone and WhatsApp rows and "WhatsApp first".
   const showNumbers = form === 'four-row';
   return (

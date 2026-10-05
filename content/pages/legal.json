@@ -76,7 +76,7 @@
         "heading": "Third parties",
         "paragraphs": [
           "WhatsApp is run by a separate company, with its own privacy policy. When you tap a WhatsApp button, your message goes through WhatsApp, and what happens to it there is covered by WhatsApp’s policy, not ours.",
-          "The About and Contact pages show our office on a Google map. The map loads from Google when you scroll near it, so Google receives your IP address and the page you are on, and may set its own cookies. What Google does with them is covered by Google’s privacy policy (policies.google.com/privacy), not ours.",
+          "The About and Contact pages show our office on a Google map. The map loads from Google when you scroll near it, so Google receives your IP address and may set its own cookies. What Google does with them is covered by Google’s privacy policy (policies.google.com/privacy), not ours.",
           "“Get directions” and “Open in Google Maps” take you to Google Maps itself. WhatsApp isn’t contacted until you tap one of its buttons."
         ]
       },

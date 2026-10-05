@@ -62,7 +62,7 @@ export function getContactPage() {
     /** The road north, drawn beside "On a trip right now?". */
     routeMap: getRouteMap(),
     /** "Visit the office": the office on a Google map, once the address is real (ADR-0029). */
-    officeMap: officeMap(settings.contact.officeMapQuery, settings.visitOffice),
+    officeMap: officeMap(settings),
     /** The page has no photo of its own, so it shares the Homepage's. */
     sharePhoto: getHomeCopy().hero.image,
   };

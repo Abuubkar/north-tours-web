@@ -10,7 +10,7 @@ import styles from './OfficeMap.module.css';
 export function OfficeMap({ src, title, href, linkLabel, className }: OfficeMapProps) {
   return (
     <div className={[styles.map, className].filter(Boolean).join(' ')}>
-      <iframe src={src} title={title} loading="lazy" referrerPolicy="no-referrer-when-downgrade" className={styles.frame} />
+      <iframe src={src} title={title} loading="lazy" className={styles.frame} />
       <TextLink href={href}>{linkLabel}</TextLink>
     </div>
   );

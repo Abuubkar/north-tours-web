@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { mapStandIn } from './sampleOfficeMap';
+import { officeMapStandIn } from './sampleOfficeMap';
 import { OfficeMap } from './OfficeMap';
 
 const meta = {
   title: 'Contact/OfficeMap',
   component: OfficeMap,
-  args: mapStandIn,
+  args: officeMapStandIn,
   globals: { viewport: { value: 'desktop' } },
 } satisfies Meta<typeof OfficeMap>;
 
@@ -19,14 +19,14 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   play: async ({ canvas }) => {
-    const frame = canvas.getByTitle(mapStandIn.title);
+    const frame = canvas.getByTitle(officeMapStandIn.title);
     await expect(frame.tagName).toBe('IFRAME');
     await expect(frame).toHaveAttribute('loading', 'lazy');
-    await expect(frame).toHaveAttribute('src', mapStandIn.src);
+    await expect(frame).toHaveAttribute('src', officeMapStandIn.src);
     const box = frame.getBoundingClientRect();
     await expect(box.width / box.height).toBeCloseTo(4 / 3, 1);
     await expect(getComputedStyle(frame).borderRadius).toBe('8px');
-    await expect(canvas.getByRole('link', { name: mapStandIn.linkLabel })).toHaveAttribute('href', mapStandIn.href);
+    await expect(canvas.getByRole('link', { name: officeMapStandIn.linkLabel })).toHaveAttribute('href', officeMapStandIn.href);
   },
 };
 
@@ -36,7 +36,9 @@ export const OnLight: Story = { ...Default, globals: { surface: 'light', viewpor
 export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, canvasElement }) => {
-    await expect(canvas.getByTitle(mapStandIn.title).getBoundingClientRect().width).toBeGreaterThan(300);
+    await expect(canvas.getByTitle(officeMapStandIn.title).getBoundingClientRect().width).toBeGreaterThan(300);
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };
+
+export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
