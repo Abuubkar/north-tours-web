@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
-import { gridColumns } from '../../.storybook/gridColumns';
+import { drawsLines, gridColumns, gridGaps } from '../../.storybook/gridColumns';
 import { sampleDestinations } from '@/components/destination-card/sampleDestinations';
 import { sampleHome } from '../sampleHome';
 import { DestinationsGrid } from './DestinationsGrid';
@@ -18,7 +18,14 @@ type Story = StoryObj<typeof meta>;
 
 const columns = (canvas: ReturnType<typeof within>) => gridColumns(canvas.getAllByRole('listitem'));
 
-/** Six across at 1440; each card links to its destination, and photos load lazily. */
+/** Photo cards with the dense gaps: 16px between cards, 32px between rows, and no line on the list or a cell. */
+async function denseGaps(canvas: ReturnType<typeof within>, gaps: { column: number | null; row: number | null }) {
+  const items = canvas.getAllByRole('listitem');
+  await expect(gridGaps(items)).toEqual(gaps);
+  for (const element of [canvas.getByRole('list'), ...items]) await expect(drawsLines(element)).toBe(false);
+}
+
+/** Six across at 1440, 16px apart with no lines; each card links to its destination, and photos load lazily. */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Where we go, and when to go there' })).toBeVisible();
@@ -26,17 +33,19 @@ export const Desktop: Story = {
       sampleDestinations.map((d) => `/destinations/${d.slug}`),
     );
     await expect(columns(canvas)).toBe(6);
+    await denseGaps(canvas, { column: 16, row: null });
     for (const img of canvas.getAllByRole('img').filter((i) => i.tagName === 'IMG')) await expect(img).toHaveAttribute('loading', 'lazy');
   },
 };
 
 export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-/** Two across at 390. */
+/** Two across at 390, rows 32px apart. */
 export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas }) => {
     await expect(columns(canvas)).toBe(2);
+    await denseGaps(canvas, { column: 16, row: 32 });
   },
 };
 
@@ -82,12 +91,13 @@ export const Other: StoryObj<typeof DestinationsGrid> = {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Other valleys we travel to' })).toBeVisible();
     await otherCards(canvas);
     await expect(columns(canvas)).toBe(5);
+    await denseGaps(canvas, { column: 16, row: null });
   },
 };
 
 export const OtherOnLight: StoryObj<typeof DestinationsGrid> = { ...Other, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-/** At 390 two across, and the odd last card takes the whole row. */
+/** At 390 two across with the dense gaps, and the odd last card takes the whole row. */
 export const OtherPhone: StoryObj<typeof DestinationsGrid> = {
   ...Other,
   globals: { viewport: { value: 'phone' } },
@@ -95,9 +105,10 @@ export const OtherPhone: StoryObj<typeof DestinationsGrid> = {
     await otherCards(canvas);
     const cells = canvas.getAllByRole('listitem');
     await expect(columns(canvas)).toBe(2);
+    await denseGaps(canvas, { column: 16, row: 32 });
     const last = cells.at(-1)!.getBoundingClientRect();
     const first = cells[0].getBoundingClientRect();
-    await expect(Math.round(last.width)).toBe(Math.round(cells[0].getBoundingClientRect().width * 2 + 1));
+    await expect(Math.round(last.width)).toBe(Math.round(first.width * 2 + 16));
     await expect(Math.round(last.left)).toBe(Math.round(first.left));
   },
 };

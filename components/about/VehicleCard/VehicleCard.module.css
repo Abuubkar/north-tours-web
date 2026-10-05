@@ -1,6 +1,6 @@
-/* An image-card cell (docs/components.md §4): the photo full width, the text padded under it. */
+/* A photo card (docs/components.md §4): the photo full width at the card radius, the text padded under it. */
 .card {
-  composes: cell from '../../../styles/layout.module.css';
+  composes: photoCell from '../../../styles/layout.module.css';
 }
 
 .text {

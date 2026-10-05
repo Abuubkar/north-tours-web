@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { gridColumns } from '../../.storybook/gridColumns';
+import { drawsLines, gridColumns, gridGaps } from '../../.storybook/gridColumns';
 import { sampleTour } from '@/components/tour-card/sampleTours';
 import { sampleTourCopy } from '@/components/tour/sampleTourCopy';
 import { Hotels } from './Hotels';
@@ -17,12 +17,21 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Three stays: three columns, never more columns than stays, then the note. */
+const cardMax = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hotel-card-max'));
+
+/**
+ * Three stays: three photo cards 24px apart with no lines, never more columns than stays, each
+ * at most 320px (the width cap allows for the gaps), then the note.
+ */
 export const Desktop: Story = {
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Where you’ll stay each night' })).toBeVisible();
-    await expect(gridColumns(canvas.getAllByRole('listitem'))).toBe(3);
+    const items = canvas.getAllByRole('listitem');
+    await expect(gridColumns(items)).toBe(3);
+    await expect(gridGaps(items).column).toBe(24);
+    for (const element of [canvas.getByRole('list'), ...items]) await expect(drawsLines(element)).toBe(false);
+    for (const item of items) await expect(Math.round(item.getBoundingClientRect().width)).toBe(cardMax());
     await expect(canvas.getByText(/All rooms are twin sharing/)).toBeVisible();
   },
 };
@@ -43,15 +52,16 @@ export const OneStay: Story = {
   args: { stays: [sampleTour.stays[1]] },
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
-    const max = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hotel-card-max'));
-    await expect(canvas.getByRole('listitem').getBoundingClientRect().width).toBeLessThanOrEqual(max);
+    await expect(canvas.getByRole('listitem').getBoundingClientRect().width).toBeLessThanOrEqual(cardMax());
   },
 };
 
+/** Two across at 390; the third stay starts a row 48px lower. */
 export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, canvasElement }) => {
     await expect(gridColumns(canvas.getAllByRole('listitem'))).toBe(2);
+    await expect(gridGaps(canvas.getAllByRole('listitem'))).toEqual({ column: 24, row: 48 });
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };

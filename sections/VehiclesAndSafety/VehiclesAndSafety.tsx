@@ -7,8 +7,8 @@ import styles from './VehiclesAndSafety.module.css';
 const headlineClass = { standard: styles.headline, long: styles.longHeadline };
 
 /**
- * "Our vehicles, and how we keep you safe": the fleet in a hairline grid with its average age in
- * a full-width last row, beside the safety practices (above them on phones).
+ * "Our vehicles, and how we keep you safe": the fleet as photo cards with gaps and its average age
+ * in a full-width row under them, beside the safety practices (above them on phones).
  */
 export function VehiclesAndSafety({ copy }: VehiclesAndSafetyProps) {
   return (

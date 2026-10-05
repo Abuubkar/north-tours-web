@@ -6,7 +6,7 @@ import { HighlightCard } from '../HighlightCard/HighlightCard';
 import type { HighlightGridProps } from './HighlightGrid.types';
 import styles from './HighlightGrid.module.css';
 
-/** The highlights in a hairline grid of up to three columns; cards below the fold rise into view once (M4). */
+/** The highlights as photo cards with gaps, up to three columns; cards below the fold rise into view once (M4). */
 export function HighlightGrid({ highlights }: HighlightGridProps) {
   const listRef = useRef<HTMLUListElement>(null);
   useRiseOnView(listRef);

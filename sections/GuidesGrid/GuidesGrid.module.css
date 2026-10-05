@@ -7,15 +7,16 @@
   max-width: var(--measure-headline);
 }
 
+/* Photo cards with gaps (DESIGN.md §5). */
 .grid {
-  composes: grid from '../../styles/layout.module.css';
+  composes: photoGrid gridColumns from '../../styles/layout.module.css';
   --grid-min: var(--grid-guides-min);
   --grid-cols: var(--grid-guides-cols);
   margin-top: var(--space-64);
 }
 
 .cell {
-  composes: cell from '../../styles/layout.module.css';
+  composes: photoCell from '../../styles/layout.module.css';
 }
 
 /* About: the line under the headline, then the team. */

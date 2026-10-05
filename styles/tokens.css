@@ -243,11 +243,15 @@
   --map-side-units: calc(560 / 340);
   --mini-map-units: calc(560 / 112);
 
-  /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
+  /* Grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
   --grid-tours-cols: 4;
-  --grid-tours-gap: var(--space-24); /* tour cards are the exception: gaps, not hairlines (owner feedback) */
+  --grid-tours-gap: var(--space-24); /* tour cards have gaps, not hairlines (owner feedback) */
   --grid-tours-row-gap: var(--space-48); /* between rows of tour cards */
+  --grid-photo-gap: var(--space-24); /* photo cards: guides, highlights, hotels, vehicles (owner feedback, round 2) */
+  --grid-photo-row-gap: var(--space-48);
+  --grid-photo-dense-gap: var(--space-16); /* the five and six destinations across */
+  --grid-photo-dense-row-gap: var(--space-32);
   --grid-tours-detail-cols: 3; /* Tour Detail's related tours, and Destination */
   --grid-steps-min: 260px;
   --grid-steps-cols: 4;

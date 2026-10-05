@@ -6,6 +6,7 @@
 .button {
   padding: 0;
   border: 0;
+  border-radius: var(--radius-card);
   background: var(--bg);
   font: inherit;
   text-align: start;
