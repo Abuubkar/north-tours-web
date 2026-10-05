@@ -32,7 +32,7 @@ export function contentPhotos(dir = CONTENT_DIR): PhotoUse[] {
       ? [{ file: displayPath(aboutCopyFile(dir)), field: 'header.image', image: about.data.header.image, share: true, portrait: true }]
       : []),
     // The planner's photo band is also its share image; the postcard's photo until a destination is chosen; the "Help me choose" card's.
-    // The band is about square on a phone (390×360), where a portrait crop would zoom in, so it keeps the landscape photo.
+    // The band gets no portrait crop (ADR-0033).
     ...(planner.data
       ? [
           { file: displayPath(plannerCopyFile(dir)), field: 'header.image', image: planner.data.header.image, share: true },

@@ -57,12 +57,12 @@ export function shareFile(src: string): string {
 
 /*
  * Phone-shaped crops of the full-bleed hero photos (ADR-0033). On an upright phone a hero is
- * about 2:3, so the landscape photo is cropped to its height and only its middle third shows. A
- * 2:3 crop around the focus carries that same view in a file a third as wide.
+ * about 2:3, so the landscape photo is cropped to its height and under half its width shows, at
+ * the focus. A 2:3 crop around the focus carries that same view in a file under half as wide.
  */
 
 /** The portrait crop's shape, width to height. */
-export const PORTRAIT_RATIO = { width: 2, height: 3 } as const;
+const PORTRAIT_RATIO = { width: 2, height: 3 } as const;
 
 /**
  * The screens that get the portrait crop: upright phones. A hero's box there is about 2:3
@@ -76,9 +76,13 @@ export const PORTRAIT_MEDIA = '(max-width: 479px) and (orientation: portrait)';
  * at most 800 device pixels wide (390px up to DPR 2, Lighthouse's 412px at DPR 1.75) picks the 800;
  * sharper screens (DPR 2.6 and 3) the 1200.
  */
-export const PORTRAIT_WIDTHS = [800, 1200] as const;
+const PORTRAIT_WIDTHS = [800, 1200] as const;
 
-/** The portrait crop always fills the screen's width: `sizes` for its sources. */
+/**
+ * `sizes` for the portrait sources: the screen's width. The crop is drawn at least that wide; on
+ * the Homepage (its photo bleeds past the sides and is a little wider than 2:3) about 30% wider,
+ * which the widths allow for (ADR-0033).
+ */
 export const PORTRAIT_SIZES = '100vw';
 
 /** The largest 2:3 box inside the photo, in the photo's pixels. */
@@ -115,6 +119,9 @@ export function portraitSrcSet(photo: Pick<Photo, 'src' | 'width' | 'height'>, f
     .map((w) => `${sitePath(portraitFile(photo.src, w, format))} ${w}w`)
     .join(', ');
 }
+
+/** Each format's MIME type, for a `<source>`'s `type`. */
+export const IMAGE_TYPES: Record<ImageFormat, string> = { avif: 'image/avif', webp: 'image/webp', jpg: 'image/jpeg' };
 
 /** CSS `object-position` for the focus, e.g. "30% 60%". */
 export function objectPosition(focus: Focus = CENTRE): string {

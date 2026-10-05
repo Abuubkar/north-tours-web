@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { fallbackSrc, IMAGE_FORMATS, objectPosition, PORTRAIT_MEDIA, PORTRAIT_SIZES, portraitSrcSet, variantSrcSet } from '@/lib/utils/images';
+import { fallbackSrc, IMAGE_FORMATS, IMAGE_TYPES, objectPosition, PORTRAIT_MEDIA, PORTRAIT_SIZES, portraitSrcSet, variantSrcSet } from '@/lib/utils/images';
 import type { MediaFrameProps, MediaFrameRatio, MediaFrameWideRatio } from './MediaFrame.types';
 import styles from './MediaFrame.module.css';
 
@@ -14,9 +14,6 @@ const ratioClass: Record<MediaFrameRatio, string> = {
 const wideRatioClass: Record<MediaFrameWideRatio, string> = {
   '4:5': styles.wide4x5,
 };
-
-/** Each format's MIME type, for a `<source>`. */
-const TYPE = { avif: 'image/avif', webp: 'image/webp', jpg: 'image/jpeg' } as const;
 
 /**
  * A photo in AVIF, WebP or JPEG at the width the screen needs (ADR-0015), or, until the photo
@@ -40,10 +37,10 @@ export function MediaFrame({ image, ratio, wideRatio, sizes, priority = false, p
     <picture className={frame}>
       {portrait &&
         IMAGE_FORMATS.map((format) => (
-          <source key={format} media={PORTRAIT_MEDIA} type={TYPE[format]} srcSet={portraitSrcSet(image, format)} sizes={PORTRAIT_SIZES} />
+          <source key={format} media={PORTRAIT_MEDIA} type={IMAGE_TYPES[format]} srcSet={portraitSrcSet(image, format)} sizes={PORTRAIT_SIZES} />
         ))}
-      <source type="image/avif" srcSet={variantSrcSet(image, 'avif')} sizes={sizes} />
-      <source type="image/webp" srcSet={variantSrcSet(image, 'webp')} sizes={sizes} />
+      <source type={IMAGE_TYPES.avif} srcSet={variantSrcSet(image, 'avif')} sizes={sizes} />
+      <source type={IMAGE_TYPES.webp} srcSet={variantSrcSet(image, 'webp')} sizes={sizes} />
       <img
         className={styles.img}
         src={fallbackSrc(image)}

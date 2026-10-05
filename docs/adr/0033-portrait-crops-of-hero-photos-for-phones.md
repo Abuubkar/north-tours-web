@@ -6,7 +6,7 @@
 - **Extends:** ADR-0015 (build-time image variants)
 
 ## Context
-The full-bleed heroes use landscape photos (about 3:2) with `sizes="100vw"`. On an upright phone a hero's box is about 2:3: 390×600 for a tour, 390×620 for a destination, 454×768 for the Homepage (its photo bleeds 32px past the sides and foot). The photo is cropped to the box's height and drawn about three times wider than the screen. At DPR 1.75 the phone picks the 800 file and shows its middle third: 271 file pixels across 390 CSS px on the Homepage, 346 on a tour. It looks soft.
+The full-bleed heroes use landscape photos (about 3:2) with `sizes="100vw"`. On an upright phone a hero's box is about 2:3: 390×600 for a tour, 390×620 for a destination, 454×768 for the Homepage (its photo bleeds 32px past the sides and foot). The photo is cropped to the box's height and drawn 2.3 to 2.5 times wider than the screen. At DPR 1.75 the phone picks the 800 file and shows under half its width, at the focus: 271 file pixels across 390 CSS px on the Homepage, 346 on a tour. It looks soft.
 
 Asking for wider files (#140) made 9 pages miss the 2.5s LCP budget (ADR-0021): the phone downloads the whole wide photo to show a third of it. The Homepage has almost no headroom: 2.48s on the live preview (ADR-0032).
 
