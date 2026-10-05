@@ -81,6 +81,16 @@ export function shortMonthYear(month: string): string {
   return `${SHORT_MONTHS[number - 1]} ${year}`;
 }
 
+/**
+ * Months in short, each year said once after its months: ["2027-06", "2027-07"] → "Jun, Jul 2027",
+ * ["2026-12", "2027-01"] → "Dec 2026, Jan 2027". In the order given.
+ */
+export function shortMonthsYears(months: readonly string[]): string {
+  const byYear = new Map<string, string[]>();
+  for (const month of months) byYear.set(month.slice(0, 4), [...(byYear.get(month.slice(0, 4)) ?? []), SHORT_MONTHS[Number(month.slice(5, 7)) - 1]]);
+  return [...byYear].map(([year, names]) => `${names.join(', ')} ${year}`).join(', ');
+}
+
 /** A date in short, without the year: "2027-06-12" → "12 Jun" (the planner's summary bar). */
 export function shortDayMonth(date: string): string {
   const { month, day } = parts(date);

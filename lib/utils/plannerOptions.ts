@@ -55,6 +55,15 @@ export function ageLabel(age: number, underTwo: string): string {
   return age === UNDER_TWO ? underTwo : String(age);
 }
 
+/**
+ * A multi-select answer with `id` picked or, if it's already picked, unpicked: always in the
+ * options' order, whatever order they were pressed in, and never twice.
+ */
+export function toggled<T>(picked: readonly T[], id: T, options: readonly T[]): T[] {
+  const on = picked.includes(id);
+  return options.filter((option) => (option === id ? !on : picked.includes(option)));
+}
+
 /** Each option's id with its words, in the ids' order, as the chip groups list them. */
 export function labelled<T extends string>(ids: readonly T[], labels: Readonly<Record<T, string>>): { id: T; label: string }[] {
   return ids.map((id) => ({ id, label: labels[id] }));

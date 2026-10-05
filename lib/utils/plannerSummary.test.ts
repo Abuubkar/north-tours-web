@@ -35,8 +35,10 @@ describe('trip summary', () => {
     expect(trip({ destinations: ['hunza', 'unsure'] }).destinations).toBe('Hunza, Suggest something');
   });
 
-  it('writes flexible and exact dates: a month alone, with no days to count', () => {
-    expect(trip({ month: '2027-06' }).dates).toBe('Jun 2027');
+  it('writes flexible and exact dates: the months alone, each year once, with no days to count', () => {
+    expect(trip({ months: ['2027-06'] }).dates).toBe('Jun 2027');
+    expect(trip({ months: ['2027-06', '2027-07'] }).dates).toBe('Jun, Jul 2027');
+    expect(trip({ months: ['2026-11', '2026-12', '2027-01'] }).dates).toBe('Nov, Dec 2026, Jan 2027');
     expect(trip({ dateMode: 'exact', from: '2027-06-12', to: '2027-06-18' }).dates).toBe('12 Jun 2027 – 18 Jun 2027');
     expect(trip({ dateMode: 'exact', from: '2027-06-12', to: null }).dates).toBeNull();
   });
@@ -51,11 +53,24 @@ describe('trip summary', () => {
   });
 
   it('leaves the length empty until one is picked, whatever the month', () => {
-    expect(trip({ month: '2027-06' }).length).toBeNull();
+    expect(trip({ months: ['2027-06'] }).length).toBeNull();
+  });
+
+  it('joins several picks in the page’s words, in the options’ order', () => {
+    expect(
+      trip({ lengths: ['5-7', '8-10'], groupType: ['family', 'friends'], hotels: ['comfortable', 'upgraded'], transport: ['car', 'suggest'], budget: ['50-100k', 'not-sure'] }),
+    ).toMatchObject({
+      length: '5–7 days, 8–10 days',
+      groupType: 'Family, Friends',
+      hotels: 'Comfortable, Upgraded',
+      transport: 'Car, Let us suggest',
+      budget: 'PKR 50–100k, Not sure yet',
+    });
+    expect(detailsSummary({ ...EMPTY_DETAILS, bestTime: ['morning', 'evening'] }, sampleWords).bestTime).toBe('Morning, Evening');
   });
 
   it('writes the options in the page’s words, the length too', () => {
-    expect(trip({ month: '2027-06', length: '5-7', groupType: 'family', hotels: 'upgraded', transport: 'car', budget: '50-100k' })).toMatchObject({
+    expect(trip({ months: ['2027-06'], lengths: ['5-7'], groupType: ['family'], hotels: ['upgraded'], transport: ['car'], budget: ['50-100k'] })).toMatchObject({
       length: '5–7 days',
       groupType: 'Family',
       hotels: 'Upgraded',
@@ -77,7 +92,7 @@ describe('details summary', () => {
   });
 
   it('writes the number in international form, in either mode', () => {
-    const pk = detailsSummary({ ...EMPTY_DETAILS, name: ' Ayesha Khan ', phone: { ...EMPTY_PHONE, pk: '0300 1234567' }, bestTime: 'evening', notes: 'Hi' }, sampleWords);
+    const pk = detailsSummary({ ...EMPTY_DETAILS, name: ' Ayesha Khan ', phone: { ...EMPTY_PHONE, pk: '0300 1234567' }, bestTime: ['evening'], notes: 'Hi' }, sampleWords);
     expect(pk).toEqual({ name: 'Ayesha Khan', phone: '+92 300 1234567', bestTime: 'Evening', notes: 'Hi' });
     expect(detailsSummary({ ...EMPTY_DETAILS, phone: { mode: 'intl', pk: '', code: '44', number: '7700 900123' } }, sampleWords).phone).toBe('+44 7700 900123');
   });

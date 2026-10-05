@@ -9,7 +9,9 @@ import {
   labelled,
   monthChoices,
   PLANNER_BUDGETS,
+  toggled,
   TRANSPORT,
+  TRIP_LENGTHS,
   UNSURE,
 } from './plannerOptions.ts';
 
@@ -61,5 +63,14 @@ describe('option words', () => {
       { id: 'car', label: 'Car' },
       { id: 'coaster', label: 'Coaster' },
     ]);
+  });
+});
+
+describe('toggled', () => {
+  it('adds an option, or removes it if it’s there, always in the options’ order and never twice', () => {
+    expect(toggled([], '8-10', TRIP_LENGTHS)).toEqual(['8-10']);
+    expect(toggled(['8-10'], '2-4', TRIP_LENGTHS)).toEqual(['2-4', '8-10']);
+    expect(toggled(['2-4', '8-10'], '8-10', TRIP_LENGTHS)).toEqual(['2-4']);
+    expect(toggled(['8-10', '8-10'] as const, '2-4', TRIP_LENGTHS)).toEqual(['2-4', '8-10']);
   });
 });

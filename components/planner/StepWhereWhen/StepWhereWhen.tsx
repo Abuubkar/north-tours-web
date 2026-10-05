@@ -23,7 +23,7 @@ export function StepWhereWhen({ destinations, copy }: StepWhereWhenProps) {
         label={copy.length.label}
         hint={copy.length.hint}
         options={labelled(TRIP_LENGTHS, copy.length.options)}
-        value={answers.length}
+        value={answers.lengths}
         onPick={(id) => update((a) => pickLength(a, id))}
       />
     </>

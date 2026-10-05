@@ -22,9 +22,12 @@ import type { PlannerCopy } from '../content/pages.ts';
  * one key. Your details are never written. What comes back is checked field by field with this
  * hand-written parser (no schema code ships to visitors, ADR-0013): an invalid field falls back
  * to its default on its own.
+ *
+ * v2 (owner feedback, 2026-10-05): most choices are lists. The shape changed, so the key did too,
+ * as ADR-0018 plans: v1 answers are never read, and a v1 visitor starts clean.
  */
 
-export const PLANNER_STORAGE_KEY = 'planner-answers-v1';
+export const PLANNER_STORAGE_KEY = 'planner-answers-v2';
 
 /** The review: the furthest step saved. The thank-you is never saved. */
 const LAST_SAVED_STEP = 4;
@@ -44,8 +47,11 @@ const isInt = (value: unknown, { min, max }: { min: number; max: number }): valu
   Number.isInteger(value) && (value as number) >= min && (value as number) <= max;
 
 /** One of the options, or the fallback. */
-const oneOf = <T extends string | number>(options: readonly T[], value: unknown, fallback: T | null): T | null =>
-  options.includes(value as T) ? (value as T) : fallback;
+const oneOf = <T extends string | number>(options: readonly T[], value: unknown, fallback: T): T => (options.includes(value as T) ? (value as T) : fallback);
+
+/** The options a saved list holds, each once, in the options' order; anything else in it is dropped. */
+const someOf = <T extends string>(options: readonly T[], value: unknown): T[] =>
+  Array.isArray(value) ? options.filter((option) => value.includes(option)) : [];
 
 const realDate = (value: unknown): value is string =>
   typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && new Date(`${value}T00:00:00Z`).toISOString().startsWith(value);
@@ -66,26 +72,25 @@ function readObject(raw: string | null): Record<string, unknown> | null {
 /** The trip answers in saved data, each field checked on its own against its default. */
 function parseAnswers(data: Record<string, unknown>, { destinations, today }: ParseContext): TripAnswers {
   const defaults = DEFAULT_ANSWERS;
-  const saved = Array.isArray(data.destinations) ? data.destinations : [];
   const children = isInt(data.children, CHILDREN) ? data.children : defaults.children;
   const agesFit =
     Array.isArray(data.ages) && data.ages.length === children && data.ages.every((age) => age === null || AGES.includes(age as number));
   return {
-    destinations: destinationChoices(destinations).filter((choice) => saved.includes(choice)),
-    dateMode: oneOf(DATE_MODES, data.dateMode, defaults.dateMode) ?? defaults.dateMode,
+    destinations: someOf(destinationChoices(destinations), data.destinations),
+    dateMode: oneOf(DATE_MODES, data.dateMode, defaults.dateMode),
     from: comingDate(data.from, today),
     to: comingDate(data.to, today),
-    month: typeof data.month === 'string' && monthChoices(today).includes(data.month) ? data.month : null,
-    length: oneOf(TRIP_LENGTHS, data.length, null),
+    months: someOf(monthChoices(today), data.months),
+    lengths: someOf(TRIP_LENGTHS, data.lengths),
     adults: isInt(data.adults, ADULTS) ? data.adults : defaults.adults,
     children,
     ages: agesFit ? (data.ages as (number | null)[]) : Array.from({ length: children }, () => null),
-    groupType: oneOf(GROUP_TYPES, data.groupType, null),
-    hotels: oneOf(HOTELS, data.hotels, null),
-    transport: oneOf(TRANSPORT, data.transport, null),
-    departingFrom: oneOf(DEPARTING_FROM, data.departingFrom, defaults.departingFrom) ?? defaults.departingFrom,
+    groupType: someOf(GROUP_TYPES, data.groupType),
+    hotels: someOf(HOTELS, data.hotels),
+    transport: someOf(TRANSPORT, data.transport),
+    departingFrom: oneOf(DEPARTING_FROM, data.departingFrom, defaults.departingFrom),
     otherCity: typeof data.otherCity === 'string' ? data.otherCity : defaults.otherCity,
-    budget: oneOf(PLANNER_BUDGETS, data.budget, null),
+    budget: someOf(PLANNER_BUDGETS, data.budget),
   };
 }
 

@@ -8,6 +8,7 @@ import { atQuery } from '../../.storybook/storyUrl';
 import type { TripAnswers } from '@/lib/utils/plannerAnswers';
 import { monthChoices } from '@/lib/utils/plannerOptions';
 import { PLANNER_STORAGE_KEY, serialisePlanner } from '@/lib/utils/plannerStorage';
+import { shortMonthsYears } from '@/lib/utils/dates';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { TripPlanner } from './TripPlanner';
 
@@ -112,8 +113,8 @@ export const CardsWithKeys: Story = {
 
 /**
  * The date mode switches: Exact shows From and To, neither before today in Karachi, To not
- * before From; Flexible brings the months back. A month replaces another, and picking it again
- * clears it.
+ * before From; Flexible brings the months back. Several months can be picked, and picking one
+ * again unpicks it.
  */
 export const Dates: Story = {
   play: async ({ canvas, userEvent }) => {
@@ -132,9 +133,10 @@ export const Dates: Story = {
     await userEvent.click(first);
     await expect(first).toHaveAttribute('aria-pressed', 'true');
     await userEvent.click(second);
-    await expect(first).toHaveAttribute('aria-pressed', 'false');
+    await expect(first).toHaveAttribute('aria-pressed', 'true');
     await expect(second).toHaveAttribute('aria-pressed', 'true');
     await userEvent.click(second);
+    await userEvent.click(first);
     await expect(monthChips(canvas).every((chip) => chip.getAttribute('aria-pressed') === 'false')).toBe(true);
   },
 };
@@ -503,6 +505,57 @@ export const Review: Story = {
 
 export const ReviewPhone: Story = { ...Review, globals: { viewport: { value: 'phone' } } };
 
+/**
+ * Several picks (owner feedback, 2026-10-05): two months, two trip lengths, two group types, two
+ * hotel levels and two best times, each joined in the review and the WhatsApp message, in the
+ * options' order whatever order they were pressed in. Departing from stays one city.
+ */
+export const ReviewSeveralPicks: Story = {
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const months = monthChoices(todayInKarachi(new Date())).slice(3, 5);
+    await userEvent.click(button(canvas, 'Hunza'));
+    await userEvent.click(button(canvas, 'Skardu'));
+    await userEvent.click(monthChips(canvas)[4]);
+    await userEvent.click(monthChips(canvas)[3]);
+    await userEvent.click(button(canvas, '8–10 days'));
+    await userEvent.click(button(canvas, '5–7 days'));
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.click(button(canvas, 'Friends'));
+    await userEvent.click(button(canvas, 'Family'));
+    await userEvent.click(button(canvas, 'Upgraded'));
+    await userEvent.click(button(canvas, 'Comfortable'));
+    await userEvent.click(button(canvas, 'Islamabad'));
+    await userEvent.click(button(canvas, 'Lahore'));
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((chip) => chip.textContent)).toEqual(['Family', 'Friends', 'Comfortable', 'Upgraded', 'Lahore']);
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+    await userEvent.click(button(canvas, 'Evening'));
+    await userEvent.click(button(canvas, 'Morning'));
+    await userEvent.click(button(canvas, /^Review/));
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Review · Check and send'));
+    const dates = shortMonthsYears(months);
+    const values = canvas.getAllByRole('definition').map((d) => d.textContent);
+    for (const value of ['Hunza, Skardu', dates, '5–7 days, 8–10 days', 'Family, Friends', 'Comfortable, Upgraded', 'Lahore', 'Morning, Evening']) {
+      await expect(values).toContain(value);
+    }
+    const message = linkText(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await expect(message).toBe(canvasElement.querySelector('figure p')!.textContent);
+    for (const line of [
+      '• Destinations: Hunza, Skardu',
+      `• Dates: ${dates} (5–7 days, 8–10 days)`,
+      '• Group: 2 adults · Family, Friends',
+      '• Hotels: Comfortable, Upgraded · Transport: Any',
+      '• Departing from: Lahore',
+      '• Best time to reach me: Morning, Evening',
+    ]) {
+      await expect(message!.split('\n')).toContain(line);
+    }
+  },
+};
+
+export const ReviewSeveralPicksPhone: Story = { ...ReviewSeveralPicks, globals: { viewport: { value: 'phone' } } };
+
 export const ReviewLaptop: Story = { ...Review, globals: { viewport: { value: 'laptop' } } };
 
 /** "Edit who’s coming" opens step 2 with focus on its first field; Next goes on through the steps again. */
@@ -572,7 +625,7 @@ export const SendAndAgainLaptop: Story = { ...SendAndAgain, globals: { viewport:
 const comingMonth = () => monthChoices(todayInKarachi(new Date()))[3];
 
 const savedTrip = (step: number, change: Partial<TripAnswers> = {}) =>
-  serialisePlanner({ ...sampleAnswers, month: comingMonth(), ...change }, step);
+  serialisePlanner({ ...sampleAnswers, months: [comingMonth()], ...change }, step);
 
 const saved = () => JSON.parse(localStorage.getItem(PLANNER_STORAGE_KEY) ?? 'null');
 
@@ -651,7 +704,7 @@ export const SavedReviewPhone: Story = { ...SavedReview, globals: { viewport: { 
 
 /** Saved junk: a past month and a destination no longer in content fall back to their defaults; the rest stays. */
 export const SavedJunk: Story = {
-  beforeEach: () => savedPlanner(savedTrip(2, { month: '2020-01', destinations: ['atlantis', 'skardu'] }))(),
+  beforeEach: () => savedPlanner(savedTrip(2, { months: ['2020-01'], destinations: ['atlantis', 'skardu'] }))(),
   play: async ({ canvas }) => {
     // Without a month, step 1 doesn't pass, so the planner opens there.
     await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when'));

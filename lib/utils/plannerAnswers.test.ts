@@ -16,11 +16,21 @@ import {
 } from './plannerAnswers.ts';
 
 const choices = ['hunza', 'skardu', 'swat', 'unsure'];
-const flexible = (change: Partial<TripAnswers> = {}): TripAnswers => ({ ...DEFAULT_ANSWERS, month: '2027-06', ...change });
+const flexible = (change: Partial<TripAnswers> = {}): TripAnswers => ({ ...DEFAULT_ANSWERS, months: ['2027-06'], ...change });
 
 describe('defaults', () => {
-  it('start flexible, nothing chosen, and no days to count', () => {
-    expect(DEFAULT_ANSWERS).toMatchObject({ destinations: [], dateMode: 'flexible', month: null, length: null });
+  it('start flexible, nothing chosen, Lahore, and no days to count', () => {
+    expect(DEFAULT_ANSWERS).toMatchObject({
+      destinations: [],
+      dateMode: 'flexible',
+      months: [],
+      lengths: [],
+      groupType: [],
+      hotels: [],
+      transport: [],
+      budget: [],
+      departingFrom: 'lahore',
+    });
     expect(Object.keys(DEFAULT_ANSWERS)).not.toContain('days');
     expect(Object.keys(DEFAULT_ANSWERS)).not.toContain('lengthAuto');
   });
@@ -35,24 +45,27 @@ describe('destinations', () => {
   });
 });
 
-describe('month', () => {
-  it('another month replaces it, and the same one clears it', () => {
-    const june = pickMonth(DEFAULT_ANSWERS, '2027-06');
-    expect(pickMonth(june, '2027-07').month).toBe('2027-07');
-    expect(pickMonth(june, '2027-06').month).toBeNull();
+describe('months', () => {
+  it('any number, earliest first whatever the order picked, and a second press unpicks one', () => {
+    const july = pickMonth(DEFAULT_ANSWERS, '2027-07');
+    const both = pickMonth(july, '2027-06');
+    expect(both.months).toEqual(['2027-06', '2027-07']);
+    expect(pickMonth(both, '2027-01').months).toEqual(['2027-01', '2027-06', '2027-07']);
+    expect(pickMonth(both, '2027-07').months).toEqual(['2027-06']);
+    expect(pickMonth(pickMonth(both, '2027-07'), '2027-06').months).toEqual([]);
   });
 });
 
-describe('trip length', () => {
-  it('is only what the visitor picked: nothing until then, whatever the month', () => {
-    expect(flexible().length).toBeNull();
-    expect(pickLength(flexible(), '8-10').length).toBe('8-10');
+describe('trip lengths', () => {
+  it('only what the visitor picked: nothing until then, whatever the month', () => {
+    expect(flexible().lengths).toEqual([]);
+    expect(pickLength(flexible(), '8-10').lengths).toEqual(['8-10']);
   });
 
-  it('another length replaces it, and the same one again clears it', () => {
-    const picked = pickLength(flexible(), '8-10');
-    expect(pickLength(picked, '5-7').length).toBe('5-7');
-    expect(pickLength(picked, '8-10').length).toBeNull();
+  it('any number, shortest first, and a second press unpicks one', () => {
+    const both = pickLength(pickLength(flexible(), '8-10'), '2-4');
+    expect(both.lengths).toEqual(['2-4', '8-10']);
+    expect(pickLength(both, '8-10').lengths).toEqual(['2-4']);
   });
 });
 
@@ -92,18 +105,28 @@ describe('group size', () => {
 });
 
 describe('optional chips', () => {
-  it('pick one, and a second press clears it', () => {
-    const family = pickOption(DEFAULT_ANSWERS, 'groupType', 'family');
-    expect(family.groupType).toBe('family');
-    expect(pickOption(family, 'groupType', 'friends').groupType).toBe('friends');
-    expect(pickOption(family, 'groupType', 'family').groupType).toBeNull();
+  it('pick any number, in the options’ order, and a second press unpicks one', () => {
+    const friends = pickOption(DEFAULT_ANSWERS, 'groupType', 'friends');
+    const both = pickOption(friends, 'groupType', 'family');
+    expect(both.groupType).toEqual(['family', 'friends']);
+    expect(pickOption(both, 'groupType', 'friends').groupType).toEqual(['family']);
+  });
+
+  it.each([
+    ['hotels', 'best', 'comfortable', ['comfortable', 'best']],
+    ['transport', 'suggest', 'car', ['car', 'suggest']],
+    ['budget', 'not-sure', 'under-50k', ['under-50k', 'not-sure']],
+  ] as const)('%s takes several too', (question, first, second, both) => {
+    const answers = pickOption(pickOption(DEFAULT_ANSWERS, question, first), question, second);
+    expect(answers[question]).toEqual(both);
   });
 });
 
 describe('departing from', () => {
-  it('always has one: pressing the chosen city keeps it', () => {
+  it('stays one city (the owner’s decision): another replaces it, and pressing the chosen one keeps it', () => {
+    expect(DEFAULT_ANSWERS.departingFrom).toBe('lahore');
     expect(pickDeparture(DEFAULT_ANSWERS, 'lahore').departingFrom).toBe('lahore');
-    expect(pickDeparture(DEFAULT_ANSWERS, 'other').departingFrom).toBe('other');
+    expect(pickDeparture(pickDeparture(DEFAULT_ANSWERS, 'islamabad'), 'other').departingFrom).toBe('other');
   });
 
   it('keeps the city typed for “Other city”', () => {

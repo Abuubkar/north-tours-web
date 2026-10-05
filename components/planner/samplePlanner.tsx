@@ -206,15 +206,15 @@ export const withPlanner: Decorator = (Story) => (
 export const sampleAnswers: TripAnswers = {
   ...DEFAULT_ANSWERS,
   destinations: ['hunza'],
-  month: '2027-06',
-  length: '5-7',
+  months: ['2027-06'],
+  lengths: ['5-7'],
   children: 2,
   ages: [6, 9],
-  groupType: 'family',
-  hotels: 'upgraded',
+  groupType: ['family'],
+  hotels: ['upgraded'],
 };
 
-export const sampleDetails: Details = { name: 'Ayesha Khan', phone: { ...EMPTY_PHONE, pk: '300 123 4567' }, bestTime: 'evening', notes: '' };
+export const sampleDetails: Details = { name: 'Ayesha Khan', phone: { ...EMPTY_PHONE, pk: '300 123 4567' }, bestTime: ['evening'], notes: '' };
 
 /** Fills the planner with a trip and the sample details once, then shows its children. */
 function Answered({ answers, children }: { answers: TripAnswers; children: ReactNode }) {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dateRange, dayCount, longDate, messageDate, messageDateRange, monthYear, seasonRange, shortDayMonth, shortMonthName, shortMonthYear, tripLength, yearsSince } from './dates.ts';
+import { dateRange, dayCount, longDate, messageDate, messageDateRange, monthYear, seasonRange, shortDayMonth, shortMonthName, shortMonthsYears, shortMonthYear, tripLength, yearsSince } from './dates.ts';
 
 describe('dateRange', () => {
   it('names the month once when both dates share it', () => {
@@ -80,6 +80,16 @@ describe('seasonRange', () => {
 
   it('names them in short for a destination’s other valleys: "Apr – Oct"', () => {
     expect(seasonRange({ from: 'Apr', to: 'Oct' }, 'short')).toBe('Apr – Oct');
+  });
+});
+
+describe('short months with their years', () => {
+  it('says each year once, after its months, in the order given', () => {
+    expect(shortMonthsYears(['2027-06'])).toBe('Jun 2027');
+    expect(shortMonthsYears(['2027-06', '2027-07'])).toBe('Jun, Jul 2027');
+    expect(shortMonthsYears(['2026-12', '2027-01'])).toBe('Dec 2026, Jan 2027');
+    expect(shortMonthsYears(['2026-11', '2026-12', '2027-01', '2027-03'])).toBe('Nov, Dec 2026, Jan, Mar 2027');
+    expect(shortMonthsYears([])).toBe('');
   });
 });
 

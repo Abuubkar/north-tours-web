@@ -15,19 +15,19 @@ const words = summaryWords(copy, [{ slug: 'hunza', name: 'Hunza' }]);
 const answers: TripAnswers = {
   ...DEFAULT_ANSWERS,
   destinations: ['hunza'],
-  month: '2027-06',
-  length: '5-7',
+  months: ['2027-06'],
+  lengths: ['5-7'],
   children: 2,
   ages: [6, 9],
-  groupType: 'family',
-  hotels: 'upgraded',
-  transport: 'car',
-  budget: '50-100k',
+  groupType: ['family'],
+  hotels: ['upgraded'],
+  transport: ['car'],
+  budget: ['50-100k'],
 };
 const details: Details = {
   name: 'Ayesha Khan',
   phone: { ...EMPTY_PHONE, pk: '300 123 4567' },
-  bestTime: 'evening',
+  bestTime: ['evening'],
   notes: 'Travelling with my mother, who prefers short walks.',
 };
 const request = (a: TripAnswers, d: Details) => tripRequestMessage(whatsapp.planner, tripSummary(a, words), detailsSummary(d, words));
@@ -35,7 +35,7 @@ const callBack = (a: TripAnswers, d: Details) => callBackMessage(whatsapp.planne
 
 describe('trip request', () => {
   it('writes the month alone when no trip length is picked', () => {
-    expect(request({ ...answers, length: null }, details)).toContain('• Dates: Jun 2027\n');
+    expect(request({ ...answers, lengths: [] }, details)).toContain('• Dates: Jun 2027\n');
   });
 
   it('writes every answer, a line each', () => {
@@ -73,6 +73,33 @@ describe('trip request', () => {
   });
 });
 
+describe('several picks', () => {
+  const several: TripAnswers = {
+    ...answers,
+    months: ['2026-12', '2027-01'],
+    lengths: ['5-7', '8-10'],
+    groupType: ['family', 'friends'],
+    hotels: ['comfortable', 'upgraded'],
+    transport: ['car', 'coaster'],
+    budget: ['50-100k', '100k-plus'],
+  };
+  const both: Details = { ...details, bestTime: ['morning', 'evening'] };
+
+  it('joins them on each line of the trip request, and Departing from stays one city', () => {
+    const lines = request(several, both).split('\n');
+    expect(lines).toContain('• Dates: Dec 2026, Jan 2027 (5–7 days, 8–10 days)');
+    expect(lines).toContain('• Group: 2 adults, 2 children (ages 6, 9) · Family, Friends');
+    expect(lines).toContain('• Hotels: Comfortable, Upgraded · Transport: Car, Coaster');
+    expect(lines).toContain('• Departing from: Lahore');
+    expect(lines).toContain('• Budget per person: PKR 50–100k, PKR 100k+');
+    expect(lines).toContain('• Best time to reach me: Morning, Evening');
+  });
+
+  it('names every best time in the call back', () => {
+    expect(callBack(several, both).split('\n')[0]).toBe('Please call me back on +92 300 123 4567, best time morning, evening.');
+  });
+});
+
 describe('call back', () => {
   it('asks for a call on the number at the best time, then the trip and the name', () => {
     expect(callBack(answers, details)).toBe(
@@ -91,7 +118,7 @@ describe('call back', () => {
   });
 
   it('says “any time” without a best time, with the number in international form', () => {
-    const abroad = { ...details, bestTime: null, phone: { mode: 'intl' as const, pk: '', code: '44', number: '7700 900123' } };
+    const abroad = { ...details, bestTime: [], phone: { mode: 'intl' as const, pk: '', code: '44', number: '7700 900123' } };
     expect(callBack(answers, abroad).split('\n')[0]).toBe('Please call me back on +44 7700 900123, best time any time.');
   });
 });

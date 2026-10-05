@@ -14,7 +14,7 @@ import styles from './DatesField.module.css';
 
 /**
  * "Dates": exact dates (From and To, nothing before today in Karachi, To not before From), or
- * flexible (one of the next 12 months). How long the trip is, is the Trip length question's.
+ * flexible (any of the next 12 months). How long the trip is, is the Trip length question's.
  */
 export function DatesField({ copy }: DatesFieldProps) {
   const { answers, choices, errors, today, update, fieldId } = usePlanner();
@@ -62,7 +62,7 @@ export function DatesField({ copy }: DatesFieldProps) {
                     key={month}
                     id={i === 0 ? fieldId('month') : undefined}
                     variant="toggle"
-                    pressed={answers.month === month}
+                    pressed={answers.months.includes(month)}
                     aria-describedby={fieldInvalid(errors, 'month') ? errorId : undefined}
                     onClick={() => update((a) => pickMonth(a, month))}
                   >

@@ -25,7 +25,7 @@ describe('answered count', () => {
 
 describe('bar label', () => {
   it('names one valley, the month and the people', () => {
-    expect(label({ destinations: ['hunza'], month: '2027-06', children: 2, ages: [6, 9] })).toBe('Hunza · Jun · 4 people');
+    expect(label({ destinations: ['hunza'], months: ['2027-06'], children: 2, ages: [6, 9] })).toBe('Hunza · Jun · 4 people');
   });
 
   it('counts the other valleys after the first', () => {
@@ -42,6 +42,6 @@ describe('bar label', () => {
 
   it('uses the start of exact dates, and “1 person”', () => {
     expect(label({ dateMode: 'exact', from: '2027-06-12', to: '2027-06-18', adults: 1 })).toBe('Your trip · 12 Jun · 1 person');
-    expect(label({ dateMode: 'exact', from: null, month: '2027-06' })).toBe('Your trip · Dates? · 2 people');
+    expect(label({ dateMode: 'exact', from: null, months: ['2027-06'] })).toBe('Your trip · Dates? · 2 people');
   });
 });

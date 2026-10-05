@@ -1,6 +1,12 @@
 import {
   ADULTS,
   CHILDREN,
+  GROUP_TYPES,
+  HOTELS,
+  PLANNER_BUDGETS,
+  toggled,
+  TRANSPORT,
+  TRIP_LENGTHS,
   type DateMode,
   type DepartingFrom,
   type GroupType,
@@ -12,7 +18,9 @@ import {
 
 /*
  * The Trip Planner's answers about the trip (PRD #71), and the changes the steps make to them.
- * Pure, so the steps, the review and the message always agree.
+ * Pure, so the steps, the review and the message always agree. Most choice questions take any
+ * number of answers (owner feedback, 2026-10-05), each kept in its options' order; the date mode
+ * and the departing city stay one answer.
  */
 
 export type TripAnswers = {
@@ -22,62 +30,70 @@ export type TripAnswers = {
   /** Exact dates, YYYY-MM-DD. */
   from: string | null;
   to: string | null;
-  /** A flexible month, YYYY-MM. */
-  month: string | null;
-  /** The trip length the visitor picked: the planner's only length question. */
-  length: TripLength | null;
+  /** The flexible months, YYYY-MM, earliest first. */
+  months: string[];
+  /** The trip lengths picked: the planner's only length question. */
+  lengths: TripLength[];
   adults: number;
   children: number;
   /** One per child: 0 for "Under 2", or 2 to 17; null until given. */
   ages: (number | null)[];
-  groupType: GroupType | null;
-  hotels: Hotels | null;
-  transport: Transport | null;
-  /** Always set: Lahore by default. */
+  groupType: GroupType[];
+  hotels: Hotels[];
+  transport: Transport[];
+  /** Always one city: Lahore by default (the owner kept it a single answer, 2026-10-05). */
   departingFrom: DepartingFrom;
   /** The city typed for "Other city". */
   otherCity: string;
-  budget: PlannerBudget | null;
+  budget: PlannerBudget[];
 };
 
-/** The optional questions answered with one chip, which a second press clears. */
+/** Who's coming's optional questions answered with any number of chips, named as in page copy. */
 export type ChipQuestion = 'groupType' | 'hotels' | 'transport' | 'budget';
 
 /** An option of one of those questions, e.g. "family" for the group type. */
-export type ChipValue<K extends ChipQuestion> = NonNullable<TripAnswers[K]>;
+export type ChipValue<K extends ChipQuestion> = TripAnswers[K][number];
+
+/** Each of those questions' options, in order. */
+export const CHIP_OPTIONS: { [K in ChipQuestion]: readonly ChipValue<K>[] } = {
+  groupType: GROUP_TYPES,
+  hotels: HOTELS,
+  transport: TRANSPORT,
+  budget: PLANNER_BUDGETS,
+};
 
 export const DEFAULT_ANSWERS: TripAnswers = {
   destinations: [],
   dateMode: 'flexible',
   from: null,
   to: null,
-  month: null,
-  length: null,
+  months: [],
+  lengths: [],
   adults: ADULTS.default,
   children: CHILDREN.default,
   ages: [],
-  groupType: null,
-  hotels: null,
-  transport: null,
+  groupType: [],
+  hotels: [],
+  transport: [],
   departingFrom: 'lahore',
   otherCity: '',
-  budget: null,
+  budget: [],
 };
 
 /** Ticks or unticks a destination, keeping the choices' order (`choices`). */
 export function toggleDestination(answers: TripAnswers, id: string, choices: readonly string[]): TripAnswers {
-  const on = answers.destinations.includes(id);
-  return { ...answers, destinations: choices.filter((choice) => (choice === id ? !on : answers.destinations.includes(choice))) };
+  return { ...answers, destinations: toggled(answers.destinations, id, choices) };
 }
 
-/** One month at a time: another replaces it, and picking it again clears it. */
+/** Picks a flexible month, or unpicks it: any number, earliest first. */
 export function pickMonth(answers: TripAnswers, month: string): TripAnswers {
-  return { ...answers, month: answers.month === month ? null : month };
+  const months = answers.months.includes(month) ? answers.months.filter((m) => m !== month) : [...answers.months, month].sort();
+  return { ...answers, months };
 }
 
-/** One trip length at a time: another replaces it, and picking it again clears it. */
+/** Picks a trip length, or unpicks it: any number, shortest first. */
 export function pickLength(answers: TripAnswers, length: TripLength): TripAnswers {
-  return { ...answers, length: answers.length === length ? null : length };
+  return { ...answers, lengths: toggled(answers.lengths, length, TRIP_LENGTHS) };
 }
 
 /** An exact date typed or picked; an emptied field is no date. */
@@ -109,9 +125,9 @@ export function setAge(answers: TripAnswers, child: number, age: number): TripAn
   return { ...answers, ages: answers.ages.map((given, i) => (i === child ? age : given)) };
 }
 
-/** An optional chip question: picking the chosen option again clears it. */
+/** An optional chip question: picks the option, or unpicks it; any number, in the options' order. */
 export function pickOption<K extends ChipQuestion>(answers: TripAnswers, question: K, id: ChipValue<K>): TripAnswers {
-  return { ...answers, [question]: answers[question] === id ? null : id };
+  return { ...answers, [question]: toggled<ChipValue<K>>(answers[question] as readonly ChipValue<K>[], id, CHIP_OPTIONS[question]) };
 }
 
 /** The city typed for "Other city". */
@@ -119,7 +135,7 @@ export function setOtherCity(answers: TripAnswers, otherCity: string): TripAnswe
   return { ...answers, otherCity };
 }
 
-/** Where the trip starts: always one city, so pressing the chosen one keeps it. */
+/** Where the trip starts: always one city, so another replaces it and pressing the chosen one keeps it. */
 export function pickDeparture(answers: TripAnswers, from: DepartingFrom): TripAnswers {
   return { ...answers, departingFrom: from };
 }

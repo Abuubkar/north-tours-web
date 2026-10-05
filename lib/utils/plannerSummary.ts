@@ -1,5 +1,5 @@
 import type { PlannerCopy } from '../content/pages.ts';
-import { messageDate, shortMonthYear } from './dates.ts';
+import { messageDate, shortMonthsYears } from './dates.ts';
 import { internationalPhone } from './phone.ts';
 import type { TripAnswers } from './plannerAnswers.ts';
 import type { Details } from './plannerDetails.ts';
@@ -66,9 +66,12 @@ export type TripSummary = Record<SummaryRow, string | null>;
 
 const count = (n: number, words: CountWords) => fillTokens(n === 1 ? words.one : words.other, { count: String(n) });
 
-/** "Jun 2027", "12 Jun 2027 – 18 Jun 2027", or null until the dates are given. */
+/** Several picks in the page's words, joined: "Comfortable, Upgraded"; null for none. */
+const listed = <T extends string>(ids: readonly T[], words: Readonly<Record<T, string>>) => (ids.length > 0 ? ids.map((id) => words[id]).join(', ') : null);
+
+/** "Jun, Jul 2027", "12 Jun 2027 – 18 Jun 2027", or null until the dates are given. */
 function dates(answers: TripAnswers, words: SummaryWords): string | null {
-  if (answers.dateMode === 'flexible') return answers.month && shortMonthYear(answers.month);
+  if (answers.dateMode === 'flexible') return answers.months.length > 0 ? shortMonthsYears(answers.months) : null;
   if (!answers.from || !answers.to) return null;
   return fillTokens(words.exactDates, { from: messageDate(answers.from), to: messageDate(answers.to) });
 }
@@ -92,13 +95,13 @@ export function tripSummary(answers: TripAnswers, words: SummaryWords): TripSumm
     destinations:
       answers.destinations.length > 0 ? answers.destinations.map((id) => (id === UNSURE ? words.unsure : words.destinations[id] ?? id)).join(', ') : null,
     dates: dates(answers, words),
-    length: answers.length && options.length[answers.length],
+    length: listed(answers.lengths, options.length),
     group: group(answers, words),
-    groupType: answers.groupType && options.groupType[answers.groupType],
-    hotels: answers.hotels && options.hotels[answers.hotels],
-    transport: answers.transport && options.transport[answers.transport],
+    groupType: listed(answers.groupType, options.groupType),
+    hotels: listed(answers.hotels, options.hotels),
+    transport: listed(answers.transport, options.transport),
     from,
-    budget: answers.budget && options.budget[answers.budget],
+    budget: listed(answers.budget, options.budget),
   };
 }
 
@@ -146,7 +149,7 @@ export function detailsSummary(details: Details, words: SummaryWords): DetailsSu
   return {
     name: details.name.trim() || null,
     phone: typed ? internationalPhone(details.phone) : null,
-    bestTime: details.bestTime && words.options.bestTime[details.bestTime],
+    bestTime: listed(details.bestTime, words.options.bestTime),
     notes: details.notes.trim() || null,
   };
 }

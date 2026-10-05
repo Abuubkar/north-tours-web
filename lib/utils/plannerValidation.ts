@@ -40,7 +40,9 @@ export function whosComingErrors(answers: TripAnswers, messages: ErrorMessages):
 function datesError(answers: TripAnswers, today: string, messages: ErrorMessages): FieldProblem | null {
   const problem = (fields: string[], message: string) => ({ group: 'dates', fields, message });
   if (answers.dateMode === 'flexible') {
-    return answers.month && answers.month >= monthOf(today) ? null : problem(['month'], messages.month);
+    // At least one month, none of them past.
+    const ok = answers.months.length > 0 && answers.months.every((month) => month >= monthOf(today));
+    return ok ? null : problem(['month'], messages.month);
   }
   const { from, to } = answers;
   if (!from || !to) return problem([!from && 'from', !to && 'to'].filter((f) => f !== false), messages.dates);

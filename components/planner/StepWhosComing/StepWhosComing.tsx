@@ -12,8 +12,9 @@ import type { StepWhosComingProps } from './StepWhosComing.types';
 import styles from './StepWhosComing.module.css';
 
 /**
- * Step 2, Who's coming: adults and children (with each child's age), then five optional
- * one-chip questions. Departing from always has a city (Lahore by default); "Other city" asks which.
+ * Step 2, Who's coming: adults and children (with each child's age), then the chip questions:
+ * group type, hotels, transport and budget take any number of answers; Departing from always has
+ * one city (Lahore by default), and "Other city" asks which.
  */
 export function StepWhosComing({ copy }: StepWhosComingProps) {
   const { answers, update, fieldId } = usePlanner();
@@ -26,7 +27,7 @@ export function StepWhosComing({ copy }: StepWhosComingProps) {
         hint={copy[question].hint}
         options={labelled<ChipValue<K>>(ids, copy[question].options as Record<ChipValue<K>, string>)}
         // TypeScript can't narrow `answers[question]` for a generic question; it holds that question's options.
-        value={answers[question] as ChipValue<K> | null}
+        value={answers[question] as readonly ChipValue<K>[]}
         onPick={(id) => update((a) => pickOption(a, question, id))}
       />
     );
@@ -69,7 +70,7 @@ export function StepWhosComing({ copy }: StepWhosComingProps) {
         label={copy.departingFrom.label}
         hint={copy.departingFrom.hint}
         options={labelled(DEPARTING_FROM, copy.departingFrom.options)}
-        value={answers.departingFrom}
+        value={[answers.departingFrom]}
         onPick={(id) => update((a) => pickDeparture(a, id))}
       >
         {answers.departingFrom === 'other' && (
