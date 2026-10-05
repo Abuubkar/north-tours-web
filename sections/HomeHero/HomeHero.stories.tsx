@@ -21,10 +21,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** The display word: one span per letter, so it's found by its whole text. */
+const displayWord = (canvasElement: HTMLElement) => [...canvasElement.querySelectorAll('p')].find((p) => p.textContent === 'NORTH')!;
+
 /** The lead and both buttons; "NORTH" is decorative and hidden from screen readers. */
 export const Desktop: Story = {
-  play: async ({ canvas }) => {
-    await expect(canvas.getByText('NORTH')).toHaveAttribute('aria-hidden', 'true');
+  play: async ({ canvas, canvasElement }) => {
+    await expect(displayWord(canvasElement)).toHaveAttribute('aria-hidden', 'true');
     await expect(canvas.queryByRole('paragraph', { name: 'NORTH' })).toBeNull();
     await expect(canvas.getByRole('link', { name: 'Explore Tours' })).toHaveAttribute('href', '/tours');
     await expect(canvas.getByRole('link', { name: 'Plan on WhatsApp' })).toHaveAttribute('href', WHATSAPP);
@@ -36,15 +39,26 @@ export const Desktop: Story = {
 };
 
 /**
- * "NORTH" is set with kerning off and one tracking value, so its letter gaps are even (Geist's
- * kerning closed N–O and ran the T into the H), and it stays inside the hero.
+ * "NORTH" is a span per letter, each cancelling its own side space, so the gap between every pair
+ * of letters' ink is the display gap (.05em), whatever the letters' shapes; it stays inside the hero.
  */
 export const DisplayWord: Story = {
-  play: async ({ canvas, canvasElement }) => {
-    const word = canvas.getByText('NORTH');
-    const { fontKerning, letterSpacing, fontSize } = getComputedStyle(word);
+  play: async ({ canvasElement }) => {
+    const word = displayWord(canvasElement);
+    const { fontSize: size, fontKerning, columnGap } = getComputedStyle(word);
+    const fontSize = parseFloat(size);
     await expect(fontKerning).toBe('none');
-    await expect(parseFloat(letterSpacing) / parseFloat(fontSize)).toBeCloseTo(-0.05, 3);
+    await expect(parseFloat(columnGap) / fontSize).toBeCloseTo(0.05, 3);
+    const letters = [...word.children] as HTMLElement[];
+    await expect(letters.map((letter) => letter.textContent)).toEqual(['N', 'O', 'R', 'T', 'H']);
+    const ink = letters.map((letter) => {
+      const { left, right } = letter.getBoundingClientRect();
+      const side = (name: string) => Number(letter.style.getPropertyValue(name)) * fontSize;
+      return { left: left + side('--lsb'), right: right - side('--rsb') };
+    });
+    for (let i = 1; i < ink.length; i++) {
+      await expect(Math.abs(ink[i].left - ink[i - 1].right - parseFloat(columnGap))).toBeLessThan(0.5);
+    }
     await expect(word.getBoundingClientRect().right).toBeLessThanOrEqual(canvasElement.getBoundingClientRect().right);
   },
 };

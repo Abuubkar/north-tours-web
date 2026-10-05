@@ -65,6 +65,11 @@
   transform: translateY(var(--display-sink));
 }
 
+/* Cancels the letter's own side space (--lsb, --rsb, in em, set inline), so only the display gap shows. */
+.letter {
+  margin-inline: calc(-1em * var(--lsb)) calc(-1em * var(--rsb));
+}
+
 /*
  * M1 (DESIGN.md §10, ADR-0016): as the hero scrolls away, the photo blurs and zooms and the dim
  * layer darkens, tied to the scroll. Without scroll-driven animations, or with reduced motion,

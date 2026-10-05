@@ -195,6 +195,7 @@ Audit date: 2026-10-04. Read-only audit. Line references are `File:line` in the 
 **Decided in the owner's fourth feedback round (2026-10-05, no issue):**
 
 - **"Help me choose":** the destination card that asks for advice (until now "Not sure, suggest something") reads "Help me choose" on the card, in the review, "Your trip so far", the WhatsApp message ("• Destinations: Help me choose") and the error ("Choose at least one destination, or “Help me choose”."). The saved id stays `unsure`, so saved answers still read. The summary bar keeps its short word, "Suggestions".
+- **The same visible gap between every letter of "NORTH":** one tracking value (`--ls-display`, now gone) left the gaps uneven, as each glyph carries its own side space: at 1366 N–O and O–R were 25.5px, R–T 6.5px and T–H 14.5px. Now `HomeHero` sets a `<span>` per letter (`displayLetters` in `lib/utils/displaySpacing.ts`), each cancelling its measured side space with negative inline margins (`--lsb`, `--rsb`), and the word is a flex row with `--display-gap` (.05em) between the letters' ink: about 18px at 1366, all four within 1px at 390, 1366 and 1440, the word as wide as before. The side space is Geist semibold's, measured in the browser at 1000px; the R's right side is measured where the hero's bottom edge cuts its leg, as that is the ink that shows. The N's ink now starts on the margin, so the word no longer takes `--indent-display`. `pnpm content:check` rejects a display word with a letter missing from the table.
 
 Open questions are in §6, grouped by the PRD that settles them.
 
@@ -675,7 +676,7 @@ The shared header, mobile menu and footer live in `components/layout` instead (P
 - The design's `id="whatsapp"` anchor isn't used: every WhatsApp link goes to `wa.me`.
 
 #### `HomeHero` — `sections/HomeHero` (client for scroll effect)
-- `clamp(700px,100vh,980px)`, `margin-top:-72px`. Layers: video (placeholder stripes 12/24), scrim gradient, `ink-900` dim layer (opacity 0 animated to .8), "VIDEO PLACEHOLDER" note box. At the bottom: a lead (max 460) and buttons (`flex:0 1 420px`; primary "Explore Tours →" and secondary "Plan on WhatsApp" with the .25 fill), then the Display word "NORTH" (27cqi/600/.74). *(Owner feedback: 26cqi at −0.05em with kerning off, so its letter gaps are even; DESIGN.md §3.)*
+- `clamp(700px,100vh,980px)`, `margin-top:-72px`. Layers: video (placeholder stripes 12/24), scrim gradient, `ink-900` dim layer (opacity 0 animated to .8), "VIDEO PLACEHOLDER" note box. At the bottom: a lead (max 460) and buttons (`flex:0 1 420px`; primary "Explore Tours →" and secondary "Plan on WhatsApp" with the .25 fill), then the Display word "NORTH" (27cqi/600/.74). *(Owner feedback: 26cqi, a span per letter cancelling its side space and `--display-gap` between them, so every gap is the same ink to ink; DESIGN.md §3.)*
 - **M1:** the video blurs 0 → 16px, scales to 1.08 and darkens to 80% as it scrolls away. Reduced motion keeps it static.
 
 #### `PhotoHero` — `sections/PhotoHero`

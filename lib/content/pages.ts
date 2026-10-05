@@ -11,6 +11,7 @@ import { photoSchema, ownerImageSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 import { BUDGETS, DURATIONS, SORTS, TRIP_TYPES } from '../utils/tourFilters.ts';
+import { unmeasuredLetters } from '../utils/displaySpacing.ts';
 import { DETAIL_ROWS, SUMMARY_ROWS } from '../utils/plannerSummary.ts';
 import { BEST_TIMES, DATE_MODES, DEPARTING_FROM, GROUP_TYPES, HOTELS, PLANNER_BUDGETS, TRANSPORT, TRIP_LENGTHS } from '../utils/plannerOptions.ts';
 
@@ -26,8 +27,16 @@ const homeSchema = z.strictObject({
     lead: copy,
     exploreLabel: copy,
     whatsappLabel: copy,
-    /** The large decorative word at the foot of the hero, hidden from screen readers. */
-    displayWord: copy,
+    /**
+     * The large decorative word at the foot of the hero, hidden from screen readers. Every letter
+     * needs its side space measured (lib/utils/displaySpacing.ts), so the gaps stay even.
+     */
+    displayWord: copy.superRefine((word, ctx) => {
+      const missing = unmeasuredLetters(word);
+      if (missing.length > 0) {
+        ctx.addIssue({ code: 'custom', message: `No measured side space for ${missing.join(', ')}: measure and add it in lib/utils/displaySpacing.ts` });
+      }
+    }),
     /** Also the page's share image, cropped to 1200×630 by `pnpm images`. */
     image: photoSchema,
   }),
