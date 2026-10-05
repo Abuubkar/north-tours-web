@@ -26,9 +26,9 @@ function publicDir(files: string[]) {
 }
 
 describe('photo files', () => {
-  const needed = generatedFiles({ photo, share: true });
+  const needed = generatedFiles({ photo, share: true, portrait: true });
 
-  it('needs each width up to the photo’s, in AVIF, WebP and JPEG, plus a hero’s share crop', () => {
+  it('needs each width up to the photo’s, in AVIF, WebP and JPEG, plus a hero’s share crop and portrait crop', () => {
     expect(needed).toEqual([
       '/images/test/valley-480.avif',
       '/images/test/valley-480.webp',
@@ -37,7 +37,20 @@ describe('photo files', () => {
       '/images/test/valley-800.webp',
       '/images/test/valley-800.jpg',
       '/images/test/valley-share.jpg',
+      // 900×600 holds a 400×600 portrait crop: one width, never enlarged.
+      '/images/test/valley-portrait-400.avif',
+      '/images/test/valley-portrait-400.webp',
+      '/images/test/valley-portrait-400.jpg',
     ]);
+  });
+
+  it('needs no portrait crop for a photo that isn’t a hero', () => {
+    expect(generatedFiles({ photo, share: false, portrait: false }).some((file) => file.includes('-portrait-'))).toBe(false);
+  });
+
+  it('fails when a hero’s portrait crop is missing', () => {
+    const problems = checkPhotoFiles(content(), publicDir(needed.filter((file) => !file.endsWith('-portrait-400.avif'))));
+    expect(problems).toEqual([expect.objectContaining({ field: 'hero.image.src', message: expect.stringContaining('valley-portrait-400.avif') })]);
   });
 
   it('passes when every file is there', () => {
@@ -72,12 +85,37 @@ describe('photo files', () => {
     expect(about?.share).toBe(true);
   });
 
-  it('lists each tour’s highlight and stay photos, without share crops', () => {
+  it('lists each tour’s highlight and stay photos, without share or portrait crops', () => {
     for (const kind of ['highlights.', 'stays.']) {
       const uses = contentPhotos().filter((use) => use.field.startsWith(kind));
       expect(uses.length).toBeGreaterThan(0);
-      for (const use of uses) expect(use.share).toBe(false);
+      for (const use of uses) {
+        expect(use.share).toBe(false);
+        expect(use.portrait).toBe(false);
+      }
     }
+  });
+});
+
+describe('the hero photos (portrait crops, ADR-0033)', () => {
+  const heroes = contentPhotos().filter((use) => use.portrait);
+  const isHero = (file: RegExp, field: string) => heroes.some((use) => file.test(use.file) && use.field === field);
+
+  it('are the Homepage hero, About’s cover and every tour and destination photo, found in content', () => {
+    expect(isHero(/pages\/home\.json$/, 'hero.image')).toBe(true);
+    expect(isHero(/pages\/about\.json$/, 'header.image')).toBe(true);
+    const pagePhotos = contentPhotos().filter((use) => /(tours|destinations)\/[a-z-]+\.json$/.test(use.file) && use.field === 'image');
+    expect(pagePhotos.length).toBeGreaterThan(0);
+    for (const use of pagePhotos) expect(use.portrait).toBe(true);
+  });
+
+  it('leave out the planner’s band, about square on a phone, though it’s a share image', () => {
+    const band = contentPhotos().find((use) => /pages\/planner\.json$/.test(use.file) && use.field === 'header.image');
+    expect(band).toMatchObject({ share: true, portrait: false });
+  });
+
+  it('are only photos shown full-bleed: nothing else gets a portrait crop', () => {
+    expect(heroes.every((use) => ['hero.image', 'header.image', 'image'].includes(use.field))).toBe(true);
   });
 });
 

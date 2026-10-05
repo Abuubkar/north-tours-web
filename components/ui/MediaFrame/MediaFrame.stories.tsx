@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor } from 'storybook/test';
+import { PORTRAIT_MEDIA } from '@/lib/utils/images';
 import { samplePhoto, samplePlaceholder } from './samplePhotos';
 import { MediaFrame } from './MediaFrame';
 import styles from '../stories.module.css';
@@ -102,6 +103,45 @@ export const Priority: Story = {
     await expect(getComputedStyle(img.parentElement!).borderRadius).toBe('0px');
   },
 };
+
+/**
+ * A hero's portrait crop (ADR-0033): AVIF, WebP and JPEG sources for upright phones come first, so
+ * they win there; anywhere else the landscape photo loads, framed as before.
+ */
+export const Portrait: Story = {
+  args: { ratio: 'fill', sizes: '100vw', priority: true, portrait: true },
+  globals: { viewport: { value: 'desktop' } },
+  decorators: Priority.decorators,
+  play: async ({ canvas, canvasElement }) => {
+    const sources = [...canvasElement.querySelectorAll('picture source')];
+    await expect(sources.map((s) => s.getAttribute('type'))).toEqual(['image/avif', 'image/webp', 'image/jpeg', 'image/avif', 'image/webp']);
+    for (const source of sources.slice(0, 3)) {
+      await expect(source).toHaveAttribute('media', PORTRAIT_MEDIA);
+      await expect(source.getAttribute('srcset')).toMatch(/-portrait-800\.(avif|webp|jpg) 800w, .*-portrait-1138\.(avif|webp|jpg) 1138w$/);
+      await expect(source).toHaveAttribute('sizes', '100vw');
+    }
+    for (const source of sources.slice(3)) await expect(source).not.toHaveAttribute('media');
+    const img = canvas.getByRole('img', { name: samplePhoto.alt }) as HTMLImageElement;
+    await waitFor(() => expect(img.naturalWidth).toBeGreaterThan(0));
+    await expect(img.currentSrc).not.toContain('-portrait-');
+  },
+};
+
+export const PortraitOnLight: Story = { ...Portrait, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
+/** On an upright phone (390×844) the portrait crop loads, at the same focus as the landscape photo. */
+export const PortraitPhone: Story = {
+  ...Portrait,
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas }) => {
+    await expect(matchMedia(PORTRAIT_MEDIA).matches).toBe(true);
+    const img = canvas.getByRole('img', { name: samplePhoto.alt }) as HTMLImageElement;
+    await waitFor(() => expect(img.currentSrc).toMatch(/-portrait-(800|1138)\.avif$/));
+    await expect(getComputedStyle(img).objectPosition).toBe(`${samplePhoto.focus!.x}% ${samplePhoto.focus!.y}%`);
+  },
+};
+
+export const PortraitPhoneOnLight: Story = { ...PortraitPhone, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
 /** Until the photo exists: the striped frame names the shot, and is read as an image by its alt. */
 export const Placeholder: Story = {

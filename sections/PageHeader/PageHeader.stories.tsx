@@ -68,6 +68,8 @@ export const Planner: Story = {
     await expect(photo).toHaveAttribute('fetchpriority', 'high');
     // The text sits over the photo, at the band's foot.
     await expect(h1.getBoundingClientRect().top).toBeGreaterThan(photo.getBoundingClientRect().top);
+    // About square on a phone, so no portrait crop (ADR-0033): the landscape photo everywhere.
+    await expect(canvasElement.querySelectorAll('source[media]')).toHaveLength(0);
   },
 };
 
@@ -132,6 +134,8 @@ export const About: Story = {
     // The words sit over the photo's lower part.
     await expect(h1.getBoundingClientRect().top).toBeGreaterThan(box.top + box.height / 2);
     await expect(lead.getBoundingClientRect().bottom).toBeLessThanOrEqual(box.bottom);
+    // A phone-tall hero: upright phones get its portrait crop (ADR-0033).
+    await expect(canvasElement.querySelectorAll('source[media]').length).toBeGreaterThan(0);
   },
 };
 

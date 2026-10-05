@@ -1,17 +1,38 @@
-// `pnpm images`: writes every photo's variants and the hero share crops (ADR-0015).
-// Up-to-date files are skipped, so a second run changes nothing.
+// `pnpm images`: writes every photo's variants, the hero share crops (ADR-0015) and the heroes'
+// portrait crops for phones (ADR-0033). Up-to-date files are skipped, so a second run changes nothing.
 import { mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import sharp, { type Sharp } from 'sharp';
 import { displayPath } from '../lib/content/files.ts';
 import { contentPhotos, PUBLIC_DIR, sourceFile, type PhotoUse } from '../lib/content/imageFiles.ts';
-import { coverCrop, IMAGE_FORMATS, SHARE_IMAGE, shareFile, variantFile, variantWidths, type ImageFormat } from '../lib/utils/images.ts';
+import {
+  coverCrop,
+  IMAGE_FORMATS,
+  portraitCrop,
+  portraitFile,
+  portraitWidths,
+  SHARE_IMAGE,
+  shareFile,
+  variantFile,
+  variantWidths,
+  type ImageFormat,
+} from '../lib/utils/images.ts';
 
 /** Quality per format, chosen for photos on mid-range phones over mobile data. */
 const encode = {
   avif: (image: Sharp) => image.avif({ quality: 50, effort: 4 }),
   webp: (image: Sharp) => image.webp({ quality: 64, effort: 5 }),
   jpg: (image: Sharp) => image.jpeg({ quality: 76, mozjpeg: true }),
+} satisfies Record<ImageFormat, (image: Sharp) => Sharp>;
+
+/**
+ * The portrait crops' encoding (ADR-0033): AVIF, which nearly every phone loads, at a lower
+ * quality, so the phone's hero file is no heavier than the landscape one it replaces while it
+ * carries more than twice the detail. WebP and JPEG, only for browsers without AVIF, keep theirs.
+ */
+const encodePortrait = {
+  ...encode,
+  avif: (image: Sharp) => image.avif({ quality: 34, effort: 4 }),
 } satisfies Record<ImageFormat, (image: Sharp) => Sharp>;
 
 const mtime = (file: string) => {
@@ -51,12 +72,28 @@ async function writeShareCrop({ photo }: PhotoUse, source: string): Promise<numb
   return 1;
 }
 
+/** Writes the hero's portrait crops at the photo's focus (ADR-0033), each one that changed (the focus can change alone). */
+async function writePortraits({ photo }: PhotoUse, source: string): Promise<number> {
+  const region = portraitCrop(photo);
+  let written = 0;
+  for (const width of portraitWidths(photo)) {
+    for (const format of IMAGE_FORMATS) {
+      const data = await encodePortrait[format](sharp(source).extract(region).resize({ width })).toBuffer();
+      const out = path.join(PUBLIC_DIR, portraitFile(photo.src, width, format));
+      if (mtime(out) >= 0 && readFileSync(out).equals(data)) continue;
+      write(out, data);
+      written++;
+    }
+  }
+  return written;
+}
+
 async function main() {
-  // One entry per source photo; a photo used as a page hero anywhere gets a share crop.
+  // One entry per source photo; a photo used as a page's share image anywhere gets a share crop, and as a hero portrait crops.
   const bySrc = new Map<string, PhotoUse>();
   for (const use of contentPhotos()) {
     const seen = bySrc.get(use.photo.src);
-    bySrc.set(use.photo.src, seen ? { ...seen, share: seen.share || use.share } : use);
+    bySrc.set(use.photo.src, seen ? { ...seen, share: seen.share || use.share, portrait: seen.portrait || use.portrait } : use);
   }
 
   const problems: string[] = [];
@@ -75,6 +112,7 @@ async function main() {
     }
     written += await writeVariants(use, source);
     if (use.share) written += await writeShareCrop(use, source);
+    if (use.portrait) written += await writePortraits(use, source);
   }
 
   console.log(`Images: ${bySrc.size} photos, ${written} files written.`);
