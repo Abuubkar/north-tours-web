@@ -103,6 +103,13 @@ describe('map labels', () => {
     expect(fields((d) => Object.assign(d.mapLabels![0], { lat: -91 }))).toEqual(['mapLabels.0.lat']);
     expect(fields((d) => Object.assign(d.mapLabels![0], { lon: 181 }))).toEqual(['mapLabels.0.lon']);
   });
+
+  it('take one way in at most, marked `entry: true` (Hunza: Gilgit)', () => {
+    expect(hunza.mapLabels!.filter((label) => label.entry).map((label) => label.name)).toEqual(['Gilgit']);
+    expect(fields((d) => Object.assign(d.mapLabels![2], { entry: true }))).toEqual(['mapLabels.2.entry']);
+    expect(fields((d) => Object.assign(d.mapLabels![0], { entry: false }))).toEqual(['mapLabels.0.entry']);
+    expect(fields((d) => d.mapLabels!.forEach((label) => delete label.entry))).toEqual([]);
+  });
 });
 
 describe('getting there', () => {

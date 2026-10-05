@@ -20,16 +20,39 @@ export function gridGaps(items: HTMLElement[]): { column: number | null; row: nu
   };
 }
 
+/** A computed colour that paints nothing. */
+const TRANSPARENT = 'rgba(0, 0, 0, 0)';
+
+const SIDES = ['top', 'right', 'bottom', 'left'];
+
 /** Whether `element` draws any border or outline, or paints a background behind its children's gaps. */
 export const drawsLines = (element: Element) => {
   const style = getComputedStyle(element);
-  const widths = [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth];
   const outline = style.outlineStyle !== 'none' && style.outlineWidth !== '0px';
-  return widths.some((width) => width !== '0px') || outline || style.backgroundColor !== 'rgba(0, 0, 0, 0)';
+  return SIDES.some((side) => style.getPropertyValue(`border-${side}-width`) !== '0px') || outline || style.backgroundColor !== TRANSPARENT;
 };
 
 /** A card grid's gaps (column and row, as `gridGaps` measures them), with no line on the list or any cell. */
 export async function expectCardGaps(list: HTMLElement, items: HTMLElement[], gaps: { column: number | null; row: number | null }) {
   await expect(gridGaps(items)).toEqual(gaps);
   for (const element of [list, ...items]) await expect(drawsLines(element)).toBe(false);
+}
+
+/**
+ * A hairline grid that never paints an empty cell (styles/layout.module.css `grid`): the grid itself
+ * paints nothing, no background and no visible border, so nothing outside its cells is ever grey,
+ * and each cell draws its own lines with its outline.
+ */
+export async function expectOpenHairlines(grid: HTMLElement) {
+  const style = getComputedStyle(grid);
+  await expect(style.backgroundColor).toBe(TRANSPARENT);
+  for (const side of SIDES) {
+    const unseen = style.getPropertyValue(`border-${side}-width`) === '0px' || style.getPropertyValue(`border-${side}-color`) === TRANSPARENT;
+    await expect(unseen).toBe(true);
+  }
+  const hairline = style.getPropertyValue('--hairline-width').trim();
+  for (const cell of grid.children) {
+    const { outlineStyle, outlineWidth } = getComputedStyle(cell);
+    await expect(`${outlineStyle} ${outlineWidth}`).toBe(`solid ${hairline}`);
+  }
 }

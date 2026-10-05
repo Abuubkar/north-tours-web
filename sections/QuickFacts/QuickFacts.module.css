@@ -16,8 +16,9 @@
 
 /*
  * Where the strip has two or four columns (MIN 160, with the page margins and the bleed: below
- * 490px, and from 656px to 828px), an odd last fact takes the whole row rather than leave empty
- * cells beside it. With three columns that would leave two; with five they all fit in one row.
+ * 490px, and from 656px to 828px), an odd last fact takes the whole row, as designed ("the last
+ * cell spans the full row on mobile"). With three columns that would leave two; with five they
+ * all fit in one row.
  */
 @media (width < 490px), (656px <= width < 829px) {
   .cell:last-child:nth-child(odd) {

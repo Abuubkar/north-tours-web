@@ -51,16 +51,16 @@ export const Keyboard: Story = {
     await user.keyboard('{Tab}');
     await expect(pins[0]).toHaveFocus();
     await waitFor(() => expect(raised(rows[0])).toBe(true));
-    await expect(nameOnMap(canvasElement, 'Baltit Fort')).toBeVisible();
+    await expect(nameOnMap(canvasElement, 'Rakaposhi viewpoint')).toBeVisible();
 
     await user.keyboard('{Tab}'.repeat(pins.length));
     await expect(rows[0]).toHaveFocus();
-    await expect(nameOnMap(canvasElement, 'Baltit Fort')).toBeVisible();
+    await expect(nameOnMap(canvasElement, 'Rakaposhi viewpoint')).toBeVisible();
 
     // The mouse passing over another place and away again leaves the focused place lit.
     await user.hover(pins[4]);
     await user.unhover(pins[4]);
-    await expect(nameOnMap(canvasElement, 'Baltit Fort')).toBeVisible();
+    await expect(nameOnMap(canvasElement, 'Rakaposhi viewpoint')).toBeVisible();
 
     await user.keyboard('{Enter}');
     await expect(rows[0]).toHaveAttribute('aria-pressed', 'true');
@@ -77,18 +77,18 @@ export const KeyboardOnLight: Story = { ...Keyboard, globals: { surface: 'light'
 export const Hover: Story = {
   play: async ({ canvas, canvasElement, userEvent }) => {
     const { rows, pins } = parts(canvas);
-    await userEvent.hover(rows[3]);
+    await userEvent.hover(rows[4]);
     await expect(nameOnMap(canvasElement, 'Attabad Lake')).toBeVisible();
-    await userEvent.hover(pins[4]);
-    await waitFor(() => expect(raised(rows[4])).toBe(true));
+    await userEvent.hover(pins[6]);
+    await waitFor(() => expect(raised(rows[6])).toBe(true));
     await expect(nameOnMap(canvasElement, 'Attabad Lake')).toBeNull();
 
-    await userEvent.click(pins[1]);
+    await userEvent.click(pins[2]);
     await userEvent.hover(rows[5]);
     await expect(nameOnMap(canvasElement, 'Hussaini Bridge')).toBeVisible();
     await userEvent.unhover(rows[5]);
     await expect(nameOnMap(canvasElement, 'Altit Fort')).toBeVisible();
-    await expect(rows[1]).toHaveAttribute('aria-pressed', 'true');
+    await expect(rows[2]).toHaveAttribute('aria-pressed', 'true');
   },
 };
 
@@ -133,7 +133,7 @@ export const Phone: Story = {
     await waitFor(() => expect(Math.round(drawing.getBoundingClientRect().top)).toBe(88), { timeout: 3000 });
     await new Promise((resolve) => setTimeout(resolve, 300));
     await expect(Math.round(drawing.getBoundingClientRect().top)).toBe(88);
-    await expect(nameOnMap(canvasElement, 'Rakaposhi viewpoint')).toBeVisible();
+    await expect(nameOnMap(canvasElement, 'Passu Cones')).toBeVisible();
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };

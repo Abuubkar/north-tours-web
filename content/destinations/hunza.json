@@ -55,6 +55,30 @@
   ],
   "places": [
     {
+      "id": "rakaposhi-viewpoint",
+      "name": "Rakaposhi viewpoint",
+      "kind": "viewpoint",
+      "text": "A roadside tea stop facing one of the world’s great mountain faces.",
+      "lat": 36.213,
+      "lon": 74.433,
+      "image": {
+        "src": "/images/hunza/rakaposhi-autumn.jpg",
+        "alt": "Snow-covered Rakaposhi above the Hunza valley at sunset, with golden autumn poplars below",
+        "width": 2560,
+        "height": 1707,
+        "focus": {
+          "x": 47,
+          "y": 22
+        },
+        "credit": {
+          "source": "wikimedia",
+          "author": "Muhammad Ashar",
+          "licence": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_at_Rackaposhi_Peak.jpg"
+        }
+      }
+    },
+    {
       "id": "baltit-fort",
       "name": "Baltit Fort",
       "kind": "heritage",
@@ -152,26 +176,6 @@
       }
     },
     {
-      "id": "passu-cones",
-      "name": "Passu Cones",
-      "kind": "viewpoint",
-      "text": "Jagged spires above the highway in upper Hunza.",
-      "lat": 36.479,
-      "lon": 74.865,
-      "image": {
-        "src": "/images/hunza/passu-cones.jpg",
-        "alt": "The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.",
-        "width": 1600,
-        "height": 1068,
-        "credit": {
-          "source": "wikimedia",
-          "author": "Saadsiddique001",
-          "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Passu_cones.jpg"
-        }
-      }
-    },
-    {
       "id": "hussaini-bridge",
       "name": "Hussaini Bridge",
       "kind": "adventure",
@@ -196,26 +200,22 @@
       }
     },
     {
-      "id": "rakaposhi-viewpoint",
-      "name": "Rakaposhi viewpoint",
+      "id": "passu-cones",
+      "name": "Passu Cones",
       "kind": "viewpoint",
-      "text": "A roadside tea stop facing one of the world’s great mountain faces.",
-      "lat": 36.213,
-      "lon": 74.433,
+      "text": "Jagged spires above the highway in upper Hunza.",
+      "lat": 36.479,
+      "lon": 74.865,
       "image": {
-        "src": "/images/hunza/rakaposhi-autumn.jpg",
-        "alt": "Snow-covered Rakaposhi above the Hunza valley at sunset, with golden autumn poplars below",
-        "width": 2560,
-        "height": 1707,
-        "focus": {
-          "x": 47,
-          "y": 22
-        },
+        "src": "/images/hunza/passu-cones.jpg",
+        "alt": "The jagged spires of the Passu Cones catch evening light under heavy clouds, with poplars on a dark hillside below.",
+        "width": 1600,
+        "height": 1068,
         "credit": {
           "source": "wikimedia",
-          "author": "Muhammad Ashar",
+          "author": "Saadsiddique001",
           "licence": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_at_Rackaposhi_Peak.jpg"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Passu_cones.jpg"
         }
       }
     }
@@ -229,7 +229,8 @@
     {
       "name": "Gilgit",
       "lat": 35.9208,
-      "lon": 74.3089
+      "lon": 74.3089,
+      "entry": true
     },
     {
       "name": "Khunjerab",

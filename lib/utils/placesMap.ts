@@ -1,9 +1,11 @@
-import { mapProjection, type LatLon, type MapFrame, type MapPoint } from './projection.ts';
+import type { Destination } from '../content/destinations.ts';
+import { mapProjection, svgPath, type LatLon, type MapFrame, type MapPoint } from './projection.ts';
 
 /*
  * A destination's places map (PRD #63): its places drawn with the route map's projection
  * (#43), fitted to them as a tour's itinerary map is (#54). Schematic only: graticule, numbered
- * pins and a few context labels; no roads, borders or basemap (CLAUDE.md §8).
+ * pins, a straight route line joining them in visiting order (owner feedback) and a few context
+ * labels; no roads, borders or basemap (CLAUDE.md §8).
  */
 
 /** From this width the map sits beside the list, sticky; below it, above the list. */
@@ -154,10 +156,34 @@ export function contextLabel(
   };
 }
 
-/** Everything the places map draws, in the frame's coordinates: the pins in list order, the graticule and the context labels. */
+/**
+ * Where the way in meets the map: the edge point beside a label pinned to an edge (straight out
+ * from it to that edge), or the label's own point when its place is on the map.
+ */
+export function entryPoint({ x, y, edge }: Pick<ContextLabel, 'x' | 'y' | 'edge'>, frame: Pick<MapFrame, 'width' | 'height'>): MapPoint {
+  if (edge === 'top') return { x, y: 0 };
+  if (edge === 'bottom') return { x, y: frame.height };
+  if (edge === 'left') return { x: 0, y };
+  if (edge === 'right') return { x: frame.width, y };
+  return { x, y };
+}
+
+/**
+ * The route line as an SVG path: straight legs joining the pins in visiting order (their list
+ * order), from the way in when there is one. A schematic, not the roads. Null with nothing to join.
+ */
+export function placesRoute(pins: readonly MapPoint[], entry: MapPoint | null = null): string | null {
+  const points = entry ? [entry, ...pins] : pins;
+  return points.length < 2 ? null : svgPath(points);
+}
+
+/**
+ * Everything the places map draws, in the frame's coordinates: the pins in list order, the route
+ * line joining them (from the label marked as the way in), the graticule and the context labels.
+ */
 export function drawPlacesMap(
   places: readonly (LatLon & { id: string; name: string })[],
-  labels: readonly (LatLon & { name: string })[] = [],
+  labels: NonNullable<Destination['mapLabels']> = [],
 ) {
   const frame = PLACES_MAP_FRAME;
   const bounds = fittedBounds(places);
@@ -169,10 +195,13 @@ export function drawPlacesMap(
   const step = graticuleStep(Math.max(frame.height / (origin.y - north.y), frame.width / (east.x - origin.x)));
   const projection = mapProjection(bounds, frame, step);
   const pins = spreadPins(places.map((place) => projection.project(place)), frame);
+  const shown = labels.map((label) => contextLabel(label.name, projection.project(label), frame, pins));
+  const entryIndex = labels.findIndex((label) => label.entry);
   return {
     pins: places.map((place, i) => ({ id: place.id, name: place.name, ...pins[i] })),
+    route: placesRoute(pins, entryIndex < 0 ? null : entryPoint(shown[entryIndex], frame)),
     parallels: projection.parallels,
     meridians: projection.meridians,
-    labels: labels.map((label) => contextLabel(label.name, projection.project(label), frame, pins)),
+    labels: shown,
   };
 }

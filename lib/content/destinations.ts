@@ -54,7 +54,10 @@ export const destinationSchema = z
     months: z.array(z.enum(MONTH_LEVELS)).length(12, 'List all twelve months, January to December'),
     /** A note on each season, spring to winter, one or two sentences each. */
     seasons: z.array(z.strictObject({ season: z.enum(SEASONS), text: nonEmpty })).length(4, 'Write a note for each of the four seasons'),
-    /** What to see, 1 to 8 places, numbered in this order. Leave it out to hide the section. */
+    /**
+     * What to see, 1 to 8 places, in visiting order: they're numbered in this order, and the places map's route line
+     * joins them in it. Leave it out to hide the section.
+     */
     places: z.array(placeSchema).min(1, 'List at least one place, or leave places out').max(8, 'List at most 8 places').optional(),
     /** The road from Lahore: its stops in order (Lahore first, the destination last), a "By road" and a "By air" note. */
     gettingThere: z.strictObject({
@@ -64,8 +67,20 @@ export const destinationSchema = z
     }),
     /** Good to know before you go: up to 6 practical notes. Empty or left out hides the section. */
     notes: z.array(z.strictObject({ title: nonEmpty, text: nonEmpty })).max(6, 'List at most 6 notes').optional(),
-    /** Names on the places map for context, e.g. "Karimabad"; one beyond the map shows at its edge ("↓ Gilgit"). */
-    mapLabels: z.array(z.strictObject({ name: nonEmpty, lat: latitude, lon: longitude })).optional(),
+    /**
+     * Names on the places map for context, e.g. "Karimabad"; one beyond the map shows at its edge ("↓ Gilgit"). The one
+     * marked `entry: true` is the way in: the map's route line starts there (at the edge for one beyond the map).
+     */
+    mapLabels: z
+      .array(
+        z.strictObject({
+          name: nonEmpty,
+          lat: latitude,
+          lon: longitude,
+          entry: z.literal(true, { error: 'Use entry: true for the way in, or leave it out' }).optional(),
+        }),
+      )
+      .optional(),
     /** A sample destination (ADR-0022), until the owner confirms it. */
     sample,
   })
@@ -77,6 +92,11 @@ export const destinationSchema = z
     destination.places?.forEach(({ id }, i) => {
       if (ids.has(id)) ctx.addIssue({ code: 'custom', message: `"${id}" is used twice`, path: ['places', i, 'id'] });
       ids.add(id);
+    });
+    destination.mapLabels?.forEach(({ entry }, i, labels) => {
+      if (entry && labels.findIndex((label) => label.entry) < i) {
+        ctx.addIssue({ code: 'custom', message: 'Only one label is the way in', path: ['mapLabels', i, 'entry'] });
+      }
     });
     const { stops } = destination.gettingThere;
     if (stops[0].name !== ROAD_START) {

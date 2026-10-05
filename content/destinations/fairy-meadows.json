@@ -130,7 +130,7 @@
       "id": "beyal-camp",
       "name": "Beyal Camp",
       "kind": "meadow",
-      "text": "A cluster of huts an hour’s walk on, the start of the base camp trail.",
+      "text": "A cluster of huts on the trail above the meadow, where the base camp walk begins.",
       "lat": 35.36,
       "lon": 74.61,
       "image": {
@@ -155,7 +155,8 @@
     {
       "name": "Raikot Bridge",
       "lat": 35.495,
-      "lon": 74.593
+      "lon": 74.593,
+      "entry": true
     },
     {
       "name": "Nanga Parbat",
