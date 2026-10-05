@@ -8,7 +8,7 @@ import type { HomeHeroProps } from './HomeHero.types';
 import styles from './HomeHero.module.css';
 
 /**
- * The Homepage's full-screen photo, sliding under the sticky header. Layers: the photo (the
+ * The Homepage's first-screen photo, starting below the header and ending at the fold. Layers: the photo (the
  * page's LCP image), the legibility scrim, and the dim layer the scroll motion darkens. Then
  * the lead, the two buttons and the decorative display word, which screen readers skip. Each of
  * its letters cancels its own side space, so the gaps between the letters' ink are all the same.

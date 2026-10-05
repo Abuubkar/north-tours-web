@@ -5,7 +5,7 @@ import type { PhotoHeroProps } from './PhotoHero.types';
 import styles from './PhotoHero.module.css';
 
 /**
- * A page's photo hero (Tour Detail, Destination), sliding under the sticky header: the photo
+ * A page's photo hero (Tour Detail, Destination), starting below the header: the photo
  * full-bleed under the legibility scrim, a back link at the top, and at the bottom a short line,
  * the page's only <h1> and its facts. Destination: the name at display size, sized from its
  * length so it stays on one line, with the destination's lead under it.

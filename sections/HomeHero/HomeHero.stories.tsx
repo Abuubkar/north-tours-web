@@ -69,6 +69,28 @@ export const DisplayWordPhone: Story = { ...DisplayWord, globals: { viewport: { 
 
 export const DisplayWordOnLight: Story = { ...DisplayWord, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
+/** The header's height, from the token every sticky offset reads. */
+const headerHeight = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'));
+
+/**
+ * The hero starts below the header (no negative margin, so the header never covers the photo) and
+ * ends at the fold: its height is the screen, clamped to 700–980px as before, less the header.
+ */
+export const EndsAtTheFold: Story = {
+  play: async ({ canvasElement }) => {
+    const hero = canvasElement.querySelector('section')!;
+    await expect(getComputedStyle(hero).marginTop).toBe('0px');
+    const screen = Math.min(Math.max(window.innerHeight, 700), 980);
+    await expect(hero.getBoundingClientRect().height).toBeCloseTo(screen - headerHeight(), 0);
+  },
+};
+
+export const EndsAtTheFoldLaptop: Story = { ...EndsAtTheFold, globals: { viewport: { value: 'laptop' } } };
+
+export const EndsAtTheFoldPhone: Story = { ...EndsAtTheFold, globals: { viewport: { value: 'phone' } } };
+
+export const EndsAtTheFoldOnLight: Story = { ...EndsAtTheFold, globals: { surface: 'light', viewport: { value: 'desktop' } } };
+
 /** The hero always sits on its photo, so it stays dark on a light page. */
 export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 

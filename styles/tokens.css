@@ -101,7 +101,12 @@
   --key-col-w: 120px; /* a label and value row's label column (a destination's "By road") */
   --key-value-min: 300px; /* its value, before it wraps under the label */
   --footer-contact-w: 380px; /* footer contact column */
-  --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
+  /*
+   * Homepage hero (DESIGN.md §9): the first screen, clamped as it always was, less the header above it,
+   * so the hero starts below the header and still ends at the fold (owner, 2026-10-05: the nav doesn't
+   * cut the hero image).
+   */
+  --hero-h: calc(clamp(700px, 100svh, 980px) - var(--header-h));
   --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero, and About's photo cover */
   --destination-hero-h: clamp(620px, 52cqi, 780px); /* Destination photo hero */
   --photo-hero-scrim-stretch: 160%; /* its scrim on phones (and the planner's photo band and About's cover at every width), drawn taller so the text sits on the dark end */
