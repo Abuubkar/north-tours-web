@@ -1,3 +1,4 @@
+import type { Destination } from '../content/destinations.ts';
 import { mapProjection, svgPath, type LatLon, type MapFrame, type MapPoint } from './projection.ts';
 
 /*
@@ -182,7 +183,7 @@ export function placesRoute(pins: readonly MapPoint[], entry: MapPoint | null = 
  */
 export function drawPlacesMap(
   places: readonly (LatLon & { id: string; name: string })[],
-  labels: readonly (LatLon & { name: string; entry?: true })[] = [],
+  labels: NonNullable<Destination['mapLabels']> = [],
 ) {
   const frame = PLACES_MAP_FRAME;
   const bounds = fittedBounds(places);
@@ -195,10 +196,10 @@ export function drawPlacesMap(
   const projection = mapProjection(bounds, frame, step);
   const pins = spreadPins(places.map((place) => projection.project(place)), frame);
   const shown = labels.map((label) => contextLabel(label.name, projection.project(label), frame, pins));
-  const entry = labels.findIndex((label) => label.entry);
+  const entryIndex = labels.findIndex((label) => label.entry);
   return {
     pins: places.map((place, i) => ({ id: place.id, name: place.name, ...pins[i] })),
-    route: placesRoute(pins, entry < 0 ? null : entryPoint(shown[entry], frame)),
+    route: placesRoute(pins, entryIndex < 0 ? null : entryPoint(shown[entryIndex], frame)),
     parallels: projection.parallels,
     meridians: projection.meridians,
     labels: shown,

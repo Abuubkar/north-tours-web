@@ -10,8 +10,6 @@ const { width, height } = PLACES_MAP_FRAME;
 
 const placeAt = (x: number, y: number) => overlayPosition({ x, y }, PLACES_MAP_FRAME) as CSSProperties;
 
-const edgeClass = { top: styles.top, bottom: styles.bottom, left: '', right: '' };
-
 /**
  * A schematic of the destination's places (CLAUDE.md §8: no roads, borders or basemap): a
  * graticule, a straight route line joining the places in visiting order (from the way in, when a
@@ -50,7 +48,7 @@ export function PlacesMap({ places, labels, caption, lit, picked, mapRef, onPoin
           {drawing.labels.map((label) => (
             <span
               key={label.text}
-              className={`${styles.context} ${label.edge ? edgeClass[label.edge] : ''} ${label.align === 'end' ? styles.end : ''}`}
+              className={`${styles.context} ${label.edge === 'top' || label.edge === 'bottom' ? styles[label.edge] : ''} ${label.align === 'end' ? styles.end : ''}`}
               style={placeAt(label.x, label.y)}
               data-context-label=""
             >

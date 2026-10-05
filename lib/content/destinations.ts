@@ -54,7 +54,10 @@ export const destinationSchema = z
     months: z.array(z.enum(MONTH_LEVELS)).length(12, 'List all twelve months, January to December'),
     /** A note on each season, spring to winter, one or two sentences each. */
     seasons: z.array(z.strictObject({ season: z.enum(SEASONS), text: nonEmpty })).length(4, 'Write a note for each of the four seasons'),
-    /** What to see, 1 to 8 places, numbered in this order. Leave it out to hide the section. */
+    /**
+     * What to see, 1 to 8 places, in visiting order: they're numbered in this order, and the places map's route line
+     * joins them in it. Leave it out to hide the section.
+     */
     places: z.array(placeSchema).min(1, 'List at least one place, or leave places out').max(8, 'List at most 8 places').optional(),
     /** The road from Lahore: its stops in order (Lahore first, the destination last), a "By road" and a "By air" note. */
     gettingThere: z.strictObject({

@@ -66,8 +66,9 @@
 
 /*
  * Names for context: beside their place, or at the edge the place lies beyond, 8px clear of their
- * point, on a chip of the page's colour (as the lit pin's name), so the route line passes under
- * the name rather than through it (it starts under the way in's).
+ * point. They sit on a chip of the page's colour, like the lit pin's name (whose chip is narrower),
+ * so the route line passes under a name rather than through it (it starts under the way in's); the
+ * chip hides the graticule under a name too.
  */
 .context {
   composes: waypoint from '../../../styles/typography.module.css';

@@ -118,7 +118,7 @@ export const fairyMeadowsPlaces: Place[] = [
     id: 'beyal-camp',
     name: 'Beyal Camp',
     kind: 'meadow',
-    text: 'A cluster of huts an hour’s walk on, the start of the base camp trail.',
+    text: 'A cluster of huts on the trail above the meadow, where the base camp walk begins.',
     lat: 35.36,
     lon: 74.61,
     image: photo('/images/fairy-meadows/beyal-camp.jpg', 'Wooden huts of Beyal Camp stand beside a rushing stream, with snowy peaks and green slopes under a blue sky.', 1600, 1068),
