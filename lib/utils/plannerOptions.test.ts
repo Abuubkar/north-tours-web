@@ -16,7 +16,7 @@ import {
 } from './plannerOptions.ts';
 
 describe('destination choices', () => {
-  it('lists the destinations in the loader’s order, then “Not sure”', () => {
+  it('lists the destinations in the loader’s order, then “Help me choose”', () => {
     expect(destinationChoices(['fairy-meadows', 'hunza', 'swat'])).toEqual(['fairy-meadows', 'hunza', 'swat', UNSURE]);
   });
 });

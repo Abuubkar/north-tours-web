@@ -78,7 +78,7 @@ export const Step1: Story = {
     await expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when');
     await expect(canvas.getByRole('group', { name: 'Destinations' })).toBeVisible();
     await expect(canvas.getAllByRole('button', { pressed: false }).length).toBeGreaterThan(7);
-    await expect(button(canvas, 'Not sure, suggest something')).toBeVisible();
+    await expect(button(canvas, 'Help me choose')).toBeVisible();
     await expect(monthChips(canvas)).toHaveLength(12);
     // One Next: in the form from 1100px, in the bottom bar below; short below 820px.
     await expect(canvas.getAllByRole('button', { name: /^Next/ })).toHaveLength(1);
@@ -220,7 +220,7 @@ export const RhythmPhone: Story = { ...Rhythm, globals: { viewport: { value: 'ph
 export const EmptyNext: Story = {
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(button(canvas, /^Next/));
-    await expect(canvas.getByText('Choose at least one destination, or “Not sure, suggest something”.')).toBeVisible();
+    await expect(canvas.getByText('Choose at least one destination, or “Help me choose”.')).toBeVisible();
     await expect(canvas.getByText('Pick a month, or switch to exact dates.')).toBeVisible();
     const first = button(canvas, 'Fairy Meadows');
     await waitFor(() => expect(first).toHaveFocus());
@@ -229,7 +229,7 @@ export const EmptyNext: Story = {
     await new Promise((resolve) => requestAnimationFrame(resolve));
     await expect(window.scrollY).toBe(y);
     await expect(first.getBoundingClientRect().top).toBeGreaterThanOrEqual(bar(canvas).getBoundingClientRect().bottom);
-    await expect(first).toHaveAccessibleDescription('Choose at least one destination, or “Not sure, suggest something”.');
+    await expect(first).toHaveAccessibleDescription('Choose at least one destination, or “Help me choose”.');
     await expect(canvas.getByRole('button', { name: monthChips(canvas)[0].textContent! })).toHaveAccessibleDescription(
       'Pick a month, or switch to exact dates.',
     );

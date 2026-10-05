@@ -29,10 +29,10 @@ describe('trip summary', () => {
     });
   });
 
-  it('names the destinations in order; “Not sure” reads “Suggest something”, alone or with a valley', () => {
+  it('names the destinations in order; “Help me choose” reads the same, alone or with a valley', () => {
     expect(trip({ destinations: ['hunza', 'skardu'] }).destinations).toBe('Hunza, Skardu');
-    expect(trip({ destinations: ['unsure'] }).destinations).toBe('Suggest something');
-    expect(trip({ destinations: ['hunza', 'unsure'] }).destinations).toBe('Hunza, Suggest something');
+    expect(trip({ destinations: ['unsure'] }).destinations).toBe('Help me choose');
+    expect(trip({ destinations: ['hunza', 'unsure'] }).destinations).toBe('Hunza, Help me choose');
   });
 
   it('writes flexible and exact dates: the months alone, each year once, with no days to count', () => {

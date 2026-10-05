@@ -29,7 +29,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     destinations: {
       label: 'Destinations',
       hint: 'Required · choose one or more',
-      unsure: 'Not sure, suggest something',
+      unsure: 'Help me choose',
       unsureImage: { ...samplePhoto, alt: 'Snow-covered Karakoram peaks seen from the air' },
     },
     dates: {
@@ -88,7 +88,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     privacy: { text: 'We only use your details to plan this trip. {link}.', link: 'Privacy policy' },
   },
   summary: {
-    unsure: 'Suggest something',
+    unsure: 'Help me choose',
     exactDates: '{from} – {to}',
     adults: { one: '{count} adult', other: '{count} adults' },
     children: { one: '{count} child', other: '{count} children' },
@@ -151,7 +151,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     office: 'Office in Lahore',
   },
   errors: {
-    destinations: 'Choose at least one destination, or “Not sure, suggest something”.',
+    destinations: 'Choose at least one destination, or “Help me choose”.',
     month: 'Pick a month, or switch to exact dates.',
     dates: 'Add a start and an end date.',
     pastDate: 'That date has passed. Choose today or later.',

@@ -41,7 +41,7 @@
     "destinations": {
       "label": "Destinations",
       "hint": "Required · choose one or more",
-      "unsure": "Not sure, suggest something",
+      "unsure": "Help me choose",
       "unsureImage": {
         "src": "/images/route/karakoram-peaks.jpg",
         "alt": "Snow-covered Karakoram peaks seen from the air, K2’s steep pyramid rising above the ranges under a clear sky",
@@ -192,7 +192,7 @@
     }
   },
   "summary": {
-    "unsure": "Suggest something",
+    "unsure": "Help me choose",
     "exactDates": "{from} – {to}",
     "adults": {
       "one": "{count} adult",
@@ -292,7 +292,7 @@
     "office": "Office in Lahore"
   },
   "errors": {
-    "destinations": "Choose at least one destination, or “Not sure, suggest something”.",
+    "destinations": "Choose at least one destination, or “Help me choose”.",
     "month": "Pick a month, or switch to exact dates.",
     "dates": "Add a start and an end date.",
     "pastDate": "That date has passed. Choose today or later.",

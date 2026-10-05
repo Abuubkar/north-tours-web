@@ -487,7 +487,7 @@ const plannerCopySchema = z.strictObject({
       label: copy,
       hint: copy,
       unsure: copy,
-      /** The "Not sure, suggest something" card's photo: a wide view of the mountains, suggesting open options. */
+      /** The "Help me choose" card's photo: a wide view of the mountains, suggesting open options. */
       unsureImage: photoSchema,
     }),
     dates: z.strictObject({
@@ -535,7 +535,7 @@ const plannerCopySchema = z.strictObject({
   }),
   /** How the trip is written in the review, the side column and the message. */
   summary: z.strictObject({
-    /** "Not sure" among the destinations: "Suggest something". */
+    /** "Help me choose" among the destinations, as the card reads. */
     unsure: copy,
     exactDates: copyWith('from', 'to'),
     adults: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
@@ -572,7 +572,7 @@ const plannerCopySchema = z.strictObject({
     answered: copyWith('count'),
     /** An empty row: "Not yet". */
     notYet: copy,
-    /** The postcard's photo until a destination is chosen (or with only "Not sure"). */
+    /** The postcard's photo until a destination is chosen (or with only "Help me choose"). */
     image: photoSchema,
     rows: z.record(z.enum(SUMMARY_ROWS), copy),
   }),

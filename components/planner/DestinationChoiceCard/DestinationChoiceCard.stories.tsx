@@ -57,11 +57,11 @@ export const On: Story = {
   },
 };
 
-/** "Not sure": a photo of its own (owner feedback, 2026-10-05), in the same 16:10 frame as the destinations'. */
+/** "Help me choose": a photo of its own (owner feedback, 2026-10-05), in the same 16:10 frame as the destinations'. */
 export const NotSure: Story = {
-  args: { label: 'Not sure, suggest something', image: samplePlannerCopy.whereWhen.destinations.unsureImage },
+  args: { label: 'Help me choose', image: samplePlannerCopy.whereWhen.destinations.unsureImage },
   play: async ({ canvas }) => {
-    const card = canvas.getByRole('button', { name: 'Not sure, suggest something' });
+    const card = canvas.getByRole('button', { name: 'Help me choose' });
     const photo = card.querySelector('img')!;
     await expect(photo).toBeVisible();
     const box = photo.getBoundingClientRect();
