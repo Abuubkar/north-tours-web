@@ -5,7 +5,7 @@ import type { TripSummary } from './plannerSummary.ts';
 
 const words: BarWords = {
   yourTrip: 'Your trip',
-  suggestions: 'Suggestions',
+  suggestions: 'Help me choose',
   noDates: 'Dates?',
   more: '+{count}',
   people: { one: '{count} person', other: '{count} people' },
@@ -36,8 +36,8 @@ describe('bar label', () => {
     expect(label({ destinations: ['hunza', 'skardu'] })).toBe('Hunza +1 · Dates? · 2 people');
   });
 
-  it('shortens “Help me choose” to its own word, “Suggestions”', () => {
-    expect(label({ destinations: ['unsure'] })).toBe('Suggestions · Dates? · 2 people');
+  it('names “Help me choose” the same way as its card', () => {
+    expect(label({ destinations: ['unsure'] })).toBe('Help me choose · Dates? · 2 people');
   });
 
   it('reads “Your trip” and “Dates?” before anything is chosen', () => {

@@ -143,7 +143,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
       budget: 'Budget',
     },
   },
-  bar: { yourTrip: 'Your trip', suggestions: 'Suggestions', noDates: 'Dates?', more: '+{count}', people: { one: '{count} person', other: '{count} people' } },
+  bar: { yourTrip: 'Your trip', suggestions: 'Help me choose', noDates: 'Dates?', more: '+{count}', people: { one: '{count} person', other: '{count} people' } },
   next: {
     title: 'What happens next',
     steps: ['We reply on WhatsApp within 2 hours.', 'We send a day-by-day plan and price.', 'You confirm with a 30% advance.'],
