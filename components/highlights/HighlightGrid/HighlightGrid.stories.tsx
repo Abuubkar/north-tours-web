@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import { drawsLines, gridColumns, gridGaps } from '../../../.storybook/gridColumns';
+import { expectCardGaps, gridColumns } from '../../../.storybook/gridColumns';
 import { opacityUpTo } from '../../../.storybook/opacity';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
 import { roomAbove } from '../../../.storybook/scrollRoom';
@@ -25,8 +25,7 @@ export const Desktop: Story = {
   play: async ({ canvas }) => {
     const items = canvas.getAllByRole('listitem');
     await expect(gridColumns(items)).toBe(3);
-    await expect(gridGaps(items)).toEqual({ column: 24, row: 48 });
-    for (const element of [canvas.getByRole('list'), ...items]) await expect(drawsLines(element)).toBe(false);
+    await expectCardGaps(canvas.getByRole('list'), items, { column: 24, row: 48 });
   },
 };
 
@@ -39,7 +38,7 @@ export const Phone: Story = {
   play: async ({ canvas }) => {
     const items = canvas.getAllByRole('listitem');
     await expect(gridColumns(items)).toBe(2);
-    await expect(gridGaps(items)).toEqual({ column: 24, row: 48 });
+    await expectCardGaps(canvas.getByRole('list'), items, { column: 24, row: 48 });
   },
 };
 

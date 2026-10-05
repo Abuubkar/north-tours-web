@@ -16,7 +16,7 @@
 }
 
 .cell {
-  composes: photoCell from '../../styles/layout.module.css';
+  composes: cardCell from '../../styles/layout.module.css';
 }
 
 /* About: the line under the headline, then the team. */

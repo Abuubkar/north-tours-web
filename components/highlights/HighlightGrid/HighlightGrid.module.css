@@ -6,5 +6,5 @@
 }
 
 .cell {
-  composes: photoCell riseCell from '../../../styles/layout.module.css';
+  composes: cardCell riseCell from '../../../styles/layout.module.css';
 }

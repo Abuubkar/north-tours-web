@@ -38,5 +38,5 @@
 }
 
 .cell {
-  composes: photoCell from '../../styles/layout.module.css';
+  composes: cardCell from '../../styles/layout.module.css';
 }

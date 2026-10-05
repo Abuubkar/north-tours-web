@@ -58,26 +58,24 @@
 /*
  * Photo card grids (owner feedback, 2026-10-05): capped auto-fill columns with real gaps and no
  * lines, so each card stands on its own, its photo at the card radius, and a part-filled last row
- * simply ends (destinations, guides, highlights, hotels, vehicles). `photoGridDense` has the
- * smaller gaps of the many-column destination grids. A grid sets `--grid-min` and `--grid-cols`,
- * and names `gridColumns` too: the production build passes on only one level of composition.
+ * simply ends (destinations, guides, highlights, hotels, vehicles): the tour cards' gaps, or in
+ * `photoGridDense` the smaller ones of the many-column destination grids. Cells are `cardCell`s.
+ * A grid sets `--grid-min` and `--grid-cols`, and names `gridColumns` too: the production build
+ * passes on only one level of composition. Its gap variables inherit, so don't nest another capped
+ * grid inside one.
  */
 .photoGrid {
   composes: gridColumns;
-  --grid-gap: var(--grid-photo-gap);
-  --grid-row-gap: var(--grid-photo-row-gap);
+  --grid-gap: var(--grid-card-gap);
+  --grid-row-gap: var(--grid-card-row-gap);
 }
 
 .photoGridDense {
   composes: gridColumns;
-  --grid-gap: var(--grid-photo-dense-gap);
-  --grid-row-gap: var(--grid-photo-dense-row-gap);
+  --grid-gap: var(--grid-card-dense-gap);
+  --grid-row-gap: var(--grid-card-dense-row-gap);
 }
 
-.photoCell {
-  display: flex;
-  flex-direction: column;
-}
 
 /*
  * Text-grid bleed (DESIGN.md §5): cells are padded on both sides, and the grid reaches out by
@@ -212,11 +210,12 @@
 .cardGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--grid-tours-row-gap) var(--grid-tours-gap);
+  gap: var(--grid-card-row-gap) var(--grid-card-gap);
   padding: 0;
   list-style: none;
 }
 
+/* A card's cell in any card grid (tour or photo cards): the card fills it, so a row's cards line up. */
 .cardCell {
   display: flex;
   flex-direction: column;
@@ -241,8 +240,8 @@
  */
 .tourGrid {
   composes: gridColumns;
-  --grid-gap: var(--grid-tours-gap);
-  --grid-row-gap: var(--grid-tours-row-gap);
+  --grid-gap: var(--grid-card-gap);
+  --grid-row-gap: var(--grid-card-row-gap);
   --grid-min: var(--grid-tours-min);
 }
 

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import { drawsLines, gridColumns, gridGaps } from '../../../.storybook/gridColumns';
+import { expectCardGaps, gridColumns } from '../../../.storybook/gridColumns';
 import { opacityUpTo } from '../../../.storybook/opacity';
 import { realUser } from '../../../.storybook/realUser';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
@@ -63,8 +63,7 @@ export const Desktop: Story = {
     for (const card of cards) await expect(card).toHaveAttribute('aria-haspopup', 'dialog');
     const items = canvas.getAllByRole('listitem');
     await expect(gridColumns(items)).toBe(4);
-    await expect(gridGaps(items)).toEqual({ column: 24, row: 48 });
-    for (const element of [canvas.getByRole('list'), ...items]) await expect(drawsLines(element)).toBe(false);
+    await expectCardGaps(canvas.getByRole('list'), items, { column: 24, row: 48 });
   },
 };
 

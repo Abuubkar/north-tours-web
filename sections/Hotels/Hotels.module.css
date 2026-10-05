@@ -17,12 +17,12 @@
   composes: photoGrid gridColumns from '../../styles/layout.module.css';
   --grid-min: var(--grid-hotels-min);
   --grid-cols: min(var(--grid-hotels-cols), var(--stay-count));
-  max-width: calc(var(--stay-count) * var(--hotel-card-max) + (var(--stay-count) - 1) * var(--grid-photo-gap));
+  max-width: calc(var(--stay-count) * var(--hotel-card-max) + (var(--stay-count) - 1) * var(--grid-card-gap));
   margin-top: var(--space-48);
 }
 
 .cell {
-  composes: photoCell from '../../styles/layout.module.css';
+  composes: cardCell from '../../styles/layout.module.css';
 }
 
 .note {

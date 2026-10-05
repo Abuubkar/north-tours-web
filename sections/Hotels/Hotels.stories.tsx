@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { drawsLines, gridColumns, gridGaps } from '../../.storybook/gridColumns';
+import { expectCardGaps, gridColumns } from '../../.storybook/gridColumns';
 import { sampleTour } from '@/components/tour-card/sampleTours';
 import { sampleTourCopy } from '@/components/tour/sampleTourCopy';
 import { Hotels } from './Hotels';
@@ -29,8 +29,7 @@ export const Desktop: Story = {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Where you’ll stay each night' })).toBeVisible();
     const items = canvas.getAllByRole('listitem');
     await expect(gridColumns(items)).toBe(3);
-    await expect(gridGaps(items).column).toBe(24);
-    for (const element of [canvas.getByRole('list'), ...items]) await expect(drawsLines(element)).toBe(false);
+    await expectCardGaps(canvas.getByRole('list'), items, { column: 24, row: null });
     for (const item of items) await expect(Math.round(item.getBoundingClientRect().width)).toBe(cardMax());
     await expect(canvas.getByText(/All rooms are twin sharing/)).toBeVisible();
   },
@@ -61,7 +60,7 @@ export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, canvasElement }) => {
     await expect(gridColumns(canvas.getAllByRole('listitem'))).toBe(2);
-    await expect(gridGaps(canvas.getAllByRole('listitem'))).toEqual({ column: 24, row: 48 });
+    await expectCardGaps(canvas.getByRole('list'), canvas.getAllByRole('listitem'), { column: 24, row: 48 });
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };

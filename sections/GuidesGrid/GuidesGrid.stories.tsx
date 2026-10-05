@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
-import { drawsLines, gridColumns, gridGaps } from '../../.storybook/gridColumns';
+import { expectCardGaps, gridColumns } from '../../.storybook/gridColumns';
 import { emulateReducedMotion } from '../../.storybook/reducedMotion';
 import { sampleGuides } from '@/components/guide-profile/sampleGuides';
 import { sampleProfiles } from '@/components/guide-profile/sampleProfiles';
@@ -14,8 +14,6 @@ const meta = {
   args: { copy: sampleHome.guides, guides: sampleGuides },
   parameters: { fullBleed: true },
   globals: { viewport: { value: 'desktop' } },
-  // About's cards rise into view; with reduced motion none is offset, so the gaps measure true.
-  beforeEach: emulateReducedMotion,
 } satisfies Meta<typeof GuidesGrid>;
 
 export default meta;
@@ -23,12 +21,9 @@ type Story = StoryObj<typeof meta>;
 
 const columns = (canvas: ReturnType<typeof within>) => gridColumns(canvas.getAllByRole('listitem'));
 
-/** Photo cards: 24px between cards, 48px between rows, and no line on the list or a cell. */
-async function photoGaps(canvas: ReturnType<typeof within>, gaps: { column: number | null; row: number | null }) {
-  const items = canvas.getAllByRole('listitem');
-  await expect(gridGaps(items)).toEqual(gaps);
-  for (const element of [canvas.getByRole('list'), ...items]) await expect(drawsLines(element)).toBe(false);
-}
+/** The cards' gaps, with no line on the list or a cell. */
+const expectGaps = (canvas: ReturnType<typeof within>, gaps: { column: number | null; row: number | null }) =>
+  expectCardGaps(canvas.getByRole('list'), canvas.getAllByRole('listitem'), gaps);
 
 /** Four across at 1440, 24px apart with no lines; each card links to the guide's profile. */
 export const Desktop: Story = {
@@ -36,7 +31,7 @@ export const Desktop: Story = {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Meet the guides and drivers' })).toBeVisible();
     await expect(canvas.getByRole('link', { name: 'Sana Qureshi' })).toHaveAttribute('href', '/about#guide-sana-qureshi');
     await expect(columns(canvas)).toBe(4);
-    await photoGaps(canvas, { column: 24, row: 48 });
+    await expectGaps(canvas, { column: 24, row: 48 });
   },
 };
 
@@ -47,7 +42,7 @@ export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas }) => {
     await expect(columns(canvas)).toBe(2);
-    await photoGaps(canvas, { column: 24, row: 48 });
+    await expectGaps(canvas, { column: 24, row: 48 });
   },
 };
 
@@ -55,6 +50,8 @@ export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', view
 
 /** About (#guides): the headline, the intro at most 520px wide, then every guide as a card that opens their profile, 24px and 48px apart. */
 export const About: StoryObj = {
+  // About's cards rise into view; with reduced motion none is offset, so the gaps measure true.
+  beforeEach: emulateReducedMotion,
   render: () => <GuidesGrid variant="about" copy={sampleAbout.guides} profiles={sampleProfiles} />,
   play: async ({ canvas, canvasElement }) => {
     const section = canvasElement.querySelector('section')!;
@@ -65,8 +62,8 @@ export const About: StoryObj = {
     await expect(canvas.getAllByRole('button', { name: /./ })).toHaveLength(6);
     await expect(canvas.getByRole('button', { name: /^Sana Qureshi / })).toHaveAttribute('aria-haspopup', 'dialog');
     await expect(columns(canvas)).toBe(4);
-    await photoGaps(canvas, { column: 24, row: 48 });
-    // Its raised surface (hover, or while the profile is shown) has the card radius.
+    await expectGaps(canvas, { column: 24, row: 48 });
+    // Its raised surface, while the profile is shown, has the card radius.
     await expect(getComputedStyle(canvas.getByRole('button', { name: /^Sana Qureshi / })).borderRadius).toBe('8px');
   },
 };

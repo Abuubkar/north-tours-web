@@ -11,5 +11,5 @@
 
 /* Rises into place once (M4, layout.module.css `riseCell`). */
 .cell {
-  composes: photoCell riseCell from '../../../styles/layout.module.css';
+  composes: cardCell riseCell from '../../../styles/layout.module.css';
 }
