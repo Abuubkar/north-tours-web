@@ -1,4 +1,5 @@
 import { routes } from '../routes.ts';
+import { sitePath } from './basePath.ts';
 import { isPlaceholder } from './placeholder.ts';
 import { siteUrlFor } from './siteUrl.ts';
 
@@ -20,8 +21,17 @@ export function sitemapUrls(slugs: { tours: string[]; destinations: string[] }, 
   return [...new Set(paths)].map((path) => siteUrlFor(path, siteUrl));
 }
 
-/** robots.txt: everything allowed, and the sitemap named only once its URL can be absolute. */
-export function robotsRules(siteUrl: string): { rules: { userAgent: string; allow: string }; sitemap?: string } {
+/** `NOINDEX=1` at build: a preview that search engines must not index (ADR-0032). */
+export const NOINDEX = process.env.NOINDEX === '1';
+
+type RobotsRules = { rules: { userAgent: string; allow?: string; disallow?: string }; sitemap?: string };
+
+/**
+ * robots.txt: everything allowed, and the sitemap named only once its URL can be absolute. A
+ * `noindex` build (the preview, ADR-0032) disallows everything and names no sitemap.
+ */
+export function robotsRules(siteUrl: string, noindex: boolean): RobotsRules {
+  if (noindex) return { rules: { userAgent: '*', disallow: '/' } };
   const rules = { userAgent: '*', allow: '/' };
-  return isPlaceholder(siteUrl) ? { rules } : { rules, sitemap: siteUrlFor('/sitemap.xml', siteUrl) };
+  return isPlaceholder(siteUrl) ? { rules } : { rules, sitemap: siteUrlFor(sitePath('/sitemap.xml'), siteUrl) };
 }

@@ -1,4 +1,5 @@
 import { routes } from '../routes.ts';
+import { sitePath } from './basePath.ts';
 
 export type NavItemId = 'home' | 'tours' | 'destinations' | 'plan' | 'about' | 'contact';
 
@@ -22,12 +23,16 @@ export const mainNav: readonly NavItem[] = [
   { id: 'contact', label: 'Contact', href: routes.contact },
 ];
 
+/** A path without its trailing slashes, except the root "/". */
+const trimmed = (path: string) => (path.length > 1 ? path.replace(/\/+$/, '') : path);
+
 /**
  * The nav item for the page at `pathname`, shown gold with aria-current="page", or null. Home
  * marks the Homepage only; Tours also covers every tour page, and Destinations every destination
- * page. Help, the legal pages and Photo credits have none.
+ * page. Help, the legal pages and Photo credits have none. `pathname` is Next's, without the base
+ * path; the nav's links have it (ADR-0032), so it's added before comparing.
  */
 export function activeNavItem(pathname: string): NavItemId | null {
-  const path = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
-  return mainNav.find(({ href, below }) => path === href || (below !== undefined && path.startsWith(below)))?.id ?? null;
+  const path = trimmed(sitePath(pathname));
+  return mainNav.find(({ href, below }) => path === trimmed(href) || (below !== undefined && path.startsWith(below)))?.id ?? null;
 }

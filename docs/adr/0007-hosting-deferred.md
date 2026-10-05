@@ -1,6 +1,6 @@
 # ADR-0007: Hosting deferred; no hosting-specific code during development
 
-- **Status:** Accepted
+- **Status:** Accepted; superseded in part by ADR-0032 (a noindexed preview on GitHub Pages, deployed by a workflow)
 - **Date:** 2026-10-03
 
 ## Context

@@ -1,7 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { auditReport, builtPages, judgeSite, median, medianVitals, overLimit, sitemapFailures, sitemapLocs, type PageAudit, type PageFacts } from './audit.ts';
+import {
+  auditReport,
+  auditTarget,
+  builtPages,
+  htmlTitle,
+  judgeSite,
+  median,
+  medianVitals,
+  overLimit,
+  pageUrl,
+  sitemapFailures,
+  sitemapLocs,
+  type PageAudit,
+  type PageFacts,
+} from './audit.ts';
 
-const site = { files: new Set(['/index.html', '/images/hunza/attabad-share.jpg']), url: '[Site URL]' };
+const site = { files: new Set(['/index.html', '/images/hunza/attabad-share.jpg']), url: '[Site URL]', basePath: '' };
 
 const facts = (width: number, change: Partial<PageFacts> = {}): PageFacts => ({
   width,
@@ -41,6 +55,11 @@ describe('the audit’s pages', () => {
       'tours.txt',
       'images/hunza/attabad-800.jpg',
     ];
+    expect(builtPages(files)).toEqual(['/', '/404', '/destinations/hunza', '/tours', '/tours/hunza-express']);
+  });
+
+  it('reads the same pages from a base-path build, where each page is a folder (ADR-0032)', () => {
+    const files = ['index.html', 'tours/index.html', 'tours/hunza-express/index.html', 'destinations/hunza/index.html', '404.html'];
     expect(builtPages(files)).toEqual(['/', '/404', '/destinations/hunza', '/tours', '/tours/hunza-express']);
   });
 
@@ -148,14 +167,63 @@ describe('the audit’s canonical and sitemap checks', () => {
 
   it('fails a page missing from the sitemap, a URL that isn’t a built page, or no sitemap, leaving out the 404', () => {
     const pages = ['/', '/404', '/tours', '/help'];
-    expect(sitemapFailures(['/', '/tours', '/help'], pages, '[Site URL]')).toEqual([]);
-    expect(sitemapFailures(['https://example.pk/', 'https://example.pk/tours', 'https://example.pk/help'], pages, 'https://example.pk')).toEqual([]);
-    expect(sitemapFailures(['/', '/tours', '/plan'], pages, '[Site URL]')).toEqual([
+    expect(sitemapFailures(['/', '/tours', '/help'], pages, { url: '[Site URL]', basePath: '' })).toEqual([]);
+    expect(sitemapFailures(['https://example.pk/', 'https://example.pk/tours', 'https://example.pk/help'], pages, { url: 'https://example.pk', basePath: '' })).toEqual([]);
+    expect(sitemapFailures(['/', '/tours', '/plan'], pages, { url: '[Site URL]', basePath: '' })).toEqual([
       'The sitemap doesn’t list /help',
       'The sitemap lists /plan, which isn’t a built page',
     ]);
-    expect(sitemapFailures(['/', '/tours', '/help'], pages, 'https://example.pk')).toHaveLength(6);
-    expect(sitemapFailures(null, pages, '[Site URL]')).toEqual(['The build has no sitemap.xml']);
+    expect(sitemapFailures(['/', '/tours', '/help'], pages, { url: 'https://example.pk', basePath: '' })).toHaveLength(6);
+    expect(sitemapFailures(null, pages, { url: '[Site URL]', basePath: '' })).toEqual(['The build has no sitemap.xml']);
+  });
+});
+
+describe('auditing a live site under a base path (ADR-0032)', () => {
+  const preview = { ...site, basePath: '/north-tours-web' };
+  const underBase = facts(1440, {
+    canonical: '/north-tours-web/tours/',
+    ogUrl: '/north-tours-web/tours/',
+    ogImage: '/north-tours-web/images/hunza/attabad-share.jpg',
+    twitterImage: 'https://abuubkar.github.io/north-tours-web/images/hunza/attabad-share.jpg',
+  });
+
+  it('splits --origin into the origin and the base path', () => {
+    expect(auditTarget('https://abuubkar.github.io/north-tours-web')).toEqual({ origin: 'https://abuubkar.github.io', basePath: '/north-tours-web' });
+    expect(auditTarget('https://abuubkar.github.io/north-tours-web/')).toEqual({ origin: 'https://abuubkar.github.io', basePath: '/north-tours-web' });
+    expect(auditTarget('https://example.pk')).toEqual({ origin: 'https://example.pk', basePath: '' });
+  });
+
+  it('refuses an address that isn’t a plain http or https origin and path', () => {
+    for (const address of ['abuubkar.github.io/north-tours-web', 'ftp://example.pk', 'https://example.pk/?x=1', 'https://example.pk/#top']) {
+      expect(() => auditTarget(address)).toThrow(/--origin/);
+    }
+  });
+
+  it('loads each built page at its URL under the base path, and locally at the root as before', () => {
+    const live = auditTarget('https://abuubkar.github.io/north-tours-web');
+    expect(pageUrl('/', live)).toBe('https://abuubkar.github.io/north-tours-web/');
+    expect(pageUrl('/tours/hunza-express', live)).toBe('https://abuubkar.github.io/north-tours-web/tours/hunza-express/');
+    expect(pageUrl('/tours/hunza-express', { origin: 'https://127.0.0.1:4173', basePath: '' })).toBe('https://127.0.0.1:4173/tours/hunza-express');
+  });
+
+  it('wants canonical URLs under the base path, and finds share images in the build through it', () => {
+    expect(judgeSite([audit({ facts: [underBase] })], preview)[0].failures).toEqual([]);
+    expect(judgeSite([audit({ facts: [facts(1440)] })], preview)[0].failures).toEqual([
+      '1440px: og:image /images/hunza/attabad-share.jpg isn’t in the build',
+      '1440px: twitter:image /images/hunza/attabad-share.jpg isn’t in the build',
+      '1440px: canonical URL /tours isn’t /north-tours-web/tours/',
+    ]);
+  });
+
+  it('wants the sitemap’s URLs under the base path', () => {
+    const pages = ['/', '/404', '/tours'];
+    expect(sitemapFailures(['/north-tours-web/', '/north-tours-web/tours/'], pages, preview)).toEqual([]);
+    expect(sitemapFailures(['/', '/tours'], pages, preview)).toHaveLength(4);
+  });
+
+  it('reads a page’s title, to know a live 404 page is the built one', () => {
+    expect(htmlTitle('<html><head><title>Page not found | North</title></head></html>')).toBe('Page not found | North');
+    expect(htmlTitle('<html><head></head></html>')).toBeNull();
   });
 });
 

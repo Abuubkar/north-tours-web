@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { Settings } from '../content/settings.ts';
+import { sitePath } from './basePath.ts';
 import { shareSrc } from './images.ts';
 import { siteUrlFor } from './siteUrl.ts';
 
@@ -28,8 +29,9 @@ export function pageMetadata(
 
 /**
  * The share image's URL. Open Graph wants an absolute URL, but the domain isn't known yet
- * (ADR-0007): while the site URL is a `[placeholder]` it's root-relative (`siteUrlFor`).
+ * (ADR-0007): while the site URL is a `[placeholder]` it's root-relative (`siteUrlFor`), under
+ * the base path (ADR-0032).
  */
 export function shareImageUrl(src: string, siteUrl: string): string {
-  return siteUrlFor(shareSrc(src), siteUrl);
+  return siteUrlFor(sitePath(shareSrc(src)), siteUrl);
 }

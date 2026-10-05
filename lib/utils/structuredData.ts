@@ -1,6 +1,7 @@
 import type { Review } from '../content/reviews.ts';
 import type { Settings } from '../content/settings.ts';
 import type { Tour } from '../content/tours.ts';
+import { routes } from '../routes.ts';
 import { seatStatus, upcomingDepartures, type SeatStatus } from './departures.ts';
 import { shareImageUrl } from './metadata.ts';
 import { socialLinks } from './contact.ts';
@@ -37,7 +38,7 @@ export function travelAgency(
     '@context': CONTEXT,
     '@type': 'TravelAgency',
     name: settings.brand.name,
-    url: siteUrlFor('/', settings.site.url),
+    url: siteUrlFor(routes.home, settings.site.url),
     description: page.description,
     image: shareImageUrl(page.image, settings.site.url),
     telephone: withoutPlaceholder(settings.contact.phone),
@@ -77,7 +78,7 @@ export type TouristTripInput = {
  */
 export function touristTrip({ tour, image, tripTypeLabels, reviews, today, settings }: TouristTripInput): JsonObject {
   const url = (path: string) => siteUrlFor(path, settings.site.url);
-  const page = url(`/tours/${tour.slug}`);
+  const page = url(routes.tour(tour.slug));
   const upcoming = upcomingDepartures(tour.departures, today);
   const shownReviews = realReviews(reviews);
   return {
@@ -88,7 +89,7 @@ export function touristTrip({ tour, image, tripTypeLabels, reviews, today, setti
     url: page,
     image: shareImageUrl(image, settings.site.url),
     touristType: tour.tripTypes.map((type) => tripTypeLabels[type]),
-    provider: { '@type': 'TravelAgency', name: settings.brand.name, url: url('/') },
+    provider: { '@type': 'TravelAgency', name: settings.brand.name, url: url(routes.home) },
     itinerary: {
       '@type': 'ItemList',
       itemListElement: tour.itinerary.map((day, i) => ({ '@type': 'ListItem', position: i + 1, name: day.title, description: day.text })),

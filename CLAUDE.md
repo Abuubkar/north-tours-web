@@ -257,7 +257,9 @@ Folders are created only when the first file for them is needed (section 3).
 
 - **Hosting and deployment code:** no Cloudflare configs, adapters, Wrangler files, workers,
   CI deploy steps or hosting-specific code. The project runs locally; hosting is done
-  manually by the owner later.
+  manually by the owner later. The one exception is the noindexed preview on GitHub Pages
+  (ADR-0032): its workflow, and the `BASE_PATH` and `NOINDEX` build settings. Links and image
+  URLs go through `sitePath` (routes and the image helpers), never a hard-coded "/".
 - Online payments, CMS integration, databases, analytics, cookie banners.
 - Do not add these "to prepare" for later. They arrive with their own issue and ADR.
 
