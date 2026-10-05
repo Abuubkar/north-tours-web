@@ -14,7 +14,6 @@ export const sampleHome: HomeCopy = {
   },
   altitudes: {
     label: 'Altitudes of our destinations',
-    pause: 'Pause the altitude strip',
   },
   statement: {
     headline: 'Guides from Hunza and Skardu, drivers who know every bend of the Karakoram Highway',

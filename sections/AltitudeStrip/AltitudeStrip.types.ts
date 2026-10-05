@@ -5,13 +5,13 @@ import type { AltitudePlace } from '@/lib/utils/altitudeStrip';
 export type AltitudeStripProps = {
   /** From `altitudePlaces(getDestinations())`; with none, there's no strip. */
   places: AltitudePlace[];
-  /** The Homepage copy's `altitudes`: the strip's name and the pause button's name. */
+  /** The Homepage copy's `altitudes`: the strip's screen-reader name. */
   copy: HomeCopy['altitudes'];
 };
 
 export type AltitudeListProps = {
   places: AltitudePlace[];
-  /** The loop's second drawing: hidden from screen readers and out of the tab order. */
+  /** The loop's second drawing: hidden from screen readers and out of the tab order, but clickable. */
   duplicate?: boolean;
   /** The first drawing, measured for the loop's width. */
   ref?: Ref<HTMLUListElement>;
