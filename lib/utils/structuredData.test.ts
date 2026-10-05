@@ -92,7 +92,7 @@ const trip = (change: Partial<TouristTripInput['tour']> = {}, data: Partial<Tour
 describe('touristTrip', () => {
   it('names the trip, its page, share image, trip types as labelled and the company', () => {
     expect(touristTrip(trip())).toMatchObject({
-      '@type': 'TouristTrip',
+      '@type': ['TouristTrip', 'Product'],
       name: 'Hunza Express',
       description: 'Six days from Lahore to Hunza.',
       url: 'https://example.pk/tours/hunza-express',
@@ -142,6 +142,13 @@ describe('touristTrip', () => {
       reviewCount: 41,
       bestRating: 5,
     });
+  });
+
+  it('is a Product too, so its rating and reviews are on a type that allows them (#117)', () => {
+    const real = touristTrip(trip({ sample: undefined, rating: { score: 4.7, count: 41 } }));
+    expect(real.aggregateRating).toBeDefined();
+    expect(real.review).toBeDefined();
+    expect(real['@type']).toContain('Product');
   });
 
   it('marks up only the reviews that aren’t sample, and none while all are', () => {

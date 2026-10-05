@@ -25,6 +25,6 @@ describe('getTourPage', () => {
     const { questions, structuredData } = getTourPage('hunza-skardu-grand');
     const marked = structuredData.faqs.mainEntity as { name: string; acceptedAnswer: { text: string } }[];
     expect(marked.map((q) => [q.name, q.acceptedAnswer.text])).toEqual(questions.map((q) => [q.question, q.answer]));
-    expect(structuredData.trip).toMatchObject({ '@type': 'TouristTrip', aggregateRating: undefined, review: undefined });
+    expect(structuredData.trip).toMatchObject({ '@type': ['TouristTrip', 'Product'], aggregateRating: undefined, review: undefined });
   });
 });

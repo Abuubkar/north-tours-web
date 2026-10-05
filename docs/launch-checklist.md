@@ -84,7 +84,7 @@ What the audit can't check: walk it at 390 and 1440 on the built site (`pnpm bui
 - In Chrome's performance panel with a 4x CPU slowdown, after the page has settled: open the menu, open and toggle a filter, choose a date and open the booking sheet, the planner's steps and typing, typing in Help's search, opening a profile and Next, opening the legal contents and the Contact banner. Record the numbers.
 
 **Structured data**
-- Paste the built Homepage, a tour page and `/help` into the Schema.org validator (validator.schema.org). Expect `TravelAgency`, `TouristTrip` with its offers, and `FAQPage`. Once a tour's rating or reviews are real, check how the validator treats `aggregateRating` and `review` on `TouristTrip`, which schema.org doesn't list for that type.
+- Paste the built Homepage, a tour page and `/help` into the Schema.org validator (validator.schema.org). Expect `TravelAgency`, each tour as `TouristTrip` + `Product` with its offers, and `FAQPage`. Once a tour's rating or reviews are real, run a tour page through Google's Rich Results Test too: the rating and reviews sit on the `Product` type, which allows them (#117). Check Google's current rules on review snippets first: Google may not show stars for reviews a business publishes about itself.
 
 ## 4. The owner's sign-offs
 
