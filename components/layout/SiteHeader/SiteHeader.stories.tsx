@@ -168,6 +168,7 @@ export const HeaderBreakpoint: Story = {
   globals: { viewport: { value: 'headerBreakpoint' } },
   play: async ({ canvas }) => {
     const header = canvas.getByRole('banner');
+    await expectBrand(canvas);
     const nav = canvas.getByRole('navigation', { name: 'Main' });
     await expect(nav).toBeVisible();
     await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
@@ -237,10 +238,12 @@ export const FocusRingPhone: Story = {
 };
 
 /**
- * Real keys at 390: Enter on Menu opens the menu drawer; Escape closes it and focus returns to
- * Menu. The menu's behaviour is the Sheet's, unchanged.
+ * Real keys at 390: Enter on Menu opens the menu drawer with the six pages, the current one
+ * (Tours, on a tour page) gold and marked; Escape closes it and focus returns to Menu. The menu's
+ * behaviour is the Sheet's, unchanged.
  */
 export const MenuWithKeys: Story = {
+  parameters: onPath('/tours/hunza-skardu-grand'),
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas }) => {
     const keys = await realUser();
@@ -251,6 +254,11 @@ export const MenuWithKeys: Story = {
     await keys.keyboard('{Enter}');
     const dialog = await canvas.findByRole('dialog', { name: 'Menu' });
     await expect(dialog.matches(':modal')).toBe(true);
+    const nav = within(dialog).getByRole('navigation', { name: 'Main' });
+    const links = within(nav).getAllByRole('link');
+    await expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual(NAV);
+    await expect(markedLinks(nav)).toEqual(['Tours (page)']);
+    await expect(getComputedStyle(links[1]).color).toBe(GOLD);
     await keys.keyboard('{Escape}');
     await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
     await expect(menu).toHaveFocus();

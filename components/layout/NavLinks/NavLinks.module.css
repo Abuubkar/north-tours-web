@@ -24,11 +24,9 @@
 /* The 2f bar's links (ADR-0030): 18/700, tight. */
 .headerLink {
   composes: link;
+  composes: headerNav from '../../../styles/typography.module.css';
   justify-content: center;
   min-width: var(--tap); /* short words like "Tours" still get a 44px-wide target */
-  font-size: var(--fs-header-nav);
-  font-weight: var(--fw-bold);
-  letter-spacing: var(--ls-header-nav);
   white-space: nowrap;
 }
 

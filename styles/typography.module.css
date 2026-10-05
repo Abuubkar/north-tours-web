@@ -52,6 +52,21 @@
   letter-spacing: var(--ls-section-long);
 }
 
+/* The header's brand name (2f, ADR-0030): 24px, 30px from 1200px. */
+.brand {
+  font-size: var(--fs-brand);
+  font-weight: var(--fw-heavy);
+  line-height: var(--lh-brand);
+  letter-spacing: var(--ls-brand);
+}
+
+/* The header's links (2f, ADR-0030). */
+.headerNav {
+  font-size: var(--fs-header-nav);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-header-nav);
+}
+
 .footerNav {
   font-size: var(--fs-footer-nav);
   font-weight: var(--fw-medium);

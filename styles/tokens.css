@@ -428,6 +428,7 @@
   --fs-waypoint: 12px;
   --fs-map-grid: 11px; /* graticule degree labels, decorative */
   --fs-brand: 24px; /* the header's brand name, 800: 24px below the full-bar breakpoint, 30px from it (below) */
+  --lh-brand: 1;
   --ls-brand: -0.05em;
   --fs-header-nav: 18px; /* the header's links, 700 */
   --ls-header-nav: -0.02em;

@@ -3,15 +3,12 @@
  * kept from the drawing (2026-10-05). At least the 44px tap target; no logo until the owner supplies one.
  */
 .brandMark {
+  composes: brand from '../../../styles/typography.module.css';
   display: inline-flex;
   flex: none;
   align-items: center;
   min-height: var(--tap);
   color: var(--fg);
-  font-size: var(--fs-brand);
-  font-weight: var(--fw-heavy);
-  line-height: 1;
-  letter-spacing: var(--ls-brand);
   text-decoration: none;
   white-space: nowrap;
 }

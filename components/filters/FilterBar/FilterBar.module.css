@@ -1,4 +1,4 @@
-/* The frosted bar under the header, a little more opaque than it (DESIGN.md §10). */
+/* The frosted bar under the header (DESIGN.md §10). */
 .bar {
   composes: frostedBar from '../../../styles/layout.module.css';
 }
