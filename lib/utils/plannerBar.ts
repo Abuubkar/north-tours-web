@@ -37,7 +37,8 @@ export function barLabel(answers: TripAnswers, words: BarWords): string {
   const [first, ...others] = answers.destinations;
   const name = first === undefined ? words.yourTrip : first === UNSURE ? words.suggestions : (words.destinations[first] ?? first);
   const where = others.length > 0 ? `${name} ${fillTokens(words.more, { count: String(others.length) })}` : name;
-  const day = answers.dateMode === 'exact' ? answers.from && shortDayMonth(answers.from) : answers.month && shortMonthName(answers.month);
+  // The first month, with several picked.
+  const day = answers.dateMode === 'exact' ? answers.from && shortDayMonth(answers.from) : answers.months[0] && shortMonthName(answers.months[0]);
   const people = answers.adults + answers.children;
   const count = fillTokens(people === 1 ? words.people.one : words.people.other, { count: String(people) });
   return [where, day || words.noDates, count].join(' · ');

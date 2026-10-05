@@ -102,9 +102,9 @@
   --key-value-min: 300px; /* its value, before it wraps under the label */
   --footer-contact-w: 380px; /* footer contact column */
   --hero-h: clamp(700px, 100svh, 980px); /* Homepage hero, DESIGN.md §9 */
-  --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero */
+  --photo-hero-h: clamp(600px, 50cqi, 740px); /* Tour Detail photo hero, and About's photo cover */
   --destination-hero-h: clamp(620px, 52cqi, 780px); /* Destination photo hero */
-  --photo-hero-scrim-stretch: 160%; /* its scrim on phones (and the planner's photo band at every width), drawn taller so the text sits on the dark end */
+  --photo-hero-scrim-stretch: 160%; /* its scrim on phones (and the planner's photo band and About's cover at every width), drawn taller so the text sits on the dark end */
   --hero-row-pad: clamp(var(--space-24), 2.4cqi, var(--space-32)); /* under the hero's lead and buttons */
   --hero-actions-w: 420px; /* the hero's button pair, before it wraps */
   --measure-cta-actions: 520px; /* a closing CTA's lead and its 56px button pair */
@@ -175,9 +175,10 @@
   --age-select-w: 110px; /* each child's age select, in a row */
   --measure-counters: 440px; /* the planner's group size rows */
   --measure-field-short: 360px; /* a short text field: the planner's other city */
+  --form-question-y: var(--space-32); /* above and below the hairline between two planner questions, on every step */
+  --form-label-gap: var(--space-16); /* from a field's label (or a group's legend) to its control */
 
   /* About (PRD #78): the page header's photo, the story and the founder beside it. */
-  --page-header-media-top: clamp(40px, 5cqi, 72px); /* above the About header's wide photo */
   --measure-about: 560px; /* About's header lead and story paragraphs */
   --measure-guides-intro: 520px; /* the line under About's guides headline */
   --fleet-min: 440px; /* About's vehicles beside the safety list, before it wraps under them */
@@ -243,11 +244,13 @@
   --map-side-units: calc(560 / 340);
   --mini-map-units: calc(560 / 112);
 
-  /* Hairline grids (DESIGN.md §5): the narrowest column, and the most columns. */
+  /* Grids (DESIGN.md §5): the narrowest column, and the most columns. */
   --grid-tours-min: 280px;
   --grid-tours-cols: 4;
-  --grid-tours-gap: var(--space-24); /* tour cards are the exception: gaps, not hairlines (owner feedback) */
-  --grid-tours-row-gap: var(--space-48); /* between rows of tour cards */
+  --grid-card-gap: var(--space-24); /* tour and photo cards have gaps, not hairlines (owner feedback) */
+  --grid-card-row-gap: var(--space-48); /* between rows of tour and photo cards */
+  --grid-card-dense-gap: var(--space-16); /* photo cards five and six across: the destinations */
+  --grid-card-dense-row-gap: var(--space-32);
   --grid-tours-detail-cols: 3; /* Tour Detail's related tours, and Destination */
   --grid-steps-min: 260px;
   --grid-steps-cols: 4;

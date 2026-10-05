@@ -48,6 +48,14 @@ describe('travelAgency', () => {
       sameAs: ['https://instagram.com/north', 'https://youtube.com/@north'],
     });
   });
+  it('carries the office’s address and phone once only they are real (the owner’s listing, 2026-10-05)', () => {
+    const office = { ...placeholderSettings.contact, phone: '+92 42 3725 2511', officeAddress: '3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000' };
+    expect(travelAgency({ ...placeholderSettings, contact: office }, home)).toMatchObject({
+      telephone: '+92 42 3725 2511',
+      email: undefined,
+      address: '3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000',
+    });
+  });
 });
 
 const day = (n: number) => ({ title: `Day ${n}`, text: `What happens on day ${n}.`, stops: ['Lahore'], overnight: 'Hunza', meals: 'B', drive: '4 hrs' });

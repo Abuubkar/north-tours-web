@@ -30,15 +30,8 @@
   aspect-ratio: 16 / 10;
 }
 
-/*
- * From 820px, a frame can change shape (after the ratios, so it wins): the About header widens to
- * 21:9, a guide's profile portrait turns 4:5.
- */
+/* From 820px, a frame can change shape (after the ratios, so it wins): a guide's profile portrait turns 4:5. */
 @media (width >= 820px) {
-  .wide21x9 {
-    aspect-ratio: 21 / 9;
-  }
-
   .wide4x5 {
     aspect-ratio: 4 / 5;
   }

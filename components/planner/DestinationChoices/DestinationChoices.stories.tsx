@@ -15,13 +15,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Every destination in the loader's order, then "Not sure"; several can be ticked. */
+/** Every destination in the loader's order, then "Not sure" with its own photo; several can be ticked. */
 export const Desktop: Story = {
   play: async ({ canvas, userEvent }) => {
     const group = canvas.getByRole('group', { name: 'Destinations' });
     await expect(group).toHaveAccessibleDescription('Required · choose one or more');
     const names = canvas.getAllByRole('button').map((b) => b.getAttribute('aria-label'));
     await expect(names).toEqual(['Fairy Meadows', 'Hunza', 'Murree', 'Naran-Kaghan', 'Skardu', 'Swat', 'Not sure, suggest something']);
+    const unsure = canvas.getByRole('button', { name: 'Not sure, suggest something' });
+    await expect(unsure.querySelector('img')).toHaveAttribute('alt', samplePlannerCopy.whereWhen.destinations.unsureImage.alt);
     await userEvent.click(canvas.getByRole('button', { name: 'Hunza' }));
     await userEvent.click(canvas.getByRole('button', { name: 'Not sure, suggest something' }));
     await expect(canvas.getAllByRole('button', { pressed: true })).toHaveLength(2);

@@ -3,7 +3,7 @@ import { EMPTY_DETAILS, firstName, pickBestTime, switchPhoneMode } from './plann
 
 describe('your details', () => {
   it('start empty, with a Pakistani number', () => {
-    expect(EMPTY_DETAILS).toEqual({ name: '', phone: { mode: 'pk', pk: '', code: '', number: '' }, bestTime: null, notes: '' });
+    expect(EMPTY_DETAILS).toEqual({ name: '', phone: { mode: 'pk', pk: '', code: '', number: '' }, bestTime: [], notes: '' });
   });
 
   it('switch the number’s mode and back, keeping what was typed in each', () => {
@@ -13,10 +13,11 @@ describe('your details', () => {
     expect(switchPhoneMode(abroad).phone.mode).toBe('pk');
   });
 
-  it('pick a best time, and clear it on a second press', () => {
+  it('pick any number of best times, morning first, and unpick one on a second press', () => {
     const evening = pickBestTime(EMPTY_DETAILS, 'evening');
-    expect(evening.bestTime).toBe('evening');
-    expect(pickBestTime(evening, 'evening').bestTime).toBeNull();
+    const both = pickBestTime(evening, 'morning');
+    expect(both.bestTime).toEqual(['morning', 'evening']);
+    expect(pickBestTime(both, 'evening').bestTime).toEqual(['morning']);
   });
 });
 

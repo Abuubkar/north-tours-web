@@ -25,7 +25,7 @@ export function generateMetadata(): Metadata {
  * on and the trust strip. Contact values are links only once they're real.
  */
 export default function ContactPage() {
-  const { copy, channels, travelSupport, quickLinks, settings, sharePhoto, routeMap } = getContactPage();
+  const { copy, channels, travelSupport, quickLinks, settings, sharePhoto, routeMap, officeMap } = getContactPage();
   return (
     <PageMain>
       <ShareImageMeta photo={sharePhoto} siteUrl={settings.site.url} />
@@ -34,7 +34,7 @@ export default function ContactPage() {
       <PageHeader variant="contact" headline={copy.header.headline} lead={copy.header.lead} />
       <WaysToReachUs copy={copy.ways} channels={channels} />
       <OnTripNow copy={copy.onTrip} support={travelSupport} map={routeMap} />
-      <VisitOffice settings={settings} form="two-row" />
+      <VisitOffice settings={settings} form="two-row" map={officeMap} />
       <QuickLinks {...quickLinks} />
       <TrustStrip settings={settings} year={new Date().getFullYear()} />
     </PageMain>

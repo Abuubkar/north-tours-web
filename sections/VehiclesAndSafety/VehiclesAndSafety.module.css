@@ -22,27 +22,27 @@
   margin-top: var(--space-48);
 }
 
-/* A hairline frame: the vehicles' grid, then the fleet's age across the full width. */
+/* The vehicles' photo cards, then the fleet's age across the full width under them. */
 .fleet {
-  display: grid;
+  display: flex;
   flex: 1 1 var(--fleet-min);
-  gap: var(--hairline-width);
+  flex-direction: column;
+  gap: var(--row-gap);
   min-width: 0;
-  border-block: var(--hairline-width) solid var(--hairline);
-  background: var(--hairline);
 }
 
-/* At most two across, each at least 200px (DESIGN.md §5); the frame's colour draws the lines. */
+/* At most two across, each at least 200px, with the photo card gaps (DESIGN.md §5). */
 .vehicles {
-  composes: gridColumns from '../../styles/layout.module.css';
+  composes: photoGrid gridColumns from '../../styles/layout.module.css';
   --grid-min: var(--grid-vehicles-min);
   --grid-cols: var(--grid-vehicles-cols);
 }
 
+/* A row with a hairline above and below it, none touching a photo; its text padded like the cards' text. */
 .age {
   composes: ui from '../../styles/typography.module.css';
   padding: var(--space-16) var(--cell-pad);
-  background: var(--bg);
+  border-block: var(--hairline-width) solid var(--hairline);
   color: var(--fg-2);
 }
 

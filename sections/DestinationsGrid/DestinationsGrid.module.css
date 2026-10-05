@@ -7,8 +7,9 @@
   max-width: var(--measure-headline);
 }
 
+/* Photo cards with the dense gaps (DESIGN.md §5). */
 .grid {
-  composes: grid from '../../styles/layout.module.css';
+  composes: photoGridDense gridColumns from '../../styles/layout.module.css';
   --grid-min: var(--grid-destinations-min);
   --grid-cols: var(--grid-destinations-cols);
   margin-top: var(--space-64);
@@ -20,7 +21,7 @@
  * designed) than the Homepage's grid.
  */
 .otherGrid {
-  composes: grid from '../../styles/layout.module.css';
+  composes: photoGridDense gridColumns from '../../styles/layout.module.css';
   --grid-min: var(--grid-destinations-min);
   --grid-cols: var(--grid-destinations-other-cols);
   margin-top: var(--space-48);
@@ -37,5 +38,5 @@
 }
 
 .cell {
-  composes: cell from '../../styles/layout.module.css';
+  composes: cardCell from '../../styles/layout.module.css';
 }

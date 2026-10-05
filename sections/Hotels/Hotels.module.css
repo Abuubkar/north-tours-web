@@ -8,20 +8,21 @@
 }
 
 /*
- * Capped auto-fill, not the design's fixed five or one (docs/components.md §5 item 27). There
- * are never more columns than stays, and the grid is only as wide as its stays need, so a short
- * tour leaves no empty cells and one stay isn't stretched across the page.
+ * Capped auto-fill photo cards with gaps, not the design's fixed five or one (docs/components.md
+ * §5 item 27). There are never more columns than stays, and the grid is only as wide as its stays
+ * and the gaps between them need, so a short tour leaves no empty cells and one stay isn't
+ * stretched across the page.
  */
 .grid {
-  composes: openGrid from '../../styles/layout.module.css';
+  composes: photoGrid gridColumns from '../../styles/layout.module.css';
   --grid-min: var(--grid-hotels-min);
   --grid-cols: min(var(--grid-hotels-cols), var(--stay-count));
-  max-width: calc(var(--stay-count) * var(--hotel-card-max));
+  max-width: calc(var(--stay-count) * var(--hotel-card-max) + (var(--stay-count) - 1) * var(--grid-card-gap));
   margin-top: var(--space-48);
 }
 
 .cell {
-  composes: openCell from '../../styles/layout.module.css';
+  composes: cardCell from '../../styles/layout.module.css';
 }
 
 .note {

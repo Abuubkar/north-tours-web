@@ -25,8 +25,8 @@
 
 /*
  * Capped auto-fill columns (DESIGN.md §5): at most --grid-cols columns, each at least
- * --grid-min wide, no media queries, --grid-gap apart (1px unless a grid sets it, so the two
- * grids below draw the lines in it); rows --grid-row-gap apart, or --grid-gap.
+ * --grid-min wide, no media queries, --grid-gap apart (1px unless a grid sets it, so the
+ * hairline grid below draws the lines in it); rows --grid-row-gap apart, or --grid-gap.
  */
 .gridColumns {
   display: grid;
@@ -56,19 +56,26 @@
 }
 
 /*
- * The same grid with its lines drawn by each cell's outline instead of the grid's background,
- * so a part-filled last row simply ends rather than leaving filled empty cells. The outlines
- * meet in the 1px gaps; the first and last columns' outer lines are clipped off.
+ * Photo card grids (owner feedback, 2026-10-05): capped auto-fill columns with real gaps and no
+ * lines, so each card stands on its own, its photo at the card radius, and a part-filled last row
+ * simply ends (destinations, guides, highlights, hotels, vehicles): the tour cards' gaps, or in
+ * `photoGridDense` the smaller ones of the many-column destination grids. Cells are `cardCell`s.
+ * A grid sets `--grid-min` and `--grid-cols`, and names `gridColumns` too: the production build
+ * passes on only one level of composition. Its gap variables inherit, so don't nest another capped
+ * grid inside one.
  */
-.openGrid {
+.photoGrid {
   composes: gridColumns;
-  clip-path: inset(calc(-1 * var(--hairline-width)) 0);
+  --grid-gap: var(--grid-card-gap);
+  --grid-row-gap: var(--grid-card-row-gap);
 }
 
-.openCell {
-  composes: cell;
-  outline: var(--hairline-width) solid var(--hairline);
+.photoGridDense {
+  composes: gridColumns;
+  --grid-gap: var(--grid-card-dense-gap);
+  --grid-row-gap: var(--grid-card-dense-row-gap);
 }
+
 
 /*
  * Text-grid bleed (DESIGN.md §5): cells are padded on both sides, and the grid reaches out by
@@ -84,8 +91,8 @@
 
 /*
  * Section anatomy with a label (DESIGN.md §4): the label in its 240px column, the content beside
- * it, the label wrapping above it on phones with no media query (About's Credentials, the
- * footer and Contact's quick links).
+ * it, the label wrapping above it on phones with no media query (About's Credentials and
+ * Contact's quick links).
  */
 .labelRow {
   display: flex;
@@ -203,11 +210,12 @@
 .cardGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--grid-tours-row-gap) var(--grid-tours-gap);
+  gap: var(--grid-card-row-gap) var(--grid-card-gap);
   padding: 0;
   list-style: none;
 }
 
+/* A card's cell in any card grid (tour or photo cards): the card fills it, so a row's cards line up. */
 .cardCell {
   display: flex;
   flex-direction: column;
@@ -232,8 +240,8 @@
  */
 .tourGrid {
   composes: gridColumns;
-  --grid-gap: var(--grid-tours-gap);
-  --grid-row-gap: var(--grid-tours-row-gap);
+  --grid-gap: var(--grid-card-gap);
+  --grid-row-gap: var(--grid-card-row-gap);
   --grid-min: var(--grid-tours-min);
 }
 

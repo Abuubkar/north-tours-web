@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { plannerCopyFile, type PlannerCopy } from '../content/pages.ts';
 import { DEFAULT_ANSWERS, type TripAnswers } from './plannerAnswers.ts';
-import { parsePlanner, PLANNER_PENDING, PLANNER_PENDING_SCRIPT, searchWithoutDestination, serialisePlanner, withLinkedDestination } from './plannerStorage.ts';
+import { parsePlanner, PLANNER_PENDING, PLANNER_PENDING_SCRIPT, PLANNER_STORAGE_KEY, searchWithoutDestination, serialisePlanner, withLinkedDestination } from './plannerStorage.ts';
 
 const { errors: messages }: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
 const destinations = ['hunza', 'skardu', 'swat'];
@@ -11,25 +11,29 @@ const context = { destinations, today: '2026-10-04', messages };
 const trip: TripAnswers = {
   ...DEFAULT_ANSWERS,
   destinations: ['hunza', 'unsure'],
-  month: '2027-06',
-  days: 8,
-  length: '8-10',
-  lengthAuto: false,
+  months: ['2027-06', '2027-07'],
+  lengths: ['5-7', '8-10'],
   adults: 3,
   children: 2,
   ages: [0, 9],
-  groupType: 'family',
-  hotels: 'best',
-  transport: 'coaster',
+  groupType: ['family', 'friends'],
+  hotels: ['best'],
+  transport: ['coaster'],
   departingFrom: 'other',
   otherCity: 'Multan',
-  budget: 'not-sure',
+  budget: ['not-sure'],
 };
 
 /** Saved data with one field changed, as JSON. */
 const saved = (change: Record<string, unknown>, step = 2) => JSON.stringify({ ...JSON.parse(serialisePlanner(trip, step)), ...change });
 
 describe('saving', () => {
+  it('uses the v2 key, since the answers became lists: v1 answers are never read (ADR-0018)', () => {
+    expect(PLANNER_STORAGE_KEY).toBe('planner-answers-v2');
+    expect(PLANNER_PENDING_SCRIPT).toContain("localStorage.getItem('planner-answers-v2')");
+    expect(PLANNER_PENDING_SCRIPT).not.toContain('planner-answers-v1');
+  });
+
   it('writes the trip answers and the step, never the details', () => {
     const written = JSON.parse(serialisePlanner(trip, 3));
     expect(written).toEqual({ ...trip, step: 3 });
@@ -57,18 +61,28 @@ describe('reading saved answers', () => {
 
   it.each([
     ['an unknown or removed destination', { destinations: ['hunza', 'nowhere', 'murree'] }, { destinations: ['hunza'] }],
-    ['a past month', { month: '2026-09' }, { month: null }],
-    ['a month past the 12 offered', { month: '2027-10' }, { month: null }],
+    ['a past month', { months: ['2026-09', '2027-06'] }, { months: ['2027-06'] }],
+    ['a month past the 12 offered', { months: ['2027-06', '2027-10'] }, { months: ['2027-06'] }],
+    ['a month given twice, or out of order', { months: ['2027-07', '2027-06', '2027-07'] }, { months: ['2027-06', '2027-07'] }],
+    ['a month not as a list', { months: '2027-06' }, { months: [] }],
+    ['an unknown length, and lengths out of order', { lengths: ['8-10', 'forever', '2-4'] }, { lengths: ['2-4', '8-10'] }],
+    ['an unknown or repeated group type', { groupType: ['friends', 'pets', 'friends'] }, { groupType: ['friends'] }],
     ['a past date', { dateMode: 'exact', from: '2026-10-03', to: '2027-06-18' }, { from: null, to: '2027-06-18' }],
     ['a date that isn’t real', { from: '2027-02-30' }, { from: null }],
     ['0 adults', { adults: 0 }, { adults: 2 }],
     ['41 adults', { adults: 41 }, { adults: 2 }],
-    ['an unknown hotels id', { hotels: 'palace' }, { hotels: null }],
-    ['days out of range', { days: 30 }, { days: 6 }],
+    ['an unknown hotels id', { hotels: ['palace', 'best'] }, { hotels: ['best'] }],
+    ['a v1 single answer instead of a list', { budget: 'not-sure' }, { budget: [] }],
     ['an unknown city', { departingFrom: 'karachi' }, { departingFrom: 'lahore' }],
   ])('%s falls back alone', (_, change, expected) => {
     const { answers } = parsePlanner(saved(change), context);
     expect(answers).toEqual({ ...trip, ...change, ...expected });
+  });
+
+  it('ignores fields it doesn’t know, such as v1’s days', () => {
+    const { answers } = parsePlanner(saved({ days: 9, lengthAuto: true }), context);
+    expect(answers).toEqual(trip);
+    expect(answers).not.toHaveProperty('days');
   });
 
   it('drops ages that don’t match the children', () => {

@@ -1,16 +1,15 @@
 /*
- * An image-card grid (MIN 150, at most 4 columns, DESIGN.md §5) drawn as an open hairline grid:
- * six guides leave the last row part-filled, and it simply ends rather than showing empty cells
- * in the line colour. It names the composed classes too: the production build passes on only
- * one level of composition.
+ * A photo card grid (MIN 150, at most 4 columns, gaps and no lines, DESIGN.md §5): six guides
+ * leave the last row part-filled, and it simply ends. It names the composed classes too: the
+ * production build passes on only one level of composition.
  */
 .grid {
-  composes: openGrid gridColumns from '../../../styles/layout.module.css';
+  composes: photoGrid gridColumns from '../../../styles/layout.module.css';
   --grid-min: var(--grid-guides-min);
   --grid-cols: var(--grid-guides-cols);
 }
 
 /* Rises into place once (M4, layout.module.css `riseCell`). */
 .cell {
-  composes: openCell cell riseCell from '../../../styles/layout.module.css';
+  composes: cardCell riseCell from '../../../styles/layout.module.css';
 }

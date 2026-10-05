@@ -3,8 +3,8 @@ import type { ContentImage } from '@/lib/content/images';
 export type DestinationChoiceCardProps = {
   /** The destination's name, or "Not sure, suggest something"; the card's accessible name. */
   label: string;
-  /** The destination's photo. Without one ("Not sure") the card shows the placeholder stripes. */
-  image?: ContentImage;
+  /** The destination's photo, or the "Not sure" card's (a placeholder shows the stripes, as everywhere). */
+  image: ContentImage;
   pressed: boolean;
   /** Draws the error border while no destination is chosen after Next. */
   invalid?: boolean;

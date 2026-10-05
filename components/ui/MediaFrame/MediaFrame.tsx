@@ -12,7 +12,6 @@ const ratioClass: Record<MediaFrameRatio, string> = {
 };
 
 const wideRatioClass: Record<MediaFrameWideRatio, string> = {
-  '21:9': styles.wide21x9,
   '4:5': styles.wide4x5,
 };
 

@@ -15,9 +15,6 @@ export type DateMode = (typeof DATE_MODES)[number];
 export const TRIP_LENGTHS = ['2-4', '5-7', '8-10', '10plus'] as const;
 export type TripLength = (typeof TRIP_LENGTHS)[number];
 
-/** The flexible "Roughly N days". */
-export const DAYS = { min: 2, max: 21, default: 6 } as const;
-
 /** How many months ahead the month chips reach, this month included. */
 const MONTHS_AHEAD = 12;
 
@@ -40,14 +37,6 @@ export function monthChoices(today: string): string[] {
   });
 }
 
-/** The trip length that fits a number of flexible days: up to 4, up to 7, up to 10, then more. */
-export function lengthForDays(days: number): TripLength {
-  if (days <= 4) return '2-4';
-  if (days <= 7) return '5-7';
-  if (days <= 10) return '8-10';
-  return '10plus';
-}
-
 /** Who's coming: adults (18 and over) and children (under 18). */
 export const ADULTS = { min: 1, max: 40, default: 2 } as const;
 export const CHILDREN = { min: 0, max: 20, default: 0 } as const;
@@ -64,6 +53,15 @@ export const AGES: readonly number[] = [UNDER_TWO, ...Array.from({ length: OLDES
 /** An age's words: "Under 2" (the page's), or the number. */
 export function ageLabel(age: number, underTwo: string): string {
   return age === UNDER_TWO ? underTwo : String(age);
+}
+
+/**
+ * A multi-select answer with `id` picked or, if it's already picked, unpicked: always in the
+ * options' order, whatever order they were pressed in, and never twice.
+ */
+export function toggled<T>(picked: readonly T[], id: T, options: readonly T[]): T[] {
+  const on = picked.includes(id);
+  return options.filter((option) => (option === id ? !on : picked.includes(option)));
 }
 
 /** Each option's id with its words, in the ids' order, as the chip groups list them. */

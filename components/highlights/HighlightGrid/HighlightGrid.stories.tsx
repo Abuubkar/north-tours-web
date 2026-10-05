@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import { gridColumns } from '../../../.storybook/gridColumns';
+import { expectCardGaps, gridColumns } from '../../../.storybook/gridColumns';
 import { opacityUpTo } from '../../../.storybook/opacity';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
 import { roomAbove } from '../../../.storybook/scrollRoom';
@@ -19,24 +19,30 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Up to three columns. */
+/** Up to three columns of photo cards, 24px apart and rows 48px apart, with no lines. */
 export const Desktop: Story = {
   beforeEach: emulateReducedMotion,
   play: async ({ canvas }) => {
-    await expect(gridColumns(canvas.getAllByRole('listitem'))).toBe(3);
+    const items = canvas.getAllByRole('listitem');
+    await expect(gridColumns(items)).toBe(3);
+    await expectCardGaps(canvas.getByRole('list'), items, { column: 24, row: 48 });
   },
 };
 
 export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
-/** Two at 390. */
+/** Two at 390, with the same gaps. */
 export const Phone: Story = {
   beforeEach: emulateReducedMotion,
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas }) => {
-    await expect(gridColumns(canvas.getAllByRole('listitem'))).toBe(2);
+    const items = canvas.getAllByRole('listitem');
+    await expect(gridColumns(items)).toBe(2);
+    await expectCardGaps(canvas.getByRole('list'), items, { column: 24, row: 48 });
   },
 };
+
+export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
 /** M4: a card below the fold starts 40px lower with its photo hidden, then rises into place. Text never fades. */
 export const RisesIntoView: Story = {

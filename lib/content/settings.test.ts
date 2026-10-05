@@ -105,7 +105,9 @@ describe('settings', () => {
     expect(fields(withChange((s) => delete (s.visitOffice.rows as Partial<Settings['visitOffice']['rows']>).open))).toEqual([
       'visitOffice.rows.open',
     ]);
-    expect(fields(withChange((s) => Object.assign(s.visitOffice.image, { alt: '' })))).toEqual(['visitOffice.image.alt']);
+    expect(fields(withChange((s) => Object.assign(s.visitOffice, { mapTitle: '' })))).toEqual(['visitOffice.mapTitle']);
+    // The office photo slot went with the map (ADR-0029).
+    expect(fields(withChange((s) => Object.assign(s.visitOffice, { image: { placeholder: 'Office', alt: 'Office' } })))).toEqual(['visitOffice']);
   });
 
   it('rejects an empty reserve message or one with an unknown token', () => {

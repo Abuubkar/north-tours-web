@@ -15,7 +15,7 @@ export function DestinationChoiceCard({ label, image, pressed, invalid = false, 
   const classes = [styles.card, invalid && styles.invalid].filter(Boolean).join(' ');
   return (
     <button id={id} type="button" aria-pressed={pressed} aria-label={label} aria-describedby={describedBy} className={classes} onClick={onToggle}>
-      {image ? <MediaFrame image={image} ratio="16:10" sizes={PHOTO_SIZES} /> : <span className={styles.stripes} />}
+      <MediaFrame image={image} ratio="16:10" sizes={PHOTO_SIZES} />
       <span className={styles.text}>
         <CheckboxIndicator checked={pressed} />
         <span className={styles.name}>{label}</span>

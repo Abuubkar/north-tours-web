@@ -1,8 +1,9 @@
 import type { Settings } from '@/lib/content/settings';
 
 /*
- * Sample settings for the layout stories, which can't read content files. The placeholder set
- * matches content/settings.json today (ADR-0010); the real set shows links once real values arrive.
+ * Sample settings for the layout stories, which can't read content files. The placeholder set has
+ * every contact value a `[placeholder]` (ADR-0010), as content/settings.json had until the owner
+ * supplied the office's address and phone; the real set shows links once real values arrive.
  */
 
 export const placeholderSettings: Settings = {
@@ -13,6 +14,7 @@ export const placeholderSettings: Settings = {
     phone: '[+92 42 XXXX XXXX]',
     email: '[hello@brand.pk]',
     officeAddress: '[Office address], Lahore, Punjab',
+    officeMapQuery: '[Office address], Lahore, Punjab',
     officeHours: '[Mon–Sat, X am – X pm]',
     travelSupport: '[24/7 number]',
   },
@@ -44,7 +46,8 @@ export const placeholderSettings: Settings = {
     rows: { office: 'Office', open: 'Open', phone: 'Phone', whatsapp: 'WhatsApp' },
     directionsLabel: 'Get directions',
     whatsappLabel: 'WhatsApp first',
-    image: { placeholder: 'The office front from the street, sign visible', alt: 'Our office in Lahore' },
+    mapTitle: 'Map of our office in DHA Phase 8, Lahore',
+    mapLinkLabel: 'Open in Google Maps',
   },
   maps: { surveyOfPakistanVetted: false },
   whatsapp: {
@@ -85,6 +88,7 @@ export const realSettings: Settings = {
     phone: '+92 42 3578 1234',
     email: 'hello@example.pk',
     officeAddress: '12 Main Boulevard, Gulberg, Lahore',
+    officeMapQuery: '12 Main Boulevard, Gulberg, Lahore',
     officeHours: 'Mon–Sat, 10 am – 7 pm',
   },
   site: { url: 'https://example.pk' },
@@ -93,5 +97,19 @@ export const realSettings: Settings = {
     instagram: 'https://instagram.com/example',
     facebook: 'https://facebook.com/example',
     youtube: 'https://youtube.com/@example',
+  },
+};
+
+/**
+ * Today's contact settings: the office's address and phone from the owner's Google Maps listing
+ * (2026-10-05), every other contact value still a placeholder.
+ */
+export const listingSettings: Settings = {
+  ...placeholderSettings,
+  contact: {
+    ...placeholderSettings.contact,
+    phone: '+92 42 3725 2511',
+    officeAddress: '3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000',
+    officeMapQuery: 'Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000',
   },
 };

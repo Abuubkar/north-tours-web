@@ -3,11 +3,8 @@ import type { ContentImage } from '@/lib/content/images';
 /** Frame shape: `fill` takes its parent's box (the full-bleed hero, never rounded); the rest are fixed ratios. */
 export type MediaFrameRatio = 'fill' | '4:3' | '3:4' | '4:5' | '16:10';
 
-/**
- * A frame's ratio from 820px, when it differs from its ratio below: the About header is 4:3 on
- * phones and 21:9 wider; a guide's profile portrait is 4:3 on phones and 4:5 in the side drawer.
- */
-export type MediaFrameWideRatio = '21:9' | '4:5';
+/** A frame's ratio from 820px, when it differs from its ratio below: a guide's profile portrait is 4:3 on phones and 4:5 in the side drawer. */
+export type MediaFrameWideRatio = '4:5';
 
 export type MediaFrameProps = {
   /** A photo from content, or a placeholder naming the shot it should be. */

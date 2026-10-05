@@ -7,7 +7,7 @@ import { detailsErrors, stepErrors, whereWhenErrors, whosComingErrors } from './
 
 const { errors: messages }: PlannerCopy = JSON.parse(readFileSync(plannerCopyFile(), 'utf8'));
 const today = '2026-10-04';
-const valid: TripAnswers = { ...DEFAULT_ANSWERS, destinations: ['hunza'], month: '2027-06' };
+const valid: TripAnswers = { ...DEFAULT_ANSWERS, destinations: ['hunza'], months: ['2027-06'] };
 const exact = (from: string | null, to: string | null): TripAnswers => ({ ...valid, dateMode: 'exact', from, to });
 const check = (answers: TripAnswers) => whereWhenErrors(answers, today, messages);
 
@@ -24,9 +24,10 @@ describe('step 1, Where and when', () => {
   });
 
   it('needs a month for flexible dates, and one still to come', () => {
-    expect(check({ ...valid, month: null })).toEqual([{ group: 'dates', fields: ['month'], message: 'Pick a month, or switch to exact dates.' }]);
-    expect(check({ ...valid, month: '2026-09' })[0].fields).toEqual(['month']);
-    expect(check({ ...valid, month: '2026-10' })).toEqual([]);
+    expect(check({ ...valid, months: [] })).toEqual([{ group: 'dates', fields: ['month'], message: 'Pick a month, or switch to exact dates.' }]);
+    expect(check({ ...valid, months: ['2026-09', '2027-06'] })[0].fields).toEqual(['month']);
+    expect(check({ ...valid, months: ['2026-10'] })).toEqual([]);
+    expect(check({ ...valid, months: ['2026-10', '2027-06', '2027-07'] })).toEqual([]);
   });
 
   it('lists every problem in page order', () => {

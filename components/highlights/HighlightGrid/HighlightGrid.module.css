@@ -1,9 +1,10 @@
+/* Photo cards with gaps (DESIGN.md §5); a part-filled last row simply ends. */
 .grid {
-  composes: openGrid from '../../../styles/layout.module.css';
+  composes: photoGrid gridColumns from '../../../styles/layout.module.css';
   --grid-min: var(--grid-highlights-min);
   --grid-cols: var(--grid-highlights-cols);
 }
 
 .cell {
-  composes: openCell riseCell from '../../../styles/layout.module.css';
+  composes: cardCell riseCell from '../../../styles/layout.module.css';
 }

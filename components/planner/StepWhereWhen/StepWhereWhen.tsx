@@ -1,7 +1,7 @@
 'use client';
 
 import { usePlanner } from '@/hooks/usePlanner';
-import { lengthIsAutoFilled, pickLength, tripLength } from '@/lib/utils/plannerAnswers';
+import { pickLength } from '@/lib/utils/plannerAnswers';
 import { labelled, TRIP_LENGTHS } from '@/lib/utils/plannerOptions';
 import { ChoiceChips } from '../ChoiceChips/ChoiceChips';
 import { DatesField } from '../DatesField/DatesField';
@@ -9,8 +9,8 @@ import { DestinationChoices } from '../DestinationChoices/DestinationChoices';
 import type { StepWhereWhenProps } from './StepWhereWhen.types';
 
 /**
- * Step 1, Where and when: destinations, dates, and an optional trip length that follows the
- * flexible days. Each question is a section of the step body, which divides them.
+ * Step 1, Where and when: destinations, dates, and an optional trip length (the only length
+ * question). Each question is a section of the step body, which divides them.
  */
 export function StepWhereWhen({ destinations, copy }: StepWhereWhenProps) {
   const { answers, update, fieldId } = usePlanner();
@@ -21,9 +21,9 @@ export function StepWhereWhen({ destinations, copy }: StepWhereWhenProps) {
       <ChoiceChips
         id={fieldId('length')}
         label={copy.length.label}
-        hint={lengthIsAutoFilled(answers) ? copy.length.autoHint : copy.length.hint}
+        hint={copy.length.hint}
         options={labelled(TRIP_LENGTHS, copy.length.options)}
-        value={tripLength(answers)}
+        value={answers.lengths}
         onPick={(id) => update((a) => pickLength(a, id))}
       />
     </>

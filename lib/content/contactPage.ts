@@ -1,5 +1,5 @@
 import { routes } from '../routes.ts';
-import { emailHref, phoneHref, socialLinks, whatsappHref } from '../utils/contact.ts';
+import { emailHref, officeMap, phoneHref, socialLinks, whatsappHref } from '../utils/contact.ts';
 import { fillTokens } from '../utils/tokens.ts';
 import { whatsappLink } from '../utils/whatsapp.ts';
 import { getContactCopy, getHomeCopy, type ContactCopy } from './pages.ts';
@@ -61,7 +61,9 @@ export function getContactPage() {
     settings,
     /** The road north, drawn beside "On a trip right now?". */
     routeMap: getRouteMap(),
-    /** The page has no photo of its own (the office's is a placeholder), so it shares the Homepage's. */
+    /** "Visit the office": the office on a Google map, once the address is real (ADR-0029). */
+    officeMap: officeMap(settings),
+    /** The page has no photo of its own, so it shares the Homepage's. */
     sharePhoto: getHomeCopy().hero.image,
   };
 }

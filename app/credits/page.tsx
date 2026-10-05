@@ -4,7 +4,7 @@ import { ShareImageMeta } from '@/components/layout/ShareImageMeta/ShareImageMet
 import { CanonicalMeta } from '@/components/seo/CanonicalMeta/CanonicalMeta';
 import { getDestinations, getTours } from '@/lib/content/catalog';
 import { getGuides } from '@/lib/content/guides';
-import { getAboutCopy, getCreditsCopy, getHomeCopy, getToursCopy } from '@/lib/content/pages';
+import { getAboutCopy, getCreditsCopy, getHomeCopy, getPlannerCopy, getToursCopy } from '@/lib/content/pages';
 import { getSettings } from '@/lib/content/settings';
 import { routes } from '@/lib/routes';
 import { photoCredits } from '@/lib/utils/credits';
@@ -29,6 +29,9 @@ export default function CreditsPage() {
     ]),
     ...getDestinations().flatMap((destination) => [destination.image, ...(destination.places ?? []).map((place) => place.image)]),
     getToursCopy().banner.image,
+    getPlannerCopy().header.image,
+    getPlannerCopy().aside.image,
+    getPlannerCopy().whereWhen.destinations.unsureImage,
     getAboutCopy().header.image,
     ...getAboutCopy().vehicles.items.map((vehicle) => vehicle.image),
     ...getGuides().map((guide) => guide.portrait),

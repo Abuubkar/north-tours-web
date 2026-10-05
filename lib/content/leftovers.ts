@@ -21,7 +21,7 @@ const HEADINGS: Record<LeftoverKind, string> = {
   siteUrl: 'Site URL: write the live address, e.g. https://example.pk',
   placeholder: 'Placeholders: replace each [bracketed] part with the real value',
   sample: 'Sample content: remove "sample": true once the item is real or reviewed',
-  photo: 'Placeholder photos: add a photo of each shot (people and the office: the owner’s own)',
+  photo: 'Placeholder photos: add a photo of each shot (people: the owner’s own)',
   mapVetting: 'Map vetting: set to true once the Survey of Pakistan has vetted the maps',
 };
 

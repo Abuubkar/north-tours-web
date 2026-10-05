@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, waitFor, within } from 'storybook/test';
-import { gridColumns } from '../../../.storybook/gridColumns';
+import { expectCardGaps, gridColumns } from '../../../.storybook/gridColumns';
 import { opacityUpTo } from '../../../.storybook/opacity';
 import { realUser } from '../../../.storybook/realUser';
 import { emulateFullMotion, emulateReducedMotion } from '../../../.storybook/reducedMotion';
@@ -52,13 +52,18 @@ const rows = (dialog: HTMLElement) =>
     .getAllByRole('term')
     .map((term) => `${term.textContent}: ${term.nextElementSibling?.textContent}`);
 
-/** Four across at 1440, every card a button that opens a dialog, carrying the guide's anchor. */
+/**
+ * Four across at 1440, photo cards 24px apart and rows 48px apart with no lines, every card a
+ * button that opens a dialog, carrying the guide's anchor.
+ */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
     const cards = canvas.getAllByRole('button');
     await expect(cards.map((c) => c.getAttribute('id'))).toEqual(sampleProfiles.map((p) => `guide-${p.slug}`));
     for (const card of cards) await expect(card).toHaveAttribute('aria-haspopup', 'dialog');
-    await expect(gridColumns(canvas.getAllByRole('listitem'))).toBe(4);
+    const items = canvas.getAllByRole('listitem');
+    await expect(gridColumns(items)).toBe(4);
+    await expectCardGaps(canvas.getByRole('list'), items, { column: 24, row: 48 });
   },
 };
 

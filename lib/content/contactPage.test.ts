@@ -58,8 +58,14 @@ describe('contactPage', () => {
   it('links nothing while the values are placeholders, and "Chat now" carries the general message with no number', () => {
     const settings = getSettings();
     const { channels, travelSupport } = contactPage(contact, settings);
-    expect([channels.whatsapp.href, channels.phone.href, channels.email.href, travelSupport.href]).toEqual([undefined, undefined, undefined, undefined]);
+    expect([channels.whatsapp.href, channels.email.href, travelSupport.href]).toEqual([undefined, undefined, undefined]);
     expect(channels.whatsapp.chatHref).toBe(`https://wa.me/?text=${encodeURIComponent(settings.whatsapp.generalMessage)}`);
+  });
+
+  it('calls the office’s real number, from its Google Maps listing; the 24/7 line stays a placeholder', () => {
+    const { channels, travelSupport } = contactPage(contact, getSettings());
+    expect(channels.phone).toMatchObject({ value: '+92 42 3725 2511', href: 'tel:+924237252511' });
+    expect(travelSupport.href).toBeUndefined();
   });
 
   it('links each value once it’s real', () => {

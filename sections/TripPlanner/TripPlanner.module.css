@@ -80,9 +80,12 @@
   }
 }
 
-/* Each question in a step is a section, divided from the next by a hairline. */
+/*
+ * Each question in a step is a section, divided from the next by a hairline, with the same room
+ * above and below every line on every step, whether the question is one field or a group.
+ */
 .body > * {
-  padding-block: var(--space-32);
+  padding-block: var(--form-question-y);
 }
 
 .body > * + * {

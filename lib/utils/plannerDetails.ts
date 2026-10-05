@@ -1,5 +1,5 @@
 import { EMPTY_PHONE, type Phone } from './phone.ts';
-import type { BestTime } from './plannerOptions.ts';
+import { BEST_TIMES, toggled, type BestTime } from './plannerOptions.ts';
 
 /*
  * Your details (PRD #71): who to reply to and when. They live in memory only, never in the
@@ -9,12 +9,13 @@ import type { BestTime } from './plannerOptions.ts';
 export type Details = {
   name: string;
   phone: Phone;
-  bestTime: BestTime | null;
+  /** Any number of times, in the options' order (named as its question in page copy, like the trip's chip questions). */
+  bestTime: BestTime[];
   /** "Anything else?", up to 500 characters so the WhatsApp link stays short. */
   notes: string;
 };
 
-export const EMPTY_DETAILS: Details = { name: '', phone: EMPTY_PHONE, bestTime: null, notes: '' };
+export const EMPTY_DETAILS: Details = { name: '', phone: EMPTY_PHONE, bestTime: [], notes: '' };
 
 /** The longest "Anything else?". */
 export const NOTES_MAX_LENGTH = 500;
@@ -29,7 +30,7 @@ export function switchPhoneMode(details: Details): Details {
   return { ...details, phone: { ...details.phone, mode: details.phone.mode === 'pk' ? 'intl' : 'pk' } };
 }
 
-/** The best time to call: picking the chosen one again clears it. */
+/** The best time to call: picks the time, or unpicks it; any number, morning first. */
 export function pickBestTime(details: Details, time: BestTime): Details {
-  return { ...details, bestTime: details.bestTime === time ? null : time };
+  return { ...details, bestTime: toggled(details.bestTime, time, BEST_TIMES) };
 }

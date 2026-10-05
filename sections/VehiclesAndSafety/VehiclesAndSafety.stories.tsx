@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
-import { gridColumns } from '../../.storybook/gridColumns';
+import { expectCardGaps, gridColumns } from '../../.storybook/gridColumns';
 import { sampleAbout } from '../sampleAbout';
 import { VehiclesAndSafety } from './VehiclesAndSafety';
 
@@ -17,7 +17,10 @@ type Story = StoryObj<typeof meta>;
 
 const vehicles = (canvas: ReturnType<typeof within>) => within(canvas.getAllByRole('list')[0]).getAllByRole('listitem');
 
-/** The vehicles two across beside the safety list; names are <h3>s with their photos, then the fleet's age. */
+/**
+ * The vehicles two across beside the safety list, 24px apart with no lines; names are <h3>s with
+ * their photos, then the fleet's age in a row of its own whose hairlines don't touch a photo.
+ */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Our vehicles, and how we keep you safe' })).toBeVisible();
@@ -28,9 +31,13 @@ export const Desktop: Story = {
     ]);
     for (const vehicle of sampleAbout.vehicles.items) await expect(canvas.getByRole('img', { name: vehicle.image.alt })).toBeVisible();
     await expect(gridColumns(vehicles(canvas))).toBe(2);
-    await expect(canvas.getByText('Average age of our fleet:')).toHaveTextContent('Average age of our fleet: 4 years');
+    await expectCardGaps(canvas.getAllByRole('list')[0], vehicles(canvas), { column: 24, row: null });
+    const age = canvas.getByText('Average age of our fleet:');
+    await expect(age).toHaveTextContent('Average age of our fleet: 4 years');
+    const photosEnd = Math.max(...vehicles(canvas).map((item) => item.getBoundingClientRect().bottom));
+    await expect(age.getBoundingClientRect().top).toBeGreaterThan(photosEnd);
     // The safety list sits beside the fleet.
-    const fleet = canvas.getByText('Average age of our fleet:').getBoundingClientRect();
+    const fleet = age.getBoundingClientRect();
     const safety = canvas.getByRole('heading', { level: 3, name: 'How we keep you safe' }).getBoundingClientRect();
     await expect(safety.left).toBeGreaterThan(fleet.right);
     await expect(within(canvas.getAllByRole('list')[1]).getAllByRole('listitem')).toHaveLength(5);
@@ -44,6 +51,7 @@ export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas, canvasElement }) => {
     await expect(gridColumns(vehicles(canvas))).toBe(1);
+    await expectCardGaps(canvas.getAllByRole('list')[0], vehicles(canvas), { column: null, row: 48 });
     const fleet = canvas.getByText('Average age of our fleet:').getBoundingClientRect();
     const safety = canvas.getByRole('heading', { level: 3, name: 'How we keep you safe' }).getBoundingClientRect();
     await expect(safety.top).toBeGreaterThan(fleet.bottom);

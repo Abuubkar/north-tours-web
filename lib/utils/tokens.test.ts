@@ -55,6 +55,7 @@ const company = {
     phone: '[+92 42 XXXX XXXX]',
     email: '[hello@brand.pk]',
     officeAddress: '[Office address], Lahore, Punjab',
+    officeMapQuery: '[Office address], Lahore, Punjab',
     officeHours: '[Mon–Sat, X am – X pm]',
     travelSupport: '[24/7 number]',
   },

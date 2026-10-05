@@ -110,6 +110,13 @@ describe('launch leftovers', () => {
   it('finds the live content valid, whatever is left in it', () => {
     expect(launchCheck().problems).toEqual([]);
   });
+
+  it('no longer lists the office’s address or phone, now the owner has supplied them (2026-10-05)', () => {
+    const fields = findLeftovers().map((leftover) => leftover.field);
+    expect(fields).not.toContain('contact.officeAddress');
+    expect(fields).not.toContain('contact.phone');
+    expect(fields).toContain('contact.travelSupport');
+  });
 });
 
 describe('launch leftovers, as printed', () => {

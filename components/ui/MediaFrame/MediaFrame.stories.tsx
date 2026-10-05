@@ -10,7 +10,7 @@ const meta = {
   args: { image: samplePhoto, ratio: '4:3', sizes: '460px' },
   argTypes: {
     ratio: { control: 'inline-radio', options: ['fill', '4:3', '3:4', '4:5', '16:10'] },
-    wideRatio: { control: 'inline-radio', options: [undefined, '21:9', '4:5'] },
+    wideRatio: { control: 'inline-radio', options: [undefined, '4:5'] },
   },
   decorators: [
     (Story) => (
@@ -65,13 +65,13 @@ export const Wide: Story = {
   },
 };
 
-/** A frame that changes shape at 820px, from CSS alone: the About header, 21:9 on wide screens. */
+/** A frame that changes shape at 820px, from CSS alone: a guide's profile portrait, 4:5 in the side drawer. */
 export const WideFromTablet: Story = {
-  args: { ratio: '4:3', wideRatio: '21:9', sizes: '460px' },
+  args: { ratio: '4:3', wideRatio: '4:5', sizes: '460px' },
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     const frame = canvas.getByRole('img', { name: samplePhoto.alt }).closest('picture')!.getBoundingClientRect();
-    await expect(frame.width / frame.height).toBeCloseTo(21 / 9, 1);
+    await expect(frame.width / frame.height).toBeCloseTo(4 / 5, 1);
   },
 };
 

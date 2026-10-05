@@ -8,6 +8,7 @@ import { atQuery } from '../../.storybook/storyUrl';
 import type { TripAnswers } from '@/lib/utils/plannerAnswers';
 import { monthChoices } from '@/lib/utils/plannerOptions';
 import { PLANNER_STORAGE_KEY, serialisePlanner } from '@/lib/utils/plannerStorage';
+import { shortMonthsYears } from '@/lib/utils/dates';
 import { todayInKarachi } from '@/lib/utils/departures';
 import { TripPlanner } from './TripPlanner';
 
@@ -112,8 +113,8 @@ export const CardsWithKeys: Story = {
 
 /**
  * The date mode switches: Exact shows From and To, neither before today in Karachi, To not
- * before From; Flexible brings the months back. A month replaces another, and picking it again
- * clears it.
+ * before From; Flexible brings the months back. Several months can be picked, and picking one
+ * again unpicks it.
  */
 export const Dates: Story = {
   play: async ({ canvas, userEvent }) => {
@@ -132,35 +133,85 @@ export const Dates: Story = {
     await userEvent.click(first);
     await expect(first).toHaveAttribute('aria-pressed', 'true');
     await userEvent.click(second);
-    await expect(first).toHaveAttribute('aria-pressed', 'false');
+    await expect(first).toHaveAttribute('aria-pressed', 'true');
     await expect(second).toHaveAttribute('aria-pressed', 'true');
     await userEvent.click(second);
+    await userEvent.click(first);
     await expect(monthChips(canvas).every((chip) => chip.getAttribute('aria-pressed') === 'false')).toBe(true);
   },
 };
 
-/** With a month chosen, the days stepper fills the trip length until the visitor picks one. */
-export const LengthFollowsDays: Story = {
+/** The trip length is asked once: no days stepper, and a month alone leaves the length unpicked until the visitor picks one. */
+export const LengthAskedOnce: Story = {
   play: async ({ canvas, userEvent }) => {
+    await expect(canvas.queryByRole('group', { name: /how many days/i })).toBeNull();
+    await expect(canvas.queryByRole('button', { name: 'More days' })).toBeNull();
     const length = canvas.getByRole('group', { name: 'Trip length' });
     await userEvent.click(monthChips(canvas)[3]);
-    await expect(button(canvas, '5–7 days')).toHaveAttribute('aria-pressed', 'true');
-    await expect(length).toHaveAccessibleDescription('Optional · filled from your flexible dates');
-    await userEvent.click(button(canvas, 'More days'));
-    await userEvent.click(button(canvas, 'More days'));
-    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
-    // Pressing the filled-in length keeps it, and it stops following the days.
+    for (const chip of within(length).getAllByRole('button')) await expect(chip).toHaveAttribute('aria-pressed', 'false');
+    await expect(length).toHaveAccessibleDescription('Optional');
     await userEvent.click(button(canvas, '8–10 days'));
     await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
-    await expect(length).toHaveAccessibleDescription('Optional');
-    await userEvent.click(button(canvas, 'Fewer days'));
-    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
-    await userEvent.click(button(canvas, '2–4 days'));
-    await expect(length).toHaveAccessibleDescription('Optional');
-    await userEvent.click(button(canvas, 'More days'));
-    await expect(button(canvas, '2–4 days')).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.click(button(canvas, '8–10 days'));
+    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'false');
   },
 };
+
+/** A token's value in pixels, as the page has it. */
+const tokenPx = (name: string) => parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+
+/**
+ * A question's label line and its first control: a group's <legend> and the box after it, or a
+ * field's label line and the control under it. A question without a label (the privacy line) has neither.
+ */
+function questionParts(question: HTMLElement) {
+  const legend = question.querySelector<HTMLElement>(':scope > legend');
+  if (legend) return { label: legend, control: legend.nextElementSibling?.firstElementChild ?? null };
+  const head = question.querySelector<HTMLElement>(':scope > div:has(> label)');
+  return head ? { label: head, control: head.nextElementSibling } : null;
+}
+
+/**
+ * One rhythm on every step: from one question's last control, across the hairline, to the next
+ * question's first line is the same space everywhere (`--form-question-y` each side of the line),
+ * and every label sits `--form-label-gap` above its control, whether the question is one field or a group.
+ */
+async function expectRhythm(canvasElement: HTMLElement) {
+  const body = canvasElement.querySelector<HTMLElement>('[data-form-field]')?.parentElement;
+  const questions = body ? ([...body.children] as HTMLElement[]) : [];
+  if (questions.length < 2) throw new Error('Expected a step body with at least two questions');
+  const space = tokenPx('--form-question-y');
+  const hairline = tokenPx('--hairline-width');
+  for (const [i, question] of questions.entries()) {
+    const parts = questionParts(question);
+    const style = getComputedStyle(question);
+    const firstLine = parts ? parts.label.getBoundingClientRect().top : question.getBoundingClientRect().top + hairline + parseFloat(style.paddingTop);
+    if (i > 0) {
+      const before = questions[i - 1];
+      const end = before.getBoundingClientRect().bottom - parseFloat(getComputedStyle(before).paddingBottom);
+      await expect(Math.round(firstLine - end)).toBe(2 * space + hairline);
+      await expect(style.borderTopWidth).toBe(`${hairline}px`);
+    }
+    if (parts?.control) {
+      await expect(Math.round(parts.control.getBoundingClientRect().top - parts.label.getBoundingClientRect().bottom)).toBe(tokenPx('--form-label-gap'));
+    }
+  }
+}
+
+/** Steps 1, 2 and 3 share the rhythm. */
+export const Rhythm: Story = {
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    await expectRhythm(canvasElement);
+    await toStep2(canvas, userEvent);
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming'));
+    await expectRhythm(canvasElement);
+    await userEvent.click(button(canvas, /^Next/));
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 3 of 3 · Your details'));
+    await expectRhythm(canvasElement);
+  },
+};
+
+export const RhythmPhone: Story = { ...Rhythm, globals: { viewport: { value: 'phone' } } };
 
 /**
  * Next on an empty step: both messages show, the first card takes focus and sits below the
@@ -406,10 +457,11 @@ const stayOnPage = () => {
   return () => document.removeEventListener('click', block);
 };
 
-/** Every step answered, then Review: Hunza in the fourth month, 2 adults and 2 children (6, 9), Family, Upgraded, Ayesha. */
+/** Every step answered, then Review: Hunza in the fourth month for 5–7 days, 2 adults and 2 children (6, 9), Family, Upgraded, Ayesha. */
 const toReview = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void>; type: (el: Element, text: string) => Promise<void>; selectOptions: (el: Element, value: string) => Promise<void> }) => {
   await userEvent.click(button(canvas, 'Hunza'));
   await userEvent.click(monthChips(canvas)[3]);
+  await userEvent.click(button(canvas, '5–7 days'));
   await userEvent.click(button(canvas, /^Next/));
   await userEvent.click(button(canvas, 'More children'));
   await userEvent.click(button(canvas, 'More children'));
@@ -452,6 +504,59 @@ export const Review: Story = {
 };
 
 export const ReviewPhone: Story = { ...Review, globals: { viewport: { value: 'phone' } } };
+
+/**
+ * Several picks (owner feedback, 2026-10-05): two months, two trip lengths, two group types, two
+ * hotel levels and two best times, each joined in the review and the WhatsApp message, in the
+ * options' order whatever order they were pressed in. Departing from stays one city.
+ */
+export const ReviewSeveralPicks: Story = {
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const months = monthChoices(todayInKarachi(new Date())).slice(3, 5);
+    await userEvent.click(button(canvas, 'Hunza'));
+    await userEvent.click(button(canvas, 'Skardu'));
+    await userEvent.click(monthChips(canvas)[4]);
+    await userEvent.click(monthChips(canvas)[3]);
+    await userEvent.click(button(canvas, '8–10 days'));
+    await userEvent.click(button(canvas, '5–7 days'));
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.click(button(canvas, 'Friends'));
+    await userEvent.click(button(canvas, 'Family'));
+    await userEvent.click(button(canvas, 'Upgraded'));
+    await userEvent.click(button(canvas, 'Comfortable'));
+    await userEvent.click(button(canvas, 'Islamabad'));
+    await userEvent.click(button(canvas, 'Lahore'));
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((chip) => chip.textContent)).toEqual(['Family', 'Friends', 'Comfortable', 'Upgraded', 'Lahore']);
+    await userEvent.click(button(canvas, /^Next/));
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Name' }), 'Ayesha Khan');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'WhatsApp number' }), '300 123 4567');
+    await userEvent.click(button(canvas, 'Evening'));
+    await userEvent.click(button(canvas, 'Morning'));
+    await userEvent.click(button(canvas, /^Review/));
+    await waitFor(() => expect(progress(canvas)).toHaveTextContent('Review · Check and send'));
+    const dates = shortMonthsYears(months);
+    const values = canvas.getAllByRole('definition').map((d) => d.textContent);
+    for (const value of ['Hunza, Skardu', dates, '5–7 days, 8–10 days', 'Family, Friends', 'Comfortable, Upgraded', 'Lahore', 'Morning, Evening']) {
+      await expect(values).toContain(value);
+    }
+    const message = linkText(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
+    await expect(message).toBe(canvasElement.querySelector('figure p')!.textContent);
+    for (const line of [
+      '• Destinations: Hunza, Skardu',
+      `• Dates: ${dates} (5–7 days, 8–10 days)`,
+      '• Group: 2 adults · Family, Friends',
+      '• Hotels: Comfortable, Upgraded · Transport: Any',
+      '• Departing from: Lahore',
+      '• Best time to reach me: Morning, Evening',
+    ]) {
+      await expect(message!.split('\n')).toContain(line);
+    }
+  },
+};
+
+export const ReviewSeveralPicksPhone: Story = { ...ReviewSeveralPicks, globals: { viewport: { value: 'phone' } } };
+
+export const ReviewSeveralPicksOnLight: Story = { ...ReviewSeveralPicks, globals: { surface: 'light', viewport: { value: 'desktop' } } };
 
 export const ReviewLaptop: Story = { ...Review, globals: { viewport: { value: 'laptop' } } };
 
@@ -522,7 +627,7 @@ export const SendAndAgainLaptop: Story = { ...SendAndAgain, globals: { viewport:
 const comingMonth = () => monthChoices(todayInKarachi(new Date()))[3];
 
 const savedTrip = (step: number, change: Partial<TripAnswers> = {}) =>
-  serialisePlanner({ ...sampleAnswers, month: comingMonth(), ...change }, step);
+  serialisePlanner({ ...sampleAnswers, months: [comingMonth()], ...change }, step);
 
 const saved = () => JSON.parse(localStorage.getItem(PLANNER_STORAGE_KEY) ?? 'null');
 
@@ -601,11 +706,11 @@ export const SavedReviewPhone: Story = { ...SavedReview, globals: { viewport: { 
 
 /** Saved junk: a past month and a destination no longer in content fall back to their defaults; the rest stays. */
 export const SavedJunk: Story = {
-  beforeEach: () => savedPlanner(savedTrip(2, { month: '2020-01', destinations: ['atlantis', 'skardu'] }))(),
+  beforeEach: () => savedPlanner(savedTrip(2, { months: ['2020-01'], destinations: ['atlantis', 'skardu'] }))(),
   play: async ({ canvas }) => {
     // Without a month, step 1 doesn't pass, so the planner opens there.
     await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when'));
-    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Skardu', 'Flexible']);
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Skardu', 'Flexible', '5–7 days']);
   },
 };
 
@@ -693,7 +798,8 @@ export const Aside: Story = {
     await expect(rows.getByText('Your trip', { selector: 'p' })).toBeVisible();
     await userEvent.click(button(canvas, 'Hunza'));
     await userEvent.click(monthChips(canvas)[3]);
-    await expect(aside).toHaveTextContent('5 of 9');
+    // A month alone leaves the trip length to the visitor.
+    await expect(aside).toHaveTextContent('4 of 9');
     await expect(rows.getAllByRole('definition')[0]).toHaveTextContent('Hunza');
     await expect(rows.getByRole('img', { name: 'A view of Hunza' })).toBeVisible();
     await expect(rows.getByText('Hunza', { selector: 'p' })).toBeVisible();

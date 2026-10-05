@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, fn } from 'storybook/test';
 import { samplePhoto } from '@/components/ui/MediaFrame/samplePhotos';
+import { samplePlannerCopy } from '../samplePlanner';
 import { DestinationChoiceCard } from './DestinationChoiceCard';
 import type { DestinationChoiceCardProps } from './DestinationChoiceCard.types';
 import styles from '../../ui/stories.module.css';
@@ -56,14 +57,19 @@ export const On: Story = {
   },
 };
 
-/** "Not sure": the placeholder stripes, no caption. */
+/** "Not sure": a photo of its own (owner feedback, 2026-10-05), in the same 16:10 frame as the destinations'. */
 export const NotSure: Story = {
-  args: { label: 'Not sure, suggest something', image: undefined },
+  args: { label: 'Not sure, suggest something', image: samplePlannerCopy.whereWhen.destinations.unsureImage },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('button', { name: 'Not sure, suggest something' })).toBeVisible();
-    await expect(canvas.queryByRole('img')).toBeNull();
+    const card = canvas.getByRole('button', { name: 'Not sure, suggest something' });
+    const photo = card.querySelector('img')!;
+    await expect(photo).toBeVisible();
+    const box = photo.getBoundingClientRect();
+    await expect(box.width / box.height).toBeCloseTo(16 / 10, 1);
   },
 };
+
+export const NotSureOnLight: Story = { ...NotSure, globals: { surface: 'light' } };
 
 /** After a failed Next: the error border, and the message read when the card is focused. */
 export const Invalid: Story = {

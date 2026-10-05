@@ -81,7 +81,10 @@ export const AdultLimits: Story = {
   },
 };
 
-/** Real keys: each optional group takes one chip and clears on a second press; Departing from always keeps one. */
+/**
+ * Real keys: each optional group takes any number of chips, Space toggling each on and off;
+ * Departing from stays one city, so another replaces it and the chosen one stays on.
+ */
 export const Chips: Story = {
   play: async ({ canvas }) => {
     const user = await realUser();
@@ -99,13 +102,18 @@ export const Chips: Story = {
       const chips = within(canvas.getByRole('group', { name: group }));
       await press(chips.getByRole('button', { name: a }));
       await press(chips.getByRole('button', { name: b }));
-      await expect(chips.getByRole('button', { name: a })).toHaveAttribute('aria-pressed', 'false');
+      await expect(chips.getByRole('button', { name: a })).toHaveAttribute('aria-pressed', 'true');
       await expect(chips.getByRole('button', { name: b })).toHaveAttribute('aria-pressed', 'true');
+      await press(chips.getByRole('button', { name: a }));
+      await expect(chips.getByRole('button', { name: a })).toHaveAttribute('aria-pressed', 'false');
       await press(chips.getByRole('button', { name: b }));
       await expect(chips.queryAllByRole('button', { pressed: true })).toHaveLength(0);
     }
+    const from = within(canvas.getByRole('group', { name: 'Departing from' }));
     await press(button(canvas, 'Lahore'));
     await expect(button(canvas, 'Lahore')).toHaveAttribute('aria-pressed', 'true');
+    await press(button(canvas, 'Islamabad'));
+    await expect(from.getAllByRole('button', { pressed: true }).map((chip) => chip.textContent)).toEqual(['Islamabad']);
   },
 };
 

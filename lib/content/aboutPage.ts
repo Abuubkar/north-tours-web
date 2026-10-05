@@ -1,4 +1,5 @@
 import { companyStats } from '../utils/companyStats.ts';
+import { officeMap } from '../utils/contact.ts';
 import { guideProfile } from '../utils/guideProfile.ts';
 import { fillTokens } from '../utils/tokens.ts';
 import { getTour } from './catalog.ts';
@@ -51,6 +52,8 @@ export function getAboutPage() {
       const review = getReviews().find((r) => r.slug === slug)!;
       return { review, tourTitle: getTour(review.tour)!.title };
     }),
+    /** "Visit the office": the office on a Google map, once the address is real (ADR-0029). */
+    officeMap: officeMap(settings),
     /** The header's place photo is also the page's share image. */
     sharePhoto: copy.header.image,
   };

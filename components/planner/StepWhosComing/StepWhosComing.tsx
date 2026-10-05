@@ -3,8 +3,8 @@
 import { FormField } from '@/components/ui/FormField/FormField';
 import { Input } from '@/components/ui/Input/Input';
 import { usePlanner } from '@/hooks/usePlanner';
-import { pickDeparture, pickOption, setAdults, setChildren, setOtherCity, type ChipQuestion, type ChipValue } from '@/lib/utils/plannerAnswers';
-import { ADULTS, CHILDREN, DEPARTING_FROM, GROUP_TYPES, HOTELS, labelled, PLANNER_BUDGETS, TRANSPORT } from '@/lib/utils/plannerOptions';
+import { CHIP_OPTIONS, pickDeparture, pickOption, setAdults, setChildren, setOtherCity, type ChipQuestion, type ChipValue } from '@/lib/utils/plannerAnswers';
+import { ADULTS, CHILDREN, DEPARTING_FROM, labelled } from '@/lib/utils/plannerOptions';
 import { ChildAgeSelects } from '../ChildAgeSelects/ChildAgeSelects';
 import { ChoiceChips } from '../ChoiceChips/ChoiceChips';
 import { CounterRow } from '../CounterRow/CounterRow';
@@ -12,21 +12,22 @@ import type { StepWhosComingProps } from './StepWhosComing.types';
 import styles from './StepWhosComing.module.css';
 
 /**
- * Step 2, Who's coming: adults and children (with each child's age), then five optional
- * one-chip questions. Departing from always has a city (Lahore by default); "Other city" asks which.
+ * Step 2, Who's coming: adults and children (with each child's age), then the chip questions:
+ * group type, hotels, transport and budget take any number of answers; Departing from always has
+ * one city (Lahore by default), and "Other city" asks which.
  */
 export function StepWhosComing({ copy }: StepWhosComingProps) {
   const { answers, update, fieldId } = usePlanner();
   const { group } = copy;
-  const chips = <K extends ChipQuestion>(question: K, ids: readonly ChipValue<K>[]) => {
+  const chips = <K extends ChipQuestion>(question: K) => {
     return (
       <ChoiceChips
         id={fieldId(question)}
         label={copy[question].label}
         hint={copy[question].hint}
-        options={labelled<ChipValue<K>>(ids, copy[question].options as Record<ChipValue<K>, string>)}
+        options={labelled<ChipValue<K>>(CHIP_OPTIONS[question], copy[question].options as Record<ChipValue<K>, string>)}
         // TypeScript can't narrow `answers[question]` for a generic question; it holds that question's options.
-        value={answers[question] as ChipValue<K> | null}
+        value={answers[question] as readonly ChipValue<K>[]}
         onPick={(id) => update((a) => pickOption(a, question, id))}
       />
     );
@@ -61,15 +62,15 @@ export function StepWhosComing({ copy }: StepWhosComingProps) {
           </div>
         )}
       </FormField>
-      {chips('groupType', GROUP_TYPES)}
-      {chips('hotels', HOTELS)}
-      {chips('transport', TRANSPORT)}
+      {chips('groupType')}
+      {chips('hotels')}
+      {chips('transport')}
       <ChoiceChips
         id={fieldId('departingFrom')}
         label={copy.departingFrom.label}
         hint={copy.departingFrom.hint}
         options={labelled(DEPARTING_FROM, copy.departingFrom.options)}
-        value={answers.departingFrom}
+        value={[answers.departingFrom]}
         onPick={(id) => update((a) => pickDeparture(a, id))}
       >
         {answers.departingFrom === 'other' && (
@@ -82,7 +83,7 @@ export function StepWhosComing({ copy }: StepWhosComingProps) {
           />
         )}
       </ChoiceChips>
-      {chips('budget', PLANNER_BUDGETS)}
+      {chips('budget')}
     </>
   );
 }

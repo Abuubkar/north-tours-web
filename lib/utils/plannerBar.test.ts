@@ -17,15 +17,19 @@ const empty: TripSummary = { destinations: null, dates: null, length: null, grou
 describe('answered count', () => {
   it('counts the rows with an answer: none, some, all', () => {
     expect(answeredCount(empty)).toBe(0);
-    expect(answeredCount({ ...empty, destinations: 'Hunza', group: '2 adults', from: 'Lahore', dates: 'Jun 2027, about 6 days' })).toBe(4);
+    expect(answeredCount({ ...empty, destinations: 'Hunza', group: '2 adults', from: 'Lahore', dates: 'Jun 2027' })).toBe(4);
     const all = Object.fromEntries(Object.keys(empty).map((key) => [key, 'x'])) as TripSummary;
     expect(answeredCount(all)).toBe(9);
   });
 });
 
 describe('bar label', () => {
+  it('shows the first month when several are picked', () => {
+    expect(label({ destinations: ['hunza'], months: ['2027-06', '2027-07', '2027-09'] })).toBe('Hunza · Jun · 2 people');
+  });
+
   it('names one valley, the month and the people', () => {
-    expect(label({ destinations: ['hunza'], month: '2027-06', children: 2, ages: [6, 9] })).toBe('Hunza · Jun · 4 people');
+    expect(label({ destinations: ['hunza'], months: ['2027-06'], children: 2, ages: [6, 9] })).toBe('Hunza · Jun · 4 people');
   });
 
   it('counts the other valleys after the first', () => {
@@ -42,6 +46,6 @@ describe('bar label', () => {
 
   it('uses the start of exact dates, and “1 person”', () => {
     expect(label({ dateMode: 'exact', from: '2027-06-12', to: '2027-06-18', adults: 1 })).toBe('Your trip · 12 Jun · 1 person');
-    expect(label({ dateMode: 'exact', from: null, month: '2027-06' })).toBe('Your trip · Dates? · 2 people');
+    expect(label({ dateMode: 'exact', from: null, months: ['2027-06'] })).toBe('Your trip · Dates? · 2 people');
   });
 });

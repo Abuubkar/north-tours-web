@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
 import { onPath } from '../../../.storybook/markedLinks';
-import { placeholderSettings, realSettings } from '../sampleSettings';
+import { listingSettings, placeholderSettings, realSettings } from '../sampleSettings';
 import { SiteFooter } from './SiteFooter';
 
 const MESSAGE = 'text=Hi%2C%20I%E2%80%99d%20like%20to%20plan%20a%20trip%20north.';
@@ -70,6 +70,22 @@ export const PlaceholdersPhoneOnLight: Story = {
   globals: { surface: 'light', viewport: { value: 'phone' } },
 };
 
+/**
+ * Today's settings: the office's phone from its Google Maps listing is a tel: link, and its
+ * address shows in the Office row; WhatsApp and email stay placeholders.
+ */
+export const OfficeListing: Story = {
+  args: { settings: listingSettings },
+  play: async ({ canvasElement }) => {
+    const phone = contactRow(canvasElement, 'Phone').getByRole('link', { name: '+92 42 3725 2511' });
+    await expect(phone).toHaveAttribute('href', 'tel:+924237252511');
+    await expect(contactRow(canvasElement, 'Office').getByText(/^3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000/)).toBeVisible();
+    await expect(contactRow(canvasElement, 'Email').queryByRole('link')).toBeNull();
+  },
+};
+
+export const OfficeListingOnLight: Story = { ...OfficeListing, globals: { surface: 'light' } };
+
 /** The footer's nav is its own landmark, with the main nav's six pages as large links; Contact isn't a small link too. */
 export const FooterNav: Story = {
   play: async ({ canvas }) => {
@@ -89,6 +105,41 @@ export const FooterNav: Story = {
     const small = canvas.getAllByRole('listitem').filter((item) => !nav.contains(item));
     await expect(small.map((item) => item.textContent)).toEqual(['Instagram', 'Facebook', 'YouTube', 'Help', 'Privacy', 'Terms', 'Photo credits']);
     await expect(canvas.getByRole('link', { name: 'Photo credits' })).toHaveAttribute('href', '/credits');
+  },
+};
+
+/** The footer's large links, and where its left margin ends. */
+function footerLinks(canvas: ReturnType<typeof within>, canvasElement: HTMLElement) {
+  const footer = canvasElement.querySelector('footer')!;
+  const margin = footer.getBoundingClientRect().left + parseFloat(getComputedStyle(footer).paddingLeft);
+  return { footer, margin, links: within(canvas.getByRole('navigation', { name: 'Footer' })).getAllByRole('link') };
+}
+
+/**
+ * No section label (owner feedback, 2026-10-05): no "Contact" heading, the large links start at the
+ * footer's left margin, and the contact column sits on the right.
+ */
+export const NoLabel: Story = {
+  play: async ({ canvas, canvasElement }) => {
+    const { footer, margin, links } = footerLinks(canvas, canvasElement);
+    await expect(within(footer).queryByRole('heading')).toBeNull();
+    await expect(within(footer).queryByText('Contact', { selector: 'h2, p, span' })).toBeNull();
+    await expect(Math.round(links[0].getBoundingClientRect().left)).toBe(Math.round(margin));
+    const chat = canvas.getByRole('link', { name: 'Chat on WhatsApp' }).getBoundingClientRect();
+    await expect(chat.left).toBeGreaterThan(Math.max(...links.map((link) => link.getBoundingClientRect().right)));
+  },
+};
+
+export const NoLabelOnLight: Story = { ...NoLabel, globals: { surface: 'light' } };
+
+/** At 390 the large links still start at the margin, with the contact column under them. */
+export const NoLabelPhone: Story = {
+  globals: { viewport: { value: 'phone' } },
+  play: async ({ canvas, canvasElement }) => {
+    const { margin, links } = footerLinks(canvas, canvasElement);
+    await expect(Math.round(links[0].getBoundingClientRect().left)).toBe(Math.round(margin));
+    const chat = canvas.getByRole('link', { name: 'Chat on WhatsApp' }).getBoundingClientRect();
+    await expect(chat.top).toBeGreaterThan(links.at(-1)!.getBoundingClientRect().bottom);
   },
 };
 

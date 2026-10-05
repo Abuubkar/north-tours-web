@@ -4,8 +4,9 @@ import type { ChoiceChipsProps } from './ChoiceChips.types';
 import styles from './ChoiceChips.module.css';
 
 /**
- * A planner question answered with one chip (Trip length, Group type, Hotels…): a named group
- * of toggle chips, the chosen one pressed, with the shared selected state.
+ * A planner question answered with chips (Trip length, Group type, Hotels…): a named group of
+ * toggle chips (`aria-pressed`), each picked one pressed, with the shared selected state. Most
+ * questions take several; Departing from takes one.
  */
 export function ChoiceChips<T extends string>({ id, label, hint, options, value, onPick, children }: ChoiceChipsProps<T>) {
   return (
@@ -14,7 +15,7 @@ export function ChoiceChips<T extends string>({ id, label, hint, options, value,
         <>
           <div className={styles.chips}>
             {options.map((option) => (
-              <Chip key={option.id} variant="toggle" pressed={value === option.id} onClick={() => onPick(option.id)}>
+              <Chip key={option.id} variant="toggle" pressed={value.includes(option.id)} onClick={() => onPick(option.id)}>
                 {option.label}
               </Chip>
             ))}

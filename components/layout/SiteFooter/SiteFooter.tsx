@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/Button/Button';
 import { KeyValueRow } from '@/components/ui/KeyValueRow/KeyValueRow';
-import { SectionLabel } from '@/components/ui/SectionLabel/SectionLabel';
 import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
 import { routes } from '@/lib/routes';
 import { emailHref, phoneHref, socialLinks } from '@/lib/utils/contact';
@@ -18,8 +17,9 @@ const smallPages = [
 ];
 
 /**
- * The footer on every page, built from settings: the main nav's pages as large links, then contact.
- * Placeholders show as written, unlinked.
+ * The footer on every page, built from settings: the main nav's pages as large links from the
+ * left margin, and the contact column on the right (under them on phones). No section label
+ * (owner feedback, 2026-10-05). Placeholders show as written, unlinked.
  */
 export function SiteFooter({ settings }: SiteFooterProps) {
   const { brand, contact, legal, social, whatsapp } = settings;
@@ -27,40 +27,35 @@ export function SiteFooter({ settings }: SiteFooterProps) {
 
   return (
     <footer data-surface="dark" className={styles.footer}>
-      <div className={styles.top}>
-        <div className={styles.labelColumn}>
-          <SectionLabel>Contact</SectionLabel>
-        </div>
-        <div className={styles.columns}>
-          <NavLinks variant="footer" />
-          <div className={styles.contact}>
-            <p className={styles.intro}>{whatsapp.footerIntro}</p>
-            <Button href={chatHref} size={56} icon="whatsapp">
-              Chat on WhatsApp
-            </Button>
-            <dl>
-              <KeyValueRow label="WhatsApp">
-                <TextOrLink href={chatHref} className={styles.rowLink}>
-                  {contact.whatsapp}
-                </TextOrLink>
-              </KeyValueRow>
-              <KeyValueRow label="Phone">
-                <TextOrLink href={phoneHref(contact.phone)} className={styles.rowLink}>
-                  {contact.phone}
-                </TextOrLink>
-              </KeyValueRow>
-              <KeyValueRow label="Email">
-                <TextOrLink href={emailHref(contact.email)} className={styles.rowLink}>
-                  {contact.email}
-                </TextOrLink>
-              </KeyValueRow>
-              <KeyValueRow label="Office">
-                {contact.officeAddress}
-                <br />
-                {contact.officeHours}
-              </KeyValueRow>
-            </dl>
-          </div>
+      <div className={styles.columns}>
+        <NavLinks variant="footer" />
+        <div className={styles.contact}>
+          <p className={styles.intro}>{whatsapp.footerIntro}</p>
+          <Button href={chatHref} size={56} icon="whatsapp">
+            Chat on WhatsApp
+          </Button>
+          <dl>
+            <KeyValueRow label="WhatsApp">
+              <TextOrLink href={chatHref} className={styles.rowLink}>
+                {contact.whatsapp}
+              </TextOrLink>
+            </KeyValueRow>
+            <KeyValueRow label="Phone">
+              <TextOrLink href={phoneHref(contact.phone)} className={styles.rowLink}>
+                {contact.phone}
+              </TextOrLink>
+            </KeyValueRow>
+            <KeyValueRow label="Email">
+              <TextOrLink href={emailHref(contact.email)} className={styles.rowLink}>
+                {contact.email}
+              </TextOrLink>
+            </KeyValueRow>
+            <KeyValueRow label="Office">
+              {contact.officeAddress}
+              <br />
+              {contact.officeHours}
+            </KeyValueRow>
+          </dl>
         </div>
       </div>
       <div className={styles.bottom}>

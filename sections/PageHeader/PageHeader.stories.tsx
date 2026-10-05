@@ -102,26 +102,36 @@ export const PlannerSlimPhone: Story = { ...PlannerSlim, globals: { viewport: { 
 
 export const PlannerSlimLaptop: Story = { ...PlannerSlim, globals: { viewport: { value: 'laptop' } } };
 
-/** The frame's width over its height, from its rendered box. */
-const frameRatio = (img: HTMLElement) => {
-  const { width, height } = img.closest('picture')!.getBoundingClientRect();
-  return width / height;
-};
-
 /**
- * About: the <h1> at the long size, the lead, then the wide photo, the page's main image, loaded
- * straight away with high priority; 21:9 from 820px.
+ * About: a full-bleed photo cover (owner feedback, 2026-10-05), as tall as the tour hero and
+ * sliding under the site header, with the one <h1> and the lead over its lower part on the scrim.
+ * The photo is the page's main image: loaded straight away with high priority, its size set.
  */
 export const About: Story = {
   args: { variant: 'about', headline: sampleAbout.header.headline, lead: sampleAbout.header.lead, image: sampleAbout.header.image },
   play: async ({ canvas, canvasElement }) => {
-    await expect(canvas.getByRole('heading', { level: 1, name: sampleAbout.header.headline })).toBeVisible();
+    const header = canvasElement.querySelector('header')!;
+    await expect(header).toHaveAttribute('data-surface', 'dark');
+    const h1 = canvas.getByRole('heading', { level: 1, name: sampleAbout.header.headline });
+    await expect(h1).toBeVisible();
     await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
-    await expect(canvas.getByText(sampleAbout.header.lead).getBoundingClientRect().width).toBeLessThanOrEqual(560);
+    const lead = canvas.getByText(sampleAbout.header.lead);
+    await expect(lead.getBoundingClientRect().width).toBeLessThanOrEqual(560);
     const img = canvas.getByRole('img', { name: sampleAbout.header.image.alt });
     await expect(img).toHaveAttribute('loading', 'eager');
     await expect(img).toHaveAttribute('fetchpriority', 'high');
-    await expect(frameRatio(img)).toBeCloseTo(21 / 9, 1);
+    await expect(img).toHaveAttribute('width');
+    await expect(img).toHaveAttribute('height');
+    // Full-bleed: the photo fills the whole header, edge to edge, and slides up under the site header.
+    const box = header.getBoundingClientRect();
+    const photo = img.getBoundingClientRect();
+    await expect(Math.round(photo.width)).toBe(Math.round(box.width));
+    await expect(Math.round(photo.height)).toBe(Math.round(box.height));
+    await expect(parseFloat(getComputedStyle(header).marginTop)).toBeLessThan(0);
+    await expect(box.height).toBeGreaterThanOrEqual(600);
+    // The words sit over the photo's lower part.
+    await expect(h1.getBoundingClientRect().top).toBeGreaterThan(box.top + box.height / 2);
+    await expect(lead.getBoundingClientRect().bottom).toBeLessThanOrEqual(box.bottom);
   },
 };
 
@@ -129,17 +139,13 @@ export const AboutOnLight: Story = { ...About, globals: { surface: 'light', view
 
 export const AboutLaptop: Story = { ...About, globals: { viewport: { value: 'laptop' } } };
 
-/** At 390 the same photo is cropped to 4:3, and nothing scrolls sideways. */
+/** At 390 the same cover, its words still over the photo, and nothing scrolls sideways. */
 export const AboutPhone: Story = {
   ...About,
   globals: { viewport: { value: 'phone' } },
-  play: async ({ canvas, canvasElement }) => {
-    await expect(canvasElement.querySelectorAll('h1')).toHaveLength(1);
-    const img = canvas.getByRole('img', { name: sampleAbout.header.image.alt });
-    await expect(img).toHaveAttribute('loading', 'eager');
-    await expect(img).toHaveAttribute('fetchpriority', 'high');
-    await expect(frameRatio(img)).toBeCloseTo(4 / 3, 1);
-    await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
+  play: async (context) => {
+    await About.play!(context);
+    await expect(context.canvasElement.scrollWidth).toBeLessThanOrEqual(context.canvasElement.clientWidth);
   },
 };
 
