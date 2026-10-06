@@ -6,7 +6,7 @@ describe('display word spacing', () => {
     expect(displayLetters('NORTH')).toEqual([
       { char: 'N', left: 0.08, right: 0.08 },
       { char: 'O', left: 0.043, right: 0.043 },
-      { char: 'R', left: 0.08, right: 0.0578 },
+      { char: 'R', left: 0.08, right: 0.0544 },
       { char: 'T', left: 0.0112, right: 0.0112 },
       { char: 'H', left: 0.08, right: 0.08 },
     ]);

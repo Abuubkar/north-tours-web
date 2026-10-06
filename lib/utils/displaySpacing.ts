@@ -12,18 +12,17 @@ export type DisplayLetter = SideSpace & { char: string };
 
 /**
  * Geist semibold (600), measured in the browser with the web font the site loads: canvas
- * `measureText` at 1000px, the advance width against `actualBoundingBoxLeft` and `Right`. What
- * counts is the ink the hero shows: its bottom edge cuts the letters about 0.034em above their
- * baseline (where `--lh-display` and `--display-sink` put it), and the R's leg, widest at its
- * foot, ends 0.0578em short of its advance at that cut (0.0544em uncut; a pixel scan of the same
- * canvas). The other letters are as wide there as anywhere. A new display
+ * `measureText` at 1000px, the advance width against `actualBoundingBoxLeft` and `Right`. The
+ * whole word shows, a small gap above the hero's bottom edge (`--display-lift`), so these are the
+ * letters' full ink: the R's leg, widest at its foot, ends 0.0544em short of its advance (a pixel
+ * scan of the same canvas; 0.0578em while the edge cut the letters, before 2026-10-06). A new display
  * word needs its letters measured the same way and added here; `pnpm content:check` rejects a
  * word with a letter missing.
  */
 const SIDE_SPACE: Readonly<Record<string, SideSpace>> = {
   N: { left: 0.08, right: 0.08 },
   O: { left: 0.043, right: 0.043 },
-  R: { left: 0.08, right: 0.0578 },
+  R: { left: 0.08, right: 0.0544 },
   T: { left: 0.0112, right: 0.0112 },
   H: { left: 0.08, right: 0.08 },
 };

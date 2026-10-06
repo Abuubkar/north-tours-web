@@ -77,6 +77,12 @@
   display: flex;
   column-gap: var(--display-gap);
   transform: translateY(var(--display-sink));
+  /*
+   * Unlowered, the O's round foot meets the hero's edge (the other letters end above it). The
+   * margin takes back the sink and adds the lift, raising the whole foot: the word and the row keep
+   * their spacing, and the O clears the edge by --display-lift.
+   */
+  margin-bottom: calc(var(--display-sink) + var(--display-lift));
   pointer-events: none;
 }
 
