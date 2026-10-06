@@ -68,11 +68,16 @@
  * between every pair of letters' ink is `--display-gap` (owner feedback, 2026-10-05), and the
  * first letter's ink sits on the margin. Separate items don't kern.
  */
+/*
+ * Decorative, so it never takes a click: its letters' line boxes reach up over the lead and the
+ * buttons, and covered the middle of "Explore Tours" on wide screens.
+ */
 .display {
   composes: display from '../../styles/typography.module.css';
   display: flex;
   column-gap: var(--display-gap);
   transform: translateY(var(--display-sink));
+  pointer-events: none;
 }
 
 /* Cancels the letter's own side space (--lsb, --rsb, in em, set inline), so only the display gap shows. */
