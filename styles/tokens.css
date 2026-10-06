@@ -362,7 +362,7 @@
   --display-gap: 0.05em; /* between every pair of letters' ink in the display word, side space cancelled */
   --indent-display: -0.035em; /* the destination hero name's left margin */
   --display-sink: 0.05em; /* lowers the display word this far below the lead and buttons, as designed */
-  --display-lift: clamp(12px, 1.6cqi, 24px); /* the gap between the display word's lowest ink (the O's round foot) and the hero's bottom edge, so the whole word shows (owner feedback, 2026-10-06) */
+  --display-lift: clamp(4px, 0.5cqi, 8px); /* the gap between the display word's lowest ink (the O's round foot) and the hero's bottom edge, so the whole word shows (owner feedback, 2026-10-06) */
 
   --fs-tour-hero: clamp(48px, 7.2cqi, 108px);
   --lh-tour-hero: 0.95;
