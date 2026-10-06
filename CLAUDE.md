@@ -159,6 +159,7 @@ Folders are created only when the first file for them is needed (section 3).
   - wrong date formats.
 - **Content-only tasks may only modify `/content`.** If a content task appears to need a code
   change, stop and ask.
+- **Edit mode** (`pnpm content:edit`, ADR-0034): click wording on the local dev site and edit it in place; each save changes one value in its content file and is checked like `content:check`. See `docs/edit-mode.md`.
 - **Content commands** for routine edits: `/update-seats`, `/add-departure`, `/add-review`,
   `/add-guide` (`.claude/commands/`). Each edits only `/content`, runs `pnpm content:check` and
   shows the change. Run `pnpm content:check` after any other content edit too.

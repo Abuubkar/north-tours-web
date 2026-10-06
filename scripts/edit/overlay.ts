@@ -8,8 +8,6 @@ const ON_KEY = 'edit-mode-on';
 const SCROLL_KEY = 'edit-mode-scroll';
 /** Longer text than this is a whole section, not one piece of content. */
 const MAX_TEXT = 1200;
-const TARGET = 'data-edit-target';
-const ACTIVE = 'data-edit-active';
 
 const read = (key: string) => {
   try {
@@ -54,7 +52,10 @@ shadow.innerHTML = `
     textarea { font: 14px/1.4 system-ui, sans-serif; width: 100%; box-sizing: border-box; min-height: 80px; border-radius: 6px; border: 1px solid #5c6871; background: #121a1f; color: #f1eee8; padding: 8px; }
     .row { display: flex; gap: 8px; justify-content: flex-end; }
     .hint { color: #b7bfc5; font-size: 12px; }
+    .box { position: fixed; z-index: 2147483646; pointer-events: none; border: 2px dashed #d9b44a; border-radius: 2px; display: none; }
+    .box.active { border-style: solid; background: rgba(217, 180, 74, 0.14); }
   </style>
+  <div class="box"></div>
   <div class="bar">
     <div class="panel" hidden>
       <div class="choices"></div>
@@ -71,12 +72,32 @@ const status = $<HTMLDivElement>('.status');
 const panel = $<HTMLDivElement>('.panel');
 const choices = $<HTMLDivElement>('.choices');
 const textarea = $<HTMLTextAreaElement>('textarea');
+const box = $<HTMLDivElement>('.box');
 
-const styles = document.createElement('style');
-styles.textContent = `
-  html.edit-mode [${TARGET}] { cursor: text; }
-  html.edit-mode [${TARGET}]:hover { outline: 2px dashed #d9b44a; outline-offset: 2px; }
-  [${ACTIVE}] { outline: 2px solid #d9b44a !important; outline-offset: 2px; background: rgba(217, 180, 74, 0.14); }`;
+/*
+ * The page's own elements are never marked (an attribute added before React hydrates would
+ * mismatch): targets are kept here, and the outline is a box drawn over the element.
+ */
+let outlined: Element | null = null;
+
+function outline(element: Element | null, active = false) {
+  outlined = element;
+  box.classList.toggle('active', active);
+  if (!element) {
+    box.style.display = 'none';
+    return;
+  }
+  const { left, top, width, height } = element.getBoundingClientRect();
+  Object.assign(box.style, { display: 'block', left: `${left - 4}px`, top: `${top - 4}px`, width: `${width + 8}px`, height: `${height + 8}px` });
+}
+
+/** The content element an event happened in: the nearest one up from where it happened. */
+function targetOf(node: EventTarget | null): HTMLElement | null {
+  for (let element = node instanceof Element ? node : null; element && element !== document.body; element = element.parentElement) {
+    if (targets.has(element)) return element instanceof HTMLElement ? element : null;
+  }
+  return null;
+}
 
 function say(message: string, error = false) {
   status.textContent = message;
@@ -85,7 +106,6 @@ function say(message: string, error = false) {
 
 /** Marks every element whose text is one piece of content, the deepest one when nested elements show the same text. */
 function scan() {
-  for (const element of targets.keys()) element.removeAttribute(TARGET);
   targets.clear();
   if (!on) return;
   for (const element of document.body.querySelectorAll('*')) {
@@ -109,17 +129,17 @@ function scan() {
       }
     }
   }
-  for (const element of targets.keys()) element.setAttribute(TARGET, '');
+  if (on && !editing) switchButton.textContent = `Editing: ${targets.size} texts on this page`;
 }
 
 function setOn(next: boolean) {
   on = next;
   write(ON_KEY, on ? '1' : null);
   switchButton.setAttribute('aria-pressed', String(on));
-  switchButton.textContent = on ? 'Editing: click text to change it' : 'Edit text';
-  document.documentElement.classList.toggle('edit-mode', on);
+  switchButton.textContent = 'Edit text';
   if (!on) {
     cancel();
+    outline(null);
     say('');
   }
   scan();
@@ -154,12 +174,12 @@ async function save(id: string, expected: string, value: string) {
 }
 
 function finish() {
-  if (editing) {
-    editing.element.removeAttribute('contenteditable');
-    editing.element.removeAttribute(ACTIVE);
-  }
+  // Cleared first: leaving contenteditable blurs the element, and a blur during an edit saves it.
+  const done = editing;
   editing = null;
   panel.hidden = true;
+  outline(null);
+  done?.element.removeAttribute('contenteditable');
 }
 
 /** Ends an edit without saving; if the text on the page was changed, reloads to show the saved text again. */
@@ -172,7 +192,7 @@ function cancel() {
 /** Plain text with one source: edited where it is on the page. */
 function editInPlace(element: HTMLElement, id: string) {
   editing = { element, id, before: element.textContent ?? '' };
-  element.setAttribute(ACTIVE, '');
+  outline(element, true);
   element.setAttribute('contenteditable', 'plaintext-only');
   element.focus();
   const range = document.createRange();
@@ -194,7 +214,7 @@ async function commitInPlace() {
 /** Text from a template, or the same text in several places: edited in the panel, which shows the source. */
 function editInPanel(element: HTMLElement, found: ContentMatch) {
   editing = { element, id: found.ids[0], before: element.textContent ?? '' };
-  element.setAttribute(ACTIVE, '');
+  outline(element, true);
   choices.replaceChildren();
   const pick = (id: string) => {
     if (editing) editing.id = id;
@@ -247,8 +267,8 @@ document.addEventListener(
   'click',
   (event) => {
     if (!on || event.composedPath().includes(host)) return;
-    const element = (event.target as Element).closest?.(`[${TARGET}]`);
-    if (!(element instanceof HTMLElement)) return;
+    const element = targetOf(event.target);
+    if (!element) return;
     event.preventDefault();
     event.stopPropagation();
     if (editing?.element !== element) startEdit(element);
@@ -259,13 +279,19 @@ document.addEventListener(
 document.addEventListener(
   'mouseover',
   (event) => {
-    if (!on || editing) return;
-    const element = (event.target as Element).closest?.(`[${TARGET}]`);
+    if (!on || editing || event.composedPath().includes(host)) return;
+    const element = targetOf(event.target);
     const found = element && targets.get(element);
+    outline(element);
     if (found) say(found.ids.length > 1 ? `${found.ids.length} sources · click to choose` : `${found.ids[0]}${found.kind === 'template' ? ' (template)' : ''}`);
   },
   true,
 );
+
+// The outline follows its element as the page scrolls or resizes.
+const follow = () => outlined && outline(outlined, !!editing);
+window.addEventListener('scroll', follow, { passive: true, capture: true });
+window.addEventListener('resize', follow);
 
 document.addEventListener(
   'keydown',
@@ -317,7 +343,6 @@ new MutationObserver(() => {
 }).observe(document.body, { childList: true, subtree: true, characterData: true });
 
 async function start() {
-  document.head.append(styles);
   document.body.append(host);
   try {
     const entries = (await (await fetch(`${SERVER}/content`)).json()) as ContentEntry[];
