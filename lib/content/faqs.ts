@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { slugSchema } from './collection.ts';
-import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
+import { CONTENT_DIR, parseFile, requireValid, FRESH_READS } from './files.ts';
 import { checkUniqueIds, copy, copyWith, nonEmpty, sample } from './fields.ts';
 import { HELP_CATEGORY_PREFIX, HELP_PAGE_ANCHORS } from '../routes.ts';
 import type { CompanyToken, PolicyToken, SettingsToken } from '../utils/tokens.ts';
@@ -78,7 +78,7 @@ export function loadFaqs(dir = CONTENT_DIR) {
 let cached: Faqs | undefined;
 
 export function getFaqs(): Faqs {
-  cached ??= requireValid(loadFaqs());
+  if (FRESH_READS || cached === undefined) cached = requireValid(loadFaqs());
   return cached;
 }
 

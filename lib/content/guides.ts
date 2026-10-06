@@ -2,7 +2,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { consent } from './consent.ts';
-import { CONTENT_DIR, requireItems } from './files.ts';
+import { CONTENT_DIR, requireItems, FRESH_READS } from './files.ts';
 import { nonEmpty, sample } from './fields.ts';
 import { ownerImageSchema } from './images.ts';
 import { checkGuideYears } from './links.ts';
@@ -49,7 +49,7 @@ export function loadGuides(dir = CONTENT_DIR) {
 let cached: Guide[] | undefined;
 
 export function getGuides(): Guide[] {
-  cached ??= requireItems(loadGuides());
+  if (FRESH_READS || cached === undefined) cached = requireItems(loadGuides());
   return cached;
 }
 

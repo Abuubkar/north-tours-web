@@ -2,7 +2,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import { PAGE_NAMES, type PageName } from '../routes.ts';
 import { slugSchema } from './collection.ts';
-import { CONTENT_DIR, displayPath, parseFile, requireValid } from './files.ts';
+import { CONTENT_DIR, displayPath, parseFile, requireValid, FRESH_READS } from './files.ts';
 import { checkChosenReviews } from './links.ts';
 import { loadReviews } from './reviews.ts';
 import { SETTINGS_TOKENS, type CompanyToken, type PolicyToken, type SettingsToken } from '../utils/tokens.ts';
@@ -92,7 +92,7 @@ export function loadHomeCopy(dir = CONTENT_DIR) {
 let cachedHome: HomeCopy | undefined;
 
 export function getHomeCopy(): HomeCopy {
-  cachedHome ??= requireValid(loadHomeCopy());
+  if (FRESH_READS || cachedHome === undefined) cachedHome = requireValid(loadHomeCopy());
   return cachedHome;
 }
 
@@ -117,7 +117,7 @@ export function loadCreditsCopy(dir = CONTENT_DIR) {
 let cachedCredits: CreditsCopy | undefined;
 
 export function getCreditsCopy(): CreditsCopy {
-  cachedCredits ??= requireValid(loadCreditsCopy());
+  if (FRESH_READS || cachedCredits === undefined) cachedCredits = requireValid(loadCreditsCopy());
   return cachedCredits;
 }
 
@@ -266,7 +266,7 @@ export function loadTourCopy(dir = CONTENT_DIR) {
 let cachedTour: TourCopy | undefined;
 
 export function getTourCopy(): TourCopy {
-  cachedTour ??= requireValid(loadTourCopy());
+  if (FRESH_READS || cachedTour === undefined) cachedTour = requireValid(loadTourCopy());
   return cachedTour;
 }
 
@@ -348,7 +348,7 @@ export function loadToursCopy(dir = CONTENT_DIR) {
 let cachedTours: ToursCopy | undefined;
 
 export function getToursCopy(): ToursCopy {
-  cachedTours ??= requireValid(loadToursCopy());
+  if (FRESH_READS || cachedTours === undefined) cachedTours = requireValid(loadToursCopy());
   return cachedTours;
 }
 
@@ -435,7 +435,7 @@ export function loadDestinationCopy(dir = CONTENT_DIR) {
 let cachedDestination: DestinationCopy | undefined;
 
 export function getDestinationCopy(): DestinationCopy {
-  cachedDestination ??= requireValid(loadDestinationCopy());
+  if (FRESH_READS || cachedDestination === undefined) cachedDestination = requireValid(loadDestinationCopy());
   return cachedDestination;
 }
 
@@ -464,7 +464,7 @@ export function loadDestinationsCopy(dir = CONTENT_DIR) {
 let cachedDestinations: DestinationsCopy | undefined;
 
 export function getDestinationsCopy(): DestinationsCopy {
-  cachedDestinations ??= requireValid(loadDestinationsCopy());
+  if (FRESH_READS || cachedDestinations === undefined) cachedDestinations = requireValid(loadDestinationsCopy());
   return cachedDestinations;
 }
 
@@ -634,7 +634,7 @@ export function loadPlannerCopy(dir = CONTENT_DIR) {
 let cachedPlanner: PlannerCopy | undefined;
 
 export function getPlannerCopy(): PlannerCopy {
-  cachedPlanner ??= requireValid(loadPlannerCopy());
+  if (FRESH_READS || cachedPlanner === undefined) cachedPlanner = requireValid(loadPlannerCopy());
   return cachedPlanner;
 }
 
@@ -748,7 +748,7 @@ export function loadAboutCopy(dir = CONTENT_DIR) {
 let cachedAbout: AboutCopy | undefined;
 
 export function getAboutCopy(): AboutCopy {
-  cachedAbout ??= requireValid(loadAboutCopy());
+  if (FRESH_READS || cachedAbout === undefined) cachedAbout = requireValid(loadAboutCopy());
   return cachedAbout;
 }
 
@@ -847,7 +847,7 @@ export function loadHelpCopy(dir = CONTENT_DIR) {
 let cachedHelp: HelpCopy | undefined;
 
 export function getHelpCopy(): HelpCopy {
-  cachedHelp ??= requireValid(loadHelpCopy());
+  if (FRESH_READS || cachedHelp === undefined) cachedHelp = requireValid(loadHelpCopy());
   return cachedHelp;
 }
 
@@ -892,7 +892,7 @@ export function loadContactCopy(dir = CONTENT_DIR) {
 let cachedContact: ContactCopy | undefined;
 
 export function getContactCopy(): ContactCopy {
-  cachedContact ??= requireValid(loadContactCopy());
+  if (FRESH_READS || cachedContact === undefined) cachedContact = requireValid(loadContactCopy());
   return cachedContact;
 }
 
@@ -977,7 +977,7 @@ export function loadLegalCopy(dir = CONTENT_DIR) {
 let cachedLegal: LegalCopy | undefined;
 
 export function getLegalCopy(): LegalCopy {
-  cachedLegal ??= requireValid(loadLegalCopy());
+  if (FRESH_READS || cachedLegal === undefined) cachedLegal = requireValid(loadLegalCopy());
   return cachedLegal;
 }
 
@@ -1009,6 +1009,6 @@ export function loadNotFoundCopy(dir = CONTENT_DIR) {
 let cachedNotFound: NotFoundCopy | undefined;
 
 export function getNotFoundCopy(): NotFoundCopy {
-  cachedNotFound ??= requireValid(loadNotFoundCopy());
+  if (FRESH_READS || cachedNotFound === undefined) cachedNotFound = requireValid(loadNotFoundCopy());
   return cachedNotFound;
 }

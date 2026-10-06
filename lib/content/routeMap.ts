@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { z } from 'zod';
-import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
+import { CONTENT_DIR, parseFile, requireValid, FRESH_READS } from './files.ts';
 import { copy, latitude, longitude, nonEmpty } from './fields.ts';
 
 /*
@@ -70,6 +70,6 @@ export function loadRouteMap(dir = CONTENT_DIR) {
 let cached: RouteMap | undefined;
 
 export function getRouteMap(): RouteMap {
-  cached ??= requireValid(loadRouteMap());
+  if (FRESH_READS || cached === undefined) cached = requireValid(loadRouteMap());
   return cached;
 }

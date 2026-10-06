@@ -1,3 +1,6 @@
+import { existsSync, readdirSync } from 'node:fs';
+import path from 'node:path';
+import { RESERVED_FILES, reservedPageNames } from '../utils/contentIds.ts';
 import { loadCatalog } from './catalog.ts';
 import { loadFaqs } from './faqs.ts';
 import { CONTENT_DIR, type ContentProblem } from './files.ts';
@@ -31,5 +34,19 @@ export function checkContent(dir = CONTENT_DIR, publicDir = PUBLIC_DIR): Content
     ...loadRouteMap(dir).problems,
     ...loadFaqs(dir).problems,
     ...checkPhotoFiles(dir, publicDir),
+    ...checkPageNames(dir),
   ];
+}
+
+/** A page file may not take a name content ids reserve for another file (ADR-0034): "settings.…" must mean settings.json. */
+function checkPageNames(dir: string): ContentProblem[] {
+  const pages = path.join(dir, 'pages');
+  if (!existsSync(pages)) return [];
+  const names = readdirSync(pages)
+    .filter((file) => file.endsWith('.json'))
+    .map((file) => file.slice(0, -'.json'.length));
+  return reservedPageNames(names).map((name) => ({
+    file: `content/pages/${name}.json`,
+    message: `"${name}" is reserved for content/${RESERVED_FILES[name as keyof typeof RESERVED_FILES]} in content ids (ADR-0034); rename the page file`,
+  }));
 }

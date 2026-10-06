@@ -5,6 +5,12 @@ import type { z } from 'zod';
 /** Where content lives (ADR-0003). Loaders take a directory so tests can use fixtures. */
 export const CONTENT_DIR = path.join(process.cwd(), 'content');
 
+/**
+ * In development every read is fresh, so a content file edited while `next dev` runs (by hand or
+ * in edit mode, ADR-0034) shows on the next reload. Built pages read each file once.
+ */
+export const FRESH_READS = process.env.NODE_ENV === 'development';
+
 /** One problem in one content file, e.g. "content/settings.json › contact.email: …". */
 export type ContentProblem = { file: string; field?: string; message: string };
 

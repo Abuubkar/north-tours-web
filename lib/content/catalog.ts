@@ -1,6 +1,6 @@
 import { todayInKarachi, upcomingDepartures } from '../utils/departures.ts';
 import { loadDestinations, type Destination } from './destinations.ts';
-import { CONTENT_DIR, ContentError } from './files.ts';
+import { CONTENT_DIR, ContentError, FRESH_READS } from './files.ts';
 import { checkTourLinks } from './links.ts';
 import { loadTours, type Tour } from './tours.ts';
 
@@ -40,7 +40,7 @@ export function catalogAsOf(today: string, dir = CONTENT_DIR): Catalog {
 let cached: Catalog | undefined;
 
 function catalog(): Catalog {
-  cached ??= catalogAsOf(todayInKarachi(new Date()));
+  if (FRESH_READS || cached === undefined) cached = catalogAsOf(todayInKarachi(new Date()));
   return cached;
 }
 

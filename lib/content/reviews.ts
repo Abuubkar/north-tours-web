@@ -2,7 +2,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import { loadCollection, slugSchema } from './collection.ts';
 import { consent } from './consent.ts';
-import { CONTENT_DIR, requireItems } from './files.ts';
+import { CONTENT_DIR, requireItems, FRESH_READS } from './files.ts';
 import { nonEmpty, sample, yearMonth } from './fields.ts';
 import { checkReviewLinks } from './links.ts';
 import { loadTours } from './tours.ts';
@@ -43,7 +43,7 @@ let cached: Review[] | undefined;
 
 /** All reviews, most recent trip first. */
 export function getReviews(): Review[] {
-  cached ??= requireItems(loadReviews()).sort((a, b) => b.month.localeCompare(a.month));
+  if (FRESH_READS || cached === undefined) cached = requireItems(loadReviews()).sort((a, b) => b.month.localeCompare(a.month));
   return cached;
 }
 

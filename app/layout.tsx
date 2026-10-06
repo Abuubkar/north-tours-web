@@ -16,6 +16,12 @@ const geist = Geist({
   variable: '--font-geist',
 });
 
+/**
+ * Edit mode (ADR-0034): `pnpm content:edit` sets these in development only, and the layout then loads the
+ * overlay from the edit server. No build ever has them, so nothing of edit mode reaches a page.
+ */
+const EDIT_OVERLAY = process.env.NODE_ENV === 'development' && process.env.EDIT_MODE === '1' ? `${process.env.EDIT_SERVER}/overlay.js` : null;
+
 /** A noindex build (the GitHub Pages preview, ADR-0032) asks search engines to leave every page out. */
 export const metadata: Metadata = NOINDEX ? { robots: { index: false } } : {};
 
@@ -32,6 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <SiteHeader settings={settings} />
         {children}
         <SiteFooter settings={settings} />
+        {EDIT_OVERLAY && <script type="module" async src={EDIT_OVERLAY} />}
       </body>
     </html>
   );

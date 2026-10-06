@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { z } from 'zod';
-import { CONTENT_DIR, parseFile, requireValid } from './files.ts';
+import { CONTENT_DIR, parseFile, requireValid, FRESH_READS } from './files.ts';
 import { copy, copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneOrPlaceholder, sample } from './fields.ts';
 
 /**
@@ -185,6 +185,6 @@ let cached: Settings | undefined;
 
 /** Global values (CLAUDE.md §7). Throws a ContentError naming the file and field if invalid. */
 export function getSettings(): Settings {
-  cached ??= requireValid(loadSettings());
+  if (FRESH_READS || cached === undefined) cached = requireValid(loadSettings());
   return cached;
 }
