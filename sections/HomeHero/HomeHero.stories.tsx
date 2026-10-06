@@ -35,6 +35,13 @@ export const Desktop: Story = {
     await expect(canvas.queryByRole('paragraph', { name: 'NORTH' })).toBeNull();
     await expect(canvas.getByRole('link', { name: 'Explore Tours' })).toHaveAttribute('href', '/tours');
     await expect(canvas.getByRole('link', { name: 'Plan on WhatsApp' })).toHaveAttribute('href', WHATSAPP);
+    // "NORTH" reaches up over the buttons and lead but never takes their clicks.
+    for (const name of ['Explore Tours', 'Plan on WhatsApp']) {
+      const link = canvas.getByRole('link', { name });
+      const { left, top, width, height } = link.getBoundingClientRect();
+      await expect(link.contains(document.elementFromPoint(left + width / 2, top + height / 2))).toBe(true);
+    }
+    await expect(getComputedStyle(displayWord(canvas)).pointerEvents).toBe('none');
     // The hero photo is the page's main image: never lazy.
     const photo = canvas.getByRole('img', { name: sampleHome.hero.image.alt });
     await expect(photo).toHaveAttribute('fetchpriority', 'high');
