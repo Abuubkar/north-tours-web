@@ -27,6 +27,12 @@ describe('content ids', () => {
     expect(parseContentId('tour:.title')).toBeNull();
   });
 
+  it('refuses a file name that could reach another folder', () => {
+    expect(parseContentId('tour:../../secrets.key')).toBeNull();
+    expect(parseContentId('a/../../x.key')).toBeNull();
+    expect(parseContentId('Home.title')).toBeNull();
+  });
+
   it('writes the same ids back from a file and path', () => {
     for (const id of ['home.hero.lead', 'home.steps.items.2.title', 'tour:hunza-express.title', 'guide:karim-baig.bio', 'settings.contact.phone', 'faqs.items.0.answer']) {
       const location = parseContentId(id)!;
@@ -74,6 +80,7 @@ describe('content matching', () => {
     { id: 'tour.cta.label', value: 'Plan on WhatsApp' },
     { id: 'settings.whatsapp.label', value: 'Plan on WhatsApp' },
     { id: 'tour.name', value: '{name}' },
+    { id: 'about.years', value: '{years} years' },
   ]);
 
   it('matches text exactly, ignoring runs of whitespace', () => {
@@ -88,5 +95,11 @@ describe('content matching', () => {
   it('matches a template with its tokens filled in, but not a template that is only a token', () => {
     expect(match('4 trips')).toEqual({ kind: 'template', ids: ['tours.results.count'] });
     expect(match('Anything at all')).toBeNull();
+  });
+
+  it('matches a token to a short value only, not to a sentence or a whole card', () => {
+    expect(match('12 years')).toEqual({ kind: 'template', ids: ['about.years'] });
+    expect(match('Karim has guided treks in Hunza and Shimshal for 12 years')).toBeNull();
+    expect(match('Hunza ExpressFrom PKR 68,000 · 6 days · 4 trips')).toBeNull();
   });
 });

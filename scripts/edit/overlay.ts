@@ -30,6 +30,7 @@ let values = new Map<string, string>();
 let match: (text: string) => ContentMatch | null = () => null;
 const targets = new Map<Element, ContentMatch>();
 let editing: { element: HTMLElement; id: string; before: string } | null = null;
+let saving = false;
 
 // The switch, the status line and the panel, in a shadow root so the site's styles don't reach them.
 const host = document.createElement('div');
@@ -152,6 +153,8 @@ function reload() {
 }
 
 async function save(id: string, expected: string, value: string) {
+  if (saving) return false;
+  saving = true;
   say(`Saving ${id}…`);
   try {
     const response = await fetch(`${SERVER}/save`, {
@@ -159,7 +162,13 @@ async function save(id: string, expected: string, value: string) {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ id, expected, value }),
     });
-    const body = (await response.json()) as { message?: string; problems?: string[]; changed?: boolean };
+    const text = await response.text();
+    let body: { message?: string; problems?: string[]; changed?: boolean };
+    try {
+      body = JSON.parse(text);
+    } catch {
+      body = { message: text };
+    }
     if (!response.ok) {
       say([body.message, ...(body.problems ?? [])].filter(Boolean).join('\n'), true);
       return false;
@@ -170,11 +179,13 @@ async function save(id: string, expected: string, value: string) {
   } catch {
     say('The edit server isn’t answering. Is `pnpm content:edit` still running?', true);
     return false;
+  } finally {
+    saving = false;
   }
 }
 
 function finish() {
-  // Cleared first: leaving contenteditable blurs the element, and a blur during an edit saves it.
+  // Cleared first, so nothing that runs as the element loses contenteditable sees an edit in progress.
   const done = editing;
   editing = null;
   panel.hidden = true;
@@ -254,9 +265,17 @@ async function commitPanel() {
   await save(id, before, textarea.value.trim());
 }
 
+/** The text being edited in place has changes not yet saved. */
+const unsaved = () => !!editing && panel.hidden && normalizeText(editing.element.textContent ?? '') !== normalizeText(editing.before);
+
 function startEdit(element: HTMLElement) {
   const found = targets.get(element);
   if (!found) return;
+  if (unsaved()) {
+    say(`${editing!.id} has changes: Enter saves them, Esc drops them.`, true);
+    editing!.element.focus();
+    return;
+  }
   if (editing) cancel();
   if (found.kind === 'exact' && found.ids.length === 1) editInPlace(element, found.ids[0]);
   else editInPanel(element, found);
@@ -313,14 +332,6 @@ document.addEventListener(
   true,
 );
 
-document.addEventListener(
-  'focusout',
-  (event) => {
-    if (editing && panel.hidden && event.target === editing.element) void commitInPlace();
-  },
-  true,
-);
-
 textarea.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
     event.preventDefault();
@@ -334,13 +345,24 @@ $<HTMLButtonElement>('.save').addEventListener('click', () => void commitPanel()
 $<HTMLButtonElement>('.cancel').addEventListener('click', () => cancel());
 switchButton.addEventListener('click', () => setOn(!on));
 
+/**
+ * A modal dialog (the mobile menu, a sheet) makes the rest of the page inert and sits in the top
+ * layer, so the switch and the panel move into the open dialog while it's open.
+ */
+function place() {
+  const modal = document.querySelector('dialog:modal');
+  const parent = modal ?? document.body;
+  if (host.parentElement !== parent) parent.append(host);
+}
+
 // Content shown later (a sheet, the planner's next step) is picked up shortly after it appears.
 let rescan = 0;
 new MutationObserver(() => {
+  place();
   if (!on || editing) return;
   clearTimeout(rescan);
   rescan = window.setTimeout(scan, 250);
-}).observe(document.body, { childList: true, subtree: true, characterData: true });
+}).observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['open'] });
 
 async function start() {
   document.body.append(host);
@@ -355,7 +377,8 @@ async function start() {
   const scroll = read(SCROLL_KEY);
   if (scroll !== null) {
     write(SCROLL_KEY, null);
-    window.scrollTo(0, Number(scroll));
+    // Instant: the site's smooth scrolling would glide down from the top.
+    window.scrollTo({ top: Number(scroll), behavior: 'instant' });
   }
 }
 

@@ -9,7 +9,7 @@ if (problems.length > 0) throw new ContentError(problems);
 
 const nextConfig: NextConfig = {
   output: 'export',
-  // `next dev` would otherwise append its own block to CLAUDE.md on every start.
+  // `next dev` (which edit mode runs, ADR-0034) would otherwise add its own block to CLAUDE.md.
   agentRules: false,
   // A base-path build (the GitHub Pages preview, ADR-0032) is served from a sub-path and exports
   // each page as a folder with its own index.html, so `/tours` never depends on how GitHub Pages

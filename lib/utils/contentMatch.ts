@@ -15,6 +15,11 @@ export type ContentMatch = { kind: 'exact' | 'template'; ids: string[] };
 const TOKEN = /\{\w+\}/g;
 /** A template must say this much besides its tokens to be matched, or "{name}" alone would match everything. */
 const MIN_TEMPLATE_TEXT = 3;
+/**
+ * A token stands for a short value (a number, a name, a date), never a sentence: without a limit,
+ * "{count} trips" would match a whole card whose text happens to end in "trips".
+ */
+const MAX_TOKEN_TEXT = 40;
 
 /** Text as an element shows it, for comparing: runs of whitespace as one space, trimmed. */
 export const normalizeText = (text: string): string => text.replace(/\s+/g, ' ').trim();
@@ -31,7 +36,7 @@ export function contentMatcher(entries: ContentEntry[]): (text: string) => Conte
     exact.set(text, [...(exact.get(text) ?? []), id]);
     const parts = text.split(TOKEN);
     if (parts.length > 1 && parts.join('').replace(/\s/g, '').length >= MIN_TEMPLATE_TEXT) {
-      templates.push({ id, pattern: new RegExp(`^${parts.map(escapeRegExp).join('[\\s\\S]+?')}$`) });
+      templates.push({ id, pattern: new RegExp(`^${parts.map(escapeRegExp).join(`[\\s\\S]{1,${MAX_TOKEN_TEXT}}?`)}$`) });
     }
   }
   return (shown) => {

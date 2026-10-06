@@ -6,7 +6,7 @@ import type { z } from 'zod';
 export const CONTENT_DIR = path.join(process.cwd(), 'content');
 
 /**
- * In development every read is fresh, so a content file edited while `next dev` runs (by hand or
+ * In development every load reads the file again, so a content file edited while `next dev` runs (by hand or
  * in edit mode, ADR-0034) shows on the next reload. Built pages read each file once.
  */
 export const FRESH_READS = process.env.NODE_ENV === 'development';

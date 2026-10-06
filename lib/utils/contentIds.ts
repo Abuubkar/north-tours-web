@@ -20,6 +20,8 @@ export const RESERVED_FILES = { settings: 'settings.json', faqs: 'faqs.json', 'r
 
 const PAGES_DIR = 'pages';
 const NUMBER = /^\d+$/;
+/** A file's name in an id: lower-case words and hyphens, so an id can never reach another folder. */
+const NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const pathFrom = (segments: string[]): JsonPath => segments.map((segment) => (NUMBER.test(segment) ? Number(segment) : segment));
 
@@ -31,11 +33,12 @@ export function parseContentId(id: string): ContentLocation | null {
   if (colon >= 0) {
     const kind = head.slice(0, colon);
     const slug = head.slice(colon + 1);
-    if (!(kind in COLLECTIONS) || !slug) return null;
+    if (!Object.hasOwn(COLLECTIONS, kind) || !NAME.test(slug)) return null;
     return { file: `${COLLECTIONS[kind as keyof typeof COLLECTIONS]}/${slug}.json`, path: pathFrom(rest) };
   }
-  const reserved = RESERVED_FILES[head as keyof typeof RESERVED_FILES];
-  return { file: reserved ?? `${PAGES_DIR}/${head}.json`, path: pathFrom(rest) };
+  if (!NAME.test(head)) return null;
+  const file = Object.hasOwn(RESERVED_FILES, head) ? RESERVED_FILES[head as keyof typeof RESERVED_FILES] : `${PAGES_DIR}/${head}.json`;
+  return { file, path: pathFrom(rest) };
 }
 
 /** The id of a string at `path` in `file` (relative to the content folder), or null for a file ids don't cover. */
@@ -54,5 +57,5 @@ export function contentId(file: string, path: JsonPath): string | null {
 
 /** Page file names (without .json) that would read as another file's id: none may be used. */
 export function reservedPageNames(pageNames: string[]): string[] {
-  return pageNames.filter((name) => name in RESERVED_FILES);
+  return pageNames.filter((name) => Object.hasOwn(RESERVED_FILES, name));
 }
