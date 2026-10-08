@@ -45,7 +45,7 @@ describe('getHelpPage', () => {
   it('fills the empty state’s reply time, and asks on WhatsApp with the general message', () => {
     const { copy, askHref, settings } = getHelpPage();
     expect(copy.empty.lead).toContain(settings.booking.replyTime);
-    expect(askHref).toBe(`https://wa.me/?text=${encodeURIComponent(settings.whatsapp.generalMessage)}`);
+    expect(askHref).toBe(`https://wa.me/923098782722?text=${encodeURIComponent(settings.whatsapp.generalMessage)}`);
   });
 
   it('marks up every question for search engines in page order, answers filled as shown', () => {

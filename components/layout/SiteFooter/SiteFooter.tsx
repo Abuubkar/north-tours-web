@@ -35,12 +35,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
             Chat on WhatsApp
           </Button>
           <dl>
-            <KeyValueRow label="WhatsApp">
-              <TextOrLink href={chatHref} className={styles.rowLink}>
-                {contact.whatsapp}
-              </TextOrLink>
-            </KeyValueRow>
-            <KeyValueRow label="Phone">
+            <KeyValueRow label="Mobile">
               <TextOrLink href={phoneHref(contact.phone)} className={styles.rowLink}>
                 {contact.phone}
               </TextOrLink>

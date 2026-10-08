@@ -12,9 +12,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Links home and is at least the 44px tap target. The name is heavy (800) and tight (−.05em), then a
- * gold ▲ that screen readers skip, so the link is named by the brand alone. 24px on phones, 30px
- * from the full-bar breakpoint (1200px).
+ * Links home and is at least the 44px tap target. The name is heavy (800) and tight (−.05em), with
+ * no mark after it. 24px on phones, 30px from the full-bar breakpoint (1200px).
  */
 export const Default: Story = {
   play: async ({ canvas }) => {
@@ -25,9 +24,7 @@ export const Default: Story = {
     await expect(fontWeight).toBe('800');
     await expect(fontSize).toBe(window.innerWidth >= 1200 ? '30px' : '24px');
     await expect(parseFloat(letterSpacing) / parseFloat(fontSize)).toBeCloseTo(-0.05, 3);
-    const mark = canvas.getByText('▲');
-    await expect(mark).toHaveAttribute('aria-hidden', 'true');
-    await expect(mark.parentElement).toBe(link);
+    await expect(link.textContent).toBe('[BRAND NAME]');
   },
 };
 

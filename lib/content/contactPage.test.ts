@@ -55,16 +55,17 @@ describe('contactPage', () => {
     expect(copy.ways.whatsapp.line).toBe('Send your dates and group size. We reply within 4 hours.');
   });
 
-  it('links nothing while the values are placeholders, and "Chat now" carries the general message with no number', () => {
+  it('links the real mobile number and email, and "Chat now" carries the general message to that number', () => {
     const settings = getSettings();
-    const { channels, travelSupport } = contactPage(contact, settings);
-    expect([channels.whatsapp.href, channels.email.href, travelSupport.href]).toEqual([undefined, undefined, undefined]);
-    expect(channels.whatsapp.chatHref).toBe(`https://wa.me/?text=${encodeURIComponent(settings.whatsapp.generalMessage)}`);
+    const { channels } = contactPage(contact, settings);
+    expect(channels.whatsapp.href).toMatch(/^https:\/\/wa\.me\/923098782722\?text=/);
+    expect(channels.email.href).toBe('mailto:contact@safaremubarik.com');
+    expect(channels.whatsapp.chatHref).toBe(`https://wa.me/923098782722?text=${encodeURIComponent(settings.whatsapp.generalMessage)}`);
   });
 
-  it('calls the office’s real number, from its Google Maps listing; the 24/7 line stays a placeholder', () => {
+  it('calls the mobile number, the same one as WhatsApp; the 24/7 line stays a placeholder', () => {
     const { channels, travelSupport } = contactPage(contact, getSettings());
-    expect(channels.phone).toMatchObject({ value: '+92 42 3725 2511', href: 'tel:+924237252511' });
+    expect(channels.phone).toMatchObject({ value: '+92 309 8782722', href: 'tel:+923098782722' });
     expect(travelSupport.href).toBeUndefined();
   });
 

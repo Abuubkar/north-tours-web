@@ -19,7 +19,7 @@ const rows = (canvas: ReturnType<typeof within>) =>
   canvas.getAllByRole('term').map((term: HTMLElement) => `${term.textContent}: ${term.nextElementSibling?.textContent}`);
 
 /**
- * With every value a placeholder: four rows, Phone and WhatsApp as plain text, no "Get
+ * With every value a placeholder: three rows, Mobile as plain text, no "Get
  * directions" and no map (the address is a placeholder), and "WhatsApp first" with the general message.
  */
 export const Placeholders: Story = {
@@ -28,8 +28,7 @@ export const Placeholders: Story = {
     await expect(rows(canvas)).toEqual([
       'Office: [Office address], Lahore, Punjab',
       'Open: [Mon–Sat, X am – X pm]',
-      'Phone: [+92 42 XXXX XXXX]',
-      'WhatsApp: [+92 3XX XXX XXXX]',
+      'Mobile: [+92 42 XXXX XXXX]',
     ]);
     await expect(canvas.queryByRole('link', { name: /\+92/ })).toBeNull();
     await expect(canvas.queryByRole('link', { name: /Get directions/ })).toBeNull();
@@ -54,7 +53,7 @@ export const PlaceholdersPhoneOnLight: Story = { ...PlaceholdersPhone, globals: 
 const directionsTo = (address: string) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
 
 /**
- * With real values: Phone and WhatsApp are links, "Get directions" opens Google Maps directions
+ * With real values: the mobile number is a tel: link, "Get directions" opens Google Maps directions
  * to the address in a new tab, and the map (a stand-in, so tests never call Google) sits beside
  * the text from wide screens, named by its title, loading lazily, with the link to the full map.
  */
@@ -62,10 +61,7 @@ export const RealValues: Story = {
   args: { settings: realSettings, map: officeMapStandIn },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('link', { name: '+92 42 3578 1234' })).toHaveAttribute('href', 'tel:+924235781234');
-    await expect(canvas.getByRole('link', { name: '+92 300 1234567' })).toHaveAttribute(
-      'href',
-      `https://wa.me/923001234567?text=${encodeURIComponent('Hi, I’d like to plan a trip north.')}`,
-    );
+    await expect(canvas.queryByRole('link', { name: '+92 300 1234567' })).toBeNull();
     const directions = canvas.getByRole('link', { name: /Get directions/ });
     await expect(directions).toHaveAttribute('href', directionsTo('12 Main Boulevard, Gulberg, Lahore'));
     await expect(directions).toHaveAttribute('target', '_blank');
@@ -135,8 +131,8 @@ export const TwoRowRealValuesPhone: Story = { ...TwoRowRealValues, globals: { vi
 export const TwoRowRealValuesPhoneOnLight: Story = { ...TwoRowRealValues, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
 /**
- * Today's settings: the address and phone from the owner's Google Maps listing are real, so the
- * phone is a tel: link and "Get directions" shows; WhatsApp and the hours stay placeholders.
+ * The office's listing settings: the address and phone from the owner's Google Maps listing are
+ * real, so the mobile number is a tel: link and "Get directions" shows; the hours stay a placeholder.
  */
 export const OfficeListing: Story = {
   args: { settings: listingSettings, map: officeMapStandIn },
@@ -144,8 +140,7 @@ export const OfficeListing: Story = {
     await expect(rows(canvas)).toEqual([
       'Office: 3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000',
       'Open: [Mon–Sat, X am – X pm]',
-      'Phone: +92 42 3725 2511',
-      'WhatsApp: [+92 3XX XXX XXXX]',
+      'Mobile: +92 42 3725 2511',
     ]);
     await expect(canvas.getByRole('link', { name: '+92 42 3725 2511' })).toHaveAttribute('href', 'tel:+924237252511');
     await expect(canvas.getByRole('link', { name: /Get directions/ })).toHaveAttribute(
