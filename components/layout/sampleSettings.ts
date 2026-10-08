@@ -43,7 +43,7 @@ export const placeholderSettings: Settings = {
   },
   visitOffice: {
     headline: 'Plan your trip over chai at our Lahore office',
-    rows: { office: 'Office', open: 'Open', phone: 'Phone', whatsapp: 'WhatsApp' },
+    rows: { office: 'Office', open: 'Open', mobile: 'Mobile' },
     directionsLabel: 'Get directions',
     whatsappLabel: 'WhatsApp first',
     mapTitle: 'Map of our office in DHA Phase 8, Lahore',

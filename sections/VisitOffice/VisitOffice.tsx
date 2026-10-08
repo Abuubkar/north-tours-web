@@ -2,14 +2,14 @@ import { Button } from '@/components/ui/Button/Button';
 import { OfficeMap } from '@/components/contact/OfficeMap/OfficeMap';
 import { KeyValueRow } from '@/components/ui/KeyValueRow/KeyValueRow';
 import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
-import { officeOnMaps, phoneHref, whatsappHref } from '@/lib/utils/contact';
+import { officeOnMaps, phoneHref } from '@/lib/utils/contact';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import type { VisitOfficeProps } from './VisitOffice.types';
 import styles from './VisitOffice.module.css';
 
 /**
  * "Plan your trip over chai at our Lahore office", shared by About and Contact: the office's
- * address and hours from settings, on About its phone and WhatsApp too (placeholders as plain
+ * address and hours from settings, on About its mobile number too (placeholders as plain
  * text), "Get directions" once the address is real, on About "WhatsApp first", and the office on
  * a Google map (ADR-0029) beside them, under them on phones.
  */
@@ -17,7 +17,7 @@ export function VisitOffice({ settings, form = 'four-row', map }: VisitOfficePro
   const { visitOffice: copy, contact, whatsapp } = settings;
   // Shown only once the office is real, to it as Google Maps knows it (ADR-0029).
   const directions = officeOnMaps(contact)?.directions;
-  // The four-row form adds the phone and WhatsApp rows and "WhatsApp first".
+  // The four-row form adds the mobile row and "WhatsApp first".
   const showNumbers = form === 'four-row';
   return (
     <section className={styles.section}>
@@ -28,18 +28,11 @@ export function VisitOffice({ settings, form = 'four-row', map }: VisitOfficePro
             <KeyValueRow label={copy.rows.office}>{contact.officeAddress}</KeyValueRow>
             <KeyValueRow label={copy.rows.open}>{contact.officeHours}</KeyValueRow>
             {showNumbers && (
-              <>
-                <KeyValueRow label={copy.rows.phone}>
-                  <TextOrLink href={phoneHref(contact.phone)} className={styles.rowLink}>
-                    {contact.phone}
-                  </TextOrLink>
-                </KeyValueRow>
-                <KeyValueRow label={copy.rows.whatsapp}>
-                  <TextOrLink href={whatsappHref(contact.whatsapp, whatsapp.generalMessage)} className={styles.rowLink}>
-                    {contact.whatsapp}
-                  </TextOrLink>
-                </KeyValueRow>
-              </>
+              <KeyValueRow label={copy.rows.mobile}>
+                <TextOrLink href={phoneHref(contact.phone)} className={styles.rowLink}>
+                  {contact.phone}
+                </TextOrLink>
+              </KeyValueRow>
             )}
           </dl>
           {(directions || showNumbers) && (
