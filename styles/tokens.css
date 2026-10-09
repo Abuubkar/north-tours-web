@@ -354,8 +354,7 @@
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
-  --fw-bold: 700; /* the header's links and controls (2f) */
-  --fw-heavy: 800; /* the header's brand name (2f) */
+  --fw-bold: 700; /* the header's links and controls (2f), and the brand name */
 
   --fs-display: 26cqi; /* with the gap below, as wide as the design's 27cqi at -0.065em */
   --lh-display: 0.74;
@@ -439,9 +438,9 @@
   --ls-label: 0.01em;
   --fs-waypoint: 12px;
   --fs-map-grid: 11px; /* graticule degree labels, decorative */
-  --fs-brand: 24px; /* the header's brand name, 800: 24px below the full-bar breakpoint, 30px from it (below) */
+  --fs-brand: 14px; /* the header's brand name, 700 in tracked capitals: 14px below the full-bar breakpoint, 17px from it (below) */
   --lh-brand: 1;
-  --ls-brand: -0.05em;
+  --ls-brand: 0.2em;
   --fs-header-nav: 18px; /* the header's links, 700 */
   --ls-header-nav: -0.02em;
 
@@ -468,7 +467,7 @@
 @media (width >= 1200px) {
   :root {
     --header-h: 76px;
-    --fs-brand: 30px;
+    --fs-brand: 17px;
     --altitude-gap: 40px;
     --fs-altitude: 12px;
   }

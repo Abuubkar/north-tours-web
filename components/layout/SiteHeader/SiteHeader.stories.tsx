@@ -33,11 +33,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** The brand link is the brand name alone, with no mark after it. */
+/** The brand link is named by the brand alone; the gold dot between its words is decorative. */
 async function expectBrand(canvas: Canvas) {
   const brand = canvas.getByRole('link', { name: '[BRAND NAME]' });
   await expect(brand).toHaveAttribute('href', '/');
-  await expect(brand.textContent).toBe('[BRAND NAME]');
+  const dot = within(brand).getByText('·');
+  await expect(dot).toHaveAttribute('aria-hidden', 'true');
+  await expect(getComputedStyle(dot).color).toBe(GOLD);
 }
 
 /**

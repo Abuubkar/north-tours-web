@@ -70,7 +70,7 @@
 /*
  * The full-bar breakpoint (DESIGN.md §4, ADR-0030): from 1200px the brand, the six links and
  * WhatsApp; below it, the brand, the WhatsApp square and Menu. The full bar needs about 1,155px
- * with "[BRAND NAME]▲" (measured on the built site), so 1200px leaves it room.
+ * with the 2f brand name, wider than today's tracked capitals (measured on the built site), so 1200px leaves it room.
  */
 .wide {
   display: none;

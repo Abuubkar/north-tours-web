@@ -1,6 +1,7 @@
 /*
- * The header's wordmark (2f, ADR-0030): the brand name, heavy and tight (the gold ▲ removed by the
- * owner, 2026-10-09). At least the 44px tap target; no logo until the owner supplies one.
+ * The header's wordmark: the brand name in tracked capitals with a gold dot between its words
+ * (owner, 2026-10-09; it was 2f's heavy, tight name and ▲). At least the 44px tap target; no logo
+ * until the owner supplies one.
  */
 .brandMark {
   composes: brand from '../../../styles/typography.module.css';
@@ -11,4 +12,9 @@
   color: var(--fg);
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* Decorative: hidden from screen readers, so the link is named by the brand alone. */
+.dot {
+  color: var(--accent);
 }
