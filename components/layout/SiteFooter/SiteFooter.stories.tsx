@@ -20,13 +20,13 @@ type Story = StoryObj<typeof meta>;
 const contactRow = (canvasElement: HTMLElement, label: string) =>
   within(within(canvasElement).getByText(label, { selector: 'dt' }).parentElement!);
 
-/** Real values: WhatsApp with the number's digits, phone as tel:, email as mailto:, social linked. */
+/** Real values: WhatsApp with the number's digits, the mobile number as tel:, email as mailto:, social linked. */
 export const RealValues: Story = {
   play: async ({ canvas, canvasElement }) => {
     const whatsapp = `https://wa.me/923001234567?${MESSAGE}`;
     await expect(canvas.getByRole('link', { name: 'Chat on WhatsApp' })).toHaveAttribute('href', whatsapp);
-    await expect(contactRow(canvasElement, 'WhatsApp').getByRole('link')).toHaveAttribute('href', whatsapp);
-    await expect(contactRow(canvasElement, 'Phone').getByRole('link')).toHaveAttribute('href', 'tel:+924235781234');
+    await expect(within(canvasElement).queryByText('WhatsApp', { selector: 'dt' })).toBeNull();
+    await expect(contactRow(canvasElement, 'Mobile').getByRole('link')).toHaveAttribute('href', 'tel:+924235781234');
     await expect(contactRow(canvasElement, 'Email').getByRole('link')).toHaveAttribute('href', 'mailto:hello@example.pk');
     await expect(canvas.getByRole('link', { name: 'Instagram' })).toHaveAttribute('href', 'https://instagram.com/example');
     await expect(canvas.getByText(/DTS Licence No\. 1234$/)).toHaveTextContent(/^© \d{4} \[BRAND NAME\] · /);
@@ -42,14 +42,13 @@ export const RealValuesPhoneOnLight: Story = {
   globals: { surface: 'light', viewport: { value: 'phone' } },
 };
 
-/** Placeholders show as written: WhatsApp opens with no number; phone, email and social aren't links. */
+/** Placeholders show as written: WhatsApp opens with no number; mobile, email and social aren't links. */
 export const Placeholders: Story = {
   args: { settings: placeholderSettings },
   play: async ({ canvas, canvasElement }) => {
     const whatsapp = `https://wa.me/?${MESSAGE}`;
     await expect(canvas.getByRole('link', { name: 'Chat on WhatsApp' })).toHaveAttribute('href', whatsapp);
-    await expect(contactRow(canvasElement, 'WhatsApp').getByRole('link')).toHaveAttribute('href', whatsapp);
-    for (const label of ['Phone', 'Email']) await expect(contactRow(canvasElement, label).queryByRole('link')).toBeNull();
+    for (const label of ['Mobile', 'Email']) await expect(contactRow(canvasElement, label).queryByRole('link')).toBeNull();
     await expect(canvas.getByText('[+92 42 XXXX XXXX]')).toBeVisible();
     for (const name of ['Instagram', 'Facebook', 'YouTube']) {
       await expect(canvas.queryByRole('link', { name })).toBeNull();
@@ -71,13 +70,13 @@ export const PlaceholdersPhoneOnLight: Story = {
 };
 
 /**
- * Today's settings: the office's phone from its Google Maps listing is a tel: link, and its
+ * The office's listing settings: its phone from its Google Maps listing is a tel: link in the Mobile row, and its
  * address shows in the Office row; WhatsApp and email stay placeholders.
  */
 export const OfficeListing: Story = {
   args: { settings: listingSettings },
   play: async ({ canvasElement }) => {
-    const phone = contactRow(canvasElement, 'Phone').getByRole('link', { name: '+92 42 3725 2511' });
+    const phone = contactRow(canvasElement, 'Mobile').getByRole('link', { name: '+92 42 3725 2511' });
     await expect(phone).toHaveAttribute('href', 'tel:+924237252511');
     await expect(contactRow(canvasElement, 'Office').getByText(/^3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000/)).toBeVisible();
     await expect(contactRow(canvasElement, 'Email').queryByRole('link')).toBeNull();

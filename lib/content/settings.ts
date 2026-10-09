@@ -110,7 +110,7 @@ const settingsSchema = z.strictObject({
    */
   visitOffice: z.strictObject({
     headline: nonEmpty,
-    rows: z.strictObject({ office: nonEmpty, open: nonEmpty, phone: nonEmpty, whatsapp: nonEmpty }),
+    rows: z.strictObject({ office: nonEmpty, open: nonEmpty, mobile: nonEmpty }),
     /** To Google Maps directions, only once the address is real. */
     directionsLabel: nonEmpty,
     /** Opens WhatsApp with the general message. */

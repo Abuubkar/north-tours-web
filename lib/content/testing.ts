@@ -23,6 +23,8 @@ export function changedSettings(settings: Settings): Settings {
   return {
     ...settings,
     booking: { ...settings.booking, advancePercent: 40, replyTime: 'within 4 hours' },
+    // The office hours carry figures of their own ("10 am – 6 pm"), so they change too.
+    contact: { ...settings.contact, officeHours: '9 am – 8 pm' },
     payments: { methods: ['Bank transfer'] },
     policies: {
       refundSchedule: [
