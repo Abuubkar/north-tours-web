@@ -1,10 +1,10 @@
-# North Tours
+# Safar e Mubarik
 
-The website of a Lahore tour operator running group and private tours to northern Pakistan: Hunza, Skardu, Naran-Kaghan, Swat, Fairy Meadows and Murree. Visitors browse tours and destinations, plan a private trip, and book on WhatsApp.
+The website of Safar e Mubarik, a Lahore tour operator running group and private tours to northern Pakistan: Hunza, Skardu, Naran-Kaghan, Swat, Fairy Meadows and Murree. Visitors browse tours and destinations, plan a private trip, and book on WhatsApp.
 
 **Live preview:** <https://abuubkar.github.io/north-tours-web/>
 
-The preview isn't the launched site. The brand name is a placeholder and some content is sample text, so search engines are asked not to index it. `pnpm launch:check` lists everything still to replace.
+The preview isn't the launched site. Some content is still sample text (reviews, ratings, guide photos), so search engines are asked not to index it. `pnpm launch:check` lists everything still to replace.
 
 ## Stack
 
