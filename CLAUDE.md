@@ -168,8 +168,9 @@ Folders are created only when the first file for them is needed (section 3).
 - **Sample content is allowed (ADR-0010):** invented tours, prices, reviews, ratings, guides,
   statistics and facts are fine, as long as they pass the schemas. Exception: WhatsApp
   number, phone, email, office address, DTS licence and company registration stay as
-  `[placeholders]` until real values are supplied. The office's address and phone are real since
-  2026-10-05 (the owner's Google Maps listing).
+  `[placeholders]` until real values are supplied. The office's address is real since
+  2026-10-05 (the owner's Google Maps listing), and the phone and WhatsApp number (one mobile,
+  +92 344 4430021) since 2026-10-09.
 - **Invented claims about the company carry `sample: true` (ADR-0019):** the founder and story,
   principles, vehicles and fleet age, the safety list, stats beyond the `trust` settings and
   memberships. Only `true` is allowed; the owner confirms a claim by removing the field. It never
