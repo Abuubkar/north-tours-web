@@ -52,12 +52,13 @@
   letter-spacing: var(--ls-section-long);
 }
 
-/* The header's brand name (2f, ADR-0030): 24px, 30px from 1200px. */
+/* The header's brand name in tracked capitals (owner, 2026-10-09): 14px, 17px from 1200px. */
 .brand {
   font-size: var(--fs-brand);
-  font-weight: var(--fw-heavy);
+  font-weight: var(--fw-bold);
   line-height: var(--lh-brand);
   letter-spacing: var(--ls-brand);
+  text-transform: uppercase;
 }
 
 /* The header's links (2f, ADR-0030). */
