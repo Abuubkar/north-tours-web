@@ -3,3 +3,7 @@ allowBuilds:
   unrs-resolver: false
   # Postinstall only checks the binary; the platform binary is installed as an optional dependency.
   esbuild: false
+
+# Real folders in node_modules, not links into node_modules/.pnpm: Hostinger copies node_modules into
+# its runtime folder and loses the links, so Next couldn't load @swc/helpers there.
+nodeLinker: hoisted
