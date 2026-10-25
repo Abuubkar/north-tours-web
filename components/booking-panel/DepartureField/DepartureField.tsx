@@ -11,7 +11,7 @@ import type { DepartureFieldProps } from './DepartureField.types';
 import styles from './DepartureField.module.css';
 
 /**
- * "Departure date": a radio per date, or on short screens a select ("12–20 May · 3 of 16 seats
+ * "Departure date": a radio per date, or on short screens a select ("12-20 May · 3 of 16 seats
  * left") with the chosen date's seats under it, so the panel's footer still fits on screen.
  */
 export function DepartureField({ copy, compact, controlRef }: DepartureFieldProps) {

@@ -13,7 +13,7 @@ const meta = {
       <KeyValueRow label="Office">
         12 Main Boulevard, Gulberg, Lahore
         <br />
-        Mon–Sat, 10 am – 7 pm
+        Mon-Sat, 10 am - 7 pm
       </KeyValueRow>
     </dl>
   ),

@@ -127,7 +127,7 @@ export const RisesBelowTheFold: Story = {
     await expect(getComputedStyle(card).transform).toBe('matrix(1, 0, 0, 1, 0, 40)');
     await expect(opacityUpTo(within(card).getByRole('img', { name: samplePhoto.alt }), card)).toBe(0);
     for (const essential of [
-      within(card).getByText(/^\d+–\d+ \w+ · |^\d+ \w+ · /),
+      within(card).getByText(/^\d+-\d+ \w+ · |^\d+ \w+ · /),
       within(card).getByText(/^PKR /),
       within(card).getByText(/ of \d+ seats left$/),
       within(card).getByRole('link', { name: /^View Trip/ }),

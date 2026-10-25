@@ -112,7 +112,7 @@ export const RisesIntoView: Story = {
     await expect(opacityUpTo(photo, card)).toBe(0);
     for (const essential of [
       within(card).getByText('Only 3 seats left'),
-      within(card).getByText('12–12 May · 1 day'),
+      within(card).getByText('12-12 May · 1 day'),
       within(card).getByText('PKR 145,000'),
       within(card).getByText('3 of 16 seats left'),
       within(card).getByRole('link', { name: /^View Trip/ }),

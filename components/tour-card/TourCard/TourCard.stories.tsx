@@ -31,7 +31,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 3, name: 'Hunza & Skardu Grand' })).toBeVisible();
-    await expect(canvas.getByText('26 May – 3 Jun · 9 days, 8 nights')).toBeVisible();
+    await expect(canvas.getByText('26 May - 3 Jun · 9 days, 8 nights')).toBeVisible();
     await expect(canvas.getByText('PKR 145,000')).toBeVisible();
     await expect(canvas.getByRole('img', { name: '4.9 out of 5, 128 reviews' })).toBeVisible();
     await expect(canvas.getByText('9 of 16 seats left')).toBeVisible();

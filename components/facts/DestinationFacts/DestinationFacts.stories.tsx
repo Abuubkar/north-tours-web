@@ -21,7 +21,7 @@ const value = (canvasElement: HTMLElement, label: string) =>
 export const Desktop: Story = {
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvasElement }) => {
-    await expect(value(canvasElement, 'Best season')).toHaveTextContent('April – October');
+    await expect(value(canvasElement, 'Best season')).toHaveTextContent('April - October');
     await expect(value(canvasElement, 'Altitude')).toHaveTextContent('2,438 m');
     await expect(value(canvasElement, 'From Lahore')).toHaveTextContent('3 days by road');
     await expect(value(canvasElement, 'Tours')).toHaveTextContent('2');

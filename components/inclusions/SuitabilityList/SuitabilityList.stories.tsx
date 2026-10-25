@@ -16,7 +16,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Two headings, each over a real list; the + and – are decorative. */
+/** Two headings, each over a real list; the + and - are decorative. */
 export const Desktop: Story = {
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
@@ -25,9 +25,9 @@ export const Desktop: Story = {
     const lists = canvas.getAllByRole('list');
     await expect(lists).toHaveLength(2);
     await expect(within(lists[0]).getAllByRole('listitem').map((li) => li.textContent)).toEqual(sampleTour.overview.suitedTo.map((line) => `+${line}`));
-    await expect(within(lists[1]).getAllByRole('listitem').map((li) => li.textContent)).toEqual(sampleTour.overview.notSuitedTo.map((line) => `–${line}`));
+    await expect(within(lists[1]).getAllByRole('listitem').map((li) => li.textContent)).toEqual(sampleTour.overview.notSuitedTo.map((line) => `-${line}`));
     await expect(canvas.getAllByText('+')[0]).toHaveAttribute('aria-hidden', 'true');
-    await expect(canvas.getAllByText('–')[0]).toHaveAttribute('aria-hidden', 'true');
+    await expect(canvas.getAllByText('-')[0]).toHaveAttribute('aria-hidden', 'true');
   },
 };
 

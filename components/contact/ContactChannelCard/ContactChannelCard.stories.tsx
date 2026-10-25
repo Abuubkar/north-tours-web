@@ -54,7 +54,7 @@ export const WhatsAppPlaceholderPhone: Story = { ...WhatsAppPlaceholder, globals
 
 /** The phone, a placeholder: plain text, never a tel: link, then the hours as written. */
 export const PhonePlaceholder: Story = {
-  args: { label: 'Phone', icon: undefined, value: '[+92 42 XXXX XXXX]', href: undefined, size: 'default', line: '[Mon–Sat, X am – X pm]', children: undefined },
+  args: { label: 'Phone', icon: undefined, value: '[+92 42 XXXX XXXX]', href: undefined, size: 'default', line: '[Mon-Sat, X am - X pm]', children: undefined },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 3, name: 'Phone' })).toBeVisible();
     await expect(canvas.queryByRole('link')).toBeNull();
@@ -67,7 +67,7 @@ export const PhonePlaceholderPhone: Story = { ...PhonePlaceholder, globals: { vi
 
 /** The phone, real: a tel: link, then the hours. */
 export const PhoneReal: Story = {
-  args: { label: 'Phone', icon: undefined, value: '+92 42 3578 1234', href: 'tel:+924235781234', size: 'default', line: 'Mon–Sat, 10 am – 7 pm', children: undefined },
+  args: { label: 'Phone', icon: undefined, value: '+92 42 3578 1234', href: 'tel:+924235781234', size: 'default', line: 'Mon-Sat, 10 am - 7 pm', children: undefined },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 3, name: 'Phone' })).toBeVisible();
     await expect(canvas.getByRole('link', { name: '+92 42 3578 1234' })).toHaveAttribute('href', 'tel:+924235781234');

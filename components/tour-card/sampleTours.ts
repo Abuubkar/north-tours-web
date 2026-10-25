@@ -118,7 +118,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Islamabad',
       meals: 'Dinner',
-      drive: '4–5 hrs',
+      drive: '4-5 hrs',
     },
     {
       title: 'Islamabad → Chilas',
@@ -129,7 +129,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Chilas',
       meals: 'Breakfast, dinner',
-      drive: '11–12 hrs',
+      drive: '11-12 hrs',
     },
     {
       title: 'Chilas → Hunza',
@@ -141,7 +141,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Karimabad, Hunza',
       meals: 'Breakfast, dinner',
-      drive: '6–7 hrs',
+      drive: '6-7 hrs',
     },
     {
       title: 'Hunza',
@@ -151,7 +151,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Karimabad, Hunza',
       meals: 'Breakfast, dinner',
-      drive: '1–2 hrs',
+      drive: '1-2 hrs',
     },
     {
       title: 'Upper Hunza',
@@ -161,7 +161,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Karimabad, Hunza',
       meals: 'Breakfast, dinner',
-      drive: '4–5 hrs',
+      drive: '4-5 hrs',
     },
     {
       title: 'Hunza → Skardu',
@@ -173,7 +173,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Skardu',
       meals: 'Breakfast, dinner',
-      drive: '7–8 hrs',
+      drive: '7-8 hrs',
     },
     {
       title: 'Deosai & Shangrila',
@@ -183,7 +183,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Skardu',
       meals: 'Breakfast, dinner',
-      drive: '6–7 hrs incl. jeep',
+      drive: '6-7 hrs incl. jeep',
     },
     {
       title: 'Skardu → Chilas or Naran',
@@ -194,7 +194,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Chilas or Naran',
       meals: 'Breakfast, dinner',
-      drive: '9–10 hrs',
+      drive: '9-10 hrs',
     },
     {
       title: 'Chilas or Naran → Lahore',
@@ -206,7 +206,7 @@ export const sampleTour: Tour = {
       ],
       overnight: 'Home',
       meals: 'Breakfast',
-      drive: '12–14 hrs',
+      drive: '12-14 hrs',
     },
   ],
   faqs: [

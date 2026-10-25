@@ -250,7 +250,7 @@ describe('the audit’s table', () => {
           '|---|---|---|---|---|---|---|',
           '| / | 2.40 s | 0.004 | 250 ms | 0 | pass | pass, TBT warning |',
           '| /tours | 2.70 s (median of 3) | 0.000 | 120 ms | 1 | 1 failed | fail |',
-          '| /help | – | – | – | 0 | pass | fail |',
+          '| /help | - | - | - | 0 | pass | fail |',
         ].join('\n'),
         'Failures (4)\n- /tours: LCP 2.70 s is over 2.50 s\n- /tours: 1440px: axe region on footer\n- /tours: 390px: 2 <h1>s\n- /help: Lighthouse couldn’t measure the page',
         'Warnings (1)\n- /: TBT 250 ms is over 200 ms (the lab stand-in for INP)',

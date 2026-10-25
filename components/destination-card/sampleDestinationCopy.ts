@@ -10,10 +10,10 @@ export const sampleDestinationCopy: DestinationCopy = {
     legend: { best: 'Best', good: 'Good', avoid: 'Avoid · closed or not recommended' },
     levels: { best: 'Best', good: 'Good', avoid: 'Avoid' },
     seasons: {
-      spring: { name: 'Spring', months: 'Mar – May' },
-      summer: { name: 'Summer', months: 'Jun – Aug' },
-      autumn: { name: 'Autumn', months: 'Sep – Nov' },
-      winter: { name: 'Winter', months: 'Dec – Feb' },
+      spring: { name: 'Spring', months: 'Mar - May' },
+      summer: { name: 'Summer', months: 'Jun - Aug' },
+      autumn: { name: 'Autumn', months: 'Sep - Nov' },
+      winter: { name: 'Winter', months: 'Dec - Feb' },
     },
   },
   places: {

@@ -47,11 +47,11 @@ describe('trip request', () => {
       [
         'Assalam o Alaikum! I’d like to plan a private trip.',
         '• Destinations: Hunza',
-        '• Dates: Jun 2027 (5–7 days)',
+        '• Dates: Jun 2027 (5-7 days)',
         '• Group: 2 adults, 2 children (ages 6, 9) · Family',
         '• Hotels: Upgraded · Transport: Car',
         '• Departing from: Lahore',
-        '• Budget per person: PKR 50–100k',
+        '• Budget per person: PKR 50-100k',
         '• Best time to reach me: Evening',
         '• Notes: Travelling with my mother, who prefers short walks.',
         'Name: Ayesha Khan',
@@ -66,7 +66,7 @@ describe('trip request', () => {
       [
         'Assalam o Alaikum! I’d like to plan a private trip.',
         '• Destinations: Hunza',
-        '• Dates: 12 Jun 2027 – 18 Jun 2027',
+        '• Dates: 12 Jun 2027 - 18 Jun 2027',
         '• Group: 2 adults',
         '• Hotels: Any · Transport: Any',
         '• Departing from: Lahore',
@@ -91,11 +91,11 @@ describe('several picks', () => {
 
   it('joins them on each line of the trip request, and Departing from stays one city', () => {
     const lines = request(several, both).split('\n');
-    expect(lines).toContain('• Dates: Dec 2026, Jan 2027 (5–7 days, 8–10 days)');
+    expect(lines).toContain('• Dates: Dec 2026, Jan 2027 (5-7 days, 8-10 days)');
     expect(lines).toContain('• Group: 2 adults, 2 children (ages 6, 9) · Family, Friends');
     expect(lines).toContain('• Hotels: Comfortable, Upgraded · Transport: Car, Coaster');
     expect(lines).toContain('• Departing from: Lahore');
-    expect(lines).toContain('• Budget per person: PKR 50–100k, PKR 100k+');
+    expect(lines).toContain('• Budget per person: PKR 50-100k, PKR 100k+');
     expect(lines).toContain('• Best time to reach me: Morning, Evening');
   });
 
@@ -110,11 +110,11 @@ describe('call back', () => {
       [
         'Please call me back on +92 300 123 4567, best time evening.',
         '• Destinations: Hunza',
-        '• Dates: Jun 2027 (5–7 days)',
+        '• Dates: Jun 2027 (5-7 days)',
         '• Group: 2 adults, 2 children (ages 6, 9) · Family',
         '• Hotels: Upgraded · Transport: Car',
         '• Departing from: Lahore',
-        '• Budget per person: PKR 50–100k',
+        '• Budget per person: PKR 50-100k',
         '• Notes: Travelling with my mother, who prefers short walks.',
         'Name: Ayesha Khan',
       ].join('\n'),

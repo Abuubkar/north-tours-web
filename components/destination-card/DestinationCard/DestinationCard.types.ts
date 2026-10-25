@@ -3,7 +3,7 @@ import type { Destination } from '@/lib/content/destinations';
 export type DestinationCardProps = {
   destination: Pick<Destination, 'slug' | 'name' | 'bestSeason' | 'image'>;
   /**
-   * home (the Homepage): a 3:4 photo, a label over the months in full ("Best season", "April – October").
+   * home (the Homepage): a 3:4 photo, a label over the months in full ("Best season", "April - October").
    * other (a destination's other valleys): a 4:3 photo, its season in short and how many tours visit.
    */
   variant?: 'home' | 'other';
@@ -11,6 +11,6 @@ export type DestinationCardProps = {
   seasonLabel?: string;
   /** The photo loads straight away with high priority, as the page's main image (LCP). Others load lazily. */
   priority?: boolean;
-  /** Other: the two lines under the name, e.g. "Best · Apr – Oct" and "2 tours". */
+  /** Other: the two lines under the name, e.g. "Best · Apr - Oct" and "2 tours". */
   details?: { season: string; tours: string };
 };

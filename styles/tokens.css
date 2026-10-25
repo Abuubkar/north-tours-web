@@ -83,7 +83,7 @@
   --space-96: 96px;
   --space-144: 144px;
 
-  /* Layout (DESIGN.md §4–5). cqi resolves against the page width (body is the container). */
+  /* Layout (DESIGN.md §4-5). cqi resolves against the page width (body is the container). */
   --margin: clamp(20px, 3.4cqi, 48px);
   --section-y: clamp(72px, 9cqi, 144px);
   --section-y-statement: clamp(88px, 10cqi, 160px);
@@ -131,7 +131,7 @@
   --underline-offset: 6px; /* underlined text links */
   --underline-offset-inline: 4px; /* a link inside a sentence */
   --seat-dot: 7px; /* the seats line's status dot */
-  --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
+  --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720-820px) */
   --measure-note: 320px; /* a short note beside a section headline */
   --measure-overview: 620px; /* a tour overview's paragraphs */
   --measure-destination: 560px; /* a destination's hero lead and overview paragraphs */

@@ -1,11 +1,11 @@
 import type { SuitabilityListProps } from './SuitabilityList.types';
 import styles from './SuitabilityList.module.css';
 
-/** Who a trip suits (+) and who it may not (–), side by side; each is a heading over a real list. */
+/** Who a trip suits (+) and who it may not (-), side by side; each is a heading over a real list. */
 export function SuitabilityList({ suited, notSuited }: SuitabilityListProps) {
   const groups = [
     { ...suited, mark: '+' },
-    { ...notSuited, mark: '–' },
+    { ...notSuited, mark: '-' },
   ];
   return (
     <div className={styles.grid}>

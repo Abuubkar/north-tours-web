@@ -77,7 +77,7 @@ export const StaleBuild: Story = {
     await expect(titles(canvas)).toEqual(['Hunza & Skardu Grand', 'Moved on', ...sampleSoonestOrder.slice(1), 'Left already']);
     await expect(canvas.getByRole('heading', { level: 2, name: '10 trips' })).toBeVisible();
     const cards = canvas.getAllByRole('article');
-    await expect(within(cards[1]).getByText('15–15 May · 1 day')).toBeVisible();
+    await expect(within(cards[1]).getByText('15-15 May · 1 day')).toBeVisible();
     await expect(within(cards.at(-1)!).getByText('No upcoming dates · ask on WhatsApp')).toBeVisible();
   },
 };
@@ -214,7 +214,7 @@ export const RisesOnFirstLoad: Story = {
     await expect(getComputedStyle(card).transform).toBe('matrix(1, 0, 0, 1, 0, 40)');
     await expect(opacityUpTo(within(card).getByRole('img', { name: samplePhoto.alt }), card)).toBe(0);
     for (const essential of [
-      within(card).getByText(/^\d+–\d+ \w+ · /),
+      within(card).getByText(/^\d+-\d+ \w+ · /),
       within(card).getByText(/^PKR /),
       within(card).getByText(/ of \d+ seats left$/),
       within(card).getByRole('link', { name: /^View Trip/ }),

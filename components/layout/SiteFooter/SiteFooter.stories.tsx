@@ -29,7 +29,7 @@ export const RealValues: Story = {
     await expect(contactRow(canvasElement, 'Mobile').getByRole('link')).toHaveAttribute('href', 'tel:+924235781234');
     await expect(contactRow(canvasElement, 'Email').getByRole('link')).toHaveAttribute('href', 'mailto:hello@example.pk');
     await expect(canvas.getByRole('link', { name: 'Instagram' })).toHaveAttribute('href', 'https://instagram.com/example');
-    await expect(canvas.getByText(/DTS Licence No\. 1234$/)).toHaveTextContent(/^© 2014–\d{4} \[BRAND NAME\] · /);
+    await expect(canvas.getByText(/DTS Licence No\. 1234$/)).toHaveTextContent(/^© 2014-\d{4} \[BRAND NAME\] · /);
   },
 };
 
@@ -55,7 +55,7 @@ export const Placeholders: Story = {
       await expect(canvas.getByText(name)).toBeVisible();
     }
     await expect(canvas.getByText(/DTS Licence No\. \[DTS licence number\]$/)).toHaveTextContent(
-      /^© 2014–\d{4} \[BRAND NAME\] · /,
+      /^© 2014-\d{4} \[BRAND NAME\] · /,
     );
   },
 };

@@ -23,7 +23,7 @@ describe('hasPlaceholder', () => {
     expect(hasPlaceholder(value)).toBe(true);
   });
 
-  it.each(['12 Main Boulevard, Gulberg, Lahore', 'Mon–Sat, 10 am – 7 pm', '[]'])('is false for %s', (value) => {
+  it.each(['12 Main Boulevard, Gulberg, Lahore', 'Mon-Sat, 10 am - 7 pm', '[]'])('is false for %s', (value) => {
     expect(hasPlaceholder(value)).toBe(false);
   });
 });

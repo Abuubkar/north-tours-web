@@ -35,11 +35,11 @@ export const Desktop: Story = {
     await readsInOrder(
       canvas,
       ['Lahore', 'Islamabad', 'Chilas', 'Gilgit', 'Hunza'],
-      ['4–5 hrs by road to Islamabad', '11–12 hrs by road to Chilas', '3–4 hrs by road to Gilgit', '2–3 hrs by road to Hunza'],
+      ['4-5 hrs by road to Islamabad', '11-12 hrs by road to Chilas', '3-4 hrs by road to Gilgit', '2-3 hrs by road to Hunza'],
     );
     await expect(canvas.getByRole('list').tagName).toBe('OL');
     await expect(rows(stops(canvas))).toBe(1);
-    await expect(canvas.getByText('4–5 hrs')).toBeVisible();
+    await expect(canvas.getByText('4-5 hrs')).toBeVisible();
     await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };
@@ -57,7 +57,7 @@ export const NavBreakpoint: Story = {
   },
 };
 
-/** Below 820px a vertical list: a stop per row, "↓ 4–5 hrs" under each name and "Arrive" on the last. */
+/** Below 820px a vertical list: a stop per row, "↓ 4-5 hrs" under each name and "Arrive" on the last. */
 export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
   play: async ({ canvas }) => {
@@ -74,7 +74,7 @@ export const Murree: Story = {
   args: { stops: sampleMurree.gettingThere.stops },
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
-    await readsInOrder(canvas, ['Lahore', 'Islamabad', 'Murree'], ['4–5 hrs by road to Islamabad', '1–2 hrs by road to Murree']);
+    await readsInOrder(canvas, ['Lahore', 'Islamabad', 'Murree'], ['4-5 hrs by road to Islamabad', '1-2 hrs by road to Murree']);
     await expect(rows(stops(canvas))).toBe(1);
   },
 };

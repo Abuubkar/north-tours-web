@@ -27,7 +27,7 @@ export const Placeholders: Story = {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Plan your trip over chai at our Lahore office' })).toBeVisible();
     await expect(rows(canvas)).toEqual([
       'Office: [Office address], Lahore, Punjab',
-      'Open: [Mon–Sat, X am – X pm]',
+      'Open: [Mon-Sat, X am - X pm]',
       'Mobile: [+92 42 XXXX XXXX]',
     ]);
     await expect(canvas.queryByRole('link', { name: /\+92/ })).toBeNull();
@@ -98,7 +98,7 @@ export const TwoRowPlaceholders: Story = {
   args: { form: 'two-row' },
   play: async ({ canvas, canvasElement }) => {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Plan your trip over chai at our Lahore office' })).toBeVisible();
-    await expect(rows(canvas)).toEqual(['Office: [Office address], Lahore, Punjab', 'Open: [Mon–Sat, X am – X pm]']);
+    await expect(rows(canvas)).toEqual(['Office: [Office address], Lahore, Punjab', 'Open: [Mon-Sat, X am - X pm]']);
     await expect(canvas.queryByRole('link')).toBeNull();
     await expect(canvasElement.querySelector('iframe')).toBeNull();
   },
@@ -114,7 +114,7 @@ export const TwoRowPlaceholdersPhoneOnLight: Story = { ...TwoRowPlaceholders, gl
 export const TwoRowRealValues: Story = {
   args: { form: 'two-row', settings: realSettings, map: officeMapStandIn },
   play: async ({ canvas }) => {
-    await expect(rows(canvas)).toEqual(['Office: 12 Main Boulevard, Gulberg, Lahore', 'Open: Mon–Sat, 10 am – 7 pm']);
+    await expect(rows(canvas)).toEqual(['Office: 12 Main Boulevard, Gulberg, Lahore', 'Open: Mon-Sat, 10 am - 7 pm']);
     const directions = canvas.getByRole('link', { name: /Get directions/ });
     await expect(directions).toHaveAttribute('href', directionsTo('12 Main Boulevard, Gulberg, Lahore'));
     await expect(canvas.getByTitle(officeMapStandIn.title)).toBeVisible();
@@ -139,7 +139,7 @@ export const OfficeListing: Story = {
   play: async ({ canvas }) => {
     await expect(rows(canvas)).toEqual([
       'Office: 3rd floor, 16-R, Ex Air Avenue, Block R, DHA Phase 8, Lahore 54000',
-      'Open: [Mon–Sat, X am – X pm]',
+      'Open: [Mon-Sat, X am - X pm]',
       'Mobile: +92 42 3725 2511',
     ]);
     await expect(canvas.getByRole('link', { name: '+92 42 3725 2511' })).toHaveAttribute('href', 'tel:+924237252511');

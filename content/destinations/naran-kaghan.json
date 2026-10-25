@@ -9,7 +9,7 @@
     "to": "Sep"
   },
   "altitude": 2409,
-  "fromLahore": "9–10 hrs by road",
+  "fromLahore": "9-10 hrs by road",
   "image": {
     "src": "/images/naran-kaghan/saiful-muluk.jpg",
     "alt": "Lake Saiful Muluk lying still, mirroring green slopes and the snowy peaks above it",
@@ -38,11 +38,11 @@
   "seasons": [
     {
       "season": "spring",
-      "text": "The road reaches Naran in May, but the lakes are still frozen. Days 10–18°C."
+      "text": "The road reaches Naran in May, but the lakes are still frozen. Days 10-18°C."
     },
     {
       "season": "summer",
-      "text": "The season proper: Babusar Top opens in June and the lakes thaw. Days 18–25°C, cool nights."
+      "text": "The season proper: Babusar Top opens in June and the lakes thaw. Days 18-25°C, cool nights."
     },
     {
       "season": "autumn",
@@ -187,7 +187,7 @@
     "stops": [
       {
         "name": "Lahore",
-        "drive": "4–5 hrs"
+        "drive": "4-5 hrs"
       },
       {
         "name": "Islamabad",

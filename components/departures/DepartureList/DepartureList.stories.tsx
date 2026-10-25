@@ -30,11 +30,11 @@ export const Rows: Story = {
   play: async ({ canvas }) => {
     const rows = canvas.getAllByRole('listitem');
     await expect(rows).toHaveLength(4);
-    await expect(rows[0]).toHaveTextContent('12–20 May9 days, 8 nights · departs Lahore3 of 16 seats leftPKR 145,000per person, twin');
-    await expect(canvas.getByRole('button', { name: 'Select date, 12–20 May', pressed: false })).toBeVisible();
-    const waitlist = canvas.getByRole('link', { name: 'Join waitlist, 9–17 Jun' });
+    await expect(rows[0]).toHaveTextContent('12-20 May9 days, 8 nights · departs Lahore3 of 16 seats leftPKR 145,000per person, twin');
+    await expect(canvas.getByRole('button', { name: 'Select date, 12-20 May', pressed: false })).toBeVisible();
+    const waitlist = canvas.getByRole('link', { name: 'Join waitlist, 9-17 Jun' });
     await expect(messageOf(waitlist)).toBe('Hi, please add me to the waitlist for Hunza & Skardu Grand on 9 Jun 2099 in case a seat opens up.');
-    await expect(canvas.queryByRole('button', { name: /9–17 Jun/ })).toBeNull();
+    await expect(canvas.queryByRole('button', { name: /9-17 Jun/ })).toBeNull();
   },
 };
 
@@ -62,16 +62,16 @@ export const SelectsInPanel: Story = {
     </div>
   ),
   play: async ({ canvas, userEvent }) => {
-    const select = canvas.getByRole('button', { name: 'Select date, 26 May – 3 Jun' });
+    const select = canvas.getByRole('button', { name: 'Select date, 26 May - 3 Jun' });
     await userEvent.click(select);
     await expect(select).toHaveAttribute('aria-pressed', 'true');
-    await expect(select).toHaveAccessibleName('Selected, 26 May – 3 Jun');
-    await expect(canvas.getByRole('radio', { name: /^26 May – 3 Jun/ })).toBeChecked();
+    await expect(select).toHaveAccessibleName('Selected, 26 May - 3 Jun');
+    await expect(canvas.getByRole('radio', { name: /^26 May - 3 Jun/ })).toBeChecked();
     await expect(canvas.getByText('PKR 290,000')).toBeVisible();
 
     // Choosing in the panel marks the row too.
-    await userEvent.click(canvas.getByRole('radio', { name: /^23 Jun – 1 Jul/ }));
-    await expect(canvas.getByRole('button', { name: 'Selected, 23 Jun – 1 Jul' })).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.click(canvas.getByRole('radio', { name: /^23 Jun - 1 Jul/ }));
+    await expect(canvas.getByRole('button', { name: 'Selected, 23 Jun - 1 Jul' })).toHaveAttribute('aria-pressed', 'true');
     await expect(select).toHaveAttribute('aria-pressed', 'false');
   },
 };
@@ -81,7 +81,7 @@ export const StaleBuild: Story = {
   decorators: [withBooking([{ start: '2020-06-01', end: '2020-06-09', seatsTotal: 16, seatsLeft: 4 }, ...sampleDepartures])],
   play: async ({ canvas }) => {
     await waitFor(() => expect(canvas.getAllByRole('listitem')).toHaveLength(4));
-    await expect(canvas.queryByText('1–9 Jun')).toBeNull();
+    await expect(canvas.queryByText('1-9 Jun')).toBeNull();
   },
 };
 

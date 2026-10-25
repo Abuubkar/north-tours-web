@@ -4,7 +4,7 @@ import { fillTokens } from './tokens.ts';
 type Policies = Settings['policies'];
 
 /**
- * The refund table's words: "{days} or more days", "{from}–{to} days", "{days} days" (a range of one
+ * The refund table's words: "{days} or more days", "{from}-{to} days", "{days} days" (a range of one
  * day), "Under {days} days", "{percent}%" and "None".
  */
 export type RefundTableWords = { from: string; range: string; single: string; under: string; percent: string; none: string };
@@ -13,7 +13,7 @@ export type RefundTableWords = { from: string; range: string; single: string; un
 export type RefundTableRow = { days: string; refund: string };
 
 /**
- * The refund table, a row per schedule row: "14 or more days" 100%, "7–13 days" 50%, "Under 7
+ * The refund table, a row per schedule row: "14 or more days" 100%, "7-13 days" 50%, "Under 7
  * days" None. Each row runs from its own days up to the row above; the last starts at 0 days.
  */
 export function refundTableRows(policies: Pick<Policies, 'refundSchedule'>, words: RefundTableWords): RefundTableRow[] {

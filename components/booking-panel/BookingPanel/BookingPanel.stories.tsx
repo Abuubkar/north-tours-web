@@ -63,12 +63,12 @@ export const Keyboard: Story = {
   play: async ({ canvas }) => {
     const user = await realUser();
     if (!user) return;
-    dateRadio(canvas, '12–20 May').focus();
+    dateRadio(canvas, '12-20 May').focus();
     await user.keyboard('{ArrowDown}');
-    await expect(dateRadio(canvas, '26 May – 3 Jun')).toBeChecked();
-    await expect(dateRadio(canvas, '26 May – 3 Jun')).toHaveFocus();
+    await expect(dateRadio(canvas, '26 May - 3 Jun')).toBeChecked();
+    await expect(dateRadio(canvas, '26 May - 3 Jun')).toHaveFocus();
     await user.keyboard('{ArrowDown}');
-    await expect(dateRadio(canvas, '9–17 Jun')).toBeChecked();
+    await expect(dateRadio(canvas, '9-17 Jun')).toBeChecked();
     await user.tab();
     await expect(canvas.getByRole('button', { name: 'Fewer travellers' })).toHaveFocus();
     await user.tab();
@@ -86,14 +86,14 @@ export const Keyboard: Story = {
  */
 export const DateChosen: Story = {
   play: async ({ canvas, userEvent }) => {
-    await userEvent.click(dateRadio(canvas, '26 May – 3 Jun'));
+    await userEvent.click(dateRadio(canvas, '26 May - 3 Jun'));
     await expect(canvas.queryByText('from')).toBeNull();
     await expect(canvas.getByText('2 × PKR 145,000')).toBeVisible();
     await expect(canvas.getByText('PKR 290,000')).toBeVisible();
     await expect(canvas.getByText('Advance to reserve: PKR 87,000 (30% of total)')).toBeVisible();
     const reserve = canvas.getByRole('link', { name: 'Reserve with 30% advance' });
     await expect(messageOf(reserve)).toBe(
-      'Hi, I’d like to reserve 2 travellers on Hunza & Skardu Grand, 26 May – 3 Jun 2099, twin sharing. Total PKR 290,000; I’ll pay the 30% advance of PKR 87,000.',
+      'Hi, I’d like to reserve 2 travellers on Hunza & Skardu Grand, 26 May - 3 Jun 2099, twin sharing. Total PKR 290,000; I’ll pay the 30% advance of PKR 87,000.',
     );
 
     await userEvent.click(canvas.getByRole('radio', { name: 'Quad PKR 127,000' }));
@@ -115,7 +115,7 @@ export const DateChosenPhone: Story = { ...DateChosen, globals: { viewport: { va
 export const Travellers: Story = {
   play: async ({ canvas, userEvent }) => {
     const more = canvas.getByRole('button', { name: 'More travellers' });
-    await userEvent.click(dateRadio(canvas, '26 May – 3 Jun'));
+    await userEvent.click(dateRadio(canvas, '26 May - 3 Jun'));
     await userEvent.click(more);
     await userEvent.click(more);
     await userEvent.click(more);
@@ -123,16 +123,16 @@ export const Travellers: Story = {
     await userEvent.click(canvas.getByRole('button', { name: 'Fewer travellers' }));
     await expect(travellers(canvas)).toHaveTextContent('4');
 
-    await userEvent.click(dateRadio(canvas, '12–20 May'));
+    await userEvent.click(dateRadio(canvas, '12-20 May'));
     await expect(travellers(canvas)).toHaveTextContent('3');
     await expect(more).toHaveAttribute('aria-disabled', 'true');
     await userEvent.click(more);
     await expect(travellers(canvas)).toHaveTextContent('3');
     // Through a sold-out date (one traveller, for its waitlist) and on to a bigger one, the
     // number asked for comes back.
-    await userEvent.click(dateRadio(canvas, '9–17 Jun'));
+    await userEvent.click(dateRadio(canvas, '9-17 Jun'));
     await expect(travellers(canvas)).toHaveTextContent('1');
-    await userEvent.click(dateRadio(canvas, '23 Jun – 1 Jul'));
+    await userEvent.click(dateRadio(canvas, '23 Jun - 1 Jul'));
     await expect(travellers(canvas)).toHaveTextContent('4');
     await expect(canvas.getByText('4 × PKR 145,000')).toBeVisible();
   },
@@ -144,7 +144,7 @@ export const OwnPrices: Story = {
     withBooking([{ ...sampleDepartures[1], prices: { twin: 160000, triple: 150000, quad: 140000 } }, sampleDepartures[3]]),
   ],
   play: async ({ canvas, userEvent }) => {
-    await userEvent.click(dateRadio(canvas, '26 May – 3 Jun'));
+    await userEvent.click(dateRadio(canvas, '26 May - 3 Jun'));
     await expect(canvas.getByRole('radio', { name: 'Triple PKR 150,000' })).toBeInTheDocument();
     await expect(canvas.getByText('2 × PKR 160,000')).toBeVisible();
     await expect(canvas.getByText('PKR 320,000')).toBeVisible();
@@ -155,9 +155,9 @@ export const OwnPrices: Story = {
 /** A sold-out date: it's full, and the waitlist replaces Reserve. */
 export const SoldOutDate: Story = {
   play: async ({ canvas, userEvent }) => {
-    await userEvent.click(dateRadio(canvas, '9–17 Jun'));
+    await userEvent.click(dateRadio(canvas, '9-17 Jun'));
     await expect(
-      canvas.getByText('9–17 Jun is full. Join the waitlist and we’ll message you on WhatsApp if a seat opens.'),
+      canvas.getByText('9-17 Jun is full. Join the waitlist and we’ll message you on WhatsApp if a seat opens.'),
     ).toBeVisible();
     await expect(canvas.queryByRole('link', { name: /^Reserve/ })).toBeNull();
     await expect(messageOf(canvas.getByRole('link', { name: 'Join waitlist' }))).toBe(
@@ -176,7 +176,7 @@ export const StaleBuild: Story = {
   decorators: [withBooking([{ start: '2020-06-01', end: '2020-06-09', seatsTotal: 16, seatsLeft: 4 }])],
   play: async ({ canvas }) => {
     await waitFor(() => expect(canvas.getByText('No upcoming dates · ask on WhatsApp')).toBeVisible());
-    await expect(canvas.queryByRole('radio', { name: /^1–9 Jun/ })).toBeNull();
+    await expect(canvas.queryByRole('radio', { name: /^1-9 Jun/ })).toBeNull();
     await expect(messageOf(canvas.getByRole('link', { name: 'Ask on WhatsApp' }))).toBe('Hi, I’d like to plan a trip north.');
   },
 };
@@ -193,12 +193,12 @@ export const Compact: Story = {
     await expect(canvas.queryByRole('radio', { name: /May/ })).toBeNull();
     await expect(canvas.getAllByRole('option').map((o) => o.textContent)).toEqual([
       'Choose a departure',
-      '12–20 May · 3 of 16 seats left',
-      '26 May – 3 Jun · 9 of 16 seats left',
-      '9–17 Jun · Sold out · waitlist open',
-      '23 Jun – 1 Jul · 14 of 16 seats left',
+      '12-20 May · 3 of 16 seats left',
+      '26 May - 3 Jun · 9 of 16 seats left',
+      '9-17 Jun · Sold out · waitlist open',
+      '23 Jun - 1 Jul · 14 of 16 seats left',
     ]);
-    await userEvent.selectOptions(select, '26 May – 3 Jun · 9 of 16 seats left');
+    await userEvent.selectOptions(select, '26 May - 3 Jun · 9 of 16 seats left');
     await expect(canvas.getByText('PKR 290,000')).toBeVisible();
     const reserve = canvas.getByRole('link', { name: 'Reserve with 30% advance' });
     await expect(reserve.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight);
@@ -212,7 +212,7 @@ export const InSheet: Story = {
   globals: { viewport: { value: 'laptop' } },
   play: async ({ canvas }) => {
     await expect(canvas.queryByRole('combobox')).toBeNull();
-    await expect(dateRadio(canvas, '12–20 May')).toBeVisible();
+    await expect(dateRadio(canvas, '12-20 May')).toBeVisible();
   },
 };
 

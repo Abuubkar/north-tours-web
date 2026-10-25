@@ -29,16 +29,16 @@ describe('bestSeasonProblems', () => {
   it('rejects a best month outside the season', () => {
     const levels = hunza.with(10, 'best');
     expect(bestSeasonProblems(levels, { from: 'Apr', to: 'Oct' })).toEqual([
-      { month: 10, message: 'November is outside the best season (Apr – Oct), so it can’t be best' },
+      { month: 10, message: 'November is outside the best season (Apr - Oct), so it can’t be best' },
     ]);
   });
 
   it('rejects a season end that isn’t best', () => {
     expect(bestSeasonProblems(hunza.with(3, 'good'), { from: 'Apr', to: 'Oct' })).toEqual([
-      { month: 3, message: 'April starts the best season (Apr – Oct), so it must be best' },
+      { month: 3, message: 'April starts the best season (Apr - Oct), so it must be best' },
     ]);
     expect(bestSeasonProblems(hunza.with(9, 'avoid'), { from: 'Apr', to: 'Oct' })).toEqual([
-      { month: 9, message: 'October ends the best season (Apr – Oct), so it must be best' },
+      { month: 9, message: 'October ends the best season (Apr - Oct), so it must be best' },
     ]);
   });
 
@@ -46,10 +46,10 @@ describe('bestSeasonProblems', () => {
     const winter: MonthLevel[] = ['best', 'best', 'good', 'good', 'avoid', 'avoid', 'avoid', 'avoid', 'avoid', 'good', 'good', 'best'];
     expect(bestSeasonProblems(winter, { from: 'Dec', to: 'Feb' })).toEqual([]);
     expect(bestSeasonProblems(winter.with(5, 'best'), { from: 'Dec', to: 'Feb' })).toEqual([
-      { month: 5, message: 'June is outside the best season (Dec – Feb), so it can’t be best' },
+      { month: 5, message: 'June is outside the best season (Dec - Feb), so it can’t be best' },
     ]);
     expect(bestSeasonProblems(winter.with(11, 'good'), { from: 'Dec', to: 'Feb' })).toEqual([
-      { month: 11, message: 'December starts the best season (Dec – Feb), so it must be best' },
+      { month: 11, message: 'December starts the best season (Dec - Feb), so it must be best' },
     ]);
   });
 });

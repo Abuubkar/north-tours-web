@@ -215,7 +215,7 @@
       ],
       "overnight": "Naran",
       "meals": "Dinner",
-      "drive": "9–10 hrs"
+      "drive": "9-10 hrs"
     },
     {
       "title": "Naran → Skardu",
@@ -228,7 +228,7 @@
       ],
       "overnight": "Skardu",
       "meals": "Breakfast, dinner",
-      "drive": "11–12 hrs"
+      "drive": "11-12 hrs"
     },
     {
       "title": "Shangrila and the cold desert",
@@ -238,7 +238,7 @@
       ],
       "overnight": "Skardu",
       "meals": "Breakfast, dinner",
-      "drive": "2–3 hrs"
+      "drive": "2-3 hrs"
     },
     {
       "title": "Deosai Plains",
@@ -248,7 +248,7 @@
       ],
       "overnight": "Skardu",
       "meals": "Breakfast, dinner",
-      "drive": "6–7 hrs incl. jeep"
+      "drive": "6-7 hrs incl. jeep"
     },
     {
       "title": "Skardu → Naran",
@@ -261,7 +261,7 @@
       ],
       "overnight": "Naran",
       "meals": "Breakfast, dinner",
-      "drive": "11–12 hrs"
+      "drive": "11-12 hrs"
     },
     {
       "title": "Naran → Lahore",
@@ -272,7 +272,7 @@
       ],
       "overnight": "Home",
       "meals": "Breakfast",
-      "drive": "9–10 hrs"
+      "drive": "9-10 hrs"
     }
   ],
   "included": [

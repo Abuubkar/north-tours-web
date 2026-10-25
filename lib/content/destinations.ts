@@ -7,7 +7,7 @@ import { imageSchema } from './images.ts';
 import { PLACE_KINDS } from '../utils/destination.ts';
 import { bestSeasonProblems, MONTH_LEVELS, SEASONS } from '../utils/seasonCalendar.ts';
 
-/** A stop on the road from Lahore: its name, and the drive to the next stop ("4–5 hrs"), which the last has none of. */
+/** A stop on the road from Lahore: its name, and the drive to the next stop ("4-5 hrs"), which the last has none of. */
 const roadStopSchema = z.strictObject({ name: nonEmpty, drive: nonEmpty.optional() });
 
 /** A place to see: a kind, one line, where it is (for the places map) and a place photo, never people (ADR-0009). */
@@ -41,7 +41,7 @@ export const destinationSchema = z
     bestSeason: seasonSchema,
     /** The main town's altitude in metres, e.g. 2438 for Karimabad. */
     altitude: z.int('Use whole metres').min(0, 'Use metres above sea level'),
-    /** How long the road from Lahore takes, as shown: "3 days by road", "5–7 hrs by road". */
+    /** How long the road from Lahore takes, as shown: "3 days by road", "5-7 hrs by road". */
     fromLahore: nonEmpty,
     /** The hero photo, also the page's share image. */
     image: imageSchema,
@@ -105,7 +105,7 @@ export const destinationSchema = z
     stops.forEach((stop, i) => {
       const last = i === stops.length - 1;
       if (!last && !stop.drive) {
-        ctx.addIssue({ code: 'custom', message: 'Add the drive to the next stop, e.g. "4–5 hrs"', path: ['gettingThere', 'stops', i, 'drive'] });
+        ctx.addIssue({ code: 'custom', message: 'Add the drive to the next stop, e.g. "4-5 hrs"', path: ['gettingThere', 'stops', i, 'drive'] });
       }
       if (last && stop.drive) {
         ctx.addIssue({ code: 'custom', message: 'The last stop is the destination: no drive after it', path: ['gettingThere', 'stops', i, 'drive'] });

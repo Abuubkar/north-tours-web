@@ -5,7 +5,7 @@ import { copy, copyWith, emailOrPlaceholder, linkOrPlaceholder, nonEmpty, phoneO
 
 /**
  * How much of the advance is refunded, by days before departure: each row applies from
- * `daysBefore` days up to the row above it. Read as "14 or more days: 100%, 7–13 days: 50%,
+ * `daysBefore` days up to the row above it. Read as "14 or more days: 100%, 7-13 days: 50%,
  * under 7 days: none". It starts at a full refund and ends at 0 days.
  */
 const refundScheduleSchema = z

@@ -104,7 +104,7 @@ export const NoneLeftPhone: Story = { ...NoneLeft, globals: { viewport: { value:
 export const StaleBuild: Story = {
   args: { children: facts([departure('2020-06-01', '2020-06-09', 5), ...upcoming]) },
   play: async ({ canvas }) => {
-    await waitFor(() => expect(canvas.getByText('Next departure').nextElementSibling).toHaveTextContent(/^12–20 May/));
+    await waitFor(() => expect(canvas.getByText('Next departure').nextElementSibling).toHaveTextContent(/^12-20 May/));
   },
 };
 
@@ -146,7 +146,7 @@ export const Destination: Story = {
     await expect(canvas.getByRole('link', { name: 'All destinations' })).toHaveAttribute('href', '/destinations');
     await expect(canvas.getByText('Gilgit-Baltistan')).toBeVisible();
     await expect(canvas.getByText(sampleDestination.lead)).toBeVisible();
-    for (const [label, value] of [['Best season', 'April – October'], ['Altitude', '2,438 m'], ['From Lahore', '3 days by road'], ['Tours', '2']]) {
+    for (const [label, value] of [['Best season', 'April - October'], ['Altitude', '2,438 m'], ['From Lahore', '3 days by road'], ['Tours', '2']]) {
       await expect(canvas.getByText(label, { selector: 'dt' }).nextElementSibling).toHaveTextContent(value);
     }
     const photo = canvas.getByRole('img', { name: sampleDestination.image.alt });

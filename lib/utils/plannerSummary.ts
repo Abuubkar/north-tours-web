@@ -20,7 +20,7 @@ export type SummaryWords = {
   destinations: Readonly<Record<string, string>>;
   /** "Help me choose" in a summary, as the card reads. */
   unsure: string;
-  /** "{from} – {to}". */
+  /** "{from} - {to}". */
   exactDates: string;
   adults: CountWords;
   children: CountWords;
@@ -69,7 +69,7 @@ const count = (n: number, words: CountWords) => fillTokens(n === 1 ? words.one :
 /** Several picks in the page's words, joined: "Comfortable, Upgraded"; null for none. */
 const listed = <T extends string>(ids: readonly T[], words: Readonly<Record<T, string>>) => (ids.length > 0 ? ids.map((id) => words[id]).join(', ') : null);
 
-/** "Jun, Jul 2027", "12 Jun 2027 – 18 Jun 2027", or null until the dates are given. */
+/** "Jun, Jul 2027", "12 Jun 2027 - 18 Jun 2027", or null until the dates are given. */
 function dates(answers: TripAnswers, words: SummaryWords): string | null {
   if (answers.dateMode === 'flexible') return answers.months.length > 0 ? shortMonthsYears(answers.months) : null;
   if (!answers.from || !answers.to) return null;

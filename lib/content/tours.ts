@@ -51,7 +51,7 @@ const inclusionSchema = z.strictObject({ icon: z.enum(INCLUSION_ICONS), title: n
 const staySchema = z.strictObject({
   /** Nights from and to, counting the first night as 1. */
   nights: z.strictObject({ from: z.int().positive(), to: z.int().positive() }),
-  /** Where, for the nights label: "Nights 3–5 · Hunza". */
+  /** Where, for the nights label: "Nights 3-5 · Hunza". */
   place: nonEmpty,
   title: nonEmpty,
   /** e.g. "3-star · valley view". */
@@ -76,7 +76,7 @@ const daySchema = z.strictObject({
   /** Where you sleep, e.g. "Karimabad, Hunza"; "Home" on the last day. */
   overnight: nonEmpty,
   meals: nonEmpty,
-  /** e.g. "4–5 hrs". */
+  /** e.g. "4-5 hrs". */
   drive: nonEmpty,
 });
 

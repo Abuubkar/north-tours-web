@@ -44,7 +44,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     length: {
       label: 'Trip length',
       hint: 'Optional',
-      options: { '2-4': '2–4 days', '5-7': '5–7 days', '8-10': '8–10 days', '10plus': '10+ days' },
+      options: { '2-4': '2-4 days', '5-7': '5-7 days', '8-10': '8-10 days', '10plus': '10+ days' },
     },
   },
   whosComing: {
@@ -68,7 +68,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
     budget: {
       label: 'Budget per person',
       hint: 'Optional',
-      options: { 'under-50k': 'Under PKR 50k', '50-100k': 'PKR 50–100k', '100k-plus': 'PKR 100k+', 'not-sure': 'Not sure yet' },
+      options: { 'under-50k': 'Under PKR 50k', '50-100k': 'PKR 50-100k', '100k-plus': 'PKR 100k+', 'not-sure': 'Not sure yet' },
     },
   },
   details: {
@@ -89,7 +89,7 @@ export const samplePlannerCopy: PlannerPage['copy'] = {
   },
   summary: {
     unsure: 'Help me choose',
-    exactDates: '{from} – {to}',
+    exactDates: '{from} - {to}',
     adults: { one: '{count} adult', other: '{count} adults' },
     children: { one: '{count} child', other: '{count} children' },
     ages: { one: '(age {ages})', other: '(ages {ages})' },

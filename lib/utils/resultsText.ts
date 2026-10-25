@@ -37,7 +37,7 @@ export function optionLabels(
   return { dest: Object.fromEntries(destinations.map((d) => [d.slug, d.name])), ...options };
 }
 
-/** An option's words: "Hunza", "5–7 days", "Family"; a month is "June 2027". */
+/** An option's words: "Hunza", "5-7 days", "Family"; a month is "June 2027". */
 export function optionLabel(labels: OptionLabels, group: FilterGroupId, id: string): string {
   if (group === 'month') return monthYear(id);
   return (labels[group] as Record<string, string>)[id];

@@ -225,7 +225,7 @@ const tourCopySchema = z.strictObject({
     /** {advance} is the amount, e.g. "PKR 87,000". */
     advance: copyWith('advance', ...SETTINGS_TOKENS),
     reserveLabel: copyWith(...SETTINGS_TOKENS),
-    /** A sold-out date chosen: {date} is its dates, e.g. "9–17 Jun". */
+    /** A sold-out date chosen: {date} is its dates, e.g. "9-17 Jun". */
     soldOut: copyWith('date'),
     waitlistLabel: copy,
     askLabel: copy,
@@ -233,7 +233,7 @@ const tourCopySchema = z.strictObject({
   }),
   /** The sticky bar on phones and tablets (below 1100px). */
   bar: z.strictObject({
-    /** Under the price once a date is chosen: {date} is its dates, e.g. "12–20 May". */
+    /** Under the price once a date is chosen: {date} is its dates, e.g. "12-20 May". */
     dateNote: copyWith('date'),
     soldOutNote: copyWith('date'),
     /** Opens the booking sheet. */
@@ -375,7 +375,7 @@ const destinationCopySchema = z.strictObject({
     legend: z.record(z.enum(MONTH_LEVELS), copy),
     /** Each month's label, e.g. "Best". */
     levels: z.record(z.enum(MONTH_LEVELS), copy),
-    /** Each season's name and its months, e.g. "Spring", "Mar – May". */
+    /** Each season's name and its months, e.g. "Spring", "Mar - May". */
     seasons: z.record(z.enum(SEASONS), z.strictObject({ name: copy, months: copy })),
   }),
   /** "What to see in {destination}" (#places) and each kind's tag. */
@@ -392,7 +392,7 @@ const destinationCopySchema = z.strictObject({
     byAir: copy,
     /** Under the destination on phones. */
     arrive: copy,
-    /** Each leg read out: "{time} by road to {stop}", e.g. "4–5 hrs by road to Islamabad". */
+    /** Each leg read out: "{time} by road to {stop}", e.g. "4-5 hrs by road to Islamabad". */
     leg: copyWith('time', 'stop'),
   }),
   /** "Good to know before you go" (light). */
@@ -408,7 +408,7 @@ const destinationCopySchema = z.strictObject({
   /** "Other valleys we travel to": a card per other destination. */
   others: z.strictObject({
     headline: copy,
-    /** Under each name: "Best · {season}", the short months, e.g. "Best · Apr – Oct". */
+    /** Under each name: "Best · {season}", the short months, e.g. "Best · Apr - Oct". */
     season: copyWith('season'),
     /** How many tours visit: "{count} tour" and "{count} tours". */
     tourCount: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
@@ -816,7 +816,7 @@ const helpCopySchema = z.strictObject({
       caption: copy,
       days: copy,
       refund: copy,
-      /** "14 or more days", "7–13 days", "Under 7 days"; "50%", and "None" for nothing back. */
+      /** "14 or more days", "7-13 days", "Under 7 days"; "50%", and "None" for nothing back. */
       from: copyWith('days'),
       range: copyWith('from', 'to'),
       /** A range of one day: "7 days". */

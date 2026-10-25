@@ -46,7 +46,7 @@ export const sampleHelpCopy: HelpCopy = {
       days: 'Days before departure',
       refund: 'Refund of advance',
       from: '{days} or more days',
-      range: '{from}–{to} days',
+      range: '{from}-{to} days',
       single: '{days} days',
       under: 'Under {days} days',
       percent: '{percent}%',
@@ -121,7 +121,7 @@ export const sampleHelpCopy: HelpCopy = {
   },
   cta: {
     headline: 'Still have a question? Ask us on WhatsApp',
-    lead: 'We reply on WhatsApp within 2 hours. Phone lines are open [Mon–Sat, X am – X pm].',
+    lead: 'We reply on WhatsApp within 2 hours. Phone lines are open [Mon-Sat, X am - X pm].',
     askLabel: 'Ask on WhatsApp',
     callLabel: 'Call us',
   },
@@ -314,7 +314,7 @@ export const samplePolicies: PolicyCardData[] = [
         refund: '100%',
       },
       {
-        days: '7–13 days',
+        days: '7-13 days',
         refund: '50%',
       },
       {

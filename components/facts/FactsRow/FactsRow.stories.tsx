@@ -10,7 +10,7 @@ const meta = {
   args: {
     children: (
       <>
-        <FactCell label="Best season">April – October</FactCell>
+        <FactCell label="Best season">April - October</FactCell>
         <FactCell label="Altitude">2,438 m</FactCell>
         <FactCell label="From Lahore">2 days by road</FactCell>
         <FactCell label="Tours">2</FactCell>

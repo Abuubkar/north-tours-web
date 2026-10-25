@@ -85,7 +85,7 @@ export const Help: Story = {
   args: {
     id: undefined,
     headline: 'Still have a question? Ask us on WhatsApp',
-    lead: 'We reply on WhatsApp within 2 hours. Phone lines are open [Mon–Sat, X am – X pm].',
+    lead: 'We reply on WhatsApp within 2 hours. Phone lines are open [Mon-Sat, X am - X pm].',
     actions: <AskActions askLabel="Ask on WhatsApp" askHref={generalMessage} callLabel="Call us" callHref={undefined} />,
     children: undefined,
   },
