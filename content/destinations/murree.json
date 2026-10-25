@@ -9,7 +9,7 @@
     "to": "Oct"
   },
   "altitude": 2291,
-  "fromLahore": "5–7 hrs by road",
+  "fromLahore": "5-7 hrs by road",
   "image": {
     "src": "/images/murree/galiyat-clouds.jpg",
     "alt": "Pine-covered ridges of the Galiyat at dusk, with monsoon cloud filling the valleys below",
@@ -37,15 +37,15 @@
   "seasons": [
     {
       "season": "spring",
-      "text": "Fresh green ridges, 15–22°C. Quieter on weekdays."
+      "text": "Fresh green ridges, 15-22°C. Quieter on weekdays."
     },
     {
       "season": "summer",
-      "text": "An escape from the plains heat, 20–28°C. Monsoon rain in July and August."
+      "text": "An escape from the plains heat, 20-28°C. Monsoon rain in July and August."
     },
     {
       "season": "autumn",
-      "text": "Clear views to the hills, 12–22°C."
+      "text": "Clear views to the hills, 12-22°C."
     },
     {
       "season": "winter",
@@ -56,11 +56,11 @@
     "stops": [
       {
         "name": "Lahore",
-        "drive": "4–5 hrs"
+        "drive": "4-5 hrs"
       },
       {
         "name": "Islamabad",
-        "drive": "1–2 hrs"
+        "drive": "1-2 hrs"
       },
       {
         "name": "Murree"

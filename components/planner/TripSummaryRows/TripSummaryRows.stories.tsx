@@ -21,7 +21,7 @@ export const Default: Story = {
     await expect(await canvas.findByText('Hunza')).toBeVisible();
     const transport = canvas.getAllByRole('definition')[6];
     await expect(transport).toHaveTextContent('Not yet');
-    await expect(canvas.queryByText('—')).toBeNull();
+    await expect(canvas.queryByText('-')).toBeNull();
     const quiet = getComputedStyle(canvas.getAllByText('Not yet')[0]).color;
     await expect(quiet).not.toBe(getComputedStyle(canvas.getByText('Hunza')).color);
   },

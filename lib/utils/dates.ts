@@ -13,12 +13,12 @@ function parts(date: string) {
   return { year, month: SHORT_MONTHS[month - 1], day };
 }
 
-/** "12–20 May" in one month, "26 May – 3 Jun" across two. */
+/** "12-20 May" in one month, "26 May - 3 Jun" across two. */
 export function dateRange(start: string, end: string): string {
   const from = parts(start);
   const to = parts(end);
-  if (from.month === to.month && from.year === to.year) return `${from.day}–${to.day} ${to.month}`;
-  return `${from.day} ${from.month} – ${to.day} ${to.month}`;
+  if (from.month === to.month && from.year === to.year) return `${from.day}-${to.day} ${to.month}`;
+  return `${from.day} ${from.month} - ${to.day} ${to.month}`;
 }
 
 const plural = (count: number, noun: string) => `${count} ${noun}${count === 1 ? '' : 's'}`;
@@ -33,11 +33,11 @@ export function tripLength(days: number, nights: number): string {
   return nights > 0 ? `${plural(days, 'day')}, ${plural(nights, 'night')}` : plural(days, 'day');
 }
 
-/** A departure's dates in a WhatsApp message, with the year: "12–20 May 2027", "26 May – 3 Jun 2027". */
+/** A departure's dates in a WhatsApp message, with the year: "12-20 May 2027", "26 May - 3 Jun 2027". */
 export function messageDateRange(start: string, end: string): string {
   const from = parts(start);
   const to = parts(end);
-  if (from.year !== to.year) return `${messageDate(start)} – ${messageDate(end)}`;
+  if (from.year !== to.year) return `${messageDate(start)} - ${messageDate(end)}`;
   return `${dateRange(start, end)} ${to.year}`;
 }
 
@@ -110,9 +110,14 @@ export function yearsSince(since: number, currentYear: number): number {
   return currentYear - since;
 }
 
-/** A best season, Apr to Oct → "April – October", or in short, "Apr – Oct" (a destination's "other valleys" card). */
+/** The footer's copyright years: founded 2012, built in 2026 → "2012 - 2026"; one year when they match. */
+export function copyrightYears(since: number, currentYear: number): string {
+  return since < currentYear ? `${since} - ${currentYear}` : String(currentYear);
+}
+
+/** A best season, Apr to Oct → "April - October", or in short, "Apr - Oct" (a destination's "other valleys" card). */
 export function seasonRange({ from, to }: Season, length: 'long' | 'short' = 'long'): string {
-  if (length === 'short') return `${from} – ${to}`;
+  if (length === 'short') return `${from} - ${to}`;
   const long = (month: string) => LONG_MONTHS[SHORT_MONTHS.indexOf(month)];
-  return `${long(from)} – ${long(to)}`;
+  return `${long(from)} - ${long(to)}`;
 }

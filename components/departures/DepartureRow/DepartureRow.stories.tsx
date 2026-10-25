@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 /** "Select date", named by its date. */
 export const Open: Story = {
   play: async ({ canvas, args, userEvent }) => {
-    await userEvent.click(canvas.getByRole('button', { name: 'Select date, 26 May – 3 Jun', pressed: false }));
+    await userEvent.click(canvas.getByRole('button', { name: 'Select date, 26 May - 3 Jun', pressed: false }));
     await expect(args.onSelect).toHaveBeenCalledOnce();
   },
 };
@@ -39,7 +39,7 @@ export const OpenOnDark: Story = { ...Open, globals: { surface: 'dark' } };
 export const Selected: Story = {
   args: { selected: true },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('button', { name: 'Selected, 26 May – 3 Jun', pressed: true })).toBeVisible();
+    await expect(canvas.getByRole('button', { name: 'Selected, 26 May - 3 Jun', pressed: true })).toBeVisible();
   },
 };
 
@@ -49,7 +49,7 @@ export const SelectedOnDark: Story = { ...Selected, globals: { surface: 'dark' }
 export const SoldOut: Story = {
   args: { departure: sampleDepartures[2] },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('link', { name: 'Join waitlist, 9–17 Jun' })).toHaveAttribute('href', 'https://wa.me/?text=waitlist');
+    await expect(canvas.getByRole('link', { name: 'Join waitlist, 9-17 Jun' })).toHaveAttribute('href', 'https://wa.me/?text=waitlist');
     await expect(canvas.getByText('Sold out · waitlist open')).toBeVisible();
   },
 };

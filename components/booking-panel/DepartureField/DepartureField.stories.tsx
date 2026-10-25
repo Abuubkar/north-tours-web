@@ -27,7 +27,7 @@ export const ListOnLight: Story = { ...List, globals: { surface: 'light' } };
 export const Compact: Story = {
   args: { compact: true },
   play: async ({ canvas, userEvent }) => {
-    await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Departure date' }), '12–20 May · 3 of 16 seats left');
+    await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Departure date' }), '12-20 May · 3 of 16 seats left');
     await expect(canvas.getByText('3 of 16 seats left')).toBeVisible();
   },
 };

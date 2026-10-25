@@ -2,7 +2,7 @@ import type { RouteMap } from '../content/routeMap.ts';
 
 /*
  * The route map's projection (CLAUDE.md §8: a schematic, no borders, no basemap). Latitude and
- * longitude become points in the 560×700 drawing: east–west distances are scaled by the
+ * longitude become points in the 560×700 drawing: east-west distances are scaled by the
  * cosine of the middle latitude so the shape isn't stretched, and the points are fitted inside
  * a padding, centred. Graticule lines fall on every whole degree inside the frame, or on a finer
  * step for a smaller area (a destination's places map: every 0.1°).

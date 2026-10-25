@@ -26,6 +26,7 @@ describe('travelAgency', () => {
       '@type': 'TravelAgency',
       name: '[BRAND NAME]',
       url: '/',
+      logo: '/brand/logo.png',
       description: 'Guided tours from Lahore.',
       image: '/images/hunza/attabad-share.jpg',
       telephone: undefined,
@@ -41,6 +42,7 @@ describe('travelAgency', () => {
     expect(travelAgency(realSettings, home)).toMatchObject({
       name: 'North Tours',
       url: 'https://example.pk/',
+      logo: 'https://example.pk/brand/logo.png',
       image: 'https://example.pk/images/hunza/attabad-share.jpg',
       telephone: '+92 42 3578 1234',
       email: 'hello@example.pk',

@@ -83,7 +83,7 @@
   --space-96: 96px;
   --space-144: 144px;
 
-  /* Layout (DESIGN.md §4–5). cqi resolves against the page width (body is the container). */
+  /* Layout (DESIGN.md §4-5). cqi resolves against the page width (body is the container). */
   --margin: clamp(20px, 3.4cqi, 48px);
   --section-y: clamp(72px, 9cqi, 144px);
   --section-y-statement: clamp(88px, 10cqi, 160px);
@@ -93,6 +93,8 @@
   --label-col: 240px;
   --content-col-min: 600px; /* content beside the label column wraps below it under this width */
   --header-h: 64px; /* the solid bar (2f, ADR-0030): 64px below the full-bar breakpoint, 76px from it (below) */
+  --brand-logo: 36px; /* the owner's badge before the brand name: 32px below 440px, 36px up to the full-bar breakpoint, 44px from it (below) */
+  --brand-logo-gap: var(--space-12); /* between the badge and the brand name */
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
   --measure-answer: 740px; /* FAQ and policy answers */
   --drawer-w: 460px; /* side drawer, e.g. guide profile */
@@ -129,7 +131,7 @@
   --underline-offset: 6px; /* underlined text links */
   --underline-offset-inline: 4px; /* a link inside a sentence */
   --seat-dot: 7px; /* the seats line's status dot */
-  --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720–820px) */
+  --measure-headline: 820px; /* section headlines (DESIGN.md §3: ~720-820px) */
   --measure-note: 320px; /* a short note beside a section headline */
   --measure-overview: 620px; /* a tour overview's paragraphs */
   --measure-destination: 560px; /* a destination's hero lead and overview paragraphs */
@@ -199,8 +201,6 @@
   --measure-guides-intro: 520px; /* the line under About's guides headline */
   --fleet-min: 440px; /* About's vehicles beside the safety list, before it wraps under them */
   --safety-min: 360px; /* the safety list */
-  --credentials-key-w: 200px; /* the Credentials rows' label column */
-  --measure-credentials: 820px; /* the Credentials rows */
   --office-text-min: 360px; /* the office's rows and its photo side by side, before the photo wraps under */
   --story-text-min: 380px; /* the story's text beside the founder, before it wraps above */
   --founder-w: 320px; /* the founder's portrait and name */
@@ -272,10 +272,11 @@
   --grid-steps-cols: 4;
   --grid-reviews-min: 290px;
   --grid-reviews-cols: 3;
-  --grid-trust-min: 165px;
-  --grid-trust-cols: 4;
+  --grid-trust-min: 165px; /* the trust strip and About's "in numbers" */
+  --grid-trust-cols: 4; /* About's "in numbers": four figures */
+  --grid-trust-strip-cols: 3; /* the trust strip: years, trips and payments (the DTS licence cell went, 2026-10-25) */
   --grid-trust-mini-min: 200px; /* the trust strip inside Tour Detail's final call to action */
-  --grid-trust-mini-cols: 3;
+  --grid-trust-mini-cols: 2;
   --grid-destinations-min: 160px;
   --grid-destinations-cols: 6;
   --grid-destinations-other-cols: 5; /* a destination page's other valleys */
@@ -313,6 +314,7 @@
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
+   *   440px               below it the header drops its WhatsApp square and the badge and name shrink
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
    *   820px  sheets replace dropdowns; Tours results go to two columns;
    *          a destination's month calendar goes from six columns to twelve
@@ -438,7 +440,7 @@
   --ls-label: 0.01em;
   --fs-waypoint: 12px;
   --fs-map-grid: 11px; /* graticule degree labels, decorative */
-  --fs-brand: 14px; /* the header's brand name, 700 in tracked capitals: 14px below the full-bar breakpoint, 17px from it (below) */
+  --fs-brand: 14px; /* the header's brand name, 700 in tracked capitals: 13px below 440px, 14px up to the full-bar breakpoint, 17px from it (below) */
   --lh-brand: 1;
   --ls-brand: 0.2em;
   --fs-header-nav: 18px; /* the header's links, 700 */
@@ -463,10 +465,23 @@
   --font-ticker: var(--font-geist-mono, ui-monospace), var(--font-mono);
 }
 
+/*
+ * Below 440px the badge, the name, the WhatsApp square and Menu don't fit side by side, so the header
+ * drops the square (owner, 2026-10-25: WhatsApp is on the Homepage hero and in the menu) and the
+ * badge and name shrink a little, so they fit at 360px.
+ */
+@media (width < 440px) {
+  :root {
+    --brand-logo: 32px;
+    --fs-brand: 13px;
+  }
+}
+
 /* From the full-bar breakpoint (1200px, ADR-0030) the header is the full 2f bar: taller, with a larger brand. */
 @media (width >= 1200px) {
   :root {
     --header-h: 76px;
+    --brand-logo: 44px;
     --fs-brand: 17px;
     --altitude-gap: 40px;
     --fs-altitude: 12px;

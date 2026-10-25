@@ -32,13 +32,8 @@
   font-variant-numeric: tabular-nums;
 }
 
-.licence {
+.office {
   composes: label from '../../../styles/typography.module.css';
   color: var(--fg-2);
   font-weight: var(--fw-regular);
-}
-
-.number {
-  color: var(--fg);
-  font-weight: var(--fw-medium);
 }

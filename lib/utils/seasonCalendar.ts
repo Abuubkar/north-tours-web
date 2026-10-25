@@ -33,7 +33,7 @@ function inSeason(i: number, from: number, to: number): boolean {
 export function bestSeasonProblems(levels: readonly MonthLevel[], season: Season): { month: number; message: string }[] {
   const from = SHORT_MONTHS.indexOf(season.from);
   const to = SHORT_MONTHS.indexOf(season.to);
-  const range = `${season.from} – ${season.to}`;
+  const range = `${season.from} - ${season.to}`;
   return levels.flatMap((level, i) => {
     if ((i === from || i === to) && level !== 'best') {
       return [{ month: i, message: `${LONG_MONTHS[i]} ${i === from ? 'starts' : 'ends'} the best season (${range}), so it must be best` }];

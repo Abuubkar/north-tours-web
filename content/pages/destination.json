@@ -24,19 +24,19 @@
     "seasons": {
       "spring": {
         "name": "Spring",
-        "months": "Mar – May"
+        "months": "Mar - May"
       },
       "summer": {
         "name": "Summer",
-        "months": "Jun – Aug"
+        "months": "Jun - Aug"
       },
       "autumn": {
         "name": "Autumn",
-        "months": "Sep – Nov"
+        "months": "Sep - Nov"
       },
       "winter": {
         "name": "Winter",
-        "months": "Dec – Feb"
+        "months": "Dec - Feb"
       }
     }
   },

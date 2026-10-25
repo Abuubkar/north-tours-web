@@ -150,10 +150,10 @@ export const LengthAskedOnce: Story = {
     await userEvent.click(monthChips(canvas)[3]);
     for (const chip of within(length).getAllByRole('button')) await expect(chip).toHaveAttribute('aria-pressed', 'false');
     await expect(length).toHaveAccessibleDescription('Optional');
-    await userEvent.click(button(canvas, '8–10 days'));
-    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
-    await userEvent.click(button(canvas, '8–10 days'));
-    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'false');
+    await userEvent.click(button(canvas, '8-10 days'));
+    await expect(button(canvas, '8-10 days')).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.click(button(canvas, '8-10 days'));
+    await expect(button(canvas, '8-10 days')).toHaveAttribute('aria-pressed', 'false');
   },
 };
 
@@ -264,7 +264,7 @@ export const NextAndBack: Story = {
     await userEvent.click(button(canvas, 'Hunza'));
     await userEvent.click(monthChips(canvas)[5]);
     const month = monthChips(canvas)[5].textContent!;
-    await userEvent.click(button(canvas, '8–10 days'));
+    await userEvent.click(button(canvas, '8-10 days'));
     await userEvent.click(button(canvas, /^Next/));
     await waitFor(() => expect(progress(canvas)).toHaveFocus());
     await expect(progress(canvas)).toHaveTextContent('Step 2 of 3 · Who’s coming');
@@ -284,7 +284,7 @@ export const NextAndBack: Story = {
     await expect(canvas.getByRole('heading', { level: 1, name: 'Your dates, your group' })).toBeVisible();
     await expect(button(canvas, 'Hunza')).toHaveAttribute('aria-pressed', 'true');
     await expect(button(canvas, month)).toHaveAttribute('aria-pressed', 'true');
-    await expect(button(canvas, '8–10 days')).toHaveAttribute('aria-pressed', 'true');
+    await expect(button(canvas, '8-10 days')).toHaveAttribute('aria-pressed', 'true');
   },
 };
 
@@ -457,11 +457,11 @@ const stayOnPage = () => {
   return () => document.removeEventListener('click', block);
 };
 
-/** Every step answered, then Review: Hunza in the fourth month for 5–7 days, 2 adults and 2 children (6, 9), Family, Upgraded, Ayesha. */
+/** Every step answered, then Review: Hunza in the fourth month for 5-7 days, 2 adults and 2 children (6, 9), Family, Upgraded, Ayesha. */
 const toReview = async (canvas: Canvas, userEvent: { click: (el: Element) => Promise<void>; type: (el: Element, text: string) => Promise<void>; selectOptions: (el: Element, value: string) => Promise<void> }) => {
   await userEvent.click(button(canvas, 'Hunza'));
   await userEvent.click(monthChips(canvas)[3]);
-  await userEvent.click(button(canvas, '5–7 days'));
+  await userEvent.click(button(canvas, '5-7 days'));
   await userEvent.click(button(canvas, /^Next/));
   await userEvent.click(button(canvas, 'More children'));
   await userEvent.click(button(canvas, 'More children'));
@@ -491,7 +491,7 @@ export const Review: Story = {
     const sections = canvas.getAllByRole('heading', { level: 3 }).map((h) => h.textContent);
     await expect(sections).toEqual(['Where and when', 'Who’s coming', 'Your details']);
     const values = canvas.getAllByRole('definition').map((d) => d.textContent);
-    for (const value of ['Hunza', '5–7 days', '2 adults, 2 children (ages 6, 9)', 'Family', 'Upgraded', 'Lahore', 'Ayesha Khan', '+92 300 123 4567', 'Evening']) {
+    for (const value of ['Hunza', '5-7 days', '2 adults, 2 children (ages 6, 9)', 'Family', 'Upgraded', 'Lahore', 'Ayesha Khan', '+92 300 123 4567', 'Evening']) {
       await expect(values).toContain(value);
     }
     await expect(canvas.getAllByText('Not given').map((n) => n.closest('div')!.firstChild!.textContent)).toEqual(['Transport', 'Budget', 'Anything else']);
@@ -517,8 +517,8 @@ export const ReviewSeveralPicks: Story = {
     await userEvent.click(button(canvas, 'Skardu'));
     await userEvent.click(monthChips(canvas)[4]);
     await userEvent.click(monthChips(canvas)[3]);
-    await userEvent.click(button(canvas, '8–10 days'));
-    await userEvent.click(button(canvas, '5–7 days'));
+    await userEvent.click(button(canvas, '8-10 days'));
+    await userEvent.click(button(canvas, '5-7 days'));
     await userEvent.click(button(canvas, /^Next/));
     await userEvent.click(button(canvas, 'Friends'));
     await userEvent.click(button(canvas, 'Family'));
@@ -536,14 +536,14 @@ export const ReviewSeveralPicks: Story = {
     await waitFor(() => expect(progress(canvas)).toHaveTextContent('Review · Check and send'));
     const dates = shortMonthsYears(months);
     const values = canvas.getAllByRole('definition').map((d) => d.textContent);
-    for (const value of ['Hunza, Skardu', dates, '5–7 days, 8–10 days', 'Family, Friends', 'Comfortable, Upgraded', 'Lahore', 'Morning, Evening']) {
+    for (const value of ['Hunza, Skardu', dates, '5-7 days, 8-10 days', 'Family, Friends', 'Comfortable, Upgraded', 'Lahore', 'Morning, Evening']) {
       await expect(values).toContain(value);
     }
     const message = linkText(canvas.getByRole('link', { name: 'Send on WhatsApp' }));
     await expect(message).toBe(canvasElement.querySelector('figure p')!.textContent);
     for (const line of [
       '• Destinations: Hunza, Skardu',
-      `• Dates: ${dates} (5–7 days, 8–10 days)`,
+      `• Dates: ${dates} (5-7 days, 8-10 days)`,
       '• Group: 2 adults · Family, Friends',
       '• Hotels: Comfortable, Upgraded · Transport: Any',
       '• Departing from: Lahore',
@@ -710,7 +710,7 @@ export const SavedJunk: Story = {
   play: async ({ canvas }) => {
     // Without a month, step 1 doesn't pass, so the planner opens there.
     await waitFor(() => expect(progress(canvas)).toHaveTextContent('Step 1 of 3 · Where and when'));
-    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Skardu', 'Flexible', '5–7 days']);
+    await expect(canvas.getAllByRole('button', { pressed: true }).map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Skardu', 'Flexible', '5-7 days']);
   },
 };
 

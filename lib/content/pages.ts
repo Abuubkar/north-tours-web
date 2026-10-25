@@ -216,8 +216,7 @@ const tourCopySchema = z.strictObject({
     roomLabel: copy,
     /** Each room's short name on its option, e.g. "Twin"; the WhatsApp message says "twin sharing". */
     rooms: z.strictObject({ twin: copy, triple: copy, quad: copy }),
-    /** The trust line: "DTS licence No. {licence}" (from settings) · "Departs from {pickupPoint}". */
-    trustLicence: copyWith('licence'),
+    /** The trust line: "Departs from {pickupPoint}". */
     trustDeparts: copyWith(...SETTINGS_TOKENS),
     totalLabel: copy,
     /** In place of the total until a date is chosen. */
@@ -225,7 +224,7 @@ const tourCopySchema = z.strictObject({
     /** {advance} is the amount, e.g. "PKR 87,000". */
     advance: copyWith('advance', ...SETTINGS_TOKENS),
     reserveLabel: copyWith(...SETTINGS_TOKENS),
-    /** A sold-out date chosen: {date} is its dates, e.g. "9–17 Jun". */
+    /** A sold-out date chosen: {date} is its dates, e.g. "9-17 Jun". */
     soldOut: copyWith('date'),
     waitlistLabel: copy,
     askLabel: copy,
@@ -233,7 +232,7 @@ const tourCopySchema = z.strictObject({
   }),
   /** The sticky bar on phones and tablets (below 1100px). */
   bar: z.strictObject({
-    /** Under the price once a date is chosen: {date} is its dates, e.g. "12–20 May". */
+    /** Under the price once a date is chosen: {date} is its dates, e.g. "12-20 May". */
     dateNote: copyWith('date'),
     soldOutNote: copyWith('date'),
     /** Opens the booking sheet. */
@@ -375,7 +374,7 @@ const destinationCopySchema = z.strictObject({
     legend: z.record(z.enum(MONTH_LEVELS), copy),
     /** Each month's label, e.g. "Best". */
     levels: z.record(z.enum(MONTH_LEVELS), copy),
-    /** Each season's name and its months, e.g. "Spring", "Mar – May". */
+    /** Each season's name and its months, e.g. "Spring", "Mar - May". */
     seasons: z.record(z.enum(SEASONS), z.strictObject({ name: copy, months: copy })),
   }),
   /** "What to see in {destination}" (#places) and each kind's tag. */
@@ -392,7 +391,7 @@ const destinationCopySchema = z.strictObject({
     byAir: copy,
     /** Under the destination on phones. */
     arrive: copy,
-    /** Each leg read out: "{time} by road to {stop}", e.g. "4–5 hrs by road to Islamabad". */
+    /** Each leg read out: "{time} by road to {stop}", e.g. "4-5 hrs by road to Islamabad". */
     leg: copyWith('time', 'stop'),
   }),
   /** "Good to know before you go" (light). */
@@ -408,7 +407,7 @@ const destinationCopySchema = z.strictObject({
   /** "Other valleys we travel to": a card per other destination. */
   others: z.strictObject({
     headline: copy,
-    /** Under each name: "Best · {season}", the short months, e.g. "Best · Apr – Oct". */
+    /** Under each name: "Best · {season}", the short months, e.g. "Best · Apr - Oct". */
     season: copyWith('season'),
     /** How many tours visit: "{count} tour" and "{count} tours". */
     tourCount: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
@@ -597,11 +596,10 @@ const plannerCopySchema = z.strictObject({
     more: copyWith('count'),
     people: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
   }),
-  /** "What happens next": three steps in order, then the licence line. */
+  /** "What happens next": three steps in order, then the office line. */
   next: z.strictObject({
     title: copy,
     steps: z.array(copyWith('replyTime', 'advancePercent')).length(3, 'List exactly three steps'),
-    licence: copyWith('dtsLicence'),
     office: copy,
   }),
   /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
@@ -708,16 +706,6 @@ const aboutCopySchema = z.strictObject({
     /** As shown, e.g. "9,000+". Years and trips come from the trust settings; guides are counted. */
     travellers: z.strictObject({ value: copy, sample }),
   }),
-  /** "Credentials": the only section with a label instead of a headline (DESIGN.md §6). */
-  credentials: z.strictObject({
-    label: copy,
-    /** "DTS licence No. {dtsLicence}", the licence from settings, over the trust strip's note. */
-    licence: z.strictObject({ label: copy, value: copyWith('dtsLicence') }),
-    /** The company registration, from settings. */
-    company: z.strictObject({ label: copy }),
-    /** Associations the company belongs to; the row is left out with none. Never a real organisation until confirmed. */
-    memberships: z.strictObject({ label: copy, items: z.array(z.strictObject({ name: copy, sample })) }),
-  }),
   /** "What travellers say about our guides and drivers": the reviews to show, by slug, in order (no rating summary). */
   reviews: z.strictObject({
     headline: copy,
@@ -816,7 +804,7 @@ const helpCopySchema = z.strictObject({
       caption: copy,
       days: copy,
       refund: copy,
-      /** "14 or more days", "7–13 days", "Under 7 days"; "50%", and "None" for nothing back. */
+      /** "14 or more days", "7-13 days", "Under 7 days"; "50%", and "None" for nothing back. */
       from: copyWith('days'),
       range: copyWith('from', 'to'),
       /** A range of one day: "7 days". */
@@ -906,7 +894,6 @@ export const LEGAL_TOKENS = [
   'phone',
   'whatsapp',
   'officeAddress',
-  'dtsLicence',
   'companyRegistration',
   'replyTime',
   'advancePercent',

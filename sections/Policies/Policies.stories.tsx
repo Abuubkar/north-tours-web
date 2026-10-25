@@ -29,7 +29,7 @@ export const Desktop: Story = {
       .getAllByRole('row')
       .slice(1)
       .map((row) => row.textContent);
-    await expect(rows).toEqual(['14 or more days100%', '7–13 days50%', 'Under 7 daysNone']);
+    await expect(rows).toEqual(['14 or more days100%', '7-13 days50%', 'Under 7 daysNone']);
     await expect(gridColumns(canvas.getAllByRole('listitem'))).toBe(2);
   },
 };

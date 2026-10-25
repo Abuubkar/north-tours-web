@@ -201,7 +201,7 @@ describe('catalog: tours and destinations', () => {
   });
 
   describe('stays', () => {
-    // The Grand's stays: nights 1, 2, 3–5, 6–7 and 8 of 8.
+    // The Grand's stays: nights 1, 2, 3-5, 6-7 and 8 of 8.
     it('accepts stays covering every night once', () => {
       expect(fields(load())).toEqual([]);
     });

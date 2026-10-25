@@ -5,8 +5,8 @@ import styles from './RouteLine.module.css';
 /**
  * The road from Lahore as one ordered list of stops. From 820px a horizontal line: dots joined
  * by legs, names above, drive times below, the destination in gold. Below 820px a vertical list
- * with "↓ 4–5 hrs" under each name and "Arrive" on the last. The switch is CSS only; each leg is
- * read out in full ("4–5 hrs by road to Islamabad").
+ * with "↓ 4-5 hrs" under each name and "Arrive" on the last. The switch is CSS only; each leg is
+ * read out in full ("4-5 hrs by road to Islamabad").
  */
 export function RouteLine({ stops, copy }: RouteLineProps) {
   return (

@@ -6,18 +6,16 @@ import styles from './TrustStrip.module.css';
 
 /**
  * Facts that show the company is genuine, read from settings so they're the same on every page:
- * DTS licence, years operating (up to the build year), trips completed and accepted payments.
- * The mini strip, inside Tour Detail's final call to action, has the licence, the pickup point
- * and the payments.
+ * years operating (up to the build year), trips completed and accepted payments. The mini strip,
+ * inside Tour Detail's final call to action, has the pickup point and the payments. (No DTS licence:
+ * the owner removed it, 2026-10-25.)
  */
 export function TrustStrip({ variant = 'full', settings, year }: TrustStripProps) {
   const { trust } = settings;
-  const licence = { ...trust.licence, value: fillTokens(trust.licence.value, { licence: settings.legal.dtsLicence }), figure: true };
   const payments = { ...trust.payments, value: paymentMethodsLabel(settings), note: undefined, figure: false };
 
   if (variant === 'mini') {
     const cells = [
-      licence,
       { ...trust.departs, value: settings.booking.pickupPoint },
       payments,
     ];
@@ -34,9 +32,8 @@ export function TrustStrip({ variant = 'full', settings, year }: TrustStripProps
   }
 
   const years = yearsSince(trust.operatingSince, year);
-  // The first three values are figures; "We accept" is a list, so it's set smaller.
+  // The first two values are figures; "We accept" is a list, so it's set smaller.
   const cells = [
-    licence,
     { ...trust.operating, value: fillTokens(trust.operating.value, { years: String(years) }), figure: true },
     { ...trust.trips, value: trust.tripsCompleted, figure: true },
     payments,

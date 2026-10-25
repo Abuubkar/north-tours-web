@@ -25,7 +25,7 @@ export const Photo: Story = {
   play: async ({ canvas }) => {
     const link = canvas.getByRole('link', { name: 'Hunza' });
     await expect(link).toHaveAttribute('href', '/destinations/hunza');
-    await expect(link).toHaveAccessibleDescription('Best season April – October');
+    await expect(link).toHaveAccessibleDescription('Best season April - October');
     await expect(canvas.getAllByRole('link')).toHaveLength(1);
     await expect(canvas.getByRole('heading', { level: 3, name: 'Hunza' })).toBeVisible();
   },
@@ -52,13 +52,13 @@ export const PlaceholderPhone: Story = { ...Placeholder, globals: { viewport: { 
 
 export const PlaceholderDesktop: Story = { ...Placeholder, globals: { viewport: { value: 'desktop' } } };
 
-/** On a destination page ("other valleys"): a 4:3 photo, "Best · Apr – Oct" and its tours; one link to its page. */
+/** On a destination page ("other valleys"): a 4:3 photo, "Best · Apr - Oct" and its tours; one link to its page. */
 export const Other: Story = {
-  args: { variant: 'other', details: { season: 'Best · Apr – Oct', tours: '2 tours' } },
+  args: { variant: 'other', details: { season: 'Best · Apr - Oct', tours: '2 tours' } },
   play: async ({ canvas }) => {
     const link = canvas.getByRole('link', { name: 'Hunza' });
     await expect(link).toHaveAttribute('href', '/destinations/hunza');
-    await expect(link).toHaveAccessibleDescription('Best · Apr – Oct 2 tours');
+    await expect(link).toHaveAccessibleDescription('Best · Apr - Oct 2 tours');
     const photo = canvas.getByRole('img').getBoundingClientRect();
     await expect(Math.round((photo.width / photo.height) * 3)).toBe(4);
   },
@@ -70,8 +70,8 @@ export const OtherPhone: Story = { ...Other, globals: { viewport: { value: 'phon
 
 /** One tour: "1 tour". */
 export const OtherOneTour: Story = {
-  args: { variant: 'other', details: { season: 'Best · May – Oct', tours: '1 tour' }, destination: sampleDestinations[5] },
+  args: { variant: 'other', details: { season: 'Best · May - Oct', tours: '1 tour' }, destination: sampleDestinations[5] },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('link', { name: 'Murree' })).toHaveAccessibleDescription('Best · May – Oct 1 tour');
+    await expect(canvas.getByRole('link', { name: 'Murree' })).toHaveAccessibleDescription('Best · May - Oct 1 tour');
   },
 };

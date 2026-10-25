@@ -24,7 +24,6 @@ export function getPlannerPage() {
       next: {
         ...copy.next,
         steps: copy.next.steps.map((step) => fillTokens(step, { ...replyTime, advancePercent: String(settings.booking.advancePercent) })),
-        licence: fillTokens(copy.next.licence, { dtsLicence: settings.legal.dtsLicence }),
       },
     },
     settings,

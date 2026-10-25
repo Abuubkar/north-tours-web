@@ -81,6 +81,13 @@
   display: flex;
 }
 
+/* Below 440px the WhatsApp square gives way to the brand (owner, 2026-10-25); Menu has "Plan on WhatsApp". */
+@media (width < 440px) {
+  .narrow {
+    display: none;
+  }
+}
+
 @media (width >= 1200px) {
   .wide {
     display: block;

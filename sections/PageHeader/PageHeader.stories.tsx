@@ -48,7 +48,7 @@ const plannerLead = 'Tell us what you have in mind. We’ll plan it and reply on
 
 /**
  * The planner's first step: the <h1> at the statement size and the lead (at most 600px wide) on a
- * photo band, dark, 360–460px tall, which starts below the site header (no negative margin) and loads first.
+ * photo band, dark, 360-460px tall, which starts below the site header (no negative margin) and loads first.
  */
 export const Planner: Story = {
   args: { variant: 'planner', image: samplePhoto, headline: 'Your dates, your group', lead: plannerLead },
@@ -208,7 +208,7 @@ export const HelpPhone: Story = {
   },
 };
 
-const contactLead = 'Most trips are planned on WhatsApp. We reply within 2 hours, [Mon–Sat, X am – X pm].';
+const contactLead = 'Most trips are planned on WhatsApp. We reply within 2 hours, [Mon-Sat, X am - X pm].';
 
 /**
  * Contact (dark): the only <h1>, with no label before it (the owner removed it: it repeated the
@@ -245,9 +245,9 @@ export const ContactPhoneOnLight: Story = { ...ContactPhone, globals: { surface:
 /** Contact with real settings: the lead says the real hours. */
 export const ContactRealHours: Story = {
   ...Contact,
-  args: { ...Contact.args, lead: 'Most trips are planned on WhatsApp. We reply within 2 hours, Mon–Sat, 10 am – 7 pm.' },
+  args: { ...Contact.args, lead: 'Most trips are planned on WhatsApp. We reply within 2 hours, Mon-Sat, 10 am - 7 pm.' },
   play: async ({ canvas }) => {
-    await expect(canvas.getByText(/Mon–Sat, 10 am – 7 pm/)).toBeVisible();
+    await expect(canvas.getByText(/Mon-Sat, 10 am - 7 pm/)).toBeVisible();
   },
 };
 

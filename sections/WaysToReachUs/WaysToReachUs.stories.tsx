@@ -16,14 +16,14 @@ const copy: WaysToReachUsProps['copy'] = {
 /** The values as content has them today: placeholders (ADR-0010). */
 const placeholders: WaysToReachUsProps['channels'] = {
   whatsapp: { value: '[+92 3XX XXX XXXX]', href: undefined, chatHref },
-  phone: { value: '[+92 42 XXXX XXXX]', href: undefined, hours: '[Mon–Sat, X am – X pm]' },
+  phone: { value: '[+92 42 XXXX XXXX]', href: undefined, hours: '[Mon-Sat, X am - X pm]' },
   email: { value: '[hello@brand.pk]', href: undefined },
 };
 
 /** Real values, as the owner will supply them. */
 const real: WaysToReachUsProps['channels'] = {
   whatsapp: { value: '+92 300 1234567', href: 'https://wa.me/923001234567?text=Hi', chatHref: 'https://wa.me/923001234567?text=Hi' },
-  phone: { value: '+92 42 3578 1234', href: 'tel:+924235781234', hours: 'Mon–Sat, 10 am – 7 pm' },
+  phone: { value: '+92 42 3578 1234', href: 'tel:+924235781234', hours: 'Mon-Sat, 10 am - 7 pm' },
   email: { value: 'hello@example.pk', href: 'mailto:hello@example.pk' },
 };
 

@@ -23,7 +23,7 @@ export const Default: Story = {
     const rows = within(table).getAllByRole('row').slice(1).map((row) => within(row).getAllByRole('cell').map((cell) => cell.textContent));
     await expect(rows).toEqual([
       ['14 or more days', '100%'],
-      ['7–13 days', '50%'],
+      ['7-13 days', '50%'],
       ['Under 7 days', 'None'],
     ]);
     await expect(getComputedStyle(within(table).getAllByRole('cell')[1]).textAlign).toBe('right');

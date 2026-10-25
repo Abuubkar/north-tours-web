@@ -65,7 +65,7 @@ export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', view
 /** The other valleys on Hunza's page: Hunza left out, the rest in order, each with its season and tours. */
 const others = sampleDestinations.slice(1).map((destination, i) => ({
   ...destination,
-  details: { season: `Best · ${destination.bestSeason.from} – ${destination.bestSeason.to}`, tours: i === 1 ? '1 tour' : '2 tours' },
+  details: { season: `Best · ${destination.bestSeason.from} - ${destination.bestSeason.to}`, tours: i === 1 ? '1 tour' : '2 tours' },
 }));
 
 /** A destination page: five cards, none for the page's own, each one link named by its destination, with its season and tours; five across. */

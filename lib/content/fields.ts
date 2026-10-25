@@ -13,7 +13,7 @@ function orPlaceholder<T extends z.ZodType>(schema: T, expected: string) {
 /** Any text, trimmed, not empty. Also holds `[placeholders]` (ADR-0010). */
 export const nonEmpty = z.string().trim().min(1, 'Must not be empty');
 
-/** A Pakistani number in international form (+92 then 9–10 digits), or a `[placeholder]`. */
+/** A Pakistani number in international form (+92 then 9-10 digits), or a `[placeholder]`. */
 export const phoneOrPlaceholder = orPlaceholder(
   z.string().regex(/^\+92(\s?\d){9,10}$/),
   'a number like +92 300 1234567',

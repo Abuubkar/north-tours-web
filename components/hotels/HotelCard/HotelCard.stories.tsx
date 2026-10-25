@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 /** The nights, a generic title as the heading (never a hotel's name), and what it's like. */
 export const Photo: Story = {
   play: async ({ canvas, args }) => {
-    await expect(canvas.getByText('Nights 3–5 · Hunza')).toBeVisible();
+    await expect(canvas.getByText('Nights 3-5 · Hunza')).toBeVisible();
     await expect(canvas.getByRole('heading', { level: 3, name: 'Hotel in Karimabad' })).toBeVisible();
     await expect(canvas.getByText('3-star · valley view · twin sharing')).toBeVisible();
     await expect(canvas.getByRole('img', { name: args.stay.image.alt })).toBeVisible();

@@ -32,7 +32,7 @@ describe('destination page', () => {
   it('links to the other five destinations, each with its tours', () => {
     const { others } = getDestinationPage('hunza');
     expect(others.map((o) => o.slug)).toEqual(['fairy-meadows', 'murree', 'naran-kaghan', 'skardu', 'swat']);
-    expect(others.find((o) => o.slug === 'skardu')!.details).toEqual({ season: 'Best · May – Oct', tours: '2 tours' });
+    expect(others.find((o) => o.slug === 'skardu')!.details).toEqual({ season: 'Best · May - Oct', tours: '2 tours' });
     expect(others.find((o) => o.slug === 'murree')!.details.tours).toBe('1 tour');
   });
 

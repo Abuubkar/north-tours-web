@@ -257,7 +257,7 @@ describe('planner page copy', () => {
     expect(load((c) => Object.assign(c.whosComing.ages, { child: 'Kid {count}' })).problems).toEqual([]);
     expect(problems(load((c) => Object.assign(c.whosComing.ages, { child: 'Child {number}' })))).toEqual(['whosComing.ages.child']);
     expect(load((c) => Object.assign(c.next, { steps: ['Reply {replyTime}.', 'A plan.', 'A {advancePercent}% advance.'] })).problems).toEqual([]);
-    expect(problems(load((c) => Object.assign(c.next, { licence: 'Licence {licence}' })))).toEqual(['next.licence']);
+    expect(problems(load((c) => Object.assign(c.next, { office: 'Office {replyTime}' })))).toEqual(['next.office']);
   });
 
   it('needs exactly three next steps and a label for every row', () => {
@@ -323,20 +323,10 @@ describe('about page copy', () => {
     expect(problems(load((c) => delete (c.vehicles as Partial<AboutCopy['vehicles']>).fleetAge))).toEqual(['vehicles.fleetAge']);
   });
 
-  it('takes {dtsLicence} in the licence, and no other token', () => {
-    expect(load((c) => Object.assign(c.credentials.licence, { value: 'Licence {dtsLicence}' })).problems).toEqual([]);
-    const result = load((c) => Object.assign(c.credentials.licence, { value: 'DTS licence No. {licence}' }));
-    expect(problems(result)).toEqual(['credentials.licence.value']);
-    expect(result.problems[0].message).toBe('Unknown token {licence}. Use only {dtsLicence}');
+  it('rejects a token in the travellers figure', () => {
     expect(problems(load((c) => Object.assign(c.numbers.travellers, { value: '{trips}' })))).toEqual(['numbers.travellers.value']);
   });
 
-  it('accepts no memberships, and flags the sample one', () => {
-    expect(load((c) => Object.assign(c.credentials.memberships, { items: [] })).problems).toEqual([]);
-    expect(problems(load((c) => Object.assign(c.credentials.memberships.items[0], { sample: 'yes' })))).toEqual([
-      'credentials.memberships.items.0.sample',
-    ]);
-  });
 
   it('needs one to three chosen reviews, each with a file', () => {
     expect(problems(load((c) => Object.assign(c.reviews, { chosen: [] })))).toEqual(['reviews.chosen']);

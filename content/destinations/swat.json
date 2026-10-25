@@ -9,7 +9,7 @@
     "to": "Oct"
   },
   "altitude": 984,
-  "fromLahore": "7–9 hrs by road",
+  "fromLahore": "7-9 hrs by road",
   "image": {
     "src": "/images/swat/kalam-river.jpg",
     "alt": "The green Swat River at Kalam, between pine-covered slopes and a snow-capped peak",
@@ -37,15 +37,15 @@
   "seasons": [
     {
       "season": "spring",
-      "text": "Blossom in the lower valley from March. Days 18–25°C in Mingora, cooler in Kalam."
+      "text": "Blossom in the lower valley from March. Days 18-25°C in Mingora, cooler in Kalam."
     },
     {
       "season": "summer",
-      "text": "The best time for Kalam and Mahodand Lake. Days 25–32°C lower down, 15–22°C up the valley."
+      "text": "The best time for Kalam and Mahodand Lake. Days 25-32°C lower down, 15-22°C up the valley."
     },
     {
       "season": "autumn",
-      "text": "Clear skies and the orchard harvest. Days 15–25°C."
+      "text": "Clear skies and the orchard harvest. Days 15-25°C."
     },
     {
       "season": "winter",
@@ -192,11 +192,11 @@
     "stops": [
       {
         "name": "Lahore",
-        "drive": "4–5 hrs"
+        "drive": "4-5 hrs"
       },
       {
         "name": "Islamabad",
-        "drive": "3–4 hrs"
+        "drive": "3-4 hrs"
       },
       {
         "name": "Swat"

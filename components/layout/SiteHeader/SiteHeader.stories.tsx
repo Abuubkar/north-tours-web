@@ -77,14 +77,34 @@ export const DesktopOnLight: Story = { ...Desktop, globals: { surface: 'light' }
 
 export const Laptop: Story = { ...Desktop, globals: { viewport: { value: 'laptop' } } };
 
-/** At 390: a 64px bar with the brand, a 48px bordered WhatsApp square and the bordered "Menu" button. */
+/**
+ * At 390: a 64px bar with the brand and the bordered "Menu" button. Below 440px the WhatsApp square
+ * gives way to the brand (owner, 2026-10-25), and nothing scrolls sideways.
+ */
 export const Phone: Story = {
   globals: { viewport: { value: 'phone' } },
-  play: async ({ canvas }) => {
+  play: async ({ canvas, canvasElement }) => {
     await expect(getComputedStyle(canvas.getByRole('banner')).height).toBe('64px');
     await expectBrand(canvas);
     await expect(canvas.queryByRole('navigation', { name: 'Main' })).toBeNull();
     await expect(canvas.queryByRole('link', { name: 'WhatsApp' })).toBeNull();
+    await expect(canvas.queryByRole('link', { name: 'Chat on WhatsApp' })).toBeNull();
+    const menu = canvas.getByRole('button', { name: 'Menu' });
+    await expect(menu).toBeVisible();
+    await expect(menu.getBoundingClientRect().height).toBe(48);
+    await expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
+  },
+};
+
+export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+
+/** At 900: the brand, a 48px bordered WhatsApp square and the bordered "Menu" button. */
+export const Tablet: Story = {
+  globals: { viewport: { value: 'tablet' } },
+  play: async ({ canvas }) => {
+    await expect(getComputedStyle(canvas.getByRole('banner')).height).toBe('64px');
+    await expectBrand(canvas);
+    await expect(canvas.queryByRole('navigation', { name: 'Main' })).toBeNull();
     const whatsapp = canvas.getByRole('link', { name: 'Chat on WhatsApp' });
     await expect(whatsapp).toBeVisible();
     const { width, height } = whatsapp.getBoundingClientRect();
@@ -96,7 +116,7 @@ export const Phone: Story = {
   },
 };
 
-export const PhoneOnLight: Story = { ...Phone, globals: { surface: 'light', viewport: { value: 'phone' } } };
+export const TabletOnLight: Story = { ...Tablet, globals: { surface: 'light', viewport: { value: 'tablet' } } };
 
 /** The current page's item is gold and marked aria-current="page": Home on the Homepage. */
 export const ActiveItem: Story = {
@@ -192,7 +212,7 @@ export const HeaderBreakpointOnLight: Story = { ...HeaderBreakpoint, globals: { 
 export const BelowHeaderBreakpoint: Story = {
   globals: { viewport: { value: 'belowHeaderBreakpoint' } },
   play: async (context) => {
-    await Phone.play!(context);
+    await Tablet.play!(context);
     const header = context.canvas.getByRole('banner');
     await expect(header.scrollWidth).toBeLessThanOrEqual(header.clientWidth);
   },
@@ -220,9 +240,9 @@ export const FocusRing: Story = {
   },
 };
 
-/** At 390 the WhatsApp square and Menu show the ring too. */
-export const FocusRingPhone: Story = {
-  globals: { viewport: { value: 'phone' } },
+/** At 900 the WhatsApp square and Menu show the ring too. */
+export const FocusRingTablet: Story = {
+  globals: { viewport: { value: 'tablet' } },
   play: async ({ canvas }) => {
     const keys = await realUser();
     if (!keys) return;
@@ -248,7 +268,8 @@ export const MenuWithKeys: Story = {
   play: async ({ canvas }) => {
     const keys = await realUser();
     if (!keys) return;
-    await keys.keyboard('{Tab}{Tab}{Tab}');
+    // The brand, then Menu: below 440px there's no WhatsApp square between them.
+    await keys.keyboard('{Tab}{Tab}');
     const menu = canvas.getByRole('button', { name: 'Menu' });
     await expect(menu).toHaveFocus();
     await keys.keyboard('{Enter}');

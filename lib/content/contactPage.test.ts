@@ -23,7 +23,7 @@ const real = (settings: Settings): Settings => ({
     whatsapp: '+92 300 1234567',
     phone: '+92 42 3578 1234',
     email: 'hello@example.pk',
-    officeHours: 'Mon–Sat, 10 am – 7 pm',
+    officeHours: 'Mon-Sat, 10 am - 7 pm',
     travelSupport: '+92 321 7654321',
   },
 });
@@ -51,7 +51,7 @@ describe('contactPage', () => {
   it('fills the lead’s reply time and hours, and the WhatsApp line’s reply time, from settings', () => {
     const settings = real(getSettings());
     const { copy } = contactPage(contact, { ...settings, booking: { ...settings.booking, replyTime: 'within 4 hours' } });
-    expect(copy.header.lead).toBe('Most trips are planned on WhatsApp. We reply within 4 hours, Mon–Sat, 10 am – 7 pm.');
+    expect(copy.header.lead).toBe('Most trips are planned on WhatsApp. We reply within 4 hours, Mon-Sat, 10 am - 7 pm.');
     expect(copy.ways.whatsapp.line).toBe('Send your dates and group size. We reply within 4 hours.');
   });
 

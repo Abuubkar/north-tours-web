@@ -32,7 +32,7 @@ export const Current: Story = {
     await expect(canvas.getByText('Day 03')).toBeVisible();
     await expect(canvas.getByRole('heading', { level: 3, name: 'Chilas → Hunza' })).toBeVisible();
     await expect(canvas.getAllByRole('term').map((t) => t.textContent)).toEqual(['Overnight', 'Meals', 'Drive']);
-    await expect(canvas.getAllByRole('definition').map((d) => d.textContent)).toEqual(['Karimabad, Hunza', 'Breakfast, dinner', '6–7 hrs']);
+    await expect(canvas.getAllByRole('definition').map((d) => d.textContent)).toEqual(['Karimabad, Hunza', 'Breakfast, dinner', '6-7 hrs']);
   },
 };
 

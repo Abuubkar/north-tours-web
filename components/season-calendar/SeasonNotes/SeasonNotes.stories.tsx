@@ -22,7 +22,7 @@ export const Desktop: Story = {
   play: async ({ canvas, canvasElement }) => {
     await expect(canvas.getAllByRole('heading', { level: 3 }).map((h) => h.textContent)).toEqual(['Spring', 'Summer', 'Autumn', 'Winter']);
     const spring = within(notes(canvasElement)[0]);
-    await expect(spring.getByText('Mar – May')).toBeVisible();
+    await expect(spring.getByText('Mar - May')).toBeVisible();
     await expect(spring.getByText(sampleDestination.seasons[0].text)).toBeVisible();
     await expect(gridColumns(notes(canvasElement))).toBe(4);
   },
@@ -45,7 +45,7 @@ export const Murree: Story = {
   args: { seasons: sampleMurree.seasons },
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvasElement }) => {
-    await expect(within(notes(canvasElement)[3]).getByText('Dec – Feb')).toBeVisible();
+    await expect(within(notes(canvasElement)[3]).getByText('Dec - Feb')).toBeVisible();
     await expect(notes(canvasElement)[3]).toHaveTextContent(sampleMurree.seasons[3].text);
     await expect(gridColumns(notes(canvasElement))).toBe(4);
   },

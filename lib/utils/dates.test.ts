@@ -1,17 +1,17 @@
 import { describe, expect, it } from 'vitest';
-import { dateRange, dayCount, longDate, messageDate, messageDateRange, monthYear, seasonRange, shortDayMonth, shortMonthName, shortMonthsYears, shortMonthYear, tripLength, yearsSince } from './dates.ts';
+import { copyrightYears, dateRange, dayCount, longDate, messageDate, messageDateRange, monthYear, seasonRange, shortDayMonth, shortMonthName, shortMonthsYears, shortMonthYear, tripLength, yearsSince } from './dates.ts';
 
 describe('dateRange', () => {
   it('names the month once when both dates share it', () => {
-    expect(dateRange('2027-05-12', '2027-05-20')).toBe('12–20 May');
+    expect(dateRange('2027-05-12', '2027-05-20')).toBe('12-20 May');
   });
 
   it('names both months across a month end', () => {
-    expect(dateRange('2027-05-26', '2027-06-03')).toBe('26 May – 3 Jun');
+    expect(dateRange('2027-05-26', '2027-06-03')).toBe('26 May - 3 Jun');
   });
 
   it('names both months across a year end', () => {
-    expect(dateRange('2027-12-28', '2028-01-03')).toBe('28 Dec – 3 Jan');
+    expect(dateRange('2027-12-28', '2028-01-03')).toBe('28 Dec - 3 Jan');
   });
 });
 
@@ -42,12 +42,12 @@ describe('messageDate', () => {
 
 describe('messageDateRange', () => {
   it('adds the year once', () => {
-    expect(messageDateRange('2027-05-12', '2027-05-20')).toBe('12–20 May 2027');
-    expect(messageDateRange('2027-05-26', '2027-06-03')).toBe('26 May – 3 Jun 2027');
+    expect(messageDateRange('2027-05-12', '2027-05-20')).toBe('12-20 May 2027');
+    expect(messageDateRange('2027-05-26', '2027-06-03')).toBe('26 May - 3 Jun 2027');
   });
 
   it('gives both years when the trip crosses the new year', () => {
-    expect(messageDateRange('2026-12-28', '2027-01-03')).toBe('28 Dec 2026 – 3 Jan 2027');
+    expect(messageDateRange('2026-12-28', '2027-01-03')).toBe('28 Dec 2026 - 3 Jan 2027');
   });
 });
 
@@ -65,6 +65,15 @@ describe('monthYear', () => {
   });
 });
 
+describe('copyrightYears', () => {
+  it('runs from the founding year to this year, with a spaced hyphen', () => {
+    expect(copyrightYears(2012, 2026)).toBe('2012 - 2026');
+  });
+  it('is one year when the company started this year', () => {
+    expect(copyrightYears(2026, 2026)).toBe('2026');
+  });
+});
+
 describe('yearsSince', () => {
   it('counts whole years to the current year', () => {
     expect(yearsSince(2014, 2026)).toBe(12);
@@ -74,12 +83,12 @@ describe('yearsSince', () => {
 
 describe('seasonRange', () => {
   it('names both months in full', () => {
-    expect(seasonRange({ from: 'Apr', to: 'Oct' })).toBe('April – October');
-    expect(seasonRange({ from: 'Jun', to: 'Sep' })).toBe('June – September');
+    expect(seasonRange({ from: 'Apr', to: 'Oct' })).toBe('April - October');
+    expect(seasonRange({ from: 'Jun', to: 'Sep' })).toBe('June - September');
   });
 
-  it('names them in short for a destination’s other valleys: "Apr – Oct"', () => {
-    expect(seasonRange({ from: 'Apr', to: 'Oct' }, 'short')).toBe('Apr – Oct');
+  it('names them in short for a destination’s other valleys: "Apr - Oct"', () => {
+    expect(seasonRange({ from: 'Apr', to: 'Oct' }, 'short')).toBe('Apr - Oct');
   });
 });
 

@@ -29,7 +29,7 @@ export function getTourPage(slug: string) {
   const tour = getTour(slug)!;
   const copy = getTourCopy();
   const settings = getSettings();
-  const tokens = { ...settingsTokens(settings), licence: settings.legal.dtsLicence };
+  const tokens = settingsTokens(settings);
   const answerTokens = textTokens(settings);
   const builtOn = todayInKarachi(new Date());
   const sharePhoto = isPhoto(tour.image) ? tour.image : getHomeCopy().hero.image;

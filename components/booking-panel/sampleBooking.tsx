@@ -30,7 +30,7 @@ export const sampleBookingTour = {
 
 export const sampleBookingSettings = placeholderSettings;
 
-export const sampleBookingTokens = { ...settingsTokens(placeholderSettings), licence: placeholderSettings.legal.dtsLicence };
+export const sampleBookingTokens = settingsTokens(placeholderSettings);
 
 export const sampleBookingCopy = sampleTourCopy;
 

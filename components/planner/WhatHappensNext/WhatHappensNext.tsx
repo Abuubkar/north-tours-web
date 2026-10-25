@@ -1,7 +1,7 @@
 import type { WhatHappensNextProps } from './WhatHappensNext.types';
 import styles from './WhatHappensNext.module.css';
 
-/** "What happens next": the three steps after sending, in order (a real sequence), then the DTS licence line. */
+/** "What happens next": the three steps after sending, in order (a real sequence), then the office line. */
 export function WhatHappensNext({ copy }: WhatHappensNextProps) {
   return (
     <div className={styles.next}>
@@ -15,9 +15,7 @@ export function WhatHappensNext({ copy }: WhatHappensNextProps) {
           ))}
         </ol>
       </section>
-      <p className={styles.licence}>
-        <strong className={styles.number}>{copy.licence}</strong> · {copy.office}
-      </p>
+      <p className={styles.office}>{copy.office}</p>
     </div>
   );
 }

@@ -250,7 +250,7 @@
       ],
       "overnight": "Naran",
       "meals": "Dinner",
-      "drive": "9–10 hrs"
+      "drive": "9-10 hrs"
     },
     {
       "title": "Naran → Hunza",
@@ -263,7 +263,7 @@
       ],
       "overnight": "Karimabad, Hunza",
       "meals": "Breakfast, dinner",
-      "drive": "10–11 hrs"
+      "drive": "10-11 hrs"
     },
     {
       "title": "Hunza",
@@ -273,7 +273,7 @@
       ],
       "overnight": "Karimabad, Hunza",
       "meals": "Breakfast, dinner",
-      "drive": "1–2 hrs"
+      "drive": "1-2 hrs"
     },
     {
       "title": "Upper Hunza",
@@ -283,7 +283,7 @@
       ],
       "overnight": "Karimabad, Hunza",
       "meals": "Breakfast, dinner",
-      "drive": "3–4 hrs"
+      "drive": "3-4 hrs"
     },
     {
       "title": "Hunza → Naran",
@@ -296,7 +296,7 @@
       ],
       "overnight": "Naran",
       "meals": "Breakfast, dinner",
-      "drive": "10–11 hrs"
+      "drive": "10-11 hrs"
     },
     {
       "title": "Naran → Lahore",
@@ -307,7 +307,7 @@
       ],
       "overnight": "Home",
       "meals": "Breakfast",
-      "drive": "9–10 hrs"
+      "drive": "9-10 hrs"
     }
   ],
   "included": [

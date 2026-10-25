@@ -27,8 +27,8 @@ describe('sortedByText', () => {
 describe('optionLabel', () => {
   const labels: OptionLabels = {
     dest: { hunza: 'Hunza', 'naran-kaghan': 'Naran-Kaghan' },
-    dur: { '2-4': '2–4 days', '5-7': '5–7 days', '8plus': '8+ days' },
-    budget: { 'under-50k': 'Under PKR 50k', '50-100k': 'PKR 50–100k', '100k-plus': 'PKR 100k+' },
+    dur: { '2-4': '2-4 days', '5-7': '5-7 days', '8plus': '8+ days' },
+    budget: { 'under-50k': 'Under PKR 50k', '50-100k': 'PKR 50-100k', '100k-plus': 'PKR 100k+' },
     type: { family: 'Family', couples: 'Couples', friends: 'Friends', corporate: 'Corporate' },
   };
 

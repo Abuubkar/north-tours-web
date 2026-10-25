@@ -38,7 +38,7 @@ export const Desktop: Story = {
     await expect(value(canvasElement, 'Difficulty')).toHaveTextContent('Easy walking, long road days');
     await expect(value(canvasElement, 'Group size')).toHaveTextContent('Up to 16 travellers');
     await expect(value(canvasElement, 'Departs from')).toHaveTextContent('[Pickup point], Lahore');
-    await expect(value(canvasElement, 'Best season')).toHaveTextContent('April – October');
+    await expect(value(canvasElement, 'Best season')).toHaveTextContent('April - October');
     await expect(value(canvasElement, 'Transport')).toHaveTextContent('Coaster, with jeeps for Deosai');
   },
 };

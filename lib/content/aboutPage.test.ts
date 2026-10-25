@@ -16,10 +16,8 @@ describe('about page', () => {
     for (const profile of profiles) expect(profile.rows.map((r) => r.label)).toEqual(['Home valley', 'With us', 'Languages', 'Leads']);
   });
 
-  it('fills the licence from settings, the placeholder as written', () => {
-    const { credentials } = getAboutPage();
-    expect(credentials.licence.value).toBe(`DTS licence No. ${getSettings().legal.dtsLicence}`);
-    expect(credentials.company.value).toBe(getSettings().legal.companyRegistration);
+  it('has no Credentials section (owner, 2026-10-25)', () => {
+    expect(getAboutPage()).not.toHaveProperty('credentials');
   });
 
   it('counts the guides in content and takes years and trips from the trust settings', () => {

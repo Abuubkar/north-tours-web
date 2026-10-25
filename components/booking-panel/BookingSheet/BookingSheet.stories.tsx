@@ -73,7 +73,7 @@ export const FromTheBar: Story = {
 /** "Select date" on a row opens the sheet with that date chosen; Escape closes it, back to the row; the bar shows the date. */
 export const FromARow: Story = {
   play: async ({ canvas, canvasElement, userEvent }) => {
-    const select = canvas.getByRole('button', { name: 'Select date, 26 May – 3 Jun' });
+    const select = canvas.getByRole('button', { name: 'Select date, 26 May - 3 Jun' });
     const user = (await realUser()) ?? userEvent;
     await user.click(select);
     const sheet = await waitFor(() => canvasElement.ownerDocument.querySelector('dialog[open]') as HTMLDialogElement);
@@ -81,11 +81,11 @@ export const FromARow: Story = {
     if (await realUser()) {
       await user.keyboard('{Escape}');
       await waitFor(() => expect(sheet).not.toHaveAttribute('open'));
-      await expect(canvas.getByRole('button', { name: 'Selected, 26 May – 3 Jun' })).toHaveFocus();
+      await expect(canvas.getByRole('button', { name: 'Selected, 26 May - 3 Jun' })).toHaveFocus();
     } else {
       sheet.close();
     }
-    await waitFor(() => expect(bar(canvas).getByText('per person · 26 May – 3 Jun')).toBeVisible());
+    await waitFor(() => expect(bar(canvas).getByText('per person · 26 May - 3 Jun')).toBeVisible());
     await expect(messageOf(canvas.getByRole('link', { name: 'Ask about Hunza & Skardu Grand on WhatsApp' }))).toBe(
       'Hi, I’m interested in Hunza & Skardu Grand on 26 May 2099.',
     );
@@ -99,7 +99,7 @@ export const SoldOutDate: Story = {
     const sheet = await waitFor(() => canvasElement.ownerDocument.querySelector('dialog[open]') as HTMLDialogElement);
     await userEvent.click(sheet.querySelector<HTMLInputElement>('input[value="2099-06-09"]')!);
     sheet.close();
-    await waitFor(() => expect(bar(canvas).getByText('per person · 9–17 Jun · sold out')).toBeVisible());
+    await waitFor(() => expect(bar(canvas).getByText('per person · 9-17 Jun · sold out')).toBeVisible());
   },
 };
 

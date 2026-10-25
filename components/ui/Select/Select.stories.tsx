@@ -6,8 +6,8 @@ import type { SelectProps } from './Select.types';
 import styles from '../stories.module.css';
 
 const options = [
-  { value: '2099-05-12', label: '12–20 May · 3 of 16 seats left' },
-  { value: '2099-05-26', label: '26 May – 3 Jun · 9 of 16 seats left' },
+  { value: '2099-05-12', label: '12-20 May · 3 of 16 seats left' },
+  { value: '2099-05-26', label: '26 May - 3 Jun · 9 of 16 seats left' },
 ];
 
 /** Holds the value, as the booking panel does. */
@@ -45,7 +45,7 @@ export const Empty: Story = {
     const select = canvas.getByRole('combobox', { name: 'Departure date' });
     await expect(select).toHaveValue('');
     await expect(canvas.getByRole('option', { name: 'Choose a departure' })).toBeDisabled();
-    await userEvent.selectOptions(select, '26 May – 3 Jun · 9 of 16 seats left');
+    await userEvent.selectOptions(select, '26 May - 3 Jun · 9 of 16 seats left');
     await expect(args.onChange).toHaveBeenCalledWith('2099-05-26');
     await expect(select).toHaveValue('2099-05-26');
     await expect(select.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
@@ -59,7 +59,7 @@ export const Chosen: Story = {
   args: { value: '2099-05-12' },
   play: async ({ canvas }) => {
     const select = canvas.getByRole('combobox', { name: 'Departure date' });
-    await expect(select).toHaveDisplayValue('12–20 May · 3 of 16 seats left');
+    await expect(select).toHaveDisplayValue('12-20 May · 3 of 16 seats left');
     await expect(getComputedStyle(select).borderColor).toBe(getComputedStyle(select).color);
   },
 };

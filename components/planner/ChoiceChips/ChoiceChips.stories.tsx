@@ -6,9 +6,9 @@ import { toggled } from '@/lib/utils/plannerOptions';
 import { ChoiceChips } from './ChoiceChips';
 
 const options = [
-  { id: '2-4', label: '2–4 days' },
-  { id: '5-7', label: '5–7 days' },
-  { id: '8-10', label: '8–10 days' },
+  { id: '2-4', label: '2-4 days' },
+  { id: '5-7', label: '5-7 days' },
+  { id: '8-10', label: '8-10 days' },
   { id: '10plus', label: '10+ days' },
 ];
 const ids = options.map((option) => option.id);
@@ -31,8 +31,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvas, userEvent }) => {
     await expect(canvas.getByRole('group', { name: 'Trip length' })).toHaveAccessibleDescription('Optional');
-    const five = canvas.getByRole('button', { name: '5–7 days' });
-    const eight = canvas.getByRole('button', { name: '8–10 days' });
+    const five = canvas.getByRole('button', { name: '5-7 days' });
+    const eight = canvas.getByRole('button', { name: '8-10 days' });
     await userEvent.click(five);
     await userEvent.click(eight);
     await expect(five).toHaveAttribute('aria-pressed', 'true');
@@ -50,13 +50,13 @@ export const WithKeys: Story = {
   play: async ({ canvas }) => {
     const user = await realUser();
     if (!user) return;
-    const two = canvas.getByRole('button', { name: '2–4 days' });
+    const two = canvas.getByRole('button', { name: '2-4 days' });
     two.focus();
     await user.keyboard(' ');
     await expect(two).toHaveAttribute('aria-pressed', 'true');
     await user.keyboard('{Tab}');
     await user.keyboard(' ');
-    await expect(canvas.getByRole('button', { name: '5–7 days' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(canvas.getByRole('button', { name: '5-7 days' })).toHaveAttribute('aria-pressed', 'true');
     await expect(two).toHaveAttribute('aria-pressed', 'true');
     two.focus();
     await user.keyboard(' ');

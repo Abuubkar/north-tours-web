@@ -75,7 +75,7 @@ export const DesktopTall: Story = {
   globals: { viewport: { value: 'desktopTall' } },
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('link', { name: 'Reserve with 30% advance' }));
-    await waitFor(() => expect(canvas.getAllByRole('radio', { name: /^12–20 May/ })[0]).toHaveFocus());
+    await waitFor(() => expect(canvas.getAllByRole('radio', { name: /^12-20 May/ })[0]).toHaveFocus());
   },
 };
 

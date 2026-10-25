@@ -11,7 +11,7 @@ export const UNSURE = 'unsure';
 export const DATE_MODES = ['exact', 'flexible'] as const;
 export type DateMode = (typeof DATE_MODES)[number];
 
-/** Trip lengths, as the Tours duration filter starts them (2–4 days fits the 2-day minimum). */
+/** Trip lengths, as the Tours duration filter starts them (2-4 days fits the 2-day minimum). */
 export const TRIP_LENGTHS = ['2-4', '5-7', '8-10', '10plus'] as const;
 export type TripLength = (typeof TRIP_LENGTHS)[number];
 

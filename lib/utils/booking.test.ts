@@ -81,13 +81,13 @@ describe('reserveMessage', () => {
 
   it('fills every token', () => {
     expect(reserveMessage(template, reservation)).toBe(
-      'Hi, I’d like to reserve 2 travellers on Hunza & Skardu Grand, 12–20 May 2027, twin sharing. Total PKR 290,000; I’ll pay the 30% advance of PKR 87,000.',
+      'Hi, I’d like to reserve 2 travellers on Hunza & Skardu Grand, 12-20 May 2027, twin sharing. Total PKR 290,000; I’ll pay the 30% advance of PKR 87,000.',
     );
   });
 
   it('says "1 traveller" for one', () => {
     expect(reserveMessage(template, { ...reservation, travellers: 1, roomName: 'Triple', total: 135000 })).toBe(
-      'Hi, I’d like to reserve 1 traveller on Hunza & Skardu Grand, 12–20 May 2027, triple sharing. Total PKR 135,000; I’ll pay the 30% advance of PKR 40,500.',
+      'Hi, I’d like to reserve 1 traveller on Hunza & Skardu Grand, 12-20 May 2027, triple sharing. Total PKR 135,000; I’ll pay the 30% advance of PKR 40,500.',
     );
   });
 });

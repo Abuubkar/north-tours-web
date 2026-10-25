@@ -39,7 +39,7 @@ describe('trip summary', () => {
     expect(trip({ months: ['2027-06'] }).dates).toBe('Jun 2027');
     expect(trip({ months: ['2027-06', '2027-07'] }).dates).toBe('Jun, Jul 2027');
     expect(trip({ months: ['2026-11', '2026-12', '2027-01'] }).dates).toBe('Nov, Dec 2026, Jan 2027');
-    expect(trip({ dateMode: 'exact', from: '2027-06-12', to: '2027-06-18' }).dates).toBe('12 Jun 2027 – 18 Jun 2027');
+    expect(trip({ dateMode: 'exact', from: '2027-06-12', to: '2027-06-18' }).dates).toBe('12 Jun 2027 - 18 Jun 2027');
     expect(trip({ dateMode: 'exact', from: '2027-06-12', to: null }).dates).toBeNull();
   });
 
@@ -60,22 +60,22 @@ describe('trip summary', () => {
     expect(
       trip({ lengths: ['5-7', '8-10'], groupType: ['family', 'friends'], hotels: ['comfortable', 'upgraded'], transport: ['car', 'suggest'], budget: ['50-100k', 'not-sure'] }),
     ).toMatchObject({
-      length: '5–7 days, 8–10 days',
+      length: '5-7 days, 8-10 days',
       groupType: 'Family, Friends',
       hotels: 'Comfortable, Upgraded',
       transport: 'Car, Let us suggest',
-      budget: 'PKR 50–100k, Not sure yet',
+      budget: 'PKR 50-100k, Not sure yet',
     });
     expect(detailsSummary({ ...EMPTY_DETAILS, bestTime: ['morning', 'evening'] }, sampleWords).bestTime).toBe('Morning, Evening');
   });
 
   it('writes the options in the page’s words, the length too', () => {
     expect(trip({ months: ['2027-06'], lengths: ['5-7'], groupType: ['family'], hotels: ['upgraded'], transport: ['car'], budget: ['50-100k'] })).toMatchObject({
-      length: '5–7 days',
+      length: '5-7 days',
       groupType: 'Family',
       hotels: 'Upgraded',
       transport: 'Car',
-      budget: 'PKR 50–100k',
+      budget: 'PKR 50-100k',
     });
   });
 

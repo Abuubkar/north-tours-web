@@ -3,6 +3,7 @@ import { KeyValueRow } from '@/components/ui/KeyValueRow/KeyValueRow';
 import { TextOrLink } from '@/components/ui/TextOrLink/TextOrLink';
 import { routes } from '@/lib/routes';
 import { emailHref, phoneHref, socialLinks } from '@/lib/utils/contact';
+import { copyrightYears } from '@/lib/utils/dates';
 import { whatsappLink } from '@/lib/utils/whatsapp';
 import { NavLinks } from '../NavLinks/NavLinks';
 import type { SiteFooterProps } from './SiteFooter.types';
@@ -22,7 +23,7 @@ const smallPages = [
  * (owner feedback, 2026-10-05). Placeholders show as written, unlinked.
  */
 export function SiteFooter({ settings }: SiteFooterProps) {
-  const { brand, contact, legal, social, whatsapp } = settings;
+  const { brand, contact, social, whatsapp, trust } = settings;
   const chatHref = whatsappLink(contact.whatsapp, whatsapp.generalMessage);
 
   return (
@@ -55,7 +56,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
       </div>
       <div className={styles.bottom}>
         <p>
-          © {new Date().getFullYear()} {brand.name} · DTS Licence No. {legal.dtsLicence}
+          © {copyrightYears(trust.operatingSince, new Date().getFullYear())} {brand.name}
         </p>
         <ul className={styles.smallLinks}>
           {[...socialLinks(social), ...smallPages].map(({ label, href }) => (

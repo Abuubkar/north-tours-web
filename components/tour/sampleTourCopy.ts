@@ -91,7 +91,6 @@ export const sampleTourCopy: TourCopy = {
       triple: 'Triple',
       quad: 'Quad',
     },
-    trustLicence: 'DTS licence No. {licence}',
     trustDeparts: 'Departs from {pickupPoint}',
     totalLabel: 'Total',
     chooseDate: 'Choose a date',

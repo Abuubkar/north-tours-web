@@ -104,12 +104,6 @@ export const sampleAbout: AboutCopy = {
     labels: { years: 'years running trips', trips: 'trips completed', travellers: 'travellers', guides: 'guides and drivers' },
     travellers: { value: '9,000+', sample: true },
   },
-  credentials: {
-    label: 'Credentials',
-    licence: { label: 'Tour operator licence', value: 'DTS licence No. {dtsLicence}' },
-    company: { label: 'Company' },
-    memberships: { label: 'Memberships', items: [{ name: '[Tour operators’ association]', sample: true }] },
-  },
   reviews: {
     headline: 'What travellers say about our guides and drivers',
     chosen: ['hunza-2026-05-faisal', 'hunza-2026-06-maryam', 'swat-2026-07-nadia'],

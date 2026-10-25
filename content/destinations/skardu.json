@@ -37,15 +37,15 @@
   "seasons": [
     {
       "season": "spring",
-      "text": "Apricot blossom in April, though Deosai is still under snow. Days 12–20°C."
+      "text": "Apricot blossom in April, though Deosai is still under snow. Days 12-20°C."
     },
     {
       "season": "summer",
-      "text": "Warm and dry, 25–32°C in the valley. The road over Deosai opens from late June."
+      "text": "Warm and dry, 25-32°C in the valley. The road over Deosai opens from late June."
     },
     {
       "season": "autumn",
-      "text": "Gold poplars and clear skies in October. Days 10–20°C, nights near freezing."
+      "text": "Gold poplars and clear skies in October. Days 10-20°C, nights near freezing."
     },
     {
       "season": "winter",
@@ -214,15 +214,15 @@
     "stops": [
       {
         "name": "Lahore",
-        "drive": "9–10 hrs"
+        "drive": "9-10 hrs"
       },
       {
         "name": "Naran",
-        "drive": "5–6 hrs"
+        "drive": "5-6 hrs"
       },
       {
         "name": "Chilas",
-        "drive": "6–7 hrs"
+        "drive": "6-7 hrs"
       },
       {
         "name": "Skardu"

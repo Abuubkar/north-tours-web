@@ -27,12 +27,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** The H2, the lead, the buttons, and the mini trust strip with the licence placeholder and "Cash · Bank transfer". */
+/** The H2, the lead, the buttons, and the mini trust strip with the pickup point and "Cash · Bank transfer" (no DTS licence). */
 export const Desktop: Story = {
   globals: { viewport: { value: 'desktop' } },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('heading', { level: 2, name: 'Hold your seats with a 30% advance' })).toBeVisible();
-    await expect(canvas.getByText('No. [DTS licence number]')).toBeVisible();
+    await expect(canvas.queryByText(/DTS/)).toBeNull();
     await expect(canvas.getByText('Cash · Bank transfer')).toBeVisible();
   },
 };
@@ -85,7 +85,7 @@ export const Help: Story = {
   args: {
     id: undefined,
     headline: 'Still have a question? Ask us on WhatsApp',
-    lead: 'We reply on WhatsApp within 2 hours. Phone lines are open [Mon–Sat, X am – X pm].',
+    lead: 'We reply on WhatsApp within 2 hours. Phone lines are open [Mon-Sat, X am - X pm].',
     actions: <AskActions askLabel="Ask on WhatsApp" askHref={generalMessage} callLabel="Call us" callHref={undefined} />,
     children: undefined,
   },

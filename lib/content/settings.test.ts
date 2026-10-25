@@ -47,7 +47,7 @@ describe('settings', () => {
   it('accepts [placeholder] contact, legal and social values (ADR-0010)', () => {
     const result = withChange((s) => {
       Object.assign(s.contact, { whatsapp: '[+92 3XX XXX XXXX]', email: '[hello@brand.pk]' });
-      Object.assign(s.legal, { dtsLicence: '[DTS licence number]' });
+      Object.assign(s.legal, { companyRegistration: '[SECP or NTN number]' });
       Object.assign(s.social, { instagram: '[Instagram URL]' });
       Object.assign(s.site, { url: '[Site URL]' });
     });

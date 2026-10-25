@@ -36,7 +36,7 @@
       "days": "Days before departure",
       "refund": "Refund of advance",
       "from": "{days} or more days",
-      "range": "{from}–{to} days",
+      "range": "{from}-{to} days",
       "single": "{days} days",
       "under": "Under {days} days",
       "percent": "{percent}%",

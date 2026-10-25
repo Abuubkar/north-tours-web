@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 /** A radio named by its dates and seats; picking it calls back with its start date. */
 export const Default: Story = {
   play: async ({ canvas, args, userEvent }) => {
-    const radio = canvas.getByRole('radio', { name: '12–20 May 3 of 16 seats left' });
+    const radio = canvas.getByRole('radio', { name: '12-20 May 3 of 16 seats left' });
     await userEvent.click(radio);
     await expect(args.onChoose).toHaveBeenCalledWith('2099-05-12');
   },
@@ -42,7 +42,7 @@ export const CheckedOnLight: Story = { ...Checked, globals: { surface: 'light' }
 export const SoldOut: Story = {
   args: { departure: sampleDepartures[2] },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('radio', { name: '9–17 Jun Sold out · waitlist open' })).toBeVisible();
+    await expect(canvas.getByRole('radio', { name: '9-17 Jun Sold out · waitlist open' })).toBeVisible();
   },
 };
 

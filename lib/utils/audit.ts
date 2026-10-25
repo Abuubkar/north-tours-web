@@ -188,7 +188,7 @@ export function auditReport(verdicts: PageVerdict[]): string {
   const rows = verdicts.map(({ audit, failures, checks, warnings }) => {
     const { page, vitals, runs, violations } = audit;
     const medianNote = runs > 1 ? ` (median of ${runs})` : '';
-    const numbers = vitals ? [`${seconds(vitals.lcp)}${medianNote}`, shift(vitals.cls), `${Math.round(vitals.tbt)} ms`] : ['–', '–', '–'];
+    const numbers = vitals ? [`${seconds(vitals.lcp)}${medianNote}`, shift(vitals.cls), `${Math.round(vitals.tbt)} ms`] : ['-', '-', '-'];
     const result = failures.length > 0 ? 'fail' : warnings.length > 0 ? 'pass, TBT warning' : 'pass';
     return `| ${[page, ...numbers, violations.length, checks === 0 ? 'pass' : `${checks} failed`, result].join(' | ')} |`;
   });

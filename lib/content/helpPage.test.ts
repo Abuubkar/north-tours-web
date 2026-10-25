@@ -71,7 +71,7 @@ describe('helpPolicies', () => {
     expect(policies.filter((p) => p.refundRows).map((p) => p.id)).toEqual(['cancellation']);
     expect(policies[0].refundRows).toEqual([
       { days: '14 or more days', refund: '100%' },
-      { days: '7–13 days', refund: '50%' },
+      { days: '7-13 days', refund: '50%' },
       { days: 'Under 7 days', refund: 'None' },
     ]);
     for (const p of policies) expect([p.summary, ...p.paragraphs].join(' ')).not.toMatch(/\{\w+\}/);
@@ -92,7 +92,7 @@ describe('helpPolicies', () => {
     expect(staleFigures(text, live, changed)).toEqual([]);
     expect(text).toContain('A 40% advance holds your seats');
     expect(text).toContain('21 or more days');
-    expect(text).toContain('9–20 days');
+    expect(text).toContain('9-20 days');
     expect(text).toContain('within 10 days of cancelling');
     expect(text).toContain('Children under 3');
     expect(text).toContain('We reply on WhatsApp within 4 hours');

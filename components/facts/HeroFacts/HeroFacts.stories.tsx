@@ -35,7 +35,7 @@ export const Default: Story = {
     await expect(factValue(canvas, 'Duration')).toHaveTextContent('9 days, 8 nights');
     await expect(within(factValue(canvas, 'Rating')).getByRole('img', { name: '4.9 out of 5, 128 reviews' })).toBeVisible();
     await expect(factValue(canvas, 'from')).toHaveTextContent('PKR 145,000per person, twin sharing');
-    await expect(factValue(canvas, 'Next departure')).toHaveTextContent('12–20 May3 of 16 seats left');
+    await expect(factValue(canvas, 'Next departure')).toHaveTextContent('12-20 May3 of 16 seats left');
   },
 };
 
@@ -49,7 +49,7 @@ export const Desktop: Story = { ...Default, globals: { viewport: { value: 'deskt
 export const SoldOut: Story = {
   args: { tour: { ...sampleTour, departures: [departure('2099-06-09', '2099-06-17', 0)] } },
   play: async ({ canvas }) => {
-    await expect(factValue(canvas, 'Next departure')).toHaveTextContent('9–17 JunSold out · waitlist open');
+    await expect(factValue(canvas, 'Next departure')).toHaveTextContent('9-17 JunSold out · waitlist open');
   },
 };
 
@@ -59,7 +59,7 @@ export const SoldOutOnLight: Story = { ...SoldOut, globals: { surface: 'light' }
 export const NextWithSeats: Story = {
   args: { tour: { ...sampleTour, departures: [departure('2099-05-02', '2099-05-10', 0), ...upcoming] } },
   play: async ({ canvas }) => {
-    await expect(factValue(canvas, 'Next departure')).toHaveTextContent('12–20 May3 of 16 seats left');
+    await expect(factValue(canvas, 'Next departure')).toHaveTextContent('12-20 May3 of 16 seats left');
   },
 };
 
@@ -80,7 +80,7 @@ export const NoneLeftPhone: Story = { ...NoneLeft, globals: { viewport: { value:
 export const StaleBuild: Story = {
   args: { tour: { ...sampleTour, departures: [departure('2020-06-01', '2020-06-09', 5), ...upcoming] } },
   play: async ({ canvas }) => {
-    await waitFor(() => expect(factValue(canvas, 'Next departure')).toHaveTextContent('12–20 May3 of 16 seats left'));
+    await waitFor(() => expect(factValue(canvas, 'Next departure')).toHaveTextContent('12-20 May3 of 16 seats left'));
   },
 };
 

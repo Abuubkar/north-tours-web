@@ -38,15 +38,15 @@
   "seasons": [
     {
       "season": "spring",
-      "text": "Apricot and cherry blossom from early April. Days 15–22°C, nights near freezing early in the season."
+      "text": "Apricot and cherry blossom from early April. Days 15-22°C, nights near freezing early in the season."
     },
     {
       "season": "summer",
-      "text": "Warm days, 25–30°C, and the busiest months. Book four to six weeks ahead."
+      "text": "Warm days, 25-30°C, and the busiest months. Book four to six weeks ahead."
     },
     {
       "season": "autumn",
-      "text": "The poplars turn gold in late October. Days 10–20°C, cold nights."
+      "text": "The poplars turn gold in late October. Days 10-20°C, cold nights."
     },
     {
       "season": "winter",
@@ -242,19 +242,19 @@
     "stops": [
       {
         "name": "Lahore",
-        "drive": "4–5 hrs"
+        "drive": "4-5 hrs"
       },
       {
         "name": "Islamabad",
-        "drive": "11–12 hrs"
+        "drive": "11-12 hrs"
       },
       {
         "name": "Chilas",
-        "drive": "3–4 hrs"
+        "drive": "3-4 hrs"
       },
       {
         "name": "Gilgit",
-        "drive": "2–3 hrs"
+        "drive": "2-3 hrs"
       },
       {
         "name": "Hunza"
