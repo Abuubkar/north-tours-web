@@ -30,12 +30,11 @@ export const placeholderSettings: Settings = {
     childFromAge: 5,
   },
   payments: { methods: ['Cash', 'Bank transfer'] },
-  legal: { dtsLicence: '[DTS licence number]', companyRegistration: '[SECP or NTN number]' },
+  legal: { companyRegistration: '[SECP or NTN number]' },
   social: { instagram: '[Instagram URL]', facebook: '[Facebook URL]', youtube: '[YouTube URL]' },
   trust: {
     operatingSince: 2014,
     tripsCompleted: '1,200+',
-    licence: { label: 'DTS licence', value: 'No. {licence}', note: 'Department of Tourist Services, Punjab' },
     operating: { label: 'Operating', value: '{years} years', note: 'From our office in Lahore' },
     trips: { label: 'Trips completed', note: 'Group and private' },
     departs: { label: 'Departs from' },
@@ -92,7 +91,7 @@ export const realSettings: Settings = {
     officeHours: 'Mon-Sat, 10 am - 7 pm',
   },
   site: { url: 'https://example.pk' },
-  legal: { ...placeholderSettings.legal, dtsLicence: '1234' },
+  legal: { ...placeholderSettings.legal, companyRegistration: '1234567-8' },
   social: {
     instagram: 'https://instagram.com/example',
     facebook: 'https://facebook.com/example',

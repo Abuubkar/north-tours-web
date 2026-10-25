@@ -75,7 +75,7 @@ export function BookingPanel({ variant, tour, copy, tokens, settings, paymentMet
         </fieldset>
         <div className={styles.trust}>
           <p>
-            <span className={styles.licence}>{fillTokens(copy.trustLicence, tokens)}</span> · {fillTokens(copy.trustDeparts, tokens)}
+            {fillTokens(copy.trustDeparts, tokens)}
           </p>
           <p>{paymentMethods}</p>
         </div>

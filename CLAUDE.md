@@ -141,7 +141,7 @@ Folders are created only when the first file for them is needed (section 3).
 - All user-visible content lives in `/content`: settings, tours, departures, destinations,
   guides, reviews, FAQs, policies, images.
 - **Global values live only in `content/settings.json`** and are never duplicated: WhatsApp
-  number, phone, office hours, DTS licence, advance %, reply time, payment methods.
+  number, phone, office hours, advance %, reply time, payment methods.
 - **Page copy lives in `content/pages`**, one file per page (`home.json`…): headlines, leads,
   labels, the page's `<title>` part and meta description. Components never hard-code page
   wording. Copy may use named `{tokens}` filled from settings (e.g. `{advancePercent}`); the
@@ -167,7 +167,7 @@ Folders are created only when the first file for them is needed (section 3).
   (urgent, sold out, seats wording, upcoming departures) come from `lib/utils`, never stored.
 - **Sample content is allowed (ADR-0010):** invented tours, prices, reviews, ratings, guides,
   statistics and facts are fine, as long as they pass the schemas. Exception: WhatsApp
-  number, phone, email, office address, DTS licence and company registration stay as
+  number, phone, email, office address and company registration stay as
   `[placeholders]` until real values are supplied. The office's address is real since
   2026-10-05 (the owner's Google Maps listing), and the phone and WhatsApp number (one mobile,
   +92 344 4430021) since 2026-10-09.

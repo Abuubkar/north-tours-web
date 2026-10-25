@@ -35,7 +35,6 @@ export const COMPANY_TOKENS = [
   'travelSupport',
   'officeAddress',
   'officeHours',
-  'dtsLicence',
   'companyRegistration',
   'replyTime',
 ] as const;
@@ -91,7 +90,6 @@ export function companyTokens(
     travelSupport: contact.travelSupport,
     officeAddress: contact.officeAddress,
     officeHours: contact.officeHours,
-    dtsLicence: legal.dtsLicence,
     companyRegistration: legal.companyRegistration,
     replyTime: settings.booking.replyTime,
   };

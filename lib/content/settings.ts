@@ -79,7 +79,6 @@ const settingsSchema = z.strictObject({
       .refine((methods) => new Set(methods).size === methods.length, 'Each method only once'),
   }),
   legal: z.strictObject({
-    dtsLicence: nonEmpty,
     companyRegistration: nonEmpty,
   }),
   social: z.strictObject({
@@ -96,7 +95,6 @@ const settingsSchema = z.strictObject({
     operatingSince: z.int().min(1950, 'Use a year like 2014').max(new Date().getFullYear(), 'Can’t be in the future'),
     /** As shown, e.g. "1,200+". */
     tripsCompleted: nonEmpty,
-    licence: z.strictObject({ label: nonEmpty, value: copyWith('licence'), note: nonEmpty }),
     operating: z.strictObject({ label: nonEmpty, value: copyWith('years'), note: nonEmpty }),
     trips: z.strictObject({ label: nonEmpty, note: nonEmpty }),
     /** The pickup point, in the Tour Detail strip. */

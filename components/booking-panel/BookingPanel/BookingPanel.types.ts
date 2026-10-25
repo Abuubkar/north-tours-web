@@ -7,7 +7,7 @@ export type BookingPanelProps = {
   variant: 'aside' | 'sheet';
   tour: Pick<Tour, 'title' | 'rating' | 'prices'>;
   copy: TourCopy['booking'];
-  /** Values for the copy's {tokens}: the settings tokens and the DTS licence. */
+  /** Values for the copy's {tokens}: the settings tokens. */
   tokens: Record<string, string>;
   /** The WhatsApp number and messages, and the advance. */
   settings: Pick<Settings, 'contact' | 'whatsapp' | 'booking'>;

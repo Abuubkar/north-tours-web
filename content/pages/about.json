@@ -150,25 +150,6 @@
       "sample": true
     }
   },
-  "credentials": {
-    "label": "Credentials",
-    "licence": {
-      "label": "Tour operator licence",
-      "value": "DTS licence No. {dtsLicence}"
-    },
-    "company": {
-      "label": "Company"
-    },
-    "memberships": {
-      "label": "Memberships",
-      "items": [
-        {
-          "name": "[Tour operators’ association]",
-          "sample": true
-        }
-      ]
-    }
-  },
   "reviews": {
     "headline": "What travellers say about our guides and drivers",
     "chosen": [

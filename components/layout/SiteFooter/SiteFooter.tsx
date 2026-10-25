@@ -23,7 +23,7 @@ const smallPages = [
  * (owner feedback, 2026-10-05). Placeholders show as written, unlinked.
  */
 export function SiteFooter({ settings }: SiteFooterProps) {
-  const { brand, contact, legal, social, whatsapp, trust } = settings;
+  const { brand, contact, social, whatsapp, trust } = settings;
   const chatHref = whatsappLink(contact.whatsapp, whatsapp.generalMessage);
 
   return (
@@ -56,7 +56,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
       </div>
       <div className={styles.bottom}>
         <p>
-          © {copyrightYears(trust.operatingSince, new Date().getFullYear())} {brand.name} · DTS Licence No. {legal.dtsLicence}
+          © {copyrightYears(trust.operatingSince, new Date().getFullYear())} {brand.name}
         </p>
         <ul className={styles.smallLinks}>
           {[...socialLinks(social), ...smallPages].map(({ label, href }) => (

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect } from 'storybook/test';
-import { placeholderSettings, realSettings } from '@/components/layout/sampleSettings';
+import { placeholderSettings } from '@/components/layout/sampleSettings';
 import { TrustStrip } from './TrustStrip';
 
 const meta = {
@@ -14,16 +14,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Four facts; the licence placeholder shows as written, and payments read "Cash · Bank transfer". */
+/** Three facts (no DTS licence, owner 2026-10-25); payments read "Cash · Bank transfer". */
 export const Desktop: Story = {
   play: async ({ canvas }) => {
-    await expect(canvas.getByText('No. [DTS licence number]')).toBeVisible();
+    await expect(canvas.queryByText(/DTS/)).toBeNull();
     // Operating since 2014, built in 2026.
     await expect(canvas.getByText('12 years')).toBeVisible();
     await expect(canvas.getByText('1,200+')).toBeVisible();
     await expect(canvas.getByText('Cash · Bank transfer')).toBeVisible();
     await expect(canvas.getAllByRole('term').map((t) => t.textContent)).toEqual([
-      'DTS licence',
       'Operating',
       'Trips completed',
       'We accept',
@@ -49,20 +48,11 @@ export const Phone: Story = {
 
 export const PhoneOnLight: Story = { ...Desktop, globals: { surface: 'light', viewport: { value: 'phone' } } };
 
-/** With the real licence number. */
-export const RealLicence: Story = {
-  args: { settings: realSettings },
-  play: async ({ canvas }) => {
-    await expect(canvas.getByText('No. 1234')).toBeVisible();
-  },
-};
-
-/** Mini, in Tour Detail's final call to action: licence, pickup point and payments. */
+/** Mini, in Tour Detail's final call to action: the pickup point and payments. */
 export const Mini: Story = {
   args: { variant: 'mini' },
   play: async ({ canvas }) => {
-    await expect(canvas.getAllByRole('term').map((t) => t.textContent)).toEqual(['DTS licence', 'Departs from', 'We accept']);
-    await expect(canvas.getByText('No. [DTS licence number]')).toBeVisible();
+    await expect(canvas.getAllByRole('term').map((t) => t.textContent)).toEqual(['Departs from', 'We accept']);
     await expect(canvas.getByText('[Pickup point], Lahore')).toBeVisible();
     await expect(canvas.getByText('Cash · Bank transfer')).toBeVisible();
   },

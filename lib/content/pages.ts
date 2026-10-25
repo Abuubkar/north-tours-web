@@ -216,8 +216,7 @@ const tourCopySchema = z.strictObject({
     roomLabel: copy,
     /** Each room's short name on its option, e.g. "Twin"; the WhatsApp message says "twin sharing". */
     rooms: z.strictObject({ twin: copy, triple: copy, quad: copy }),
-    /** The trust line: "DTS licence No. {licence}" (from settings) · "Departs from {pickupPoint}". */
-    trustLicence: copyWith('licence'),
+    /** The trust line: "Departs from {pickupPoint}". */
     trustDeparts: copyWith(...SETTINGS_TOKENS),
     totalLabel: copy,
     /** In place of the total until a date is chosen. */
@@ -597,11 +596,10 @@ const plannerCopySchema = z.strictObject({
     more: copyWith('count'),
     people: z.strictObject({ one: copyWith('count'), other: copyWith('count') }),
   }),
-  /** "What happens next": three steps in order, then the licence line. */
+  /** "What happens next": three steps in order, then the office line. */
   next: z.strictObject({
     title: copy,
     steps: z.array(copyWith('replyTime', 'advancePercent')).length(3, 'List exactly three steps'),
-    licence: copyWith('dtsLicence'),
     office: copy,
   }),
   /** Each message beside its field after Next (DESIGN.md §2: the "!" badge and the error colour). */
@@ -707,16 +705,6 @@ const aboutCopySchema = z.strictObject({
     labels: z.strictObject({ years: copy, trips: copy, travellers: copy, guides: copy }),
     /** As shown, e.g. "9,000+". Years and trips come from the trust settings; guides are counted. */
     travellers: z.strictObject({ value: copy, sample }),
-  }),
-  /** "Credentials": the only section with a label instead of a headline (DESIGN.md §6). */
-  credentials: z.strictObject({
-    label: copy,
-    /** "DTS licence No. {dtsLicence}", the licence from settings, over the trust strip's note. */
-    licence: z.strictObject({ label: copy, value: copyWith('dtsLicence') }),
-    /** The company registration, from settings. */
-    company: z.strictObject({ label: copy }),
-    /** Associations the company belongs to; the row is left out with none. Never a real organisation until confirmed. */
-    memberships: z.strictObject({ label: copy, items: z.array(z.strictObject({ name: copy, sample })) }),
   }),
   /** "What travellers say about our guides and drivers": the reviews to show, by slug, in order (no rating summary). */
   reviews: z.strictObject({
@@ -906,7 +894,6 @@ export const LEGAL_TOKENS = [
   'phone',
   'whatsapp',
   'officeAddress',
-  'dtsLicence',
   'companyRegistration',
   'replyTime',
   'advancePercent',
