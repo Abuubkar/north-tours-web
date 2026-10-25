@@ -93,6 +93,8 @@
   --label-col: 240px;
   --content-col-min: 600px; /* content beside the label column wraps below it under this width */
   --header-h: 64px; /* the solid bar (2f, ADR-0030): 64px below the full-bar breakpoint, 76px from it (below) */
+  --brand-logo: 36px; /* the owner's badge before the brand name: 36px below the full-bar breakpoint, 44px from it (below) */
+  --brand-logo-gap: var(--space-12); /* between the badge and the brand name */
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
   --measure-answer: 740px; /* FAQ and policy answers */
   --drawer-w: 460px; /* side drawer, e.g. guide profile */
@@ -313,6 +315,7 @@
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
+   *   440px               the header's brand name shows beside the badge (below it, the badge alone)
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
    *   820px  sheets replace dropdowns; Tours results go to two columns;
    *          a destination's month calendar goes from six columns to twelve
@@ -467,6 +470,7 @@
 @media (width >= 1200px) {
   :root {
     --header-h: 76px;
+    --brand-logo: 44px;
     --fs-brand: 17px;
     --altitude-gap: 40px;
     --fs-altitude: 12px;

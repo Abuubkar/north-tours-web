@@ -8,6 +8,7 @@ import { socialLinks } from './contact.ts';
 import { hasPlaceholder } from './placeholder.ts';
 import { departurePrices } from './price.ts';
 import { BEST_RATING, hasRealRating, realReviews } from './rating.ts';
+import { brandLogo } from './brandLogo.ts';
 import { siteUrlFor } from './siteUrl.ts';
 import type { TripType } from './tourFilters.ts';
 
@@ -28,7 +29,7 @@ const CURRENCY = 'PKR';
 /** The value, or undefined (left out of the JSON) while any part of it is a `[placeholder]`. */
 const withoutPlaceholder = (value: string) => (hasPlaceholder(value) ? undefined : value);
 
-/** The company, on the Homepage. No rating: search engines ignore a business's ratings of itself. */
+/** The company, on the Homepage, with the owner's badge as its logo. No rating: search engines ignore a business's ratings of itself. */
 export function travelAgency(
   settings: Pick<Settings, 'brand' | 'site' | 'social' | 'payments'> & { contact: Pick<Settings['contact'], 'phone' | 'email' | 'officeAddress'> },
   page: { description: string; image: string },
@@ -39,6 +40,7 @@ export function travelAgency(
     '@type': 'TravelAgency',
     name: settings.brand.name,
     url: siteUrlFor(routes.home, settings.site.url),
+    logo: siteUrlFor(brandLogo.src, settings.site.url),
     description: page.description,
     image: shareImageUrl(page.image, settings.site.url),
     telephone: withoutPlaceholder(settings.contact.phone),

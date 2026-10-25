@@ -1,17 +1,41 @@
 /*
- * The header's wordmark: the brand name in tracked capitals with a gold dot between its words
- * (owner, 2026-10-09; it was 2f's heavy, tight name and ▲). At least the 44px tap target; no logo
- * until the owner supplies one.
+ * The header's brand mark: the owner's badge (2026-10-25), then the brand name in tracked capitals
+ * with a gold dot between its words (owner, 2026-10-09; it was 2f's heavy, tight name and ▲). At
+ * least the 44px tap target.
  */
 .brandMark {
   composes: brand from '../../../styles/typography.module.css';
   display: inline-flex;
   flex: none;
   align-items: center;
+  gap: var(--brand-logo-gap);
   min-height: var(--tap);
   color: var(--fg);
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* The badge: 36px on phones, 44px from the full-bar breakpoint. */
+.logo {
+  flex: none;
+  width: var(--brand-logo);
+  height: var(--brand-logo);
+}
+
+/*
+ * Below 440px the badge, the name, WhatsApp and Menu don't fit side by side (the name needs about
+ * 190px), so the name is read out but not seen, as `visuallyHidden` in layout.module.css (which
+ * can't be composed inside a media query). The badge carries the name.
+ */
+@media (width < 440px) {
+  .name {
+    position: absolute;
+    width: var(--hidden-size);
+    height: var(--hidden-size);
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 /* Decorative: hidden from screen readers, so the link is named by the brand alone. */

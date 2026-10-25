@@ -12,9 +12,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Links home and is at least the 44px tap target. The name is 700 in tracked capitals (.2em), with a
- * dot in the accent (gold on dark, deep gold on light) between its words that screen readers skip. 14px on phones, 17px from the full-bar
- * breakpoint (1200px).
+ * Links home and is at least the 44px tap target. The owner's badge comes first, decorative (empty
+ * alt), 36px on phones and 44px from the full-bar breakpoint (1200px). The name is 700 in tracked
+ * capitals (.2em), with a dot in the accent (gold on dark, deep gold on light) between its words that
+ * screen readers skip; 14px on phones, 17px from 1200px. Below 440px the name is read out but not
+ * seen, so the link keeps its name.
  */
 export const Default: Story = {
   play: async ({ canvas }) => {
@@ -29,6 +31,13 @@ export const Default: Story = {
     const dot = canvas.getByText('·');
     await expect(dot).toHaveAttribute('aria-hidden', 'true');
     await expect(getComputedStyle(dot).color).not.toBe(getComputedStyle(link).color);
+    const badge = link.querySelector('img')!;
+    await expect(badge).toHaveAttribute('alt', '');
+    await expect(badge.getAttribute('src')).toMatch(/\/brand\/logo\.png$/);
+    await expect(badge.getBoundingClientRect().width).toBe(window.innerWidth >= 1200 ? 44 : 36);
+    await expect(badge.getBoundingClientRect().left).toBeLessThan(dot.getBoundingClientRect().left);
+    const nameShown = dot.parentElement!.getBoundingClientRect().width > 1;
+    await expect(nameShown).toBe(window.innerWidth >= 440);
   },
 };
 
