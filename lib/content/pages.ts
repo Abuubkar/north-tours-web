@@ -894,7 +894,6 @@ export const LEGAL_TOKENS = [
   'phone',
   'whatsapp',
   'officeAddress',
-  'companyRegistration',
   'replyTime',
   'advancePercent',
   'paymentMethods',

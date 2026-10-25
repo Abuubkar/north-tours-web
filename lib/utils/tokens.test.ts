@@ -59,12 +59,11 @@ const company = {
     officeHours: '[Mon-Sat, X am - X pm]',
     travelSupport: '[24/7 number]',
   },
-  legal: { companyRegistration: '[SECP or NTN number]' },
   booking: { advancePercent: 30, replyTime: 'within 2 hours', pickupPoint: '[Pickup point], Lahore' },
 };
 
 describe('companyTokens', () => {
-  it('fills the company’s name, contact details, registration, hours and reply time, placeholders as written', () => {
+  it('fills the company’s name, contact details, hours and reply time, placeholders as written', () => {
     expect(companyTokens(company)).toEqual({
       brand: '[BRAND NAME]',
       email: '[hello@brand.pk]',
@@ -73,7 +72,6 @@ describe('companyTokens', () => {
       travelSupport: '[24/7 number]',
       officeAddress: '[Office address], Lahore, Punjab',
       officeHours: '[Mon-Sat, X am - X pm]',
-      companyRegistration: '[SECP or NTN number]',
       replyTime: 'within 2 hours',
     });
     expect(companyTokens({ ...company, contact: { ...company.contact, email: 'hello@example.pk' } }).email).toBe('hello@example.pk');

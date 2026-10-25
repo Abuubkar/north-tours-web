@@ -34,9 +34,6 @@
   "payments": {
     "methods": ["Cash", "Bank transfer"]
   },
-  "legal": {
-    "companyRegistration": "[SECP or NTN number]"
-  },
   "social": {
     "instagram": "[Instagram URL]",
     "facebook": "[Facebook URL]",

@@ -35,7 +35,6 @@ export const COMPANY_TOKENS = [
   'travelSupport',
   'officeAddress',
   'officeHours',
-  'companyRegistration',
   'replyTime',
 ] as const;
 
@@ -79,9 +78,9 @@ export function settingsTokens(
 
 /** The company's `{tokens}`, filled with their current values (placeholders as written). */
 export function companyTokens(
-  settings: Pick<Settings, 'brand' | 'contact' | 'legal' | 'booking'>,
+  settings: Pick<Settings, 'brand' | 'contact' | 'booking'>,
 ): Record<CompanyToken, string> {
-  const { contact, legal } = settings;
+  const { contact } = settings;
   return {
     brand: settings.brand.name,
     email: contact.email,
@@ -90,7 +89,6 @@ export function companyTokens(
     travelSupport: contact.travelSupport,
     officeAddress: contact.officeAddress,
     officeHours: contact.officeHours,
-    companyRegistration: legal.companyRegistration,
     replyTime: settings.booking.replyTime,
   };
 }
@@ -100,7 +98,7 @@ export function companyTokens(
  * schema narrows it to the ones it allows. No figure from settings is ever typed into the text.
  */
 export function textTokens(
-  settings: Pick<Settings, 'booking' | 'payments' | 'policies' | 'brand' | 'contact' | 'legal'>,
+  settings: Pick<Settings, 'booking' | 'payments' | 'policies' | 'brand' | 'contact'>,
 ): Record<SettingsToken | PolicyToken | CompanyToken, string> {
   return { ...settingsTokens(settings), ...companyTokens(settings) };
 }

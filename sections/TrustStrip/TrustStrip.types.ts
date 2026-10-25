@@ -6,7 +6,7 @@ export type TrustStripProps = {
    * Detail's final call to action (licence, pickup point, payments).
    */
   variant?: 'full' | 'mini';
-  settings: Pick<Settings, 'legal' | 'payments' | 'trust' | 'booking'>;
+  settings: Pick<Settings, 'payments' | 'trust' | 'booking'>;
   /** The year the page is built; "Operating" counts years up to it. */
   year: number;
 };

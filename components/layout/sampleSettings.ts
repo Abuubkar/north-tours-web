@@ -30,7 +30,6 @@ export const placeholderSettings: Settings = {
     childFromAge: 5,
   },
   payments: { methods: ['Cash', 'Bank transfer'] },
-  legal: { companyRegistration: '[SECP or NTN number]' },
   social: { instagram: '[Instagram URL]', facebook: '[Facebook URL]', youtube: '[YouTube URL]' },
   trust: {
     operatingSince: 2014,
@@ -91,7 +90,6 @@ export const realSettings: Settings = {
     officeHours: 'Mon-Sat, 10 am - 7 pm',
   },
   site: { url: 'https://example.pk' },
-  legal: { ...placeholderSettings.legal, companyRegistration: '1234567-8' },
   social: {
     instagram: 'https://instagram.com/example',
     facebook: 'https://facebook.com/example',

@@ -16,7 +16,7 @@
         "id": "who-we-are",
         "heading": "Who we are",
         "paragraphs": [
-          "{brand} is a tour operator based in Lahore (company registration {companyRegistration}). Our office is at {officeAddress}.",
+          "{brand} is a tour operator based in Lahore. Our office is at {officeAddress}.",
           "This policy explains what we do with the details you give us when you plan or book a trip, and what this website does and doesn’t do."
         ]
       },
