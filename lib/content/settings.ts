@@ -78,9 +78,6 @@ const settingsSchema = z.strictObject({
       .min(1, 'List at least one payment method')
       .refine((methods) => new Set(methods).size === methods.length, 'Each method only once'),
   }),
-  legal: z.strictObject({
-    companyRegistration: nonEmpty,
-  }),
   social: z.strictObject({
     instagram: linkOrPlaceholder,
     facebook: linkOrPlaceholder,

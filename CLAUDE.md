@@ -167,7 +167,7 @@ Folders are created only when the first file for them is needed (section 3).
   (urgent, sold out, seats wording, upcoming departures) come from `lib/utils`, never stored.
 - **Sample content is allowed (ADR-0010):** invented tours, prices, reviews, ratings, guides,
   statistics and facts are fine, as long as they pass the schemas. Exception: WhatsApp
-  number, phone, email, office address and company registration stay as
+  number, phone, email and office address stay as
   `[placeholders]` until real values are supplied. The office's address is real since
   2026-10-05 (the owner's Google Maps listing), and the phone and WhatsApp number (one mobile,
   +92 344 4430021) since 2026-10-09.
