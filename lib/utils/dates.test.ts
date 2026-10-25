@@ -66,8 +66,8 @@ describe('monthYear', () => {
 });
 
 describe('copyrightYears', () => {
-  it('runs from the founding year to this year, with an en dash', () => {
-    expect(copyrightYears(2012, 2026)).toBe('2012-2026');
+  it('runs from the founding year to this year, with a spaced hyphen', () => {
+    expect(copyrightYears(2012, 2026)).toBe('2012 - 2026');
   });
   it('is one year when the company started this year', () => {
     expect(copyrightYears(2026, 2026)).toBe('2026');

@@ -679,7 +679,7 @@ The shared header, mobile menu and footer live in `components/layout` instead (P
 
 #### `SiteFooter` — `components/layout/SiteFooter` (static apart from `NavLinks`, built in PRD #32)
 - Identical on all 9 pages. `SectionLabel` "Contact" (240 column; *removed by the owner, 2026-10-05: the links start at the left margin*), then large nav links `clamp(40px,5.2cqi,76px)`/500 (`NavLinks`' footer variant: the main nav's six pages, the current one gold; PRD #118 replaced the design's Tours, Destinations, Private trips, About us, Reviews), then a right column (`flex:0 1 380px`) with an intro 17, primary 56 "Chat on WhatsApp" and `KeyValueRow`s (WhatsApp, Phone, Email, Office with address and hours).
-- Bottom bar (margin-top 96, hairline, 13px `text-2`): "© {founding year}-{build year} {brand} · DTS Licence No. {licence}" (the founding year is `trust.operatingSince`; one year if they match; owner, 2026-10-25) and links (Instagram, Facebook, YouTube, Help, Privacy, Terms, Photo credits; Contact is a large link since PRD #118). Placeholder phone, email and social values show as plain text.
+- Bottom bar (margin-top 96, hairline, 13px `text-2`): "© {founding year} - {build year} {brand} · DTS Licence No. {licence}" (the founding year is `trust.operatingSince`; one year if they match; owner, 2026-10-25) and links (Instagram, Facebook, YouTube, Help, Privacy, Terms, Photo credits; Contact is a large link since PRD #118). Placeholder phone, email and social values show as plain text.
 - The design's `id="whatsapp"` anchor isn't used: every WhatsApp link goes to `wa.me`.
 
 #### `HomeHero` — `sections/HomeHero` (client for scroll effect)
