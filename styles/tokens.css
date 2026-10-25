@@ -93,7 +93,7 @@
   --label-col: 240px;
   --content-col-min: 600px; /* content beside the label column wraps below it under this width */
   --header-h: 64px; /* the solid bar (2f, ADR-0030): 64px below the full-bar breakpoint, 76px from it (below) */
-  --brand-logo: 36px; /* the owner's badge before the brand name: 36px below the full-bar breakpoint, 44px from it (below) */
+  --brand-logo: 36px; /* the owner's badge before the brand name: 32px below 440px, 36px up to the full-bar breakpoint, 44px from it (below) */
   --brand-logo-gap: var(--space-12); /* between the badge and the brand name */
   --measure-lead: 460px; /* hero lead line, DESIGN.md §9 */
   --measure-answer: 740px; /* FAQ and policy answers */
@@ -315,7 +315,7 @@
   /*
    * Breakpoints can't be custom properties inside media queries, so they are
    * written as literals there. The design uses:
-   *   440px               the header's brand name shows beside the badge (below it, the badge alone)
+   *   440px               below it the header drops its WhatsApp square and the badge and name shrink
    *   490px, 656px, 829px  Tour Detail quick facts: three, four, then five columns
    *   820px  sheets replace dropdowns; Tours results go to two columns;
    *          a destination's month calendar goes from six columns to twelve
@@ -441,7 +441,7 @@
   --ls-label: 0.01em;
   --fs-waypoint: 12px;
   --fs-map-grid: 11px; /* graticule degree labels, decorative */
-  --fs-brand: 14px; /* the header's brand name, 700 in tracked capitals: 14px below the full-bar breakpoint, 17px from it (below) */
+  --fs-brand: 14px; /* the header's brand name, 700 in tracked capitals: 13px below 440px, 14px up to the full-bar breakpoint, 17px from it (below) */
   --lh-brand: 1;
   --ls-brand: 0.2em;
   --fs-header-nav: 18px; /* the header's links, 700 */
@@ -464,6 +464,18 @@
  */
 [data-altitude-strip] {
   --font-ticker: var(--font-geist-mono, ui-monospace), var(--font-mono);
+}
+
+/*
+ * Below 440px the badge, the name, the WhatsApp square and Menu don't fit side by side, so the header
+ * drops the square (owner, 2026-10-25: WhatsApp is on the Homepage hero and in the menu) and the
+ * badge and name shrink a little, so they fit at 360px.
+ */
+@media (width < 440px) {
+  :root {
+    --brand-logo: 32px;
+    --fs-brand: 13px;
+  }
 }
 
 /* From the full-bar breakpoint (1200px, ADR-0030) the header is the full 2f bar: taller, with a larger brand. */

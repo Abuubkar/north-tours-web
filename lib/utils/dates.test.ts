@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dateRange, dayCount, longDate, messageDate, messageDateRange, monthYear, seasonRange, shortDayMonth, shortMonthName, shortMonthsYears, shortMonthYear, tripLength, yearsSince } from './dates.ts';
+import { copyrightYears, dateRange, dayCount, longDate, messageDate, messageDateRange, monthYear, seasonRange, shortDayMonth, shortMonthName, shortMonthsYears, shortMonthYear, tripLength, yearsSince } from './dates.ts';
 
 describe('dateRange', () => {
   it('names the month once when both dates share it', () => {
@@ -62,6 +62,15 @@ describe('monthYear', () => {
   it('names the month in full, with the year', () => {
     expect(monthYear('2026-05')).toBe('May 2026');
     expect(monthYear('2026-12')).toBe('December 2026');
+  });
+});
+
+describe('copyrightYears', () => {
+  it('runs from the founding year to this year, with an en dash', () => {
+    expect(copyrightYears(2012, 2026)).toBe('2012–2026');
+  });
+  it('is one year when the company started this year', () => {
+    expect(copyrightYears(2026, 2026)).toBe('2026');
   });
 });
 

@@ -110,6 +110,11 @@ export function yearsSince(since: number, currentYear: number): number {
   return currentYear - since;
 }
 
+/** The footer's copyright years: founded 2012, built in 2026 → "2012–2026"; one year when they match. */
+export function copyrightYears(since: number, currentYear: number): string {
+  return since < currentYear ? `${since}–${currentYear}` : String(currentYear);
+}
+
 /** A best season, Apr to Oct → "April – October", or in short, "Apr – Oct" (a destination's "other valleys" card). */
 export function seasonRange({ from, to }: Season, length: 'long' | 'short' = 'long'): string {
   if (length === 'short') return `${from} – ${to}`;

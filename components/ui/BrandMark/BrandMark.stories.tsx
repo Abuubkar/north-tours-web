@@ -13,10 +13,9 @@ type Story = StoryObj<typeof meta>;
 
 /**
  * Links home and is at least the 44px tap target. The owner's badge comes first, decorative (empty
- * alt), 36px on phones and 44px from the full-bar breakpoint (1200px). The name is 700 in tracked
- * capitals (.2em), with a dot in the accent (gold on dark, deep gold on light) between its words that
- * screen readers skip; 14px on phones, 17px from 1200px. Below 440px the name is read out but not
- * seen, so the link keeps its name.
+ * alt), 32px below 440px, 36px up to the full-bar breakpoint (1200px) and 44px from it. The name is
+ * 700 in tracked capitals (.2em), with a dot in the accent (gold on dark, deep gold on light) between
+ * its words that screen readers skip; 13px below 440px, 14px up to 1200px and 17px from it.
  */
 export const Default: Story = {
   play: async ({ canvas }) => {
@@ -25,7 +24,7 @@ export const Default: Story = {
     await expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
     const { fontWeight, fontSize, letterSpacing, textTransform } = getComputedStyle(link);
     await expect(fontWeight).toBe('700');
-    await expect(fontSize).toBe(window.innerWidth >= 1200 ? '17px' : '14px');
+    await expect(fontSize).toBe(window.innerWidth >= 1200 ? '17px' : window.innerWidth >= 440 ? '14px' : '13px');
     await expect(parseFloat(letterSpacing) / parseFloat(fontSize)).toBeCloseTo(0.2, 3);
     await expect(textTransform).toBe('uppercase');
     const dot = canvas.getByText('·');
@@ -34,10 +33,8 @@ export const Default: Story = {
     const badge = link.querySelector('img')!;
     await expect(badge).toHaveAttribute('alt', '');
     await expect(badge.getAttribute('src')).toMatch(/\/brand\/logo\.png$/);
-    await expect(badge.getBoundingClientRect().width).toBe(window.innerWidth >= 1200 ? 44 : 36);
+    await expect(badge.getBoundingClientRect().width).toBe(window.innerWidth >= 1200 ? 44 : window.innerWidth >= 440 ? 36 : 32);
     await expect(badge.getBoundingClientRect().left).toBeLessThan(dot.getBoundingClientRect().left);
-    const nameShown = dot.parentElement!.getBoundingClientRect().width > 1;
-    await expect(nameShown).toBe(window.innerWidth >= 440);
   },
 };
 

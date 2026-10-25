@@ -15,27 +15,11 @@
   white-space: nowrap;
 }
 
-/* The badge: 36px on phones, 44px from the full-bar breakpoint. */
+/* The badge: 32px below 440px, 36px on other phones, 44px from the full-bar breakpoint. */
 .logo {
   flex: none;
   width: var(--brand-logo);
   height: var(--brand-logo);
-}
-
-/*
- * Below 440px the badge, the name, WhatsApp and Menu don't fit side by side (the name needs about
- * 190px), so the name is read out but not seen, as `visuallyHidden` in layout.module.css (which
- * can't be composed inside a media query). The badge carries the name.
- */
-@media (width < 440px) {
-  .name {
-    position: absolute;
-    width: var(--hidden-size);
-    height: var(--hidden-size);
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
 }
 
 /* Decorative: hidden from screen readers, so the link is named by the brand alone. */
